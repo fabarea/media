@@ -1,7 +1,7 @@
-# cat=basic/dev/1000; type=user[EXT:media/Classes/ExtensionManager/UserField.php:Tx_Media_ExtensionManager_UserField->renderMessage];
+# cat=basic/dev/1000; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderMessage];
 updateMessage=0
 
-# cat=basic/dev/1000; type=user[EXT:media/Classes/ExtensionManager/UserField.php:Tx_Media_ExtensionManager_UserField->renderStorage]; label = Select Storage: Storage defines where files are going to be stored. Refer to Documentation of FAL for more details.
+# cat=basic/dev/1000; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderStorage]; label = Select Storage: Storage defines where files are going to be stored. Refer to Documentation of FAL for more details.
 storage=1
 
 # cat=basic//1; type=string; label= Mime type allowed : List of mime type allowed to be uploaded. (@todo put this list in the installer?)

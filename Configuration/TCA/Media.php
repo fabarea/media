@@ -69,7 +69,7 @@ $columns = array(
 				'type' => 'select',
 				'foreign_table' => 'sys_file',
 				'form_type' => 'user',
-				'userFunc' => 'EXT:media/Classes/TCEforms/UserField.php:&Tx_Media_TCEforms_UserField->renderFile',
+				'userFunc' => 'EXT:media/Classes/Backend/TCEforms.php:&Tx_Media_Backend_TCEforms->renderFile',
 				'noTableWrapping' => TRUE,
 				'readOnly' => TRUE,
 			),
@@ -79,7 +79,7 @@ $columns = array(
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tx_media.thumbnail',
 			'config' => array(
 				'form_type' => 'user',
-				'userFunc' => 'EXT:media/Classes/TCEforms/UserField.php:&Tx_Media_TCEforms_UserField->renderThumbnail',
+				'userFunc' => 'EXT:media/Classes/Backend/TCEforms.php:&Tx_Media_Backend_TCEforms->renderThumbnail',
 				'noTableWrapping' => TRUE,
 				'readOnly' => TRUE,
 			),
