@@ -1,0 +1,44 @@
+plugin.tx_media {
+	view {
+		templateRootPath = {$plugin.tx_media.view.templateRootPath}
+		partialRootPath = {$plugin.tx_media.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_media.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_media.persistence.storagePid}
+	}
+}
+
+plugin.tx_media._CSS_DEFAULT_STYLE (
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	.tx-media table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.tx-media table th {
+		font-weight:bold;
+	}
+
+	.tx-media table td {
+		vertical-align:top;
+	}
+)
+
+
+
+ # Module configuration
+module.tx_media {
+	persistence {
+		storagePid = {$module.tx_media.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$module.tx_media.view.templateRootPath}
+		partialRootPath = {$module.tx_media.view.partialRootPath}
+		layoutRootPath = {$module.tx_media.view.layoutRootPath}
+	}
+}

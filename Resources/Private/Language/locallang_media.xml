@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for backend module Media Backend belonging to extension 'media'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="mlang_tabs_tab">Media Backend</label>
+			<label index="mlang_labels_tabdescr"></label>
+			<label index="mlang_labels_tablabel">Media Backend</label>
+			
+			<label index="updater_header">Configuration is still missing. Update Extension Manager Configuration</label>
+			<label index="em_error_missing_storage">No Storage has been defined yet. Please create one to have Media running.</label>
+			<label index="updater_message">
+				  <![CDATA[
+				<p style="margin-bottom: 10px">
+				It is very likely Media is being set up for the first time. Check out the options bellow and click the "Update" button to save your configuration.
+				</p>
+				]]>
+			</label>
+			<label index="ok_header">Media is correctly configured</label>
+			<label index="ok_message">
+				  <![CDATA[
+				<p style="margin-bottom: 10px">
+				</p>
+				]]>
+			</label>
+			<label index="open_updater">Updater Script</label>
+			<label index="ok_table_header">UUID fields are OK and values have been successfully checked</label>
+			<label index="information_table_header">Some table(s) are missing</label>
+			<label index="information_table_message">While checking the system, it has been detected some table(s) are missing. 
+			You should open up the Install tool and run the "Compare" tool under "Database Analyser"</label>
+		</languageKey>
+	</data>
+</T3locallang>

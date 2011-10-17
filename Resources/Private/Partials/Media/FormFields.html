@@ -1,0 +1,56 @@
+<label for="title">
+	<f:translate key="tx_media.title" /> <span class="required">(required)</span>
+</label><br />
+	<f:form.textfield property="title" /><br />
+<label for="description">
+	<f:translate key="tx_media.description" />
+</label><br />
+	<f:form.textarea property="description" cols="40" rows="15" /><br />
+<label for="keywords">
+	<f:translate key="tx_media.keywords" />
+</label><br />
+	<f:form.textarea property="keywords" cols="40" rows="15" /><br />
+<label for="mimeType">
+	<f:translate key="tx_media.mime_type" />
+</label><br />
+	<f:form.textfield property="mimeType" /><br />
+<label for="extension">
+	<f:translate key="tx_media.extension" />
+</label><br />
+	<f:form.textfield property="extension" /><br />
+<label for="creationDate">
+	<f:translate key="tx_media.creation_date" />
+</label><br />
+	<f:form.textfield property="creationDate"  value="{media.creationDate->f:format.date()}" /><br />
+<label for="modificationDate">
+	<f:translate key="tx_media.modification_date" />
+</label><br />
+	<f:form.textfield property="modificationDate"  value="{media.modificationDate->f:format.date()}" /><br />
+<label for="creatorTool">
+	<f:translate key="tx_media.creator_tool" />
+</label><br />
+	<f:form.textfield property="creatorTool" /><br />
+<label for="downloadName">
+	<f:translate key="tx_media.download_name" />
+</label><br />
+	<f:form.textfield property="downloadName" /><br />
+<label for="identifier">
+	<f:translate key="tx_media.identifier" />
+</label><br />
+	<f:form.textfield property="identifier" /><br />
+<label for="creator">
+	<f:translate key="tx_media.creator" />
+</label><br />
+	<f:form.textfield property="creator" /><br />
+<label for="source">
+	<f:translate key="tx_media.source" />
+</label><br />
+	<f:form.textfield property="source" /><br />
+<label for="alternative">
+	<f:translate key="tx_media.alternative" />
+</label><br />
+	<f:form.textfield property="alternative" /><br />
+<label for="caption">
+	<f:translate key="tx_media.caption" />
+</label><br />
+	<f:form.textfield property="caption" /><br />

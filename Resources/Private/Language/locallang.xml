@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the Media extension in the FRONTEND</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_media">Media</label>
+			<label index="tx_media.title">Title</label>
+			<label index="tx_media.description">Description</label>
+			<label index="tx_media.keywords">Keywords</label>
+			<label index="tx_media.creation_date">File creation date</label>
+			<label index="tx_media.modification_date">File modification date</label>
+			<label index="tx_media.creator_tool">Creator tool</label>
+			<label index="tx_media.download_name">Download name</label>
+			<label index="tx_media.identifier">Identifier</label>
+			<label index="tx_media.creator">Creator</label>
+			<label index="tx_media.source">Source</label>
+			<label index="tx_media.alternative">Alternative title</label>
+			<label index="tx_media.caption">Caption</label>
+			<label index="tx_media_collection">Collection</label>
+			<label index="tx_media_collection.collection_name">Collection name</label>
+			<label index="tx_media_collection.description">Description</label>
+			<label index="tx_media_collection.visibility">Visibility</label>
+			<label index="tx_media_collection.medias">Medias</label>
+			<label index="tx_media_filter">Filter</label>
+			<label index="tx_media_filter.filter_name">Filter name</label>
+			<label index="tx_media_filter.description">Description</label>
+			<label index="tx_media_filter.criteria">Filter criteria</label>
+			<label index="tx_media_file">Dummy for sys_file</label>
+			<label index="tx_media_file.name">Name</label>
+			<label index="tx_media_mimetype">MimeType</label>
+			<label index="tx_media_mimetype.mime_type">MIME type</label>
+			<label index="tx_media_mimetype.mime_type_name">MIME type name</label>
+		</languageKey>
+	</data>
+</T3locallang>
