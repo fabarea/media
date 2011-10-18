@@ -62,6 +62,8 @@ class Tx_Media_Service_Metadata {
 		if (is_object($serviceObject)) {
 			$serviceObject->setInputFile($inputFilePath, $mimeType);
 			$conf['meta'] = $metaData;
+
+			// @todo check the performance as process() is called twice
 			if ($serviceObject->process() > 0 && (is_array($svmeta = $serviceObject->getOutput()))) {
 				$metaData = t3lib_div::array_merge_recursive_overrule($metaData, $svmeta);
 			}

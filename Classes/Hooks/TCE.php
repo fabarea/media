@@ -42,6 +42,13 @@ class Tx_Media_Hooks_TCE {
 	protected $extKey = 'media';
 
 	/**
+	 * The name of the table
+	 *
+	 * @var string
+	 */
+	protected $tableName = 'sys_file';
+
+	/**
 	 * @var t3lib_file_Factory
 	 */
 	protected $factory;
@@ -70,12 +77,12 @@ class Tx_Media_Hooks_TCE {
 	 */
 	protected function initializeAction() {
 
-			// Load preferences
+		// Load preferences
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]) {
 			$this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 		}
 
-			// Instantiate necessary stuff for FAL
+		// Instantiate necessary stuff for FAL
 		$this->factory = t3lib_div::makeInstance('t3lib_file_Factory');
 		$this->mountRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_MountRepository');
 		$this->mount = $this->mountRepository->findByUid($this->configuration['storage']);
@@ -99,51 +106,58 @@ class Tx_Media_Hooks_TCE {
 	 * @return	void
 	 */
 	public function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, $pObj) {
-			// TRUE means a file has been uploaded
-		if ($table === 'sys_file' && !empty($pObj->uploadedFileArray['sys_file']['_userfuncFile']['file']['name'])) {
+		// TRUE means a file has been uploaded
+		if ($table === $this->tableName && !empty($pObj->uploadedFileArray[$this->tableName]['_userfuncFile']['file']['name'])) {
 			$uploadedFile = array();
-			
-				// Init action
+
+			// Init action
 			$this->initializeAction();
 
-				// @todo check if file must be overwritten
-				// @todo fetch this config from TypoScript or so...
+			// @todo check if file must be overwritten
+			// @todo fetch this config from TypoScript or so...
 			if (TRUE && $status == 'update') {
 				$mediaRepository = t3lib_div::makeInstance('Tx_Media_Domain_Repository_MediaRepository');
 				$media = $mediaRepository->findByUid($id);
 
 				$previousFileName = $this->getPreviousFileName($media);
 				if ($previousFileName) {
-					$pObj->uploadedFileArray['sys_file']['_userfuncFile']['file']['name'] = $previousFileName;
+					$pObj->uploadedFileArray[$this->tableName]['_userfuncFile']['file']['name'] = $previousFileName;
 				}
 			}
 
-			
-			$uploadedFile = $pObj->uploadedFileArray['sys_file']['_userfuncFile']['file'];
+
+			$uploadedFile = $pObj->uploadedFileArray[$this->tableName]['_userfuncFile']['file'];
 			$file = $this->upload($uploadedFile);
-			
+
 				// Update the record with data coming from the file
-				//@todo decide if that iis fine so or code should be optimized?
 			$fieldArray['name'] = $file->getName();
 			$fieldArray['size'] = $file->getSize();
 			$fieldArray['identifier'] = $file->getIdentifier();
 			$fieldArray['type'] = $file->getType();
 			$fieldArray['mime_type'] = $file->getMimeType();
 			$fieldArray['sha1'] = $file->getSha1();
-			
-				// @todo check if file must be overwritten
-				// @todo fetch this config from TypoScript or so...
-			if (TRUE) {
-				$metadataService = t3lib_div::makeInstance('Tx_Media_Service_Metadata');
 
-					// $metaDataArray is an array with indexes equivalent to fields in Tx_Media_Model_Media
-				$metadata = $metadataService->getMetadata($file);
+				// Init service
+			$metadataService = t3lib_div::makeInstance('Tx_Media_Service_Metadata');
 
-					// @todo check permission rules
-				$fieldArray = array_merge($fieldArray, $metadata);
+				// $metaDataArray is an array with indexes equivalent to fields in Tx_Media_Model_Media
+			$metadata = $metadataService->getMetadata($file);
+
+			if (!empty($metadata)) {
+
+				// @todo fetch this config from sys_file_indexingConfiguration
+				$columns = $this->getColumns($this->tableName);
+				foreach ($columns as $columnName => $column) {
+					// check whether the value must be filled in from the metadata extraction
+					// condition: a value has been fetched + the User has access to the field
+					if (!empty($metadata[$columnName]) &&
+							$this->hasPermission($columnName, $column, $this->tableName)) {
+						$fieldArray[$columnName] = $metadata[$columnName];
+					}
+				}
 			}
 
-				// create a thumbnail for the first time
+			// create a thumbnail for the first time
 			if ($status == 'new') {
 				$thumbnailService = t3lib_div::makeInstance('Tx_Media_Service_Thumbnail');
 				$thumbnailFile = $thumbnailService->createThumbnailFile($file, $this->mount);
@@ -151,6 +165,34 @@ class Tx_Media_Hooks_TCE {
 				$fieldArray['thumbnail'] = $thumbnailFile->getUid();
 			}
 		}
+	}
+
+	/**
+	 * Returns the columns of a table
+	 *
+	 * @return array
+	 */
+	protected function getColumns($tableName) {
+		t3lib_div::loadTCA($tableName);
+		return $GLOBALS['TCA'][$tableName]['columns'];
+	}
+
+	/**
+	 * Check whether the BE User has accedd to the field.
+	 *
+	 * @param string $fieldName the field name to be checked agains the permission
+	 * @param array $fieldConfiguration the TCA of the field
+	 * @param string $tableName the table name
+	 * @return boolean
+	 */
+	protected function hasPermission($fieldName, $fieldConfiguration, $tableName) {
+		$hasPermission = FALSE;
+		if ($GLOBALS['BE_USER']->isAdmin() ||
+				(isset($columns[$fieldName]['exclude']) && !$fieldConfiguration['exclude']) ||
+				$GLOBALS['BE_USER']->check('non_exclude_fields', $tableName . ':' . $fieldName)) {
+			$hasPermission = TRUE;
+		}
+		return $hasPermission;
 	}
 
 	/**
@@ -194,6 +236,8 @@ class Tx_Media_Hooks_TCE {
 
 			$tempfileName = $uploadedFile['tmp_name'];
 			$origFilename = $uploadedFile['name'];
+
+			// @todo check if file must be overwritten
 			$file = $uploader->addUploadedFile($tempfileName, $this->mount, '/', $origFilename, $overwrite = TRUE);
 		}
 

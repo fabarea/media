@@ -15,7 +15,10 @@
 			<span>
 				<f:translate key="max">Max:</f:translate> {uploadMaxFilesize}
 			</span>
-			<input type="file" accept="{mimeTypeAllowed}" 
+			<!-- @todo check support for accept accros browsers {mimeTypeAllowed} -->
+			<!-- Note: The accept attribute is not properly supported by any of the major browsers.
+			     http://www.w3schools.com/TAGS/att_form_accept.asp  -->
+			<input type="file" accept="" 
 				   class="formField tceforms-textfield" 
 				   name="data[sys_file][_userfuncFile][file]"
 				   id="tceforms-textfield-file">
