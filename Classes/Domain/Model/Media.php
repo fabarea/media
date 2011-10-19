@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_Media_Domain_Model_Media extends t3lib_file_Domain_Model_File {
+class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 
 	/**
 	 * Title

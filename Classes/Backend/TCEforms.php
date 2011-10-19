@@ -107,7 +107,7 @@ class Tx_Media_Backend_TCEforms {
 
 				// TRUE means this is an image and a thumbnail can be generated
 			if ($record['media_type'] == 2) {
-				$fileRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_FileRepository');
+				$fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
 				$file = $fileRepository->findByUid($record['file']);
 
 					// Fetches the absolute file path

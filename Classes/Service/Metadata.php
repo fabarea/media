@@ -47,10 +47,10 @@ class Tx_Media_Service_Metadata {
 	/**
 	 * Get meta information from a file using a metaExtract service
 	 *
-	 * @param t3lib_file_Domain_Model_File $file an Media
+	 * @param t3lib_file_File $file an Media
 	 * @return	array file meta information
 	 */
-	public function getMetadata(t3lib_file_Domain_Model_File $file) {
+	public function getMetadata(t3lib_file_File $file) {
 
 		$metaData = array();
 		$inputFilePath = $file->getForLocalProcessing($writable = FALSE);

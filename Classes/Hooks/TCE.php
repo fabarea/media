@@ -202,7 +202,7 @@ class Tx_Media_Hooks_TCE {
 	 */
 	protected function getPreviousFileName($media) {
 		if ($media->getFile()) {
-			$fileRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_FileRepository');
+			$fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
 			$file = $fileRepository->findByUid($media->getFile()->getUid());
 		}
 
@@ -212,18 +212,18 @@ class Tx_Media_Hooks_TCE {
 	/**
 	 * Index the file into the database
 	 *
-	 * @param t3lib_file_Domain_Model_File $file
+	 * @param t3lib_file_File $file
 	 */
 	protected function index($file) {
-		/** @var t3lib_file_Domain_Repository_FileRepository $fileRepository */
-		$fileRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_FileRepository');
+		/** @var t3lib_file_Repository_FileRepository $fileRepository */
+		$fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
 		return $fileRepository->addToIndex($file);
 	}
 
 	/**
 	 * Upload the file to the right directory
 	 *
-	 * @param t3lib_file_Domain_Model_File $file
+	 * @param t3lib_file_File $file
 	 */
 	protected function upload($uploadedFile) {
 		/** @var $uploader t3lib_file_Service_UploaderService */

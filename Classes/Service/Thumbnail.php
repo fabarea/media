@@ -55,12 +55,12 @@ class Tx_Media_Service_Thumbnail {
 	/**
 	 * Generates a Thumbnail File
 	 *
-	 * @param t3lib_file_Domain_Model_File $file
+	 * @param t3lib_file_File $file
 	 * @param t3lib_file_Domain_Model_Mount $mount
 	 * @param array $parameters
 	 * @return mixed
 	 */
-	public function createThumbnailFile(t3lib_file_Domain_Model_File $file, t3lib_file_Domain_Model_Mount $mount, array $parameters = array()) {
+	public function createThumbnailFile(t3lib_file_File $file, t3lib_file_Domain_Model_Mount $mount, array $parameters = array()) {
 
 		$thumbnailPath = FALSE;
 		if ($this->isThumbnailPossible($file)) {
@@ -121,10 +121,10 @@ class Tx_Media_Service_Thumbnail {
 	/**
 	 * Checks if a image preview can be generated for a file
 	 *
-	 * @param	t3lib_file_Domain_Model_File $file
+	 * @param	t3lib_file_File $file
 	 * @return	boolean
 	 */
-	protected function isThumbnailPossible(t3lib_file_Domain_Model_File $file) {
+	protected function isThumbnailPossible(t3lib_file_File $file) {
 
 		// @todo get mimeType base on Service extraction
 		$thumbnailPossible = FALSE;
