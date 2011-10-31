@@ -11,12 +11,13 @@ if (TYPO3_MODE === 'BE') {
 		/** @var Tx_Vidi_Service_ModuleLoader $moduleLoader */
 		$moduleLoader = t3lib_div::makeInstance('Tx_Vidi_Service_ModuleLoader', $_EXTKEY);
 		$moduleLoader->addStandardTree(Tx_Vidi_Service_ModuleLoader::TREE_FILES);
-		$moduleLoader->setAllowedDataTypes(array('__FILES'));
+		$moduleLoader->setAllowedDataTypes(array('sys_files'));
 		$moduleLoader->setMainModule('file');
 		$moduleLoader->addJavaScriptFiles(array(
-				'CustomGridToolbar.js'
+				'ListModifications/CustomGridToolbar.js',
+				'ModuleConfiguration.js'
 			),
-			'Resources/Public/JavaScript/ListModifications'
+			'Resources/Public/JavaScript'
 		);
 		$moduleLoader->setModuleLanguageFile('LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_media.xml');
 		$moduleLoader->setIcon('EXT:' . $_EXTKEY . '/ext_icon.gif');
