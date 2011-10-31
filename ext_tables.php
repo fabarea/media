@@ -11,7 +11,7 @@ if (TYPO3_MODE === 'BE') {
 		/** @var Tx_Vidi_Service_ModuleLoader $moduleLoader */
 		$moduleLoader = t3lib_div::makeInstance('Tx_Vidi_Service_ModuleLoader', $_EXTKEY);
 		$moduleLoader->addStandardTree(Tx_Vidi_Service_ModuleLoader::TREE_FILES);
-		$moduleLoader->setAllowedDataTypes(array('sys_files'));
+		$moduleLoader->setAllowedDataTypes(array('sys_file'));
 		$moduleLoader->setMainModule('file');
 		$moduleLoader->addJavaScriptFiles(array(
 				'ListModifications/CustomGridToolbar.js',
