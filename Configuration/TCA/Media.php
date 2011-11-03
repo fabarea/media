@@ -5,10 +5,8 @@ if (!defined ('TYPO3_MODE')) {
 
 t3lib_div::loadTCA('sys_file');
 
-$TCA['sys_file']['types'] = array(
-	'0' => array('showitem' => 'mount, file'),
-
-	'1' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
+$newFileTypes = array(
+	'Text' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -17,7 +15,7 @@ $TCA['sys_file']['types'] = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'2' => array('showitem' => 'file, l10n_parent, title, description, alternative, caption, keywords,
+	'Image' => array('showitem' => 'file, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -27,7 +25,7 @@ $TCA['sys_file']['types'] = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'3' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
+	'Audio' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, duration, unit,
@@ -36,7 +34,7 @@ $TCA['sys_file']['types'] = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'4' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
+	'Video' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -45,7 +43,7 @@ $TCA['sys_file']['types'] = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'5' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
+	'Software' => array('showitem' => 'file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -54,6 +52,9 @@ $TCA['sys_file']['types'] = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 );
+
+$TCA['sys_file']['types'] = array_merge($TCA['sys_file']['types'], $newFileTypes);
+unset($newFileTypes);
 
 $TCA['sys_file']['palettes'] = array(
 	'1' => array('showitem' => 'status, ranking'),

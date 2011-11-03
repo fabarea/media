@@ -4,6 +4,8 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+include_once(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/Media.php');
+
 if (TYPO3_MODE === 'BE') {
 
 	// Make sure the class exists to avoid a Runtime Error
