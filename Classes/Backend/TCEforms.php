@@ -40,14 +40,14 @@ class Tx_Media_Backend_TCEforms {
 	protected $extKey = 'media';
 
 	/**
-	 * @var t3lib_file_Domain_Repository_MountRepository
+	 * @var t3lib_file_Repository_StorageRepository
 	 */
-	protected $mountRepository;
+	protected $storageRepository;
 
 	/**
-	 * @var t3lib_file_Domain_Model_Mount
+	 * @var t3lib_file_Storage
 	 */
-	protected $mount;
+	protected $storage;
 
 	/**
 	 * The absolute Icon path
@@ -74,8 +74,8 @@ class Tx_Media_Backend_TCEforms {
 		$this->thumbnailIconPublicPath = t3lib_extMgm::extRelPath('media') . 'Resources/Public/Icons/MimeTypes/';
 
 			// Instantiate necessary stuff for FAL
-		$this->mountRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_MountRepository');
-		$this->mount = $this->mountRepository->findByUid($this->configuration['storage']);
+		$this->storageRepository = t3lib_div::makeInstance('t3lib_file_Repository_StorageRepository');
+		$this->storage = $this->storageRepository->findByUid($this->configuration['storage']);
 
 			// Load StyleSheet in the Page Renderer
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
@@ -91,7 +91,7 @@ class Tx_Media_Backend_TCEforms {
 	 *
 	 * @return	string	The HTML for the form field
 	 */
-	public function renderFile ($PA, t3lib_TCEforms $fobj) {
+	public function renderFile($PA, t3lib_TCEforms $fobj) {
 
 			// Instantiate Template Engine
 		/* @var $view Tx_Fluid_View_StandaloneView */
@@ -111,7 +111,7 @@ class Tx_Media_Backend_TCEforms {
 				$file = $fileRepository->findByUid($record['file']);
 
 					// Fetches the absolute file path
-				$fileAbsolutePath = $this->mount->getDriver()->getAbsolutePath($file);
+				$fileAbsolutePath = $this->storage->getDriver()->getAbsolutePath($file);
 
 					// Generates HTML for Thumbnail generation
 				$thumbnail = t3lib_BEfunc::getThumbNail('thumbs.php', $fileAbsolutePath,' align="middle" style="border:solid 1px #ccc;" class="tx-media-thumbnail" ',160);
@@ -131,7 +131,7 @@ class Tx_Media_Backend_TCEforms {
 
 			// Assignes values for the View
 		$fileName = $file ? $file->getName() : '';
-		$publicUrl = $file ? $this->mount->getDriver()->getPublicUrl($file) : '';
+		$publicUrl = $file ? $this->storage->getDriver()->getPublicUrl($file) : '';
 		$thumbnail = isset($thumbnail) ? $thumbnail : '';
 
 		$view->assign('fileName', $fileName);
