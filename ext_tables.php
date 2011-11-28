@@ -20,7 +20,7 @@ if (TYPO3_MODE === 'BE') {
 			),
 			array(
 				'*' => array(
-					'unique' => false,
+					'unique' => true,
 					'foreignField' => 'sys_category',
 					'MM' => 'sys_category_record_mm',
 					'MM_opposite_field' => 'items',
