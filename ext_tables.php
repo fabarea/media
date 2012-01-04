@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-include_once(t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/Media.php');
+require_once(t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Media.php');
 
 if (TYPO3_MODE === 'BE') {
 

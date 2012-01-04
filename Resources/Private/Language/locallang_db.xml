@@ -31,6 +31,7 @@
 			<label index="tx_media.pages">Pages</label>
 			<label index="tx_media.note">Note</label>
 			<label index="tx_media.language">Media language</label>
+			<label index="tx_media.preview_image">Vorschau Bild</label>
 			<label index="tx_media.duration">Duration</label>
 			<label index="tx_media.horizontal_resolution">Horizontal resolution</label>
 			<label index="tx_media.vertical_resolution">Vertical resolution</label>
