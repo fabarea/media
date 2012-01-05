@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 t3lib_div::loadTCA('sys_file');
 
 $newFileTypes = array(
-	'Text' => array('showitem' => 'storage, name, type, mime_type, sha1, size, file, thumbnail, l10n_parent, preview_image, title, description, alternative, caption, keywords,
+	'Text' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -25,7 +25,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'Audio' => array('showitem' => 'storage, name, type, mime_type, sha1, size, file, thumbnail, l10n_parent, title, description, alternative, caption, keywords,
+	'Audio' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, duration, unit,
@@ -34,7 +34,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'Video' => array('showitem' => 'storage, name, type, mime_type, sha1, size, file, thumbnail, l10n_parent, preview_image, title, description, alternative, caption, keywords,
+	'Video' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -43,7 +43,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'Software' => array('showitem' => 'storage, name, type, mime_type, sha1, size, file, thumbnail, l10n_parent, preview_image, title, description, alternative, caption, keywords,
+	'Software' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -65,28 +65,16 @@ $TCA['sys_file']['palettes'] = array(
 );
 
 $columns = array(
-/*	'file' => array(
-		'exclude' => 0,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tx_media.file',
+	'variants' => array(
+		'exclude' => 1,
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tx_media.variants',
 		'config' => array(
-			'type' => 'select',
-			'foreign_table' => 'sys_file',
-			'form_type' => 'user',
-			'userFunc' => 'EXT:media/Classes/Backend/TCEforms.php:&Tx_Media_Backend_TCEforms->renderFile',
-			'noTableWrapping' => TRUE,
-			'readOnly' => TRUE,
-		),
-	),*/
-	/*'thumbnail' => array(
-		'exclude' => 0,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tx_media.thumbnail',
-		'config' => array(
-			'form_type' => 'user',
-			'userFunc' => 'EXT:media/Classes/Backend/TCEforms.php:&Tx_Media_Backend_TCEforms->renderThumbnail',
-			'noTableWrapping' => TRUE,
-			'readOnly' => TRUE,
-		),
-	),*/
+			'type' => 'inline',
+			'foreign_table' => 'sys_file_variants',
+			'foreign_selector' => 'role',
+			'foreign_field' => 'original'
+		)
+	),
 	'status' => array(
 		'exclude' => 1,
 		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tx_media.status',
@@ -346,18 +334,6 @@ $columns = array(
 			'eval' => 'trim'
 		)
 	),
-	'preview_image' => array(
-		'exclude' => 1,
-		'l10n_mode' => 'exclude',
-		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tx_media.preview_image',
-		'config' => array(
-			'type' => 'group',
-			'internal_type' => 'db',
-			'size' => 1,
-			'maxitems' => 1
-		)
-	),
 	/*
 	 * METRICS ###########################################
 	 */
@@ -467,4 +443,5 @@ $columns = array(
 );
 
 t3lib_extMgm::addTCAcolumns('sys_file', $columns, 1);
+t3lib_extMgm::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
 ?>

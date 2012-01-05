@@ -1,5 +1,5 @@
 #
-# Table structure for table 'tx_media'
+# Table structure for table 'sys_file'
 #
 CREATE TABLE sys_file (
 
@@ -24,8 +24,7 @@ CREATE TABLE sys_file (
 	longitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 	ranking int(11) unsigned DEFAULT '0',
 	note text NOT NULL,
-	file int(11) unsigned DEFAULT '0',
-	thumbnail int(11) unsigned DEFAULT '0',
+	variants int(11) unsigned DEfAULT '0' NOT NULL,
 
 	# TEXT + IMAGE + VIDEO
 	# 21 cm, 29.7 cm: A4
@@ -54,6 +53,7 @@ CREATE TABLE sys_file (
 	# document language
 	language varchar(12) DEFAULT '' NOT NULL,
 
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
@@ -65,3 +65,11 @@ CREATE TABLE sys_file (
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
 );
 
+CREATE TABLE sys_file_variants (
+	role int(11) unsigned DEFAULT '0' NOT NULL,
+	original int(11) unsigned DEFAULT '0' NOT NULL,
+	variant int(11) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid)
+);

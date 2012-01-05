@@ -31,7 +31,6 @@
 			<label index="tx_media.pages">Pages</label>
 			<label index="tx_media.note">Note</label>
 			<label index="tx_media.language">Media language</label>
-			<label index="tx_media.preview_image">Vorschau Bild</label>
 			<label index="tx_media.duration">Duration</label>
 			<label index="tx_media.horizontal_resolution">Horizontal resolution</label>
 			<label index="tx_media.vertical_resolution">Vertical resolution</label>
@@ -43,7 +42,7 @@
 			<label index="tx_media.latitude">Latitude</label>
 			<label index="tx_media.longitude">Longitude</label>
 			<label index="tx_media.ranking">Ranking</label>
-			<label index="tx_media.thumbnail">Thumbnail</label>
+			<label index="tx_media.variants">alternative variants (other types, preview images, ...)</label>
 			
 			<label index="tx_media_collection">Collection</label>
 			<label index="tx_media_collection.collection_name">Collection Name</label>
@@ -57,6 +56,7 @@
 			<label index="tx_media_filter.criteria">Criteria</label>
 			
 			<label index="tx_media_file">File</label>
+
 			<label index="tx_media_file.name">Name</label>
 			
 			<label index="tabs.metrics">Metrics</label>
@@ -66,6 +66,16 @@
 			<label index="tabs.file">File</label>
 			<label index="tabs.temporalInfo">Temporal Info</label>
 			<label index="tabs.geolocation">Geolocation</label>
+
+			<label index="sys_file_variants">variant references between sys_files</label>
+			<label index="sys_file_variant.role">role of variant</label>
+			<label index="sys_file_variant.role.none">-- undefined --</label>
+			<label index="sys_file_variant.role.alternative">alternative file format</label>
+			<label index="sys_file_variant.role.subtitle">subtitle (of video)</label>
+			<label index="sys_file_variant.role.caption">caption (for video)</label>
+			<label index="sys_file_variant.role.thumbnail">preview / thumbnail</label>
+			<label index="sys_file_variant.original">original file</label>
+			<label index="sys_file_variant.variant">variant file</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -6,6 +6,20 @@ if (!defined('TYPO3_MODE')) {
 
 require_once(t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Media.php');
 
+
+$TCA["sys_file_variants"] = array(
+	"ctrl" => array(
+		'title' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variants',
+		'label' => 'role',
+		'label_alt' => 'original',
+		'label_alt_force' => 'true',
+		'rootLevel' => -1,
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/FileVariants.php',
+		//'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Advertise.png',
+	),
+);
+
+
 if (TYPO3_MODE === 'BE') {
 
 		// Make sure the class exists to avoid a Runtime Error
