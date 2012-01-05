@@ -106,7 +106,7 @@ class Tx_Media_Service_Variants {
 			'sys_file_variant',
 			'variant = ' . $file->getUid()
 		);
-		if (count($variants) {
+		if (count($variants)) {
 			$orig = $this->fileRepository->findByUid($variants[0]['original']);
 			if ($orig !== NULL)  {
 				$file = $orig;
