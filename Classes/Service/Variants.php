@@ -54,15 +54,14 @@ class Tx_Media_Service_Variants {
 		$file = $this->findOriginal($file);
 		$variants = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'variant',
-			'sys_file_variant',
+			'sys_file_variants',
 			'original=' . $file->getUid() .
 			($restrictToVariantType == NULL ?: ' AND role = ' . intval($restrictToVariantType))
-
 		);
 		$variantsArray = array();
 		foreach ($variants AS $rawVariant) {
 			$object = $this->fileRepository->findByUid($rawVariant['variant']);
-			if (is_object($object)) {
+			if ($object instanceof t3lib_file_File) {
 				$variantsArray[] = $object;
 			}
 		}
@@ -82,11 +81,12 @@ class Tx_Media_Service_Variants {
 
 	public function getAlternateFiles(t3lib_file_File $file, $restrictToFileExtensions = NULL) {
 		$files = $this->getVariantsOfFile($file, 1);
+
 		if ($restrictToFileExtensions !== NULL) {
 			$filteredFiles = array();
 			foreach ($files AS $file) {
 				if (t3lib_div::inList($restrictToFileExtensions, $file->getExtension())) {
-					$filteredFiles = $file;
+					$filteredFiles[] = $file;
 				}
 			}
 			$files = $filteredFiles;
@@ -103,7 +103,7 @@ class Tx_Media_Service_Variants {
 	public function findOriginal(t3lib_file_File $file) {
 		$variants = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'original',
-			'sys_file_variant',
+			'sys_file_variants',
 			'variant = ' . $file->getUid()
 		);
 		if (count($variants)) {
