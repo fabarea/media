@@ -63,10 +63,12 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 	 *
 	 * @param t3lib_file_FileInterface $video
 	 * @param string $previewImage
+	 * @param int $width
+	 * @param int $height
 	 * @param array $additionalAttributes
 	 * @return string
 	 */
-	public function render(t3lib_file_FileInterface $video, $previewImage = '', $additionalAttributes = array()) {
+	public function render(t3lib_file_FileInterface $video, $previewImage = '', $width = 600, $height = 400, array $additionalAttributes = array()) {
 		if ($video instanceof t3lib_file_FileReference) {
 			$video = $video->getOriginalFile();
 		}
@@ -82,6 +84,9 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 
 		$configuration['type'] = 'video';
 		$configuration['preferFlashOverHtml5'] = false;
+
+		$configuration['width'] = $width;
+		$configuration['height'] = $height;
 
 			// get video sources
 		$configuration['sources'] = array();
@@ -107,7 +112,6 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		} elseif ($previewImage !== '') {
 			$configuration['attributes.']['poster'] = t3lib_div::getFileAbsFileName($previewImage);
 		}
-
 		return $contentObject->SWFOBJECT($configuration);
 	}
 
