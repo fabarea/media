@@ -85,9 +85,11 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		$configuration['type'] = 'video';
 		$configuration['preferFlashOverHtml5'] = false;
 
-		$configuration['width'] = $width;
-		$configuration['height'] = $height;
+//		$configuration['width'] = $width;
+//		$configuration['height'] = $height;
 
+		$configuration['flashvars.']['autoPlay'] = false;
+		
 			// get video sources
 		$configuration['sources'] = array();
 		$formats = $variantsService->getAlternateFiles($video);

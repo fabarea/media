@@ -65,6 +65,7 @@ class Tx_Media_Service_Variants {
 				$variantsArray[] = $object;
 			}
 		}
+		$variantsArray[] = $file;
 
 		return $variantsArray;
 	}
