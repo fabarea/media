@@ -1,9 +1,10 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,15 +24,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Video representation in the file abstraction layer.
  *
- *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
+class Tx_Media_Domain_Model_Video extends \TYPO3\CMS\Core\Resource\File {
 
 	/**
 	 * Width
@@ -39,14 +39,14 @@ class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
 	 * @var int
 	 */
 	protected $width;
-	
+
 	/**
 	 * Height
 	 *
 	 * @var int
 	 */
 	protected $height;
-	
+
 	/**
 	 * Unit
 	 *
@@ -60,14 +60,14 @@ class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
 	 * @var string
 	 */
 	protected $language;
-	
+
 	/**
 	 * Duration
 	 *
 	 * @var int
 	 */
 	protected $duration;
-	
+
 	/**
 	 * __construct
 	 *
@@ -77,7 +77,7 @@ class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
 		//Do not remove the next line: It would break the functionality
 		$this->initStorageObjects();
 	}
-	
+
 	/**
 	 * Returns the width
 	 *
@@ -96,7 +96,7 @@ class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
 	public function setWidth($width) {
 		$this->width = $width;
 	}
-	
+
 	/**
 	 * Returns the height
 	 *
@@ -134,7 +134,7 @@ class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
 	public function setUnit($unit) {
 		$this->unit = $unit;
 	}
-	
+
 	/**
 	 * Returns the language
 	 *
@@ -153,7 +153,7 @@ class Tx_Media_Domain_Model_Video extends Tx_Media_Domain_Model_Media {
 	public function setLanguage($language) {
 		$this->language = $language;
 	}
-	
+
 	/**
 	 * Returns the duration
 	 *

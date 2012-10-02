@@ -39,7 +39,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.temporalInfo creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 

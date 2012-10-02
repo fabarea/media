@@ -1,9 +1,10 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,27 +24,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Repository for accessing image
  *
- *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-class Tx_Media_Domain_Repository_ImageRepository extends Tx_Extbase_Persistence_Repository {
-	
-	/**
-	 * Returns all objects of this repository
-	 *
-	 * @return array An array of objects, empty if no objects found
-	 * @api
-	 */
-	public function findAll() {
-		// @todo add filter onto Image
-		$result = $this->createQuery()->execute();
-		return $result;
-	}
+class ImageRepository extends \TYPO3\CMS\Media\Domain\Repository\MediaRepository {
 
 }
 ?>

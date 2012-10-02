@@ -3,7 +3,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -45,13 +45,13 @@ class Tx_Media_Service_Thumbnail {
 	 * @var boolean
 	 */
 	protected $force = FALSE;
-	
+
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 	}
-	
+
 	/**
 	 * Generates a Thumbnail File
 	 *
@@ -91,11 +91,11 @@ class Tx_Media_Service_Thumbnail {
 			// @todo throw error if debug context is detected
 			//$this->errorGif('Not imagefile!', $ext, basename($input));
 		}
-		
+
 		/** @var $uploader t3lib_file_Service_UploaderService */
 		$uploader = t3lib_div::makeInstance('t3lib_file_Service_UploaderService');
 		$thumbnailFile = $uploader->addUploadedFile($thumbnailPath, $mount, '/', $thumbnailName, TRUE);
-				
+
 		return $thumbnailFile;
 	}
 
@@ -117,7 +117,7 @@ class Tx_Media_Service_Thumbnail {
 		}
 		return $escapedInputName;
 	}
-	
+
 	/**
 	 * Checks if a image preview can be generated for a file
 	 *
@@ -128,7 +128,7 @@ class Tx_Media_Service_Thumbnail {
 
 		// @todo get mimeType base on Service extraction
 		$thumbnailPossible = FALSE;
-		
+
 		// font rendering is buggy so it's deactivated here   # if ($type === 'ttf' ||
 		if (t3lib_div::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], $file->getExtension())) {
 			$thumbnailPossible = TRUE;

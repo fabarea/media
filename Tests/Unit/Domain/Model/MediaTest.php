@@ -3,9 +3,9 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Media development team
+ *  (c) 2012 Media development team
  <typo3-project-media@lists.typo3.org>, TYPO3 Association
- *  			
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -51,8 +51,8 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	public function tearDown() {
 		unset($this->fixture);
 	}
-	
-	
+
+
 	/**
 	 * @test
 	 */
@@ -61,7 +61,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setTitleForStringSetsTitle() { 
+	public function setTitleForStringSetsTitle() {
 		$this->fixture->setTitle('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -69,7 +69,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getTitle()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -78,7 +78,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setDescriptionForStringSetsDescription() { 
+	public function setDescriptionForStringSetsDescription() {
 		$this->fixture->setDescription('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -86,7 +86,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getDescription()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -95,7 +95,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setKeywordsForStringSetsKeywords() { 
+	public function setKeywordsForStringSetsKeywords() {
 		$this->fixture->setKeywords('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -103,7 +103,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getKeywords()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -112,7 +112,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setMimeTypeForStringSetsMimeType() { 
+	public function setMimeTypeForStringSetsMimeType() {
 		$this->fixture->setMimeType('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -120,7 +120,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getMimeType()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -129,7 +129,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setExtensionForStringSetsExtension() { 
+	public function setExtensionForStringSetsExtension() {
 		$this->fixture->setExtension('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -137,7 +137,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getExtension()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -147,7 +147,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	 * @test
 	 */
 	public function setCreationDateForDateTimeSetsCreationDate() { }
-	
+
 	/**
 	 * @test
 	 */
@@ -157,7 +157,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	 * @test
 	 */
 	public function setModificationDateForDateTimeSetsModificationDate() { }
-	
+
 	/**
 	 * @test
 	 */
@@ -166,7 +166,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setCreatorToolForStringSetsCreatorTool() { 
+	public function setCreatorToolForStringSetsCreatorTool() {
 		$this->fixture->setCreatorTool('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -174,7 +174,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getCreatorTool()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -183,7 +183,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setDownloadNameForStringSetsDownloadName() { 
+	public function setDownloadNameForStringSetsDownloadName() {
 		$this->fixture->setDownloadName('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -191,7 +191,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getDownloadName()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -200,7 +200,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setIdentifierForStringSetsIdentifier() { 
+	public function setIdentifierForStringSetsIdentifier() {
 		$this->fixture->setIdentifier('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -208,7 +208,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getIdentifier()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -217,7 +217,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setCreatorForStringSetsCreator() { 
+	public function setCreatorForStringSetsCreator() {
 		$this->fixture->setCreator('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -225,7 +225,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getCreator()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -234,7 +234,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setSourceForStringSetsSource() { 
+	public function setSourceForStringSetsSource() {
 		$this->fixture->setSource('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -242,7 +242,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getSource()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -251,7 +251,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setAlternativeForStringSetsAlternative() { 
+	public function setAlternativeForStringSetsAlternative() {
 		$this->fixture->setAlternative('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -259,7 +259,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getAlternative()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -268,7 +268,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setCaptionForStringSetsCaption() { 
+	public function setCaptionForStringSetsCaption() {
 		$this->fixture->setCaption('Conceived at T3CON10');
 
 		$this->assertSame(
@@ -276,7 +276,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getCaption()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -299,7 +299,7 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getFal()
 		);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -322,6 +322,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getMediaType()
 		);
 	}
-	
+
 }
 ?>

@@ -1,8 +1,10 @@
 <?php
+# @todo namespace has not worked -> class is called from ext_conf_template.txt
+#namespace TYPO3\CMS\Media\Backend;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Fabien Udriot <fabien.udriot@ecodev.ch>
+ *  (c) 2012 Fabien Udriot <fabien.udriot@ecodev.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,20 +33,20 @@ class Tx_Media_Backend_ExtensionManager {
 
 	/**
 	 * The extension key
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $extKey = 'media';
 
 	/**
 	 * The Configuration Array
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $configuration = array();
-	
+
 	/**
-	 * @var t3lib_file_Domain_Repository_MountRepository
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository
 	 */
 	protected $mountRepository;
 
@@ -57,20 +59,20 @@ class Tx_Media_Backend_ExtensionManager {
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]) {
 			$this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 		}
-		
+
 			// Merge with Data that comes from the User
 		$postData = t3lib_div::_POST();
 		if (!empty($postData['data'])) {
 			$this->configuration = array_merge($this->configuration, $postData['data']);
 		}
-		
+
 		/** @var $mount t3lib_file_Domain_Model_Mount */
 		if ($this->configuration['storage'] > 0) {
-			$this->mountRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_MountRepository');
+			$this->mountRepository = t3lib_div::makeInstance('TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository');
 			$this->mount = $this->mountRepository->findByUid($this->configuration['storage']);
 		}
 	}
-	
+
 	/**
 	 * Display a message to the Extension Manager whether the configuration is OK or KO.
 	 *
@@ -79,6 +81,7 @@ class Tx_Media_Backend_ExtensionManager {
 	 * @return string the HTML message
 	 */
 	public function renderMessage(&$params, &$tsObj) {
+		return '';
 		$out = '';
 
 
@@ -102,13 +105,13 @@ class Tx_Media_Backend_ExtensionManager {
 			// @todo remove code if not used before release 1.0
 //			$actionOut = '';
 //			$actions = array();
-//			
+//
 //				// Report to the BE User
 //			if (!empty($actions)) {
 //				$actionOut = '<span style="text-decoratoin: underline; font-weight: bold;">Action(s) executed:</span>';
 //				$actionOut .= '<ul><li>' . implode('<li></li>', $actions) . ' </li></ul>';
 //			}
-//			
+//
 			$out .= '
 			<div style="">
 				<div class="typo3-message message-ok">
@@ -125,7 +128,7 @@ class Tx_Media_Backend_ExtensionManager {
 
 		return $out;
 	}
-	
+
 	/**
 	 * Check whether configuration is available
 	 *
@@ -134,17 +137,17 @@ class Tx_Media_Backend_ExtensionManager {
 	protected function needsUpdate() {
 		return empty($this->configuration);
 	}
-	
+
 	/**
 	 * Render the storage list Field
 	 *
 	 * @return string
 	 */
 	public function renderStorage() {
-		
+
 		/* @var t3lib_DB */
 		$records = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'sys_file_storage', 'deleted = 0');
-		
+
 		if (empty($records)) {
 			$output = $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_media.xml:em_error_missing_storage');
 		}
@@ -152,7 +155,7 @@ class Tx_Media_Backend_ExtensionManager {
 			$options = '';
 			foreach ($records as $record) {
 				$selected = '';
-				
+
 				if ($this->configuration['storage'] == $record['uid']) {
 					$selected = 'selected="selected"';
 				}

@@ -1,0 +1,56 @@
+config.tx_extbase {
+	# Note: this configuration has not effect since the extbase persistence is not used for now.
+	# However, this could could change in the future and the mapping will become necessary
+	persistence{
+		classes {
+			TYPO3\CMS\Media\Domain\Model\Media {
+				mapping {
+					tableName = sys_file
+					recordType = TYPO3\CMS\Media\Domain\Model\Media
+					columns {
+						#title.mapOnProperty = title
+						#path.mapOnProperty = path
+						#base.mapOnProperty = isAbsolutePath
+					}
+				}
+			}
+		}
+	}
+}
+
+
+ # Plugin configuration
+plugin.tx_media {
+	settings {
+		 # maximum number of items to display per page
+		pageBrowser {
+			itemsPerPage = 10
+		}
+
+		 # Editor FE Usergroup uid
+		editorUsergroupUid = {$plugin.tx_media.settings.editorUsergroupUid}
+	}
+	view {
+		templateRootPath = {$plugin.tx_media.view.templateRootPath}
+		partialRootPath = {$plugin.tx_media.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_media.view.layoutRootPath}
+		defaultPid = auto
+	}
+	# This is an example how to modify the translation
+	_LOCAL_LANG {
+		default {
+			someUnusedKey = foo
+		}
+	}
+}
+
+ # Module configuration
+module.tx_media {
+	settings < plugin.tx_media.settings
+	view < plugin.tx_media.view
+	view {
+		templateRootPath = {$module.tx_media.view.templateRootPath}
+		partialRootPath = {$module.tx_media.view.partialRootPath}
+		layoutRootPath = {$module.tx_media.view.layoutRootPath}
+	}
+}

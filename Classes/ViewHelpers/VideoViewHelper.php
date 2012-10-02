@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Steffen Ritter <steffen.ritter@typo3.org>
+*  (c) 2012 Steffen Ritter <steffen.ritter@typo3.org>
 *
 *  All rights reserved
 *
@@ -89,7 +89,7 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 //		$configuration['height'] = $height;
 
 		$configuration['flashvars.']['autoPlay'] = false;
-		
+
 			// get video sources
 		$configuration['sources'] = array();
 		$formats = $variantsService->getAlternateFiles($video);

@@ -1,9 +1,9 @@
 <?php
-
+namespace TYPO3\CMS\Media\Controller;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,40 +23,57 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Controller which handles Media actions
  *
- *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-class Tx_Media_Controller_MediaController extends Tx_Extbase_MVC_Controller_ActionController {
+class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
 	 * mediaRepository
 	 *
-	 * @var Tx_Media_Domain_Repository_MediaRepository
+	 * @var \TYPO3\CMS\Media\Domain\Repository\MediaRepository
 	 */
 	protected $mediaRepository;
 
 	/**
 	 * injectMediaRepository
 	 *
-	 * @param Tx_Media_Domain_Repository_MediaRepository $mediaRepository
+	 * @param \TYPO3\CMS\Media\Domain\Repository\MediaRepository $mediaRepository
 	 * @return void
 	 */
-	public function injectMediaRepository(Tx_Media_Domain_Repository_MediaRepository $mediaRepository) {
+	public function injectMediaRepository(\TYPO3\CMS\Media\Domain\Repository\MediaRepository $mediaRepository) {
 		$this->mediaRepository = $mediaRepository;
 	}
 
 	/**
-	 * action list
+	 * List action for this controller. Displays a list of medias
 	 *
-	 * @return void
+	 * @var array $filter The filter
+	 * @var array $order The order
+	 * @return string The rendered view
+	 * @dontvalidate $filter
+	 * @dontvalidate $order
 	 */
-	public function listAction() {
-		$medias = $this->mediaRepository->findAll();
+	public function listAction(array $filter = NULL) {
+
+		// Initialize some objects related to the query
+		$filterObject = $this->createFilterObject($filter);
+		$orderObject = $this->createOrderObject($filter);
+		$pagerObject = $this->createPagerObject();
+
+		// Compute sthe offset
+		$offset = ($pagerObject->getPage() - 1) * $pagerObject->getItemsPerPage();
+
+		// Query the repository
+		$medias = $this->mediaRepository->findAllByFilter($filterObject, $orderObject, $offset, $pagerObject->getItemsPerPage());
+		#$count = $this->mediaRepository->countAllByFilter($filterObject);
+		#$pagerObject->setCount($count);
+
+		// Assign values
 		$this->view->assign('medias', $medias);
 	}
 

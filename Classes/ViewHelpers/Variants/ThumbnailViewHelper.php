@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Steffen Ritter <steffen.ritter@typo3.org>
+*  (c) 2012 Steffen Ritter <steffen.ritter@typo3.org>
 *
 *  All rights reserved
 *

@@ -1,9 +1,10 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,19 +32,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_Media_Domain_Repository_AduioRepository extends Tx_Extbase_Persistence_Repository {
-	
-	/**
-	 * Returns all objects of this repository
-	 *
-	 * @return array An array of objects, empty if no objects found
-	 * @api
-	 */
-	public function findAll() {
-		// @todo add filter onto Audio
-		$result = $this->createQuery()->execute();
-		return $result;
-	}
+class Tx_Media_Domain_Repository_AduioRepository extends \TYPO3\CMS\Media\Domain\Repository\MediaRepository {
 
 }
 ?>

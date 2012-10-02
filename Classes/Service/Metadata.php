@@ -3,7 +3,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Fabien Udriot <fabien.udriot@typo3.org>
+ *  (c) 2012 Fabien Udriot <fabien.udriot@typo3.org>
  *  Lorenz Ulrich <lorenz.ulrich@visol.ch>
  *
  *  All rights reserved

@@ -3,7 +3,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Steffen Ritter <steffen.ritter@typo3.org>
+ *  (c) 2012 Steffen Ritter <steffen.ritter@typo3.org>
  *
  *  All rights reserved
  *
@@ -42,7 +42,7 @@ class Tx_Media_Service_Variants {
 	public function __construct() {
 		$this->fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
 	}
-	
+
 	/**
 	 * Get meta information from a file using a metaExtract service
 	 *

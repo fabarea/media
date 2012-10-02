@@ -1,8 +1,9 @@
 <?php
+namespace TYPO3\CMS\Media\Backend;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_Media_Backend_TCEforms {
+class TCEforms {
 
 	/**
 	 * The extension key
@@ -162,7 +163,7 @@ class Tx_Media_Backend_TCEforms {
 		$view->setTemplatePathAndFilename($filePath);
 
 		$record = $PA['row'];
-		
+
 		if ($record['thumbnail'] > 0) {
 //			t3lib_utility_Debug::debug(123, '123');
 //			exit();

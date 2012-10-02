@@ -3,8 +3,8 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Media development team <typo3-project-media@lists.typo3.org>, TYPO3 Association
- *  			
+ *  (c) 2012 Media development team <typo3-project-media@lists.typo3.org>, TYPO3 Association
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

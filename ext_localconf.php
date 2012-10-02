@@ -17,6 +17,6 @@ config.tx_extbase.persistence.classes {
 t3lib_extMgm::addTypoScript('media', 'setup', $tableMapping);
 
 	// register special TCE tx_media processing
-$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:media/Classes/Hooks/TCE.php:&Tx_Media_Hooks_TCE';
+#$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:media/Classes/Hooks/TCE.php:&Tx_Media_Hooks_TCE';
 
 ?>

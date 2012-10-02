@@ -1,9 +1,10 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,15 +24,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Media representation in the file abstraction layer.
  *
- *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-class Tx_Media_Domain_Model_Media extends t3lib_file_File {
+class Media extends \TYPO3\CMS\Core\Resource\File {
 
 	/**
 	 * Title
@@ -54,13 +54,6 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	 * @var string
 	 */
 	protected $keywords;
-
-	/**
-	 * MIME type
-	 *
-	 * @var string
-	 */
-	protected $mimeType;
 
 	/**
 	 * File extension
@@ -98,13 +91,6 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	protected $downloadName;
 
 	/**
-	 * Identifier
-	 *
-	 * @var string
-	 */
-	protected $identifier;
-
-	/**
 	 * Creator
 	 *
 	 * @var string
@@ -138,56 +124,56 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	 * @var tx_mediaType
 	 */
 	protected $mediaType;
-	
+
 	/**
 	 * Status
 	 *
 	 * @var string
 	 */
 	protected $status;
-	
+
 	/**
 	 * Language
 	 *
 	 * @var string
 	 */
 	protected $language;
-	
+
 	/**
 	 * Publisher
 	 *
 	 * @var string
 	 */
 	protected $publisher;
-	
+
 	/**
 	 * LocationCountry
 	 *
 	 * @var string
 	 */
 	protected $locationCountry;
-	
+
 	/**
 	 * LocationRegion
 	 *
 	 * @var string
 	 */
 	protected $locationRegion;
-	
+
 	/**
 	 * LocationCity
 	 *
 	 * @var string
 	 */
 	protected $locationCity;
-	
+
 	/**
 	 * Latitude
 	 *
 	 * @var float
 	 */
 	protected $latitude;
-	
+
 	/**
 	 * Rank
 	 *
@@ -201,7 +187,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	 * @var string
 	 */
 	protected $note;
-	
+
 	/**
 	 * __construct
 	 *
@@ -229,25 +215,6 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-	
-	/**
-	 * Returns the identifier
-	 *
-	 * @return string $identifier
-	 */
-	public function getIdentifier() {
-		return $this->identifier;
-	}
-
-	/**
-	 * Sets the identifier
-	 *
-	 * @param string $identifier
-	 * @return void
-	 */
-	public function setIdentifier($identifier) {
-		$this->identifier = $identifier;
 	}
 
 	/**
@@ -333,25 +300,6 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	 */
 	protected function initStorageObjects() {
 		// empty
-	}
-
-	/**
-	 * Returns the mimeType
-	 *
-	 * @return string $mimeType
-	 */
-	public function getMimeType() {
-		return $this->mimeType;
-	}
-
-	/**
-	 * Sets the mimeType
-	 *
-	 * @param string $mimeType
-	 * @return void
-	 */
-	public function setMimeType($mimeType) {
-		$this->mimeType = $mimeType;
 	}
 
 	/**
@@ -486,7 +434,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setCaption($caption) {
 		$this->caption = $caption;
 	}
-	
+
 	/**
 	 * Returns the status
 	 *
@@ -505,7 +453,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setStatus($status) {
 		$this->status = $status;
 	}
-	
+
 	/**
 	 * Returns the language
 	 *
@@ -524,7 +472,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setLanguage($language) {
 		$this->language = $language;
 	}
-	
+
 	/**
 	 * Returns the publisher
 	 *
@@ -543,7 +491,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setPublisher($publisher) {
 		$this->publisher = $publisher;
 	}
-	
+
 	/**
 	 * Returns the locationCountry
 	 *
@@ -562,7 +510,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setLocationCountry($locationCountry) {
 		$this->locationCountry = $locationCountry;
 	}
-	
+
 	/**
 	 * Returns the locationRegion
 	 *
@@ -581,7 +529,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setLocationRegion($locationRegion) {
 		$this->locationRegion = $locationRegion;
 	}
-	
+
 	/**
 	 * Returns the locationCity
 	 *
@@ -600,7 +548,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setLocationCity($locationCity) {
 		$this->locationCity = $locationCity;
 	}
-	
+
 	/**
 	 * Returns the latitude
 	 *
@@ -619,7 +567,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setLatitude($latitude) {
 		$this->latitude = $latitude;
 	}
-	
+
 	/**
 	 * Returns the rank
 	 *
@@ -638,7 +586,7 @@ class Tx_Media_Domain_Model_Media extends t3lib_file_File {
 	public function setRank($rank) {
 		$this->rank = $rank;
 	}
-	
+
 	/**
 	 * Returns the note
 	 *

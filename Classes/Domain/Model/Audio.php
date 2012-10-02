@@ -1,9 +1,10 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,30 +24,29 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Audio representation in the file abstraction layer.
  *
- *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-class Tx_Media_Domain_Model_Audio extends Tx_Media_Domain_Model_Media {
-	
+class Tx_Media_Domain_Model_Audio extends \TYPO3\CMS\Core\Resource\File {
+
 	/**
 	 * Language
 	 *
 	 * @var string
 	 */
 	protected $language;
-	
+
 	/**
 	 * Duration
 	 *
 	 * @var int
 	 */
 	protected $duration;
-	
+
 	/**
 	 * __construct
 	 *
@@ -56,7 +56,7 @@ class Tx_Media_Domain_Model_Audio extends Tx_Media_Domain_Model_Media {
 		//Do not remove the next line: It would break the functionality
 		$this->initStorageObjects();
 	}
-	
+
 	/**
 	 * Returns the language
 	 *
@@ -75,7 +75,7 @@ class Tx_Media_Domain_Model_Audio extends Tx_Media_Domain_Model_Media {
 	public function setLanguage($language) {
 		$this->language = $language;
 	}
-	
+
 	/**
 	 * Returns the duration
 	 *
