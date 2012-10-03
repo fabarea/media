@@ -189,13 +189,36 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	protected $note;
 
 	/**
-	 * __construct
+	 * Constructor for a Media object.
 	 *
-	 * @return void
+	 * @param array $mediaData
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
 	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
+	public function __construct(array $mediaData, $storage = NULL) {
+		parent::__construct($mediaData, $storage);
+
+		$this->title = !empty($mediaData['title'])? $mediaData['title'] : '';
+		$this->description = !empty($mediaData['description'])? $mediaData['description'] : '';
+		$this->keywords = !empty($mediaData['keywords'])? $mediaData['keywords'] : '';
+		$this->extension = !empty($mediaData['extension'])? $mediaData['extension'] : '';
+		$this->creationDate = !empty($mediaData['creationDate'])? $mediaData['creationDate'] : '';
+		$this->modificationDate = !empty($mediaData['modificationDate'])? $mediaData['modificationDate'] : '';
+		$this->creatorTool = !empty($mediaData['creatorTool'])? $mediaData['creatorTool'] : '';
+		$this->downloadName = !empty($mediaData['downloadName'])? $mediaData['downloadName'] : '';
+		$this->creator = !empty($mediaData['creator'])? $mediaData['creator'] : '';
+		$this->source = !empty($mediaData['source'])? $mediaData['source'] : '';
+		$this->alternative = !empty($mediaData['alternative'])? $mediaData['alternative'] : '';
+		$this->caption = !empty($mediaData['caption'])? $mediaData['caption'] : '';
+		$this->mediaType = !empty($mediaData['mediaType'])? $mediaData['mediaType'] : '';
+		$this->status = !empty($mediaData['status'])? $mediaData['status'] : '';
+		$this->language = !empty($mediaData['language'])? $mediaData['language'] : '';
+		$this->publisher = !empty($mediaData['publisher'])? $mediaData['publisher'] : '';
+		$this->locationCountry = !empty($mediaData['locationCountry'])? $mediaData['locationCountry'] : '';
+		$this->locationRegion = !empty($mediaData['locationRegion'])? $mediaData['locationRegion'] : '';
+		$this->locationCity = !empty($mediaData['locationCity'])? $mediaData['locationCity'] : '';
+		$this->latitude = !empty($mediaData['latitude'])? $mediaData['latitude'] : '';
+		$this->rank = !empty($mediaData['rank'])? $mediaData['rank'] : '';
+		$this->note = !empty($mediaData['note'])? $mediaData['note'] : '';
 	}
 
 	/**

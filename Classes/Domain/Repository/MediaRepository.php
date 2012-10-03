@@ -59,7 +59,7 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
 	 * @param int $offset
 	 * @param int $itemsPerPage
-	 * @return array The records
+	 * @return \TYPO3\CMS\Core\Resource\File[]
 	 */
 	public function findAllByFilter(\TYPO3\CMS\Media\QueryElement\Filter $filter, \TYPO3\CMS\Media\QueryElement\Order $order = null, $offset = null, $itemsPerPage = null) {
 
@@ -77,8 +77,22 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 			$query->setLimit($itemsPerPage);
 		}
 
-		$result = $query->execute();
-		return $result;
+		return $query->execute();
+	}
+
+	/**
+	 * @todo fix me -> this method does not return the right result
+	 * Count all references by the specified filter
+	 *
+	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
+	 */
+	public function countAllByFilter(\TYPO3\CMS\Media\QueryElement\Filter $filter) {
+
+		/** @var $query \TYPO3\CMS\Media\QueryElement\Query */
+		$query = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Query');
+
+		$query->setFilter($filter);
+		return count($query->execute());
 	}
 }
 
