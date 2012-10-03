@@ -1,7 +1,7 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<h1>Listing for Media</h1>
+	<f:link.action action="new">New Media</f:link.action>
 
 	<f:flashMessages/>
 
@@ -12,46 +12,11 @@
 				<f:translate key="tx_media.title"/>
 			</th>
 			<th>
-				<f:translate key="tx_media.description"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.keywords"/>
-			</th>
-			<th>Media type</th>
-			<th>
-				<f:translate key="tx_media.mime_type"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.extension"/>
-			</th>
-			<th>
 				<f:translate key="tx_media.creation_date"/>
 			</th>
 			<th>
 				<f:translate key="tx_media.modification_date"/>
 			</th>
-			<th>
-				<f:translate key="tx_media.creator_tool"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.download_name"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.identifier"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.creator"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.source"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.alternative"/>
-			</th>
-			<th>
-				<f:translate key="tx_media.caption"/>
-			</th>
-			<th>File</th>
 			<th></th>
 			<th></th>
 			</thead>
@@ -59,68 +24,28 @@
 
 		<tbody>
 
-			<f:for each="{medias}" as="media">
-				<tr>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.title}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.description}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.keywords}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.mediaType.mediatype}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.mimeType}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.extension}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.creationDate -> f:format.date()}
-						</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.modificationDate -> f:format.date()}
-						</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.creatorTool}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.downloadName}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.identifier}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.creator}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.source}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.alternative}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.caption}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="show" arguments="{media : media}"> {media.file.name}</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="edit" arguments="{media : media}">Edit</f:link.action>
-					</td>
-					<td>
-						<f:link.action action="delete" arguments="{media : media}">Delete</f:link.action>
-					</td>
-				</tr>
-			</f:for>
+		<f:for each="{medias}" as="media">
+			<tr>
+				<td>
+					<f:link.action action="show" arguments="{media : media}"> {media.title}</f:link.action>
+				</td>
+				<td>
+					<f:link.action action="show" arguments="{media : media}"> {media.creationDate -> f:format.date()}
+					</f:link.action>
+				</td>
+				<td>
+					<f:link.action action="show" arguments="{media : media}"> {media.modificationDate -> f:format.date()}
+					</f:link.action>
+				</td>
+				<td>
+					<!--<f:link.action action="edit" arguments="{media : media}">Edit</f:link.action>-->
+				</td>
+				<td>
+					<!--<f:link.action action="delete" arguments="{media : media}">Delete</f:link.action>-->
+				</td>
+			</tr>
+		</f:for>
 		</tbody>
 	</table>
 
-	<f:link.action action="new">New Media</f:link.action>
 </f:section>
