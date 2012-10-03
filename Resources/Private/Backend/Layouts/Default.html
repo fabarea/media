@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+{namespace media=TYPO3\CMS\Media\ViewHelpers}
+<html lang="en"
+      xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
+      xmlns:media="http://typo3.org/ns/typo3/media/viewhelpers">
 <head>
 	<meta charset="utf-8">
 	<title>Media</title>
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="assets/css/bootstrap.css" rel="stylesheet">
-	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+	<media:css name="bootstrap.css" />
+	<media:css name="bootstrap-responsive.css" />
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<media:js name="bootstrap-responsive.js" />
 </head>
 <body>
 
