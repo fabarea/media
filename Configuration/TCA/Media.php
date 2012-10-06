@@ -5,8 +5,12 @@ if (!defined ('TYPO3_MODE')) {
 
 \TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 
+// add categorization to all media types
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', array('fieldList' => 'categories'));
+
 $newFileTypes = array(
 	'Text' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -16,6 +20,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	'Image' => array('showitem' => 'storage, name, type, mime_type, sha1, size, file, l10n_parent, title, description, alternative, caption, keywords,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -26,6 +31,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	'Audio' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, duration, unit,
@@ -35,6 +41,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	'Video' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -44,6 +51,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	'Software' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -493,4 +501,5 @@ $TCA['sys_file']['ctrl']['searchFields'] = 'uid,title,keywords';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_file', $columns, 1);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
+
 ?>
