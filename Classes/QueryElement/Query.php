@@ -114,10 +114,27 @@ class Query  {
 		$resource = $this->databaseHandle->exec_SELECTquery('*', 'sys_file', $clause, $groupBy, $orderBy, $limit);
 
 		$items = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($resource)) {
+		while ($row = $this->databaseHandle->sql_fetch_assoc($resource)) {
 			$items[] = $this->mediaFactory->createFileObject($row);
 		}
 		return $items;
+	}
+
+	/**
+	 * Build the query and count items
+	 *
+	 * @return int the number of items
+	 */
+	public function count() {
+		$numberOfItems = 0;
+		$clause = 'deleted = 0';
+
+		$record = $this->databaseHandle->exec_SELECTgetSingleRow('count(*) AS count', 'sys_file', $clause);
+
+		if (! empty($record['count'])) {
+			$numberOfItems = (int) $record['count'];
+		}
+		return $numberOfItems;
 	}
 }
 

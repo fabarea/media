@@ -82,14 +82,30 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		/** @var $pager \TYPO3\CMS\Media\QueryElement\Pager */
 		$pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Pager');
 
-		if ($this->request->hasArgument('page')) {
-			$pager->setPage($this->request->getArgument('page'));
-			if ($pager->getPage() < 1) {
-				$pager->setPage(1);
-			}
+		// Set items per page
+		// DataTables plugin is not flexible enough - or makes it complicated - to encapsulate
+		// parameters like tx_media_pi[page]
+		// $this->request->hasArgument('page')
+		$itemsPerPage = $this->settings['pageBrowser']['itemsPerPage'];
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayLength')) {
+			$itemsPerPage = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayLength');
 		}
+		$pager->setItemsPerPage($itemsPerPage);
 
-		$pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
+		// Set offset
+		$offset = 0;
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayStart')) {
+			$offset = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayStart');
+		}
+		$pager->setOffset($offset);
+
+		// set page
+		$page = 1;
+		if ($pager->getItemsPerPage() > 0) {
+			$page = round($pager->getOffset() / $pager->getItemsPerPage());
+		}
+		$pager->setPage($page);
+
 		return $pager;
 	}
 }

@@ -52,29 +52,38 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	/**
 	 * List action for this controller. Displays a list of medias
 	 *
+	 * @return string The rendered view
+	 */
+	public function listAction() {
+
+	}
+
+	/**
+	 * List Row action for this controller. Displays a list of medias
+	 *
 	 * @var array $filter The filter
 	 * @var array $order The order
 	 * @return string The rendered view
 	 * @dontvalidate $filter
 	 * @dontvalidate $order
 	 */
-	public function listAction(array $filter = NULL) {
+	public function listRowAction(array $filter = NULL, array $order = NULL) {
 
 		// Initialize some objects related to the query
 		$filterObject = $this->createFilterObject($filter);
-		$orderObject = $this->createOrderObject($filter);
+		$orderObject = $this->createOrderObject($order);
 		$pagerObject = $this->createPagerObject();
 
-		// Compute sthe offset
-		$offset = ($pagerObject->getPage() - 1) * $pagerObject->getItemsPerPage();
-
 		// Query the repository
-		$medias = $this->mediaRepository->findAllByFilter($filterObject, $orderObject, $offset, $pagerObject->getItemsPerPage());
-		$count = $this->mediaRepository->countAllByFilter($filterObject);
-		$pagerObject->setCount($count);
+		$medias = $this->mediaRepository->findAllByFilter($filterObject, $orderObject, $pagerObject->getOffset(), $pagerObject->getItemsPerPage());
+		$numberOfMedias = $this->mediaRepository->countAllByFilter($filterObject);
+		$pagerObject->setCount($numberOfMedias);
 
 		// Assign values
 		$this->view->assign('medias', $medias);
+		$this->view->assign('numberOfMedias', $numberOfMedias);
+		$this->view->assign('pager', $pagerObject);
+		$this->request->setFormat('json');
 	}
 
 	/**

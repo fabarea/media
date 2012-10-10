@@ -41,6 +41,13 @@ class Pager  {
 	protected $count;
 
 	/**
+	 * Current offset
+	 *
+	 * @var integer
+	 */
+	protected $offset;
+
+	/**
 	 * Current page index
 	 *
 	 * @var integer
@@ -163,6 +170,20 @@ class Pager  {
 			$next = $last;
 		}
 		return $next;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOffset() {
+		return $this->offset;
+	}
+
+	/**
+	 * @param int $offset
+	 */
+	public function setOffset($offset) {
+		$this->offset = $offset;
 	}
 }
 
