@@ -1,5 +1,6 @@
 <?php
 namespace TYPO3\CMS\Media\ViewHelpers;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -23,39 +24,27 @@ namespace TYPO3\CMS\Media\ViewHelpers;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * View helper which allows you to include a JS File.
+ * View helper a transaction number
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class JsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TransactionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Compute a JS tag and render it
+	 * Return the number of the transaction with the client
 	 *
-	 * @param string $name the file to include
-	 * @param string $extKey the extension, where the file is located
-	 * @param string $pathInsideExt the path to the file relative to the ext-folder
-	 * @return string the link
+	 * @return string the value
+	 * @api
 	 */
-	public function render($name = NULL, $extKey = NULL, $pathInsideExt = 'Resources/Public/JavaScript/') {
-
-		if ($extKey === NULL) {
-			$extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
+	public function render() {
+		$transaction = 0;
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('sEcho')) {
+			$transaction = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('sEcho') + 1;
 		}
-
-		if (TYPO3_MODE === 'FE') {
-			$extPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath($extKey);
-			$extRelPath = substr($extPath, strlen(PATH_site));
-		} else {
-			$extRelPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath($extKey);
-		}
-
-		return sprintf('<script src="%s%s%s"></script>', $extRelPath, $pathInsideExt, $name);
+		return $transaction;
 	}
-
 }
-
 ?>

@@ -1,3 +1,7 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+
 <f:layout name="Default"/>
 
 <f:section name="main">
@@ -5,11 +9,38 @@
 
 	<f:flashMessages/>
 
-	<table class="tx_media table table-condensed table-hover table-bordered .table-striped">
+	<!--<table id="tx-media-list" class="table table-condensed table-hover table-bordered .table-striped">-->
+	<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+		<thead>
 		<tr>
-			<thead>
+			<th>#</th>
+			<th>
+				todo: check
+			</th>
+			<th>&nbsp;</th>
 			<th>
 				<f:translate key="tx_media.title"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.description"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.category"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.status"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.file_name"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.language"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.author"/>
+			</th>
+			<th>
+				<f:translate key="tx_media.permission"/>
 			</th>
 			<th>
 				<f:translate key="tx_media.creation_date"/>
@@ -17,35 +48,14 @@
 			<th>
 				<f:translate key="tx_media.modification_date"/>
 			</th>
-			<th></th>
-			<th></th>
-			</thead>
+			<th>&nbsp;</th>
 		</tr>
+		</thead>
 
 		<tbody>
 
-		<f:for each="{medias}" as="media">
-			<tr>
-				<td>
-					<f:link.action action="show" arguments="{media : media}"> {media.title}</f:link.action>
-				</td>
-				<td>
-					<f:link.action action="show" arguments="{media : media}"> {media.creationDate -> f:format.date()}
-					</f:link.action>
-				</td>
-				<td>
-					<f:link.action action="show" arguments="{media : media}"> {media.modificationDate -> f:format.date()}
-					</f:link.action>
-				</td>
-				<td>
-					<!--<f:link.action action="edit" arguments="{media : media}">Edit</f:link.action>-->
-				</td>
-				<td>
-					<!--<f:link.action action="delete" arguments="{media : media}">Delete</f:link.action>-->
-				</td>
-			</tr>
-		</f:for>
 		</tbody>
 	</table>
 
 </f:section>
+</html>

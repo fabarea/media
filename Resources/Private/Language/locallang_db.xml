@@ -43,22 +43,22 @@
 			<label index="tx_media.longitude">Longitude</label>
 			<label index="tx_media.ranking">Ranking</label>
 			<label index="tx_media.variants">alternative variants (other types, preview images, ...)</label>
-			
+
 			<label index="tx_media_collection">Collection</label>
 			<label index="tx_media_collection.collection_name">Collection Name</label>
 			<label index="tx_media_collection.description">Description</label>
 			<label index="tx_media_collection.visibility">Visibility</label>
 			<label index="tx_media_collection.medias">Medias</label>
-			
+
 			<label index="tx_media_filter">Filter</label>
 			<label index="tx_media_filter.filter_name">Filter Name</label>
 			<label index="tx_media_filter.description">Description</label>
 			<label index="tx_media_filter.criteria">Criteria</label>
-			
+
 			<label index="tx_media_file">File</label>
 
 			<label index="tx_media_file.name">Name</label>
-			
+
 			<label index="tabs.metrics">Metrics</label>
 			<label index="tabs.language">Language</label>
 			<label index="tabs.visibility">Visibility</label>
