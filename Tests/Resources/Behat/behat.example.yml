@@ -1,0 +1,20 @@
+default:
+  paths:
+    features: htdocs/typo3conf/ext/media/Tests/Feature
+    bootstrap: %behat.paths.features%/bootstrap
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte: ~
+      selenium2:
+        #browser: chrome
+      base_url: http://media.fab/typo3
+  context:
+    parameters:
+
+# Example in case of multiple profile. This would override default value.
+# In case of use another profile, run the command as follows:
+# bin/behat --profile foo
+foo:
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: http://domain.tld/typo3

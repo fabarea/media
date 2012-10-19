@@ -1,0 +1,21 @@
+{
+	"require": {
+		"behat/behat": "2.4.*@stable",
+		"behat/mink": "1.4.*@stable",
+		"behat/mink-extension": "*",
+		"behat/mink-goutte-driver": "*",
+		"behat/mink-selenium2-driver": "*",
+		"phing/phing": "dev-composer_modify"
+	},
+
+	"minimum-stability": "dev",
+	"config": {
+		"bin-dir": "bin/"
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Hounddog/phing"
+		}
+	]
+}
