@@ -90,10 +90,10 @@ class Tx_Media_Backend_ExtensionManager {
 			<div style="">
 				<div class="typo3-message message-warning">
 					<div class="message-header">'
-						. $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_media.xml:updater_header') .
+						. $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:updater_header') .
 					'</div>
 					<div class="message-body">
-						' . $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_media.xml:updater_message') . '
+						' . $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:updater_message') . '
 					</div>
 				</div>
 			</div>
@@ -116,10 +116,10 @@ class Tx_Media_Backend_ExtensionManager {
 			<div style="">
 				<div class="typo3-message message-ok">
 					<div class="message-header">'
-						. $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_media.xml:ok_header') .
+						. $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:ok_header') .
 					'</div>
 					<div class="message-body">
-						' . $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_media.xml:ok_message') . '
+						' . $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:ok_message') . '
 					</div>
 				</div>
 			</div>
@@ -149,7 +149,7 @@ class Tx_Media_Backend_ExtensionManager {
 		$records = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'sys_file_storage', 'deleted = 0');
 
 		if (empty($records)) {
-			$output = $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_media.xml:em_error_missing_storage');
+			$output = $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:em_error_missing_storage');
 		}
 		else {
 			$options = '';

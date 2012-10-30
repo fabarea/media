@@ -10,15 +10,15 @@ $TCA["sys_file_variants"] = array (
 	"columns" => array (
 		"role" => Array (
 			"exclude" => 0,
-			"label" => "LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.role",
+			"label" => "LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role",
 			"config" => Array (
 				"type" => "select",
 				"items" => Array (
-					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.role.none", 0),
-					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.role.alternative", 1),
-					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.role.subtitle", 2),
-					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.role.caption", 3),
-					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.role.thumbnail", 4),
+					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.none", 0),
+					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.alternative", 1),
+					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.subtitle", 2),
+					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.caption", 3),
+					Array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.thumbnail", 4),
 				),
 				'default' => 0,
 				"size" => 1,
@@ -28,7 +28,7 @@ $TCA["sys_file_variants"] = array (
 		),
 		"original" => Array (
 			"exclude" => 0,
-			"label" => "LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.original",
+			"label" => "LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.original",
 			"config" => Array (
 				"type" => "select",
 				"foreign_table" => "sys_file",
@@ -39,7 +39,7 @@ $TCA["sys_file_variants"] = array (
 		),
 		"variant" => Array (
 			"exclude" => 0,
-			"label" => "LLL:EXT:media/Resources/Private/Language/locallang_db.xml:sys_file_variant.variant",
+			"label" => "LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.variant",
 			"config" => Array (
 				"type" => "group",
 				'internal_type' => 'db',

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2012-10-17T17:55:17Z"
+	      product-name="local lang">
+		<header/>
+		<body>
+			<trans-unit id="tx_media">
+				<source>Media</source>
+			</trans-unit>
+			<trans-unit id="tx_media.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_media.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_media.keywords">
+				<source>Keywords</source>
+			</trans-unit>
+			<trans-unit id="tx_media.creation_date">
+				<source>Content creation date</source>
+			</trans-unit>
+			<trans-unit id="tx_media.modification_date">
+				<source>Content modification date</source>
+			</trans-unit>
+			<trans-unit id="tx_media.creator_tool">
+				<source>Creator tool</source>
+			</trans-unit>
+			<trans-unit id="tx_media.download_name">
+				<source>Download name</source>
+			</trans-unit>
+			<trans-unit id="tx_media.identifier">
+				<source>Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_media.creator">
+				<source>Creator</source>
+			</trans-unit>
+			<trans-unit id="tx_media.source">
+				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="tx_media.alternative">
+				<source>Alternative title</source>
+			</trans-unit>
+			<trans-unit id="tx_media.caption">
+				<source>Caption</source>
+			</trans-unit>
+			<trans-unit id="tx_media_collection">
+				<source>Collection</source>
+			</trans-unit>
+			<trans-unit id="tx_media_collection.collection_name">
+				<source>Collection name</source>
+			</trans-unit>
+			<trans-unit id="tx_media_collection.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_media_collection.visibility">
+				<source>Visibility</source>
+			</trans-unit>
+			<trans-unit id="tx_media_collection.medias">
+				<source>Medias</source>
+			</trans-unit>
+			<trans-unit id="tx_media_filter">
+				<source>Filter</source>
+			</trans-unit>
+			<trans-unit id="tx_media_filter.filter_name">
+				<source>Filter name</source>
+			</trans-unit>
+			<trans-unit id="tx_media_filter.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_media_filter.criteria">
+				<source>Filter criteria</source>
+			</trans-unit>
+			<trans-unit id="tx_media_file">
+				<source>Dummy for sys_file</source>
+			</trans-unit>
+			<trans-unit id="tx_media_file.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_media_mimetype">
+				<source>MimeType</source>
+			</trans-unit>
+			<trans-unit id="tx_media_mimetype.mime_type">
+				<source>MIME type</source>
+			</trans-unit>
+			<trans-unit id="tx_media_mimetype.mime_type_name">
+				<source>MIME type name</source>
+			</trans-unit>
+			<trans-unit id="tx_media.category">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tx_media.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_media.file_name">
+				<source>File name</source>
+			</trans-unit>
+			<trans-unit id="tx_media.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="tx_media.permission">
+				<source>Permission</source>
+			</trans-unit>
+			<trans-unit id="tx_media.language">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="message-deleted">
+				<source>Media "{0}" has been deleted</source>
+			</trans-unit>
+			<trans-unit id="confirm-message">
+				<source>Are you sure to delete "{0}"</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
