@@ -55,11 +55,12 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return string The rendered view
 	 */
 	public function listAction() {
-
+		$this->view->assign('medias', $this->mediaRepository->findAll());
 	}
 
 	/**
-	 * List Row action for this controller. Displays a list of medias
+	 * List Row action for this controller. Output a json list of medias
+	 * This action is expected to have a parameter format = json
 	 *
 	 * @var array $filter The filter
 	 * @var array $order The order
@@ -83,6 +84,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$this->view->assign('medias', $medias);
 		$this->view->assign('numberOfMedias', $numberOfMedias);
 		$this->view->assign('pager', $pagerObject);
+
 		$this->request->setFormat('json');
 	}
 
@@ -144,13 +146,34 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	/**
 	 * action delete
 	 *
-	 * @param $media
+	 * @param int $media
 	 * @return void
 	 */
-	public function deleteAction(tx_media $media) {
-		$this->mediaRepository->remove($media);
+	public function deleteAction($media) {
+		$mediaObject = $this->mediaRepository->findByUid($media);
+		$this->mediaRepository->remove($mediaObject);
 		$this->flashMessageContainer->add('Your Media was removed.');
 		$this->redirect('list');
+	}
+
+	/**
+	 * Delete a row given a media uid.
+	 * This action is expected to have a parameter format = json
+	 *
+	 * @param int $media
+	 * @return string
+	 */
+	public function deleteRowAction($media) {
+		$mediaObject = $this->mediaRepository->findByUid($media);
+		$result['status'] = $this->mediaRepository->remove($mediaObject);
+		$result['action'] = 'delete';
+		$result['media'] = array(
+			'uid' => $mediaObject->getUid(),
+			'title' => $mediaObject->getTitle(),
+		);
+		$this->view->assign('result', $result);
+
+		$this->request->setFormat('json');
 	}
 
 }

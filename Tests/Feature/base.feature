@@ -7,5 +7,5 @@ Feature: Hello World Feature
   @javascript @base
   Scenario: module is reachable
     Given I am on the main page
-      And I wait "5" seconds
+    And I wait "5" seconds
     Then I should see "records per page"

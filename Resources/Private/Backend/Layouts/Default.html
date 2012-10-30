@@ -11,21 +11,55 @@
 	<m:css name="bootstrap-responsive.css" />
 	<m:css name="bootstrap-datatables.css" />
 
+	<style type="text/css">
+		.centered {
+			position: fixed;
+			top: 1%;
+			left: 50%;
+		}
+	</style>
+
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<m:js name="DataTables/jquery.js" />
-	<m:js name="DataTables/jquery.dataTables.min.js" />
-	<m:js name="DataTables/bootstrap-datatables.js" />
-	<m:js name="Media.js" />
+	<script type="text/javascript">
+
+		// declare namespace
+		window.Media = {};
+
+		// Language string
+		Media.Language = {
+			"message-deleted": 'Media "{0}" has been deleted',
+			"confirm-message": 'Are you sure to delete "{0}"'
+		};
+	</script>
 </head>
 <body>
 
 <div class="tx-media">
 	<f:render section="main" />
 </div>
+
+<m:js name="JQuery/jquery.js"/>
+<m:js name="JQuery/jquery.dataTables.min.js"/>
+<m:js name="JQuery/TableTools/TableTools.min.js"/>
+<m:js name="JQuery/jquery.dataTables.Bootstrap.js"/>
+<m:js name="Bootstrap/bootstrap-transition.js"/>
+<m:js name="Bootstrap/bootbox.min.js"/>
+<m:js name="Bootstrap/bootstrap-modal.js"/>
+<!--<m:js name="Bootstrap/bootstrap-dropdown.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-scrollspy.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-tab.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-tooltip.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-popover.js"/>-->
+<m:js name="Bootstrap/bootstrap-button.js"/>
+<!--<m:js name="Bootstrap/bootstrap-collapse.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-carousel.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-typeahead.js"/>-->
+<!--<m:js name="Bootstrap/bootstrap-affix.js"/>-->
+<m:js name="Media.js"/>
 </body>
 </html>
 {namespace m=TYPO3\CMS\Media\ViewHelpers}

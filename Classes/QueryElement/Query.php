@@ -59,16 +59,10 @@ class Query  {
 	protected $databaseHandle;
 
 	/**
-	 * @var \TYPO3\CMS\Media\MediaFactory
-	 */
-	protected $mediaFactory;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
-		$this->mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
 	}
 
 	/**
@@ -102,39 +96,16 @@ class Query  {
 	/**
 	 * Build the query and return its result
 	 *
-	 * @return \TYPO3\CMS\Core\Resource\File[]
+	 * @return string the query
 	 */
-	public function execute() {
+	public function get() {
 		$clause = 'deleted = 0';
 
 		$groupBy = '';
 		$orderBy = '';
 		$limit = $this->offset . ',' . $this->limit;
 
-		$resource = $this->databaseHandle->exec_SELECTquery('*', 'sys_file', $clause, $groupBy, $orderBy, $limit);
-
-		$items = array();
-		while ($row = $this->databaseHandle->sql_fetch_assoc($resource)) {
-			$items[] = $this->mediaFactory->createFileObject($row);
-		}
-		return $items;
-	}
-
-	/**
-	 * Build the query and count items
-	 *
-	 * @return int the number of items
-	 */
-	public function count() {
-		$numberOfItems = 0;
-		$clause = 'deleted = 0';
-
-		$record = $this->databaseHandle->exec_SELECTgetSingleRow('count(*) AS count', 'sys_file', $clause);
-
-		if (! empty($record['count'])) {
-			$numberOfItems = (int) $record['count'];
-		}
-		return $numberOfItems;
+		return $this->databaseHandle->SELECTquery('*', 'sys_file', $clause, $groupBy, $orderBy, $limit);
 	}
 }
 

@@ -1,6 +1,6 @@
 /**
  * Set the defaults for DataTables initialisation
- * 
+ *
  * l - Length changing
  * f - Filtering input
  * t - The table!

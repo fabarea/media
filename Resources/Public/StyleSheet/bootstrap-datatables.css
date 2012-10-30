@@ -177,3 +177,6 @@ div.DTFC_LeftFootWrapper table {
 	border-top: none;
 }
 
+.row_selected {
+	background-color: red !important;
+}

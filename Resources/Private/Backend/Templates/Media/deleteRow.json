@@ -1,0 +1,2 @@
+<m:format.json>{result}</m:format.json>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

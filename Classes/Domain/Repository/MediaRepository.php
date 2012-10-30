@@ -34,12 +34,30 @@ namespace TYPO3\CMS\Media\Domain\Repository;
 class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 
 	/**
+	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected $databaseHandle;
+
+	/**
+	 * @var \TYPO3\CMS\Media\MediaFactory
+	 */
+	protected $mediaFactory;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
+		$this->mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
+	}
+
+	/**
 	 * Update a Media Management media with new information
 	 *
 	 * @param string $uid of the Media media
-	 * @return array file information
+	 * @param array $metaData file information
 	 */
-	public function updateMedia($uid, $metaData) {
+	public function updateMedia($uid, $metaData = array()) {
 
 		//TODO finish work
 		$data = array();
@@ -59,7 +77,7 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
 	 * @param int $offset
 	 * @param int $itemsPerPage
-	 * @return \TYPO3\CMS\Core\Resource\File[]
+	 * @return \TYPO3\CMS\Media\Domain\Model\Media[]
 	 */
 	public function findAllByFilter(\TYPO3\CMS\Media\QueryElement\Filter $filter, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $offset = NULL, $itemsPerPage = NULL) {
 
@@ -77,7 +95,14 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 			$query->setLimit($itemsPerPage);
 		}
 
-		return $query->execute();
+		$resource = $this->databaseHandle->sql_query($query->get());
+
+		$items = array();
+		while ($row = $this->databaseHandle->sql_fetch_assoc($resource)) {
+			$items[] = $this->mediaFactory->createObject($row);
+		}
+
+		return $items;
 	}
 
 	/**
@@ -90,9 +115,57 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 
 		/** @var $query \TYPO3\CMS\Media\QueryElement\Query */
 		$query = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Query');
-
 		$query->setFilter($filter);
-		return $query->count();
+
+		$clause = 'deleted = 0';
+		return $this->databaseHandle->exec_SELECTcountRows('uid', 'sys_file', $clause);
+	}
+
+	/**
+	 * Returns all objects of this repository.
+	 *
+	 * @return \TYPO3\CMS\Media\Domain\Model\Media[]
+	 */
+	public function findAll() {
+		$itemList = array();
+		$whereClause = 'deleted = 0';
+		if ($this->type != '') {
+			$whereClause .= ' AND ' . $this->typeField . ' = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->type, $this->table);
+		}
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $this->table, $whereClause);
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$itemList[] = $this->mediaFactory->createObject($row);
+		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+		return $itemList;
+	}
+
+	/**
+	 * Finds an object matching the given identifier.
+	 *
+	 * @param int $uid The identifier of the object to find
+	 * @return \TYPO3\CMS\Media\Domain\Model\Media The matching object
+	 */
+	public function findByUid($uid) {
+		if (!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)) {
+			throw new \InvalidArgumentException('uid has to be integer.', 1350652667);
+		}
+		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', $this->table, 'uid=' . intval($uid) . ' AND deleted=0');
+		if (count($row) === 0) {
+			throw new \RuntimeException('Could not find row with uid "' . $uid . '" in table $this->table.', 1350652700);
+		}
+		return $this->mediaFactory->createObject($row);
+	}
+
+	/**
+	 * Removes an object from this repository.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media The object to remove
+	 * @return boolean
+	 */
+	public function remove($media) {
+		$media->getStorage()->deleteFile($media);
+		return $this->databaseHandle->exec_UPDATEquery('sys_file', 'uid = ' . $media->getUid(), array('deleted' => 1));
 	}
 }
 

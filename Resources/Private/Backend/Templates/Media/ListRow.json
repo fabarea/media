@@ -16,7 +16,7 @@
 			todo: preview
 		</m:format.json>,
 		<m:format.json>
-			{media.title}
+			<span class="media-title">{media.title}</span>
 		</m:format.json>,
 		<m:format.json>
 			{media.description}
@@ -46,8 +46,9 @@
 			{media.modificationDate -> f:format.date()}
 		</m:format.json>,
 		<m:format.json>
-			<f:link.action action="edit" arguments="{media : media}">Edit</f:link.action>
-			<f:link.action action="delete" arguments="{media : media}">Delete</f:link.action>
+			<f:link.action action="edit" arguments="{media : media.uid}" class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}">Edit (not implemented)</f:link.action>
+			<f:link.action  action="deleteRow" arguments="{media : media.uid, format: 'json'}"
+							class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}">Delete</f:link.action>
 		</m:format.json>
 	]<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
 </f:for>

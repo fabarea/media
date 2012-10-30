@@ -64,7 +64,11 @@ class JsonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 		if ($value === NULL) {
 			$value = $this->renderChildren();
 		}
-		return json_encode(trim($value), $forceObject ? JSON_FORCE_OBJECT : NULL);
+
+		if (is_string($value)) {
+			$value = trim($value);
+		}
+		return json_encode($value, $forceObject ? JSON_FORCE_OBJECT : NULL);
 	}
 }
 ?>

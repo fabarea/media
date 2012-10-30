@@ -6,11 +6,11 @@ Feature: Form testing
   @javascript @create @media
   Scenario: User can create a new media
     Given I am on the main page
-      And I should see "New"
-      And I fill in the following:
-        | mailformtitle     | Mr.              |
-        | mailformfirstname | Fabien           |
-        | mailformlastname  | Udriot           |
-        | mailformemail     | fabien@ecodev.ch |
-      And I press "Add"
-    Then I should see "Ok"
+#      And I should see "New"
+#      And I fill in the following:
+#        | mailformtitle     | Mr.              |
+#        | mailformfirstname | Fabien           |
+#        | mailformlastname  | Udriot           |
+#        | mailformemail     | fabien@ecodev.ch |
+#      And I press "Add"
+#    Then I should see "Ok"
