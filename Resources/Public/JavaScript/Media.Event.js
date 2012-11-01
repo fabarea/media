@@ -30,8 +30,7 @@ Media.Event = {
 
 					// @bug filter() only find the first element after tag body...
 					var content = $(data).filter('#form-media')
-					$('#accordion-inner-bottom').html(content);
-					$('.btn-close').click(Media.Panel.showList);
+					$('#container-bottom').html(content);
 
 					// bind submit handler to form
 					$('#form-media').on('submit', function (e) {

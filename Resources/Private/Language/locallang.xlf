@@ -115,6 +115,16 @@
 			<trans-unit id="message-error">
 				<source>Transaction did not succeed</source>
 			</trans-unit>
+			<trans-unit id="save">
+				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="close">
+				<source>Close</source>
+			</trans-unit>
+			<trans-unit id="new">
+				<source>New Media</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

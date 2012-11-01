@@ -1,4 +1,5 @@
 Feature: media deletion
+  In order to manage my Media collection
   As a User
   I want to delete media
   BEWARE: don't use this feature test with production data!!

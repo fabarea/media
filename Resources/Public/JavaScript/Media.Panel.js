@@ -1,4 +1,4 @@
-"use strict";
+"use strict"; // jshint ;_;
 
 /** @namespace Media */
 
@@ -18,12 +18,9 @@ Media.Panel = {
 
 		// Store the loading message
 		if (typeof Media.icons.loading == 'undefined') {
-			Media.icons.loading = $('#accordion-inner-bottom').html();
+			Media.icons.loading = $('#container-bottom').html();
 		}
-
-		// Show form panel
-		$('#collapseTop').collapse('toggle');
-		$('#collapseBottom').collapse('toggle')
+		this.togglePanel();
 	},
 
 	/**
@@ -31,13 +28,25 @@ Media.Panel = {
 	 *
 	 * @return void
 	 */
-	showList: function () {
+	showList: function() {
 
-		$('#form-media').html(Media.icons.loading);
+		// Add loading message for the next time the frame is displayed
+		$('#container-bottom').html(Media.icons.loading);
+		this.togglePanel();
 
-		// Show form panel
-		$('#collapseTop').collapse('toggle');
-		$('#collapseBottom').collapse('toggle')
 		Media.Table.fnDraw();
+	},
+
+	/**
+	 * Toggle visibility of various panels
+	 *
+	 * @private
+	 * @return void
+	 */
+	togglePanel: function() {
+		// Expand / Collapse widgets
+		$(['container-top', 'container-bottom', 'navbar-media-default', 'navbar-media-save']).each(function (index, value) {
+			$('#' + value).toggle();
+		});
 	}
 }

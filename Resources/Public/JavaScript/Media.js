@@ -3,6 +3,17 @@
 
 $(document).ready(function () {
 
+	// Attach closing action
+	$('.btn-close').click(function(e) {
+		Media.Panel.showList();
+	});
+
+	// Attach
+	$('.btn-save').click(function (e) {
+		$('#form-media').submit();
+	});
+
+
 	/**
 	 * Table initialisation
 	 *

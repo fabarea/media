@@ -1,4 +1,5 @@
 Feature: Media edition
+  In order to manage my Media collection
   As a User
   I want to edit a media which encompases meta-data, ...
   BEWARE: don't use this feature test with production data!!

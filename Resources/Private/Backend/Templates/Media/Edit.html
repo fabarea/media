@@ -14,10 +14,9 @@
 		</div>
 		<div class="body">
 			<f:render partial="Media/FormFields" arguments="{media:media}"/>
-			<a href="#" class="btn disabled">Previous</a>
-			<a href="#" class="btn disabled">Next</a>
-			<a href="#" class="btn btn-close">Close</a>
-			<f:form.submit value="Save" class="btn btn-primary"/>
+			<div style="visibility: hidden">
+				<f:form.submit value="{f:translate(key: 'save')}" />
+			</div>
 		</div>
 	</f:form>
 </f:section>
