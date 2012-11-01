@@ -1,29 +1,5 @@
 "use strict";
 
-/** @namespace Media */
-
-/**
- * Flash message handling
- *
- * @param {string} message
- * @param {string} severity
- */
-Media.flashMessage = function (message, severity) {
-	var positionWidthCss, width, output;
-
-	// Compute positioning of the flash message box
-	width = $('.flash-message').outerWidth();
-	positionWidthCss = '-' + width / 2 + 'px';
-
-	// Prepare output
-	output = '<div class="alert alert-' + severity + '"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
-
-	// Manipulate DOM to display flash message
-	$(".flash-message").html($(output)).css("margin-left", positionWidthCss);
-	$(".alert").delay(2000).fadeOut("slow", function () {
-		$(this).remove();
-	});
-}
 
 $(document).ready(function () {
 
@@ -51,56 +27,38 @@ $(document).ready(function () {
 			}
 		},
 		"fnDrawCallback": function () {
+			Media.Event.edit();
+			Media.Event.delete();
 
-			//bind the click handler script to the newly created elements held in the table
-			$('.btn-delete').bind('click', function (e) {
-
-				var row, title, message, url;
-
-				url = $(this).attr('href');
-				// compute media title
-				row = $(this).closest("tr").get(0);
-				title = $('.media-title', row).html();
-				message = Media.Language["confirm-message"].format(title);
-
-				bootbox.confirm(message, function (result) {
-					if (result) {
-
-						// Send Ajax request to delete media
-						$.get(url,
-							function (data) {
-								var message;
-								data = $.parseJSON(data);
-								if (data.status) {
-
-									Media.Table.fnDeleteRow(Media.Table.fnGetPosition(row));
-
-									message = Media.Language["message-deleted"].format(data.media.uid);
-									if (data.media.title) {
-										message = Media.Language["message-deleted"].format(data.media.title);
-									}
-									Media.flashMessage('<strong>' + message + '</strong>', 'success');
-								}
-							}
-						);
-					}
-				});
-				e.preventDefault();
-			});
+			// Handle flash message
+			Media.FlashMessage.display();
 		}
 	});
 
-	// Confirmation window
-
 });
 
+/** @namespace Media */
 
-String.prototype.format = String.prototype.f = function () {
-	var s = this,
-		i = arguments.length;
+/**
+ * Formatting a string
+ *
+ * @param {string} key
+ */
+Media.format = function (key) {
+	var s = Media.Language.get(key),
+		i = arguments.length + 1;
 
 	while (i--) {
-		s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
+		s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i + 1]);
 	}
 	return s;
-};
+}
+
+/**
+ * Shorthand method for translating a string
+ *
+ * @param {string} key
+ */
+Media.translate = function (key) {
+	return Media.Language.get(key);
+}

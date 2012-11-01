@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Controller\MediaController.
+ * Test case for class \TYPO3\CMS\Media\Domain\Repository\MediaRepository.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class MediaControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
+class MediaRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Controller\MediaController
+	 * @var \TYPO3\CMS\Media\Domain\Repository\MediaRepository
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Controller\MediaController();
+		$this->fixture = new \TYPO3\CMS\Media\Domain\Repository\MediaRepository();
 	}
 
 	public function tearDown() {
@@ -48,7 +48,10 @@ class MediaControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
 	 * @test
+	 * @expectedException \TYPO3\CMS\Media\Exception\MissingUidException
 	 */
-	public function listRowActionTest() {}
+	public function updateMediaReturnsException() {
+		$this->fixture->updateMedia(array());
+	}
 }
 ?>

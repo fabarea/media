@@ -54,19 +54,21 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	/**
 	 * Update a Media Management media with new information
 	 *
-	 * @param string $uid of the Media media
-	 * @param array $metaData file information
+	 * @throws \TYPO3\CMS\Media\Exception\MissingUidException
+	 * @param array $media file information
+	 * @return void
 	 */
-	public function updateMedia($uid, $metaData = array()) {
+	public function updateMedia($media = array()) {
 
-		//TODO finish work
-		$data = array();
-		$data['tx_media'][$uid] = array(
-			'title' => 'New title'
-		);
+		if (empty($media['uid'])) {
+			throw new \TYPO3\CMS\Media\Exception\MissingUidException('Missing Uid', 1351605542);
+		}
 
-		$tce = t3lib_div::makeInstance('t3lib_TCEmain');
-		$tce->start($data, array());
+		$_data['sys_file'][$media['uid']] = $media;
+
+		/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
+		$tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+		$tce->start($_data, array());
 		$tce->process_datamap();
 	}
 
@@ -130,19 +132,22 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 		$itemList = array();
 		$whereClause = 'deleted = 0';
 		if ($this->type != '') {
-			$whereClause .= ' AND ' . $this->typeField . ' = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->type, $this->table);
+			$whereClause .= ' AND ' . $this->typeField . ' = ' . $this->databaseHandle->fullQuoteStr($this->type, $this->table);
 		}
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $this->table, $whereClause);
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		/** @var $res DB pointer */
+		$res = $this->databaseHandle->exec_SELECTquery('*', $this->table, $whereClause);
+		while ($row = $this->databaseHandle->sql_fetch_assoc($res)) {
 			$itemList[] = $this->mediaFactory->createObject($row);
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+		$this->databaseHandle->sql_free_result($res);
 		return $itemList;
 	}
 
 	/**
 	 * Finds an object matching the given identifier.
 	 *
+	 * @throws \RuntimeException
+	 * @throws \InvalidArgumentException
 	 * @param int $uid The identifier of the object to find
 	 * @return \TYPO3\CMS\Media\Domain\Model\Media The matching object
 	 */
@@ -150,7 +155,7 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 		if (!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)) {
 			throw new \InvalidArgumentException('uid has to be integer.', 1350652667);
 		}
-		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', $this->table, 'uid=' . intval($uid) . ' AND deleted=0');
+		$row = $this->databaseHandle->exec_SELECTgetSingleRow('*', $this->table, 'uid=' . intval($uid) . ' AND deleted=0');
 		if (count($row) === 0) {
 			throw new \RuntimeException('Could not find row with uid "' . $uid . '" in table $this->table.', 1350652700);
 		}

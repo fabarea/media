@@ -91,10 +91,10 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	/**
 	 * action show
 	 *
-	 * @param $media
+	 * @param int $media
 	 * @return void
 	 */
-	public function showAction(tx_media $media) {
+	public function showAction($media) {
 		$this->view->assign('media', $media);
 	}
 
@@ -105,7 +105,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @dontvalidate $newMedia
 	 * @return void
 	 */
-	public function newAction(tx_media $newMedia = NULL) {
+	public function newAction($newMedia = NULL) {
 		$this->view->assign('newMedia', $newMedia);
 	}
 
@@ -115,45 +115,41 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @param $newMedia
 	 * @return void
 	 */
-	public function createAction(tx_media $newMedia) {
+	public function createAction($newMedia) {
 		$this->mediaRepository->add($newMedia);
 		$this->flashMessageContainer->add('Your new Media was created.');
 		$this->redirect('list');
 	}
 
 	/**
-	 * action edit
+	 * Action edit
 	 *
-	 * @param $media
+	 * @param int $media
 	 * @return void
 	 */
-	public function editAction(tx_media $media) {
-		$this->view->assign('media', $media);
+	public function editAction($media) {
+		$mediaObject = $this->mediaRepository->findByUid($media);
+		$this->view->assign('media', $mediaObject);
 	}
 
 	/**
 	 * action update
 	 *
-	 * @param $media
+	 * @param array $media
 	 * @return void
+	 * @dontvalidate $media
 	 */
-	public function updateAction(tx_media $media) {
-		$this->mediaRepository->update($media);
-		$this->flashMessageContainer->add('Your Media was updated.');
-		$this->redirect('list');
-	}
-
-	/**
-	 * action delete
-	 *
-	 * @param int $media
-	 * @return void
-	 */
-	public function deleteAction($media) {
-		$mediaObject = $this->mediaRepository->findByUid($media);
-		$this->mediaRepository->remove($mediaObject);
-		$this->flashMessageContainer->add('Your Media was removed.');
-		$this->redirect('list');
+	public function updateAction(array $media) {
+		$this->mediaRepository->updateMedia($media);
+		$mediaObject = $this->mediaRepository->findByUid($media['uid']);
+		$result['status'] = TRUE;
+		$result['action'] = 'update';
+		$result['media'] = array(
+			'uid' => $mediaObject->getUid(),
+			'title' => $mediaObject->getTitle(),
+		);
+		$this->view->assign('result', $result);
+		$this->request->setFormat('json');
 	}
 
 	/**
@@ -163,7 +159,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @param int $media
 	 * @return string
 	 */
-	public function deleteRowAction($media) {
+	public function deleteAction($media) {
 		$mediaObject = $this->mediaRepository->findByUid($media);
 		$result['status'] = $this->mediaRepository->remove($mediaObject);
 		$result['action'] = 'delete';

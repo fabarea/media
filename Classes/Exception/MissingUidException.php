@@ -1,16 +1,16 @@
 <?php
+namespace TYPO3\CMS\Media\Exception;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Media development team <typo3-project-media@lists.typo3.org>
- *
+ *  (c) 2012
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
+ *  the Free Software Foundation; either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -25,30 +25,14 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Controller\MediaController.
+ * Handle Exception for missing uid
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class MediaControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
+class MissingUidException extends \Exception {
 
-	/**
-	 * @var \TYPO3\CMS\Media\Controller\MediaController
-	 */
-	protected $fixture;
-
-	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Controller\MediaController();
-	}
-
-	public function tearDown() {
-		unset($this->fixture);
-	}
-
-	/**
-	 * @test
-	 */
-	public function listRowActionTest() {}
 }
+
 ?>

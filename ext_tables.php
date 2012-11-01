@@ -26,7 +26,7 @@ if (TYPO3_MODE == 'BE') {
 		'tx_media_m1', // Submodule key
 		'bottom', // Position
 		array(
-			'Media' => 'list,listRow,new,create,delete,deleteRow,edit,update',
+			'Media' => 'list,listRow,new,create,delete,edit,update',
 		),
 		array(
 			'access' => 'user,group',

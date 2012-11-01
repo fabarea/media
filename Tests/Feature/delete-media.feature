@@ -1,8 +1,7 @@
-Feature: log-in form
-  In order to access restricted content
+Feature: media deletion
   As a User
-  I want to make sure that the log-in behaves correctly
-  BEWARE: don't use production data!!
+  I want to delete media
+  BEWARE: don't use this feature test with production data!!
 
   @javascript @delete @media
   Scenario: delete a media
@@ -12,6 +11,6 @@ Feature: log-in form
     When I follow "Delete"
     And I wait "1" seconds
     And I follow "OK"
-    And I wait "1" seconds
-    Then I should see "has been deleted"
+    And I wait "3" seconds
+    Then I should see "Media has been deleted"
 

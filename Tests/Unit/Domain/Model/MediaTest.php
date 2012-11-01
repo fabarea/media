@@ -3,8 +3,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Media development team
- <typo3-project-media@lists.typo3.org>, TYPO3 Association
+ *  (c) 2012 Media development team <typo3-project-media@lists.typo3.org>
  *
  *  All rights reserved
  *
@@ -26,37 +25,25 @@
  ***************************************************************/
 
 /**
- * Test case for class tx_media.
+ * Test case for class \TYPO3\CMS\Media\Domain\Model\Media.
  *
- * @version $Id$
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
- * @subpackage tx_media
- *
- * @author Media development team
- <typo3-project-media@lists.typo3.org>
+ * @subpackage media
  */
-class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class MediaTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
-	 * @var tx_media
+	 * @var \TYPO3\CMS\Media\Domain\Model\Media
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_media();
+		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Media();
 	}
 
 	public function tearDown() {
 		unset($this->fixture);
 	}
-
-
-	/**
-	 * @test
-	 */
-	public function getTitleReturnsInitialValueForString() { }
 
 	/**
 	 * @test
@@ -107,28 +94,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function getMimeTypeReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
-	public function setMimeTypeForStringSetsMimeType() {
-		$this->fixture->setMimeType('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getMimeType()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getExtensionReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
 	public function setExtensionForStringSetsExtension() {
 		$this->fixture->setExtension('Conceived at T3CON10');
 
@@ -137,31 +102,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getExtension()
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getCreationDateReturnsInitialValueForDateTime() { }
-
-	/**
-	 * @test
-	 */
-	public function setCreationDateForDateTimeSetsCreationDate() { }
-
-	/**
-	 * @test
-	 */
-	public function getModificationDateReturnsInitialValueForDateTime() { }
-
-	/**
-	 * @test
-	 */
-	public function setModificationDateForDateTimeSetsModificationDate() { }
-
-	/**
-	 * @test
-	 */
-	public function getCreatorToolReturnsInitialValueForString() { }
 
 	/**
 	 * @test
@@ -178,11 +118,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function getDownloadNameReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
 	public function setDownloadNameForStringSetsDownloadName() {
 		$this->fixture->setDownloadName('Conceived at T3CON10');
 
@@ -191,11 +126,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getDownloadName()
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getIdentifierReturnsInitialValueForString() { }
 
 	/**
 	 * @test
@@ -212,11 +142,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function getCreatorReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
 	public function setCreatorForStringSetsCreator() {
 		$this->fixture->setCreator('Conceived at T3CON10');
 
@@ -225,11 +150,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getCreator()
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getSourceReturnsInitialValueForString() { }
 
 	/**
 	 * @test
@@ -246,11 +166,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function getAlternativeReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
 	public function setAlternativeForStringSetsAlternative() {
 		$this->fixture->setAlternative('Conceived at T3CON10');
 
@@ -263,11 +178,6 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function getCaptionReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
 	public function setCaptionForStringSetsCaption() {
 		$this->fixture->setCaption('Conceived at T3CON10');
 
@@ -276,52 +186,5 @@ class tx_mediaTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 			$this->fixture->getCaption()
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getFalReturnsInitialValueForTx_Media_Domain_Model_File() {
-		$this->assertEquals(
-			NULL,
-			$this->fixture->getFal()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setFalForTx_Media_Domain_Model_FileSetsFal() {
-		$dummyObject = new Tx_Media_Domain_Model_File();
-		$this->fixture->setFal($dummyObject);
-
-		$this->assertSame(
-			$dummyObject,
-			$this->fixture->getFal()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getMediaTypeReturnsInitialValueFortx_mediaType() {
-		$this->assertEquals(
-			NULL,
-			$this->fixture->getMediaType()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setMediaTypeFortx_mediaTypeSetsMediaType() {
-		$dummyObject = new tx_mediaType();
-		$this->fixture->setMediaType($dummyObject);
-
-		$this->assertSame(
-			$dummyObject,
-			$this->fixture->getMediaType()
-		);
-	}
-
 }
 ?>

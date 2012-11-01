@@ -194,7 +194,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @param array $mediaData
 	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
 	 */
-	public function __construct(array $mediaData, $storage = NULL) {
+	public function __construct(array $mediaData = array(), $storage = NULL) {
 		parent::__construct($mediaData, $storage);
 
 		$this->title = !empty($mediaData['title'])? $mediaData['title'] : '';
