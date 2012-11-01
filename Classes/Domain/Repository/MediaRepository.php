@@ -161,7 +161,15 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 		/** @var $res DB pointer */
 		$res = $this->databaseHandle->exec_SELECTquery('*', $this->table, $whereClause);
 		while ($row = $this->databaseHandle->sql_fetch_assoc($res)) {
-			$itemList[] = $this->mediaFactory->createObject($row);
+			try {
+				$itemList[] = $this->mediaFactory->createObject($row);
+			} catch(\Exception $exception) {
+				\TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
+					$exception->getMessage(),
+					'media',
+					\TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_WARNING
+				);
+			}
 		}
 		$this->databaseHandle->sql_free_result($res);
 		return $itemList;
