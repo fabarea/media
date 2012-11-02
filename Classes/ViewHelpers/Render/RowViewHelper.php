@@ -41,9 +41,7 @@ class RowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media) {
 
-		/** @var $grid  \TYPO3\CMS\Media\Service\Grid */
-		$grid = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Grid');
-		$columns = $grid->getColumns();
+		$columns = \TYPO3\CMS\Media\Service\Grid::getInstance()->getColumns();
 
 		// Initialize returned array
 		$output = array();

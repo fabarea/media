@@ -55,11 +55,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return string The rendered view
 	 */
 	public function listAction() {
-
-		/** @var $grid  \TYPO3\CMS\Media\Service\Grid */
-		$grid = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Grid');
-
-		$this->view->assign('columns', $grid->getListOfColumns());
+		$this->view->assign('columns', \TYPO3\CMS\Media\Service\Grid::getInstance()->getListOfColumns());
 		$this->view->assign('medias', $this->mediaRepository->findAll());
 	}
 

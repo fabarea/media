@@ -31,7 +31,7 @@ namespace TYPO3\CMS\Media\Service;
  * @package TYPO3
  * @subpackage media
  */
-class Grid {
+class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
@@ -39,11 +39,21 @@ class Grid {
 	protected $tca;
 
 	/**
+	 * Returns a class instance
+	 *
+	 * @return \TYPO3\CMS\Media\Service\Grid
+	 */
+	static public function getInstance() {
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Grid');
+	}
+
+	/**
 	 * __construct
 	 *
 	 * @return \TYPO3\CMS\Media\Service\Grid
 	 */
 	public function __construct() {
+
 		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 		$this->tca = $GLOBALS['TCA']['sys_file']['grid'];
 
