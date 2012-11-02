@@ -11,7 +11,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, content_creation_date, content_modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
@@ -21,7 +21,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.geolocation, location_country, location_region, location_city, latitude, longitude,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, content_creation_date, content_modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
@@ -30,7 +30,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, duration, unit,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo content_creation_date, content_modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
@@ -39,7 +39,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, content_creation_date, content_modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
@@ -48,7 +48,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, sys_language_uid, l10n_diffsource, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo content_creation_date, content_modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 );
@@ -128,11 +128,11 @@ $columns = array(
 			'eval' => 'trim'
 		),
 	),
-	'creation_date' => array(
+	'content_creation_date' => array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.creation_date',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.content_creation_date',
 		'config' => array(
 			'type' => 'input',
 			'size' => 12,
@@ -142,11 +142,11 @@ $columns = array(
 			'default' => time()
 		),
 	),
-	'modification_date' => array(
+	'content_modification_date' => array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.modification_date',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.content_modification_date',
 		'config' => array(
 			'type' => 'input',
 			'size' => 12,
@@ -442,6 +442,51 @@ $columns = array(
 	),
 );
 
+// Grid configuration
+$TCA['sys_file']['grid'] = array(
+	'sorting' => array(
+		'tstamp' => 'DESC',
+		'title' => 'ASC',
+		'renderers' => array(),
+	),
+	'filter' => array(
+
+	),
+	'columns' => array(
+		array(
+			'internal_type' => TRUE,
+			'field' => '_number',
+			'sortable' => FALSE
+		),
+		array(
+			'field' => 'title',
+			'wrap' => '<span class="media-title">|</span>',
+		),
+		array(
+			'field' => 'tstamp',
+			'visible' => FALSE,
+			'format' => 'date',
+		),
+		array(
+			'field' => 'keywords',
+		),
+		array(
+			'internal_type' => TRUE,
+			'field' => '_buttons',
+			'sortable' => FALSE
+		),
+//		'check' => array(),
+//		'preview' => array(),
+//		'categories' => array(),
+//		'status' => array(),
+//		'file_name' => array(),
+//		'language' => array(),
+//		'author' => array(),
+//		'permission' => array(),
+//		'content_creation_date' => array(),
+//		'content_modification_date' => array(),
+	)
+);
 \TYPO3\CMS\Core\Extension\ExtensionManager::addTCAcolumns('sys_file', $columns, 1);
 \TYPO3\CMS\Core\Extension\ExtensionManager::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
 ?>

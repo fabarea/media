@@ -6,11 +6,13 @@ $(document).ready(function () {
 	// Attach closing action
 	$('.btn-close').click(function(e) {
 		Media.Panel.showList();
+		e.preventDefault();
 	});
 
 	// Attach
 	$('.btn-save').click(function (e) {
 		$('#form-media').submit();
+		e.preventDefault();
 	});
 
 	// Attach
@@ -32,14 +34,21 @@ $(document).ready(function () {
 			aoData.push({ "name": "tx_media_user_mediatxmediam1[controller]", "value": "Media" });
 			aoData.push({ "name": "tx_media_user_mediatxmediam1[format]", "value": "json" });
 		},
-		"oTableTools": {
-			"sRowSelect": "multi",
-			"fnRowSelected": function (node) {
-				console.log(node.id);
-				console.log(node);
-			}
-		},
+		"aoColumns": Media._columns,
+		"aLengthMenu": [
+			[10, 25, 50, 100, -1],
+			[10, 25, 50, 100, "All"]
+		],
+//		@todo can be removed if table tools utility get dropped - under investigation
+//		"oTableTools": {
+//			"sRowSelect": "multi",
+//			"fnRowSelected": function (node) {
+//				console.log(node.id);
+//				console.log(node);
+//			}
+//		},
 		"fnDrawCallback": function () {
+			// Attach event to DOM elements
 			Media.Event.edit();
 			Media.Event.delete();
 

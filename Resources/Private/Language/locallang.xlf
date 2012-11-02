@@ -16,10 +16,10 @@
 			<trans-unit id="tx_media.keywords">
 				<source>Keywords</source>
 			</trans-unit>
-			<trans-unit id="tx_media.creation_date">
+			<trans-unit id="tx_media.content_creation_date">
 				<source>Content creation date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.modification_date">
+			<trans-unit id="tx_media.content_modification_date">
 				<source>Content modification date</source>
 			</trans-unit>
 			<trans-unit id="tx_media.creator_tool">
@@ -103,6 +103,9 @@
 			<trans-unit id="tx_media.language">
 				<source>Language</source>
 			</trans-unit>
+			<trans-unit id="tx_media.tstamp">
+				<source>Updated</source>
+			</trans-unit>
 			<trans-unit id="message-deleted">
 				<source>Media has been deleted "{0}"</source>
 			</trans-unit>
@@ -132,6 +135,9 @@
 			</trans-unit>
 			<trans-unit id="delete">
 				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="tx_media._number">
+				<source>#</source>
 			</trans-unit>
 		</body>
 	</file>
