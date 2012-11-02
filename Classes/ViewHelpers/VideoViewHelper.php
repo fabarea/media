@@ -74,11 +74,11 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		}
 
 		/** @var Tx_Media_Service_Variants $variantsService */
-		$variantsService = t3lib_div::makeInstance('Tx_Media_Service_Variants');
+		$variantsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Service_Variants');
 		$video = $variantsService->findOriginal($video);
 
 		/** @var tslib_cObj $contentObject */
-		$contentObject = t3lib_div::makeInstance('tslib_cObj');
+		$contentObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 		$contentObject->start($video->toArray());
 		$configuration = $this->typoScriptSetup['tt_content.']['media.']['20.']['mimeConf.']['swfobject.'];
 
@@ -112,7 +112,7 @@ class Tx_Media_ViewHelpers_VideoViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		if (($thumbnailFile = $variantsService->getThumbnailForFile($video)) !== NULL) {
 			$configuration['attributes.']['poster'] = $thumbnailFile->getPublicUrl();
 		} elseif ($previewImage !== '') {
-			$configuration['attributes.']['poster'] = t3lib_div::getFileAbsFileName($previewImage);
+			$configuration['attributes.']['poster'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($previewImage);
 		}
 		return $contentObject->SWFOBJECT($configuration);
 	}

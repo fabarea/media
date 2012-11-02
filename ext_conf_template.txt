@@ -11,6 +11,6 @@ mime_type_allowed = image/*,application/pdf
 debug = 0
 
 TSConstantEditor.basic {
-  description = <span style="background:red; padding:1px 2px; color:#fff; font-weight:bold;">1</span> Just setting this option is not enough. Debugging is done to the devlog, so you also need some extension that hooks into t3lib_div::devLog(), like devlog.
+  description = <span style="background:red; padding:1px 2px; color:#fff; font-weight:bold;">1</span> Just setting this option is not enough. Debugging is done to the devlog, so you also need some extension that hooks into \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(), like devlog.
   1=debug
 }

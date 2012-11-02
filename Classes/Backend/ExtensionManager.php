@@ -61,14 +61,14 @@ class Tx_Media_Backend_ExtensionManager {
 		}
 
 			// Merge with Data that comes from the User
-		$postData = t3lib_div::_POST();
+		$postData = \TYPO3\CMS\Core\Utility\GeneralUtility::_POST();
 		if (!empty($postData['data'])) {
 			$this->configuration = array_merge($this->configuration, $postData['data']);
 		}
 
 		/** @var $mount t3lib_file_Domain_Model_Mount */
 		if ($this->configuration['storage'] > 0) {
-			$this->mountRepository = t3lib_div::makeInstance('TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository');
+			$this->mountRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository');
 			$this->mount = $this->mountRepository->findByUid($this->configuration['storage']);
 		}
 	}

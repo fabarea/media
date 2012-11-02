@@ -76,13 +76,13 @@ class Tx_Media_Service_Thumbnail {
 					// If thumbnail does not exist, we generate it
 				if (!file_exists($thumbnailPath) || $this->force) {
 					$parameters = '-sample ' . $this->size . ' ' . $this->wrapFileName($input) . '[0] ' . $this->wrapFileName($thumbnailPath);
-					$cmd = t3lib_div::imageMagickCommand('convert', $parameters);
+					$cmd = \TYPO3\CMS\Core\Utility\GeneralUtility::imageMagickCommand('convert', $parameters);
 					t3lib_utility_Command::exec($cmd);
 					if (!file_exists($thumbnailPath)) {
 						// @todo throw error
 						//$this->errorGif('No thumb','generated!', basename($input));
 					} else {
-						t3lib_div::fixPermissions($thumbnailPath);
+						\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($thumbnailPath);
 					}
 				}
 			}
@@ -93,7 +93,7 @@ class Tx_Media_Service_Thumbnail {
 		}
 
 		/** @var $uploader t3lib_file_Service_UploaderService */
-		$uploader = t3lib_div::makeInstance('t3lib_file_Service_UploaderService');
+		$uploader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Service_UploaderService');
 		$thumbnailFile = $uploader->addUploadedFile($thumbnailPath, $mount, '/', $thumbnailName, TRUE);
 
 		return $thumbnailFile;
@@ -130,7 +130,7 @@ class Tx_Media_Service_Thumbnail {
 		$thumbnailPossible = FALSE;
 
 		// font rendering is buggy so it's deactivated here   # if ($type === 'ttf' ||
-		if (t3lib_div::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], $file->getExtension())) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], $file->getExtension())) {
 			$thumbnailPossible = TRUE;
 		}
 		return $thumbnailPossible;

@@ -65,10 +65,8 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @param array $order
 	 * @return \TYPO3\CMS\Media\QueryElement\Order
 	 */
-	protected function createOrderObject(array $order = NULL) {
-		$orderObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Order');
-		$orderObject->addOrdering('tstamp', \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
-		$orderObject->addOrdering('title', \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING);
+	protected function createOrderObject($order = array()) {
+		$orderObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Order', $order);
 		return $orderObject;
 	}
 

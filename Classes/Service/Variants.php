@@ -40,7 +40,7 @@ class Tx_Media_Service_Variants {
 	protected $fileRepository = NULL;
 
 	public function __construct() {
-		$this->fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
+		$this->fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_FileRepository');
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Tx_Media_Service_Variants {
 		if ($restrictToFileExtensions !== NULL) {
 			$filteredFiles = array();
 			foreach ($files AS $file) {
-				if (t3lib_div::inList($restrictToFileExtensions, $file->getExtension())) {
+				if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($restrictToFileExtensions, $file->getExtension())) {
 					$filteredFiles[] = $file;
 				}
 			}
