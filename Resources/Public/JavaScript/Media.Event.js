@@ -10,6 +10,58 @@
 Media.Event = {
 
 	/**
+	 * Fetch the form and handle its action
+	 *
+	 * @private
+	 * @param {string} url
+	 * @param {string} key
+	 * @return void
+	 */
+	getForm: function (url, key) {
+		// Send Ajax request to delete media
+		$.get(url,
+			function (data) {
+
+				// @bug in jQuery? find() does not find anything if element searched is just after tag body. Notice also it removes the tag found
+				//var content = $(data).find('form').html();
+
+				// @bug filter() only find the first element after tag body...
+				var content = $(data).filter('#form-media')
+				$('#container-bottom').html(content);
+
+				// bind submit handler to form
+				$('#form-media').on('submit', function (e) {
+					e.preventDefault(); // prevent native submit
+					$(this).ajaxSubmit({
+						beforeSubmit: function () {
+							$('#form-media').css('opacity', 0.5);
+						},
+						success: function (data) {
+							// Reload data table
+							Media.Panel.showList();
+							Media.FlashMessage.add(data, key, 'success');
+						}
+					})
+				});
+			}
+		);
+	},
+
+	/**
+	 * Bind add button
+	 *
+	 * @return void
+	 */
+	add: function () {
+		$('.btn-new').click(function (e) {
+			e.preventDefault();
+
+			Media.Panel.showForm();
+			Media.Event.getForm($(this).attr('href'), 'message-created');
+		});
+	},
+
+	/**
 	 * Bind edit buttons in list view
 	 *
 	 * @return void
@@ -21,33 +73,8 @@ Media.Event = {
 			e.preventDefault();
 
 			Media.Panel.showForm();
+			Media.Event.getForm($(this).attr('href'), 'message-updated');
 
-			// Send Ajax request to delete media
-			$.get($(this).attr('href'),
-				function (data) {
-					// @bug in jQuery? find() does not find anything if element searched is just after tag body. Notice also it removes the tag found
-					//var content = $(data).find('form').html();
-
-					// @bug filter() only find the first element after tag body...
-					var content = $(data).filter('#form-media')
-					$('#container-bottom').html(content);
-
-					// bind submit handler to form
-					$('#form-media').on('submit', function (e) {
-						e.preventDefault(); // prevent native submit
-						$(this).ajaxSubmit({
-							beforeSubmit: function () {
-								$('#form-media').css('opacity', 0.5);
-							},
-							success: function (data) {
-								// Reload data table
-								Media.Panel.showList();
-								Media.FlashMessage.add(data, "message-updated", 'success');
-							}
-						})
-					});
-				}
-			);
 		});
 	},
 

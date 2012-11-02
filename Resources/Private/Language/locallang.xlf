@@ -112,6 +112,9 @@
 			<trans-unit id="message-updated">
 				<source>Media updated with success "{0}"</source>
 			</trans-unit>
+			<trans-unit id="message-created">
+				<source>Media created with success "{0}"</source>
+			</trans-unit>
 			<trans-unit id="message-error">
 				<source>Transaction did not succeed</source>
 			</trans-unit>
@@ -124,7 +127,12 @@
 			<trans-unit id="new">
 				<source>New Media</source>
 			</trans-unit>
-
+			<trans-unit id="edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="delete">
+				<source>Delete</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

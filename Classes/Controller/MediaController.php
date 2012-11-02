@@ -99,26 +99,44 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
-	 * action new
+	 * Action new: return a form for creating a new media
 	 *
-	 * @param $newMedia
-	 * @dontvalidate $newMedia
+	 * @param array $media
 	 * @return void
+	 * @dontvalidate $media
 	 */
-	public function newAction($newMedia = NULL) {
-		$this->view->assign('newMedia', $newMedia);
+	public function newAction($media = NULL) {
+		$this->view->assign('media', $media);
 	}
 
 	/**
-	 * action create
+	 * Action create: store a new media in the repository
 	 *
-	 * @param $newMedia
+	 * @param array $media
 	 * @return void
+	 * @dontvalidate $media
 	 */
-	public function createAction($newMedia) {
-		$this->mediaRepository->add($newMedia);
-		$this->flashMessageContainer->add('Your new Media was created.');
-		$this->redirect('list');
+	public function createAction(array $media = array()) {
+		// @todo check add method when achieving the upload feature
+		//$this->mediaRepository->add($media);
+
+		// Prepare output
+		$result['status'] = FALSE;
+		$result['action'] = 'create';
+		$result['media'] = array('uid' => '','title' => '',);
+
+		$mediaUid = $this->mediaRepository->addMedia($media);
+
+		if ($mediaUid > 0) {
+			$mediaObject = $this->mediaRepository->findByUid($mediaUid);
+			$result['status'] = TRUE;
+			$result['media'] = array(
+				'uid' => $mediaObject->getUid(),
+				'title' => $mediaObject->getTitle(),
+			);
+		}
+		$this->view->assign('result', $result);
+		$this->request->setFormat('json');
 	}
 
 	/**

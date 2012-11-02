@@ -34,16 +34,23 @@
 class MediaRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
+	 * @var Tx_Phpunit_Framework
+	 */
+	private $testingFramework;
+
+	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\MediaRepository
 	 */
 	protected $fixture;
 
 	public function setUp() {
+		$this->testingFramework = new Tx_Phpunit_Framework('sys_file');
 		$this->fixture = new \TYPO3\CMS\Media\Domain\Repository\MediaRepository();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		$this->testingFramework->cleanUp();
+		unset($this->fixture, $this->testingFramework);
 	}
 
 	/**

@@ -14,7 +14,7 @@ Media.Panel = {
 	 *
 	 * @return void
 	 */
-	showForm: function() {
+	showForm: function () {
 
 		// Store the loading message
 		if (typeof Media.icons.loading == 'undefined') {
@@ -28,7 +28,7 @@ Media.Panel = {
 	 *
 	 * @return void
 	 */
-	showList: function() {
+	showList: function () {
 
 		// Add loading message for the next time the frame is displayed
 		$('#container-bottom').html(Media.icons.loading);
@@ -43,7 +43,7 @@ Media.Panel = {
 	 * @private
 	 * @return void
 	 */
-	togglePanel: function() {
+	togglePanel: function () {
 		// Expand / Collapse widgets
 		$(['container-top', 'container-bottom', 'navbar-media-default', 'navbar-media-save']).each(function (index, value) {
 			$('#' + value).toggle();

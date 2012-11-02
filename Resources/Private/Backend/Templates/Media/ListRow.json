@@ -47,9 +47,9 @@
 		</m:format.json>,
 		<m:format.json>
 			<f:link.action  action="edit" arguments="{media : media.uid}"
-							class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}">Edit</f:link.action>
+							class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="edit" /></f:link.action>
 			<f:link.action  action="delete" arguments="{media : media.uid, format: 'json'}"
-							class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}">Delete</f:link.action>
+							class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="delete" /></f:link.action>
 		</m:format.json>
 	]<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
 </f:for>

@@ -13,6 +13,8 @@ $(document).ready(function () {
 		$('#form-media').submit();
 	});
 
+	// Attach
+	Media.Event.add();
 
 	/**
 	 * Table initialisation

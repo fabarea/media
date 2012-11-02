@@ -64,12 +64,36 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 			throw new \TYPO3\CMS\Media\Exception\MissingUidException('Missing Uid', 1351605542);
 		}
 
-		$_data['sys_file'][$media['uid']] = $media;
+		$data['sys_file'][$media['uid']] = $media;
 
 		/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
 		$tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-		$tce->start($_data, array());
+		//$tce->stripslashes_values = 0; @todo useful setting?
+		$tce->start($data, array());
 		$tce->process_datamap();
+	}
+
+	/**
+	 * Add a new media in the repository
+	 *
+	 * @param array $media file information
+	 * @return int
+	 */
+	public function addMedia($media = array()) {
+
+		if (empty($media['pid'])) {
+			$media['pid'] = '0';
+		}
+		$key = 'NEW' . rand(100000, 999999);
+		$data['sys_file'][$key] = $media;
+
+		/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
+		$tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+		#$tce->stripslashes_values = 0; #@todo useful setting?
+		$tce->start($data, array());
+		$tce->process_datamap();
+
+		return empty($tce->substNEWwithIDs[$key]) ? 0 : $tce->substNEWwithIDs[$key];
 	}
 
 	/**
