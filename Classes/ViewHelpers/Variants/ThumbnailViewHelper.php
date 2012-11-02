@@ -46,7 +46,7 @@ class Tx_Media_ViewHelpers_Variants_ThumbnailViewHelper extends Tx_Fluid_Core_Vi
 			$file = $file->getOriginalFile();
 		}
 		/** @var Tx_Media_Service_Variants $variantsService */
-		$variantsService = t3lib_div::makeInstance('Tx_Media_Service_Variants');
+		$variantsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Service_Variants');
 		return $variantsService->getThumbnailForFile($file);
 	}
 

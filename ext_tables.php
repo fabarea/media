@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-require_once(t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Media.php');
+require_once(\TYPO3\CMS\Core\Extension\ExtensionManager::extPath($_EXTKEY) . 'Configuration/TCA/Media.php');
 
 
 $TCA["sys_file_variants"] = array(
@@ -14,13 +14,13 @@ $TCA["sys_file_variants"] = array(
 		'label_alt' => 'original',
 		'label_alt_force' => 'true',
 		'rootLevel' => -1,
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/FileVariants.php',
-		//'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Advertise.png',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Extension\ExtensionManager::extPath($_EXTKEY) . 'Configuration/TCA/FileVariants.php',
+		//'iconfile' => \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Advertise.png',
 	),
 );
 
 if (TYPO3_MODE == 'BE') {
-	Tx_Extbase_Utility_Extension::registerModule(
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 		$_EXTKEY,
 		'user', // Make media module a submodule of 'user'
 		'tx_media_m1', // Submodule key

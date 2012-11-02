@@ -71,16 +71,16 @@ class TCEforms {
 
 			// Load preferences
 		$this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
-		$this->thumbnailIconPath = t3lib_extMgm::extPath('media') . 'Resources/Public/Icons/MimeTypes/';
-		$this->thumbnailIconPublicPath = t3lib_extMgm::extRelPath('media') . 'Resources/Public/Icons/MimeTypes/';
+		$this->thumbnailIconPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath('media') . 'Resources/Public/Icons/MimeTypes/';
+		$this->thumbnailIconPublicPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/MimeTypes/';
 
 			// Instantiate necessary stuff for FAL
-		$this->storageRepository = t3lib_div::makeInstance('t3lib_file_Repository_StorageRepository');
+		$this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_StorageRepository');
 		$this->storage = $this->storageRepository->findByUid($this->configuration['storage']);
 
 			// Load StyleSheet in the Page Renderer
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$cssFile = t3lib_extMgm::extRelPath('media') . 'Resources/Public/StyleSheets/Media.css';
+		$cssFile = \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/StyleSheets/Media.css';
 		$this->pageRenderer->addCssFile($cssFile);
 	}
 
@@ -96,10 +96,10 @@ class TCEforms {
 
 			// Instantiate Template Engine
 		/* @var $view Tx_Fluid_View_StandaloneView */
-		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
 
 			// Get template file and pass it to the view
-		$filePath = t3lib_extMgm::extPath('media') . 'Resources/Private/TCEforms/File.html';
+		$filePath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath('media') . 'Resources/Private/TCEforms/File.html';
 		$view->setTemplatePathAndFilename($filePath);
 
 		$record = $PA['row'];
@@ -108,7 +108,7 @@ class TCEforms {
 
 				// TRUE means this is an image and a thumbnail can be generated
 			if ($record['media_type'] == 2) {
-				$fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
+				$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_FileRepository');
 				$file = $fileRepository->findByUid($record['file']);
 
 					// Fetches the absolute file path
@@ -156,10 +156,10 @@ class TCEforms {
 
 			// Instantiate Template Engine
 		/* @var $view Tx_Fluid_View_StandaloneView */
-		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
 
 			// Get template file and pass it to the view
-		$filePath = t3lib_extMgm::extPath('media') . 'Resources/Private/TCEforms/Thumbnail.html';
+		$filePath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath('media') . 'Resources/Private/TCEforms/Thumbnail.html';
 		$view->setTemplatePathAndFilename($filePath);
 
 		$record = $PA['row'];

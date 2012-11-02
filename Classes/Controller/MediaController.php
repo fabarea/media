@@ -70,6 +70,11 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 */
 	public function listRowAction(array $filter = NULL, array $order = NULL) {
 
+		var_dump(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('iSortCol_0'));
+		exit();
+//		\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSortDir_0');
+
+
 		// Initialize some objects related to the query
 		$filterObject = $this->createFilterObject($filter);
 		$orderObject = $this->createOrderObject($order);

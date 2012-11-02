@@ -3,7 +3,7 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-t3lib_div::loadTCA('sys_file');
+\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 
 $newFileTypes = array(
 	'Text' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
@@ -55,7 +55,7 @@ $newFileTypes = array(
 $newFileTypes['5'] = $newFileTypes['Video'];
 $newFileTypes['1'] = $newFileTypes['Audio'];
 $newFileTypes['1'] = $newFileTypes['Image'];
-$TCA['sys_file']['types'] = t3lib_div::array_merge_recursive_overrule((array)$TCA['sys_file']['types'], $newFileTypes);
+$TCA['sys_file']['types'] = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule((array)$TCA['sys_file']['types'], $newFileTypes);
 unset($newFileTypes);
 
 $TCA['sys_file']['palettes'] = array(
@@ -84,17 +84,17 @@ $columns = array(
 				array(
 					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.1',
 					1,
-					t3lib_extMgm::extRelPath('media') . 'Resources/Public/Icons/status_1.png'
+					\TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/status_1.png'
 				),
 				array(
 					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.2',
 					2,
-					t3lib_extMgm::extRelPath('media') . 'Resources/Public/Icons/status_2.png'
+					\TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/status_2.png'
 				),
 				array(
 					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.3',
 					3,
-					t3lib_extMgm::extRelPath('media') . 'Resources/Public/Icons/status_3.png'
+					\TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/status_3.png'
 				),
 			),
 		),
@@ -442,6 +442,6 @@ $columns = array(
 	),
 );
 
-t3lib_extMgm::addTCAcolumns('sys_file', $columns, 1);
-t3lib_extMgm::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
+\TYPO3\CMS\Core\Extension\ExtensionManager::addTCAcolumns('sys_file', $columns, 1);
+\TYPO3\CMS\Core\Extension\ExtensionManager::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
 ?>

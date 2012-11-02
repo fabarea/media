@@ -83,8 +83,8 @@ class Tx_Media_Hooks_TCE {
 		}
 
 		// Instantiate necessary stuff for FAL
-		$this->factory = t3lib_div::makeInstance('t3lib_file_Factory');
-		$this->mountRepository = t3lib_div::makeInstance('t3lib_file_Domain_Repository_MountRepository');
+		$this->factory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Factory');
+		$this->mountRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Domain_Repository_MountRepository');
 		$this->mount = $this->mountRepository->findByUid($this->configuration['storage']);
 		$this->driver = $this->mount->getDriver();
 	}
@@ -116,7 +116,7 @@ class Tx_Media_Hooks_TCE {
 			// @todo check if file must be overwritten
 			// @todo fetch this config from TypoScript or so...
 			if (TRUE && $status == 'update') {
-				$mediaRepository = t3lib_div::makeInstance('Tx_Media_Domain_Repository_MediaRepository');
+				$mediaRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Domain_Repository_MediaRepository');
 				$media = $mediaRepository->findByUid($id);
 
 				$previousFileName = $this->getPreviousFileName($media);
@@ -138,7 +138,7 @@ class Tx_Media_Hooks_TCE {
 			$fieldArray['sha1'] = $file->getSha1();
 
 				// Init service
-			$metadataService = t3lib_div::makeInstance('Tx_Media_Service_Metadata');
+			$metadataService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Service_Metadata');
 
 				// $metaDataArray is an array with indexes equivalent to fields in Tx_Media_Model_Media
 			$metadata = $metadataService->getMetadata($file);
@@ -159,7 +159,7 @@ class Tx_Media_Hooks_TCE {
 
 			// create a thumbnail for the first time
 			if ($status == 'new') {
-				$thumbnailService = t3lib_div::makeInstance('Tx_Media_Service_Thumbnail');
+				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Service_Thumbnail');
 				$thumbnailFile = $thumbnailService->createThumbnailFile($file, $this->mount);
 				$thumbnailFile = $this->index($thumbnailFile);
 				$fieldArray['thumbnail'] = $thumbnailFile->getUid();
@@ -173,7 +173,7 @@ class Tx_Media_Hooks_TCE {
 	 * @return array
 	 */
 	protected function getColumns($tableName) {
-		t3lib_div::loadTCA($tableName);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($tableName);
 		return $GLOBALS['TCA'][$tableName]['columns'];
 	}
 
@@ -202,7 +202,7 @@ class Tx_Media_Hooks_TCE {
 	 */
 	protected function getPreviousFileName($media) {
 		if ($media->getFile()) {
-			$fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
+			$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_FileRepository');
 			$file = $fileRepository->findByUid($media->getFile()->getUid());
 		}
 
@@ -216,7 +216,7 @@ class Tx_Media_Hooks_TCE {
 	 */
 	protected function index($file) {
 		/** @var t3lib_file_Repository_FileRepository $fileRepository */
-		$fileRepository = t3lib_div::makeInstance('t3lib_file_Repository_FileRepository');
+		$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_FileRepository');
 		return $fileRepository->addToIndex($file);
 	}
 
@@ -227,7 +227,7 @@ class Tx_Media_Hooks_TCE {
 	 */
 	protected function upload($uploadedFile) {
 		/** @var $uploader t3lib_file_Service_UploaderService */
-		$uploader = t3lib_div::makeInstance('t3lib_file_Service_UploaderService');
+		$uploader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Service_UploaderService');
 
 		if (isset($uploadedFile['name'])) {
 			if ($uploadedFile['error']['file']) {

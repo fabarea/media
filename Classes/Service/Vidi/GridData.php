@@ -3,9 +3,9 @@
 class Tx_Media_Service_Vidi_GridData extends Tx_Vidi_Service_GridData_FileDataProcessingService {
 
 	public function getRecords($parameters) {
-		$mountRepository = t3lib_div::makeInstance('t3lib_file_Repository_StorageRepository');
+		$mountRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_StorageRepository');
 		/** @var t3lib_file_Factory $factory */
-		$factory = t3lib_div::makeInstance('t3lib_file_Factory');
+		$factory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Factory');
 
 		$data = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',

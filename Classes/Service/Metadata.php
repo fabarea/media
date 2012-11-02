@@ -54,10 +54,10 @@ class Tx_Media_Service_Metadata {
 
 		$metaData = array();
 		$inputFilePath = $file->getForLocalProcessing($writable = FALSE);
-		$inputFilePath = t3lib_div::getFileAbsFileName($inputFilePath);
+		$inputFilePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($inputFilePath);
 
 		// find a service for that file type
-		$serviceObject = t3lib_div::makeInstanceService('metaExtract', $file->getMimeType());
+		$serviceObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceService('metaExtract', $file->getMimeType());
 
 		if (is_object($serviceObject)) {
 			$serviceObject->setInputFile($inputFilePath, $mimeType);
@@ -65,7 +65,7 @@ class Tx_Media_Service_Metadata {
 
 			// @todo check the performance as process() is called twice
 			if ($serviceObject->process() > 0 && (is_array($svmeta = $serviceObject->getOutput()))) {
-				$metaData = t3lib_div::array_merge_recursive_overrule($metaData, $svmeta);
+				$metaData = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule($metaData, $svmeta);
 			}
 			$serviceObject->process();
 			$serviceObject->__destruct();
