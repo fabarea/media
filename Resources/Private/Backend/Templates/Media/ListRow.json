@@ -5,53 +5,26 @@
 	"iNumberOfRecords": "{medias->f:count()}",
 	"aaData": [
 <f:for each="{medias}" as="media" key="number" iteration="mediaIteration">
-	[
-		<m:format.json>
-			<m:table.rowNumber value="{number}" offset="{pager.offset}" />
-		</m:format.json>,
-		<m:format.json>
-			todo: check for uid: {media.uid}
-		</m:format.json>,
-		<m:format.json>
-			todo: preview
-		</m:format.json>,
-		<m:format.json>
-			<span class="media-title">{media.title}</span>
-		</m:format.json>,
-		<m:format.json>
-			{media.description}
-		</m:format.json>,
-		<m:format.json>
-			todo: category
-		</m:format.json>,
-		<m:format.json>
-{media.status}
-		</m:format.json>,
-		<m:format.json>
-{media.file_name}
-		</m:format.json>,
-		<m:format.json>
-{media.language}
-		</m:format.json>,
-		<m:format.json>
-{media.author}
-		</m:format.json>,
-		<m:format.json>
-		todo: permission
-		</m:format.json>,
-		<m:format.json>
-			{media.creationDate -> f:format.date()}
-		</m:format.json>,
-		<m:format.json>
-			{media.modificationDate -> f:format.date()}
-		</m:format.json>,
-		<m:format.json>
-			<f:link.action  action="edit" arguments="{media : media.uid}"
-							class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="edit" /></f:link.action>
-			<f:link.action  action="delete" arguments="{media : media.uid, format: 'json'}"
-							class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="delete" /></f:link.action>
-		</m:format.json>
-	]<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
+{
+
+<m:render.row media="{media}" />,
+
+"_buttons":
+
+<m:format.json>
+<f:link.action  action="edit" arguments="{media : media.uid}"
+class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="edit" /></f:link.action>
+<f:link.action  action="delete" arguments="{media : media.uid, format: 'json'}"
+class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="delete" /></f:link.action>
+</m:format.json>,
+
+"_number":
+<m:format.json>
+<m:table.rowNumber value="{number}" offset="{pager.offset}" />
+</m:format.json>
+
+}<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
 </f:for>
-]}
+	]
+}
 {namespace m=TYPO3\CMS\Media\ViewHelpers}

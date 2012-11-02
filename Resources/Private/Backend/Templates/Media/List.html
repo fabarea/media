@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
-      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:m="http://typo3.org/ns/media/ViewHelpers">
 
 <f:layout name="Default"/>
 
@@ -37,7 +38,6 @@
 
 	<div class="centered flash-message container"></div>
 
-
 	<div id="container-main">
 		<div id="container-top">
 
@@ -46,42 +46,11 @@
 			       id="example">
 				<thead>
 				<tr>
-					<th>#</th>
+					<f:for each="{columns}" as="column">
 					<th>
-						todo: check
+						<m:render.columnHeader column="{column}"/>
 					</th>
-					<th>&nbsp;</th>
-					<th>
-						<f:translate key="tx_media.title"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.description"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.category"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.status"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.file_name"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.language"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.author"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.permission"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.creation_date"/>
-					</th>
-					<th>
-						<f:translate key="tx_media.modification_date"/>
-					</th>
-					<th>&nbsp;</th>
+					</f:for>
 				</tr>
 				</thead>
 
@@ -98,3 +67,4 @@
 
 </f:section>
 </html>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

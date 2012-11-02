@@ -42,12 +42,16 @@
 			"message-error": '<f:translate key="message-error" />'
 		};
 
+
+		// Temporary variables
+		Media._columns = [];
+		{m:render.columns()}
+
 		// Declare object
 		Media.icons = {}
 	</script>
 </head>
 <body>
-
 
 <f:render section="main"/>
 
@@ -55,9 +59,10 @@
 
 <m:js name="JQuery/jquery.js"/>
 <m:js name="JQuery/jquery.dataTables.min.js"/>
-<m:js name="JQuery/TableTools/TableTools.min.js"/>
-<m:js name="JQuery/jquery.dataTables.bootstrap.js"/>
 <m:js name="JQuery/jquery.form.js"/>
+<m:js name="JQuery/TableTools/TableTools.min.js"/>
+<!--<m:js name="JQuery/ColVis/ColVis.min.js"/>-->
+<m:js name="JQuery/jquery.dataTables.bootstrap.js"/>
 <m:js name="Bootstrap/bootstrap.min.js"/>
 <m:js name="Bootstrap/bootbox.min.js"/>
 <m:js name="Media.js"/>

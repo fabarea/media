@@ -55,6 +55,11 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return string The rendered view
 	 */
 	public function listAction() {
+
+		/** @var $grid  \TYPO3\CMS\Media\Service\Grid */
+		$grid = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Grid');
+
+		$this->view->assign('columns', $grid->getListOfColumns());
 		$this->view->assign('medias', $this->mediaRepository->findAll());
 	}
 
@@ -62,22 +67,13 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * List Row action for this controller. Output a json list of medias
 	 * This action is expected to have a parameter format = json
 	 *
-	 * @var array $filter The filter
-	 * @var array $order The order
 	 * @return string The rendered view
-	 * @dontvalidate $filter
-	 * @dontvalidate $order
 	 */
-	public function listRowAction(array $filter = NULL, array $order = NULL) {
-
-		var_dump(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('iSortCol_0'));
-		exit();
-//		\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSortDir_0');
-
+	public function listRowAction() {
 
 		// Initialize some objects related to the query
-		$filterObject = $this->createFilterObject($filter);
-		$orderObject = $this->createOrderObject($order);
+		$filterObject = $this->createFilterObject();
+		$orderObject = $this->createOrderObject();
 		$pagerObject = $this->createPagerObject();
 
 		// Query the repository
