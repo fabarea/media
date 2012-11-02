@@ -60,14 +60,27 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	}
 
 	/**
-	 * Instantiate an order object and returns its
+	 * Instantiate an order object and returns it
 	 *
-	 * @param array $order
 	 * @return \TYPO3\CMS\Media\QueryElement\Order
 	 */
-	protected function createOrderObject($order = array()) {
-		$orderObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Order', $order);
-		return $orderObject;
+	protected function createOrderObject() {
+
+		$order = array();
+
+		$columnId = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('iSortCol_0');
+		if ($columnId > 0) {
+			/** @var $grid  \TYPO3\CMS\Media\Service\Grid */
+			$grid = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Grid');
+			$columns = $grid->getColumns();
+			$field = $columns[$columnId]['field'];
+
+			$direction = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSortDir_0');
+			$order = array(
+				$field => $direction
+			);
+		}
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Order', $order);
 	}
 
 	/**

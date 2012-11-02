@@ -73,10 +73,24 @@ class Query  {
 	}
 
 	/**
+	 * @return \TYPO3\CMS\Media\QueryElement\Filter
+	 */
+	public function getFilter() {
+		return $this->filter;
+	}
+
+	/**
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order
 	 */
-	public function setOrder($order) {
+	public function setOrder(\TYPO3\CMS\Media\QueryElement\Order $order) {
 		$this->order = $order;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\QueryElement\Order
+	 */
+	public function getOrder() {
+		return $this->order;
 	}
 
 	/**
@@ -94,6 +108,21 @@ class Query  {
 	}
 
 	/**
+	 * Render the SQL order by
+	 *
+	 * @return string
+	 */
+	public function renderOrder() {
+		$orderings = $this->order->getOrderings();
+		$orderBy = $delimiter = '';
+		foreach ($orderings as $order => $direction) {
+			$orderBy .= sprintf('%s %s %s', $delimiter, $order , $direction);
+			$delimiter = ',';
+		}
+		return trim($orderBy);
+	}
+
+	/**
 	 * Build the query and return its result
 	 *
 	 * @return string the query
@@ -102,7 +131,7 @@ class Query  {
 		$clause = 'deleted = 0';
 
 		$groupBy = '';
-		$orderBy = '';
+		$orderBy = $this->renderOrder();
 		$limit = $this->offset . ',' . $this->limit;
 
 		return $this->databaseHandle->SELECTquery('*', 'sys_file', $clause, $groupBy, $orderBy, $limit);

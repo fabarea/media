@@ -42,9 +42,20 @@ class Order  {
 
 	/**
 	 * Constructs a new Order
-
+	 *
+	 * @para array $orders
 	 */
-	public function __construct() {
+	public function __construct($orders = array()) {
+		foreach ($orders as $order => $direction) {
+			$this->addOrdering($order, $direction);
+		}
+
+		if (empty($this->orderings)) {
+			$this->orderings = array(
+				'tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+				'title' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+			);
+		}
 	}
 
 	/**
