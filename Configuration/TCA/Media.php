@@ -487,6 +487,10 @@ $TCA['sys_file']['grid'] = array(
 //		'content_modification_date' => array(),
 	)
 );
+
+// Searchable field
+$TCA['sys_file']['ctrl']['searchFields'] = 'uid,title,keywords';
+
 \TYPO3\CMS\Core\Extension\ExtensionManager::addTCAcolumns('sys_file', $columns, 1);
 \TYPO3\CMS\Core\Extension\ExtensionManager::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
 ?>

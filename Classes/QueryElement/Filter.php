@@ -56,9 +56,11 @@ class Filter  {
 
 	/**
 	 * Constructs a new Filter
-
+	 *
+	 * @param array $filters
 	 */
-	public function __construct() {
+	public function __construct($filters = array()) {
+		$this->searchTerm = empty($filters['searchTerm']) ? '' : $filters['searchTerm'];
 	}
 
 	/**

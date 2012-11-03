@@ -34,6 +34,11 @@ namespace TYPO3\CMS\Media\QueryElement;
 class Query  {
 
 	/**
+	 * @var string
+	 */
+	protected $tableName = 'sys_file';
+
+	/**
 	 * @var \TYPO3\CMS\Media\QueryElement\Filter
 	 */
 	protected $filter;
@@ -123,18 +128,41 @@ class Query  {
 	}
 
 	/**
+	 * Render the SQL order by
+	 *
+	 * @return string
+	 */
+	public function renderClause() {
+		$clause = 'deleted = 0';
+
+		$searchTerm = $this->databaseHandle->escapeStrForLike($this->filter->getSearchTerm(), $this->tableName);
+
+		$searchParts = array();
+		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
+		$fields = explode(',', $GLOBALS['TCA'][$this->tableName]['ctrl']['searchFields']);
+
+		foreach ($fields as $field) {
+			$fieldType = $GLOBALS['TCA'][$this->tableName]['columns'][$field]['config']['type'];
+			if ($fieldType == 'text' OR $fieldType == 'input') {
+				$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
+			}
+			// @todo add support for uid FIELD_IN_SET
+		}
+
+		return sprintf('%s AND (%s)', $clause, implode(' OR ', $searchParts));
+	}
+
+	/**
 	 * Build the query and return its result
 	 *
 	 * @return string the query
 	 */
 	public function get() {
-		$clause = 'deleted = 0';
-
-		$groupBy = '';
+		$clause = $this->renderClause();
 		$orderBy = $this->renderOrder();
 		$limit = $this->offset . ',' . $this->limit;
 
-		return $this->databaseHandle->SELECTquery('*', 'sys_file', $clause, $groupBy, $orderBy, $limit);
+		return $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
 	}
 }
 

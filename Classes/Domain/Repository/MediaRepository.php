@@ -143,8 +143,7 @@ class MediaRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 		$query = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Query');
 		$query->setFilter($filter);
 
-		$clause = 'deleted = 0';
-		return $this->databaseHandle->exec_SELECTcountRows('uid', 'sys_file', $clause);
+		return $this->databaseHandle->exec_SELECTcountRows('uid', 'sys_file', $query->renderClause());
 	}
 
 	/**

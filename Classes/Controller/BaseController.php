@@ -38,25 +38,22 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	protected $frontendUser;
 
 	/**
-	 * Instantiate a filter object and feed the object with conditions
+	 * Instantiate a filter object with possible value depending of the request
 	 *
-	 * @param array $filter
 	 * @return \TYPO3\CMS\Media\QueryElement\Filter
 	 */
-	protected function createFilterObject(array $filter = NULL) {
-		$filterObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Filter');
-		if (!empty($filter)) {
-			if ($filter['location'] != '') {
-				$filterObject->setLocation($filter['location']);
-			}
-			if ($filter['country']) {
-				$filterObject->setCountry($filter['country']);
-			}
-			if ($filter['category']) {
-				$filterObject->setCategory($filter['category']);
-			}
+	protected function createFilterObject() {
+
+		$filters = array();
+
+		// Retrieve a possible search term
+		$searchTerm = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSearch');
+
+		if (strlen($searchTerm) > 0) {
+			$filters['searchTerm'] = $searchTerm;
 		}
-		return $filterObject;
+
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Filter', $filters);
 	}
 
 	/**
@@ -65,9 +62,9 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @return \TYPO3\CMS\Media\QueryElement\Order
 	 */
 	protected function createOrderObject() {
-
 		$order = array();
 
+		// Retrieve a possible id of the column from the request
 		$columnId = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('iSortCol_0');
 		if ($columnId > 0) {
 			$columns = \TYPO3\CMS\Media\Service\Grid::getInstance()->getColumns();
