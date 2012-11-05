@@ -47,10 +47,10 @@ class JsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 		}
 
 		if (TYPO3_MODE === 'FE') {
-			$extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey);
+			$extPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath($extKey);
 			$extRelPath = substr($extPath, strlen(PATH_site));
 		} else {
-			$extRelPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey);
+			$extRelPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath($extKey);
 		}
 
 		return sprintf('<script src="%s%s%s"></script>', $extRelPath, $pathInsideExt, $name);
