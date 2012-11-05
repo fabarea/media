@@ -71,8 +71,8 @@ class TCEforms {
 
 			// Load preferences
 		$this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
-		$this->thumbnailIconPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath('media') . 'Resources/Public/Icons/MimeTypes/';
-		$this->thumbnailIconPublicPath = \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/MimeTypes/';
+		$this->thumbnailIconPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Public/Icons/MimeTypes/';
+		$this->thumbnailIconPublicPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/MimeTypes/';
 
 			// Instantiate necessary stuff for FAL
 		$this->storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_StorageRepository');
@@ -80,7 +80,7 @@ class TCEforms {
 
 			// Load StyleSheet in the Page Renderer
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$cssFile = \TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/StyleSheets/Media.css';
+		$cssFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/Media.css';
 		$this->pageRenderer->addCssFile($cssFile);
 	}
 
@@ -99,7 +99,7 @@ class TCEforms {
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
 
 			// Get template file and pass it to the view
-		$filePath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath('media') . 'Resources/Private/TCEforms/File.html';
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/TCEforms/File.html';
 		$view->setTemplatePathAndFilename($filePath);
 
 		$record = $PA['row'];
@@ -159,7 +159,7 @@ class TCEforms {
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
 
 			// Get template file and pass it to the view
-		$filePath = \TYPO3\CMS\Core\Extension\ExtensionManager::extPath('media') . 'Resources/Private/TCEforms/Thumbnail.html';
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/TCEforms/Thumbnail.html';
 		$view->setTemplatePathAndFilename($filePath);
 
 		$record = $PA['row'];

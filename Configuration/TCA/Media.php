@@ -84,17 +84,17 @@ $columns = array(
 				array(
 					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.1',
 					1,
-					\TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/status_1.png'
+					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/status_1.png'
 				),
 				array(
 					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.2',
 					2,
-					\TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/status_2.png'
+					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/status_2.png'
 				),
 				array(
 					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.3',
 					3,
-					\TYPO3\CMS\Core\Extension\ExtensionManager::extRelPath('media') . 'Resources/Public/Icons/status_3.png'
+					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/status_3.png'
 				),
 			),
 		),
@@ -491,6 +491,6 @@ $TCA['sys_file']['grid'] = array(
 // Searchable field
 $TCA['sys_file']['ctrl']['searchFields'] = 'uid,title,keywords';
 
-\TYPO3\CMS\Core\Extension\ExtensionManager::addTCAcolumns('sys_file', $columns, 1);
-\TYPO3\CMS\Core\Extension\ExtensionManager::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_file', $columns, 1);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
 ?>
