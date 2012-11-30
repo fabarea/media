@@ -28,81 +28,30 @@ namespace TYPO3\CMS\Media\Domain\Model;
  * Media representation in the file abstraction layer.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @author Lorenz Ulrich <lorenz.ulrich@visol.ch>
  * @package TYPO3
  * @subpackage media
  */
 class Media extends \TYPO3\CMS\Core\Resource\File {
 
 	/**
-	 * Title
+	 * Constructor for a Media object.
 	 *
-	 * @var string
-	 * @validate NotEmpty
+	 * @param array $mediaData
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
 	 */
-	protected $title;
+	public function __construct(array $mediaData = array(), $storage = NULL) {
+		parent::__construct($mediaData, $storage);
+	}
 
 	/**
-	 * Description
+	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
 	 *
-	 * @var string
+	 * @return void
 	 */
-	protected $description;
-
-	/**
-	 * Keywords
-	 *
-	 * @var string
-	 */
-	protected $keywords;
-
-	/**
-	 * File extension
-	 *
-	 * @var string
-	 */
-	protected $extension;
-
-	/**
-	 * File creation date
-	 *
-	 * @var DateTime
-	 */
-	protected $creationDate;
-
-	/**
-	 * File modification date
-	 *
-	 * @var DateTime
-	 */
-	protected $modificationDate;
-
-	/**
-	 * Creator tool
-	 *
-	 * @var string
-	 */
-	protected $creatorTool;
-
-	/**
-	 * Download name
-	 *
-	 * @var string
-	 */
-	protected $downloadName;
-
-	/**
-	 * Creator
-	 *
-	 * @var string
-	 */
-	protected $creator;
-
-	/**
-	 * Source
-	 *
-	 * @var string
-	 */
-	protected $source;
+	protected function initStorageObjects() {
+		// TODO categories, variants
+	}
 
 	/**
 	 * Alternative title
@@ -118,19 +67,84 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 */
 	protected $caption;
 
-	/**
-	 * Media type
-	 *
-	 * @var tx_mediaType
-	 */
-	protected $mediaType;
+	/* TODO categories */
 
 	/**
-	 * Status
+	 * Color Space
 	 *
 	 * @var string
 	 */
-	protected $status;
+	protected $colorSpace;
+
+	/**
+	 * Content creation date
+	 *
+	 * @var DateTime
+	 */
+	protected $contentCreationDate;
+
+	/**
+	 * Content modification date
+	 *
+	 * @var DateTime
+	 */
+	protected $contentModificationDate;
+
+	/**
+	 * Creator
+	 *
+	 * @var string
+	 */
+	protected $creator;
+
+	/**
+	 * Creator tool
+	 *
+	 * @var string
+	 */
+	protected $creatorTool;
+
+	/**
+	 * Description
+	 *
+	 * @var string
+	 */
+	protected $description;
+
+	/**
+	 * Download name
+	 *
+	 * @var string
+	 */
+	protected $downloadName;
+
+	/**
+	 * Duration
+	 *
+	 * @var string
+	 */
+	protected $duration;
+
+	/**
+	 * Height
+	 *
+	 * @var integer
+	 */
+	protected $height;
+
+	/**
+	 * Horizontal resolution
+	 *
+	 * @var integer
+	 */
+	protected $horizontalResolution;
+
+	/**
+	 * Keywords
+	 *
+	 * @var string
+	 */
+	protected $keywords;
 
 	/**
 	 * Language
@@ -140,34 +154,6 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	protected $language;
 
 	/**
-	 * Publisher
-	 *
-	 * @var string
-	 */
-	protected $publisher;
-
-	/**
-	 * LocationCountry
-	 *
-	 * @var string
-	 */
-	protected $locationCountry;
-
-	/**
-	 * LocationRegion
-	 *
-	 * @var string
-	 */
-	protected $locationRegion;
-
-	/**
-	 * LocationCity
-	 *
-	 * @var string
-	 */
-	protected $locationCity;
-
-	/**
 	 * Latitude
 	 *
 	 * @var float
@@ -175,11 +161,39 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	protected $latitude;
 
 	/**
-	 * Rank
+	 * Location City
 	 *
-	 * @var int
+	 * @var string
 	 */
-	protected $rank;
+	protected $locationCity;
+
+	/**
+	 * Location Country
+	 *
+	 * @var string
+	 */
+	protected $locationCountry;
+
+	/**
+	 * Location Region
+	 *
+	 * @var string
+	 */
+	protected $locationRegion;
+
+	/**
+	 * Longitude
+	 *
+	 * @var float
+	 */
+	protected $longitude;
+
+	/**
+	 * Mime Type
+	 *
+	 * @var string
+	 */
+	protected $mimeType;
 
 	/**
 	 * Note
@@ -189,236 +203,77 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	protected $note;
 
 	/**
-	 * Constructor for a Media object.
+	 * Pages
 	 *
-	 * @param array $mediaData
-	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @var string
 	 */
-	public function __construct(array $mediaData = array(), $storage = NULL) {
-		parent::__construct($mediaData, $storage);
-
-		$this->title = !empty($mediaData['title'])? $mediaData['title'] : '';
-		$this->description = !empty($mediaData['description'])? $mediaData['description'] : '';
-		$this->keywords = !empty($mediaData['keywords'])? $mediaData['keywords'] : '';
-		$this->extension = !empty($mediaData['extension'])? $mediaData['extension'] : '';
-		$this->creationDate = !empty($mediaData['creationDate'])? $mediaData['creationDate'] : '';
-		$this->modificationDate = !empty($mediaData['modificationDate'])? $mediaData['modificationDate'] : '';
-		$this->creatorTool = !empty($mediaData['creatorTool'])? $mediaData['creatorTool'] : '';
-		$this->downloadName = !empty($mediaData['downloadName'])? $mediaData['downloadName'] : '';
-		$this->creator = !empty($mediaData['creator'])? $mediaData['creator'] : '';
-		$this->source = !empty($mediaData['source'])? $mediaData['source'] : '';
-		$this->alternative = !empty($mediaData['alternative'])? $mediaData['alternative'] : '';
-		$this->caption = !empty($mediaData['caption'])? $mediaData['caption'] : '';
-		$this->mediaType = !empty($mediaData['mediaType'])? $mediaData['mediaType'] : '';
-		$this->status = !empty($mediaData['status'])? $mediaData['status'] : '';
-		$this->language = !empty($mediaData['language'])? $mediaData['language'] : '';
-		$this->publisher = !empty($mediaData['publisher'])? $mediaData['publisher'] : '';
-		$this->locationCountry = !empty($mediaData['locationCountry'])? $mediaData['locationCountry'] : '';
-		$this->locationRegion = !empty($mediaData['locationRegion'])? $mediaData['locationRegion'] : '';
-		$this->locationCity = !empty($mediaData['locationCity'])? $mediaData['locationCity'] : '';
-		$this->latitude = !empty($mediaData['latitude'])? $mediaData['latitude'] : '';
-		$this->rank = !empty($mediaData['rank'])? $mediaData['rank'] : '';
-		$this->note = !empty($mediaData['note'])? $mediaData['note'] : '';
-	}
+	protected $pages;
 
 	/**
-	 * Returns the title
+	 * Publisher
 	 *
-	 * @return string $title
+	 * @var string
 	 */
-	public function getTitle() {
-		return $this->title;
-	}
+	protected $publisher;
 
 	/**
-	 * Sets the title
+	 * Ranking
 	 *
-	 * @param string $title
-	 * @return void
+	 * @var int
 	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+	protected $ranking;
 
 	/**
-	 * Returns the description
+	 * Source
 	 *
-	 * @return string $description
+	 * @var string
 	 */
-	public function getDescription() {
-		return $this->description;
-	}
+	protected $source;
 
 	/**
-	 * Sets the description
+	 * Status
 	 *
-	 * @param string $description
-	 * @return void
+	 * @var string
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
-	}
+	protected $status;
 
 	/**
-	 * Returns the extension
+	 * Title
 	 *
-	 * @return string $extension
+	 * @var string
+	 * @validate NotEmpty
 	 */
-	public function getExtension() {
-		return $this->extension;
-	}
+	protected $title;
 
 	/**
-	 * Sets the extension
+	 * Type
 	 *
-	 * @param string $extension
-	 * @return void
+	 * @var string
 	 */
-	public function setExtension($extension) {
-		$this->extension = $extension;
-	}
+	protected $type;
 
 	/**
-	 * Returns the creator
+	 * Unit
 	 *
-	 * @return string $creator
+	 * @var string
 	 */
-	public function getCreator() {
-		return $this->creator;
-	}
+	protected $unit;
+
+	/* TODO variants */
 
 	/**
-	 * Sets the creator
+	 * Vertical resolution
 	 *
-	 * @param string $creator
-	 * @return void
+	 * @var integer
 	 */
-	public function setCreator($creator) {
-		$this->creator = $creator;
-	}
+	protected $verticalResolution;
 
 	/**
-	 * Returns the keywords
+	 * Width
 	 *
-	 * @return string $keywords
+	 * @var integer
 	 */
-	public function getKeywords() {
-		return $this->keywords;
-	}
-
-	/**
-	 * Sets the keywords
-	 *
-	 * @param string $keywords
-	 * @return void
-	 */
-	public function setKeywords($keywords) {
-		$this->keywords = $keywords;
-	}
-
-	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		// empty
-	}
-
-	/**
-	 * Returns the creationDate
-	 *
-	 * @return DateTime $creationDate
-	 */
-	public function getCreationDate() {
-		return $this->creationDate;
-	}
-
-	/**
-	 * Sets the creationDate
-	 *
-	 * @param DateTime $creationDate
-	 * @return void
-	 */
-	public function setCreationDate($creationDate) {
-		$this->creationDate = $creationDate;
-	}
-
-	/**
-	 * Returns the modificationDate
-	 *
-	 * @return DateTime $modificationDate
-	 */
-	public function getModificationDate() {
-		return $this->modificationDate;
-	}
-
-	/**
-	 * Sets the modificationDate
-	 *
-	 * @param DateTime $modificationDate
-	 * @return void
-	 */
-	public function setModificationDate($modificationDate) {
-		$this->modificationDate = $modificationDate;
-	}
-
-	/**
-	 * Returns the creatorTool
-	 *
-	 * @return string $creatorTool
-	 */
-	public function getCreatorTool() {
-		return $this->creatorTool;
-	}
-
-	/**
-	 * Sets the creatorTool
-	 *
-	 * @param string $creatorTool
-	 * @return void
-	 */
-	public function setCreatorTool($creatorTool) {
-		$this->creatorTool = $creatorTool;
-	}
-
-	/**
-	 * Returns the downloadName
-	 *
-	 * @return string $downloadName
-	 */
-	public function getDownloadName() {
-		return $this->downloadName;
-	}
-
-	/**
-	 * Sets the downloadName
-	 *
-	 * @param string $downloadName
-	 * @return void
-	 */
-	public function setDownloadName($downloadName) {
-		$this->downloadName = $downloadName;
-	}
-
-	/**
-	 * Returns the source
-	 *
-	 * @return string $source
-	 */
-	public function getSource() {
-		return $this->source;
-	}
-
-	/**
-	 * Sets the source
-	 *
-	 * @param string $source
-	 * @return void
-	 */
-	public function setSource($source) {
-		$this->source = $source;
-	}
+	protected $width;
 
 	/**
 	 * Returns the alternative
@@ -426,7 +281,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $alternative
 	 */
 	public function getAlternative() {
-		return $this->alternative;
+		return $this->getProperty('alternative');
 	}
 
 	/**
@@ -445,7 +300,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $caption
 	 */
 	public function getCaption() {
-		return $this->caption;
+		return $this->getProperty('caption');
 	}
 
 	/**
@@ -458,23 +313,215 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 		$this->caption = $caption;
 	}
 
+	/* TODO categories */
+
 	/**
-	 * Returns the status
+	 * Returns the color space
 	 *
-	 * @return string $status
+	 * @return string $colorSpace
 	 */
-	public function getStatus() {
-		return $this->status;
+	public function getColorSpace() {
+		return $this->getProperty('color_space');
 	}
 
 	/**
-	 * Sets the status
+	 * Sets the color space
 	 *
-	 * @param string $status
+	 * @param string $colorSpace
 	 * @return void
 	 */
-	public function setStatus($status) {
-		$this->status = $status;
+	public function setColorSpace($colorSpace) {
+		$this->colorSpace = $colorSpace;
+	}
+
+	/**
+	 * Returns the contentCreationDate
+	 *
+	 * @return DateTime $contentCreationDate
+	 */
+	public function getContentCreationDate() {
+		return $this->getProperty('content_creation_date');
+	}
+
+	/**
+	 * Sets the contentCreationDate
+	 *
+	 * @param DateTime $contentCreationDate
+	 * @return void
+	 */
+	public function setContentCreationDate($contentCreationDate) {
+		$this->contentCreationDate = $contentCreationDate;
+	}
+
+	/**
+	 * Returns the contentModificationDate
+	 *
+	 * @return DateTime $contentModificationDate
+	 */
+	public function getContentModificationDate() {
+		return $this->getProperty('content_modification_date');
+	}
+
+	/**
+	 * Sets the contentModificationDate
+	 *
+	 * @param DateTime $contentModificationDate
+	 * @return void
+	 */
+	public function setContentModificationDate($contentModificationDate) {
+		$this->contentModificationDate = $contentModificationDate;
+	}
+
+	/**
+	 * Returns the creator
+	 *
+	 * @return string $creator
+	 */
+	public function getCreator() {
+		return $this->getProperty('creator');
+	}
+
+	/**
+	 * Sets the creator
+	 *
+	 * @param string $creator
+	 * @return void
+	 */
+	public function setCreator($creator) {
+		$this->creator = $creator;
+	}
+
+	/**
+	 * Returns the creatorTool
+	 *
+	 * @return string $creatorTool
+	 */
+	public function getCreatorTool() {
+		return $this->getProperty('creator_tool');
+	}
+
+	/**
+	 * Sets the creatorTool
+	 *
+	 * @param string $creatorTool
+	 * @return void
+	 */
+	public function setCreatorTool($creatorTool) {
+		$this->creatorTool = $creatorTool;
+	}
+
+	/**
+	 * Returns the description
+	 *
+	 * @return string $description
+	 */
+	public function getDescription() {
+		return $this->getProperty('description');
+	}
+
+	/**
+	 * Sets the description
+	 *
+	 * @param string $description
+	 * @return void
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
+	}
+
+	/**
+	 * Returns the download name
+	 *
+	 * @return string $downloadName
+	 */
+	public function getDownloadName() {
+		return $this->getProperty('download_name');
+	}
+
+	/**
+	 * Sets the download name
+	 *
+	 * @param string $downloadName
+	 * @return void
+	 */
+	public function setDownloadName($downloadName) {
+		$this->downloadName = $downloadName;
+	}
+
+	/**
+	 * Returns the duration
+	 *
+	 * @return string $duration
+	 */
+	public function getDuration() {
+		return $this->getProperty('duration');
+	}
+
+	/**
+	 * Sets the duration
+	 *
+	 * @param string $duration
+	 * @return void
+	 */
+	public function setDuration($duration) {
+		$this->duration = $duration;
+	}
+
+	/**
+	 * Returns the height
+	 *
+	 * @return string $height
+	 */
+	public function getHeight() {
+		return $this->getProperty('height');
+	}
+
+	/**
+	 * Sets the height
+	 *
+	 * @param string $height
+	 * @return void
+	 */
+	public function setHeight($height) {
+		$this->height = $height;
+	}
+
+	/**
+	 * Returns the horizontal resolution
+	 *
+	 * @return string $horizontalResolution
+	 */
+	public function getHorizontalResolution() {
+		return $this->getProperty('horizontal_resolution');
+	}
+
+	/**
+	 * Sets the horizontal resolution
+	 *
+	 * @param string $horizontalResolution
+	 * @return void
+	 */
+	public function setHorizontalResolution($horizontalResolution) {
+		$this->horizontalResolution = $horizontalResolution;
+	}
+
+	/**
+	 * Returns the keywords
+	 *
+	 * @return string $keywords
+	 */
+	public function getKeywords() {
+		return $this->getProperty('keywords');
+	}
+
+	/**
+	 * Sets the keywords
+	 *
+	 * @param string $keywords
+	 * @return void
+	 */
+	public function setKeywords($keywords) {
+		$this->keywords = $keywords;
 	}
 
 	/**
@@ -483,7 +530,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $language
 	 */
 	public function getLanguage() {
-		return $this->language;
+		return $this->getProperty('language');
 	}
 
 	/**
@@ -497,22 +544,41 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * Returns the publisher
+	 * Returns the latitude
 	 *
-	 * @return string $publisher
+	 * @return string $latitude
 	 */
-	public function getPublisher() {
-		return $this->publisher;
+	public function getLatitude() {
+		return $this->getProperty('latitude');
 	}
 
 	/**
-	 * Sets the publisher
+	 * Sets the latitude
 	 *
-	 * @param string $publisher
+	 * @param string $latitude
 	 * @return void
 	 */
-	public function setPublisher($publisher) {
-		$this->publisher = $publisher;
+	public function setLatitude($latitude) {
+		$this->latitude = $latitude;
+	}
+
+	/**
+	 * Returns the locationCity
+	 *
+	 * @return string $locationCity
+	 */
+	public function getLocationCity() {
+		return $this->getProperty('location_city');
+	}
+
+	/**
+	 * Sets the locationCity
+	 *
+	 * @param string $locationCity
+	 * @return void
+	 */
+	public function setLocationCity($locationCity) {
+		$this->locationCity = $locationCity;
 	}
 
 	/**
@@ -521,7 +587,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $locationCountry
 	 */
 	public function getLocationCountry() {
-		return $this->locationCountry;
+		return $this->getProperty('location_country');
 	}
 
 	/**
@@ -540,7 +606,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $locationRegion
 	 */
 	public function getLocationRegion() {
-		return $this->locationRegion;
+		return $this->getProperty('location_region');
 	}
 
 	/**
@@ -554,60 +620,41 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * Returns the locationCity
+	 * Returns the longitude
 	 *
-	 * @return string $locationCity
+	 * @return string $longitude
 	 */
-	public function getLocationCity() {
-		return $this->locationCity;
+	public function getLongitude() {
+		return $this->getProperty('longitude');
 	}
 
 	/**
-	 * Sets the locationCity
+	 * Sets the longitude
 	 *
-	 * @param string $locationCity
+	 * @param string $longitude
 	 * @return void
 	 */
-	public function setLocationCity($locationCity) {
-		$this->locationCity = $locationCity;
+	public function setLongitude($longitude) {
+		$this->longitude = $longitude;
 	}
 
 	/**
-	 * Returns the latitude
+	 * Returns the MIME type
 	 *
-	 * @return string $latitude
+	 * @return string $mimeType
 	 */
-	public function getLatitude() {
-		return $this->latitude;
+	public function getMimeType() {
+		return $this->getProperty('mime_type');
 	}
 
 	/**
-	 * Sets the latitude
+	 * Sets the MIME type
 	 *
-	 * @param string $latitude
+	 * @param string $mimeType
 	 * @return void
 	 */
-	public function setLatitude($latitude) {
-		$this->latitude = $latitude;
-	}
-
-	/**
-	 * Returns the rank
-	 *
-	 * @return string $rank
-	 */
-	public function getRank() {
-		return $this->rank;
-	}
-
-	/**
-	 * Sets the rank
-	 *
-	 * @param string $rank
-	 * @return void
-	 */
-	public function setRank($rank) {
-		$this->rank = $rank;
+	public function setMimeType($mimeType) {
+		$this->mimeType = $mimeType;
 	}
 
 	/**
@@ -616,7 +663,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $note
 	 */
 	public function getNote() {
-		return $this->note;
+		return $this->getProperty('note');
 	}
 
 	/**
@@ -628,5 +675,198 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	public function setNote($note) {
 		$this->note = $note;
 	}
+
+	/**
+	 * Returns the pages
+	 *
+	 * @return string $pages
+	 */
+	public function getPages() {
+		return $this->getProperty('pages');
+	}
+
+	/**
+	 * Sets the pages
+	 *
+	 * @param string $pages
+	 * @return void
+	 */
+	public function setPages($pages) {
+		$this->pages = $pages;
+	}
+
+	/**
+	 * Returns the publisher
+	 *
+	 * @return string $publisher
+	 */
+	public function getPublisher() {
+		return $this->getProperty('publisher');
+	}
+
+	/**
+	 * Sets the publisher
+	 *
+	 * @param string $publisher
+	 * @return void
+	 */
+	public function setPublisher($publisher) {
+		$this->publisher = $publisher;
+	}
+
+	/**
+	 * Returns the ranking
+	 *
+	 * @return string $ranking
+	 */
+	public function getRanking() {
+		return $this->getProperty('ranking');
+	}
+
+	/**
+	 * Sets the ranking
+	 *
+	 * @param string $ranking
+	 * @return void
+	 */
+	public function setRanking($ranking) {
+		$this->ranking = $ranking;
+	}
+
+	/**
+	 * Returns the source
+	 *
+	 * @return string $source
+	 */
+	public function getSource() {
+		return $this->getProperty('source');
+	}
+
+	/**
+	 * Sets the source
+	 *
+	 * @param string $source
+	 * @return void
+	 */
+	public function setSource($source) {
+		$this->source = $source;
+	}
+
+	/**
+	 * Returns the status
+	 *
+	 * @return string $status
+	 */
+	public function getStatus() {
+		return $this->getProperty('status');
+	}
+
+	/**
+	 * Sets the status
+	 *
+	 * @param string $status
+	 * @return void
+	 */
+	public function setStatus($status) {
+		$this->status = $status;
+	}
+
+	/**
+	 * Returns the title
+	 *
+	 * @return string $title
+	 */
+	public function getTitle() {
+		return $this->getProperty('title');
+	}
+
+	/**
+	 * Sets the title
+	 *
+	 * @param string $title
+	 * @return void
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
+
+	/**
+	 * Returns the type
+	 *
+	 * @return string $type
+	 */
+	public function getType() {
+		return $this->getProperty('type');
+	}
+
+	/**
+	 * Sets the type
+	 *
+	 * @param string $type
+	 * @return void
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+	/**
+	 * Returns the unit
+	 *
+	 * @return string $unit
+	 */
+	public function getUnit() {
+		return $this->getProperty('unit');
+	}
+
+	/**
+	 * Sets the unit
+	 *
+	 * @param string $unit
+	 * @return void
+	 */
+	public function setUnit($unit) {
+		$this->unit = $unit;
+	}
+
+	/* TODO variants */
+
+	/**
+	 * Returns the vertical resolution
+	 *
+	 * @return string $verticalResolution
+	 */
+	public function getVerticalResolution() {
+		return $this->getProperty('vertical_resolution');
+	}
+
+	/**
+	 * Sets the vertical resolution
+	 *
+	 * @param string $verticalResolution
+	 * @return void
+	 */
+	public function setVerticalResolution($verticalResolution) {
+		$this->verticalResolution = $verticalResolution;
+	}
+
+	/**
+	 * Returns the width
+	 *
+	 * @return string $width
+	 */
+	public function getWidth() {
+		return $this->getProperty('width');
+	}
+
+	/**
+	 * Sets the width
+	 *
+	 * @param string $width
+	 * @return void
+	 */
+	public function setWidth($width) {
+		$this->width = $width;
+	}
+
 }
 ?>
