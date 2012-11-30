@@ -1,13 +1,16 @@
-# cat=basic/dev/1000; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderMessage];
+# cat=basic/dev/1; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderMessage];
 updateMessage=0
 
-# cat=basic/dev/1000; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderStorage]; label = Select Storage: Storage defines where files are going to be stored. Refer to Documentation of FAL for more details.
+# cat=basic/dev/2; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderStorage]; label = Select Storage: Storage defines where files are going to be stored. Refer to Documentation of FAL for more details.
 storage=1
 
-# cat=basic//1; type=string; label= Mime type allowed : List of mime type allowed to be uploaded. (@todo put this list in the installer?)
+# cat=basic//3; type=string; label= Mime type allowed : List of mime type allowed to be uploaded. (@todo put this list in the installer?)
 mime_type_allowed = image/*,application/pdf
 
-# cat=basic//1; type=boolean; label= Developer/Debug Functions: This activates special functions for development and debugging. This should stay deactivated for normal usage!
+# cat=basic//4; type=string; label= Comma-separated list of pages. If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data (e.g. Category).
+media_folders=
+
+# cat=basic//5; type=boolean; label= Developer/Debug Functions: This activates special functions for development and debugging. This should stay deactivated for normal usage!
 debug = 0
 
 TSConstantEditor.basic {

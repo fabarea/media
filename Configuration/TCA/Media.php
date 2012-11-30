@@ -5,8 +5,19 @@ if (!defined ('TYPO3_MODE')) {
 
 \TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 
+// get a comma-separated list of all Media folders
+$mediaFolderPidList = \TYPO3\CMS\Media\Utility\MediaFolder::getPidList();
+
 // add categorization to all media types
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', array('fieldList' => 'categories'));
+$options = array();
+$options['fieldList'] = 'categories';
+$options['fieldConfiguration']['foreign_table_where'] = ' AND sys_category.pid IN (' . $mediaFolderPidList . ') ORDER BY sys_category.title ASC';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
+// remove add wizard because if there are multiple Media folders we don't know which one is the right one
+unset($TCA['sys_file']['columns']['categories']['config']['wizards']['add']);
+// remove edit wizard because it's not working with the TCA tree
+// @TODO enable when fixed
+unset($TCA['sys_file']['columns']['categories']['config']['wizards']['edit']);
 
 $newFileTypes = array(
 	'Text' => array('showitem' => 'storage, name, type, mime_type, sha1, size, l10n_parent, title, description, alternative, caption, keywords,
