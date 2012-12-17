@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service;
+namespace TYPO3\CMS\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -41,16 +41,16 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance
 	 *
-	 * @return \TYPO3\CMS\Media\Service\Grid
+	 * @return \TYPO3\CMS\Media\Utility\Grid
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Grid');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\Grid');
 	}
 
 	/**
 	 * __construct
 	 *
-	 * @return \TYPO3\CMS\Media\Service\Grid
+	 * @return \TYPO3\CMS\Media\Utility\Grid
 	 */
 	public function __construct() {
 

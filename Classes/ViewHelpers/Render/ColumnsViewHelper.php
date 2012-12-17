@@ -42,7 +42,7 @@ class ColumnsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 
 		$output = '';
 
-		foreach(\TYPO3\CMS\Media\Service\Grid::getInstance()->getColumns() as $column) {
+		foreach(\TYPO3\CMS\Media\Utility\Grid::getInstance()->getColumns() as $column) {
 			$output .= sprintf('Media._columns.push({ "mData": "%s", "bSortable": %s, "bVisible": %s });' . chr(10),
 				$column['field'],
 				isset($column['sortable']) && !$column['sortable']? 'false' : 'true',

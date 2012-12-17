@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Service\Grid.
+ * Test case for class \TYPO3\CMS\Media\Utility\Tca.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class GridTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class TcaTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\Grid
+	 * @var \TYPO3\CMS\Media\Utility\Tca
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Service\Grid();
+		$this->fixture = new \TYPO3\CMS\Media\Utility\Tca();
 	}
 
 	public function tearDown() {
@@ -49,24 +49,20 @@ class GridTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getListOfColumnsReturnsNotEmpty() {
+	public function columnsIncludesATitleColumn() {
 		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
-		$result = $this->fixture->getListOfColumns();
-
-		$this->assertTrue(is_array($result));
-		$this->assertNotEmpty($result);
+		$actual = $this->fixture->getColumns();
+		$this->assertTrue(is_array($actual));
+		$this->assertArrayHasKey('title', $actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getColumnsReturnsNotEmpty() {
+	public function fieldTypeReturnsInputForTitle() {
 		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
-		$result = $this->fixture->getColumns();
-
-		$this->assertTrue(is_array($result));
-		$this->assertNotEmpty($result);
+		$actual = $this->fixture->getFieldType('title');
+		$this->assertEquals('input', $actual);
 	}
-
 }
 ?>
