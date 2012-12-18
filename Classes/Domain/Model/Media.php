@@ -39,6 +39,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 *
 	 * @param array $mediaData
 	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @return \TYPO3\CMS\Media\Domain\Model\Media
 	 */
 	public function __construct(array $mediaData = array(), $storage = NULL) {
 		parent::__construct($mediaData, $storage);
@@ -79,14 +80,14 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Content creation date
 	 *
-	 * @var DateTime
+	 * @var \DateTime
 	 */
 	protected $contentCreationDate;
 
 	/**
 	 * Content modification date
 	 *
-	 * @var DateTime
+	 * @var \DateTime
 	 */
 	protected $contentModificationDate;
 
@@ -337,7 +338,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Returns the contentCreationDate
 	 *
-	 * @return DateTime $contentCreationDate
+	 * @return \DateTime $contentCreationDate
 	 */
 	public function getContentCreationDate() {
 		return $this->getProperty('content_creation_date');
@@ -346,7 +347,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Sets the contentCreationDate
 	 *
-	 * @param DateTime $contentCreationDate
+	 * @param \DateTime $contentCreationDate
 	 * @return void
 	 */
 	public function setContentCreationDate($contentCreationDate) {
@@ -356,7 +357,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Returns the contentModificationDate
 	 *
-	 * @return DateTime $contentModificationDate
+	 * @return \DateTime $contentModificationDate
 	 */
 	public function getContentModificationDate() {
 		return $this->getProperty('content_modification_date');
@@ -365,7 +366,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Sets the contentModificationDate
 	 *
-	 * @param DateTime $contentModificationDate
+	 * @param \DateTime $contentModificationDate
 	 * @return void
 	 */
 	public function setContentModificationDate($contentModificationDate) {
