@@ -39,6 +39,7 @@ class GridTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	protected $fixture;
 
 	public function setUp() {
+		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 		$this->fixture = new \TYPO3\CMS\Media\Utility\Grid();
 	}
 
@@ -50,22 +51,92 @@ class GridTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function getListOfColumnsReturnsNotEmpty() {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
-		$result = $this->fixture->getListOfColumns();
+		$actual = $this->fixture->getListOfColumns();
 
-		$this->assertTrue(is_array($result));
-		$this->assertNotEmpty($result);
+		$this->assertTrue(is_array($actual));
+		$this->assertNotEmpty($actual);
+		$this->assertTrue(in_array('title', $actual));
 	}
 
 	/**
 	 * @test
 	 */
 	public function getColumnsReturnsNotEmpty() {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
-		$result = $this->fixture->getColumns();
+		$actual = $this->fixture->getColumns();
+		$this->assertTrue(is_array($actual));
+		$this->assertNotEmpty($actual);
+	}
 
-		$this->assertTrue(is_array($result));
-		$this->assertNotEmpty($result);
+	/**
+	 * @test
+	 */
+	public function getConfigurationForColumnTitle() {
+		$actual = $this->fixture->getColumn('title');
+		$this->assertTrue(is_array($actual));
+		$this->assertTrue(count($actual) > 0);
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnTitleIsNotInternal() {
+		$this->assertFalse($this->fixture->isInternal('title'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnNumberIsInternal() {
+		$this->assertTrue($this->fixture->isInternal('_number'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function labelOfColumnTitleShouldBeTitleByDefault() {
+		$this->assertEquals('Title', $this->fixture->getLabel('title'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function labelOfColumnTstampShouldReturnsValueUpdated() {
+		$this->assertEquals('Updated', $this->fixture->getLabel('tstamp'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function labelOfColumnFooShouldBeEmpty() {
+		$this->assertEmpty($this->fixture->getLabel(uniqid('foo_')));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnTitleShouldBeSortableByDefault() {
+		$this->assertTrue($this->fixture->isSortable('title'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnNumberShouldBeNotSortableByDefault() {
+		$this->assertFalse($this->fixture->isSortable('_buttons'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnTitleShouldBeVisibleByDefault() {
+		$this->assertTrue($this->fixture->isVisible('title'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnTstampShouldBeNotVisibleByDefault() {
+		$this->assertFalse($this->fixture->isVisible('tstamp'));
 	}
 
 }

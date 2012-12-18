@@ -8,6 +8,7 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<m:css name="bootstrap.css"/>
+	<m:css name="custom.css"/>
 	<m:css name="bootstrap-responsive.css"/>
 	<m:css name="bootstrap-datatables.css"/>
 
@@ -33,7 +34,7 @@
 		// Declare namespace
 		window.Media = {};
 
-		// Temporary variables
+		// "Live" variables
 		Media._labels = {
 			"message-deleted": '<f:translate key="message-deleted" />',
 			"message-updated": '<f:translate key="message-updated" />',
@@ -42,8 +43,6 @@
 			"message-error": '<f:translate key="message-error" />'
 		};
 
-
-		// Temporary variables
 		Media._columns = [];
 		{m:render.columns()}
 
@@ -61,7 +60,6 @@
 <m:js name="JQuery/jquery.dataTables.min.js"/>
 <m:js name="JQuery/jquery.form.js"/>
 <m:js name="JQuery/TableTools/TableTools.min.js"/>
-<!--<m:js name="JQuery/ColVis/ColVis.min.js"/>-->
 <m:js name="JQuery/jquery.dataTables.bootstrap.js"/>
 <m:js name="Bootstrap/bootstrap.min.js"/>
 <m:js name="Bootstrap/bootbox.min.js"/>

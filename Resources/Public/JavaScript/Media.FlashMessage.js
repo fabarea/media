@@ -83,4 +83,5 @@ Media.FlashMessage = {
 			$(this).remove();
 		});
 	}
-}
+};
+

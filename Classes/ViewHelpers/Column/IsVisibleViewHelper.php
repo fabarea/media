@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Render;
+namespace TYPO3\CMS\Media\ViewHelpers\Column;
 /***************************************************************
 *  Copyright notice
 *
@@ -11,8 +11,8 @@ namespace TYPO3\CMS\Media\ViewHelpers\Render;
 *  it under the terms of the GNU General Public License as published by
 *  the Free Software Foundation; either version 2 of the License, or
 *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
+*
+*  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
 *
 *  This script is distributed in the hope that it will be useful,
@@ -22,25 +22,24 @@ namespace TYPO3\CMS\Media\ViewHelpers\Render;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
 /**
- * View helper for rendering a column header
+ * Tells about the column of a grid
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class ColumnHeaderViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IsVisibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Render the column header
+	 * Returns whether the column is visible
 	 *
-	 * @param string $column name
-	 * @return string
+	 * @param string $column the column Name
+	 * @return boolean
 	 */
 	public function render($column) {
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate("tx_media." . $column, 'media');
+		return \TYPO3\CMS\Media\Utility\Grid::getInstance()->isVisible($column);
 	}
 
 }

@@ -472,27 +472,22 @@ $TCA['sys_file']['grid'] = array(
 
 	),
 	'columns' => array(
-		array(
+		'_number' => array(
 			'internal_type' => TRUE,
-			'field' => '_number',
-			'sortable' => FALSE
+			'sortable' => FALSE,
 		),
-		array(
-			'field' => 'title',
+		'title' => array(
 			'wrap' => '<span class="media-title">|</span>',
 		),
-		array(
-			'field' => 'tstamp',
+		'tstamp' => array(
 			'visible' => FALSE,
 			'format' => 'date',
 		),
-		array(
-			'field' => 'keywords',
+		'keywords' => array(
 		),
-		array(
+		'_buttons' => array(
 			'internal_type' => TRUE,
-			'field' => '_buttons',
-			'sortable' => FALSE
+			'sortable' => FALSE,
 		),
 //		'check' => array(),
 //		'preview' => array(),

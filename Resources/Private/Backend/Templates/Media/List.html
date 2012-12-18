@@ -17,17 +17,59 @@
 				</a>
 
 				<div class="nav-collapse">
-					<p id="navbar-media-default">
-						<f:link.action action="new" class="btn btn-new">
-							<f:translate key="new"/>
-						</f:link.action>
-					</p>
-					<p id="navbar-media-save" style="display: none">
+					<div id="navbar-media-default">
+						<div class="row-fluid">
+							<div class="span6">
+								<f:link.action action="new" class="btn btn-new">
+									<f:translate key="new"/>
+								</f:link.action>
+							</div>
+							<div class="span6">
+
+								<div class="btn-group pull-right">
+									<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+										<img src="{f:uri.resource(path:'Icons/button-dropdown.png')}" alt=""/>
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<f:for each="{columns}" as="column" iteration="iterator">
+											<li>
+												<f:if condition="{m:column.isNotInternal(column: '{column}')}">
+													<label class="checkbox inline">
+														<f:if condition="{m:column.isVisible(column: '{column}')}">
+															<f:then>
+																<input class="check-visible-toggle" type="checkbox" name=""
+																       value="{iterator.index}"
+																       checked="checked"/>
+															</f:then>
+															<f:else>
+																<input class="check-visible-toggle" type="checkbox" name=""
+																       value="{iterator.index}"/>
+															</f:else>
+														</f:if>
+														<m:translate.column column="{column}"/>
+													</label>
+												</f:if>
+											</li>
+										</f:for>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div id="navbar-media-save" style="display: none">
 						<!--<a href="#" class="btn disabled">Previous</a>-->
 						<!--<a href="#" class="btn disabled">Next</a>-->
-						<a href="#" class="btn btn-close"><f:translate key="close"/></a>
-						<button type="button" class="btn btn-primary btn-save"><f:translate key="save" /></button>
-					</p>
+						<a href="#" class="btn btn-close">
+							<f:translate key="close"/>
+						</a>
+
+						<button type="button" class="btn btn-primary btn-save">
+							<f:translate key="save"/>
+						</button>
+					</div>
 				</div>
 
 			</div>
@@ -41,15 +83,16 @@
 	<div id="container-main">
 		<div id="container-top">
 
+
 			<!--<table id="tx-media-list" class="table table-condensed table-hover table-bordered .table-striped">-->
 			<table class="table table-striped table-bordered table-hover"
 			       id="example">
 				<thead>
 				<tr>
 					<f:for each="{columns}" as="column">
-					<th>
-						<m:render.columnHeader column="{column}"/>
-					</th>
+						<th>
+							<m:translate.column column="{column}"/>
+						</th>
 					</f:for>
 				</tr>
 				</thead>

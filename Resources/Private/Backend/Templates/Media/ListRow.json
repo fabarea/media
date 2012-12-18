@@ -7,23 +7,23 @@
 <f:for each="{medias}" as="media" key="number" iteration="mediaIteration">
 {
 
-<m:render.row media="{media}" />,
+	<m:render.row media="{media}" />,
 
-"_buttons":
+	"_buttons":
 
-<m:format.json>
-<f:link.action  action="edit" arguments="{media : media.uid}"
-class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="edit" /></f:link.action>
-<f:link.action  action="delete" arguments="{media : media.uid, format: 'json'}"
-class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="delete" /></f:link.action>
-</m:format.json>,
+		<m:format.json>
+			<f:link.action  action="edit" arguments="{media : media.uid}"
+			class="btn btn-edit" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="edit" /></f:link.action>
+			<f:link.action  action="delete" arguments="{media : media.uid, format: 'json'}"
+			class="btn btn-delete" additionalAttributes="{data-uid: '{media.uid}'}"><f:translate key="delete" /></f:link.action>
+		</m:format.json>,
 
-"_number":
-<m:format.json>
-<m:table.rowNumber value="{number}" offset="{pager.offset}" />
-</m:format.json>
+	"_number":
+		<m:format.json>
+			<m:table.rowNumber value="{number}" offset="{pager.offset}" />
+		</m:format.json>
 
-}<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
+	}<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
 </f:for>
 	]
 }

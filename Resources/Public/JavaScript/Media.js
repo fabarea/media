@@ -1,5 +1,6 @@
 "use strict";
 
+/** @namespace Media */
 
 $(document).ready(function () {
 
@@ -15,8 +16,19 @@ $(document).ready(function () {
 		e.preventDefault();
 	});
 
-	// Attach
+	// Attach add action
 	Media.Event.add();
+
+	// Enable the hide / show column
+	$('.check-visible-toggle').click(function () {
+		var iCol = $(this).val();
+
+		/* Get the DataTables object again - this is not a recreation, just a get of the object */
+		var oTable = $('#example').dataTable();
+
+		var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
+		oTable.fnSetColumnVis(iCol, bVis ? false : true);
+	});
 
 	/**
 	 * Table initialisation
@@ -59,10 +71,13 @@ $(document).ready(function () {
 
 });
 
-/** @namespace Media */
 
 /**
- * Formatting a string
+ * Format a string give a place holder. Acts as the "sprintf" function in PHP
+ *
+ * Example:
+ *
+ * "Foo {0}".format('Bar') will return "Foo Bar"
  *
  * @param {string} key
  */
@@ -74,7 +89,7 @@ Media.format = function (key) {
 		s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i + 1]);
 	}
 	return s;
-}
+};
 
 /**
  * Shorthand method for translating a string
@@ -83,4 +98,4 @@ Media.format = function (key) {
  */
 Media.translate = function (key) {
 	return Media.Language.get(key);
-}
+};

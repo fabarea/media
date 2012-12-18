@@ -48,25 +48,24 @@ class RowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		$output['DT_RowId'] = 'row-' . $media->getUid();
 		$output['DT_RowClass'] = 'row-' . $media->getStatus();
 
-		foreach($columns as $column) {
+		foreach($columns as $fieldName => $configuration) {
 
-			if (empty($column['internal_type'])) {
+			if (\TYPO3\CMS\Media\Utility\Grid::getInstance()->isNotInternal($fieldName)) {
 
 				// Fetch value
-				$field = $column['field'];
-				$value = call_user_func(array($media, 'getProperty'), $field);
+				$value = call_user_func(array($media, 'getProperty'), $fieldName);
 
-				if (!empty($column['format'])) {
-					$formatter = sprintf('TYPO3\CMS\Media\Formatter\%s::format', ucfirst($column['format']));
+				if (!empty($configuration['format'])) {
+					$formatter = sprintf('TYPO3\CMS\Media\Formatter\%s::format', ucfirst($configuration['format']));
 					$value = call_user_func($formatter, $value);
 				}
 
-				if (!empty($column['wrap'])) {
-					$parts = explode('|', $column['wrap']);
+				if (!empty($configuration['wrap'])) {
+					$parts = explode('|', $configuration['wrap']);
 					$value = implode($value, $parts);
 				}
+				$output[$fieldName] = $value;
 			}
-			$output[$field] = $value;
 		}
 
 		$output = json_encode($output);

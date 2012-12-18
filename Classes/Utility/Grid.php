@@ -50,34 +50,18 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * __construct
 	 *
+	 * @throw \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException
 	 * @return \TYPO3\CMS\Media\Utility\Grid
 	 */
 	public function __construct() {
 
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
-		$this->tca = $GLOBALS['TCA']['sys_file']['grid'];
-
-		$this->validateConfiguration();
-	}
-
-	/**
-	 * Check that the configuration is valid
-	 *
-	 * @throw \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException
-	 * @return void
-	 */
-	public function validateConfiguration() {
 		// Index "columns" is required
-		if (empty($this->tca['columns'])) {
+		if (empty($GLOBALS['TCA']['sys_file']['grid'])) {
 			throw new \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException('Missing TCA key "sys_file/grid/columns"', 1351865723);
 		}
 
-		// Mandatory field is field
-		foreach ($this->tca['columns'] as $column) {
-			if (empty($column['field'])) {
-				throw new \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException('Missing field name in ' . var_export($column), 1351865723);
-			}
-		}
+		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
+		$this->tca = $GLOBALS['TCA']['sys_file']['grid'];
 	}
 
 	/**
@@ -86,11 +70,54 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return array
 	 */
 	public function getListOfColumns() {
-		$result = array();
-		foreach ($this->tca['columns'] as $column) {
-			$result[] = $column['field'];
+		return array_keys($this->tca['columns']);
+	}
+
+	/**
+	 * Get the translation of the column
+	 *
+	 * @param string $column the name of the column
+	 * @return string
+	 */
+	public function getLabel($column) {
+		if (!empty($GLOBALS['TCA']['sys_file']['columns'][$column]['label'])) {
+			$label = $GLOBALS['TCA']['sys_file']['columns'][$column]['label'];
+			$result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($label, 'media');
+		} else {
+			$result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_media.' . $column, 'media');
 		}
 		return $result;
+	}
+
+	/**
+	 * Tell whether the column is internal or not
+	 *
+	 * @param string $column the name of the column
+	 * @return boolean
+	 */
+	public function isInternal($column) {
+		$configuration = $this->getColumn($column);
+		return empty($configuration['internal_type']) ? FALSE : $configuration['internal_type'];
+	}
+
+	/**
+	 * Tell whether the column is not internal
+	 *
+	 * @param string $column the name of the column
+	 * @return boolean
+	 */
+	public function isNotInternal($column) {
+		return !$this->isInternal($column);
+	}
+
+	/**
+	 * Returns an array containing the configuration of an column
+	 *
+	 * @param string $column the name of the column
+	 * @return array
+	 */
+	public function getColumn($column) {
+		return $this->tca['columns'][$column];
 	}
 
 	/**
@@ -100,6 +127,28 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getColumns() {
 		return $this->tca['columns'];
+	}
+
+	/**
+	 * Returns whether the column is sortable or not
+	 *
+	 * @param string $column the name of the column
+	 * @return bool
+	 */
+	public function isSortable($column) {
+		$configuration = $this->getColumn($column);
+		return isset($configuration['sortable']) ? $configuration['sortable'] : TRUE;
+	}
+
+	/**
+	 * Returns whether the column is sortable or not
+	 *
+	 * @param string $column the name of the column
+	 * @return bool
+	 */
+	public function isVisible($column) {
+		$configuration = $this->getColumn($column);
+		return isset($configuration['visible']) ? $configuration['visible'] : TRUE;
 	}
 
 }

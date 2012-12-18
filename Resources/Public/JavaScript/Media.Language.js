@@ -23,4 +23,3 @@ Media.Language = {
 		return this.labels[key];
 	}
 };
-

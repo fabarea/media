@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Render;
+namespace TYPO3\CMS\Media\ViewHelpers\Translate;
 /***************************************************************
 *  Copyright notice
 *
@@ -11,8 +11,8 @@ namespace TYPO3\CMS\Media\ViewHelpers\Render;
 *  it under the terms of the GNU General Public License as published by
 *  the Free Software Foundation; either version 2 of the License, or
 *  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
+ *
+ *  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
 *
 *  This script is distributed in the hope that it will be useful,
@@ -24,33 +24,23 @@ namespace TYPO3\CMS\Media\ViewHelpers\Render;
 ***************************************************************/
 
 /**
- * View helper for rendering configuration that will be consumed by Javascript
+ * View helper for rendering a column header
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class ColumnsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ColumnViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Render the columns of the grid
+	 * Returns a label
 	 *
+	 * @param string $column name
 	 * @return string
 	 */
-	public function render() {
-
-		$output = '';
-
-		foreach(\TYPO3\CMS\Media\Utility\Grid::getInstance()->getColumns() as $columnName => $configuration) {
-			$output .= sprintf('Media._columns.push({ "mData": "%s", "bSortable": %s, "bVisible": %s });' . chr(10),
-				$columnName,
-				\TYPO3\CMS\Media\Utility\Grid::getInstance()->isSortable($columnName) ? 'true' : 'false',
-				\TYPO3\CMS\Media\Utility\Grid::getInstance()->isVisible($columnName) ? 'true' : 'false'
-			);
-		}
-
-		return $output;
+	public function render($column) {
+		return \TYPO3\CMS\Media\Utility\Grid::getInstance()->getLabel($column);
 	}
 
 }

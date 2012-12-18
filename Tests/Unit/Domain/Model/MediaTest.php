@@ -49,6 +49,8 @@ class MediaTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 * @test
 	 */
 	public function setTitleForStringSetsTitle() {
+
+		// @todo fix test. $this->loadIndexRecord() from File which makes an infinite recursion
 		$this->fixture->setTitle('Conceived at T3CON10');
 
 		$this->assertSame(

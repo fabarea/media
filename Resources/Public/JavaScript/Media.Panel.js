@@ -49,4 +49,4 @@ Media.Panel = {
 			$('#' + value).toggle();
 		});
 	}
-}
+};
