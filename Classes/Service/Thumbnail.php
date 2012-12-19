@@ -83,8 +83,6 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 		// If file is not found, fall back to a default icon
 		if (!is_file(PATH_site . $uri)) {
 			$uri = \TYPO3\CMS\Media\Utility\PublicResource::getPublicPath('Icons/MissingMimeTypeIcon.png');
-			\TYPO3\CMS\Core\Utility\DebugUtility::debug($uri, "debug");
-
 		}
 		return '/' . $uri;
 	}

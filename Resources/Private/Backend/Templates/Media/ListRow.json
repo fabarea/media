@@ -7,7 +7,7 @@
 <f:for each="{medias}" as="media" key="number" iteration="iterator">
 {
 
-	<m:render.row media="{media}" />,
+	<m:grid.row media="{media}" />,
 
 	"_buttons":
 

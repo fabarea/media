@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Column;
+namespace TYPO3\CMS\Media\ViewHelpers\Grid\Column;
 /***************************************************************
 *  Copyright notice
 *
@@ -23,23 +23,23 @@ namespace TYPO3\CMS\Media\ViewHelpers\Column;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Tells about the column of a grid
+ * Tells about the column type of a grid
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class IsVisibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IsNotInternalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Returns whether the column is visible
+	 * Returns whether the given column name is internal
 	 *
 	 * @param string $column the column Name
 	 * @return boolean
 	 */
 	public function render($column) {
-		return \TYPO3\CMS\Media\Utility\Grid::getInstance()->isVisible($column);
+		return \TYPO3\CMS\Media\Utility\Grid::getInstance()->isNotInternal($column);
 	}
 
 }

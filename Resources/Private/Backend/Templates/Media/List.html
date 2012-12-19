@@ -34,9 +34,9 @@
 									<ul class="dropdown-menu">
 										<f:for each="{columns}" as="column" iteration="iterator">
 											<li>
-												<f:if condition="{m:column.isNotInternal(column: '{column}')}">
+												<f:if condition="{m:grid.column.isNotInternal(column: '{column}')}">
 													<label class="checkbox inline">
-														<f:if condition="{m:column.isVisible(column: '{column}')}">
+														<f:if condition="{m:grid.column.isVisible(column: '{column}')}">
 															<f:then>
 																<input class="check-visible-toggle" type="checkbox" name=""
 																       value="{iterator.index}"
@@ -81,7 +81,7 @@
 	<div class="centered flash-message container"></div>
 
 	<div id="container-main">
-		<div id="container-top">
+		<div id="container-top" style="width: 98%">
 
 
 			<!--<table id="tx-media-list" class="table table-condensed table-hover table-bordered .table-striped">-->

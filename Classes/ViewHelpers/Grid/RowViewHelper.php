@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Render;
+namespace TYPO3\CMS\Media\ViewHelpers\Grid;
 /***************************************************************
 *  Copyright notice
 *
