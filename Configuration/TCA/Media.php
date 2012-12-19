@@ -147,6 +147,16 @@ $columns = array(
 			'eval' => 'trim'
 		),
 	),
+	'extension' => array(
+		'exclude' => 1,
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.extension',
+		'config' => array(
+			'type' => 'text',
+			'cols' => 40,
+			'rows' => 15,
+			'eval' => 'trim'
+		),
+	),
 	'content_creation_date' => array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
@@ -475,6 +485,13 @@ $TCA['sys_file']['grid'] = array(
 		'_number' => array(
 			'internal_type' => TRUE,
 			'sortable' => FALSE,
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:number',
+		),
+		'name' => array(
+			'sortable' => FALSE,
+			'renderer' => 'TYPO3\CMS\Media\Renderer\Preview',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
+			'wrap' => '<div class="center">|</div>',
 		),
 		'title' => array(
 			'wrap' => '<span class="media-title">|</span>',
@@ -482,6 +499,7 @@ $TCA['sys_file']['grid'] = array(
 		'tstamp' => array(
 			'visible' => FALSE,
 			'format' => 'date',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:tx_media.tstamp',
 		),
 		'keywords' => array(
 		),
@@ -503,7 +521,7 @@ $TCA['sys_file']['grid'] = array(
 );
 
 // Searchable field
-$TCA['sys_file']['ctrl']['searchFields'] = 'uid,title,keywords';
+$TCA['sys_file']['ctrl']['searchFields'] = 'uid,title,keywords,extension';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_file', $columns, 1);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');

@@ -17,3 +17,6 @@ TSConstantEditor.basic {
   description = <span style="background:red; padding:1px 2px; color:#fff; font-weight:bold;">1</span> Just setting this option is not enough. Debugging is done to the devlog, so you also need some extension that hooks into \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(), like devlog.
   1=debug
 }
+
+# cat=basic//1; type=string; label= Size of thumbnail images: Define the size of thumbnail in the list view
+thumbnail_size = 100

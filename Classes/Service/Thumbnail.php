@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\CMS\Media\Service;
 
 /***************************************************************
  *  Copyright notice
@@ -30,111 +31,115 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_Media_Service_Thumbnail {
+class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface {
 
 	/**
-	 * The size of the Thumbnail
+	 * Whether the thumbnail should be wrapped with an anchor
 	 *
-	 * @var string
+	 * @var bool
 	 */
-	protected $size = '64x64';
+	protected $wrap = FALSE;
 
 	/**
-	 * Force the thumbnail to be regenerated
+	 * @var \TYPO3\CMS\Media\Domain\Model\Media
+	 */
+	protected $media = FALSE;
+
+	/**
+	 * Render a thumbnail of a media
 	 *
-	 * @var boolean
+	 * @return string
 	 */
-	protected $force = FALSE;
+	public function create() {
 
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
+		if (empty($this->media)) {
+			throw new \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException('Missing Media object. Forgotten to set a media?', 1355933144);
+		}
+
+		// Default class name
+		$className = 'TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail';
+		if (\TYPO3\CMS\Media\Utility\MediaType::IMAGE == $this->media->getType()) {
+			$className = 'TYPO3\CMS\Media\Service\Thumbnail\ImageThumbnail';
+		} elseif (\TYPO3\CMS\Media\Utility\MediaType::SOFTWARE == $this->media->getType() ||
+			\TYPO3\CMS\Media\Utility\MediaType::TEXT == $this->media->getType()) {
+				$className = 'TYPO3\CMS\Media\Service\Thumbnail\TextThumbnail';
+		}
+
+		/** @var $instance \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface */
+		$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
+		return $instance->setMedia($this->media)->doWrap()->create();
 	}
 
 	/**
-	 * Generates a Thumbnail File
+	 * Returns a path to an icon given an extension.
 	 *
-	 * @param t3lib_file_File $file
-	 * @param t3lib_file_Domain_Model_Mount $mount
-	 * @param array $parameters
-	 * @return mixed
+	 * @param string $extension File extension
+	 * @return string
 	 */
-	public function createThumbnailFile(t3lib_file_File $file, t3lib_file_Domain_Model_Mount $mount, array $parameters = array()) {
+	public function getIcon($extension) {
 
-		$thumbnailPath = FALSE;
-		if ($this->isThumbnailPossible($file)) {
+		$uri = \TYPO3\CMS\Media\Utility\PublicResource::getPublicPath(sprintf('Icons/MimeType/%s.png', $extension));
 
-				// Check file extension:
-			$input = $file->getForLocalProcessing($writable = FALSE);
+		// If file is not found, fall back to a default icon
+		if (!is_file(PATH_site . $uri)) {
+			$uri = \TYPO3\CMS\Media\Utility\PublicResource::getPublicPath('Icons/MissingMimeTypeIcon.png');
+			\TYPO3\CMS\Core\Utility\DebugUtility::debug($uri, "debug");
 
-				// Computes Thumbnail absolute path
-			$thumbnailName = preg_replace('/' . $file->getExtension() . '$/is', 'png', $file->getName());
-			$thumbnailPath = PATH_site . 'typo3temp/' . $thumbnailName;
-
-			if ($GLOBALS['TYPO3_CONF_VARS']['GFX']['im']) {
-					// If thumbnail does not exist, we generate it
-				if (!file_exists($thumbnailPath) || $this->force) {
-					$parameters = '-sample ' . $this->size . ' ' . $this->wrapFileName($input) . '[0] ' . $this->wrapFileName($thumbnailPath);
-					$cmd = \TYPO3\CMS\Core\Utility\GeneralUtility::imageMagickCommand('convert', $parameters);
-					t3lib_utility_Command::exec($cmd);
-					if (!file_exists($thumbnailPath)) {
-						// @todo throw error
-						//$this->errorGif('No thumb','generated!', basename($input));
-					} else {
-						\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($thumbnailPath);
-					}
-				}
-			}
 		}
-		else {
-			// @todo throw error if debug context is detected
-			//$this->errorGif('Not imagefile!', $ext, basename($input));
-		}
-
-		/** @var $uploader t3lib_file_Service_UploaderService */
-		$uploader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Service_UploaderService');
-		$thumbnailFile = $uploader->addUploadedFile($thumbnailPath, $mount, '/', $thumbnailName, TRUE);
-
-		return $thumbnailFile;
+		return '/' . $uri;
 	}
 
 	/**
-	 * Escapes a file name so it can safely be used on the command line.
+	 * Returns TRUE whether an thumbnail can be generated
 	 *
-	 * @param string $inputName filename to safeguard, must not be empty
-	 *
-	 * @return string $inputName escaped as needed
+	 * @param string $extension File extension
+	 * @return boolean
 	 */
-	protected function wrapFileName($inputName) {
-		if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['UTF8filesystem']) {
-			$currentLocale = setlocale(LC_CTYPE, 0);
-			setlocale(LC_CTYPE, $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']);
-		}
-		$escapedInputName = escapeshellarg($inputName);
-		if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['UTF8filesystem']) {
-			setlocale(LC_CTYPE, $currentLocale);
-		}
-		return $escapedInputName;
+	public function isThumbnailPossible($extension) {
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($extension));
 	}
 
 	/**
-	 * Checks if a image preview can be generated for a file
-	 *
-	 * @param	t3lib_file_File $file
-	 * @return	boolean
+	 * @return boolean
 	 */
-	protected function isThumbnailPossible(t3lib_file_File $file) {
-
-		// @todo get mimeType base on Service extraction
-		$thumbnailPossible = FALSE;
-
-		// font rendering is buggy so it's deactivated here   # if ($type === 'ttf' ||
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], $file->getExtension())) {
-			$thumbnailPossible = TRUE;
-		}
-		return $thumbnailPossible;
+	public function isWrapped() {
+		return $this->wrap;
 	}
 
+	/**
+	 * Tell whether to wrap the thumbnail or not
+	 *
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail
+	 */
+	public function doWrap() {
+		$this->wrap = TRUE;
+		return $this;
+	}
+
+	/**
+	 * Will not wrap the thumbnail.
+	 *
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail
+	 */
+	public function doNotWrap() {
+		$this->wrap = FALSE;
+		return $this;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Domain\Model\Media
+	 */
+	public function getMedia() {
+		return $this->media;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
+	 */
+	public function setMedia($media) {
+		$this->media = $media;
+		return $this;
+	}
 }
 ?>

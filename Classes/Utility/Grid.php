@@ -80,11 +80,13 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return string
 	 */
 	public function getLabel($column) {
-		if (!empty($GLOBALS['TCA']['sys_file']['columns'][$column]['label'])) {
+		$result = '';
+		if ($this->hasLabel($column)) {
+			$configuration = $this->getColumn($column);
+			$result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($configuration['label'], '');
+		} elseif (!empty($GLOBALS['TCA']['sys_file']['columns'][$column]['label'])) {
 			$label = $GLOBALS['TCA']['sys_file']['columns'][$column]['label'];
 			$result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($label, 'media');
-		} else {
-			$result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_media.' . $column, 'media');
 		}
 		return $result;
 	}
@@ -142,6 +144,30 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Returns whether the column is sortable or not
+	 * @todo comment
+	 *
+	 * @param string $column the name of the column
+	 * @return bool
+	 */
+	public function hasRenderer($column) {
+		$configuration = $this->getColumn($column);
+		return empty($configuration['renderer']) ? FALSE : TRUE;
+	}
+
+	/**
+	 * Returns whether the column is sortable or not
+	 *
+	 * @todo comment
+	 * @param string $column the name of the column
+	 * @return string
+	 */
+	public function getRenderer($column) {
+		$configuration = $this->getColumn($column);
+		return empty($configuration['renderer']) ? '' : $configuration['renderer'];
+	}
+
+	/**
+	 * Returns whether the column is sortable or not
 	 *
 	 * @param string $column the name of the column
 	 * @return bool
@@ -151,5 +177,15 @@ class Grid implements \TYPO3\CMS\Core\SingletonInterface {
 		return isset($configuration['visible']) ? $configuration['visible'] : TRUE;
 	}
 
+	/**
+	 * Returns whether the column has a label
+	 *
+	 * @param string $column the name of the column
+	 * @return bool
+	 */
+	public function hasLabel($column) {
+		$configuration = $this->getColumn($column);
+		return empty($configuration['label']) ? FALSE : TRUE;
+	}
 }
 ?>

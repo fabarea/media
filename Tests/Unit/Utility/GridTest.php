@@ -107,6 +107,13 @@ class GridTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
+	public function labelOfColumnTstampHasALabel() {
+		$this->assertTrue($this->fixture->hasLabel('tstamp'));
+	}
+
+	/**
+	 * @test
+	 */
 	public function labelOfColumnFooShouldBeEmpty() {
 		$this->assertEmpty($this->fixture->getLabel(uniqid('foo_')));
 	}
@@ -137,6 +144,36 @@ class GridTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function columnTstampShouldBeNotVisibleByDefault() {
 		$this->assertFalse($this->fixture->isVisible('tstamp'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnNameHasARenderer() {
+		$this->assertTrue($this->fixture->hasRenderer('name'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function columnFooHasNoRenderer() {
+		$this->assertFalse($this->fixture->hasRenderer(uniqid('foo')));
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTheRendererOfColumnName() {
+		$expected = 'TYPO3\CMS\Media\Renderer\Preview';
+		$this->assertEquals($expected, $this->fixture->getRenderer('name'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTheRendererOfColumnFoo() {
+		$expected = '';
+		$this->assertEquals($expected, $this->fixture->getRenderer(uniqid('foo')));
 	}
 
 }

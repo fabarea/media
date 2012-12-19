@@ -136,8 +136,11 @@
 			<trans-unit id="delete">
 				<source>Delete</source>
 			</trans-unit>
-			<trans-unit id="tx_media._number">
+			<trans-unit id="number">
 				<source>#</source>
+			</trans-unit>
+			<trans-unit id="preview">
+				<source>Preview</source>
 			</trans-unit>
 		</body>
 	</file>

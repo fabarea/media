@@ -4,7 +4,7 @@
 	"iTotalDisplayRecords": "{numberOfMedias}",
 	"iNumberOfRecords": "{medias->f:count()}",
 	"aaData": [
-<f:for each="{medias}" as="media" key="number" iteration="mediaIteration">
+<f:for each="{medias}" as="media" key="number" iteration="iterator">
 {
 
 	<m:render.row media="{media}" />,
@@ -23,7 +23,7 @@
 			<m:table.rowNumber value="{number}" offset="{pager.offset}" />
 		</m:format.json>
 
-	}<f:if condition="{mediaIteration.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
+	}<f:if condition="{iterator.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
 </f:for>
 	]
 }

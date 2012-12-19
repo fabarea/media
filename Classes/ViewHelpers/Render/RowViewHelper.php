@@ -55,6 +55,14 @@ class RowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 				// Fetch value
 				$value = call_user_func(array($media, 'getProperty'), $fieldName);
 
+				if (\TYPO3\CMS\Media\Utility\Grid::getInstance()->hasRenderer($fieldName)) {
+					$renderer = \TYPO3\CMS\Media\Utility\Grid::getInstance()->getRenderer($fieldName);
+
+					/** @var $rendererObject \TYPO3\CMS\Media\Renderer\RendererInterface */
+					$rendererObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($renderer);
+					$value = $rendererObject->render($media);
+				}
+
 				if (!empty($configuration['format'])) {
 					$formatter = sprintf('TYPO3\CMS\Media\Formatter\%s::format', ucfirst($configuration['format']));
 					$value = call_user_func($formatter, $value);

@@ -187,5 +187,36 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$this->request->setFormat('json');
 	}
 
+	/**
+	 * Download securely an asset
+	 * @todo feature should be implemented somewhere else (Core?). Put it here for the time being...
+	 *
+	 * @param int $media
+	 * @return void
+	 */
+	public function downloadAction($media) {
+
+		/** @var $media \TYPO3\CMS\Media\Domain\Model\Media */
+		$media = $this->mediaRepository->findByUid($media);
+
+		if (is_object($media) && $media->exists() && $media->checkActionPermission('read')) {
+			\TYPO3\CMS\Core\Utility\DebugUtility::debug(PATH_site, "debug");
+
+			header('Content-Description: File Transfer');
+			header('Content-Type: ' . $media->getMimeType());
+			header('Content-Disposition: inline; filename="' . $media->getName() . '"');
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			header('Content-Length: ' . $media->getSize());
+			flush();
+			readfile(PATH_site .  $media->getPublicUrl());
+		}
+		else {
+			print "Access denied!";
+		}
+		exit(); // @todo mmm... check if that is really the best way!! Can't it be configured there is no View required?
+	}
 }
 ?>
