@@ -146,13 +146,13 @@ class Tx_Media_Hooks_TCE {
 			if (!empty($metadata)) {
 
 				// @todo fetch this config from sys_file_indexingConfiguration
-				$columns = $this->getColumns($this->tableName);
-				foreach ($columns as $columnName => $column) {
+				$fields = $this->getFields($this->tableName);
+				foreach ($fields as $fieldName => $configuration) {
 					// check whether the value must be filled in from the metadata extraction
 					// condition: a value has been fetched + the User has access to the field
-					if (!empty($metadata[$columnName]) &&
-							$this->hasPermission($columnName, $column, $this->tableName)) {
-						$fieldArray[$columnName] = $metadata[$columnName];
+					if (!empty($metadata[$fieldName]) &&
+							$this->hasPermission($fieldName, $configuration, $this->tableName)) {
+						$fieldArray[$fieldName] = $metadata[$fieldName];
 					}
 				}
 			}
@@ -172,7 +172,7 @@ class Tx_Media_Hooks_TCE {
 	 *
 	 * @return array
 	 */
-	protected function getColumns($tableName) {
+	protected function getFields($tableName) {
 		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($tableName);
 		return $GLOBALS['TCA'][$tableName]['columns'];
 	}

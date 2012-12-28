@@ -36,7 +36,7 @@ class MediaControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
 	 * @var \TYPO3\CMS\Media\Controller\MediaController
 	 */
-	protected $fixture;
+	private $fixture;
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Controller\MediaController();

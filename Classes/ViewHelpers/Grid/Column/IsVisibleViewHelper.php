@@ -35,11 +35,11 @@ class IsVisibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	/**
 	 * Returns whether the column is visible
 	 *
-	 * @param string $column the column Name
+	 * @param string $fieldName the column Name
 	 * @return boolean
 	 */
-	public function render($column) {
-		return \TYPO3\CMS\Media\Utility\Grid::getInstance()->isVisible($column);
+	public function render($fieldName) {
+		return \TYPO3\CMS\Media\Utility\TcaGrid::getService()->isVisible($fieldName);
 	}
 
 }

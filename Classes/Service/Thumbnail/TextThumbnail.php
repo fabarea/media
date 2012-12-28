@@ -39,17 +39,17 @@ class TextThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	 */
 	public function create() {
 
-		if ($this->isThumbnailPossible($this->media->getExtension())) {
-			$processedFile = $this->media->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, array());
+		if ($this->isThumbnailPossible($this->file->getExtension())) {
+			$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, array());
 			$icon = $processedFile->getPublicUrl(TRUE);
 		} else {
-			$icon = $this->getIcon($this->media->getExtension());
+			$icon = $this->getIcon($this->file->getExtension());
 		}
 
 		$thumbnail = sprintf('<img src="%s" hspace="2" title="%s" class="%s" alt="" />',
 			$icon,
-			htmlspecialchars($this->media->getName()),
-			$this->isThumbnailPossible($this->media->getExtension()) ? 'thumbnail' : ''
+			htmlspecialchars($this->file->getName()),
+			$this->isThumbnailPossible($this->file->getExtension()) ? 'thumbnail' : ''
 		);
 
 		if ($this->isWrapped()) {
@@ -71,9 +71,9 @@ class TextThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 EOF;
 
 		return sprintf($template,
-			$this->media->getUid(),
+			$this->file->getUid(),
 			$thumbnail,
-			round($this->media->getSize() / 1000)
+			round($this->file->getSize() / 1000)
 		);
 	}
 

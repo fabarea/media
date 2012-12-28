@@ -41,33 +41,34 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	protected $wrap = FALSE;
 
 	/**
-	 * @var \TYPO3\CMS\Media\Domain\Model\Media
+	 * @var mixed
 	 */
-	protected $media = FALSE;
+	protected $file = FALSE;
 
 	/**
 	 * Render a thumbnail of a media
 	 *
+	 * @throws \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException
 	 * @return string
 	 */
 	public function create() {
 
-		if (empty($this->media)) {
+		if (empty($this->file)) {
 			throw new \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException('Missing Media object. Forgotten to set a media?', 1355933144);
 		}
 
 		// Default class name
 		$className = 'TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail';
-		if (\TYPO3\CMS\Media\Utility\MediaType::IMAGE == $this->media->getType()) {
+		if (\TYPO3\CMS\Media\Utility\MediaType::IMAGE == $this->file->getType()) {
 			$className = 'TYPO3\CMS\Media\Service\Thumbnail\ImageThumbnail';
-		} elseif (\TYPO3\CMS\Media\Utility\MediaType::SOFTWARE == $this->media->getType() ||
-			\TYPO3\CMS\Media\Utility\MediaType::TEXT == $this->media->getType()) {
+		} elseif (\TYPO3\CMS\Media\Utility\MediaType::SOFTWARE == $this->file->getType() ||
+			\TYPO3\CMS\Media\Utility\MediaType::TEXT == $this->file->getType()) {
 				$className = 'TYPO3\CMS\Media\Service\Thumbnail\TextThumbnail';
 		}
 
 		/** @var $instance \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface */
 		$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
-		return $instance->setMedia($this->media)->doWrap()->create();
+		return $instance->setFile($this->file)->doWrap()->create();
 	}
 
 	/**
@@ -105,7 +106,7 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	}
 
 	/**
-	 * Tell whether to wrap the thumbnail or not
+	 * Tell whether to wrap the thumbnail or not with an anchor. This will make the thumbnail clickable.
 	 *
 	 * @return \TYPO3\CMS\Media\Service\Thumbnail
 	 */
@@ -125,18 +126,18 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media
+	 * @return mixed
 	 */
-	public function getMedia() {
-		return $this->media;
+	public function getFile() {
+		return $this->file;
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
+	 * @param mixed $file
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail
 	 */
-	public function setMedia($media) {
-		$this->media = $media;
+	public function setFile($file) {
+		$this->file = $file;
 		return $this;
 	}
 }

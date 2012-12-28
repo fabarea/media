@@ -36,7 +36,7 @@ class DateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @var \TYPO3\CMS\Media\Formatter\Date
 	 */
-	protected $fixture;
+	private $fixture;
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Formatter\Date();

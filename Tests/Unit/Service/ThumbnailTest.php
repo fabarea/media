@@ -36,7 +36,7 @@ class ThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @var \TYPO3\CMS\Media\Service\Thumbnail
 	 */
-	protected $fixture;
+	private $fixture;
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Service\Thumbnail();
@@ -92,15 +92,15 @@ class ThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function testGetterAndSetterForPropertyMedia() {
-		$this->fixture->setMedia($this->getMockMedia());
-		$this->assertTrue($this->fixture->getMedia() instanceof \TYPO3\CMS\Media\Domain\Model\Media);
+		$this->fixture->setFile($this->getMockMedia());
+		$this->assertTrue($this->fixture->getFile() instanceof \TYPO3\CMS\Media\Domain\Model\Media);
 	}
 
 	/**
 	 * @test
 	 */
 	public function setterForPropertyMediaReturnsInstanceOfSelfObject() {
-		$this->assertTrue($this->fixture->setMedia($this->getMockMedia()) instanceof \TYPO3\CMS\Media\Service\Thumbnail);
+		$this->assertTrue($this->fixture->setFile($this->getMockMedia()) instanceof \TYPO3\CMS\Media\Service\Thumbnail);
 	}
 
 	/**

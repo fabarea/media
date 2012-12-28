@@ -38,10 +38,10 @@
 			<trans-unit id="tx_media.extension">
 				<source>Extension</source>
 			</trans-unit>
-			<trans-unit id="tx_media.content_creation_date">
+			<trans-unit id="tx_media.creation_date">
 				<source>Content Creation Date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.content_modification_date">
+			<trans-unit id="tx_media.modification_date">
 				<source>Content Modification Date</source>
 			</trans-unit>
 			<trans-unit id="tx_media.creator_tool">

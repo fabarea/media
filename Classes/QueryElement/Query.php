@@ -140,10 +140,10 @@ class Query  {
 		$searchParts = array();
 		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
 
-		$fields = explode(',', \TYPO3\CMS\Media\Utility\Tca::getInstance()->getSearchableFields());
+		$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
 
 		foreach ($fields as $field) {
-			$fieldType = \TYPO3\CMS\Media\Utility\Tca::getInstance()->getFieldType($field);
+			$fieldType = \TYPO3\CMS\Media\Utility\TcaField::getService()->getFieldType($field);
 			if ($fieldType == 'text' OR $fieldType == 'input') {
 				$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
 			}

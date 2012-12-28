@@ -16,10 +16,10 @@
 			<trans-unit id="tx_media.keywords">
 				<source>Keywords</source>
 			</trans-unit>
-			<trans-unit id="tx_media.content_creation_date">
+			<trans-unit id="tx_media.creation_date">
 				<source>Content creation date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.content_modification_date">
+			<trans-unit id="tx_media.modification_date">
 				<source>Content modification date</source>
 			</trans-unit>
 			<trans-unit id="tx_media.creator_tool">
@@ -133,6 +133,9 @@
 			<trans-unit id="edit">
 				<source>Edit</source>
 			</trans-unit>
+			<trans-unit id="duplicate">
+				<source>Duplicate</source>
+			</trans-unit>
 			<trans-unit id="delete">
 				<source>Delete</source>
 			</trans-unit>
@@ -141,6 +144,36 @@
 			</trans-unit>
 			<trans-unit id="preview">
 				<source>Preview</source>
+			</trans-unit>
+			<trans-unit id="created_on">
+				<source>Created on</source>
+			</trans-unit>
+			<trans-unit id="updated_on">
+				<source>Updated on</source>
+			</trans-unit>
+			<trans-unit id="by">
+				<source>by</source>
+			</trans-unit>
+			<trans-unit id="type_text">
+				<source>Text file</source>
+			</trans-unit>
+			<trans-unit id="type_image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="type_audio">
+				<source>Audio</source>
+			</trans-unit>
+			<trans-unit id="type_video">
+				<source>Video</source>
+			</trans-unit>
+			<trans-unit id="type_software">
+				<source>Document</source>
+			</trans-unit>
+			<trans-unit id="visibility_abbreviated">
+				<source>Vis.</source>
+			</trans-unit>
+			<trans-unit id="permission">
+				<source>Permission</source>
 			</trans-unit>
 		</body>
 	</file>

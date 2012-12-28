@@ -41,7 +41,7 @@ class MediaRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\MediaRepository
 	 */
-	protected $fixture;
+	private $fixture;
 
 	public function setUp() {
 		$this->testingFramework = new Tx_Phpunit_Framework('sys_file');

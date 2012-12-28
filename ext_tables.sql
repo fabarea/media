@@ -7,8 +7,6 @@ CREATE TABLE sys_file (
 	title varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	keywords text NOT NULL,
-	content_creation_date int(11) DEFAULT '0' NOT NULL,
-	content_modification_date int(11) DEFAULT '0' NOT NULL,
 	creator_tool varchar(255) DEFAULT '' NOT NULL,
 	download_name varchar(255) DEFAULT '' NOT NULL,
 	identifier varchar(255) DEFAULT '' NOT NULL,

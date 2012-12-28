@@ -40,7 +40,7 @@ class ColumnViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 	 * @return string
 	 */
 	public function render($column) {
-		return \TYPO3\CMS\Media\Utility\Grid::getInstance()->getLabel($column);
+		return \TYPO3\CMS\Media\Utility\TcaGrid::getService()->getLabel($column);
 	}
 
 }

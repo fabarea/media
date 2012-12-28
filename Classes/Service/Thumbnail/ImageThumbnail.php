@@ -39,18 +39,20 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	 */
 	public function create() {
 
-		$thumbnailSize = \TYPO3\CMS\Media\Utility\GeneralSettings::get('thumbnail_size');
+		$thumbnailSize = \TYPO3\CMS\Media\Utility\Configuration::get('thumbnail_size');
 
-		// @todo maxW is not taken into account...
+		// @todo maxW is not taken into account... why is the world so cruel?
 		$configuration = array(
 			'width' => $thumbnailSize, 'height' => $thumbnailSize,
 			'maxW' => $thumbnailSize, 'maxH' => $thumbnailSize
 		);
-		$processedFile = $this->media->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $configuration);
+		/** @var $processedFile \TYPO3\CMS\Core\Resource\ProcessedFile */
+		$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $configuration);
 
-		$thumbnail = sprintf('<img src="%s" hspace="2" title="%s" class="thumbnail" alt="" />',
+		$thumbnail = sprintf('<img src="%s?%s" hspace="2" title="%s" class="thumbnail" alt="" />',
 			$processedFile->getPublicUrl(TRUE),
-			htmlspecialchars($this->media->getName())
+			$processedFile->isUpdated() ? time() : $processedFile->getProperty('tstamp'),
+			htmlspecialchars($this->file->getName())
 		);
 
 		if ($this->isWrapped()) {
@@ -61,18 +63,22 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 
 	/**
 	 * Get Wrap template
+	 *
+	 * @param string $thumbnail
+	 * @return string
 	 */
 	public function wrap($thumbnail) {
 		$template = <<<EOF
-<a href="%s" target="_blank">%s</a>
+<a href="%s?%s" target="_blank">%s</a>
 <div class="metadata">%s x %s</div>
 EOF;
 
 		return sprintf($template,
-			$this->media->getPublicUrl(TRUE),
+			$this->file->getPublicUrl(TRUE),
+			$this->file->getProperty('tstamp'),
 			$thumbnail,
-			$this->media->getWidth(),
-			$this->media->getHeight()
+			$this->file->getProperty('width'),
+			$this->file->getProperty('height')
 		);
 	}
 

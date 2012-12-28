@@ -18,7 +18,7 @@ Media.Panel = {
 
 		// Store the loading message
 		if (typeof Media.icons.loading == 'undefined') {
-			Media.icons.loading = $('#container-bottom').html();
+			Media.icons.loading = $('#container-main-sub').html();
 		}
 		this.togglePanel();
 	},
@@ -30,8 +30,13 @@ Media.Panel = {
 	 */
 	showList: function () {
 
-		// Add loading message for the next time the frame is displayed
-		$('#container-bottom').html(Media.icons.loading);
+		// Remove footer and header markup.
+		$('#footer > *').remove();
+		$('#navbar-sub > *').remove();
+
+
+		// Add loading message for the next time the panel is displayed
+		$('#container-main-sub').html(Media.icons.loading);
 		this.togglePanel();
 
 		Media.Table.fnDraw();
@@ -45,8 +50,9 @@ Media.Panel = {
 	 */
 	togglePanel: function () {
 		// Expand / Collapse widgets
-		$(['container-top', 'container-bottom', 'navbar-media-default', 'navbar-media-save']).each(function (index, value) {
+		$(['container-main-top', 'container-main-sub', 'navbar-main', 'navbar-sub']).each(function (index, value) {
 			$('#' + value).toggle();
 		});
+
 	}
 };

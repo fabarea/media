@@ -36,7 +36,7 @@ class FallBackThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @var \TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail
 	 */
-	protected $fixture;
+	private $fixture;
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail();

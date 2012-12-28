@@ -43,14 +43,14 @@ interface ThumbnailInterface {
 	/**
 	 * Tell to wrap the thumbnail.
 	 *
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	 */
 	public function doWrap();
 
 	/**
 	 * Tell to *not* wrap the thumbnail.
 	 *
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	 */
 	public function doNotWrap();
 
@@ -64,12 +64,12 @@ interface ThumbnailInterface {
 	/**
 	 * @return \TYPO3\CMS\Media\Domain\Model\Media
 	 */
-	public function getMedia();
+	public function getFile();
 
 	/**
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
+	 * @param mixed $file
 	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	 */
-	public function setMedia($media);
+	public function setFile($file);
 }
 ?>

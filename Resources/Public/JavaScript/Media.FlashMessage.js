@@ -18,7 +18,7 @@ Media.FlashMessage = {
 	 * Stack
 	 *
 	 * @param {mixed} data
-	 * @param {string} key
+	 * @param {string} key corresponds to an identifier for the queue.
      * @param {string} severity
 	 */
 	add: function(data, key, severity) {

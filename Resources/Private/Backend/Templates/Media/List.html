@@ -17,12 +17,32 @@
 				</a>
 
 				<div class="nav-collapse">
-					<div id="navbar-media-default">
+					<div id="navbar-main">
 						<div class="row-fluid">
 							<div class="span6">
-								<f:link.action action="new" class="btn btn-new">
-									<f:translate key="new"/>
-								</f:link.action>
+
+								<div class="btn-toolbar" style="margin: 0;">
+									<div class="btn-group">
+
+										<f:link.action action="new" class="btn btn-new" accesskey="n">
+											<f:translate key="new"/>
+										</f:link.action>
+										<button class="btn dropdown-toggle" data-toggle="dropdown">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<f:for each="{mediaTypes}" as="mediaType" iteration="iterator">
+												<li>
+													<f:link.action action="new" class="btn-new"
+													               arguments="{media: {type: '{mediaType.type}'}}">
+														{mediaType.label}
+													</f:link.action>
+												</li>
+											</f:for>
+										</ul>
+									</div>
+
+								</div>
 							</div>
 							<div class="span6">
 
@@ -34,9 +54,9 @@
 									<ul class="dropdown-menu">
 										<f:for each="{columns}" as="column" iteration="iterator">
 											<li>
-												<f:if condition="{m:grid.column.isNotInternal(column: '{column}')}">
+												<f:if condition="{m:grid.column.isNotSystem(fieldName: '{column}')}">
 													<label class="checkbox inline">
-														<f:if condition="{m:grid.column.isVisible(column: '{column}')}">
+														<f:if condition="{m:grid.column.isVisible(fieldName: '{column}')}">
 															<f:then>
 																<input class="check-visible-toggle" type="checkbox" name=""
 																       value="{iterator.index}"
@@ -59,17 +79,7 @@
 						</div>
 					</div>
 
-					<div id="navbar-media-save" style="display: none">
-						<!--<a href="#" class="btn disabled">Previous</a>-->
-						<!--<a href="#" class="btn disabled">Next</a>-->
-						<a href="#" class="btn btn-close">
-							<f:translate key="close"/>
-						</a>
-
-						<button type="button" class="btn btn-primary btn-save">
-							<f:translate key="save"/>
-						</button>
-					</div>
+					<div id="navbar-sub" class="ajax-response-header" style="display: none"></div>
 				</div>
 
 			</div>
@@ -81,12 +91,10 @@
 	<div class="centered flash-message container"></div>
 
 	<div id="container-main">
-		<div id="container-top" style="width: 98%">
+		<div id="container-main-top" style="width: 98%">
 
-
-			<!--<table id="tx-media-list" class="table table-condensed table-hover table-bordered .table-striped">-->
 			<table class="table table-striped table-bordered table-hover"
-			       id="example">
+			       id="media-list">
 				<thead>
 				<tr>
 					<f:for each="{columns}" as="column">
@@ -102,11 +110,14 @@
 				</tbody>
 			</table>
 		</div>
-		<div id="container-bottom" class="container" style="display: none">
-			<f:image src="{f:uri.resource(path:'Icons/loading.gif')}" alt=""/>
+		<div id="container-main-sub" class="ajax-response-body" class="container" style="display: none">
+			<div class="container" style="text-align: center">
+				<f:image src="{f:uri.resource(path:'Icons/loading.gif')}" alt=""/>
+			</div>
 		</div>
 	</div>
-	</div>
+
+	<div id="footer" class="ajax-response-footer"></div>
 
 </f:section>
 </html>

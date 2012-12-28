@@ -32,13 +32,15 @@
  * @subpackage media
  */
 class MediaTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
+
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Model\Media
 	 */
-	protected $fixture;
+	private $fixture;
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Media();
+		$this->fixture->setIndexIfNotIndexed(FALSE);
 	}
 
 	public function tearDown() {
@@ -48,144 +50,60 @@ class MediaTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function setTitleForStringSetsTitle() {
-
-		// @todo fix test. $this->loadIndexRecord() from File which makes an infinite recursion
-		$this->fixture->setTitle('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getTitle()
-		);
+	public function setARandomPropertyAndCheckTheValueIsTheSame() {
+		$property = uniqid();
+		$value = uniqid();
+		$this->fixture->setProperty($property, $value);
+		$this->assertSame($value, $this->fixture->getProperty($property));
 	}
 
 	/**
 	 * @test
+	 * @dataProvider propertyProvider
 	 */
-	public function getDescriptionReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
-	public function setDescriptionForStringSetsDescription() {
-		$this->fixture->setDescription('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getDescription()
-		);
+	public function testProperty($propertyName, $value) {
+		$setter = 'set' . ucfirst($propertyName);
+		$getter = 'get' . ucfirst($propertyName);
+		call_user_func_array(array($this->fixture, $setter), array($value));
+		$this->assertEquals($value, call_user_func(array($this->fixture, $getter)));
 	}
 
 	/**
-	 * @test
+	 * Provider
 	 */
-	public function getKeywordsReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
-	public function setKeywordsForStringSetsKeywords() {
-		$this->fixture->setKeywords('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getKeywords()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setExtensionForStringSetsExtension() {
-		$this->fixture->setExtension('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getExtension()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setCreatorToolForStringSetsCreatorTool() {
-		$this->fixture->setCreatorTool('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getCreatorTool()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setDownloadNameForStringSetsDownloadName() {
-		$this->fixture->setDownloadName('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getDownloadName()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setIdentifierForStringSetsIdentifier() {
-		$this->fixture->setIdentifier('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getIdentifier()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setCreatorForStringSetsCreator() {
-		$this->fixture->setCreator('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getCreator()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setSourceForStringSetsSource() {
-		$this->fixture->setSource('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getSource()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setAlternativeForStringSetsAlternative() {
-		$this->fixture->setAlternative('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getAlternative()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setCaptionForStringSetsCaption() {
-		$this->fixture->setCaption('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getCaption()
+	public function propertyProvider() {
+		return array(
+			array('title', uniqid('foo')),
+			array('alternative', uniqid('foo')),
+			array('caption', uniqid('foo')),
+			array('colorSpace', uniqid('foo')),
+			array('creationDate', uniqid('foo')),
+			array('modificationDate', uniqid('foo')),
+			array('creator', uniqid('foo')),
+			array('creatorTool', uniqid('foo')),
+			array('description', uniqid('foo')),
+			array('downloadName', uniqid('foo')),
+			array('duration', uniqid('foo')),
+			array('height', uniqid('foo')),
+			array('horizontalResolution', uniqid('foo')),
+			array('keywords', uniqid('foo')),
+			array('language', uniqid('foo')),
+			array('latitude', uniqid('foo')),
+			array('locationCity', uniqid('foo')),
+			array('locationCountry', uniqid('foo')),
+			array('locationRegion', uniqid('foo')),
+			array('longitude', uniqid('foo')),
+			array('mimeType', uniqid('foo')),
+			array('note', uniqid('foo')),
+			array('pages', uniqid('foo')),
+			array('publisher', uniqid('foo')),
+			array('ranking', uniqid('foo')),
+			array('source', uniqid('foo')),
+			array('status', uniqid('foo')),
+			array('type', rand(1,5)),
+			array('unit', uniqid('foo')),
+			array('verticalResolution', uniqid('foo')),
+			array('width', uniqid('foo')),
 		);
 	}
 }

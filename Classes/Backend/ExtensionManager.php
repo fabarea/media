@@ -1,5 +1,5 @@
 <?php
-# @todo namespace has not worked -> class is called from ext_conf_template.txt
+# @todo fix me! Namespace has not worked for the EM -> class is called from ext_conf_template.txt
 #namespace TYPO3\CMS\Media\Backend;
 /***************************************************************
  *  Copyright notice

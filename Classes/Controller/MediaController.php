@@ -55,7 +55,8 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return string The rendered view
 	 */
 	public function listAction() {
-		$this->view->assign('columns', \TYPO3\CMS\Media\Utility\Grid::getInstance()->getListOfColumns());
+		$this->view->assign('mediaTypes', \TYPO3\CMS\Media\Utility\MediaType::getTypes());
+		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldList());
 		$this->view->assign('medias', $this->mediaRepository->findAll());
 	}
 
@@ -102,8 +103,19 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return void
 	 * @dontvalidate $media
 	 */
-	public function newAction($media = NULL) {
-		$this->view->assign('media', $media);
+	public function newAction(array $media = array()) {
+
+		// Makes sure a media type is set.
+		$media['type'] = empty($media['type']) ? 0 :
+			\TYPO3\CMS\Media\Utility\MediaType::toInteger($media['type']);
+
+		/** @var $mediaFactory \TYPO3\CMS\Media\MediaFactory */
+		$mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
+
+		/** @var $mediaObject \TYPO3\CMS\Media\Domain\Model\Media */
+		$mediaObject = $mediaFactory->createObject($media);
+		$mediaObject->setIndexIfNotIndexed(FALSE); // mandatory, otherwise FAL will try to index a non yet created object.
+		$this->view->assign('media', $mediaObject);
 	}
 
 	/**
@@ -148,7 +160,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
-	 * action update
+	 * Action update media.
 	 *
 	 * @param array $media
 	 * @return void
@@ -189,7 +201,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
 	 * Download securely an asset
-	 * @todo feature should be implemented somewhere else (Core?). Put it here for the time being...
+	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
 	 *
 	 * @param int $media
 	 * @return void
@@ -200,8 +212,6 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$media = $this->mediaRepository->findByUid($media);
 
 		if (is_object($media) && $media->exists() && $media->checkActionPermission('read')) {
-			\TYPO3\CMS\Core\Utility\DebugUtility::debug(PATH_site, "debug");
-
 			header('Content-Description: File Transfer');
 			header('Content-Type: ' . $media->getMimeType());
 			header('Content-Disposition: inline; filename="' . $media->getName() . '"');
@@ -212,11 +222,88 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 			header('Content-Length: ' . $media->getSize());
 			flush();
 			readfile(PATH_site .  $media->getPublicUrl());
+			return;
 		}
 		else {
-			print "Access denied!";
+			$result = "Access denied!";
 		}
-		exit(); // @todo mmm... check if that is really the best way!! Can't it be configured there is no View required?
+		return $result;
+	}
+
+	/**
+	 * Handle the file upload action
+	 *
+	 * @param array $media
+	 * @return string
+	 */
+	public function uploadAction(array $media = array()){
+
+		// @todo transfer directory can be removed if a random name is given to the file.
+		$uploadDirectory = PATH_site . 'typo3temp/UploadedFilesTransfer';
+		\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($uploadDirectory);
+
+		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
+		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
+		try {
+			/** @var $uploadedFileObject \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+			$uploadedFileObject = $uploadManager->handleUpload($uploadDirectory, 'replace');
+		} catch (\Exception $e) {
+			$response = array('error' => $e->getMessage());
+		}
+
+		if (is_object($uploadedFileObject)) {
+
+			// Try to instantiate a file object.
+			$fileObject = NULL;
+			if (!empty($media['uid'])) {
+				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
+				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($media['uid']);
+			}
+
+			$temporaryFileName = sprintf('%s/%s', $uploadDirectory, $uploadedFileObject->getName());
+			$conflictMode = is_object($fileObject) ? 'replace' : 'changeName';
+			$fileName = is_object($fileObject) ? $fileObject->getName() : $uploadedFileObject->getName();
+
+			try {
+				$targetFolderObject = \TYPO3\CMS\Media\Utility\StorageFolder::get();
+				$newFileObject = $targetFolderObject->addFile($temporaryFileName, $fileName , $conflictMode);
+
+				// update tstamp which is not handled by addFile()
+				$newFileObject->updateProperties(array('tstamp' => time()));
+				/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
+				$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+				$fileRepository->update($newFileObject);
+
+				/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+
+				$response = array(
+					'success' => TRUE,
+					'uid' => $newFileObject->getUid(),
+					'thumbnail' => $thumbnailService->setFile($newFileObject)->create(),
+					// @todo hardcoded for now...
+					'formAction' => 'mod.php?M=user_MediaTxMediaM1&tx_media_user_mediatxmediam1[format]=json&tx_media_user_mediatxmediam1[action]=update&tx_media_user_mediatxmediam1[controller]=Media'
+				);
+			} catch (\TYPO3\CMS\Core\Resource\Exception\UploadException $e) {
+				$response = array('error' => 'The upload has failed, no uploaded file found!');
+			} catch (\TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException $e) {
+				$response = array('error' => 'You are not allowed to upload files!');
+			} catch (\TYPO3\CMS\Core\Resource\Exception\UploadSizeException $e) {
+				$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($fileName)));
+			} catch (\TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException $e) {
+				$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
+			} catch (\TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException $e) {
+				$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($fileName, $targetFolderObject->getIdentifier())));
+			} catch (\TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException $e) {
+				$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
+			} catch (\RuntimeException $e) {
+				$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolderObject->getIdentifier())));
+			}
+		}
+
+		// to pass data through iframe you will need to encode all html tags
+		header("Content-Type: text/plain");
+		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
 	}
 }
 ?>

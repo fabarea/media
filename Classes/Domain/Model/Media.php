@@ -82,14 +82,14 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 *
 	 * @var \DateTime
 	 */
-	protected $contentCreationDate;
+	protected $creationDate;
 
 	/**
 	 * Content modification date
 	 *
 	 * @var \DateTime
 	 */
-	protected $contentModificationDate;
+	protected $modificationDate;
 
 	/**
 	 * Creator
@@ -292,7 +292,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setAlternative($alternative) {
-		$this->alternative = $alternative;
+		$this->properties['alternative'] = $alternative;
 	}
 
 	/**
@@ -311,7 +311,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setCaption($caption) {
-		$this->caption = $caption;
+		$this->properties['caption'] = $caption;
 	}
 
 	/* TODO categories */
@@ -332,45 +332,45 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setColorSpace($colorSpace) {
-		$this->colorSpace = $colorSpace;
+		$this->properties['color_space'] = $colorSpace;
 	}
 
 	/**
-	 * Returns the contentCreationDate
+	 * Returns the creationDate
 	 *
-	 * @return \DateTime $contentCreationDate
+	 * @return \DateTime $creationDate
 	 */
-	public function getContentCreationDate() {
-		return $this->getProperty('content_creation_date');
+	public function getCreationDate() {
+		return $this->getProperty('creation_date');
 	}
 
 	/**
-	 * Sets the contentCreationDate
+	 * Sets the creationDate
 	 *
-	 * @param \DateTime $contentCreationDate
+	 * @param \DateTime $creationDate
 	 * @return void
 	 */
-	public function setContentCreationDate($contentCreationDate) {
-		$this->contentCreationDate = $contentCreationDate;
+	public function setCreationDate($creationDate) {
+		$this->properties['creation_date'] = $creationDate;
 	}
 
 	/**
-	 * Returns the contentModificationDate
+	 * Returns the modificationDate
 	 *
-	 * @return \DateTime $contentModificationDate
+	 * @return \DateTime $modificationDate
 	 */
-	public function getContentModificationDate() {
-		return $this->getProperty('content_modification_date');
+	public function getModificationDate() {
+		return $this->getProperty('modification_date');
 	}
 
 	/**
-	 * Sets the contentModificationDate
+	 * Sets the modificationDate
 	 *
-	 * @param \DateTime $contentModificationDate
+	 * @param \DateTime $modificationDate
 	 * @return void
 	 */
-	public function setContentModificationDate($contentModificationDate) {
-		$this->contentModificationDate = $contentModificationDate;
+	public function setModificationDate($modificationDate) {
+		$this->properties['modification_date'] = $modificationDate;
 	}
 
 	/**
@@ -389,7 +389,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setCreator($creator) {
-		$this->creator = $creator;
+		$this->properties['creator'] = $creator;
 	}
 
 	/**
@@ -408,7 +408,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setCreatorTool($creatorTool) {
-		$this->creatorTool = $creatorTool;
+		$this->properties['creator_tool'] = $creatorTool;
 	}
 
 	/**
@@ -427,7 +427,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setDescription($description) {
-		$this->description = $description;
+		$this->properties['description'] = $description;
 	}
 
 	/**
@@ -446,7 +446,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setDownloadName($downloadName) {
-		$this->downloadName = $downloadName;
+		$this->properties['download_name'] = $downloadName;
 	}
 
 	/**
@@ -465,7 +465,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setDuration($duration) {
-		$this->duration = $duration;
+		$this->properties['duration'] = $duration;
 	}
 
 	/**
@@ -484,7 +484,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setHeight($height) {
-		$this->height = $height;
+		$this->properties['height'] = $height;
 	}
 
 	/**
@@ -503,7 +503,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setHorizontalResolution($horizontalResolution) {
-		$this->horizontalResolution = $horizontalResolution;
+		$this->properties['horizontal_resolution'] = $horizontalResolution;
 	}
 
 	/**
@@ -522,7 +522,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setKeywords($keywords) {
-		$this->keywords = $keywords;
+		$this->properties['keywords'] = $keywords;
 	}
 
 	/**
@@ -541,7 +541,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setLanguage($language) {
-		$this->language = $language;
+		$this->properties['language'] = $language;
 	}
 
 	/**
@@ -560,7 +560,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setLatitude($latitude) {
-		$this->latitude = $latitude;
+		$this->properties['latitude'] = $latitude;
 	}
 
 	/**
@@ -579,7 +579,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setLocationCity($locationCity) {
-		$this->locationCity = $locationCity;
+		$this->properties['location_city'] = $locationCity;
 	}
 
 	/**
@@ -598,7 +598,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setLocationCountry($locationCountry) {
-		$this->locationCountry = $locationCountry;
+		$this->properties['location_country'] = $locationCountry;
 	}
 
 	/**
@@ -617,7 +617,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setLocationRegion($locationRegion) {
-		$this->locationRegion = $locationRegion;
+		$this->properties['location_region'] = $locationRegion;
 	}
 
 	/**
@@ -636,7 +636,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setLongitude($longitude) {
-		$this->longitude = $longitude;
+		$this->properties['longitude'] = $longitude;
 	}
 
 	/**
@@ -655,7 +655,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setMimeType($mimeType) {
-		$this->mimeType = $mimeType;
+		$this->properties['mime_type'] = $mimeType;
 	}
 
 	/**
@@ -674,7 +674,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setNote($note) {
-		$this->note = $note;
+		$this->properties['note'] = $note;
 	}
 
 	/**
@@ -693,7 +693,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setPages($pages) {
-		$this->pages = $pages;
+		$this->properties['pages'] = $pages;
 	}
 
 	/**
@@ -712,7 +712,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setPublisher($publisher) {
-		$this->publisher = $publisher;
+		$this->properties['publisher'] = $publisher;
 	}
 
 	/**
@@ -731,7 +731,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setRanking($ranking) {
-		$this->ranking = $ranking;
+		$this->properties['ranking'] = $ranking;
 	}
 
 	/**
@@ -750,7 +750,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setSource($source) {
-		$this->source = $source;
+		$this->properties['source'] = $source;
 	}
 
 	/**
@@ -769,7 +769,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setStatus($status) {
-		$this->status = $status;
+		$this->properties['status'] = $status;
 	}
 
 	/**
@@ -788,7 +788,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setTitle($title) {
-		$this->title = $title;
+		$this->properties['title'] = $title;
 	}
 
 	/**
@@ -797,7 +797,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return string $type
 	 */
 	public function getType() {
-		return $this->getProperty('type');
+		return $this->getProperty('type') === '' ? 0 : (int) $this->getProperty('type');
 	}
 
 	/**
@@ -807,7 +807,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setType($type) {
-		$this->type = $type;
+		$this->properties['type'] = $type;
 	}
 
 	/**
@@ -826,7 +826,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setUnit($unit) {
-		$this->unit = $unit;
+		$this->properties['unit'] = $unit;
 	}
 
 	/* TODO variants */
@@ -847,7 +847,7 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setVerticalResolution($verticalResolution) {
-		$this->verticalResolution = $verticalResolution;
+		$this->properties['vertical_resolution'] = $verticalResolution;
 	}
 
 	/**
@@ -866,8 +866,25 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	 * @return void
 	 */
 	public function setWidth($width) {
-		$this->width = $width;
+		$this->properties['width'] = $width;
 	}
 
+	/**
+	 * Sets a custom property name. Useful for unit testing.
+	 *
+	 * @param string $property
+	 * @param string $value
+	 * @return void
+	 */
+	public function setProperty($property, $value) {
+		$this->updateProperties(array($property => $value));
+	}
+
+	/**
+	 * @param boolean $indexIfNotIndexed
+	 */
+	public function setIndexIfNotIndexed($indexIfNotIndexed) {
+		$this->indexed = $indexIfNotIndexed;
+	}
 }
 ?>

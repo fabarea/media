@@ -41,22 +41,22 @@ class RowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media) {
 
-		$columns = \TYPO3\CMS\Media\Utility\Grid::getInstance()->getColumns();
+		$fields = \TYPO3\CMS\Media\Utility\TcaGrid::getService()->getFields();
 
 		// Initialize returned array
 		$output = array();
 		$output['DT_RowId'] = 'row-' . $media->getUid();
 		$output['DT_RowClass'] = 'row-' . $media->getStatus();
 
-		foreach($columns as $fieldName => $configuration) {
+		foreach($fields as $fieldName => $configuration) {
 
-			if (\TYPO3\CMS\Media\Utility\Grid::getInstance()->isNotInternal($fieldName)) {
+			if (\TYPO3\CMS\Media\Utility\TcaGrid::getService()->isNotSystem($fieldName)) {
 
 				// Fetch value
 				$value = call_user_func(array($media, 'getProperty'), $fieldName);
 
-				if (\TYPO3\CMS\Media\Utility\Grid::getInstance()->hasRenderer($fieldName)) {
-					$renderer = \TYPO3\CMS\Media\Utility\Grid::getInstance()->getRenderer($fieldName);
+				if (\TYPO3\CMS\Media\Utility\TcaGrid::getService()->hasRenderer($fieldName)) {
+					$renderer = \TYPO3\CMS\Media\Utility\TcaGrid::getService()->getRenderer($fieldName);
 
 					/** @var $rendererObject \TYPO3\CMS\Media\Renderer\RendererInterface */
 					$rendererObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($renderer);

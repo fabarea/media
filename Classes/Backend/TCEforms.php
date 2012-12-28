@@ -30,6 +30,7 @@ namespace TYPO3\CMS\Media\Backend;
  * @package media
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
+ * @todo Make use of this class or remove it!
  */
 class TCEforms {
 
