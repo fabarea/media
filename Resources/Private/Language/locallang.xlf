@@ -154,19 +154,19 @@
 			<trans-unit id="by">
 				<source>by</source>
 			</trans-unit>
-			<trans-unit id="type_text">
+			<trans-unit id="type_1">
 				<source>Text file</source>
 			</trans-unit>
-			<trans-unit id="type_image">
+			<trans-unit id="type_2">
 				<source>Image</source>
 			</trans-unit>
-			<trans-unit id="type_audio">
+			<trans-unit id="type_3">
 				<source>Audio</source>
 			</trans-unit>
-			<trans-unit id="type_video">
+			<trans-unit id="type_4">
 				<source>Video</source>
 			</trans-unit>
-			<trans-unit id="type_software">
+			<trans-unit id="type_5">
 				<source>Document</source>
 			</trans-unit>
 			<trans-unit id="visibility_abbreviated">

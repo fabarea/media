@@ -21,7 +21,7 @@ unset($TCA['sys_file']['columns']['categories']['config']['wizards']['add']);
 unset($TCA['sys_file']['columns']['categories']['config']['wizards']['edit']);
 
 $newFileTypes = array(
-	'unknown' => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
@@ -32,7 +32,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'text' => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
@@ -42,7 +42,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'image' => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload ,title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload ,title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
@@ -53,17 +53,17 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'audio' => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, duration, unit,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'video' => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
@@ -73,19 +73,17 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	'software' => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo creation_date, modification_date,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 );
-$newFileTypes['5'] = $newFileTypes['Video'];
-$newFileTypes['1'] = $newFileTypes['Audio'];
-$newFileTypes['1'] = $newFileTypes['Image'];
+
 $TCA['sys_file']['types'] = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule((array)$TCA['sys_file']['types'], $newFileTypes);
 unset($newFileTypes);
 

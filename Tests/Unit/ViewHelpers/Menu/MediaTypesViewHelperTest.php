@@ -25,60 +25,51 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Tca\FormService.
+ * Test case for class \TYPO3\CMS\Media\ViewHelpers\Menu\MediaTypesViewHelper.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class FormServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class MediaTypesViewHelperTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Tca\FormService
+	 * @var \TYPO3\CMS\Media\ViewHelpers\Menu\MediaTypesViewHelper
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$tableName = 'sys_file';
-		$serviceType = 'form';
-		$this->fixture = new \TYPO3\CMS\Media\Tca\FormService($tableName, $serviceType);
+		$this->fixture = new \TYPO3\CMS\Media\ViewHelpers\Menu\MediaTypesViewHelper();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getTypesReturnANotEmptyArrayForTableSysFile() {
-		$actual = $this->fixture->getTypes();
+	public function getTypesReturnsAnArrayAndCheckWhetherItIsNotEmpty() {
+		$actual = $this->fixture->render();
 		$this->assertNotEmpty($actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function fieldStructureContainsTheDefaultTabAndIsBiggerThanOneByDefault() {
-		$actual = $this->fixture->getFieldStructure(2);
-		$this->assertArrayHasKey('LLL:EXT:cms/locallang_ttc.xml:palette.general', $actual);
-		$this->assertTrue(count($actual) !== 1);
+	public function getTypesReturnsAnArrayMatchingAnExpectedOne() {
+		$actual = $this->fixture->render();
+		$expected = array(
+			array(
+				'type' => 2,
+				'label' => 'Image',
+			),
+			array(
+				'type' => 5,
+				'label' => 'Document',
+			),
+		);
+		$this->assertSame($expected, $actual);
 	}
-
-	/**
-	 * @test
-	 * @expectedException \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException
-	 */
-	public function raiseExceptionIfTypeDoesNotExist() {
-		$this->fixture->getFields(uniqid('foo'));
-	}
-
-	/**
-	 * @test
-	 */
-	public function fieldsInFormMustBeEqualWithTypeEqualOne() {
-		$this->assertEquals($this->fixture->getFields(), $this->fixture->getFields(1));
-	}
-
 }
 ?>
+

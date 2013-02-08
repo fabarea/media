@@ -65,8 +65,7 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		#$paragraph->setValue('');
 		#$panel->createPanel(4)->addItem($paragraph);
 
-		$typeName = \TYPO3\CMS\Media\Utility\MediaType::toName($object->getType());
-		$fieldStructure = \TYPO3\CMS\Media\Utility\TcaForm::getService()->getFieldStructure($typeName);
+		$fieldStructure = \TYPO3\CMS\Media\Utility\TcaForm::getService()->getFieldStructure($object->getType());
 
 		$panels = array_keys($fieldStructure);
 

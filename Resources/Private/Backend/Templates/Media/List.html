@@ -31,7 +31,7 @@
 											<span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu">
-											<f:for each="{mediaTypes}" as="mediaType" iteration="iterator">
+											<f:for each="{m:menu.mediaTypes()}" as="mediaType" iteration="iterator">
 												<li>
 													<f:link.action action="new" class="btn-new"
 													               arguments="{media: {type: '{mediaType.type}'}}">
