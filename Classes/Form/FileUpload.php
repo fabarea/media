@@ -38,7 +38,7 @@ class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 	 */
 	public function __construct() {
 		// Example:
-		// <input multiple = "false" name = "tx_media_user_mediatxmediam1[media][name]" type ="file" >
+		// <input multiple = "false" name = "tx_media_user_mediam1[media][name]" type ="file" >
 		// <input name = "file[upload][1][target]" value = "1:/user_upload/images/persons/" type = "hidden" >
 
 		$this->template = <<<EOF

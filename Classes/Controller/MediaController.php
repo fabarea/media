@@ -282,7 +282,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 					'uid' => $newFileObject->getUid(),
 					'thumbnail' => $thumbnailService->setFile($newFileObject)->create(),
 					// @todo hardcoded for now...
-					'formAction' => 'mod.php?M=user_MediaTxMediaM1&tx_media_user_mediatxmediam1[format]=json&tx_media_user_mediatxmediam1[action]=update&tx_media_user_mediatxmediam1[controller]=Media'
+					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Media'
 				);
 			} catch (\TYPO3\CMS\Core\Resource\Exception\UploadException $e) {
 				$response = array('error' => 'The upload has failed, no uploaded file found!');

@@ -33,7 +33,7 @@ $(document).ready(function () {
 			params[prefix + '[action]'] = 'upload';
 			params[prefix + '[controller]'] = 'Media';
 			params[prefix + '[media][uid]'] = $('#media-uid').val();
-			params['M'] = 'user_MediaTxMediaM1'; // @todo Make me configurable... for FE plugin for instance.
+			params['M'] = 'user_MediaM1'; // @todo Make me configurable... for FE plugin for instance.
 			$(this).fineUploader('setParams', params);
 		})
 		.on('cancel', function (event, id, fileName) {

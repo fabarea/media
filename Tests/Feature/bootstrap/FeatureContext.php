@@ -37,7 +37,7 @@ class FeatureContext extends MinkContext
 	 */
 	public function iAmOnTheMainPage() {
 		return array(
-			new Behat\Behat\Context\Step\Given(sprintf('I am on "%s"', 'mod.php?M=user_MediaTxMediaM1')),
+			new Behat\Behat\Context\Step\Given(sprintf('I am on "%s"', 'mod.php?M=user_MediaM1')),
 		);
 	}
 

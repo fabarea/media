@@ -45,10 +45,10 @@ $(document).ready(function () {
 		"bServerSide": true,
 		"sAjaxSource": "/typo3/mod.php",
 		"fnServerParams": function (aoData) {
-			aoData.push({ "name": "M", "value": "user_MediaTxMediaM1" });
-			aoData.push({ "name": "tx_media_user_mediatxmediam1[action]", "value": "listRow" });
-			aoData.push({ "name": "tx_media_user_mediatxmediam1[controller]", "value": "Media" });
-			aoData.push({ "name": "tx_media_user_mediatxmediam1[format]", "value": "json" });
+			aoData.push({ "name": "M", "value": "user_MediaM1" });
+			aoData.push({ "name": "tx_media_user_mediam1[action]", "value": "listRow" });
+			aoData.push({ "name": "tx_media_user_mediam1[controller]", "value": "Media" });
+			aoData.push({ "name": "tx_media_user_mediam1[format]", "value": "json" });
 		},
 		"aoColumns": Media._columns,
 		"aLengthMenu": [
