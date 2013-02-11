@@ -87,7 +87,7 @@ $(document).ready(function () {
  * @param {string} key
  */
 Media.format = function (key) {
-	var s = Media.Language.get(key),
+	var s = Media.label(key),
 		i = arguments.length + 1;
 
 	while (i--) {
@@ -97,12 +97,12 @@ Media.format = function (key) {
 };
 
 /**
- * Shorthand method for translating a string
+ * Shorthand method for getting a label.
  *
  * @param {string} key
  */
-Media.translate = function (key) {
-	return Media.Language.get(key);
+Media.label = function (key) {
+	return Media.Label.get(key);
 };
 
 

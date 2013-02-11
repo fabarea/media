@@ -7,7 +7,7 @@
  *
  * @type {Object}
  */
-Media.Language = {
+Media.Label = {
 
 	/**
 	 * array containing all labels
@@ -23,3 +23,4 @@ Media.Language = {
 		return this.labels[key];
 	}
 };
+
