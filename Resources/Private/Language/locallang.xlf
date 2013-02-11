@@ -107,16 +107,16 @@
 				<source>Updated</source>
 			</trans-unit>
 			<trans-unit id="message-deleted">
-				<source>Media has been deleted "{0}"</source>
+				<source>Media "{0}" has been deleted</source>
 			</trans-unit>
 			<trans-unit id="confirm-message">
 				<source>Are you sure to delete "{0}"</source>
 			</trans-unit>
 			<trans-unit id="message-updated">
-				<source>Media updated with success "{0}"</source>
+				<source>Media "{0}" updated with success</source>
 			</trans-unit>
 			<trans-unit id="message-created">
-				<source>Media created with success "{0}"</source>
+				<source>Media "{0}" created with success</source>
 			</trans-unit>
 			<trans-unit id="message-error">
 				<source>Transaction did not succeed</source>

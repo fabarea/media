@@ -69,7 +69,7 @@ $(document).ready(function () {
 			Media.Action.delete();
 
 			// Handle flash message
-			Media.FlashMessage.display();
+			Media.FlashMessage.showAll();
 		}
 	});
 

@@ -17,15 +17,14 @@ Media.FlashMessage = {
 	/**
 	 * Stack
 	 *
-	 * @param {mixed} data
-	 * @param {string} key corresponds to an identifier for the queue.
-     * @param {string} severity
+	 * @param {mixed} message
+	 * @param {string} severity
 	 */
-	add: function(data, key, severity) {
+	add: function (message, severity) {
 		if (typeof severity == 'undefined') {
 			severity = 'success';
 		}
-		this.stack.push({"data": data, "key": key, "severity": severity});
+		this.stack.push({"message": message, "severity": severity});
 	},
 
 	/**
@@ -42,21 +41,14 @@ Media.FlashMessage = {
 	 *
 	 * @return void
 	 */
-	display: function () {
-		var message, data, output, index;
+	showAll: function () {
+		var flashMessage, message, output, index;
 
-		while(message = this.pop()) {
-			data = $.parseJSON(message["data"]);
-			if (data.status) {
-				output = Media.format(message["key"], data.media.uid);
-				if (data.media.title) {
-					output = Media.format(message["key"], data.media.title);
-				}
-				this.show('<strong>' + output + '</strong>', message["severity"]);
-			} else {
-				output = Media.translate('message-error')
-				this.show('<strong>' + output + '</strong>', 'error');
-			}
+		// Clear stack first
+		$(".flash-message").html('');
+
+		while (flashMessage = this.pop()) {
+			this.show(flashMessage['message'], flashMessage['severity']);
 		}
 	},
 
@@ -78,7 +70,7 @@ Media.FlashMessage = {
 		output = '<div class="alert alert-' + severity + '"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
 
 		// Manipulate DOM to display flash message
-		$(".flash-message").html($(output)).css("margin-left", positionWidthCss);
+		$(".flash-message").append($(output)).css("margin-left", positionWidthCss);
 		$(".alert").delay(2000).fadeOut("slow", function () {
 			$(this).remove();
 		});

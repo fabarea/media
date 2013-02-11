@@ -55,7 +55,7 @@ Media.Action = {
 			// compute media title
 			row = $(this).closest("tr").get(0);
 			title = $('.media-title', row).html();
-			message = Media.format("confirm-message", title);
+			message = Media.format("confirm-message", $.trim(title));
 
 			bootbox.confirm(message, function (result) {
 				if (result) {
@@ -65,7 +65,8 @@ Media.Action = {
 						function (data) {
 							// Reload data table
 							Media.Table.fnDeleteRow(Media.Table.fnGetPosition(row));
-							Media.FlashMessage.add(data, "message-deleted", 'success');
+							var message = Media.format('message-deleted', data.media.title);
+							Media.FlashMessage.add(message, 'success');
 						}
 					);
 				}
@@ -104,7 +105,10 @@ Media.Action = {
 						success: function (data) {
 							// Reload data table
 							Media.Panel.showList();
-							Media.FlashMessage.add(data, key, 'success');
+							var mediaTitle, message;
+							mediaTitle = data.media.title == '' ? data.media.uid : data.media.title;
+							message = Media.format(key, mediaTitle);
+							Media.FlashMessage.add(message, 'success');
 						}
 					})
 				});

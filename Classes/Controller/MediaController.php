@@ -84,6 +84,8 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$this->view->assign('pager', $pagerObject);
 
 		$this->request->setFormat('json');
+		# Json header is not automatically respected in the BE... so send one the hard way.
+		header('Content-type: application/json');
 	}
 
 	/**
@@ -145,7 +147,10 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 			);
 		}
 		$this->view->assign('result', $result);
-		$this->request->setFormat('json');
+
+		# Json header is not automatically respected in the BE... so send one the hard way.
+		header('Content-type: application/json');
+		return json_encode($result);
 	}
 
 	/**
@@ -176,7 +181,10 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 			'title' => $mediaObject->getTitle(),
 		);
 		$this->view->assign('result', $result);
-		$this->request->setFormat('json');
+
+		# Json header is not automatically respected in the BE... so send one the hard way.
+		header('Content-type: application/json');
+		return json_encode($result);
 	}
 
 	/**
@@ -194,9 +202,10 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 			'uid' => $mediaObject->getUid(),
 			'title' => $mediaObject->getTitle(),
 		);
-		$this->view->assign('result', $result);
 
-		$this->request->setFormat('json');
+		# Json header is not automatically respected in the BE... so send one the hard way.
+		header('Content-type: application/json');
+		return json_encode($result);
 	}
 
 	/**
