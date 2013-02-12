@@ -1,22 +1,14 @@
-# cat=basic/dev/1; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderMessage];
+# cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderMessage];
 updateMessage=0
 
-# cat=basic/dev/2; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderStorage]; label = Select Storage: Storage defines where files are going to be stored. Refer to Documentation of FAL for more details.
+# cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:Tx_Media_Backend_ExtensionManager->renderStorage]; label = Select Storage: Defines in what storage files are going to be stored. Important!! Consider starting with an empty storage for a new installation. Create a new one next to the auto-created "fileadmin" by clicking "List" > "Top Page (uid = 0)" > "File storage" and create a new file storage there, e.g "resources/".
 storage=1
 
-# cat=basic//3; type=string; label= Mime type allowed : List of mime type allowed to be uploaded. (@todo put this list in the installer?)
+# cat=basic//; type=string; label= Size of thumbnail images: Define the size of thumbnail in the list view
+thumbnail_size = 100
+
+# cat=basic//; type=string; label= Mime type allowed : List of mime type allowed to be uploaded. (@todo add this option at the install tool level?)
 mime_type_allowed = image/*,application/pdf
 
-# cat=basic//4; type=string; label= Comma-separated list of pages. If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data (e.g. Category).
+# cat=basic//; type=string; label= Comma-separated list of pages: If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data (e.g. Category).
 media_folders=
-
-# cat=basic//5; type=boolean; label= Developer/Debug Functions: This activates special functions for development and debugging. This should stay deactivated for normal usage!
-debug = 0
-
-TSConstantEditor.basic {
-  description = <span style="background:red; padding:1px 2px; color:#fff; font-weight:bold;">1</span> Just setting this option is not enough. Debugging is done to the devlog, so you also need some extension that hooks into \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(), like devlog.
-  1=debug
-}
-
-# cat=basic//1; type=string; label= Size of thumbnail images: Define the size of thumbnail in the list view
-thumbnail_size = 100
