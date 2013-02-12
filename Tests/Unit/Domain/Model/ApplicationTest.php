@@ -1,16 +1,16 @@
 <?php
-namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012
+ *  (c) 2012 Media development team <typo3-project-media@lists.typo3.org>
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -25,24 +25,33 @@ namespace TYPO3\CMS\Media\Domain\Model;
  ***************************************************************/
 
 /**
- * Video representation in the file abstraction layer.
+ * Test case for class \TYPO3\CMS\Media\Domain\Model\Application.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Video extends \TYPO3\CMS\Media\Domain\Model\Media {
+class ApplicationTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * Return a thumbnail corresponding to a Video
-	 *
-	 * @param array $options
-	 * @return string
+	 * @var \TYPO3\CMS\Media\Domain\Model\Application
 	 */
-	public function getThumbnail(array $options = array()) {
-		// @todo implement me
-		// @todo make sure the the thumbnail can be wrapped in "a" tag,
-		return '';
+	private $fixture;
+
+	public function setUp() {
+		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Application();
+		$this->fixture->setIndexIfNotIndexed(FALSE);
+	}
+
+	public function tearDown() {
+		unset($this->fixture);
+	}
+
+	/**
+	 * @test
+	 */
+	public function checkFixtureIsInstanceOfApplication() {
+		$this->assertTrue($this->fixture instanceof \TYPO3\CMS\Media\Domain\Model\Application);
 	}
 
 }

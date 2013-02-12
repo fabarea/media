@@ -31,146 +31,18 @@ namespace TYPO3\CMS\Media\Domain\Model;
  * @package TYPO3
  * @subpackage media
  */
-class Tx_Media_Domain_Model_Text extends \TYPO3\CMS\Core\Resource\File {
+class Text extends \TYPO3\CMS\Media\Domain\Model\Media {
 
 	/**
-	 * Width
+	 * Return a thumbnail corresponding to a Text
 	 *
-	 * @var int
+	 * @param array $options
+	 * @return string
 	 */
-	protected $width;
-
-	/**
-	 * Height
-	 *
-	 * @var int
-	 */
-	protected $height;
-
-	/**
-	 * Unit
-	 *
-	 * @var int
-	 */
-	protected $unit;
-
-	/**
-	 * Pages
-	 *
-	 * @var int
-	 */
-	protected $pages;
-
-	/**
-	 * Language
-	 *
-	 * @var string
-	 */
-	protected $language;
-
-	/**
-	 * __construct
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
-
-	/**
-	 * Returns the width
-	 *
-	 * @return string $width
-	 */
-	public function getWidth() {
-		return $this->width;
-	}
-
-	/**
-	 * Sets the width
-	 *
-	 * @param string $width
-	 * @return void
-	 */
-	public function setWidth($width) {
-		$this->width = $width;
-	}
-
-	/**
-	 * Returns the height
-	 *
-	 * @return string $height
-	 */
-	public function getHeight() {
-		return $this->height;
-	}
-
-	/**
-	 * Sets the height
-	 *
-	 * @param string $height
-	 * @return void
-	 */
-	public function setHeight($height) {
-		$this->height = $height;
-	}
-
-	/**
-	 * Returns the unit
-	 *
-	 * @return string $unit
-	 */
-	public function getUnit() {
-		return $this->unit;
-	}
-
-	/**
-	 * Sets the unit
-	 *
-	 * @param string $unit
-	 * @return void
-	 */
-	public function setUnit($unit) {
-		$this->unit = $unit;
-	}
-
-	/**
-	 * Returns the pages
-	 *
-	 * @return string $pages
-	 */
-	public function getPages() {
-		return $this->pages;
-	}
-
-	/**
-	 * Sets the pages
-	 *
-	 * @param string $pages
-	 * @return void
-	 */
-	public function setPages($pages) {
-		$this->pages = $pages;
-	}
-
-	/**
-	 * Returns the language
-	 *
-	 * @return string $language
-	 */
-	public function getLanguage() {
-		return $this->language;
-	}
-
-	/**
-	 * Sets the language
-	 *
-	 * @param string $language
-	 * @return void
-	 */
-	public function setLanguage($language) {
-		$this->language = $language;
+	public function getThumbnail(array $options = array()) {
+		// @todo implement me
+		// @todo make sure the the thumbnail can be wrapped in "a" tag,
+		return '';
 	}
 }
 ?>

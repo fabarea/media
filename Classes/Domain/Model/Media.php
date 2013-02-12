@@ -886,5 +886,17 @@ class Media extends \TYPO3\CMS\Core\Resource\File {
 	public function setIndexIfNotIndexed($indexIfNotIndexed) {
 		$this->indexed = $indexIfNotIndexed;
 	}
+
+	/**
+	 * Return a thumbnail corresponding to a Media
+	 *
+	 * @param array $options
+	 * @return string
+	 */
+	public function getThumbnail(array $options = array()) {
+		// @todo implement me
+		// @todo make sure the the thumbnail can be wrapped in "a" tag,
+		return '';
+	}
 }
 ?>

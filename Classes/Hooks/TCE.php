@@ -116,8 +116,8 @@ class Tx_Media_Hooks_TCE {
 			// @todo check if file must be overwritten
 			// @todo fetch this config from TypoScript or so...
 			if (TRUE && $status == 'update') {
-				$mediaRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Domain_Repository_MediaRepository');
-				$media = $mediaRepository->findByUid($id);
+				$assetRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Domain_Repository_AssetRepository');
+				$media = $assetRepository->findByUid($id);
 
 				$previousFileName = $this->getPreviousFileName($media);
 				if ($previousFileName) {

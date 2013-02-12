@@ -59,7 +59,7 @@ class QueryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderOrderReturnsExpectedString() {
+	public function renderOrderReturnsCorrectString() {
 		$ordering = new \TYPO3\CMS\Media\QueryElement\Order();
 		$this->fixture->setOrder($ordering);
 		$result = $this->fixture->renderOrder();
@@ -69,11 +69,59 @@ class QueryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getterAndSetterForFilterPropertyAreOK() {
-//		$filter = new \TYPO3\CMS\Media\QueryElement\Filter();
-//		$this->fixture->setFilter($filter);
-//		$object = $this->fixture->getFilter();
-//		$this->assertTrue($object instanceof \TYPO3\CMS\Media\QueryElement\Filter);
+	public function methodGetReturnsDefaultSql() {
+		$this->assertEquals('SELECT * FROM sys_file WHERE deleted = 0', $this->fixture->getQuery());
+	}
+
+	/**
+	 * @test
+	 */
+	public function methodGetReturnsEnableFieldsInSqlQuery() {
+		$actual = $this->fixture->setIgnoreEnableFields(TRUE)->getQuery();
+		$this->assertContains('sys_file.hidden', $actual);
+		$this->assertContains('sys_file.starttime', $actual);
+		$this->assertContains('sys_file.endtime', $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function methodCountReturnAnIntegerValue() {
+		$this->assertTrue(is_int($this->fixture->count()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function methodExecuteReturnAnArray() {
+		$this->assertTrue(is_array($this->fixture->execute()));
+	}
+
+	/**
+	 * @test
+	 * @dataProvider propertyProvider
+	 */
+	public function testProperty($propertyName, $value) {
+		$setter = 'set' . ucfirst($propertyName);
+		$getter = 'get' . ucfirst($propertyName);
+		$actual = call_user_func_array(array($this->fixture, $setter), array($value));
+		$this->assertTrue($actual instanceof \TYPO3\CMS\Media\QueryElement\Query);
+		$this->assertEquals($value, call_user_func(array($this->fixture, $getter)));
+	}
+
+	/**
+	 * Provider
+	 */
+	public function propertyProvider() {
+		return array(
+			array('offset', rand(0,100)),
+			array('limit', rand(0,100)),
+			array('order', new \TYPO3\CMS\Media\QueryElement\Order()),
+			array('filter', new \TYPO3\CMS\Media\QueryElement\Filter()),
+			array('rawResult', uniqid()),
+			array('objectType', uniqid()),
+			array('ignoreEnableFields', TRUE),
+		);
 	}
 }
 ?>

@@ -48,4 +48,12 @@ $TCA['pages']['columns']['module']['config']['items'][] = array(
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
 
+// Make File aware of the enable fields.
+$TCA['sys_file']['ctrl']['tstamp'] = 'tstamp';
+$TCA['sys_file']['ctrl']['crdate'] = 'crdate';
+$TCA['sys_file']['ctrl']['enablecolumns'] =  array(
+	'disabled' => 'hidden',
+	'starttime' => 'starttime',
+	'endtime' => 'endtime'
+);
 ?>

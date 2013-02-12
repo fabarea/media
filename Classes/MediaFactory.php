@@ -50,11 +50,12 @@ class MediaFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 * row to be fetched.
 	 *
 	 * @param array $fileData
+	 * @param string $objectType
 	 * @return \TYPO3\CMS\Media\Domain\Model\Media
 	 */
-	public function createObject(array $fileData) {
+	public function createObject(array $fileData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Media') {
 		/** @var \TYPO3\CMS\Media\Domain\Model\Media $mediaObject */
-		$mediaObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Media\\Domain\\Model\\Media', $fileData);
+		$mediaObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($objectType, $fileData);
 
 		if (is_numeric($fileData['storage'])) {
 			$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();

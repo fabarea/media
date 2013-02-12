@@ -25,40 +25,34 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Domain\Repository\MediaRepository.
+ * Test case for class \TYPO3\CMS\Media\Domain\Model\Image.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class MediaRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
+class ImageTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var Tx_Phpunit_Framework
-	 */
-	private $testingFramework;
-
-	/**
-	 * @var \TYPO3\CMS\Media\Domain\Repository\MediaRepository
+	 * @var \TYPO3\CMS\Media\Domain\Model\Image
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->testingFramework = new Tx_Phpunit_Framework('sys_file');
-		$this->fixture = new \TYPO3\CMS\Media\Domain\Repository\MediaRepository();
+		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Image();
+		$this->fixture->setIndexIfNotIndexed(FALSE);
 	}
 
 	public function tearDown() {
-		$this->testingFramework->cleanUp();
-		unset($this->fixture, $this->testingFramework);
+		unset($this->fixture);
 	}
 
 	/**
 	 * @test
-	 * @expectedException \TYPO3\CMS\Media\Exception\MissingUidException
 	 */
-	public function updateMediaReturnsException() {
-		$this->fixture->updateMedia(array());
+	public function checkFixtureIsInstanceOfImage() {
+		$this->assertTrue($this->fixture instanceof \TYPO3\CMS\Media\Domain\Model\Image);
 	}
+
 }
 ?>

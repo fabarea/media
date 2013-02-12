@@ -3,7 +3,7 @@ Media for TYPO3 CMS
 ========================
 
 Media Management (media) is a tool for organizing Media files and retrieve them by categories, mime-types etc.
-and is, in this regard a pragmatic replacement to DAM build on the top of FAL. Read more about DAM `history and status`_.
+and is, in this regard a pragmatic replacement to DAM build on the top of FAL for TYPO3 CMS 6 branch. Read more about DAM `history and status`_.
 
 .. _history and status: http://buzz.typo3.org/teams/dam/article/new-features-in-dam-13-and-the-future-of-dam/
 
@@ -19,6 +19,40 @@ Media introduces different API for its needs which are going to be roughly detai
 * TCA service API: how to query the TCA in a programming way. To know more about TCA : http://docs.typo3.org/typo3cms/TCAReference/
 * TCA grid: extend the TCA for the need of a grid component (AKA management list).
 * TCA widget: introduce random widgets within a form.
+
+Repository API
+=================
+
+The extension is shipping a few repositories that you can take advantage in a third-party extension for instance. The fundamental one, is the Asset Repository which is the "four-wheel" repository.
+It can query any kind of media types. Consider the snippet::
+
+	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+	$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository');
+
+	$assetRepository->findAll()
+	$assetRepository->findByUid($uid)
+	$assetRepository->findBy*($value)  e.g findByType
+	$assetRepository->findOneBy*($value)  e.g findOneByType
+	$assetRepository->countBy*($value)  e.g countBy
+
+There is also an option that can be passed whether you want to be returned objects (the default) or arrays::
+
+	# Will return an array of array instead of an array of object
+	$assetRepository->setRawResult(TRUE)->findAll();
+
+Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for a Photo Gallery you are likely to use the Image repository
+which apply an implicit filter on Image. But there is more than that:
+
+* Text repository for plain text files (txt, html, ...)
+* Image repository
+* Audio repository
+* Video repository
+* Application repository (pdf, odt, doc, ...)
+
+We are following the recommendation of the Iana_ entity available here_ for the media types.
+
+.. _Iana: http://en.wikipedia.org/wiki/Internet_Assigned_Numbers_Authority
+.. _here: http://www.iana.org/assignments/media-types
 
 File Upload
 =================

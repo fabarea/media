@@ -52,7 +52,7 @@ class Filter  {
 	 *
 	 * @var array
 	 */
-	protected $fields = array();
+	protected $constraints = array();
 
 	/**
 	 * Constructs a new Filter
@@ -61,6 +61,10 @@ class Filter  {
 	 */
 	public function __construct($filters = array()) {
 		$this->searchTerm = empty($filters['searchTerm']) ? '' : $filters['searchTerm'];
+
+		$this->constraints = empty($filters['constraints']) && is_array($filters['constraints']) ?
+			$filters['constraints'] :
+			array();
 	}
 
 	/**
@@ -104,17 +108,18 @@ class Filter  {
 	/**
 	 * @return array
 	 */
-	public function getFields() {
-		return $this->fields;
+	public function getConstraints() {
+		return $this->constraints;
 	}
 
 	/**
+	 * Add a value to be filtered for a given field.
 	 *
 	 * @param string $field
 	 * @param string $value
 	 */
-	public function setFields($field, $value) {
-		$this->fields[$field] = $value;
+	public function addConstraint($field, $value) {
+		$this->constraints[$field] = $value;
 	}
 
 }

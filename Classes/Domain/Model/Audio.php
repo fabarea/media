@@ -31,68 +31,18 @@ namespace TYPO3\CMS\Media\Domain\Model;
  * @package TYPO3
  * @subpackage media
  */
-class Tx_Media_Domain_Model_Audio extends \TYPO3\CMS\Core\Resource\File {
+class Audio extends \TYPO3\CMS\Media\Domain\Model\Media {
 
 	/**
-	 * Language
+	 * Return a thumbnail corresponding to an Application
 	 *
-	 * @var string
+	 * @param array $options
+	 * @return string
 	 */
-	protected $language;
-
-	/**
-	 * Duration
-	 *
-	 * @var int
-	 */
-	protected $duration;
-
-	/**
-	 * __construct
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
-
-	/**
-	 * Returns the language
-	 *
-	 * @return string $language
-	 */
-	public function getLanguage() {
-		return $this->language;
-	}
-
-	/**
-	 * Sets the language
-	 *
-	 * @param string $language
-	 * @return void
-	 */
-	public function setLanguage($language) {
-		$this->language = $language;
-	}
-
-	/**
-	 * Returns the duration
-	 *
-	 * @return string $duration
-	 */
-	public function getDuration() {
-		return $this->duration;
-	}
-
-	/**
-	 * Sets the duration
-	 *
-	 * @param string $duration
-	 * @return void
-	 */
-	public function setDuration($duration) {
-		$this->duration = $duration;
+	public function getThumbnail(array $options = array()) {
+		// @todo implement me
+		// @todo make sure the the thumbnail can be wrapped in "a" tag,
+		return '';
 	}
 }
 ?>

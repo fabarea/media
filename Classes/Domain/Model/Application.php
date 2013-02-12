@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Domain\Repository;
+namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
@@ -25,13 +25,25 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  ***************************************************************/
 
 /**
- * Repository for accessing software
+ * Application representation in the file abstraction layer.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class SoftwareRepository extends \TYPO3\CMS\Media\Domain\Repository\MediaRepository {
+class Application extends \TYPO3\CMS\Media\Domain\Model\Media {
+
+	/**
+	 * Return a thumbnail corresponding to an Application
+	 *
+	 * @param array $options
+	 * @return string
+	 */
+	public function getThumbnail(array $options = array()) {
+		// @todo implement me
+		// @todo make sure the the thumbnail can be wrapped in "a" tag,
+		return '';
+	}
 
 }
 ?>

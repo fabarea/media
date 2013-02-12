@@ -31,12 +31,19 @@ namespace TYPO3\CMS\Media\QueryElement;
  * @package TYPO3
  * @subpackage media
  */
-class Query  {
+class Query {
 
 	/**
 	 * @var string
 	 */
 	protected $tableName = 'sys_file';
+
+	/**
+	 * The default object type being returned for the Media Object Factory
+	 *
+	 * @var string
+	 */
+	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Media';
 
 	/**
 	 * @var \TYPO3\CMS\Media\QueryElement\Filter
@@ -64,17 +71,166 @@ class Query  {
 	protected $databaseHandle;
 
 	/**
+	 * @var \TYPO3\CMS\Media\MediaFactory
+	 */
+	protected $mediaFactory;
+
+	/**
+	 * Tell whether it is a raw result (array) or object being returned.
+	 *
+	 * @var bool
+	 */
+	protected $rawResult = FALSE;
+
+	/**
+	 * A flag indicating whether all or some enable fields should be ignored. If TRUE, all enable fields are ignored.
+	 * If--in addition to this--enableFieldsToBeIgnored is set, only fields specified there are ignored. If FALSE, all
+	 * enable fields are taken into account, regardless of the enableFieldsToBeIgnored setting.
+	 *
+	 * @var boolean
+	 */
+	protected $ignoreEnableFields = FALSE;
+
+	/**
+	 * Tell whether the storage will be respected. It normally should, but exception may happen.
+	 *
+	 * @todo will still be implemented in 0.10.0
+	 *
+	 * @var bool
+	 */
+	protected $respectStorage = TRUE;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
+		$this->mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter
+	 * Render the SQL "orderBy" part.
+	 *
+	 * @return string
 	 */
-	public function setFilter($filter) {
-		$this->filter = $filter;
+	public function renderOrder() {
+		$orderBy = '';
+		if (!is_null($this->order)) {
+			$orderings = $this->order->getOrderings();
+			$orderBy = $delimiter = '';
+			foreach ($orderings as $order => $direction) {
+				$orderBy .= sprintf('%s %s %s', $delimiter, $order , $direction);
+				$delimiter = ',';
+			}
+		}
+		return trim($orderBy);
+	}
+
+	/**
+	 * Render the SQL "limit" part.
+	 *
+	 * @return string
+	 */
+	public function renderLimit() {
+		$limit = '';
+		if ($this->limit > 0) {
+			$limit = $this->offset . ',' . $this->limit;
+		}
+		return $limit;
+	}
+
+	/**
+	 * Render the SQL "where" part
+	 *
+	 * @return string
+	 */
+	public function renderClause() {
+		$clause = 'deleted = 0';
+
+		if (TYPO3_MODE === 'BE' && $this->ignoreEnableFields) {
+			$clause .= \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($this->tableName);
+		} elseif (TYPO3_MODE === 'FE' && $this->ignoreEnableFields) {
+			$clause .= $GLOBALS['TSFE']->sys_page->enableFields($this->tableName);
+		}
+
+		if (! is_null($this->filter)) {
+			if ($this->filter->getSearchTerm()) {
+				$searchTerm = $this->databaseHandle->escapeStrForLike($this->filter->getSearchTerm(), $this->tableName);
+				$searchParts = array();
+				\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
+
+				$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
+
+				foreach ($fields as $field) {
+					$fieldType = \TYPO3\CMS\Media\Utility\TcaField::getService()->getFieldType($field);
+					if ($fieldType == 'text' OR $fieldType == 'input') {
+						$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
+					}
+					// @todo add support for uid FIELD_IN_SET
+				}
+				$clause = sprintf('%s AND (%s)', $clause, implode(' OR ', $searchParts));
+			}
+
+			// Add constraints to the request
+			// @todo Implement OR. For now only support AND. Take inspiration from logicalAnd and logicalOr.
+			// @todo Add matching method $query->matching($query->equals($propertyName, $value))
+			foreach ($this->filter->getConstraints() as $field => $value) {
+				$clause .=  sprintf(' AND %s = "%s"',
+					$field,
+					$this->databaseHandle->escapeStrForLike($value, $this->tableName)
+				);
+			}
+		}
+
+		return $clause;
+	}
+
+	/**
+	 * Build the query and return its result
+	 *
+	 * @return string the query
+	 */
+	public function getQuery() {
+		$clause = $this->renderClause();
+		$orderBy = $this->renderOrder();
+		$limit = $this->renderLimit();
+
+		return $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
+	}
+
+	/**
+	 * Execute a query and return its result set.
+	 *
+	 * @return mixed
+	 */
+	public function execute() {
+		$resource = $this->databaseHandle->sql_query($this->getQuery());
+		$items = array();
+		while ($row = $this->databaseHandle->sql_fetch_assoc($resource)) {
+			if (!$this->rawResult) {
+				try {
+					$row = $this->mediaFactory->createObject($row, $this->objectType);
+				} catch (\Exception $exception) {
+					\TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
+						$exception->getMessage(),
+						'media',
+						\TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_WARNING
+					);
+				}
+			}
+			$items[] = $row;
+		}
+		return $items;
+	}
+
+	/**
+	 * Execute a query and count its items.
+	 *
+	 * @return int
+	 */
+	public function count() {
+		$clause = $this->renderClause();
+		return $this->databaseHandle->exec_SELECTcountRows('*', $this->tableName, $clause);
 	}
 
 	/**
@@ -85,10 +241,12 @@ class Query  {
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Media\QueryElement\Order $order
+	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
 	 */
-	public function setOrder(\TYPO3\CMS\Media\QueryElement\Order $order) {
-		$this->order = $order;
+	public function setFilter(\TYPO3\CMS\Media\QueryElement\Filter $filter) {
+		$this->filter = $filter;
+		return $this;
 	}
 
 	/**
@@ -99,71 +257,92 @@ class Query  {
 	}
 
 	/**
+	 * @param \TYPO3\CMS\Media\QueryElement\Order $order
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
+	 */
+	public function setOrder(\TYPO3\CMS\Media\QueryElement\Order $order) {
+		$this->order = $order;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOffset() {
+		return $this->offset;
+	}
+
+	/**
 	 * @param int $offset
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
 	 */
 	public function setOffset($offset) {
 		$this->offset = (integer) $offset;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLimit() {
+		return $this->limit;
 	}
 
 	/**
 	 * @param int $limit
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
 	 */
 	public function setLimit($limit) {
 		$this->limit = (integer) $limit;
+		return $this;
 	}
 
 	/**
-	 * Render the SQL order by
-	 *
-	 * @return string
+	 * @return boolean
 	 */
-	public function renderOrder() {
-		$orderings = $this->order->getOrderings();
-		$orderBy = $delimiter = '';
-		foreach ($orderings as $order => $direction) {
-			$orderBy .= sprintf('%s %s %s', $delimiter, $order , $direction);
-			$delimiter = ',';
-		}
-		return trim($orderBy);
+	public function getRawResult() {
+		return $this->rawResult;
 	}
 
 	/**
-	 * Render the SQL order by
-	 *
-	 * @return string
+	 * @param boolean $rawResult
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
 	 */
-	public function renderClause() {
-		$clause = 'deleted = 0';
-
-		$searchTerm = $this->databaseHandle->escapeStrForLike($this->filter->getSearchTerm(), $this->tableName);
-
-		$searchParts = array();
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
-
-		$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
-
-		foreach ($fields as $field) {
-			$fieldType = \TYPO3\CMS\Media\Utility\TcaField::getService()->getFieldType($field);
-			if ($fieldType == 'text' OR $fieldType == 'input') {
-				$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
-			}
-			// @todo add support for uid FIELD_IN_SET
-		}
-
-		return sprintf('%s AND (%s)', $clause, implode(' OR ', $searchParts));
+	public function setRawResult($rawResult) {
+		$this->rawResult = $rawResult;
+		return $this;
 	}
 
 	/**
-	 * Build the query and return its result
-	 *
-	 * @return string the query
+	 * @return boolean
 	 */
-	public function get() {
-		$clause = $this->renderClause();
-		$orderBy = $this->renderOrder();
-		$limit = $this->offset . ',' . $this->limit;
+	public function getObjectType() {
+		return $this->objectType;
+	}
 
-		return $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
+	/**
+	 * @param boolean $objectType
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
+	 */
+	public function setObjectType($objectType) {
+		$this->objectType = $objectType;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getIgnoreEnableFields() {
+		return $this->ignoreEnableFields;
+	}
+
+	/**
+	 * @param boolean $ignoreEnableFields
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
+	 */
+	public function setIgnoreEnableFields($ignoreEnableFields) {
+		$this->ignoreEnableFields = $ignoreEnableFields;
+		return $this;
 	}
 }
 

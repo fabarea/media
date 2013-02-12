@@ -25,51 +25,51 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  ***************************************************************/
 
 /**
- * Repository for accessing Image
+ * Repository for accessing software
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class ImageRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepository {
+class ApplicationRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepository {
 
 	/**
 	 * @var string
 	 */
-	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Image';
+	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Application';
 
 	/**
-	 * Returns all Image of this repository.
+	 * Returns all Application of this repository.
 	 *
-	 * @return \TYPO3\CMS\Media\Domain\Model\Image[]
+	 * @return \TYPO3\CMS\Media\Domain\Model\Application[]
 	 */
 	public function findAll() {
 		$this->setObjectType($this->objectType);
-		return $this->findByType(\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
+		return $this->findByType(\TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
 	}
 
 	/**
-	 * Finds all Images given a specified filter.
+	 * Finds all Applications given a specified filter.
 	 *
 	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
 	 * @param int $offset
 	 * @param int $itemsPerPage
-	 * @return \TYPO3\CMS\Media\Domain\Model\Image[]
+	 * @return \TYPO3\CMS\Media\Domain\Model\Application[]
 	 */
 	public function findFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $offset = NULL, $itemsPerPage = NULL) {
-		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
+		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
 		return parent::findFiltered($filter, $order, $offset, $itemsPerPage);
 	}
 
 	/**
-	 * Count all Images given a specified filter.
+	 * Count all Applications given a specified filter.
 	 *
 	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
 	 * @return int
 	 */
 	public function countFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter) {
-		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
+		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
 		return parent::countFiltered($filter);
 	}
 

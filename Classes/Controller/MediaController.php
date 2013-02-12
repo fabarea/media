@@ -33,20 +33,16 @@ namespace TYPO3\CMS\Media\Controller;
 class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
-	 * mediaRepository
-	 *
-	 * @var \TYPO3\CMS\Media\Domain\Repository\MediaRepository
+	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
 	 */
-	protected $mediaRepository;
+	protected $assetRepository;
 
 	/**
-	 * injectMediaRepository
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Repository\MediaRepository $mediaRepository
+	 * @param \TYPO3\CMS\Media\Domain\Repository\AssetRepository $assetRepository
 	 * @return void
 	 */
-	public function injectMediaRepository(\TYPO3\CMS\Media\Domain\Repository\MediaRepository $mediaRepository) {
-		$this->mediaRepository = $mediaRepository;
+	public function injectAssetRepository(\TYPO3\CMS\Media\Domain\Repository\AssetRepository $assetRepository) {
+		$this->assetRepository = $assetRepository;
 	}
 
 	/**
@@ -57,7 +53,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	public function listAction() {
 		$this->view->assign('mediaTypes', \TYPO3\CMS\Media\Utility\MediaType::getTypes());
 		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldList());
-		$this->view->assign('medias', $this->mediaRepository->findAll());
+		$this->view->assign('medias', $this->assetRepository->findAll());
 	}
 
 	/**
@@ -74,8 +70,8 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$pagerObject = $this->createPagerObject();
 
 		// Query the repository
-		$medias = $this->mediaRepository->findAllByFilter($filterObject, $orderObject, $pagerObject->getOffset(), $pagerObject->getItemsPerPage());
-		$numberOfMedias = $this->mediaRepository->countAllByFilter($filterObject);
+		$medias = $this->assetRepository->findFiltered($filterObject, $orderObject, $pagerObject->getOffset(), $pagerObject->getItemsPerPage());
+		$numberOfMedias = $this->assetRepository->countFiltered($filterObject);
 		$pagerObject->setCount($numberOfMedias);
 
 		// Assign values
@@ -129,17 +125,17 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 */
 	public function createAction(array $media = array()) {
 		// @todo check add method when achieving the upload feature
-		//$this->mediaRepository->add($media);
+		//$this->assetRepository->add($media);
 
 		// Prepare output
 		$result['status'] = FALSE;
 		$result['action'] = 'create';
 		$result['media'] = array('uid' => '','title' => '',);
 
-		$mediaUid = $this->mediaRepository->addMedia($media);
+		$mediaUid = $this->assetRepository->addMedia($media);
 
 		if ($mediaUid > 0) {
-			$mediaObject = $this->mediaRepository->findByUid($mediaUid);
+			$mediaObject = $this->assetRepository->findByUid($mediaUid);
 			$result['status'] = TRUE;
 			$result['media'] = array(
 				'uid' => $mediaObject->getUid(),
@@ -159,7 +155,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return void
 	 */
 	public function editAction($media) {
-		$mediaObject = $this->mediaRepository->findByUid($media);
+		$mediaObject = $this->assetRepository->findByUid($media);
 		$this->view->assign('media', $mediaObject);
 	}
 
@@ -171,8 +167,8 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @dontvalidate $media
 	 */
 	public function updateAction(array $media) {
-		$this->mediaRepository->updateMedia($media);
-		$mediaObject = $this->mediaRepository->findByUid($media['uid']);
+		$this->assetRepository->updateMedia($media);
+		$mediaObject = $this->assetRepository->findByUid($media['uid']);
 		$result['status'] = TRUE;
 		$result['action'] = 'update';
 		$result['media'] = array(
@@ -193,8 +189,8 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return string
 	 */
 	public function deleteAction($media) {
-		$mediaObject = $this->mediaRepository->findByUid($media);
-		$result['status'] = $this->mediaRepository->remove($mediaObject);
+		$mediaObject = $this->assetRepository->findByUid($media);
+		$result['status'] = $this->assetRepository->remove($mediaObject);
 		$result['action'] = 'delete';
 		$result['media'] = array(
 			'uid' => $mediaObject->getUid(),
@@ -216,7 +212,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	public function downloadAction($media) {
 
 		/** @var $media \TYPO3\CMS\Media\Domain\Model\Media */
-		$media = $this->mediaRepository->findByUid($media);
+		$media = $this->assetRepository->findByUid($media);
 
 		if (is_object($media) && $media->exists() && $media->checkActionPermission('read')) {
 			header('Content-Description: File Transfer');
