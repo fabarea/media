@@ -81,9 +81,7 @@ class Tx_Media_Backend_ExtensionManager {
 	 * @return string the HTML message
 	 */
 	public function renderMessage(&$params, &$tsObj) {
-		return '';
 		$out = '';
-
 
 		if ($this->needsUpdate()) {
 			$out .= '
