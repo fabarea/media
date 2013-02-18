@@ -130,6 +130,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$result['action'] = 'create';
 		$result['media'] = array('uid' => '','title' => '',);
 
+		$media['storage'] = \TYPO3\CMS\Media\Utility\Configuration::get('storage');
 		$mediaUid = $this->assetRepository->addMedia($media);
 
 		if ($mediaUid > 0) {

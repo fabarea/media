@@ -42,10 +42,10 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getSettingsReturnEmptyArrayByDefault() {
+	public function getSettingsReturnNotEmptyArrayByDefault() {
 		$actual = \TYPO3\CMS\Media\Utility\Configuration::getSettings();
 		$this->assertTrue(is_array($actual));
-		$this->assertTrue(empty($actual));
+		$this->assertNotEmpty($actual);
 	}
 
 	/**

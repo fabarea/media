@@ -94,8 +94,6 @@ class Query {
 	/**
 	 * Tell whether the storage will be respected. It normally should, but exception may happen.
 	 *
-	 * @todo will still be implemented in 0.10.0
-	 *
 	 * @var bool
 	 */
 	protected $respectStorage = TRUE;
@@ -146,6 +144,13 @@ class Query {
 	 */
 	public function renderClause() {
 		$clause = 'deleted = 0';
+
+		if ($this->respectStorage) {
+			$clause = sprintf('%s AND storage = %s',
+				$clause,
+				\TYPO3\CMS\Media\Utility\Configuration::get('storage')
+			);
+		}
 
 		if (TYPO3_MODE === 'BE' && $this->ignoreEnableFields) {
 			$clause .= \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($this->tableName);

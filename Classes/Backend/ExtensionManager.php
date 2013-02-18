@@ -1,6 +1,5 @@
 <?php
-# @todo fix me! Namespace has not worked for the EM -> class is called from ext_conf_template.txt
-#namespace TYPO3\CMS\Media\Backend;
+namespace TYPO3\CMS\Media\Backend;
 /***************************************************************
  *  Copyright notice
  *
@@ -29,7 +28,7 @@
 /**
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Media_Backend_ExtensionManager {
+class ExtensionManager {
 
 	/**
 	 * The extension key
@@ -46,30 +45,19 @@ class Tx_Media_Backend_ExtensionManager {
 	protected $configuration = array();
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository
-	 */
-	protected $mountRepository;
-
-	/**
 	 * Constructor
+	 *
+	 * @return \TYPO3\CMS\Media\Backend\ExtensionManager
 	 */
 	public function __construct() {
 
-			// Load configuration
-		if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]) {
-			$this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
-		}
+		// Load configuration
+		$this->configuration = \TYPO3\CMS\Media\Utility\Configuration::getSettings();
 
-			// Merge with Data that comes from the User
+		// Merge with Data that comes from the User
 		$postData = \TYPO3\CMS\Core\Utility\GeneralUtility::_POST();
 		if (!empty($postData['data'])) {
 			$this->configuration = array_merge($this->configuration, $postData['data']);
-		}
-
-		/** @var $mount t3lib_file_Domain_Model_Mount */
-		if ($this->configuration['storage'] > 0) {
-			$this->mountRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository');
-			$this->mount = $this->mountRepository->findByUid($this->configuration['storage']);
 		}
 	}
 
@@ -100,7 +88,8 @@ class Tx_Media_Backend_ExtensionManager {
 		}
 		else {
 
-			// @todo remove code if not used before release 1.0
+			// @todo remove code if not used prior to release 1.0
+			// actions suggested to be achieved in the Extension Manager, like updating, migrating something...
 //			$actionOut = '';
 //			$actions = array();
 //
@@ -143,31 +132,29 @@ class Tx_Media_Backend_ExtensionManager {
 	 */
 	public function renderStorage() {
 
-		/* @var t3lib_DB */
-		$records = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'sys_file_storage', 'deleted = 0');
+		/** @var $storageRepository \TYPO3\CMS\Core\Resource\StorageRepository */
+		$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+		$records = $storageRepository->findAll();
 
-		if (empty($records)) {
-			$output = $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:em_error_missing_storage');
-		}
-		else {
-			$options = '';
-			foreach ($records as $record) {
-				$selected = '';
+		$options = '';
 
-				if ($this->configuration['storage'] == $record['uid']) {
-					$selected = 'selected="selected"';
-				}
-				$options .= '<option value="' . $record['uid'] . '" ' . $selected .'>' . $record['name'] . '</option>';
+		/** @var $record \TYPO3\CMS\Core\Resource\ResourceStorage */
+		foreach ($records as $record) {
+			$selected = '';
+
+			if ($this->configuration['storage'] == $record->getUid()) {
+				$selected = 'selected="selected"';
 			}
+			$options .= '<option value="' . $record->getUid() . '" ' . $selected . '>' . $record->getName() . '</option>';
+		}
 
-			$output = <<<EOF
+		$output = <<<EOF
 				<div class="typo3-tstemplate-ceditor-row" id="userTS-storage">
-					<select id="data[storage]" type="text" name="data[storage]">
+					<select type="text" name="tx_extensionmanager_tools_extensionmanagerextensionmanager[config][storage][value]">
 						$options
 					</select>
 				</div>
 EOF;
-		}
 		return $output;
 	}
 }

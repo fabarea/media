@@ -40,6 +40,7 @@ class Configuration {
 	static protected $defaultSettings = array(
 		'thumbnail_size' => 100,
 		'visible_media_type_in_new_menu' => '2,5', // possible values 1:text,2:image,3:audio,4:video,5:software
+		'storage' => 1,
 	);
 
 	/**
@@ -54,18 +55,18 @@ class Configuration {
 	 * @return array
 	 */
 	static public function get($key) {
-
-		if(empty(self::$settings)) {
-			$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][self::$extensionKey]);
-			self::$settings = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge(self::$defaultSettings, $settings);
-		}
-		return isset(self::$settings[$key]) ? self::$settings[$key] : '';
+		$settings = self::getSettings();
+		return isset($settings[$key]) ? $settings[$key] : '';
 	}
 
 	/**
 	 * @return array
 	 */
 	public static function getSettings() {
+		if (empty(self::$settings)) {
+			$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][self::$extensionKey]);
+			self::$settings = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge(self::$defaultSettings, $settings);
+		}
 		return self::$settings;
 	}
 

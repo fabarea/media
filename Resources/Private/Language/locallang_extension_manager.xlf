@@ -7,9 +7,6 @@
 			<trans-unit id="updater_header">
 				<source>Configuration is still missing. Update Extension Manager Configuration</source>
 			</trans-unit>
-			<trans-unit id="em_error_missing_storage">
-				<source>No Storage has been defined yet. Please create one to have Media running.</source>
-			</trans-unit>
 			<trans-unit id="updater_message">
 				<source>
 					<![CDATA[
