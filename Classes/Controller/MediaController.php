@@ -233,7 +233,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
-	 * Handle the file upload action
+	 * Handle the file upload action for a new file and an existing one.
 	 *
 	 * @param array $media
 	 * @return string
@@ -255,7 +255,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 		if (is_object($uploadedFileObject)) {
 
-			// Try to instantiate a file object.
+			// Instantiate a file object if existing -> a uid was transmitted.
 			$fileObject = NULL;
 			if (!empty($media['uid'])) {
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
@@ -270,11 +270,16 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 				$targetFolderObject = \TYPO3\CMS\Media\Utility\StorageFolder::get();
 				$newFileObject = $targetFolderObject->addFile($temporaryFileName, $fileName , $conflictMode);
 
-				// update tstamp which is not handled by addFile()
+				// Update the tstamp - which is not updated by addFile()
 				$newFileObject->updateProperties(array('tstamp' => time()));
 				/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
 				$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
 				$fileRepository->update($newFileObject);
+
+				// Call the indexer service for updating the metadata of the file.
+				/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
+				$indexerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+				$indexerService->indexFile($newFileObject, TRUE);
 
 				/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
 				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
