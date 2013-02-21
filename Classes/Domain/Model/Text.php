@@ -31,7 +31,7 @@ namespace TYPO3\CMS\Media\Domain\Model;
  * @package TYPO3
  * @subpackage media
  */
-class Text extends \TYPO3\CMS\Media\Domain\Model\Media {
+class Text extends \TYPO3\CMS\Media\Domain\Model\Asset {
 
 	/**
 	 * Return a thumbnail corresponding to a Text

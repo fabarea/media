@@ -66,7 +66,7 @@ On the server side, there is an API for file upload which handles transparently 
 ::
 
 		# Notice code is simplified from the real implementation.
-		# For more detail check EXT:media/Classes/Controller/MediaController.php @ uploadAction
+		# For more detail check EXT:media/Classes/Controller/AssetController.php @ uploadAction
 
 		$uploadDirectory = '/somewhere/in/your/system';
 		$conflictMode = 'overwrite';

@@ -24,7 +24,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Grid;
 ***************************************************************/
 
 /**
- * View helper for rendering rows of medias
+ * View helper for rendering rows of assets
  *
  * @category    ViewHelpers
  * @package     TYPO3
@@ -34,33 +34,33 @@ namespace TYPO3\CMS\Media\ViewHelpers\Grid;
 class RowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Render rows of medias and output them in JSON formation
+	 * Render rows of assets and output them in JSON formation
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media the media to be displayed
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset the media to be displayed
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media) {
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset) {
 
 		$fields = \TYPO3\CMS\Media\Utility\TcaGrid::getService()->getFields();
 
 		// Initialize returned array
 		$output = array();
-		$output['DT_RowId'] = 'row-' . $media->getUid();
-		$output['DT_RowClass'] = 'row-' . $media->getStatus();
+		$output['DT_RowId'] = 'row-' . $asset->getUid();
+		$output['DT_RowClass'] = 'row-' . $asset->getStatus();
 
 		foreach($fields as $fieldName => $configuration) {
 
 			if (\TYPO3\CMS\Media\Utility\TcaGrid::getService()->isNotSystem($fieldName)) {
 
 				// Fetch value
-				$value = call_user_func(array($media, 'getProperty'), $fieldName);
+				$value = call_user_func(array($asset, 'getProperty'), $fieldName);
 
 				if (\TYPO3\CMS\Media\Utility\TcaGrid::getService()->hasRenderer($fieldName)) {
 					$renderer = \TYPO3\CMS\Media\Utility\TcaGrid::getService()->getRenderer($fieldName);
 
 					/** @var $rendererObject \TYPO3\CMS\Media\Renderer\RendererInterface */
 					$rendererObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($renderer);
-					$value = $rendererObject->render($media);
+					$value = $rendererObject->render($asset);
 				}
 
 				if (!empty($configuration['format'])) {

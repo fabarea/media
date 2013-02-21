@@ -47,7 +47,7 @@ $(document).ready(function () {
 		"fnServerParams": function (aoData) {
 			aoData.push({ "name": "M", "value": "user_MediaM1" });
 			aoData.push({ "name": "tx_media_user_mediam1[action]", "value": "listRow" });
-			aoData.push({ "name": "tx_media_user_mediam1[controller]", "value": "Media" });
+			aoData.push({ "name": "tx_media_user_mediam1[controller]", "value": "Asset" });
 			aoData.push({ "name": "tx_media_user_mediam1[format]", "value": "json" });
 		},
 		"aoColumns": Media._columns,

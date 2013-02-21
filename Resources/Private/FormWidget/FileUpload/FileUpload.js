@@ -31,8 +31,8 @@ $(document).ready(function () {
 	}).on('submit', function (event, id, fileName) {
 			var params = new Object();
 			params[prefix + '[action]'] = 'upload';
-			params[prefix + '[controller]'] = 'Media';
-			params[prefix + '[media][uid]'] = $('#media-uid').val();
+			params[prefix + '[controller]'] = 'Asset';
+			params[prefix + '[asset][uid]'] = $('#asset-uid').val();
 			params['M'] = 'user_MediaM1'; // @todo Make me configurable... for FE plugin for instance.
 			$(this).fineUploader('setParams', params);
 		})
@@ -40,7 +40,7 @@ $(document).ready(function () {
 		})
 		.on('complete', function (event, id, fileName, responseJSON) {
 			if (responseJSON.uid) {
-				$('#media-uid').val(responseJSON.uid);
+				$('#asset-uid').val(responseJSON.uid);
 			}
 			if (responseJSON.thumbnail) {
 				// Replace thumbnail by new one.

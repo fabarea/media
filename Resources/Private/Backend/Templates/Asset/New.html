@@ -5,32 +5,32 @@
 
 <f:section name="main">
 
+
 	<div id="wrap">
 
 		<!-- identifier for the *top* part for identification in the global view -->
 		<div id="content-header">
 
-			<!--<a href="#" class="btn disabled">Previous</a>-->
-			<!--<a href="#" class="btn disabled">Next</a>-->
+			<a href="#" class="btn btn-close" accesskey="c">
+				<f:translate key="close"/>
+			</a>
 
-			<f:render partial="Widget/CloseButton" />
-			<f:render partial="Widget/SaveButton" />
+			<button type="button" class="btn btn-primary btn-save" accesskey="s">
+				<f:translate key="save"/>
+			</button>
 		</div>
+
 
 		<!-- identifier for the *middle* part for identification in the global view -->
 		<div id="content-body">
 			<div class="container">
-				<!--<div class="page-header">-->
-				<!--<h1>{media.title}</h1>-->
-				<!--</div>-->
-				<!--<p class="lead"></p>-->
 				<f:flashMessages/>
 				<f:render partial="FormErrors"/>
-				<f:form method="post" action="update" enctype="multipart/form-data" name="media"
-				        object="{media}" arguments="{format: 'json'}" id="form-media">
+				<f:form method="post" action="create" enctype="multipart/form-data"
+				        name="asset" object="{asset}" arguments="{format: 'json'}" id="form-media">
 
-					<m:form.tca object="{media}"/>
-					<f:form.hidden id="media-uid" property="uid"/>
+					<m:form.tca object="{asset}"/>
+					<f:form.hidden id="asset-uid" property="uid"/>
 					<div style="visibility: hidden">
 						<f:form.submit value="{f:translate(key: 'save')}"/>
 					</div>
@@ -45,7 +45,7 @@
 			<div class="footer">
 				<div class="container">
 					<p class="footer-container pull-right">
-						<m:form.footer object="{media}"/>
+
 					</p>
 				</div>
 			</div>

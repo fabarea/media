@@ -50,10 +50,10 @@ class StatusTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function renderWithStatusEqualsToOneReturnANotEmptyString() {
-		$media = new \TYPO3\CMS\Media\Domain\Model\Media();
-		$media->setIndexIfNotIndexed(FALSE);
-		$media->setStatus(1);
-		$actual = $this->fixture->render($media);
+		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
+		$asset->setIndexIfNotIndexed(FALSE);
+		$asset->setStatus(1);
+		$actual = $this->fixture->render($asset);
 		$this->assertNotEmpty($actual);
 	}
 

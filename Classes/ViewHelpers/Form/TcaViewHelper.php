@@ -42,11 +42,11 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	/**
 	 * Render a form according to a given object.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $object Object to use for the form. Use in conjunction with the "property" attribute on the sub tags
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $object Object to use for the form. Use in conjunction with the "property" attribute on the sub tags
 	 * @param string $prefix prefix the field name with a namespace
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $object = NULL, $prefix = NULL) {
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $object = NULL, $prefix = NULL) {
 
 		$this->prefix = $prefix;
 		if (empty($this->prefix)) {

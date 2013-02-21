@@ -49,9 +49,9 @@ class TcaViewHelperTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function createAnEmptyMediaObjectAndTestWhetherItsTypeEqualsToStringMedia() {
-		$media = new \TYPO3\CMS\Media\Domain\Model\Media();
-		$this->assertEquals('media', $this->fixture->getObjectName($media));
+	public function createAnEmptyAssetObjectAndTestWhetherItsTypeEqualsToStringMedia() {
+		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
+		$this->assertEquals('asset', $this->fixture->getObjectName($asset));
 	}
 }
 ?>

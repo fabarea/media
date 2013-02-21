@@ -65,7 +65,7 @@ Media.Action = {
 						function (data) {
 							// Reload data table
 							Media.Table.fnDeleteRow(Media.Table.fnGetPosition(row));
-							var message = Media.format('message-deleted', data.media.title);
+							var message = Media.format('message-deleted', data.asset.title);
 							Media.FlashMessage.add(message, 'success');
 						}
 					);
@@ -106,7 +106,7 @@ Media.Action = {
 							// Reload data table
 							Media.Panel.showList();
 							var mediaTitle, message;
-							mediaTitle = data.media.title == '' ? data.media.uid : data.media.title;
+							mediaTitle = data.asset.title == '' ? data.asset.uid : data.asset.title;
 							message = Media.format(key, mediaTitle);
 							Media.FlashMessage.add(message, 'success');
 						}

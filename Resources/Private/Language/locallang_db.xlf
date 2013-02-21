@@ -132,10 +132,6 @@
 			<trans-unit id="tx_media_collection.visibility">
 				<source>Visibility</source>
 			</trans-unit>
-			<trans-unit id="tx_media_collection.medias">
-				<source>Medias</source>
-			</trans-unit>
-
 			<trans-unit id="tx_media_filter">
 				<source>Filter</source>
 			</trans-unit>

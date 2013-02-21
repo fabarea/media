@@ -48,10 +48,10 @@ class FooterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 	 * Example:
 	 * Created on 30-12-12 by John Updated on 22-05-12 by Jane
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $object Object to use for the form. Use in conjunction with the "property" attribute on the sub tags
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $object Object to use for the form. Use in conjunction with the "property" attribute on the sub tags
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $object = NULL) {
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $object = NULL) {
 		$template = '<span>%s %s %s</span> <span class="offset1">%s %s %s</span>';
 
 		/** @var $dateViewHelper \TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper */

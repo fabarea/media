@@ -32,17 +32,17 @@ namespace TYPO3\CMS\Media\Domain\Model;
  * @package TYPO3
  * @subpackage media
  */
-class Media extends \TYPO3\CMS\Core\Resource\File {
+class Asset extends \TYPO3\CMS\Core\Resource\File {
 
 	/**
 	 * Constructor for a Media object.
 	 *
-	 * @param array $mediaData
+	 * @param array $assetData
 	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
 	 */
-	public function __construct(array $mediaData = array(), $storage = NULL) {
-		parent::__construct($mediaData, $storage);
+	public function __construct(array $assetData = array(), $storage = NULL) {
+		parent::__construct($assetData, $storage);
 	}
 
 	/**

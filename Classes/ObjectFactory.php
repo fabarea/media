@@ -34,15 +34,15 @@ namespace TYPO3\CMS\Media;
  * @package TYPO3
  * @subpackage t3lib
  */
-class MediaFactory implements \TYPO3\CMS\Core\SingletonInterface {
+class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Gets a singleton instance of this class.
 	 *
-	 * @return \TYPO3\CMS\Media\MediaFactory
+	 * @return \TYPO3\CMS\Media\ObjectFactory
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Media\\MediaFactory');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Media\\ObjectFactory');
 	}
 
 	/**
@@ -51,18 +51,18 @@ class MediaFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @param array $fileData
 	 * @param string $objectType
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
 	 */
-	public function createObject(array $fileData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Media') {
-		/** @var \TYPO3\CMS\Media\Domain\Model\Media $mediaObject */
-		$mediaObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($objectType, $fileData);
+	public function createObject(array $fileData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset') {
+		/** @var $object \TYPO3\CMS\Core\Resource\FileInterface */
+		$object = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($objectType, $fileData);
 
 		if (is_numeric($fileData['storage'])) {
 			$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
 			$storageObject = $resourceFactory->getStorageObject($fileData['storage']);
-			$mediaObject->setStorage($storageObject);
+			$object->setStorage($storageObject);
 		}
-		return $mediaObject;
+		return $object;
 	}
 
 }

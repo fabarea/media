@@ -3,10 +3,10 @@ config.tx_extbase {
 	# However, this could could change in the future and the mapping will become necessary
 	persistence{
 		classes {
-			TYPO3\CMS\Media\Domain\Model\Media {
+			TYPO3\CMS\Media\Domain\Model\Asset {
 				mapping {
 					tableName = sys_file
-					recordType = TYPO3\CMS\Media\Domain\Model\Media
+					recordType = TYPO3\CMS\Media\Domain\Model\Asset
 					columns {
 						#title.mapOnProperty = title
 						#path.mapOnProperty = path

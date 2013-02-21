@@ -35,12 +35,12 @@ class Status implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	/**
 	 * Render a preview of an media.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media = NULL) {
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
 		$fieldService = \TYPO3\CMS\Media\Utility\TcaField::getService();
-		return $fieldService->getLabelForItem('status', $media->getStatus());
+		return $fieldService->getLabelForItem('status', $asset->getStatus());
 	}
 }
 ?>

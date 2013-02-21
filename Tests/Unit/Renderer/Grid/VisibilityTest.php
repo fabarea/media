@@ -50,10 +50,10 @@ class VisibilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function renderWithVisibilityEqualsToOneReturnANotEmptyString() {
-		$media = new \TYPO3\CMS\Media\Domain\Model\Media();
-		$media->setIndexIfNotIndexed(FALSE);
-		$media->setProperty('hidden', 1);
-		$actual = $this->fixture->render($media);
+		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
+		$asset->setIndexIfNotIndexed(FALSE);
+		$asset->setProperty('hidden', 1);
+		$actual = $this->fixture->render($asset);
 		$this->assertNotEmpty($actual);
 	}
 

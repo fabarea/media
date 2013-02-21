@@ -70,7 +70,7 @@ class QueryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function methodGetReturnsDefaultSql() {
-		$this->assertEquals('SELECT * FROM sys_file WHERE deleted = 0', $this->fixture->getQuery());
+		$this->assertContains('SELECT * FROM sys_file WHERE deleted = 0', $this->fixture->getQuery());
 	}
 
 	/**

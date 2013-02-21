@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Media.php');
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/File.php');
 
 
 $TCA["sys_file_variants"] = array(
@@ -26,7 +26,7 @@ if (TYPO3_MODE == 'BE') {
 		'm1',
 		'bottom', // Position
 		array(
-			'Media' => 'list, listRow, new, create, delete, edit, update, download, upload',
+			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload',
 		),
 		array(
 			'access' => 'user,group',

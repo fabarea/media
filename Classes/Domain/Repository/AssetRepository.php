@@ -25,7 +25,7 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  ***************************************************************/
 
 /**
- * Repository for accessing media
+ * Repository for accessing Asset
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -39,9 +39,9 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	protected $databaseHandle;
 
 	/**
-	 * @var \TYPO3\CMS\Media\MediaFactory
+	 * @var \TYPO3\CMS\Media\ObjectFactory
 	 */
-	protected $mediaFactory;
+	protected $objectFactory;
 
 	/**
 	 * Tell whether it is a raw result (array) or object being returned.
@@ -53,7 +53,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	/**
 	 * @var string
 	 */
-	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Media';
+	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset';
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
@@ -65,24 +65,24 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 */
 	public function __construct() {
 		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
-		$this->mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
+		$this->objectFactory = \TYPO3\CMS\Media\ObjectFactory::getInstance();
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 	/**
-	 * Update a Media Management media with new information
+	 * Update an asset with new information
 	 *
 	 * @throws \TYPO3\CMS\Media\Exception\MissingUidException
-	 * @param array $media file information
+	 * @param array $asset file information
 	 * @return void
 	 */
-	public function updateMedia($media = array()) {
+	public function updateAsset($asset = array()) {
 
-		if (empty($media['uid'])) {
+		if (empty($asset['uid'])) {
 			throw new \TYPO3\CMS\Media\Exception\MissingUidException('Missing Uid', 1351605542);
 		}
 
-		$data['sys_file'][$media['uid']] = $media;
+		$data['sys_file'][$asset['uid']] = $asset;
 
 		/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
 		$tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
@@ -92,18 +92,18 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	}
 
 	/**
-	 * Add a new Media into the repository.
+	 * Add a new Asset into the repository.
 	 *
-	 * @param array $media file information
+	 * @param array $asset file information
 	 * @return int
 	 */
-	public function addMedia($media = array()) {
+	public function addAsset($asset = array()) {
 
-		if (empty($media['pid'])) {
-			$media['pid'] = '0';
+		if (empty($asset['pid'])) {
+			$asset['pid'] = '0';
 		}
 		$key = 'NEW' . rand(100000, 999999);
-		$data['sys_file'][$key] = $media;
+		$data['sys_file'][$key] = $asset;
 
 		/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
 		$tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
@@ -117,7 +117,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	/**
 	 * Returns all objects of this repository.
 	 *
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media[]
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset[]
 	 */
 	public function findAll() {
 
@@ -134,7 +134,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 * @throws \RuntimeException
 	 * @throws \InvalidArgumentException
 	 * @param int $uid The identifier of the object to find
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media The matching object
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset The matching object
 	 */
 	public function findByUid($uid) {
 
@@ -156,13 +156,13 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	}
 
 	/**
-	 * Finds all Media given a specified filter.
+	 * Finds all Assets given a specified filter.
 	 *
 	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
 	 * @param int $offset
 	 * @param int $itemsPerPage
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media[]
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset[]
 	 */
 	public function findFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $offset = NULL, $itemsPerPage = NULL) {
 
@@ -190,7 +190,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	}
 
 	/**
-	 * Count all Media given a specified filter.
+	 * Count all Assets given a specified filter.
 	 *
 	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
 	 * @return int
@@ -205,12 +205,12 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	/**
 	 * Removes an object from this repository.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media The object to remove
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset The object to remove
 	 * @return boolean
 	 */
-	public function remove($media) {
-		$media->getStorage()->deleteFile($media);
-		return $this->databaseHandle->exec_UPDATEquery('sys_file', 'uid = ' . $media->getUid(), array('deleted' => 1));
+	public function remove($asset) {
+		$asset->getStorage()->deleteFile($asset);
+		return $this->databaseHandle->exec_UPDATEquery('sys_file', 'uid = ' . $asset->getUid(), array('deleted' => 1));
 	}
 
 	/**

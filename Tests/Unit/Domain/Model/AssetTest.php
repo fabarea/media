@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Domain\Model\Media.
+ * Test case for class \TYPO3\CMS\Media\Domain\Model\Asset.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class MediaTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
+class AssetTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Domain\Model\Media
+	 * @var \TYPO3\CMS\Media\Domain\Model\Asset
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Media();
+		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Asset();
 		$this->fixture->setIndexIfNotIndexed(FALSE);
 	}
 

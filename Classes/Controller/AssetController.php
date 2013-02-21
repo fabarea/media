@@ -24,13 +24,13 @@ namespace TYPO3\CMS\Media\Controller;
  ***************************************************************/
 
 /**
- * Controller which handles Media actions
+ * Controller which handles actions related to Assets.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
+class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
@@ -46,17 +46,17 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
-	 * List action for this controller. Displays a list of medias
+	 * List action for this controller. Displays a list of assets
 	 *
 	 * @return string The rendered view
 	 */
 	public function listAction() {
 		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldList());
-		$this->view->assign('medias', $this->assetRepository->findAll());
+		$this->view->assign('assets', $this->assetRepository->findAll());
 	}
 
 	/**
-	 * List Row action for this controller. Output a json list of medias
+	 * List Row action for this controller. Output a json list of assets
 	 * This action is expected to have a parameter format = json
 	 *
 	 * @return string The rendered view
@@ -69,13 +69,13 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$pagerObject = $this->createPagerObject();
 
 		// Query the repository
-		$medias = $this->assetRepository->findFiltered($filterObject, $orderObject, $pagerObject->getOffset(), $pagerObject->getItemsPerPage());
-		$numberOfMedias = $this->assetRepository->countFiltered($filterObject);
-		$pagerObject->setCount($numberOfMedias);
+		$assets = $this->assetRepository->findFiltered($filterObject, $orderObject, $pagerObject->getOffset(), $pagerObject->getItemsPerPage());
+		$numberOfAssets = $this->assetRepository->countFiltered($filterObject);
+		$pagerObject->setCount($numberOfAssets);
 
 		// Assign values
-		$this->view->assign('medias', $medias);
-		$this->view->assign('numberOfMedias', $numberOfMedias);
+		$this->view->assign('assets', $assets);
+		$this->view->assign('numberOfAssets', $numberOfAssets);
 		$this->view->assign('pager', $pagerObject);
 
 		$this->request->setFormat('json');
@@ -84,61 +84,51 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
-	 * action show
-	 *
-	 * @param int $media
-	 * @return void
-	 */
-	public function showAction($media) {
-		$this->view->assign('media', $media);
-	}
-
-	/**
 	 * Action new: return a form for creating a new media
 	 *
-	 * @param array $media
+	 * @param array $asset
 	 * @return void
-	 * @dontvalidate $media
+	 * @dontvalidate $asset
 	 */
-	public function newAction(array $media = array()) {
+	public function newAction(array $asset = array()) {
 
 		// Makes sure a media type is set.
-		$media['type'] = empty($media['type']) ? 0 : (int) $media['type'];
+		$asset['type'] = empty($asset['type']) ? 0 : (int) $asset['type'];
 
-		/** @var $mediaFactory \TYPO3\CMS\Media\MediaFactory */
-		$mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
+		/** @var $objectFactory \TYPO3\CMS\Media\ObjectFactory */
+		$objectFactory = \TYPO3\CMS\Media\ObjectFactory::getInstance();
 
-		/** @var $mediaObject \TYPO3\CMS\Media\Domain\Model\Media */
-		$mediaObject = $mediaFactory->createObject($media);
-		$mediaObject->setIndexIfNotIndexed(FALSE); // mandatory, otherwise FAL will try to index a non yet created object.
-		$this->view->assign('media', $mediaObject);
+		/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
+		$assetObject = $objectFactory->createObject($asset);
+		$assetObject->setIndexIfNotIndexed(FALSE); // mandatory, otherwise FAL will try to index a non yet created object.
+		$this->view->assign('asset', $assetObject);
 	}
 
 	/**
 	 * Action create: store a new media in the repository
 	 *
-	 * @param array $media
+	 * @param array $asset
 	 * @return void
-	 * @dontvalidate $media
+	 * @dontvalidate $asset
 	 */
-	public function createAction(array $media = array()) {
+	public function createAction(array $asset = array()) {
 		// @todo check add method when achieving the upload feature
 		//$this->assetRepository->add($media);
 
 		// Prepare output
 		$result['status'] = FALSE;
 		$result['action'] = 'create';
-		$result['media'] = array('uid' => '','title' => '',);
+		$result['asset'] = array('uid' => '','title' => '',);
 
-		$media['storage'] = \TYPO3\CMS\Media\Utility\Configuration::get('storage');
-		$mediaUid = $this->assetRepository->addMedia($media);
+		$asset['storage'] = \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$assetUid = $this->assetRepository->addAsset($asset);
 
-		if ($mediaUid > 0) {
-			$mediaObject = $this->assetRepository->findByUid($mediaUid);
+		if ($assetUid > 0) {
+			$assetObject = $this->assetRepository->findByUid($assetUid);
 			$result['status'] = TRUE;
-			$result['media'] = array(
-				'uid' => $mediaObject->getUid(),
-				'title' => $mediaObject->getTitle(),
+			$result['asset'] = array(
+				'uid' => $assetObject->getUid(),
+				'title' => $assetObject->getTitle(),
 			);
 		}
 
@@ -150,29 +140,29 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	/**
 	 * Action edit
 	 *
-	 * @param int $media
+	 * @param int $asset
 	 * @return void
 	 */
-	public function editAction($media) {
-		$mediaObject = $this->assetRepository->findByUid($media);
-		$this->view->assign('media', $mediaObject);
+	public function editAction($asset) {
+		$assetObject = $this->assetRepository->findByUid($asset);
+		$this->view->assign('asset', $assetObject);
 	}
 
 	/**
 	 * Action update media.
 	 *
-	 * @param array $media
+	 * @param array $asset
 	 * @return void
-	 * @dontvalidate $media
+	 * @dontvalidate $asset
 	 */
-	public function updateAction(array $media) {
-		$this->assetRepository->updateMedia($media);
-		$mediaObject = $this->assetRepository->findByUid($media['uid']);
+	public function updateAction(array $asset) {
+		$this->assetRepository->updateAsset($asset);
+		$assetObject = $this->assetRepository->findByUid($asset['uid']);
 		$result['status'] = TRUE;
 		$result['action'] = 'update';
-		$result['media'] = array(
-			'uid' => $mediaObject->getUid(),
-			'title' => $mediaObject->getTitle(),
+		$result['asset'] = array(
+			'uid' => $assetObject->getUid(),
+			'title' => $assetObject->getTitle(),
 		);
 
 		# Json header is not automatically respected in the BE... so send one the hard way.
@@ -184,16 +174,16 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * Delete a row given a media uid.
 	 * This action is expected to have a parameter format = json
 	 *
-	 * @param int $media
+	 * @param int $asset
 	 * @return string
 	 */
-	public function deleteAction($media) {
-		$mediaObject = $this->assetRepository->findByUid($media);
-		$result['status'] = $this->assetRepository->remove($mediaObject);
+	public function deleteAction($asset) {
+		$assetObject = $this->assetRepository->findByUid($asset);
+		$result['status'] = $this->assetRepository->remove($assetObject);
 		$result['action'] = 'delete';
-		$result['media'] = array(
-			'uid' => $mediaObject->getUid(),
-			'title' => $mediaObject->getTitle(),
+		$result['asset'] = array(
+			'uid' => $assetObject->getUid(),
+			'title' => $assetObject->getTitle(),
 		);
 
 		# Json header is not automatically respected in the BE... so send one the hard way.
@@ -203,27 +193,27 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
 	 * Download securely an asset
-	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
 	 *
-	 * @param int $media
+	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
+	 * @param $asset
 	 * @return void
 	 */
-	public function downloadAction($media) {
+	public function downloadAction($asset) {
 
-		/** @var $media \TYPO3\CMS\Media\Domain\Model\Media */
-		$media = $this->assetRepository->findByUid($media);
+		/** @var $asset \TYPO3\CMS\Media\Domain\Model\Asset */
+		$asset = $this->assetRepository->findByUid($asset);
 
-		if (is_object($media) && $media->exists() && $media->checkActionPermission('read')) {
+		if (is_object($asset) && $asset->exists() && $asset->checkActionPermission('read')) {
 			header('Content-Description: File Transfer');
-			header('Content-Type: ' . $media->getMimeType());
-			header('Content-Disposition: inline; filename="' . $media->getName() . '"');
+			header('Content-Type: ' . $asset->getMimeType());
+			header('Content-Disposition: inline; filename="' . $asset->getName() . '"');
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
-			header('Content-Length: ' . $media->getSize());
+			header('Content-Length: ' . $asset->getSize());
 			flush();
-			readfile(PATH_site .  $media->getPublicUrl());
+			readfile(PATH_site .  $asset->getPublicUrl());
 			return;
 		}
 		else {
@@ -235,10 +225,10 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 	/**
 	 * Handle the file upload action for a new file and an existing one.
 	 *
-	 * @param array $media
+	 * @param array $asset
 	 * @return string
 	 */
-	public function uploadAction(array $media = array()){
+	public function uploadAction(array $asset = array()){
 
 		// @todo transfer directory can be removed if a random name is given to the file.
 		$uploadDirectory = PATH_site . 'typo3temp/UploadedFilesTransfer';
@@ -257,9 +247,9 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 			// Instantiate a file object if existing -> a uid was transmitted.
 			$fileObject = NULL;
-			if (!empty($media['uid'])) {
+			if (!empty($asset['uid'])) {
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
-				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($media['uid']);
+				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($asset['uid']);
 			}
 
 			$temporaryFileName = sprintf('%s/%s', $uploadDirectory, $uploadedFileObject->getName());
@@ -289,7 +279,7 @@ class MediaController extends \TYPO3\CMS\Media\Controller\BaseController {
 					'uid' => $newFileObject->getUid(),
 					'thumbnail' => $thumbnailService->setFile($newFileObject)->create(),
 					// @todo hardcoded for now...
-					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Media'
+					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Asset'
 				);
 			} catch (\TYPO3\CMS\Core\Resource\Exception\UploadException $e) {
 				$response = array('error' => 'The upload has failed, no uploaded file found!');

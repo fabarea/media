@@ -35,10 +35,10 @@ class Permission implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	/**
 	 * Render a preview of an media.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media = NULL) {
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
 		return 'Can you help?';
 	}
 }

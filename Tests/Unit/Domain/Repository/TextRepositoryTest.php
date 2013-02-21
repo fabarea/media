@@ -190,6 +190,7 @@ class TextRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 				'sys_file',
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
+					'storage' => \TYPO3\CMS\Media\Utility\Configuration::get('storage'),
 					'type' => \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT,
 					'title' => $this->fakeTitle,
 					'pid' => 0,

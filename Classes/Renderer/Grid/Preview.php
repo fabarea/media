@@ -47,11 +47,11 @@ class Preview implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	/**
 	 * Render a preview of an media.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media = NULL) {
-		return $this->thumbnailService->setFile($media)->doWrap()->create();
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+		return $this->thumbnailService->setFile($asset)->doWrap()->create();
 	}
 }
 ?>

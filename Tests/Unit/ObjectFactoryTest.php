@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Controller\MediaController.
+ * Test case for class \TYPO3\CMS\Media\ObjectFactory.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class MediaControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
+class ObjectFactoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Controller\MediaController
+	 * @var \TYPO3\CMS\Media\ObjectFactory
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Controller\MediaController();
+		$this->fixture = new \TYPO3\CMS\Media\ObjectFactory();
 	}
 
 	public function tearDown() {
@@ -48,7 +48,26 @@ class MediaControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
 	 * @test
+	 * @dataProvider classNameProvider
 	 */
-	public function listRowActionTest() {}
+	public function testProperty($className, $values) {
+		$object = $this->fixture->createObject($values, $className);
+		$this->assertTrue($object instanceof $className);
+		$this->assertSame($values['uid'], $object->getUid());
+	}
+
+	/**
+	 * Provider
+	 */
+	public function classNameProvider() {
+		return array(
+			array('TYPO3\CMS\Media\Domain\Model\Asset', array('uid' => rand(100, 200))),
+			array('TYPO3\CMS\Media\Domain\Model\Text', array('uid' => rand(100, 200))),
+			array('TYPO3\CMS\Media\Domain\Model\Image', array('uid' => rand(100, 200))),
+			array('TYPO3\CMS\Media\Domain\Model\Audio', array('uid' => rand(100, 200))),
+			array('TYPO3\CMS\Media\Domain\Model\Video', array('uid' => rand(100, 200))),
+			array('TYPO3\CMS\Media\Domain\Model\Application', array('uid' => rand(100, 200))),
+		);
+	}
 }
 ?>

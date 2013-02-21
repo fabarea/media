@@ -62,7 +62,7 @@ interface ThumbnailInterface {
 	public function isWrapped();
 
 	/**
-	 * @return \TYPO3\CMS\Media\Domain\Model\Media
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
 	 */
 	public function getFile();
 

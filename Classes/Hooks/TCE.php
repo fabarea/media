@@ -117,9 +117,9 @@ class Tx_Media_Hooks_TCE {
 			// @todo fetch this config from TypoScript or so...
 			if (TRUE && $status == 'update') {
 				$assetRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Media_Domain_Repository_AssetRepository');
-				$media = $assetRepository->findByUid($id);
+				$asset = $assetRepository->findByUid($id);
 
-				$previousFileName = $this->getPreviousFileName($media);
+				$previousFileName = $this->getPreviousFileName($asset);
 				if ($previousFileName) {
 					$pObj->uploadedFileArray[$this->tableName]['_userfuncFile']['file']['name'] = $previousFileName;
 				}
@@ -198,12 +198,12 @@ class Tx_Media_Hooks_TCE {
 	/**
 	 * Returns the previous file name of the file
 	 *
-	 * @param Tx_Media_Model_Media a $media
+	 * @param object $asset
 	 */
-	protected function getPreviousFileName($media) {
-		if ($media->getFile()) {
+	protected function getPreviousFileName($asset) {
+		if ($asset->getFile()) {
 			$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_file_Repository_FileRepository');
-			$file = $fileRepository->findByUid($media->getFile()->getUid());
+			$file = $fileRepository->findByUid($asset->getFile()->getUid());
 		}
 
 		return $file ? $file->getName() : '';

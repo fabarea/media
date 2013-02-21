@@ -60,8 +60,7 @@ class FallBackThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			'uid' => rand(10000, 100000),
 			'identifier' => uniqid('/foo'),
 		);
-		$media = new \TYPO3\CMS\Media\Domain\Model\Media($data);
-		return $media;
+		return new \TYPO3\CMS\Media\Domain\Model\Asset($data);
 	}
 }
 ?>

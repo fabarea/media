@@ -49,7 +49,7 @@ class StorageFolder {
 		$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 
-		// Example identifier for $media['target'] => "2:targetpath/targetfolder/"
+		// Example identifier for $asset['target'] => "2:targetpath/targetfolder/"
 		return $storageObject->getFolder(''); // get the root folder
 
 	}

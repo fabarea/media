@@ -1,0 +1,30 @@
+{
+	"sEcho": "{m:transaction()}",
+	"iTotalRecords": "{numberOfAssets}",
+	"iTotalDisplayRecords": "{numberOfAssets}",
+	"iNumberOfRecords": "{assets->f:count()}",
+	"aaData": [
+<f:for each="{assets}" as="asset" key="number" iteration="iterator">
+{
+
+	<m:grid.row asset="{asset}" />,
+
+	"__buttons":
+
+		<m:format.json>
+			<f:link.action action="edit" arguments="{asset : asset.uid}"
+			class="btn btn-grid btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-pencil"></i></f:link.action>
+			<f:link.action action="delete" arguments="{asset : asset.uid, format: 'json'}"
+			class="btn btn-grid btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-trash"></i></f:link.action>
+		</m:format.json>,
+
+	"__number":
+		<m:format.json>
+			<m:table.rowNumber value="{number}" offset="{pager.offset}" />
+		</m:format.json>
+
+	}<f:if condition="{iterator.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
+</f:for>
+	]
+}
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

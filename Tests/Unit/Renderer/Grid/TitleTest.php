@@ -50,11 +50,11 @@ class TitleTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function renderWithTitleEqualsToOneReturnANotEmptyString() {
-		$media = new \TYPO3\CMS\Media\Domain\Model\Media();
-		$media->setIndexIfNotIndexed(FALSE);
-		$media->setTitle(uniqid());
-		$media->setDescription(uniqid());
-		$actual = $this->fixture->render($media);
+		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
+		$asset->setIndexIfNotIndexed(FALSE);
+		$asset->setTitle(uniqid());
+		$asset->setDescription(uniqid());
+		$actual = $this->fixture->render($asset);
 		$this->assertNotEmpty($actual);
 	}
 

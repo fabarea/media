@@ -43,7 +43,7 @@ class Query {
 	 *
 	 * @var string
 	 */
-	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Media';
+	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset';
 
 	/**
 	 * @var \TYPO3\CMS\Media\QueryElement\Filter
@@ -71,9 +71,9 @@ class Query {
 	protected $databaseHandle;
 
 	/**
-	 * @var \TYPO3\CMS\Media\MediaFactory
+	 * @var \TYPO3\CMS\Media\ObjectFactory
 	 */
-	protected $mediaFactory;
+	protected $objectFactory;
 
 	/**
 	 * Tell whether it is a raw result (array) or object being returned.
@@ -103,7 +103,7 @@ class Query {
 	 */
 	public function __construct() {
 		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
-		$this->mediaFactory = \TYPO3\CMS\Media\MediaFactory::getInstance();
+		$this->objectFactory = \TYPO3\CMS\Media\ObjectFactory::getInstance();
 	}
 
 	/**
@@ -214,7 +214,7 @@ class Query {
 		while ($row = $this->databaseHandle->sql_fetch_assoc($resource)) {
 			if (!$this->rawResult) {
 				try {
-					$row = $this->mediaFactory->createObject($row, $this->objectType);
+					$row = $this->objectFactory->createObject($row, $this->objectType);
 				} catch (\Exception $exception) {
 					\TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
 						$exception->getMessage(),

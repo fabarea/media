@@ -87,8 +87,8 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 * @test
 	 * @expectedException \TYPO3\CMS\Media\Exception\MissingUidException
 	 */
-	public function updateMediaReturnsException() {
-		$this->fixture->updateMedia(array());
+	public function updateAssetReturnsException() {
+		$this->fixture->updateAsset(array());
 	}
 
 	/**
@@ -121,7 +121,7 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 */
 	public function findByUidCanReturnTheLastInsertedMedia() {
 		$actual = $this->fixture->findByUid($this->lastInsertedUid);
-		$this->assertTrue($actual instanceof \TYPO3\CMS\Media\Domain\Model\Media);
+		$this->assertTrue($actual instanceof \TYPO3\CMS\Media\Domain\Model\Asset);
 	}
 
 	/**
@@ -164,6 +164,7 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 				'sys_file',
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
+					'storage' => \TYPO3\CMS\Media\Utility\Configuration::get('storage'),
 					'type' => $this->fakeFileType,
 					'title' => uniqid(),
 					'pid' => 0,

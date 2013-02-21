@@ -35,19 +35,19 @@ class Visibility implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	/**
 	 * Render the hidden column of a media.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Media $media
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Media $media = NULL) {
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
 		$template = '<img src="%s" alt="%s" title="%s"/>';
 		$icon = sprintf(
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/hidden_%s.png' ,
-			$media->getProperty('hidden')
+			$asset->getProperty('hidden')
 		);
 		$imageTag = sprintf($template,
 			$icon,
-			$media->getProperty('hidden') == 0 ? 'visible' : 'hidden',
-			$media->getProperty('hidden') == 0 ? 'visible' : 'hidden'
+			$asset->getProperty('hidden') == 0 ? 'visible' : 'hidden',
+			$asset->getProperty('hidden') == 0 ? 'visible' : 'hidden'
 		);
 		return $imageTag;
 	}

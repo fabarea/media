@@ -50,9 +50,9 @@ class CategoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function renderWithCategoryEqualsToOneReturnANotEmptyString() {
-		$media = new \TYPO3\CMS\Media\Domain\Model\Media();
-		$media->setIndexIfNotIndexed(FALSE);
-		$actual = $this->fixture->render($media);
+		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
+		$asset->setIndexIfNotIndexed(FALSE);
+		$actual = $this->fixture->render($asset);
 		$this->assertNotEmpty($actual);
 	}
 
