@@ -46,6 +46,18 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
+	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
+	 */
+	public function initializeAction() {
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
+		if (!$storageObject->isOnline()) {
+			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
+			throw new \TYPO3\CMS\Media\Exception\StorageNotOnlineException($message, 1361461834);
+		}
+	}
+
+	/**
 	 * List action for this controller. Displays a list of assets
 	 *
 	 * @return string The rendered view
