@@ -69,6 +69,17 @@ class MediaFolder {
 	}
 
 	/**
+	 * Return the default page id that corresponds to the first occurrence of
+	 * media folder (folder == a special page type in the BE).
+	 *
+	 * @return int
+	 */
+	static public function getDefaultPid() {
+		$pidList = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::getPidList());
+		return empty($pidList[0]) ? 0 : $pidList[0];
+	}
+
+	/**
 	 * Create a Media folder
 	 *
 	 * @param integer $pid The PID of the folder which is 0 by default to place the folder in the root.

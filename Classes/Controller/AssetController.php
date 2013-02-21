@@ -121,6 +121,8 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$result['asset'] = array('uid' => '','title' => '',);
 
 		$asset['storage'] = \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
+
 		$assetUid = $this->assetRepository->addAsset($asset);
 
 		if ($assetUid > 0) {
@@ -261,7 +263,10 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 				$newFileObject = $targetFolderObject->addFile($temporaryFileName, $fileName , $conflictMode);
 
 				// Update the tstamp - which is not updated by addFile()
-				$newFileObject->updateProperties(array('tstamp' => time()));
+				$newFileObject->updateProperties(array(
+					'tstamp' => time(),
+					'pid' => \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid()
+				));
 				/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
 				$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
 				$fileRepository->update($newFileObject);
