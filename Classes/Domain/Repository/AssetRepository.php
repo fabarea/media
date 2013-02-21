@@ -209,8 +209,27 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 * @return boolean
 	 */
 	public function remove($asset) {
-		$asset->getStorage()->deleteFile($asset);
-		return $this->databaseHandle->exec_UPDATEquery('sys_file', 'uid = ' . $asset->getUid(), array('deleted' => 1));
+		$result = FALSE;
+		if ($asset) {
+
+			if ($asset->exists()) {
+				// Get the recycler folder. Create on if needed.
+				$recyclerFolderName = \TYPO3\CMS\Media\Utility\Configuration::get('recyclerFolder');
+				$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+				$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
+			    if (! $storageObject->hasFolder($recyclerFolderName)) {
+					$storageObject->createFolder($recyclerFolderName);
+				 }
+				$recyclerFolder = $storageObject->getFolder($recyclerFolderName);
+
+				// Move the asset to the recycler
+				$asset->moveTo($recyclerFolder, $asset->getName(), 'renameNewFile');
+			}
+
+			// Mark the record as deleted
+			$result = $this->databaseHandle->exec_UPDATEquery('sys_file', 'uid = ' . $asset->getUid(), array('deleted' => 1));
+		}
+		return $result;
 	}
 
 	/**

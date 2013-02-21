@@ -183,10 +183,12 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$assetObject = $this->assetRepository->findByUid($asset);
 		$result['status'] = $this->assetRepository->remove($assetObject);
 		$result['action'] = 'delete';
-		$result['asset'] = array(
-			'uid' => $assetObject->getUid(),
-			'title' => $assetObject->getTitle(),
-		);
+		if ($result['status']) {
+			$result['asset'] = array(
+				'uid' => $assetObject->getUid(),
+				'title' => $assetObject->getTitle(),
+			);
+		}
 
 		# Json header is not automatically respected in the BE... so send one the hard way.
 		header('Content-type: application/json');
