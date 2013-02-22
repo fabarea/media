@@ -211,7 +211,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * Download securely an asset
 	 *
 	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
-	 * @param $asset
+	 * @param int $asset
 	 * @return void
 	 */
 	public function downloadAction($asset) {

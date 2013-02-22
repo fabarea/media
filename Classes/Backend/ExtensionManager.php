@@ -45,6 +45,11 @@ class ExtensionManager {
 	protected $configuration = array();
 
 	/**
+	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected $databaseHandler;
+
+	/**
 	 * Constructor
 	 *
 	 * @return \TYPO3\CMS\Media\Backend\ExtensionManager
@@ -59,6 +64,8 @@ class ExtensionManager {
 		if (!empty($postData['data'])) {
 			$this->configuration = array_merge($this->configuration, $postData['data']);
 		}
+
+		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
 	}
 
 	/**
@@ -71,6 +78,22 @@ class ExtensionManager {
 	public function renderMessage(&$params, &$tsObj) {
 		$out = '';
 
+		if ($this->isDamDetected()) {
+			$out .= '
+				<div style="">
+					<div class="typo3-message message-warning">
+						<div class="message-header">
+						I found tracks of DAM.
+					</div>
+						<div class="message-body">
+							Would you like to upgrade? There is a utility script
+							<a href="/typo3/mod.php?M=user_MediaM1&tx_media_user_mediam1[controller]=Migration">here</a>
+							to import the database into FAL.
+						</div>
+					</div>
+				</div>
+			';
+		}
 		if ($this->needsUpdate()) {
 			$out .= '
 			<div style="">
@@ -87,18 +110,6 @@ class ExtensionManager {
 
 		}
 		else {
-
-			// @todo remove code if not used prior to release 1.0
-			// actions suggested to be achieved in the Extension Manager, like updating, migrating something...
-//			$actionOut = '';
-//			$actions = array();
-//
-//				// Report to the BE User
-//			if (!empty($actions)) {
-//				$actionOut = '<span style="text-decoratoin: underline; font-weight: bold;">Action(s) executed:</span>';
-//				$actionOut .= '<ul><li>' . implode('<li></li>', $actions) . ' </li></ul>';
-//			}
-//
 			$out .= '
 			<div style="">
 				<div class="typo3-message message-ok">
@@ -124,6 +135,17 @@ class ExtensionManager {
 	protected function needsUpdate() {
 		return empty($this->configuration);
 	}
+
+	/**
+	 * Tell whether previous installation of DAM is found
+	 *
+	 * @return boolean
+	 */
+	protected function isDamDetected() {
+		$tables = $this->databaseHandler->admin_get_tables();
+		return empty($tables['tx_dam']) ? FALSE : TRUE;
+	}
+
 
 	/**
 	 * Render the storage list Field

@@ -12,6 +12,7 @@ CREATE TABLE sys_file (
 	identifier varchar(255) DEFAULT '' NOT NULL,
 	creator varchar(255) DEFAULT '' NOT NULL,
 	publisher varchar(45) DEFAULT '' NOT NULL,
+	published int(11) unsigned DEfAULT '0' NOT NULL,
 	source varchar(255) DEFAULT '' NOT NULL,
 	alternative varchar(255) DEFAULT '' NOT NULL,
 	caption varchar(255) DEFAULT '' NOT NULL,
@@ -62,16 +63,4 @@ CREATE TABLE sys_file (
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
-);
-
-CREATE TABLE sys_file_variants (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
-	role int(11) unsigned DEFAULT '0' NOT NULL,
-	original int(11) unsigned DEFAULT '0' NOT NULL,
-	variant int(11) unsigned DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
 );

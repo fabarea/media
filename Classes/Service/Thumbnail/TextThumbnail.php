@@ -64,7 +64,7 @@ class TextThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	public function wrap($thumbnail) {
 
 //		// @todo implementation of secure download not ideal for now. Improve it! Make it compatible with the FE, too.
-		$uri = '/typo3/mod.php?M=user_MediaM1&tx_media_user_mediam1[media]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
+		$uri = '/typo3/mod.php?M=user_MediaM1&tx_media_user_mediam1[asset]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
 		$template = <<<EOF
 <a href="$uri" target="_blank">%s</a>
 <div class="metadata">%s K</div>

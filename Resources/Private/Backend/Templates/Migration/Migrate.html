@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:m="http://typo3.org/ns/media/ViewHelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<div class="nav-collapse">
+					<div id="navbar-main">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="container" style="padding-left: 10px;">
+		<h3>Importation script run</h3>
+
+		<p class="alert alert-success">Migration went overall successfully at the first glance! New Media record have been set on <strong>pid {defaultPid}</strong>!</p>
+
+		<f:if condition="{missingFiles}">
+			<p class="alert alert-error">Some files were not found on the file system and therefore not imported!</p>
+			<ul>
+				<f:for each="{missingFiles}" as="missingFile">
+					<li>{missingFile}</li>
+				</f:for>
+			</ul>
+		</f:if>
+
+		<div class="alert alert-info">
+			Mapping of fields can be change in the <code>MigrationController</code> file. You can update the mapping data and re-run the script. All imported records will be flushed beforehand.
+		</div>
+
+		List of mapped fields old -> new fields.
+		<f:if condition="{mappingFields}">
+			<ul>
+				<f:for each="{mappingFields}" key="fieldName" as="mappedFieldName">
+					<li>{fieldName} -> {mappedFieldName}</li>
+				</f:for>
+			</ul>
+		</f:if>
+
+		<div class="alert warning">
+			Language field were not imported since they are not handled in the current version of Media
+			<code>sys_language_uid</code>, <code>l10n_parent</code>, <code>l10n_diffsource</code>
+		</div>
+
+		<p>
+			Some fields has not been matched and have been created with their content. It is left to your care to handle their destiny!
+		</p>
+		<f:if condition="{newFields}">
+			<ul>
+				<f:for each="{newFields}" as="fieldName">
+					<li>{fieldName}</li>
+				</f:for>
+			</ul>
+		</f:if>
+
+		<p>As said, column <code>imported_from_dam</code> has been introduced in table <code>sys_file</code> to distinguish the
+			imported DAM records.</p>
+
+		<f:link.action action="index" class="btn">Back</f:link.action>
+	</div>
+
+</f:section>
+</html>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}
