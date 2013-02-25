@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace TYPO3\CMS\Media\Exception;
 
 /***************************************************************
  *  Copyright notice
@@ -25,34 +25,14 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * A class to handle the default folder of the storage
+ * Handle Exception for missing file
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class StorageFolder {
-
-	/**
-	 * @var string
-	 */
-	static protected $extensionName = 'media';
-
-	/**
-	 * Return a folder
-	 *
-	 * @return \TYPO3\CMS\Core\Resource\Folder
-	 */
-	static public function get() {
-
-		// Handle the file storage into the repository.
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
-		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
-
-		// Example identifier for $asset['target'] => "2:targetpath/targetfolder/"
-		return $storageObject->getFolder(''); // get the root folder
-
-	}
+class MissingFileException extends \Exception {
 
 }
+
 ?>

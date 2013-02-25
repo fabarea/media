@@ -40,7 +40,12 @@ class Configuration {
 	static protected $defaultSettings = array(
 		'thumbnail_size' => 100,
 		'storage' => 1,
-		'recyclerFolder' => '_recycler_',
+		'recycler_folder' => '_recycler_',
+		'mount_point_for_file_type_1' => 0, // text (txt, html, ...)
+		'mount_point_for_file_type_2' => 0, // image
+		'mount_point_for_file_type_3' => 0, // audio
+		'mount_point_for_file_type_4' => 0, // video
+		'mount_point_for_file_type_5' => 0, // application (pdf, doc, ...)
 	);
 
 	/**
@@ -57,6 +62,18 @@ class Configuration {
 	static public function get($key) {
 		$settings = self::getSettings();
 		return isset($settings[$key]) ? $settings[$key] : '';
+	}
+
+	/**
+	 * Set a configuration key.
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
+	 */
+	static public function set($key, $value) {
+		self::getSettings(); // just makes sure the settings have been instantiate once.
+		self::$settings[$key] = $value;
 	}
 
 	/**

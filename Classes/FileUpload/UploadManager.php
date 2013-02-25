@@ -45,63 +45,39 @@ class UploadManager {
 	protected $sizeLimit;
 
 	/**
-	 * @var \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	protected $file;
-
-	/**
 	 * @var string
 	 */
-	protected $uploadName;
+	protected $uploadFolder;
+
+	/**
+	 * Name of the file input in the DOM.
+	 *
+	 * @var string
+	 */
+	protected $inputName = 'qqfile';
 
 	/**
 	 * @param array $allowedExtensions; defaults to an empty array
-	 * @param string $inputName; defaults to the javascript default: 'qqfile'
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadManager
 	 */
-	function __construct($inputName = 'qqfile', array $allowedExtensions = array()) {
+	function __construct(array $allowedExtensions = array()) {
 
 		$this->allowedExtensions = $allowedExtensions;
 
+		// Initialize the upload folder for file transfer and create it if not yet existing
+		$this->uploadFolder = PATH_site . 'typo3temp/UploadedFilesTransfer';
+		if (!file_exists($this->uploadFolder)) {
+			\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($this->uploadFolder);
+		}
+
+		// Check whether the upload folder is writable
+		if (!is_writable($this->uploadFolder)) {
+			$this->throwException("Server error. Upload directory isn't writable.");
+		}
+
 		// max file size in bytes
 		$this->sizeLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024;
-
 		$this->checkServerSettings();
-
-		if (!isset($_SERVER['CONTENT_TYPE'])) {
-			$this->file = false;
-		} else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/') === 0) {
-			$this->file = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile', $inputName);
-		} else {
-			$this->file = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile', $inputName);
-		}
-	}
-
-	/**
-	 * Get the name of the uploaded file
-	 *
-	 * @return string
-	 */
-	public function getUploadName() {
-		if (isset($this->uploadName))
-			return $this->uploadName;
-	}
-
-	/**
-	 * @param string $uploadName
-	 */
-	public function setUploadName($uploadName) {
-		$this->uploadName = $uploadName;
-	}
-
-	/**
-	 * Get the original filename
-	 *
-	 * @return string filename
-	 */
-	public function getName() {
-		if ($this->file)
-			return $this->file->getName();
 	}
 
 	/**
@@ -142,20 +118,61 @@ class UploadManager {
 	/**
 	 * Handle the uploaded file.
 	 *
-	 * @param string $uploadDirectory
-	 * @param mixed $overWrite
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
 	 */
-	function handleUpload($uploadDirectory, $overWrite = FALSE) {
-		if (!is_writable($uploadDirectory)) {
-			$this->throwException("Server error. Upload directory isn't writable.");
+	function handleUpload() {
+
+		if (!isset($_SERVER['CONTENT_TYPE'])) {
+			$uploadedFile = FALSE;
+		} else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/') === 0) {
+			/** @var $uploadedFile \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
+		} else {
+			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
 		}
 
-		if (!$this->file) {
+		if (!$uploadedFile) {
 			$this->throwException('No files were uploaded.');
 		}
 
-		$size = $this->file->getSize();
+		$this->checkFileSize($uploadedFile);
+		$this->checkFileAllowed($uploadedFile);
+
+		$saved = $uploadedFile->setInputName($this->inputName)
+			->setUploadFolder($this->uploadFolder)
+			->setName($this->getFileName($uploadedFile))
+			->save();
+
+		if (! $saved) {
+			$this->throwException('Could not save uploaded file. The upload was cancelled, or server error encountered');
+		}
+
+		return $uploadedFile;
+	}
+
+	/**
+	 * Return a file name given an uploaded file
+	 *
+	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @return string
+	 */
+	public function getFileName(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile){
+		$pathInfo = pathinfo($uploadedFile->getOriginalName());
+		$fileName = $this->sanitizeFileName($pathInfo['filename']);
+		$fileNameWithExtension = $fileName;
+		if (!empty($pathInfo['extension'])) {
+			$fileNameWithExtension = sprintf('%s.%s', $fileName, $pathInfo['extension']);
+		}
+		return $fileNameWithExtension;
+	}
+
+	/**
+	 * Check whether the file size does not exceed the allowed limit
+	 *
+	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 */
+	public function checkFileSize(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile){
+		$size = $uploadedFile->getSize();
 
 		if ($size == 0) {
 			$this->throwException('File is empty');
@@ -164,34 +181,19 @@ class UploadManager {
 		if ($size > $this->sizeLimit) {
 			$this->throwException('File is too large');
 		}
+	}
 
-		$pathInfo = pathinfo($this->file->getName());
-		$filename = $pathInfo['filename'];
-		//$filename = md5(uniqid());
-		$ext = empty($pathInfo['extension']) ? '' : $pathInfo['extension'];
-
-		$isAllowed = $this->checkFileExtensionPermission($this->file->getName());
+	/**
+	 * Check whether the file is allowed
+	 *
+	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 */
+	public function checkFileAllowed(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile) {
+		$isAllowed = $this->checkFileExtensionPermission($uploadedFile->getOriginalName());
 		if (!$isAllowed) {
 			$these = implode(', ', $this->allowedExtensions);
 			$this->throwException('File has an invalid extension, it should be one of ' . $these . '.');
 		}
-
-		$ext = ($ext == '') ? $ext : '.' . $ext;
-
-		if (! $overWrite) {
-			/// don't overwrite previous files that were uploaded
-			while (file_exists($uploadDirectory . DIRECTORY_SEPARATOR . $filename . $ext)) {
-				$filename .= rand(10, 99);
-			}
-		}
-
-		$this->uploadName = $filename . $ext;
-
-		$saved = $this->file->save($uploadDirectory . DIRECTORY_SEPARATOR . $filename . $ext);
-		if (! $saved) {
-			$this->throwException('Could not save uploaded file. The upload was cancelled, or server error encountered');
-		}
-		return $this->file;
 	}
 
 	/**
@@ -237,11 +239,102 @@ class UploadManager {
 	}
 
 	/**
+	 * Sanitize the file name for the web.
+	 * It has been noticed issues when letting done this work by FAL. Give it a little hand.
+	 *
+	 * @see https://github.com/alixaxel/phunction/blob/master/phunction/Text.php#L252
+	 *
+	 * @param string $fileName
+	 * @param string $slug
+	 * @param string $extra
+	 * @return string
+	 */
+	public function sanitizeFileName($fileName, $slug = '-', $extra = NULL){
+		return trim(preg_replace('~[^0-9a-z_' . preg_quote($extra, '~') . ']+~i', $slug, $this->unAccent($fileName)), $slug);
+	}
+
+	/**
+	 * Remove accent from a string
+	 *
+	 * @see https://github.com/alixaxel/phunction/blob/master/phunction/Text.php#L297
+	 * @param $string
+	 * @return string
+	 */
+	protected function unAccent($string) {
+		if (extension_loaded('intl') === true) {
+			$string = Normalizer::normalize($string, Normalizer::FORM_KD);
+		}
+
+		if (strpos($string = htmlentities($string, ENT_QUOTES, 'UTF-8'), '&') !== false) {
+			$string = html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|caron|cedil|circ|grave|lig|orn|ring|slash|tilde|uml);~i', '$1', $string), ENT_QUOTES, 'UTF-8');
+		}
+
+		return $string;
+	}
+
+	/**
 	 * @throws \TYPO3\CMS\Media\Exception\FailedFileUploadException
 	 * @param string $message
 	 */
 	public function throwException($message) {
 		throw new \TYPO3\CMS\Media\Exception\FailedFileUploadException($message, 1357510420);
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedExtensions() {
+		return $this->allowedExtensions;
+	}
+
+	/**
+	 * @param array $allowedExtensions
+	 */
+	public function setAllowedExtensions($allowedExtensions) {
+		$this->allowedExtensions = $allowedExtensions;
+	}
+
+	/**
+	 * @return int|NULL|string
+	 */
+	public function getSizeLimit() {
+		return $this->sizeLimit;
+	}
+
+	/**
+	 * @param int|NULL|string $sizeLimit
+	 */
+	public function setSizeLimit($sizeLimit) {
+		$this->sizeLimit = $sizeLimit;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUploadFolder() {
+		return $this->uploadFolder;
+	}
+
+	/**
+	 * @param string $uploadFolder
+	 */
+	public function setUploadFolder($uploadFolder) {
+		$this->uploadFolder = $uploadFolder;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getInputName() {
+		return $this->inputName;
+	}
+
+	/**
+	 * @param string $inputName
+	 */
+	public function setInputName($inputName) {
+		$this->inputName = $inputName;
+	}
+
 }
 ?>

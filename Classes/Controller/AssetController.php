@@ -246,35 +246,33 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 */
 	public function uploadAction(array $asset = array()){
 
-		// @todo transfer directory can be removed if a random name is given to the file.
-		$uploadDirectory = PATH_site . 'typo3temp/UploadedFilesTransfer';
-		\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($uploadDirectory);
-
 		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
 		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
 		try {
 			/** @var $uploadedFileObject \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
-			$uploadedFileObject = $uploadManager->handleUpload($uploadDirectory, 'replace');
+			$uploadedFileObject = $uploadManager->handleUpload();
 		} catch (\Exception $e) {
 			$response = array('error' => $e->getMessage());
 		}
 
 		if (is_object($uploadedFileObject)) {
 
-			// Instantiate a file object if existing -> a uid was transmitted.
+			// TRUE means a file already exists and we should update it.
 			$fileObject = NULL;
 			if (!empty($asset['uid'])) {
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
 				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($asset['uid']);
+				$fileObject->getType();
+				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($fileObject);
+			} else {
+				// Get the target folder
+				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject);
 			}
 
-			$temporaryFileName = sprintf('%s/%s', $uploadDirectory, $uploadedFileObject->getName());
-			$conflictMode = is_object($fileObject) ? 'replace' : 'changeName';
-			$fileName = is_object($fileObject) ? $fileObject->getName() : $uploadedFileObject->getName();
-
 			try {
-				$targetFolderObject = \TYPO3\CMS\Media\Utility\StorageFolder::get();
-				$newFileObject = $targetFolderObject->addFile($temporaryFileName, $fileName , $conflictMode);
+				$conflictMode = is_object($fileObject) ? 'replace' : 'changeName';
+				$fileName = is_object($fileObject) ? $fileObject->getName() : $uploadedFileObject->getName();
+				$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
 				// Update the tstamp - which is not updated by addFile()
 				$newFileObject->updateProperties(array(

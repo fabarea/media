@@ -36,17 +36,16 @@ interface UploadedFileInterface {
 	/**
 	 * Save the file to the specified path.
 	 *
-	 * @param string $path
 	 * @return boolean TRUE on success
 	 */
-	public function save($path);
+	public function save();
 
 	/**
 	 * Get the original filename.
 	 *
 	 * @return string filename
 	 */
-	public function getName();
+	public function getOriginalName();
 
 	/**
 	 * Get the file size.
@@ -56,10 +55,55 @@ interface UploadedFileInterface {
 	public function getSize();
 
 	/**
+	 * Get the file name.
+	 *
+	 * @return int
+	 */
+	public function getName();
+
+	/**
 	 * Get the file type.
 	 *
 	 * @return int
 	 */
 	public function getType();
+
+	/**
+	 * Get the mime type of the file.
+	 *
+	 * @return int
+	 */
+	public function getMimeType();
+
+	/**
+	 * Get the file with its absolute path.
+	 *
+	 * @return string
+	 */
+	public function getFileWithAbsolutePath();
+
+	/**
+	 * Set the file input name from the DOM.
+	 *
+	 * @param string $inputName
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function setInputName($inputName);
+
+	/**
+	 * Set the upload folder
+	 *
+	 * @param string $uploadFolder
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function setUploadFolder($uploadFolder);
+
+	/**
+	 * Set the file name to be saved
+	 *
+	 * @param string $name
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function setName($name);
 }
 ?>

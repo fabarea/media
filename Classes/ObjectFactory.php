@@ -37,6 +37,18 @@ namespace TYPO3\CMS\Media;
 class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
+	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected $databaseHandler;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
 	 * Gets a singleton instance of this class.
 	 *
 	 * @return \TYPO3\CMS\Media\ObjectFactory
@@ -63,6 +75,42 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 			$object->setStorage($storageObject);
 		}
 		return $object;
+	}
+
+	/**
+	 * Return the current storage
+	 *
+	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
+	 */
+	public function getCurrentStorage() {
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
+	}
+
+	/**
+	 * Return a folder
+	 *
+	 * @param \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\FileUpload\UploadedFileInterface  $fileObject
+	 * @return \TYPO3\CMS\Core\Resource\Folder
+	 */
+	public function getContainingFolder($fileObject = NULL) {
+
+		$storageObject = $this->getCurrentStorage();
+
+		// default is the root level
+		$folderObject = $storageObject->getRootLevelFolder(); // get the root folder by default
+		if ($fileObject instanceof \TYPO3\CMS\Core\Resource\File) {
+			$folderObject = $storageObject->getFolder(dirname($fileObject->getIdentifier()));
+		} elseif ($fileObject instanceof \TYPO3\CMS\Media\FileUpload\UploadedFileInterface) {
+			// Get a possible mount point within the storage
+			$mountPointUid = \TYPO3\CMS\Media\Utility\Configuration::get('mount_point_for_file_type_' . $fileObject->getType());
+			if ($mountPointUid > 0) {
+				// since we don't have a Mount Point repository in FAL, query the database directly.
+				$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointUid);
+				$folderObject = $storageObject->getFolder($record['path']);
+			}
+		}
+		return $folderObject;
 	}
 
 }

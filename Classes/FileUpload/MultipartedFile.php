@@ -40,11 +40,9 @@ class MultipartedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterfa
 	protected $inputName;
 
 	/**
-	 * @param string $inputName; defaults to the javascript default: 'qqfile'
 	 * @return \TYPO3\CMS\Media\FileUpload\MultipartedFile
 	 */
-	public function __construct($inputName = 'qqfile') {
-		$this->inputName = $inputName;
+	public function __construct() {
 	}
 
 	/**
@@ -52,8 +50,8 @@ class MultipartedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterfa
 	 *
 	 * @return boolean TRUE on success
 	 */
-	public function save($path) {
-		return move_uploaded_file($_FILES[$this->inputName]['tmp_name'], $path);
+	public function save() {
+		return move_uploaded_file($_FILES[$this->inputName]['tmp_name'], $this->getFileWithAbsolutePath());
 	}
 
 	/**
@@ -61,7 +59,7 @@ class MultipartedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterfa
 	 *
 	 * @return string filename
 	 */
-	public function getName() {
+	public function getOriginalName() {
 		return $_FILES[$this->inputName]['name'];
 	}
 
@@ -81,5 +79,63 @@ class MultipartedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterfa
 	 */
 	public function getType() {
 		$_FILES[$this->inputName]['type'];
-	}}
+	}
+
+	/**
+	 * Set the file input name from the DOM.
+	 *
+	 * @param string $inputName
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function setInputName($inputName) {
+		// TODO: Implement setInputName() method.
+	}
+
+	/**
+	 * Set the upload folder
+	 *
+	 * @param string $uploadFolder
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function setUploadFolder($uploadFolder) {
+		// TODO: Implement setUploadFolder() method.
+	}
+
+	/**
+	 * Get the file with its absolute path.
+	 *
+	 * @return string
+	 */
+	public function getFileWithAbsolutePath() {
+		// TODO: Implement getFileWithAbsolutePath() method.
+	}
+
+	/**
+	 * Get the mime type of the file.
+	 *
+	 * @return int
+	 */
+	public function getMimeType() {
+		// TODO: Implement getMimeType() method.
+	}
+
+	/**
+	 * Set the file name to be saved
+	 *
+	 * @param string $name
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function setName($name) {
+		// TODO: Implement setName() method.
+	}
+
+	/**
+	 * Get the file name.
+	 *
+	 * @return int
+	 */
+	public function getName() {
+		// TODO: Implement getName() method.
+	}
+}
 ?>

@@ -74,8 +74,35 @@ class UploadManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function propertyProvider() {
 		return array(
-			array('uploadName', uniqid('foo')),
+			array('uploadFolder', uniqid()),
+			array('inputName', uniqid()),
+			array('sizeLimit', rand(10,100)),
+			array('allowedExtensions', array(uniqid())),
 		);
 	}
+
+	/**
+	 * @test
+	 * @dataProvider fileNameProvider
+	 */
+	public function sanitizeFileNameTest($actual, $expected) {
+		$this->assertSame($expected, $this->fixture->sanitizeFileName($actual));
+	}
+
+	/**
+	 * Provider
+	 */
+	public function fileNameProvider() {
+		return array(
+			array('éléphant', 'elephant'),
+			array('foo bar', 'foo-bar'),
+			array('Foo Bar', 'Foo-Bar'),
+			array('foo_bar', 'foo_bar'),
+			array('foo&bar', 'foo-bar'),
+			array('foo!bar', 'foo-bar'),
+			array('foo~bar', 'foo-bar'),
+		);
+	}
+
 }
 ?>

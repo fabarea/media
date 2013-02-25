@@ -27,7 +27,7 @@ The extension is shipping a few repositories that you can take advantage in a th
 It can query any kind of media types. Consider the snippet::
 
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-	$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository');
+	$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
 
 	$assetRepository->findAll()
 	$assetRepository->findByUid($uid)
@@ -54,6 +54,24 @@ We are following the recommendation of the Iana_ entity available here_ for the 
 .. _Iana: http://en.wikipedia.org/wiki/Internet_Assigned_Numbers_Authority
 .. _here: http://www.iana.org/assignments/media-types
 
+
+Mount point
+=================
+
+It is possible to add a mount point definable per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored.
+This is useful if one wants the file to be stored elsewhere than at the root of the storage.
+
+::
+
+	# Put this line in ext_tables.php
+	# A mount point uid which can be defined on pid = 0
+	$mountPointUid = 1;
+
+	# There are currently 5 file types available. Check out file EXT:media/Classes/Utility/Configuration.php
+	$key = 'mount_point_for_file_type_2';
+
+	\TYPO3\CMS\Media\Utility\Configuration::set($key, $mountPointUid);
+
 File Upload
 =================
 
@@ -68,24 +86,17 @@ On the server side, there is an API for file upload which handles transparently 
 		# Notice code is simplified from the real implementation.
 		# For more detail check EXT:media/Classes/Controller/AssetController.php @ uploadAction
 
-		$uploadDirectory = '/somewhere/in/your/system';
-		$conflictMode = 'overwrite';
-
 		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
 		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
 		try {
 			/** @var $uploadedFileObject \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
-			$uploadedFileObject = $uploadManager->handleUpload($uploadDirectory, $conflictMode);
+			$uploadedFileObject = $uploadManager->handleUpload();
 		} catch (\Exception $e) {
 			$response = array('error' => $e->getMessage());
 		}
 
-		# FAL integration.
-		$temporaryFileName = $uploadDirectory . $uploadedFileObject->getName();
-		$fileName = $uploadedFileObject->getName();
-
-		$targetFolderObject = \TYPO3\CMS\Media\Utility\StorageFolder::get();
-		$newFileObject = $targetFolderObject->addFile($temporaryFileName, $fileName , $conflictMode);
+		$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder();
+		$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $uploadedFileObject->getName());
 
 .. _Fine Uploader: http://fineuploader.com/
 
