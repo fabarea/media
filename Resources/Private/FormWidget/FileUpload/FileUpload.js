@@ -3,7 +3,7 @@ $(document).ready(function () {
 	var prefix = '%s';
 	var recordUid = '%s';
 
-	$('#jquery-wrapped-fine-uploader').fineUploader({
+	$('#%s').fineUploader({
 		request: {
 			// @todo Make me configurable... for FE plugin for instance.
 			endpoint: '/typo3/mod.php'
@@ -32,24 +32,14 @@ $(document).ready(function () {
 			var params = new Object();
 			params[prefix + '[action]'] = 'upload';
 			params[prefix + '[controller]'] = 'Asset';
-			params[prefix + '[asset][uid]'] = $('#asset-uid').val();
+			params[prefix + '[asset][uid]'] = $('#asset-uid').length > 0 ? $('#asset-uid').val() : '';
 			params['M'] = 'user_MediaM1'; // @todo Make me configurable... for FE plugin for instance.
 			$(this).fineUploader('setParams', params);
 		})
 		.on('cancel', function (event, id, fileName) {
 		})
 		.on('complete', function (event, id, fileName, responseJSON) {
-			if (responseJSON.uid) {
-				$('#asset-uid').val(responseJSON.uid);
-			}
-			if (responseJSON.thumbnail) {
-				// Replace thumbnail by new one.
-				$(this).prev().html(Encoder.htmlDecode(responseJSON.thumbnail));
-				$('.qq-upload-list', this).html('');
-			}
-			if (responseJSON.formAction) {
-				$(this).closest('form').attr('action', (Encoder.htmlDecode(responseJSON.formAction)));
-			}
+			//%s
 		});
 });
 

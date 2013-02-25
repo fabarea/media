@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\ViewHelpers;
 class IsAdminViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Compute a JS tag and render it
+	 * Tells whether the user is admin or not.
 	 *
 	 * @return string the link
 	 */

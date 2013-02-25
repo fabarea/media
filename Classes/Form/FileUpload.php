@@ -34,6 +34,16 @@ namespace TYPO3\CMS\Media\Form;
 class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 
 	/**
+	 * @var string
+	 */
+	protected $elementId;
+
+	/**
+	 * @var string
+	 */
+	protected $callBack;
+
+	/**
 	 * @return \TYPO3\CMS\Media\Form\FileUpload
 	 */
 	public function __construct() {
@@ -41,10 +51,12 @@ class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 		// <input multiple = "false" name = "tx_media_user_mediam1[media][name]" type ="file" >
 		// <input name = "file[upload][1][target]" value = "1:/user_upload/images/persons/" type = "hidden" >
 
+		$this->elementId = 'jquery-wrapped-fine-uploader-' . uniqid();
+
 		$this->template = <<<EOF
-<div class="control-group" style="margin-bottom: 40px">
+<div class="control-group control-group-upload">
     <div class="container-thumbnail">%s</div>
-    <div id="jquery-wrapped-fine-uploader"></div>
+    <div id="%s"></div>
 	<script type="text/javascript">
 	    %s
 	</script>
@@ -66,9 +78,9 @@ EOF;
 //			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('Missing value for property "name" for text field', 1356217712);
 //		}
 
-
 		$result = sprintf($this->template,
 			$this->getThumbnail(),
+			$this->elementId,
 			$this->getJavaScript()
 		);
 		return $result;
@@ -105,8 +117,10 @@ EOF;
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->getValue(),
+			$this->elementId,
 			$this->getAllowedExtension(),
-			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024
+			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
+			$this->getCallBack()
 		);
 	}
 
@@ -130,6 +144,36 @@ EOF;
 	protected function getBasePrefix($prefix) {
 		$parts = explode('[', $prefix);
 		return empty($parts) ? '' : $parts[0];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCallBack() {
+		if (is_null($this->callBack)) {
+			$this->callBack = <<<EOF
+			// Default callback
+			if (responseJSON.uid) {
+				$('#asset-uid').val(responseJSON.uid);
+			}
+			if (responseJSON.thumbnail) {
+				// Replace thumbnail by new one.
+				$(this).prev().html(Encoder.htmlDecode(responseJSON.thumbnail));
+				$('.qq-upload-list', this).html('');
+			}
+			if (responseJSON.formAction) {
+				$(this).closest('form').attr('action', (Encoder.htmlDecode(responseJSON.formAction)));
+			}
+EOF;
+		}
+		return "\n" . $this->callBack;
+	}
+
+	/**
+	 * @param string $callBack
+	 */
+	public function setCallBack($callBack) {
+		$this->callBack = $callBack;
 	}
 
 }

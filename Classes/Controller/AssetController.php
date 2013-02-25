@@ -296,6 +296,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 				$response = array(
 					'success' => TRUE,
 					'uid' => $newFileObject->getUid(),
+					'name' => $newFileObject->getName(),
 					'thumbnail' => $thumbnailService->setFile($newFileObject)->create(),
 					// @todo hardcoded for now...
 					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Asset'

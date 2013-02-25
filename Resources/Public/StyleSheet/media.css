@@ -86,3 +86,7 @@ body {
 .btn-tool-bar {
 	margin-right: 10px;
 }
+
+.form-upload .control-group {
+	margin-bottom: 0;
+}

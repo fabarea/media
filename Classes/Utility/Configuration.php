@@ -39,7 +39,6 @@ class Configuration {
 	 */
 	static protected $defaultSettings = array(
 		'thumbnail_size' => 100,
-		'visible_media_type_in_new_menu' => '2,5', // possible values 1:text,2:image,3:audio,4:video,5:software
 		'storage' => 1,
 		'recyclerFolder' => '_recycler_',
 	);

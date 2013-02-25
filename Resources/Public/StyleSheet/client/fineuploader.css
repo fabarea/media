@@ -132,7 +132,7 @@
 .qq-upload-list {
 	text-align: left;
 	position: absolute;
-	top: -4px;
+	top: 0;
 	left: 143px;
 	width: 80%;
 }

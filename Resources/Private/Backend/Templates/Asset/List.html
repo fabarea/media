@@ -21,28 +21,24 @@
 						<div class="row-fluid">
 							<div class="span6">
 
-								<div class="btn-toolbar" style="margin: 0;">
-									<div class="btn-group">
-
-										<f:link.action action="new" class="btn btn-new" accesskey="n">
-											<f:translate key="new"/>
-										</f:link.action>
-										<button class="btn dropdown-toggle" data-toggle="dropdown">
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu">
-											<f:for each="{m:menu.mediaTypes()}" as="mediaType" iteration="iterator">
-												<li>
-													<f:link.action action="new" class="btn-new"
-													               arguments="{asset: {type: '{mediaType.type}'}}">
-														{mediaType.label}
-													</f:link.action>
-												</li>
-											</f:for>
-										</ul>
-									</div>
-
-								</div>
+								<f:form method="post" action="create" enctype="multipart/form-data"
+								        name="asset" object="{asset}" arguments="{format: 'json'}" class="form-upload">
+									<m:form.fileUpload>
+										<script type="text/javascript">
+											// Callback
+											if (responseJSON.uid) {
+												Media.Table.fnDraw()
+												$('.qq-upload-list', this).html('');
+												var mediaTitle = responseJSON.name == '' ? responseJSON.uid : responseJSON.name;
+												message = Media.format('message-created', mediaTitle);
+												Media.FlashMessage.add(message, 'success');
+											}
+										</script>
+									</m:form.fileUpload>
+									<script type="text/javascript">
+										var callBack
+									</script>
+								</f:form>
 							</div>
 							<div class="span6" style="text-align: right">
 

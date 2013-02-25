@@ -1,5 +1,6 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Menu;
+namespace TYPO3\CMS\Media\ViewHelpers\Form;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -24,40 +25,50 @@ namespace TYPO3\CMS\Media\ViewHelpers\Menu;
 ***************************************************************/
 
 /**
- * View helper which returns a list of possible media types to be displayed in the "new" menu.
+ * View helper dealing with file upload widget.
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class MediaTypesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Return a list of possible media types to be displayed in the "new" menu.
+	 * @var string
+	 */
+	protected $prefix;
+
+	/**
+	 * Render a file upload field
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function render() {
-		$mediaTypes = array();
 
-		$typeFilter = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
-			',',
-			\TYPO3\CMS\Media\Utility\Configuration::get('visible_media_type_in_new_menu')
-		);
+		$searches[] = '<script type="text/javascript">';
+		$searches[] = '</script>';
+		$callBack = str_replace($searches, '', $this->renderChildren());
 
-		$types = \TYPO3\CMS\Media\Tca\ServiceFactory::getFormService('sys_file')->getTypes();
-		foreach ($types as $type) {
-			if (in_array((int) $type, $typeFilter)) {
-				$mediaTypes[] = array(
-					'type' => $type,
-					'label' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('type_' . $type, 'media'),
-				);
-			}
-		}
-		return $mediaTypes;
+		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
+		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
+		$fileUpload->setPrefix($this->getPrefix())->setCallBack($callBack);
+		return $fileUpload->render();
 	}
 
+	/**
+	 * Prefixes / namespaces the given name with the form field prefix
+	 *
+	 * @return string
+	 */
+	protected function getPrefix() {
+		$prefix = (string) $this->viewHelperVariableContainer->get('TYPO3\\CMS\\Fluid\\ViewHelpers\\FormViewHelper', 'fieldNamePrefix');
+
+		if (!empty($this->prefix)) {
+			$prefix = sprintf('%s[%s]', $prefix, $this->prefix);
+		}
+		return $prefix;
+	}
 }
 
 ?>
