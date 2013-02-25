@@ -28,6 +28,7 @@ if (TYPO3_MODE == 'BE') {
 		array(
 			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload',
 			'Migration' => 'index, migrate, reset',
+			'Tool' => 'index, checkStatus',
 		),
 		array(
 			'access' => 'user,group',

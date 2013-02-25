@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:m="http://typo3.org/ns/media/ViewHelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<div class="nav-collapse">
+					<div id="navbar-main">
+						<f:link.action controller="Asset" class="btn">
+							Back
+						</f:link.action>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="container" style="padding-left: 10px;">
+		<ul class="thumbnails">
+			<li class="span4">
+				<div class="thumbnail">
+
+					<div class="caption">
+						<h3>Check database status</h3>
+
+						<p>Check whether the database is consistent. Detect whether a record is orphan without a missing file or other kind of problems.</p>
+						<p>
+							<f:link.action action="checkStatus" class="btn">Check status</f:link.action>
+						</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+	</div>
+
+</f:section>
+</html>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

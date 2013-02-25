@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Controller;
  * @package TYPO3
  * @subpackage media
  */
-class MigrationController extends \TYPO3\CMS\Media\Controller\BaseController {
+class MigrationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection

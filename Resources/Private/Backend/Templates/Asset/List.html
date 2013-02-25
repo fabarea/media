@@ -44,7 +44,13 @@
 
 								</div>
 							</div>
-							<div class="span6">
+							<div class="span6" style="text-align: right">
+
+								<f:if condition="{m:isAdmin()}">
+									<f:link.action controller="Tool" class="btn btn-tool-bar">
+										<span class="icon-cog"></span>
+									</f:link.action>
+								</f:if>
 
 								<div class="btn-group pull-right">
 									<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">

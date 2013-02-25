@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:m="http://typo3.org/ns/media/ViewHelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<div class="nav-collapse">
+					<div id="navbar-main">
+						<f:link.action action="index" class="btn">
+							Back
+						</f:link.action>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="container" style="padding-left: 10px;">
+
+		<h3>Database status has been checked!</h3>
+
+		<f:if condition="{everythingOk}">
+			<div class="alert alert-success">
+				Everything seems to be fine.
+			</div>
+		</f:if>
+
+		<f:if condition="{missingFiles}">
+			<div class="alert alert-error">
+				Some files were missing!
+			</div>
+
+			<ul>
+				<f:for each="{missingFiles}" as="missingFile">
+					<li>File uid: {missingFile.uid}. Identifier: {missingFile.identifier}</li>
+				</f:for>
+			</ul>
+
+			Consider fixing the problem for uid(s):
+			<f:for each="{missingFiles}" as="missingFile" iteration="iterator">
+				{missingFile.uid}<f:if condition="{iterator.isLast}"><f:then>.</f:then><f:else>,</f:else></f:if>
+			</f:for>
+			<hr />
+		</f:if>
+
+		<f:if condition="{duplicatedIdentifiers}">
+			<div class="alert alert-error">
+				Duplicated identifiers detected!
+			</div>
+
+			<ul>
+				<f:for each="{duplicatedIdentifiers}" key="identifier" as="records">
+					<li>Identifier <strong>{identifier}</strong> for uid's:
+						<f:for each="{records}" as="record" iteration="iterator">
+							{record.uid}<f:if condition="{iterator.isLast}"><f:then>.</f:then><f:else>,</f:else></f:if>
+						</f:for>
+					</li>
+				</f:for>
+			</ul>
+
+			Consider fixing the problem!
+		</f:if>
+	</div>
+
+</f:section>
+</html>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}
