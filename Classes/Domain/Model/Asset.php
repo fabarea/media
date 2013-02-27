@@ -888,15 +888,25 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * Return a thumbnail corresponding to a Media
+	 * Return a thumbnail of the Asset.
 	 *
-	 * @param array $options
 	 * @return string
 	 */
-	public function getThumbnail(array $options = array()) {
-		// @todo implement me
-		// @todo make sure the the thumbnail can be wrapped in "a" tag,
-		return '';
+	public function getThumbnail() {
+		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+		return $thumbnailService->setFile($this)->doWrap(FALSE)->create();
+	}
+
+	/**
+	 * Return a thumbnail of the Asset wrapped with a link.
+	 *
+	 * @return string
+	 */
+	public function getThumbnailWrapped() {
+		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+		return $thumbnailService->setFile($this)->doWrap()->create();
 	}
 }
 ?>

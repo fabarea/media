@@ -7,9 +7,6 @@ $(document).ready(function () {
 	// Binds form submission and fields to the validation engine
 	$("#form-media").validationEngine();
 
-	// Attach add action
-	Media.Action.add();
-
 	// Enable the hide / show column
 	$('.check-visible-toggle').click(function () {
 		var iCol = $(this).val();
@@ -20,7 +17,6 @@ $(document).ready(function () {
 		var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
 		oTable.fnSetColumnVis(iCol, bVis ? false : true);
 	});
-
 
 	$(document).keyup(function (e) {
 		// escape
@@ -45,10 +41,29 @@ $(document).ready(function () {
 		"bServerSide": true,
 		"sAjaxSource": "/typo3/mod.php",
 		"fnServerParams": function (aoData) {
-			aoData.push({ "name": "M", "value": "user_MediaM1" });
-			aoData.push({ "name": "tx_media_user_mediam1[action]", "value": "listRow" });
-			aoData.push({ "name": "tx_media_user_mediam1[controller]", "value": "Asset" });
-			aoData.push({ "name": "tx_media_user_mediam1[format]", "value": "json" });
+
+			// Get the parameter from the main URL and re-inject them into the Ajax request
+			var uri = new Uri(window.location.href);
+			for (var index = 0; index < uri.queryPairs.length; index++) {
+				var queryPair = uri.queryPairs[index];
+				var parameterName = queryPair[0];
+				var parameterValue = queryPair[1];
+				var pattern = /tx_media_user_mediam1\[filter\]/g;
+				if (pattern.test(parameterName)) {
+					aoData.push({ "name": parameterName, "value": parameterValue });
+				}
+			}
+
+			// Hand over the RTE plugin parameter
+			var rtePluginParameter = 'tx_media_user_mediam1[rtePlugin]';
+			if (uri.getQueryParamValue(rtePluginParameter)) {
+				aoData.push({ "name": rtePluginParameter, "value": uri.getQueryParamValue(rtePluginParameter) });
+			}
+
+			aoData.push({ "name": 'M', "value": 'user_MediaM1' });
+			aoData.push({ "name": 'tx_media_user_mediam1[action]', "value": 'listRow' });
+			aoData.push({ "name": 'tx_media_user_mediam1[controller]', "value": 'Asset' });
+			aoData.push({ "name": 'tx_media_user_mediam1[format]', "value": 'json' });
 		},
 		"aoColumns": Media._columns,
 		"aLengthMenu": [
@@ -66,6 +81,7 @@ $(document).ready(function () {
 		"fnDrawCallback": function () {
 			// Attach event to DOM elements
 			Media.Action.edit();
+			Media.Action.linkMaker();
 			Media.Action.delete();
 
 			// Handle flash message
@@ -125,7 +141,7 @@ Media.getBodyContent = function(data) {
 }
 
 /**
- * Return a cleaned source and evaluation JS if found in the data.
+ * Return a cleaned source and evaluate JavaScript if found among "data".
  *
  * @see http://stackoverflow.com/questions/10888326/executing-javascript-script-after-ajax-loaded-a-page-doesnt-work
  * @param {string} data

@@ -219,12 +219,40 @@ class MigrationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$defaultPid = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 		$this->databaseHandler->sql_query('UPDATE sys_file SET pid = ' . $defaultPid . ' WHERE imported_from_dam = 1');
 
+		// Update the metadata
+		$this->updateIndexAction();
+
 		$this->view->assign('newFields', $newFields);
 		$this->view->assign('mappingFields', $mappingFields);
 		$this->view->assign('defaultPid', $defaultPid);
 		$this->view->assign('missingFiles', $missingFiles);
 
 		// @todo importation is not finished, check out http://forge.typo3.org/issues/30711
+	}
+
+	/**
+	 * Update the metadata of every file.
+	 *
+	 * @return boolean
+	 */
+	public function updateIndexAction(){
+
+		// Call the indexer service for updating the metadata of each file.
+		/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
+		$indexerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+
+		/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
+		$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+		$files = $fileRepository->findAll();
+
+		foreach ($files as $file) {
+			/** @var $file \TYPO3\CMS\Core\Resource\File */
+			if ($file->exists()) {
+				$indexerService->indexFile($file, TRUE);
+			}
+		}
+
+		return TRUE;
 	}
 }
 ?>

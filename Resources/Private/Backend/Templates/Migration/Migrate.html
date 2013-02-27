@@ -18,6 +18,7 @@
 
 				<div class="nav-collapse">
 					<div id="navbar-main">
+						<f:link.action action="index" class="btn">Back</f:link.action>
 					</div>
 				</div>
 			</div>
@@ -30,7 +31,7 @@
 		<p class="alert alert-success">Migration went overall successfully at the first glance! New Media record have been set on <strong>pid {defaultPid}</strong>!</p>
 
 		<f:if condition="{missingFiles}">
-			<p class="alert alert-error">Some files were not found on the file system and therefore not imported!</p>
+			<p class="alert alert-error">Some files were not found on the file system and therefore were not imported!</p>
 			<ul>
 				<f:for each="{missingFiles}" as="missingFile">
 					<li>{missingFile}</li>
@@ -39,10 +40,10 @@
 		</f:if>
 
 		<div class="alert alert-info">
-			Mapping of fields can be change in the <code>MigrationController</code> file. You can update the mapping data and re-run the script. All imported records will be flushed beforehand.
+			Notice the mapping that has been made. Mapping of fields can be changed in the <code>MigrationController</code> file. You can update the mapping data and re-run the script as many time as needed since all previous imported records will be flushed in a first step.
 		</div>
 
-		List of mapped fields old -> new fields.
+		List of mapped fields <code>tx_dam</code> -> <code>sys_file</code>.
 		<f:if condition="{mappingFields}">
 			<ul>
 				<f:for each="{mappingFields}" key="fieldName" as="mappedFieldName">
@@ -52,12 +53,12 @@
 		</f:if>
 
 		<div class="alert warning">
-			Language field were not imported since they are not handled in the current version of Media
+			Language field were not imported since they are not supported in the current version of the extension:
 			<code>sys_language_uid</code>, <code>l10n_parent</code>, <code>l10n_diffsource</code>
 		</div>
 
-		<p>
-			Some fields has not been matched and have been created with their content. It is left to your care to handle their destiny!
+		<p class="alert alert-info">
+			Some fields has no match with the new model. They have been imported nevertheless and specially prefixed. It is left to your care to handle their destiny!
 		</p>
 		<f:if condition="{newFields}">
 			<ul>
@@ -69,8 +70,6 @@
 
 		<p>As said, column <code>imported_from_dam</code> has been introduced in table <code>sys_file</code> to distinguish the
 			imported DAM records.</p>
-
-		<f:link.action action="index" class="btn">Back</f:link.action>
 	</div>
 
 </f:section>

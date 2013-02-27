@@ -62,7 +62,7 @@ class Filter  {
 	public function __construct($filters = array()) {
 		$this->searchTerm = empty($filters['searchTerm']) ? '' : $filters['searchTerm'];
 
-		$this->constraints = empty($filters['constraints']) && is_array($filters['constraints']) ?
+		$this->constraints = !empty($filters['constraints']) && is_array($filters['constraints']) ?
 			$filters['constraints'] :
 			array();
 	}
@@ -110,6 +110,15 @@ class Filter  {
 	 */
 	public function getConstraints() {
 		return $this->constraints;
+	}
+
+	/**
+	 * @param array $constraints
+	 * @return \TYPO3\CMS\Media\QueryElement\Filter
+	 */
+	public function setConstraints($constraints) {
+		$this->constraints = $constraints;
+		return $this;
 	}
 
 	/**

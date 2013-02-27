@@ -68,6 +68,8 @@
 <m:js name="FileUploader/uploader.js"/>
 <m:js name="FileUploader/jquery-plugin.js"/>
 
+<m:js name="Uri/Uri.min.js"/>
+
 <m:js name="Media.js"/>
 <m:js name="Encoder.js"/>
 <m:js name="Media.Panel.js"/>
@@ -76,6 +78,9 @@
 <m:js name="Media.FlashMessage.js"/>
 <m:js name="Media.Label.js"/>
 
+<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
+	<m:js name="Media.Rte.LinkMaker.js"/>
+</f:if>
 
 </body>
 </html>

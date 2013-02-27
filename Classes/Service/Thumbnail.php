@@ -108,20 +108,11 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	/**
 	 * Tell whether to wrap the thumbnail or not with an anchor. This will make the thumbnail clickable.
 	 *
+	 * @param bool $wrap
 	 * @return \TYPO3\CMS\Media\Service\Thumbnail
 	 */
-	public function doWrap() {
-		$this->wrap = TRUE;
-		return $this;
-	}
-
-	/**
-	 * Will not wrap the thumbnail.
-	 *
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail
-	 */
-	public function doNotWrap() {
-		$this->wrap = FALSE;
+	public function doWrap($wrap = TRUE) {
+		$this->wrap = $wrap;
 		return $this;
 	}
 

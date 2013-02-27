@@ -1,0 +1,122 @@
+<html xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
+      xmlns:m="http://typo3.org/ns/typo3/media/viewhelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+	<div id="wrap">
+
+		<!-- identifier for the *top* part for identification in the global view -->
+		<div id="content-header">
+
+			<!--<a href="#" class="btn disabled">Previous</a>-->
+			<!--<a href="#" class="btn disabled">Next</a>-->
+
+			<f:render partial="Widget/CloseButton" />
+
+			<button type="button" class="btn btn-primary btn-create-link" accesskey="s">
+				<f:translate key="create_link"/>
+
+			</button>
+
+			<script type="text/javascript">
+
+				$(function () {
+
+					// Prevent the form to be submitted
+					$('#form-action-linkMaker').submit(function(e) {
+						$('.btn-create-link').click();
+						e.preventDefault();
+					});
+
+					$('.btn-create-link').click(function () {
+						var params = {};
+						params.titleAttribute = $('#file-title').val();
+						params.classAttribute = $('#file-class').val() == 'null' ? '' : $('#file-class').val();
+						params.targetAttribute = $('#file-target').val();
+						params.hrefAttribute = '?file:' + $('#file-uid').val();
+						if (window.opener) {
+							window.opener.Media.LinkMaker.createDocumentLink(params);
+							window.close();
+						}
+					});
+				});
+
+
+			</script>
+		</div>
+
+		<!-- identifier for the *middle* part for identification in the global view -->
+		<div id="content-body">
+			<div class="container">
+				<f:flashMessages/>
+
+
+				<f:form method="post" action="linkMaker" name="asset"
+				        object="{asset}" arguments="{format: 'json'}" id="form-action-linkMaker">
+
+					<div class="control-group">
+						{asset.thumbnailWrapped -> f:format.html()}
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="file-title">
+							<f:translate key="title"/>
+						</label>
+
+						<div class="controls">
+							<f:form.textfield property="title" id="file-title" class="span6"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="file-target">
+							<f:translate key="open_file"/>
+						</label>
+
+						<div class="controls">
+							<f:form.select id="file-target"
+							               options="{_blank: 'in a new window', _top: 'in the same window'}"
+							               class="span6"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="file-class">
+							<f:translate key="class"/>
+						</label>
+
+						<div class="controls">
+							<f:form.select id="file-class"
+							               options="{null: '', external-link: 'external-link', download: 'download'}"
+							               class="span6"/>
+						</div>
+					</div>
+
+					<f:form.hidden id="file-uid" property="uid"/>
+					<div style="visibility: hidden">
+						<f:form.submit value="submit"/>
+					</div>
+				</f:form>
+
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+		<!-- identifier for the *footer* part for identification in the global view -->
+		<div id="content-footer">
+			<div class="footer">
+				<div class="container">
+					<p class="footer-container pull-right">
+						<m:form.footer object="{asset}"/>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</f:section>
+</html>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

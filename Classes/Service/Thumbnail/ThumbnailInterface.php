@@ -43,16 +43,10 @@ interface ThumbnailInterface {
 	/**
 	 * Tell to wrap the thumbnail.
 	 *
+	 * @param bool $wrap
 	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	 */
-	public function doWrap();
-
-	/**
-	 * Tell to *not* wrap the thumbnail.
-	 *
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
-	 */
-	public function doNotWrap();
+	public function doWrap($wrap = TRUE);
 
 	/**
 	 * Tell whether the thumbnail is wrapped

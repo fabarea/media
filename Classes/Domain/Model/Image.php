@@ -33,17 +33,5 @@ namespace TYPO3\CMS\Media\Domain\Model;
  */
 class Image extends \TYPO3\CMS\Media\Domain\Model\Asset {
 
-	/**
-	 * Return a thumbnail corresponding to an Image
-	 *
-	 * @param array $options
-	 * @return string
-	 */
-	public function getThumbnail(array $options = array()) {
-		// @todo implement me
-		// @todo make sure the the thumbnail can be wrapped in "a" tag,
-		return '';
-	}
-
 }
 ?>

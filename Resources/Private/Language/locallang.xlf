@@ -172,6 +172,18 @@
 			<trans-unit id="permission">
 				<source>Permission</source>
 			</trans-unit>
+			<trans-unit id="create_link">
+				<source>Create link</source>
+			</trans-unit>
+			<trans-unit id="class">
+				<source>Class</source>
+			</trans-unit>
+			<trans-unit id="open_file">
+				<source>Open file</source>
+			</trans-unit>
+			<trans-unit id="title">
+				<source>Title</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -71,12 +71,13 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * List Row action for this controller. Output a json list of assets
 	 * This action is expected to have a parameter format = json
 	 *
-	 * @return string The rendered view
+	 * @param array $filter
+	 * @return void
 	 */
-	public function listRowAction() {
+	public function listRowAction($filter = array()) {
 
 		// Initialize some objects related to the query
-		$filterObject = $this->createFilterObject();
+		$filterObject = $this->createFilterObject()->setConstraints($filter);
 		$orderObject = $this->createOrderObject();
 		$pagerObject = $this->createPagerObject();
 
@@ -158,6 +159,17 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return void
 	 */
 	public function editAction($asset) {
+		$assetObject = $this->assetRepository->findByUid($asset);
+		$this->view->assign('asset', $assetObject);
+	}
+
+	/**
+	 * Handle interface for creating a link in the RTE
+	 *
+	 * @param int $asset
+	 * @return void
+	 */
+	public function linkMakerAction($asset) {
 		$assetObject = $this->assetRepository->findByUid($asset);
 		$this->view->assign('asset', $assetObject);
 	}

@@ -12,10 +12,15 @@
 	"__buttons":
 
 		<m:format.json>
+
+			<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
+				<f:link.action action="linkMaker" arguments="{asset : asset.uid}"
+				class="btn btn-linkMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-globe"></i></f:link.action>
+			</f:if>
 			<f:link.action action="edit" arguments="{asset : asset.uid}"
-			class="btn btn-grid btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-pencil"></i></f:link.action>
+			class="btn btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-pencil"></i></f:link.action>
 			<f:link.action action="delete" arguments="{asset : asset.uid, format: 'json'}"
-			class="btn btn-grid btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-trash"></i></f:link.action>
+			class="btn btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-trash"></i></f:link.action>
 		</m:format.json>,
 
 	"__number":

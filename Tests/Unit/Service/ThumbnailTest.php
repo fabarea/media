@@ -71,7 +71,7 @@ class ThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function callDoNotWrapMethodAndIsWrappedReturnsTrue() {
-		$this->assertFalse($this->fixture->doWrap()->doNotWrap()->isWrapped());
+		$this->assertFalse($this->fixture->doWrap(FALSE)->isWrapped());
 	}
 
 	/**

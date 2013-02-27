@@ -23,25 +23,24 @@ namespace TYPO3\CMS\Media\ViewHelpers;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * View helper which tells whether the user is admin or not.
+ * View helper which tells whether a RTE plugin is requested from the URL parameters
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class IsAdminViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IsRtePluginViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Tells whether the user is admin or not.
+	 * Tells whether the given RTE plugin corresponds to a parameter.
 	 *
+	 * @param string $plugin
 	 * @return boolean
 	 */
-	public function render() {
-		// @todo make this code FE friendly!
-		/** @var $user \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
-		$user = $GLOBALS['BE_USER'];
-		return $user->isAdmin();
+	public function render($plugin) {
+		$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_media_user_mediam1');
+		return $parameters['rtePlugin'] == $plugin;
 	}
 
 }

@@ -111,6 +111,13 @@
 
 				</tbody>
 			</table>
+
+			<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
+				<f:link.action id="btn-linkMaker-current" action="linkMaker"
+				               class="btn btn-linkMaker" style="display: none">
+					{asset.uid}
+				</f:link.action>
+			</f:if>
 		</div>
 		<div id="container-main-sub" class="ajax-response-body" class="container" style="display: none">
 			<div class="container" style="text-align: center">

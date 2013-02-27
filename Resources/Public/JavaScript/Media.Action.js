@@ -10,6 +10,7 @@ Media.Action = {
 
 	/**
 	 * Bind add button in the nav bar.
+	 * @todo remove me in Media 1.1
 	 *
 	 * @return void
 	 */
@@ -36,6 +37,23 @@ Media.Action = {
 			Media.Panel.showForm();
 			Media.Action.handleForm($(this).attr('href'), 'message-updated');
 
+		});
+	},
+
+	/**
+	 * Bind rte link buttons in list view.
+	 *
+	 * @param {int}
+	 * @return void
+	 */
+	linkMaker: function () {
+
+		// bind the click handler script to the newly created elements held in the table
+		$('.btn-linkMaker').bind('click', function (e) {
+			e.preventDefault();
+
+			Media.Panel.showForm();
+			Media.Action.handleForm($(this).attr('href'));
 		});
 	},
 
