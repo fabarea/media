@@ -90,3 +90,16 @@ body {
 .form-upload .control-group {
 	margin-bottom: 0;
 }
+
+.container-width {
+	text-align: center;
+}
+
+.container-height {
+	position: relative;
+	float: right;
+	left: 35px;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	writing-mode: lr-tb;
+}

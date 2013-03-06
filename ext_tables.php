@@ -4,7 +4,20 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+// Extend TCA of File
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/File.php');
+
+$TCA["sys_file_variants"] = array(
+	"ctrl" => array(
+		'title' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variants',
+		'label' => 'role',
+		'label_alt' => 'original',
+		'label_alt_force' => 'true',
+		'rootLevel' => -1,
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/FileVariants.php',
+		//'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Advertise.png',
+	),
+);
 
 if (TYPO3_MODE == 'BE') {
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
@@ -16,6 +29,7 @@ if (TYPO3_MODE == 'BE') {
 			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker',
 			'Migration' => 'index, migrate, reset',
 			'Tool' => 'index, checkStatus',
+			'Variant' => 'upload',
 		),
 		array(
 			'access' => 'user,group',

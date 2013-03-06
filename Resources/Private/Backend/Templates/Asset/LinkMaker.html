@@ -17,34 +17,7 @@
 
 			<button type="button" class="btn btn-primary btn-create-link" accesskey="s">
 				<f:translate key="create_link"/>
-
 			</button>
-
-			<script type="text/javascript">
-
-				$(function () {
-
-					// Prevent the form to be submitted
-					$('#form-action-linkMaker').submit(function(e) {
-						$('.btn-create-link').click();
-						e.preventDefault();
-					});
-
-					$('.btn-create-link').click(function () {
-						var params = {};
-						params.titleAttribute = $('#file-title').val();
-						params.classAttribute = $('#file-class').val() == 'null' ? '' : $('#file-class').val();
-						params.targetAttribute = $('#file-target').val();
-						params.hrefAttribute = '?file:' + $('#file-uid').val();
-						if (window.opener) {
-							window.opener.Media.LinkMaker.createDocumentLink(params);
-							window.close();
-						}
-					});
-				});
-
-
-			</script>
 		</div>
 
 		<!-- identifier for the *middle* part for identification in the global view -->
@@ -114,6 +87,29 @@
 					</p>
 				</div>
 			</div>
+
+			<script type="text/javascript">
+
+				$(function () {
+					// Prevent the form to be submitted
+					$('#form-action-linkMaker').submit(function (e) {
+						e.preventDefault();
+						$('.btn-create-link').click();
+					});
+
+					$('.btn-create-link').click(function () {
+						var params = {};
+						params.titleAttribute = $('#file-title').val();
+						params.classAttribute = $('#file-class').val() == 'null' ? '' : $('#file-class').val();
+						params.targetAttribute = $('#file-target').val();
+						params.hrefAttribute = '?file:' + $('#file-uid').val();
+						if (window.opener) {
+							window.opener.Media.LinkMaker.createDocumentLink(params);
+							window.close();
+						}
+					});
+				});
+			</script>
 		</div>
 	</div>
 

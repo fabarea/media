@@ -184,6 +184,24 @@
 			<trans-unit id="title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="insert_image">
+				<source>Insert image</source>
+			</trans-unit>
+			<trans-unit id="update_image">
+				<source>Update image</source>
+			</trans-unit>
+			<trans-unit id="upload_file">
+				<source>Upload a file</source>
+			</trans-unit>
+			<trans-unit id="max_upload_file">
+				<source>Max %s Mo</source>
+			</trans-unit>
+			<trans-unit id="resize">
+				<source>Resize</source>
+			</trans-unit>
+			<trans-unit id="crop">
+				<source>Crop</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

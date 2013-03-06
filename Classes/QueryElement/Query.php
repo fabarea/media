@@ -143,7 +143,7 @@ class Query {
 	 * @return string
 	 */
 	public function renderClause() {
-		$clause = 'deleted = 0';
+		$clause = 'deleted = 0 AND is_variant = 0';
 
 		if ($this->respectStorage) {
 			$clause = sprintf('%s AND storage = %s',

@@ -22,10 +22,11 @@
 							<div class="span6">
 
 								<f:form method="post" action="create" enctype="multipart/form-data"
-								        name="asset" object="{asset}" arguments="{format: 'json'}" class="form-upload">
+								        name="asset" object="{asset}" arguments="{format: 'json'}" class="form-upload form-inline">
+
 									<m:form.fileUpload>
 										<script type="text/javascript">
-											// Callback
+											// Callback action after file upload
 											if (responseJSON.uid) {
 												Media.Table.fnDraw()
 												$('.qq-upload-list', this).html('');
@@ -35,9 +36,6 @@
 											}
 										</script>
 									</m:form.fileUpload>
-									<script type="text/javascript">
-										var callBack
-									</script>
 								</f:form>
 							</div>
 							<div class="span6" style="text-align: right">
@@ -115,6 +113,12 @@
 			<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
 				<f:link.action id="btn-linkMaker-current" action="linkMaker"
 				               class="btn btn-linkMaker" style="display: none">
+					{asset.uid}
+				</f:link.action>
+			</f:if>
+			<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
+				<f:link.action id="btn-imageMaker-current" action="imageMaker"
+				               class="btn btn-imageMaker" style="display: none">
 					{asset.uid}
 				</f:link.action>
 			</f:if>

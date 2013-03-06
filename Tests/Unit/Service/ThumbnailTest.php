@@ -121,5 +121,16 @@ class ThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		);
 		return new \TYPO3\CMS\Media\Domain\Model\Asset($data);
 	}
+
+	/**
+	 * @test
+	 */
+	public function setRandomAttributesAndControllTheOutput() {
+		$value = uniqid('foo');
+		$this->fixture->setAttributes(array('foo' => $value));
+		$expected = sprintf('foo="%s" ', $value);
+
+		$this->assertEquals($expected, $this->fixture->renderAttributes());
+	}
 }
 ?>

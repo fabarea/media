@@ -19,7 +19,7 @@ Media.Action = {
 			e.preventDefault();
 
 			Media.Panel.showForm();
-			Media.Action.handleForm($(this).attr('href'), 'message-created');
+			Media.Action.handleFormWithMessage($(this).attr('href'), 'message-created');
 		});
 	},
 
@@ -35,21 +35,36 @@ Media.Action = {
 			e.preventDefault();
 
 			Media.Panel.showForm();
-			Media.Action.handleForm($(this).attr('href'), 'message-updated');
+			Media.Action.handleFormWithMessage($(this).attr('href'), 'message-updated');
 
 		});
 	},
 
 	/**
-	 * Bind rte link buttons in list view.
+	 * Bind RTE link maker buttons in list view.
 	 *
-	 * @param {int}
 	 * @return void
 	 */
 	linkMaker: function () {
 
 		// bind the click handler script to the newly created elements held in the table
 		$('.btn-linkMaker').bind('click', function (e) {
+			e.preventDefault();
+
+			Media.Panel.showForm();
+			Media.Action.handleForm($(this).attr('href'));
+		});
+	},
+
+	/**
+	 * Bind RTE link maker buttons in list view.
+	 *
+	 * @return void
+	 */
+	imageMaker: function () {
+
+		// bind the click handler script to the newly created elements held in the table
+		$('.btn-imageMaker').bind('click', function (e) {
 			e.preventDefault();
 
 			Media.Panel.showForm();
@@ -98,17 +113,32 @@ Media.Action = {
 	 *
 	 * @private
 	 * @param {string} url where to send the form data
+	 * @return void
+	 */
+	handleForm: function (url) {
+		$.ajax({
+			url: url,
+			success: function (data) {
+				Media.Action.setContent(data);
+			}
+		});
+	},
+
+	/**
+	 * Fetch the form and handle its action
+	 *
+	 * @private
+	 * @param {string} url where to send the form data
 	 * @param {string} key corresponds to an identifier for the flash message queue.
 	 * @return void
 	 */
-	handleForm: function (url, key) {
+	handleFormWithMessage: function (url, key) {
 		// Send Ajax request to delete media
 		$.ajax({
 			url: url,
 			success: function (data) {
 
 				Media.Action.setContent(data);
-				Media.parseScript(Media.getBodyContent(data));
 
 				// Restore GUI.
 				Media.Session.initialize();
@@ -151,7 +181,6 @@ Media.Action = {
 
 			// find method will remove the outer tag
 			content = $(data).find('#content-' + value).html();
-
 
 			if (content.length > 0) {
 				$('.ajax-response-' + value).html(content);

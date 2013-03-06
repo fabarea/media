@@ -34,16 +34,15 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
+	 * @inject
 	 */
 	protected $assetRepository;
 
 	/**
-	 * @param \TYPO3\CMS\Media\Domain\Repository\AssetRepository $assetRepository
-	 * @return void
+	 * @var \TYPO3\CMS\Media\Domain\Repository\VariantRepository
+	 * @inject
 	 */
-	public function injectAssetRepository(\TYPO3\CMS\Media\Domain\Repository\AssetRepository $assetRepository) {
-		$this->assetRepository = $assetRepository;
-	}
+	protected $variantRepository;
 
 	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
@@ -64,7 +63,6 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 */
 	public function listAction() {
 		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldList());
-		$this->view->assign('assets', $this->assetRepository->findAll());
 	}
 
 	/**
@@ -125,8 +123,6 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @dontvalidate $asset
 	 */
 	public function createAction(array $asset = array()) {
-		// @todo check add method when achieving the upload feature
-		//$this->assetRepository->add($media);
 
 		// Prepare output
 		$result['status'] = FALSE;
@@ -164,7 +160,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
-	 * Handle interface for creating a link in the RTE
+	 * Handle GUI for creating a link in the RTE.
 	 *
 	 * @param int $asset
 	 * @return void
@@ -172,6 +168,25 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	public function linkMakerAction($asset) {
 		$assetObject = $this->assetRepository->findByUid($asset);
 		$this->view->assign('asset', $assetObject);
+	}
+
+	/**
+	 * Handle GUI for inserting an image in the RTE.
+	 *
+	 * @param int $asset
+	 * @param int $variant a possible variant can be given.
+	 * @return void
+	 */
+	public function imageMakerAction($asset, $variant = 0) {
+		$assetObject = $this->assetRepository->findByUid($asset);
+
+		$variantObject = NULL;
+		if ($variant > 0) {
+			$variantObject = $this->variantRepository->findOneByVariant($variant);
+		}
+
+		$this->view->assign('asset', $assetObject);
+		$this->view->assign('variant', $variantObject);
 	}
 
 	/**
@@ -307,7 +322,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 					'success' => TRUE,
 					'uid' => $newFileObject->getUid(),
 					'name' => $newFileObject->getName(),
-					'thumbnail' => $thumbnailService->setFile($newFileObject)->create(),
+					'thumbnail' => $thumbnailService->setFile($newFileObject)->doWrap()->create(),
 					// @todo hardcoded for now...
 					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Asset'
 				);

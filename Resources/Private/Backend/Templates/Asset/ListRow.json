@@ -17,6 +17,10 @@
 				<f:link.action action="linkMaker" arguments="{asset : asset.uid}"
 				class="btn btn-linkMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-globe"></i></f:link.action>
 			</f:if>
+			<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
+				<f:link.action action="imageMaker" arguments="{asset : asset.uid}"
+				class="btn btn-imageMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-picture"></i></f:link.action>
+			</f:if>
 			<f:link.action action="edit" arguments="{asset : asset.uid}"
 			class="btn btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-pencil"></i></f:link.action>
 			<f:link.action action="delete" arguments="{asset : asset.uid, format: 'json'}"

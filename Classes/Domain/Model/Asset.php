@@ -35,26 +35,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
 class Asset extends \TYPO3\CMS\Core\Resource\File {
 
 	/**
-	 * Constructor for a Media object.
-	 *
-	 * @param array $assetData
-	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
-	 */
-	public function __construct(array $assetData = array(), $storage = NULL) {
-		parent::__construct($assetData, $storage);
-	}
-
-	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		// TODO categories, variants
-	}
-
-	/**
 	 * Alternative title
 	 *
 	 * @var string
@@ -62,17 +42,11 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $alternative;
 
 	/**
-	 * Caption
-	 *
 	 * @var string
 	 */
 	protected $caption;
 
-	/* TODO categories */
-
 	/**
-	 * Color Space
-	 *
 	 * @var string
 	 */
 	protected $colorSpace;
@@ -92,189 +66,165 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $modificationDate;
 
 	/**
-	 * Creator
-	 *
 	 * @var string
 	 */
 	protected $creator;
 
 	/**
-	 * Creator tool
-	 *
 	 * @var string
 	 */
 	protected $creatorTool;
 
 	/**
-	 * Description
-	 *
 	 * @var string
 	 */
 	protected $description;
 
 	/**
-	 * Download name
-	 *
 	 * @var string
 	 */
 	protected $downloadName;
 
 	/**
-	 * Duration
-	 *
 	 * @var string
 	 */
 	protected $duration;
 
 	/**
-	 * Height
-	 *
 	 * @var integer
 	 */
 	protected $height;
 
 	/**
-	 * Horizontal resolution
-	 *
 	 * @var integer
 	 */
 	protected $horizontalResolution;
 
 	/**
-	 * Keywords
-	 *
 	 * @var string
 	 */
 	protected $keywords;
 
 	/**
-	 * Language
-	 *
 	 * @var string
 	 */
 	protected $language;
 
 	/**
-	 * Latitude
-	 *
 	 * @var float
 	 */
 	protected $latitude;
 
 	/**
-	 * Location City
-	 *
 	 * @var string
 	 */
 	protected $locationCity;
 
 	/**
-	 * Location Country
-	 *
 	 * @var string
 	 */
 	protected $locationCountry;
 
 	/**
-	 * Location Region
-	 *
 	 * @var string
 	 */
 	protected $locationRegion;
 
 	/**
-	 * Longitude
-	 *
 	 * @var float
 	 */
 	protected $longitude;
 
 	/**
-	 * Mime Type
-	 *
 	 * @var string
 	 */
 	protected $mimeType;
 
 	/**
-	 * Note
-	 *
 	 * @var string
 	 */
 	protected $note;
 
 	/**
-	 * Pages
-	 *
 	 * @var string
 	 */
 	protected $pages;
 
 	/**
-	 * Publisher
-	 *
 	 * @var string
 	 */
 	protected $publisher;
 
 	/**
-	 * Ranking
-	 *
 	 * @var int
 	 */
 	protected $ranking;
 
 	/**
-	 * Source
-	 *
 	 * @var string
 	 */
 	protected $source;
 
 	/**
-	 * Status
-	 *
 	 * @var string
 	 */
 	protected $status;
 
 	/**
-	 * Title
-	 *
 	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $title;
 
 	/**
-	 * Type
-	 *
 	 * @var string
 	 */
 	protected $type;
 
 	/**
-	 * Unit
-	 *
 	 * @var string
 	 */
 	protected $unit;
 
-	/* TODO variants */
-
 	/**
-	 * Vertical resolution
-	 *
 	 * @var integer
 	 */
 	protected $verticalResolution;
 
 	/**
-	 * Width
-	 *
 	 * @var integer
 	 */
 	protected $width;
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Domain\Model\Category[]
+	 */
+	protected $categories;
+
+	/**
+	 * Variants of the current asset
+	 *
+	 * @var \TYPO3\CMS\Media\Domain\Model\Variant
+	 */
+	protected $variants;
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 */
+	protected $objectManager;
+
+	/**
+	 * Constructor for a Media object.
+	 *
+	 * @param array $assetData
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
+	 */
+	public function __construct(array $assetData = array(), $storage = NULL) {
+		parent::__construct($assetData, $storage);
+
+		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+	}
 
 	/**
 	 * Returns the alternative
@@ -313,8 +263,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	public function setCaption($caption) {
 		$this->properties['caption'] = $caption;
 	}
-
-	/* TODO categories */
 
 	/**
 	 * Returns the color space
@@ -829,8 +777,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 		$this->properties['unit'] = $unit;
 	}
 
-	/* TODO variants */
-
 	/**
 	 * Returns the vertical resolution
 	 *
@@ -890,23 +836,104 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Return a thumbnail of the Asset.
 	 *
+	 * @param \TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification
 	 * @return string
 	 */
-	public function getThumbnail() {
+	public function getThumbnail(\TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification = NULL) {
 		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
 		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
-		return $thumbnailService->setFile($this)->doWrap(FALSE)->create();
+		$thumbnailService->setFile($this);
+
+		// Add more rendering specification if given.
+		if (is_object($thumbnailService)) {
+			$thumbnailService->setConfiguration($thumbnailSpecification->getConfiguration())
+				->setAttributes($thumbnailSpecification->getAttributes())
+				->doWrap($thumbnailSpecification->getWrap());
+		}
+		return $thumbnailService->create();
 	}
 
 	/**
 	 * Return a thumbnail of the Asset wrapped with a link.
 	 *
+	 * @param \TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification
 	 * @return string
 	 */
-	public function getThumbnailWrapped() {
+	public function getThumbnailWrapped(\TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification = NULL) {
+
 		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
 		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
-		return $thumbnailService->setFile($this)->doWrap()->create();
+		$thumbnailService->setFile($this)
+			->doWrap();
+
+		// Add more rendering specification if given.
+		if (is_object($thumbnailService)) {
+			$thumbnailService->setConfiguration($thumbnailSpecification->getConfiguration())
+				->setAttributes($thumbnailSpecification->getAttributes());
+		}
+		return $thumbnailService->create();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\Category[]
+	 */
+	public function getCategories() {
+		if (is_null($this->variants)) {
+			/** @var $categoryRepository \TYPO3\CMS\Media\Domain\Repository\VariantRepository */
+			$categoryRepository = $this->objectManager->get('TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository');
+
+			// @todo check if Extbase is able to query mm relations...
+			// @see http://www.typo3.net/forum/beitraege/extbase_und_fluid/105657/
+			//$categoryRepository->findRelated(get_class($this), $this->getUid())
+		}
+		return $this->categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category[]
+	 * @return void
+	 */
+	public function setCategories($categories) {
+		$this->categories = $categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * @return void
+	 */
+	public function addCategory($category) {
+		// @todo persist me!
+		$this->categories[] = $category;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Domain\Model\Variant[]
+	 */
+	public function getVariants() {
+		// @todo test me!
+		if (is_null($this->variants)) {
+			/** @var $variantRepository \TYPO3\CMS\Media\Domain\Repository\VariantRepository */
+			$variantRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\VariantRepository');
+			$this->variants = $variantRepository->findByOriginal($this->getUid());
+		}
+		return $this->variants;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Media\Domain\Model\Variant[] $variants
+	 * @return void
+	 */
+	public function setVariants($variants) {
+		$this->variants = $variants;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Media\Domain\Model\Variant $variant
+	 * @return void
+	 */
+	public function addVariant($variant) {
+		// @todo persist me!
+		$this->variants[] = $variant;
 	}
 }
 ?>

@@ -81,8 +81,53 @@ class UploadManager {
 	}
 
 	/**
+	 * Handle the uploaded file.
+	 *
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 */
+	public function handleUpload() {
+		if (!isset($GLOBALS['_SERVER']['CONTENT_TYPE'])) {
+			$uploadedFile = FALSE;
+		} elseif (strpos(strtolower($GLOBALS['_SERVER']['CONTENT_TYPE']), 'multipart/') === 0) {
+			/** @var $uploadedFile \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
+		} elseif (\TYPO3\CMS\Core\Utility\GeneralUtility::_POST('fileUploaded') == 'base64') {
+			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\Base64File');
+		} else {
+			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
+		}
+
+		if (!$uploadedFile) {
+			$this->throwException('No files were uploaded.');
+		}
+
+		$fileName = $this->getFileName($uploadedFile);
+
+		$this->checkFileSize($uploadedFile->getSize());
+		$this->checkFileAllowed($fileName);
+
+		$saved = $uploadedFile->setInputName($this->inputName)
+			->setUploadFolder($this->uploadFolder)
+			->setName($fileName)
+			->save();
+
+		if (! $saved) {
+			$this->throwException('Could not save uploaded file. The upload was cancelled, or server error encountered');
+		}
+
+		// Optimize file if the uploaded file is an image.
+		if ($uploadedFile->getType() == \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
+			$imageOptimizer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\ImageOptimizer');
+			$uploadedFile = $imageOptimizer->optimize($uploadedFile);
+		}
+		return $uploadedFile;
+	}
+
+	/**
 	 * Internal function that checks if server's may sizes match the
 	 * object's maximum size for uploads.
+	 *
+	 * @return void
 	 */
 	protected function checkServerSettings() {
 		$postSize = $this->toBytes(ini_get('post_max_size'));
@@ -116,41 +161,6 @@ class UploadManager {
 	}
 
 	/**
-	 * Handle the uploaded file.
-	 *
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	function handleUpload() {
-
-		if (!isset($_SERVER['CONTENT_TYPE'])) {
-			$uploadedFile = FALSE;
-		} else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/') === 0) {
-			/** @var $uploadedFile \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
-			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
-		} else {
-			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
-		}
-
-		if (!$uploadedFile) {
-			$this->throwException('No files were uploaded.');
-		}
-
-		$this->checkFileSize($uploadedFile);
-		$this->checkFileAllowed($uploadedFile);
-
-		$saved = $uploadedFile->setInputName($this->inputName)
-			->setUploadFolder($this->uploadFolder)
-			->setName($this->getFileName($uploadedFile))
-			->save();
-
-		if (! $saved) {
-			$this->throwException('Could not save uploaded file. The upload was cancelled, or server error encountered');
-		}
-
-		return $uploadedFile;
-	}
-
-	/**
 	 * Return a file name given an uploaded file
 	 *
 	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
@@ -169,11 +179,9 @@ class UploadManager {
 	/**
 	 * Check whether the file size does not exceed the allowed limit
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @param int $size
 	 */
-	public function checkFileSize(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile){
-		$size = $uploadedFile->getSize();
-
+	public function checkFileSize($size){
 		if ($size == 0) {
 			$this->throwException('File is empty');
 		}
@@ -186,10 +194,11 @@ class UploadManager {
 	/**
 	 * Check whether the file is allowed
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @param string $fileName
 	 */
-	public function checkFileAllowed(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile) {
-		$isAllowed = $this->checkFileExtensionPermission($uploadedFile->getOriginalName());
+	public function checkFileAllowed($fileName) {
+
+		$isAllowed = $this->checkFileExtensionPermission($fileName);
 		if (!$isAllowed) {
 			$these = implode(', ', $this->allowedExtensions);
 			$this->throwException('File has an invalid extension, it should be one of ' . $these . '.');

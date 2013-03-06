@@ -1,31 +1,31 @@
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2013
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This script is a modified version of a script published under the htmlArea License.
-*  A copy of the htmlArea License may be found in the textfile HTMLAREA_LICENSE.txt.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2013
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This script is a modified version of a script published under the htmlArea License.
+ *  A copy of the htmlArea License may be found in the textfile HTMLAREA_LICENSE.txt.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /*
  * Document Map Plugin for TYPO3 htmlArea RTE
  */
@@ -36,19 +36,19 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	 *
 	 * @param {Object} editor
 	 */
-	configurePlugin : function(editor) {
+	configurePlugin: function (editor) {
 
 		/*
 		 * Registering plugin "About" information
 		 */
 		var pluginInformation = {
-			version		: "1.0",
-			developer	: "Fabien Udriot",
-			developerUrl	: "http://ecodev.ch/",
-			copyrightOwner	: "Fabien Udriot",
-			sponsor		: "Ecodev Sarl",
-			sponsorUrl	: "http://ecodev.ch",
-			license		: "GPL"
+			version: "1.0",
+			developer: "Fabien Udriot",
+			developerUrl: "http://ecodev.ch/",
+			copyrightOwner: "Fabien Udriot",
+			sponsor: "Ecodev Sarl",
+			sponsorUrl: "http://ecodev.ch",
+			license: "GPL"
 		};
 		this.registerPluginInformation(pluginInformation);
 
@@ -57,35 +57,35 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 		 */
 		var buttonId = "LinkMaker";
 		var buttonConfiguration = {
-			id		: buttonId,
-			tooltip		: this.localize("linkmaker"),
-			action		: "onButtonPress",
-			context		: "a",
-			selection	: false,
-			dialog		: true
+			id: buttonId,
+			tooltip: this.localize("linkmaker"),
+			action: "onButtonPress",
+			context: "a",
+			selection: false,
+			dialog: true
 		};
 		this.registerButton(buttonConfiguration);
 
 		return true;
-	 },
+	},
 
 	/**
 	 * This function gets called when the button was pressed.
 	 *
 	 * @param {Object} editor the editor instance
 	 * @param {string} id the button id or the key
-	 * @return boolean	false if action is completed
+	 * @return boolean    false if action is completed
 	 */
-	onButtonPress : function(editor, id) {
+	onButtonPress: function (editor, id) {
 		var url = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[filter][type]=5&tx_media_user_mediam1[rtePlugin]=linkMaker';
 		var params = new Object();
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('a');
 		// true means there is an existing link selected in the RTE
-		if (this.elementNode != null && /^a$/i.test(this.elementNode.nodeName)){
+		if (this.elementNode != null && /^a$/i.test(this.elementNode.nodeName)) {
 			params.selection = this.elementNode;
 		}
-		else{
+		else {
 			params.selection = this.editor.getSelectedHTML();
 			this.elementNode = '';
 		}
@@ -113,16 +113,16 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	 * @param {Object} params the selected image
 	 * @return boolean
 	 */
-	createDocumentLink : function(params){
+	createDocumentLink: function (params) {
 		// true means the link already exists
-		if(typeof(this.elementNode) == 'object'){
-			this.elementNode.setAttribute('title',params.titleAttribute);
-			this.elementNode.setAttribute('class',params.classAttribute);
-			this.elementNode.setAttribute('target',params.targetAttribute);
-			this.elementNode.setAttribute('href',params.hrefAttribute);
+		if (typeof(this.elementNode) == 'object') {
+			this.elementNode.setAttribute('title', params.titleAttribute);
+			this.elementNode.setAttribute('class', params.classAttribute);
+			this.elementNode.setAttribute('target', params.targetAttribute);
+			this.elementNode.setAttribute('href', params.hrefAttribute);
 		}
 		// this is a new link
-		else if(params) {
+		else if (params) {
 			this.createLink(params.hrefAttribute, params.targetAttribute, params.classAttribute, params.titleAttribute, false);
 		}
 		return false;
@@ -152,7 +152,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 
 	/*******************************************/
 	/* CODE TAKEN FROM typo3/sysext/rtehtmlarea/htmlarea/plugins/TYPO3Link/typo3link.js
-	/*******************************************/
+	 /*******************************************/
 
 	/*
 	 * Add a link to the selection.
@@ -166,7 +166,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	 *
 	 * @return void
 	 */
-	createLink : function(theLink,cur_target,cur_class,cur_title,additionalValues) {
+	createLink: function (theLink, cur_target, cur_class, cur_title, additionalValues) {
 
 
 		var range, anchorClass, imageNode = null, addIconAfterLink;
@@ -281,20 +281,20 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	},
 
 	/*
-	* Set attributes of anchors intersecting a range in the given node
-	*
-	* @param	object	node: a node that may interesect the range
-	* @param	object	range: set attributes on all nodes intersecting this range
-	* @param	string	cur_target: value for the target attribute
-	* @param	string	cur_class: value for the class attribute
-	* @param	string	cur_title: value for the title attribute
-	* @param	object	imageNode: image to clone and append to the anchor
-	* @param	boolean	addIconAfterLink: add icon after rather than before the link
-	* @param	object	additionalValues: values for additional attributes (may be used by extension)
-	*
-	* @return	void
-	*/
-	setLinkAttributes : function(node, range, cur_target, cur_class, cur_title, imageNode, addIconAfterLink, additionalValues) {
+	 * Set attributes of anchors intersecting a range in the given node
+	 *
+	 * @param	object	node: a node that may interesect the range
+	 * @param	object	range: set attributes on all nodes intersecting this range
+	 * @param	string	cur_target: value for the target attribute
+	 * @param	string	cur_class: value for the class attribute
+	 * @param	string	cur_title: value for the title attribute
+	 * @param	object	imageNode: image to clone and append to the anchor
+	 * @param	boolean	addIconAfterLink: add icon after rather than before the link
+	 * @param	object	additionalValues: values for additional attributes (may be used by extension)
+	 *
+	 * @return	void
+	 */
+	setLinkAttributes: function (node, range, cur_target, cur_class, cur_title, imageNode, addIconAfterLink, additionalValues) {
 
 		if (/^a$/i.test(node.nodeName)) {
 			var nodeInRange = false;
@@ -428,6 +428,5 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 				child = nextSibling;
 			}
 		}
-	},
-
+	}
 });

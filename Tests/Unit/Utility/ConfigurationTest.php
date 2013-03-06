@@ -52,7 +52,7 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function thumbnailSizeSettingReturnsNotEmpty() {
-		$actual = \TYPO3\CMS\Media\Utility\Configuration::get('thumbnail_size');
+		$actual = \TYPO3\CMS\Media\Utility\Configuration::get('image_thumbnail');
 		$this->assertTrue($actual > 1);
 	}
 

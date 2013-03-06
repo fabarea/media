@@ -26,20 +26,25 @@ Media.Panel = {
 	/**
 	 * Display THE "list" panel
 	 *
+	 * @param {boolean} redraw
 	 * @return void
 	 */
-	showList: function () {
+	showList: function (redraw) {
+		if (typeof (redraw) == 'undefined') {
+			redraw = true;
+		}
 
 		// Remove footer and header markup.
 		$('#footer > *').remove();
 		$('#navbar-sub > *').remove();
 
-
 		// Add loading message for the next time the panel is displayed
 		$('#container-main-sub').html(Media.icons.loading);
 		this.togglePanel();
 
-		Media.Table.fnDraw();
+		if (redraw) {
+			Media.Table.fnDraw();
+		}
 	},
 
 	/**

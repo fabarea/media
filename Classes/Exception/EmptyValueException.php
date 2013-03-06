@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service\Thumbnail;
+namespace TYPO3\CMS\Media\Exception;
 
 /***************************************************************
  *  Copyright notice
@@ -24,46 +24,15 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Handle Exception for empty value
  *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-interface ThumbnailInterface {
+class EmptyValueException extends \Exception {
 
-	/**
-	 * Render a thumbnail of an image.
-	 *
-	 * @return string
-	 */
-	public function create();
-
-	/**
-	 * Tell to wrap the thumbnail.
-	 *
-	 * @param bool $wrap
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
-	 */
-	public function doWrap($wrap = TRUE);
-
-	/**
-	 * Tell whether the thumbnail is wrapped
-	 *
-	 * @return bool
-	 */
-	public function isWrapped();
-
-	/**
-	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
-	 */
-	public function getFile();
-
-	/**
-	 * @param mixed $file
-	 * @return \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
-	 */
-	public function setFile($file);
 }
+
 ?>

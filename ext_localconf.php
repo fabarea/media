@@ -11,9 +11,9 @@ $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkMaker']['objectRefere
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkMaker']['addIconsToSkin'] = 1;
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkMaker']['disableInFE'] = 1;
 
-//$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['Ecoimages'] = array();
-//$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['Ecoimages']['objectReference'] = 'EXT:' . $_EXTKEY . '/extensions/Ecoimages/class.tx_rtehtmlarea_ecoimages.php:&tx_rtehtmlarea_ecoimages';
-//$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['Ecoimages']['addIconsToSkin'] = 1;
-//$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['Ecoimages']['disableInFE'] = 1;
+$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker'] = array();
+$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker']['objectReference'] = 'EXT:' . $_EXTKEY . '/Resources/HtmlArea/ImageMaker/class.tx_rtehtmlarea_imagemaker.php:&tx_rtehtmlarea_imagemaker';
+$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker']['addIconsToSkin'] = 1;
+$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker']['disableInFE'] = 1;
 
 ?>

@@ -40,9 +40,8 @@ class IsRtePluginViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 */
 	public function render($plugin) {
 		$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_media_user_mediam1');
-		return $parameters['rtePlugin'] == $plugin;
+		return $parameters['rtePlugin'] == $plugin || $parameters['action'] == $plugin;
 	}
-
 }
 
 ?>

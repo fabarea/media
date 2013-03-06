@@ -13,6 +13,7 @@
 	<m:css name="bootstrap-datatables.css"/>
 	<m:css name="validationEngine.jquery.css"/>
 	<m:css name="client/fineuploader.css"/>
+	<m:css name="JQueryUi/jquery-ui-1.10.1.custom.min.css"/>
 
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]-->
@@ -20,7 +21,7 @@
 	<!--[endif]-->
 
 	<!-- Make jQuery available from the beginning -->
-	<m:js name="JQuery/jquery.js"/>
+	<m:js name="JQuery/jquery-1.9.1.min.js"/>
 
 	<script type="text/javascript">
 
@@ -33,7 +34,9 @@
 			"message-updated": '<f:translate key="message-updated" />',
 			"message-created": '<f:translate key="message-created" />',
 			"confirm-message": '<f:translate key="confirm-message" />',
-			"message-error": '<f:translate key="message-error" />'
+			"message-error": '<f:translate key="message-error" />',
+			"upload_file": '<f:translate key="upload_file" />',
+			"max_upload_size": '<m:maxUploadSize label="max_upload_file"/>'
 		};
 
 		Media._columns = [];
@@ -80,6 +83,13 @@
 
 <f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
 	<m:js name="Media.Rte.LinkMaker.js"/>
+</f:if>
+
+<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
+	<m:js name="JQuery/jquery-ui-1.10.1.custom.min.js"/>
+	<m:js name="CamanJs-4.1.0/caman.full.min.js"/>
+	<m:js name="CamanJs-4.1.0/adapters/jquery.js"/>
+	<m:js name="Media.Rte.imageMaker.js"/>
 </f:if>
 
 </body>

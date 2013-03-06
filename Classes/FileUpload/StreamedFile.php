@@ -77,7 +77,7 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 		fclose($input);
 
 		if ($realSize != $this->getSize()) {
-			return false;
+			return FALSE;
 		}
 
 		$target = fopen($this->getFileWithAbsolutePath(), "w");
@@ -85,7 +85,7 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 		stream_copy_to_stream($temp, $target);
 		fclose($target);
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -113,8 +113,8 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 	 * @return integer file-size in byte
 	 */
 	public function getSize() {
-		if (isset($_SERVER["CONTENT_LENGTH"])) {
-			return (int) $_SERVER["CONTENT_LENGTH"];
+		if (isset($GLOBALS['_SERVER']['CONTENT_LENGTH'])) {
+			return (int) $GLOBALS['_SERVER']['CONTENT_LENGTH'];
 		} else {
 			throw new \Exception('Getting content length is not supported.');
 		}
@@ -172,7 +172,7 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 	}
 
 	/**
-	 * Check whether the file exist
+	 * Check whether the file exists.
 	 */
 	protected function checkFileExistence() {
 		if (!is_file($this->getFileWithAbsolutePath())) {

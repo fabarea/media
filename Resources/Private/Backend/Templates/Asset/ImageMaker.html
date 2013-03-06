@@ -1,0 +1,302 @@
+<html xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
+      xmlns:m="http://typo3.org/ns/typo3/media/viewhelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+<div id="wrap">
+
+<!-- identifier for the *top* part for identification in the global view -->
+<div id="content-header">
+
+	<style type="text/css">
+		#slider {
+			float: left;
+			width: 300px;
+			margin: 4px 20px 0 0;
+		}
+
+		#echo {
+			text-align: left;
+			float: left;
+			width: 300px;
+		}
+
+		.ui-slider-handle {
+			outline: none;
+		}
+
+		.input-prepend {
+			display: inline;
+			margin-right: 10px;
+		}
+
+		.input-mini {
+			text-align: center;
+		}
+
+		.tool {
+			height: 40px;
+		}
+	</style>
+
+	<f:render partial="Widget/CloseButton"/>
+
+	<button type="button" class="btn btn-primary btn-create-image" accesskey="s">
+		<f:if condition="{variant}">
+			<f:then>
+				<f:translate key="update_image"/>
+			</f:then>
+			<f:else>
+				<f:translate key="insert_image"/>
+			</f:else>
+		</f:if>
+	</button>
+
+</div>
+
+<!-- identifier for the *middle* part for identification in the global view -->
+<div id="content-body">
+	<div class="container">
+		<f:flashMessages/>
+
+
+		<ul class="nav nav-pills">
+			<li class="active">
+				<a href="#" id="resize">
+					<f:translate key="resize"/>
+				</a>
+			</li>
+			<!--<li><a href="#" id="crop"><f:translate key="crop" /></a></li>-->
+			<!--<li><a href="#" id="crop">Effects</a></li>-->
+			<!--<li><a href="#" id="crop">Preset effects</a></li>-->
+		</ul>
+
+		<div class="tool">
+			<div id="slider" class="medium"></div>
+			<div id="echo" class="medium">
+				<div class="input-prepend">
+					<span class="add-on">w</span>
+					<input type="text" id="width" class="input-mini">
+				</div>
+				<div class="input-prepend">
+					<span class="add-on">h</span>
+					<input type="text" id="height" class="input-mini">
+				</div>
+			</div>
+		</div>
+
+		<div class="container-imageMaker">
+
+			<f:form method="post" action="imageMaker" name="asset"
+			        object="{asset}" arguments="{format: 'json'}" id="form-action-imageMaker">
+
+				<div class="container-height"></div>
+				<div class="control-group">
+					<m:thumbnail object="{asset}"
+					             preset="image_medium"
+					             attributes="{class: 'file-variant'}"/>
+				</div>
+				<div class="container-width"></div>
+
+
+				<f:form.hidden id="file-uid" property="uid"/>
+				<div style="visibility: hidden">
+					<f:form.submit value="submit"/>
+				</div>
+			</f:form>
+		</div>
+
+	</div>
+	<div id="push"></div>
+</div>
+
+<!-- identifier for the *footer* part for identification in the global view -->
+<div id="content-footer">
+	<div class="footer">
+		<div class="container">
+			<p class="footer-container pull-right">
+				<m:form.footer object="{asset}"/>
+			</p>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+
+		$(function () {
+
+			var originalFileUid = '{asset.uid}';
+			var originalImageWidth = '{asset.width}';
+			var originalImageHeight = '{asset.height}';
+			var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}';
+			var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}';
+			var variations = "{f:if(condition: variant, then: '{variant.variation}')}";
+			var variantUid = "{f:if(condition: variant, then: '{variant.variant.uid}')}";
+			var ratio = originalImageWidth / originalImageHeight;
+
+			var imageWidth, imageHeight;
+
+			// true for landscape image
+			if (originalImageWidth >= originalImageHeight) {
+				var _imageWidth = originalImageWidth > maximalImageWidth ? maximalImageWidth : originalImageWidth;
+				var _imageHeight = originalImageHeight > maximalImageHeight ? maximalImageHeight : originalImageHeight;
+				imageWidth = _imageWidth;
+				imageHeight = Math.ceil(_imageHeight / ratio);
+			} else {
+				imageWidth = Math.ceil(maximalImageWidth * ratio);
+				imageHeight = maximalImageHeight
+			}
+
+			/**
+			 * @see https://github.com/logicmd/jquery-bootstrap-slider
+			 */
+			$("#slider").slider({
+				orientation: "horizontal",
+				range: "min",
+				min: 50,
+				max: imageWidth,
+				value: imageWidth,
+				slide: function (event, ui) {
+					var height;
+					$('#width').val(ui.value);
+					height = Math.ceil(ui.value / ratio);
+					$('#height').val(height);
+				},
+				change: function (event, ui) {
+					$('.file-variant').caman(function () {
+						this.reset();
+						this.resize({
+							width: ui.value
+						}).render();
+					});
+				}
+			});
+
+			/**
+			 * Make the input smarter by adding interaction with the slider
+			 */
+			$('#width')
+					.val(imageWidth)
+					.change(function () {
+						// Value can not be bigger than maximalImageWidth
+						if ($(this).val() > imageWidth) {
+							$(this).val(imageWidth);
+						}
+						$('#slider').slider("value", $(this).val());
+						$('#height').val(Math.ceil($(this).val() / ratio));
+					})
+					.bind('keypress', function (e) {
+						if (e.keyCode == 13) {
+							$('#width').change();
+						}
+					});
+
+			$('#height')
+					.val(imageHeight)
+					.change(function () {
+						// Value can not be bigger than maximalImageWidth
+						if ($(this).val() > imageHeight) {
+							$(this).val(imageHeight);
+						}
+						var width;
+						width = Math.ceil($(this).val() * ratio);
+						$('#slider').slider("value", width);
+						$('#width').val(width);
+					})
+					.bind('keypress', function (e) {
+						if (e.keyCode == 13) {
+							$('#height').change();
+						}
+					});
+
+			$('.btn-create-image').click(function () {
+
+				$(".file-variant").caman(function () {
+					var variation;
+					variation = '';
+
+					// Get the resize info
+					if (this.resized) {
+						variation += 'resize({width: ' + this.width + ', height: ' + this.height + '}) ';
+					}
+
+					// Get the crop info
+					//if (this.cropped) {
+					//	variation += 'crop() ';
+					//}
+					// Get the filter applied: this.renderer.renderQueue or this.canvasQueue ?
+
+					// ajax call to submit image uploadVariant
+					$.ajax({
+						type: 'POST',
+						url: '/typo3/mod.php?M=user_MediaM1', // @todo make me configurable for FE
+						data: {
+							'tx_media_user_mediam1[action]': 'upload',
+							'tx_media_user_mediam1[controller]': 'Variant',
+							'tx_media_user_mediam1[variant][role]': 1,
+							'tx_media_user_mediam1[variant][original]': originalFileUid,
+							'tx_media_user_mediam1[variant][variant]': variantUid,
+							'tx_media_user_mediam1[variant][variation]': variation,
+							'qqfile': this.toBase64('jpeg'), // @todo can be improved if the original image is a png
+							'fileUploaded': 'base64'
+						},
+						success: function (data) {
+							var params = {};
+							params.tag = '<img src="/' + data.publicUrl +
+									//'" width="' + data.width +
+									//'" height="' + data.height +
+									'" data-htmlarea-original-uid="' + data.original +
+									'" data-htmlarea-file-uid="' + data.uid +
+									'" data-htmlarea-file-table="sys_file" />';
+							if (window.opener) {
+								window.opener.Media.ImageMaker.insertImage(params);
+								window.close();
+							}
+						}
+					});
+				});
+			});
+
+			// Prevent the form to be submitted
+			$('#form-action-imageMaker').submit(function (e) {
+				$('.btn-create-image').click();
+				e.preventDefault();
+			});
+
+
+			/**
+			 * Transform the image tag into canvas thanks to CamanJS.
+			 */
+			$('.file-variant').caman(function () {
+				var camanObject = this;
+				// apply filter to the image
+				$.each(variations.split(")"), function (index, variation) {
+					var regExp, width, matches;
+
+					if ($.trim(variation).length > 0) {
+						variation = $.trim(variation) + ")"; // add closing bracket which was removed by the split
+
+						// special case for resize
+						if (matches = variation.match(/resize.+width\: *([0-9]+)/i)) {
+							width = matches[1];
+							// apply width value to input and fire event change.
+							$('#width').val(width).change();
+
+						} else {
+							eval("camanObject." + variation); // apply filter
+						}
+					}
+				});
+
+				this.render();
+			});
+		});
+	</script>
+</div>
+</div>
+
+</f:section>
+</html>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

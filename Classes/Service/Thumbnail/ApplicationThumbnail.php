@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class TextThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
+class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 
 	/**
 	 * Render a thumbnail of a media
@@ -40,16 +40,17 @@ class TextThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	public function create() {
 
 		if ($this->isThumbnailPossible($this->file->getExtension())) {
-			$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, array());
+			$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $this->getConfiguration());
 			$icon = $processedFile->getPublicUrl(TRUE);
 		} else {
 			$icon = $this->getIcon($this->file->getExtension());
 		}
 
-		$thumbnail = sprintf('<img src="%s" hspace="2" title="%s" class="%s" alt="" />',
+		$thumbnail = sprintf('<img src="%s" title="%s" alt="%s" %s/>',
 			$icon,
 			htmlspecialchars($this->file->getName()),
-			$this->isThumbnailPossible($this->file->getExtension()) ? 'thumbnail' : ''
+			htmlspecialchars($this->file->getName()),
+			$this->renderAttributes()
 		);
 
 		if ($this->isWrapped()) {

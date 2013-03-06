@@ -39,9 +39,8 @@ class tx_rtehtmlarea_linkmaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 	 /**
 	 * Return JS configuration of the htmlArea plugins registered by the extension
 	 *
-	 * @param	integer		Relative id of the RTE editing area in the form
-	 *
-	 * @return string		JS configuration for registered plugins
+	 * @param integer $RTEcounter relative id of the RTE editing area in the form
+	 * @return string JS configuration for registered plugins
 	 *
 	 * The returned string will be a set of JS instructions defining the configuration that will be provided to the plugin(s)
 	 * Each of the instructions should be of the form:

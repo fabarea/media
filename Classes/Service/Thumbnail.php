@@ -31,19 +31,35 @@ namespace TYPO3\CMS\Media\Service;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface {
+class Thumbnail implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 
 	/**
-	 * Whether the thumbnail should be wrapped with an anchor
+	 * Whether the thumbnail should be wrapped with an anchor.
 	 *
 	 * @var bool
 	 */
 	protected $wrap = FALSE;
 
 	/**
-	 * @var mixed
+	 * @var \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset
 	 */
 	protected $file = FALSE;
+
+	/**
+	 * Define width, height and all sort of attributes to render a thumbnail.
+	 * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
+	 * @var array
+	 */
+	protected $configuration = array();
+
+	/**
+	 * DOM attributes to add to the image preview.
+	 *
+	 * @var array
+	 */
+	protected $attributes = array(
+		'class' => 'thumbnail',
+	);
 
 	/**
 	 * Render a thumbnail of a media
@@ -63,12 +79,16 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 			$className = 'TYPO3\CMS\Media\Service\Thumbnail\ImageThumbnail';
 		} elseif (\TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE == $this->file->getType() ||
 			\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT == $this->file->getType()) {
-				$className = 'TYPO3\CMS\Media\Service\Thumbnail\TextThumbnail';
+				$className = 'TYPO3\CMS\Media\Service\Thumbnail\ApplicationThumbnail';
 		}
 
-		/** @var $instance \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface */
+		/** @var $instance \TYPO3\CMS\Media\Service\ThumbnailInterface */
 		$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
-		return $instance->setFile($this->file)->doWrap()->create();
+		return $instance->setFile($this->file)
+			->setConfiguration($this->getConfiguration())
+			->setAttributes($this->getAttributes())
+			->doWrap($this->wrap)
+			->create();
 	}
 
 	/**
@@ -117,6 +137,24 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	}
 
 	/**
+	 * Render additional attribute for this DOM element.
+	 *
+	 * @return string
+	 */
+	public function renderAttributes() {
+		$result = '';
+		if (!empty($this->attributes)) {
+			foreach ($this->attributes as $attribute => $value) {
+				$result .= sprintf('%s="%s" ',
+					htmlspecialchars($attribute),
+					htmlspecialchars($value)
+				);
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * @return mixed
 	 */
 	public function getFile() {
@@ -129,6 +167,45 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\Thumbnail\ThumbnailInterface
 	 */
 	public function setFile($file) {
 		$this->file = $file;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getConfiguration() {
+		if (empty($this->configuration)) {
+			$dimension = \TYPO3\CMS\Media\Utility\PresetImageDimension::getInstance()->preset('image_thumbnail');
+			$this->configuration = array(
+				'width' => $dimension->getWidth(),
+				'height' => $dimension->getHeight(),
+			);
+		}
+		return $this->configuration;
+	}
+
+	/**
+	 * @param array $configuration
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail
+	 */
+	public function setConfiguration($configuration) {
+		$this->configuration = $configuration;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAttributes() {
+		return $this->attributes;
+	}
+
+	/**
+	 * @param array $attributes
+	 * @return \TYPO3\CMS\Media\Service\Thumbnail
+	 */
+	public function setAttributes($attributes) {
+		$this->attributes = $attributes;
 		return $this;
 	}
 }

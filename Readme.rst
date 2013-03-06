@@ -68,6 +68,39 @@ Refer to the documentation of extension HtmlArea for more insight. It could basi
 	# key where to define the visible buttons in the RTE
 	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
 
+Thumbnail View Helper
+======================
+
+Among other, Media is delivering a thumbnail View Helper. As a first place, the thumbnail can be get from the Asset object.
+
+::
+
+	# Get a thumbnail of the file.
+	{asset.thumbnail}
+
+	# Get a thumbnail of the file wrapped within a link pointing to the original file.
+	{asset.thumbnailWrapped}
+
+
+If the default thumbnail, returned by the Asset is not "sufficient", the View Helper can be used enabling configure the thumbnail to be generated::
+
+	# The minimum
+	<m:thumbnail object="{asset}"/>
+
+	# Pass more settings to the thumbnail to be rendered.
+	<m:thumbnail object="{asset}" configuration="{width: 800, height: 800}" attributes="{class: 'file-variant'}" wrap="true"/>
+
+	# Pass some preset as for the dimension. Values can be:
+	# - image_thumbnail => '100x100'  (where maximum width is 100 and maximum height is 100)
+    # - image_mini => '120x120'
+    # - image_small => '320x320'
+    # - image_medium => '760x760'
+    # - image_large => '1200x1200'
+    # - image_original => '1920x1920'
+	<m:thumbnail object="{asset}" preset="image_medium"/>
+
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+
 Mount point
 =================
 

@@ -149,3 +149,9 @@ li.alert-error {
 .alert-error .qq-upload-failed-text {
 	display: inline;
 }
+
+.qq-vertical-align {
+	padding-left: 10px;
+	position: relative;
+	top: 5px;
+}

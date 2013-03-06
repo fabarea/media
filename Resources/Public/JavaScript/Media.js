@@ -25,7 +25,8 @@ $(document).ready(function () {
 
 			// True means the main panel is not currently displayed.
 			if ($('#navbar-sub > *').length > 0) {
-				Media.Panel.showList();
+				var noRedraw = false;
+				Media.Panel.showList(noRedraw);
 			}
 		}
 	});
@@ -82,6 +83,7 @@ $(document).ready(function () {
 			// Attach event to DOM elements
 			Media.Action.edit();
 			Media.Action.linkMaker();
+			Media.Action.imageMaker();
 			Media.Action.delete();
 
 			// Handle flash message
@@ -120,59 +122,3 @@ Media.format = function (key) {
 Media.label = function (key) {
 	return Media.Label.get(key);
 };
-
-
-/**
- * Parse the input and return the content within the body tag.
- *
- * @param {string} data
- * @return string
- */
-Media.getBodyContent = function(data) {
-	var result, pattern, parts;
-	pattern = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
-	parts = pattern.exec(data);
-
-	// parts[0] corresponds to the body
-	if (parts[0] != 'undefined') {
-		result = parts[0];
-	}
-	return result;
-}
-
-/**
- * Return a cleaned source and evaluate JavaScript if found among "data".
- *
- * @see http://stackoverflow.com/questions/10888326/executing-javascript-script-after-ajax-loaded-a-page-doesnt-work
- * @param {string} data
- * @return string
- */
-Media.parseScript = function(data) {
-	var source = data;
-	var scripts = new Array();
-
-	// Strip out tags
-	while (source.indexOf("<script") > -1 || source.indexOf("</script") > -1) {
-		var s = source.indexOf("<script");
-		var s_e = source.indexOf(">", s);
-		var e = source.indexOf("</script", s);
-		var e_e = source.indexOf(">", e);
-
-		// Add to scripts array
-		scripts.push(source.substring(s_e + 1, e));
-		// Strip from source
-		source = source.substring(0, s) + source.substring(e_e + 1);
-	}
-
-	// Loop through every script collected and eval it
-	for (var i = 0; i < scripts.length; i++) {
-		try {
-			$.globalEval(scripts[i]);
-		}
-		catch (ex) {
-			// do what you want here when a script fails
-		}
-	}
-	// Return the cleaned source
-	return source;
-}

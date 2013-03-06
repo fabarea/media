@@ -24,6 +24,7 @@ CREATE TABLE sys_file (
 	ranking int(11) unsigned DEFAULT '0',
 	note text NOT NULL,
 	variants int(11) unsigned DEfAULT '0' NOT NULL,
+	is_variant tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	categories int(11) unsigned DEfAULT '0' NOT NULL,
 
 	# TEXT + IMAGE + VIDEO
@@ -63,4 +64,19 @@ CREATE TABLE sys_file (
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+);
+
+CREATE TABLE sys_file_variants (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	role int(11) unsigned DEFAULT '0' NOT NULL,
+	original int(11) unsigned DEFAULT '0' NOT NULL,
+	variant int(11) unsigned DEFAULT '0' NOT NULL,
+	variation varchar(255) DEFAULT '' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY phpunit_dummy (is_dummy_record)
 );

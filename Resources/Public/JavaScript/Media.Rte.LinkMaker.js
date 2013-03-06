@@ -9,7 +9,7 @@
 		 * Info: window.opener is the variable for exchanging data with the parent window
 		 */
 		// True means a link already exist in the RTE and must be updated.
-		if (window.opener.Media.LinkMaker.elementNode) {
+		if (window.opener && window.opener.Media.LinkMaker.elementNode) {
 			var $element, titleAttribute, matches,
 				uri, classAttribute, targetAttribute, fileUid;
 
@@ -36,7 +36,6 @@
 						success: function (data) {
 
 							Media.Action.setContent(data);
-							Media.parseScript(Media.getBodyContent(data));
 
 							// Set back values
 							$('#file-title').val($($element).attr('title'));

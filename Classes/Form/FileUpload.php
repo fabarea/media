@@ -99,7 +99,10 @@ EOF;
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
 			$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
-			$thumbnail = $thumbnailService->setFile($fileObject)->create();
+			$thumbnail = $thumbnailService
+				->setFile($fileObject)
+				->doWrap(TRUE)
+				->create();
 		}
 		return $thumbnail;
 	}

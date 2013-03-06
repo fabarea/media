@@ -63,7 +63,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @param array $fileData
 	 * @param string $objectType
-	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
+	 * @return object
 	 */
 	public function createObject(array $fileData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset') {
 		/** @var $object \TYPO3\CMS\Core\Resource\FileInterface */
@@ -88,7 +88,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Return a folder
+	 * Return a folder object
 	 *
 	 * @param \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\FileUpload\UploadedFileInterface  $fileObject
 	 * @return \TYPO3\CMS\Core\Resource\Folder
@@ -107,12 +107,38 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 			if ($mountPointUid > 0) {
 				// since we don't have a Mount Point repository in FAL, query the database directly.
 				$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointUid);
-				$folderObject = $storageObject->getFolder($record['path']);
+				if (!empty($record['path'])) {
+					$folderObject = $storageObject->getFolder($record['path']);
+				}
 			}
 		}
 		return $folderObject;
 	}
 
+	/**
+	 * Return a folder object
+	 *
+	 * @return \TYPO3\CMS\Core\Resource\Folder
+	 */
+	public function getVariantFolder() {
+
+		$storageObject = $this->getCurrentStorage();
+
+		// default is the root level
+		$folderObject = $storageObject->getRootLevelFolder();
+
+		// Get a possible mount point within the storage
+		$mountPointUid = \TYPO3\CMS\Media\Utility\Configuration::get('mount_point_for_variants');
+		if ($mountPointUid > 0) {
+
+			// since we don't have a Mount Point repository in FAL, query the database directly.
+			$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointUid);
+			if (!empty($record['path'])) {
+				$folderObject = $storageObject->getFolder($record['path']);
+			}
+		}
+		return $folderObject;
+	}
 }
 
 
