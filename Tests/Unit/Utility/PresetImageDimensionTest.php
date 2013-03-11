@@ -110,5 +110,15 @@ class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	public function getHeightWithoutPresetRaisesAnException() {
 		$this->fixture->getHeight();
 	}
+
+	/**
+	 * @test
+	 */
+	public function setOriginalImageAsPresetAndCheckWidthEquals1920() {
+		$actual = 'image_original';
+		// @todo comment me out and update test!
+		// \TYPO3\CMS\Media\Form\Configuration::setSettings(array('image_original' => '0'));
+		$this->assertSame(1920, $this->fixture->preset($actual)->getWidth());
+	}
 }
 ?>

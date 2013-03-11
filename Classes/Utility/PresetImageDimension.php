@@ -61,15 +61,15 @@ class PresetImageDimension implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function preset($preset){
 		$size = \TYPO3\CMS\Media\Utility\Configuration::get($preset);
-		if (!$size) {
+		if ($size == '') {
 			throw new \TYPO3\CMS\Media\Exception\EmptyValueException('No value for preset: ' . $preset, 1362501066);
 		}
 
 		$this->currentPreset = $preset;
 		if (!isset($this->store[$this->currentPreset])) {
 			$dimensions = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('x', $size);
-			$this->store[$this->currentPreset]['width'] = $dimensions[0];
-			$this->store[$this->currentPreset]['height'] = $dimensions[1];
+			$this->store[$this->currentPreset]['width'] = empty($dimensions[0]) ? 0 : $dimensions[0];
+			$this->store[$this->currentPreset]['height'] = empty($dimensions[1]) ? 0 : $dimensions[1];
 		}
 		return $this;
 	}
