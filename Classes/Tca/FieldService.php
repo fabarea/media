@@ -92,8 +92,16 @@ class FieldService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 		if (is_int(strpos($fieldName, '--widget--'))) {
 			return 'widget';
 		}
-		$config = $this->getConfiguration($fieldName);
-		return $config['type'];
+		$configuration = $this->getConfiguration($fieldName);
+		$result = $configuration['type'];
+
+		if (!empty($configuration['eval'])) {
+			$parts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $configuration['eval']);
+			if (in_array('datetime', $parts)) {
+				$result = 'date';
+			}
+		}
+		return $result;
 	}
 
 	/**

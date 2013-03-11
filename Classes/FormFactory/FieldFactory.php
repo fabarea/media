@@ -59,6 +59,9 @@ class FieldFactory implements \TYPO3\CMS\Media\FormFactory\FieldFactoryInterface
 		$fieldType = \TYPO3\CMS\Media\Utility\TcaField::getService()->getFieldType($this->fieldName);
 		if ($fieldType == 'input') {
 			$className = 'TYPO3\CMS\Media\FormFactory\TextFieldFactory';
+		# @todo activate me!
+		#} elseif ($fieldType == 'date') {
+		#	$className = 'TYPO3\CMS\Media\FormFactory\DateFieldFactory';
 		} elseif ($fieldType == 'select') {
 			$className = 'TYPO3\CMS\Media\FormFactory\SelectFactory';
 		} elseif ($fieldType == 'check') {

@@ -51,7 +51,7 @@ class FieldServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function fieldsIncludesATitleFieldForTableSysFile() {
+	public function fieldsIncludesATitleFieldInTableSysFile() {
 		$actual = $this->fixture->getFields();
 		$this->assertTrue(is_array($actual));
 		$this->assertArrayHasKey('title', $actual);
@@ -60,9 +60,17 @@ class FieldServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function fieldTypeReturnsInputForFieldTitleForTableSysFile() {
+	public function fieldTypeReturnsInputForFieldTitleInTableSysFile() {
 		$actual = $this->fixture->getFieldType('title');
 		$this->assertEquals('input', $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function fieldTypeReturnsDateForFieldModificationDateInTableSysFile() {
+		$actual = $this->fixture->getFieldType('modification_date');
+		$this->assertEquals('date', $actual);
 	}
 
 	/**
