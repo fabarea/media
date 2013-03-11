@@ -148,7 +148,7 @@ class Query {
 		if ($this->respectStorage) {
 			$clause = sprintf('%s AND storage = %s',
 				$clause,
-				\TYPO3\CMS\Media\Utility\Configuration::get('storage')
+				\TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage')
 			);
 		}
 

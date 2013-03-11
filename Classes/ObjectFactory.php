@@ -83,7 +83,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
 	 */
 	public function getCurrentStorage() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
 		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 	}
 
@@ -103,7 +103,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 			$folderObject = $storageObject->getFolder(dirname($fileObject->getIdentifier()));
 		} elseif ($fileObject instanceof \TYPO3\CMS\Media\FileUpload\UploadedFileInterface) {
 			// Get a possible mount point within the storage
-			$mountPointUid = \TYPO3\CMS\Media\Utility\Configuration::get('mount_point_for_file_type_' . $fileObject->getType());
+			$mountPointUid = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('mount_point_for_file_type_' . $fileObject->getType());
 			if ($mountPointUid > 0) {
 				// since we don't have a Mount Point repository in FAL, query the database directly.
 				$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointUid);
@@ -128,7 +128,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		$folderObject = $storageObject->getRootLevelFolder();
 
 		// Get a possible mount point within the storage
-		$mountPointUid = \TYPO3\CMS\Media\Utility\Configuration::get('mount_point_for_variants');
+		$mountPointUid = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('mount_point_for_variants');
 		if ($mountPointUid > 0) {
 
 			// since we don't have a Mount Point repository in FAL, query the database directly.

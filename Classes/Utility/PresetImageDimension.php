@@ -60,8 +60,8 @@ class PresetImageDimension implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Media\Utility\PresetImageDimension
 	 */
 	public function preset($preset){
-		$size = \TYPO3\CMS\Media\Utility\Configuration::get($preset);
-		if ($size == '') {
+		$size = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get($preset);
+		if (is_null($size)) {
 			throw new \TYPO3\CMS\Media\Exception\EmptyValueException('No value for preset: ' . $preset, 1362501066);
 		}
 

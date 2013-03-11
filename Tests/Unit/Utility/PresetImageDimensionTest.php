@@ -43,6 +43,7 @@ class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	}
 
 	public function tearDown() {
+		\TYPO3\CMS\Core\Utility\GeneralUtility::purgeInstances();
 		unset($this->fixture);
 	}
 
@@ -79,12 +80,29 @@ class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->assertArrayHasKey($actual, $this->fixture->getStore());
 	}
 
+
 	/**
 	 * @test
+	 * @dataProvider presetProvider
 	 */
-	public function setImageThumbnailAsPresetAndCheckWidthEquals100() {
-		$actual = 'image_thumbnail';
-		$this->assertSame(100, $this->fixture->preset($actual)->getWidth());
+	public function testProperty($preset, $setting, $width, $height) {
+		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set($preset, $setting);
+		$this->assertSame($width, $this->fixture->preset($preset)->getWidth());
+		$this->assertSame($height, $this->fixture->preset($preset)->getHeight());
+	}
+
+	/**
+	 * Provider
+	 */
+	public function presetProvider() {
+		return array(
+			array('image_thumbnail', '110x100', 110, 100),
+			array('image_mini', '130x120', 130, 120),
+			array('image_small', '340x320', 340, 320),
+			array('image_medium', '780x760', 780, 760),
+			array('image_large', '1210x1200', 1210, 1200),
+			array('image_original', '1910x1920', 1910, 1920),
+		);
 	}
 
 	/**
@@ -93,14 +111,6 @@ class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function getWidthWithoutPresetRaisesAnException() {
 		$this->fixture->getWidth();
-	}
-
-	/**
-	 * @test
-	 */
-	public function setImageThumbnailAsPresetAndCheckHeightEquals100() {
-		$actual = 'image_thumbnail';
-		$this->assertSame(100, $this->fixture->preset($actual)->getHeight());
 	}
 
 	/**
@@ -114,11 +124,22 @@ class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setOriginalImageAsPresetAndCheckWidthEquals1920() {
+	public function setOriginalImageAsPresetWithValue0AndCheckWidthEquals0() {
 		$actual = 'image_original';
-		// @todo comment me out and update test!
-		// \TYPO3\CMS\Media\Form\Configuration::setSettings(array('image_original' => '0'));
-		$this->assertSame(1920, $this->fixture->preset($actual)->getWidth());
+		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('image_original', 0);
+		$this->assertSame(0, $this->fixture->preset($actual)->getWidth());
+	}
+
+	/**
+	 * @test
+	 */
+	public function setOriginalImageAsPresetWithRandomValueAndCheckWidthAndHeightCorrespondsToThisRandomValue() {
+		$preset = 'image_original';
+		$actualWidth = rand(10, 100);
+		$actualHeight = rand(10, 100);
+		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('image_original', $actualWidth . 'x' . $actualHeight);
+		$this->assertSame($actualWidth, $this->fixture->preset($preset)->getWidth());
+		$this->assertSame($actualHeight, $this->fixture->preset($preset)->getHeight());
 	}
 }
 ?>

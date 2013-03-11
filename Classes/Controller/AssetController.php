@@ -48,7 +48,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		if (!$storageObject->isOnline()) {
 			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
@@ -129,7 +129,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$result['action'] = 'create';
 		$result['asset'] = array('uid' => '','title' => '',);
 
-		$asset['storage'] = \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$asset['storage'] = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
 		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 
 		$assetUid = $this->assetRepository->addAsset($asset);

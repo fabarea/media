@@ -116,7 +116,7 @@ This is useful if one wants the file to be stored elsewhere than at the root of 
 	# There are currently 5 file types available. Check out file EXT:media/Classes/Utility/Configuration.php
 	$key = 'mount_point_for_file_type_2';
 
-	\TYPO3\CMS\Media\Utility\Configuration::set($key, $mountPointUid);
+	\TYPO3\CMS\Media\Utility\Setting::getInstance()->set($key, $mountPointUid);
 
 File Upload
 =================

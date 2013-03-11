@@ -164,7 +164,7 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 				'sys_file',
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
-					'storage' => \TYPO3\CMS\Media\Utility\Configuration::get('storage'),
+					'storage' => \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage'),
 					'type' => $this->fakeFileType,
 					'title' => uniqid(),
 					'pid' => 0,

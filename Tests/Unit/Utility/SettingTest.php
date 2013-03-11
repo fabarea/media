@@ -31,19 +31,26 @@
  * @package TYPO3
  * @subpackage media
  */
-class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class SettingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+
+	/**
+	 * @var \TYPO3\CMS\Media\Utility\Setting
+	 */
+	private $fixture;
 
 	public function setUp() {
+		$this->fixture = new \TYPO3\CMS\Media\Utility\Setting();
 	}
 
 	public function tearDown() {
+		unset($this->fixture);
 	}
 
 	/**
 	 * @test
 	 */
 	public function getSettingsReturnNotEmptyArrayByDefault() {
-		$actual = \TYPO3\CMS\Media\Utility\Configuration::getSettings();
+		$actual = $this->fixture->getSettings();
 		$this->assertTrue(is_array($actual));
 		$this->assertNotEmpty($actual);
 	}
@@ -52,7 +59,7 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function thumbnailSizeSettingReturnsNotEmpty() {
-		$actual = \TYPO3\CMS\Media\Utility\Configuration::get('image_thumbnail');
+		$actual = $this->fixture->get('image_thumbnail');
 		$this->assertTrue($actual > 1);
 	}
 
@@ -61,7 +68,7 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function getFooValueReturnsEmpty() {
 		$expected = '';
-		$actual = \TYPO3\CMS\Media\Utility\Configuration::get(uniqid('foo'));
+		$actual = $this->fixture->get(uniqid('foo'));
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -69,9 +76,9 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function configurationArrayNotEmptyAfterGetARandomValue() {
-		\TYPO3\CMS\Media\Utility\Configuration::get(uniqid('foo'));
+		$this->fixture->get(uniqid('foo'));
 
-		$actual = \TYPO3\CMS\Media\Utility\Configuration::getSettings();
+		$actual = $this->fixture->getSettings();
 		$this->assertTrue(count($actual) > 0);
 	}
 
@@ -79,10 +86,8 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function getStorageValueIsNotEmpty() {
-		$actual = \TYPO3\CMS\Media\Utility\Configuration::get('storage');
+		$actual = $this->fixture->get('storage');
 		$this->assertNotEmpty($actual);
 	}
-
-
 }
 ?>

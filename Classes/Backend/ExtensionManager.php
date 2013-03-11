@@ -42,7 +42,7 @@ class ExtensionManager {
 	 *
 	 * @var array
 	 */
-	protected $configuration = array();
+	protected $settings = array();
 
 	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
@@ -57,12 +57,12 @@ class ExtensionManager {
 	public function __construct() {
 
 		// Load configuration
-		$this->configuration = \TYPO3\CMS\Media\Utility\Configuration::getSettings();
+		$this->settings = \TYPO3\CMS\Media\Utility\Setting::getInstance()->getSettings();
 
 		// Merge with Data that comes from the User
 		$postData = \TYPO3\CMS\Core\Utility\GeneralUtility::_POST();
 		if (!empty($postData['data'])) {
-			$this->configuration = array_merge($this->configuration, $postData['data']);
+			$this->settings = array_merge($this->settings, $postData['data']);
 		}
 
 		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
@@ -133,7 +133,7 @@ class ExtensionManager {
 	 * @return boolean
 	 */
 	protected function needsUpdate() {
-		return empty($this->configuration);
+		return empty($this->settings);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class ExtensionManager {
 		foreach ($records as $record) {
 			$selected = '';
 
-			if ($this->configuration['storage'] == $record->getUid()) {
+			if ($this->settings['storage'] == $record->getUid()) {
 				$selected = 'selected="selected"';
 			}
 			$options .= '<option value="' . $record->getUid() . '" ' . $selected . '>' . $record->getName() . '</option>';

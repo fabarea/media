@@ -32,12 +32,7 @@ class Configuration {
 	/**
 	 * @var array
 	 */
-	static protected $settings = array();
-
-	/**
-	 * @var array
-	 */
-	static protected $defaultSettings = array(
+	static protected $configuration = array(
 		'width' => 'span8',
 	);
 
@@ -53,28 +48,30 @@ class Configuration {
 	 * @return array
 	 */
 	static public function get($key) {
-
-		if(empty(self::$settings)) {
-			$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][self::$extensionKey]);
-			self::$settings = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge(self::$defaultSettings, $settings);
-		}
-		return isset(self::$settings[$key]) ? self::$settings[$key] : '';
+		return isset(self::$configuration[$key]) ? self::$configuration[$key] : '';
 	}
 
 	/**
 	 * @return array
 	 */
-	public static function getSettings() {
-		return self::$settings;
+	public static function getConfiguration() {
+		return self::$configuration;
 	}
 
 	/**
-	 * @param array $settings
+	 * @param array $configuration
 	 */
-	public static function setSettings($settings) {
-		self::$settings = $settings;
+	public static function setConfiguration($configuration) {
+		self::$configuration = $configuration;
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed $configuration
+	 */
+	public static function addConfiguration($key, $configuration) {
+		self::$configuration[$key] = $configuration;
+	}
 
 }
 ?>

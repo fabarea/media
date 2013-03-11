@@ -25,21 +25,38 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * A class for handling general settings
- *
- * @todo rename object to something (e.g Setting) else and turn me into a Singleton
+ * A class for handling settings of the extension
  */
-class Configuration {
+class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
 	 */
-	static protected $settings = array();
+	protected $settings = array();
+
+	/**
+	 * Returns a class instance.
+	 *
+	 * @return \TYPO3\CMS\Media\Utility\Setting
+	 */
+	static public function getInstance() {
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\Setting');
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @return \TYPO3\CMS\Media\Utility\Setting
+	 */
+	public function __construct() {
+		$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extensionKey]);
+		$this->settings = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge($this->defaultSettings, $settings);
+	}
 
 	/**
 	 * @var array
 	 */
-	static protected $defaultSettings = array(
+	protected $defaultSettings = array(
 		'storage' => 1,
 		'recycler_folder' => '_recycler_',
 		'mount_point_for_file_type_1' => 0, // text (txt, html, ...)
@@ -59,47 +76,42 @@ class Configuration {
 	/**
 	 * @var string
 	 */
-	static protected $extensionKey = 'media';
+	protected $extensionKey = 'media';
 
 	/**
-	 * Returns a configuration key.
+	 * Returns a setting key.
 	 *
 	 * @param string $key
 	 * @return array
 	 */
-	static public function get($key) {
-		$settings = self::getSettings();
-		return isset($settings[$key]) ? $settings[$key] : '';
+	public function get($key) {
+		$settings = $this->getSettings();
+		return isset($settings[$key]) ? $settings[$key] : NULL;
 	}
 
 	/**
-	 * Set a configuration key.
+	 * Set a setting key.
 	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @return void
 	 */
-	static public function set($key, $value) {
-		self::getSettings(); // just makes sure the settings have been instantiate once.
-		self::$settings[$key] = $value;
+	public function set($key, $value) {
+		$this->settings[$key] = $value;
 	}
 
 	/**
 	 * @return array
 	 */
-	public static function getSettings() {
-		if (empty(self::$settings)) {
-			$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][self::$extensionKey]);
-			self::$settings = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge(self::$defaultSettings, $settings);
-		}
-		return self::$settings;
+	public function getSettings() {
+		return $this->settings;
 	}
 
 	/**
 	 * @param array $settings
 	 */
-	public static function setSettings($settings) {
-		self::$settings = $settings;
+	public function setSettings($settings) {
+		$this->settings = $settings;
 	}
 }
 ?>
