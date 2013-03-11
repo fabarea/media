@@ -553,6 +553,7 @@ $TCA['sys_file']['grid'] = array(
 		'keywords' => array(
 		),
 		'categories' => array(
+			'visible' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Category',
 		),
 		'permission' => array(
@@ -561,6 +562,7 @@ $TCA['sys_file']['grid'] = array(
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permission',
 		),
 		'status' => array(
+			'visible' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Status',
 			'width' => '5%',
 		),

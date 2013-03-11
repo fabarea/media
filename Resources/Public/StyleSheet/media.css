@@ -9,6 +9,11 @@
 	left: 50%;
 }
 
+.dropdown-menu {
+	text-align: left;
+	width: 200px;
+}
+
 .dropdown-menu label {
 	padding-left: 25px;
 }
