@@ -72,7 +72,7 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 			try {
 				$conflictMode = is_object($fileObject) ? 'replace' : 'changeName';
-				$fileName = is_object($fileObject) ? $fileObject->getName() : $uploadedFileObject->getName();
+				$fileName = is_object($fileObject) ? $fileObject->getName() : 'variant_' . $uploadedFileObject->getName();
 				$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
 				// Update the tstamp - which is not updated by addFile()
