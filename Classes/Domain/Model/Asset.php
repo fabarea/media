@@ -845,7 +845,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 		$thumbnailService->setFile($this);
 
 		// Add more rendering specification if given.
-		if (is_object($thumbnailService)) {
+		if (is_object($thumbnailSpecification)) {
 			$thumbnailService->setConfiguration($thumbnailSpecification->getConfiguration())
 				->setAttributes($thumbnailSpecification->getAttributes())
 				->doWrap($thumbnailSpecification->getWrap());
@@ -867,7 +867,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 			->doWrap();
 
 		// Add more rendering specification if given.
-		if (is_object($thumbnailService)) {
+		if (is_object($thumbnailSpecification)) {
 			$thumbnailService->setConfiguration($thumbnailSpecification->getConfiguration())
 				->setAttributes($thumbnailSpecification->getAttributes());
 		}
