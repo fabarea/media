@@ -127,26 +127,28 @@
 
 		$(function () {
 
-			var originalFileUid = '{asset.uid}';
-			var originalImageWidth = '{asset.width}';
-			var originalImageHeight = '{asset.height}';
-			var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}';
-			var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}';
+			var originalFileUid = '{asset.uid}' - 0; // cast value to int
+			var originalImageWidth = '{asset.width}' - 0;
+			var originalImageHeight = '{asset.height}' - 0;
+			var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}' - 0;
+			var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}' - 0;
 			var variations = "{f:if(condition: variant, then: '{variant.variation}')}";
-			var variantUid = "{f:if(condition: variant, then: '{variant.variant.uid}')}";
+			var variantUid = "{f:if(condition: variant, then: '{variant.variant.uid}')}" - 0;
 			var ratio = originalImageWidth / originalImageHeight;
 
-			var imageWidth, imageHeight;
+			var imageWidth, imageHeight, _imageWidth, _imageHeight;
+
+			// compute appropriate width / height given an image can be smaller than "maximalImageWidth"
+			_imageWidth = originalImageWidth > maximalImageWidth ? maximalImageWidth : originalImageWidth;
+			_imageHeight = originalImageHeight > maximalImageHeight ? maximalImageHeight : originalImageHeight;
 
 			// true for landscape image
 			if (originalImageWidth >= originalImageHeight) {
-				var _imageWidth = originalImageWidth > maximalImageWidth ? maximalImageWidth : originalImageWidth;
-				var _imageHeight = originalImageHeight > maximalImageHeight ? maximalImageHeight : originalImageHeight;
 				imageWidth = _imageWidth;
 				imageHeight = Math.ceil(_imageHeight / ratio);
 			} else {
-				imageWidth = Math.ceil(maximalImageWidth * ratio);
-				imageHeight = maximalImageHeight
+				imageWidth = Math.ceil(_imageWidth * ratio);
+				imageHeight = _imageHeight
 			}
 
 			/**
