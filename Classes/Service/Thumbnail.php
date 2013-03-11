@@ -162,10 +162,14 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	}
 
 	/**
-	 * @param mixed $file
+	 * @throws \RuntimeException
+	 * @param object $file
 	 * @return \TYPO3\CMS\Media\Service\Thumbnail
 	 */
 	public function setFile($file) {
+		if (!is_object($file)) {
+			throw new \RuntimeException('Given parameter "file" should be an object', 1362999411);
+		}
 		$this->file = $file;
 		return $this;
 	}
