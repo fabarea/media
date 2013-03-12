@@ -78,7 +78,7 @@ $(document).ready(function () {
 //		},
 		"fnDrawCallback": function () {
 			// Attach event to DOM elements
-			Media.Action.edit();
+			//Media.Action.edit();
 			Media.Action.linkMaker();
 			Media.Action.imageMaker();
 			Media.Action.delete();

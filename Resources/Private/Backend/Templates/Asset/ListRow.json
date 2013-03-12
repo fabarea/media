@@ -15,14 +15,14 @@
 
 			<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
 				<f:link.action action="linkMaker" arguments="{asset : asset.uid}"
-				class="btn btn-linkMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-globe"></i></f:link.action>
+				class="btn-linkMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-globe"></i></f:link.action>
 			</f:if>
 			<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
 				<f:link.action action="imageMaker" arguments="{asset : asset.uid}"
-				class="btn btn-imageMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-picture"></i></f:link.action>
+				class="btn-imageMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-picture"></i></f:link.action>
 			</f:if>
-			<f:link.action action="edit" arguments="{asset : asset.uid}"
-				class="btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><m:sprite name="actions-document-open" /></f:link.action>
+			<a href="alt_doc.php?returnUrl=/typo3/mod.php?M=user_MediaM1&edit[sys_file][{asset.uid}]=edit" data-uid="{asset.uid}" class="btn-edit">
+				<m:sprite name="actions-document-open" /></a>
 			<f:link.action action="delete" arguments="{asset : asset.uid, format: 'json'}"
 				class="btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}">
 				<m:sprite name="actions-edit-delete" />

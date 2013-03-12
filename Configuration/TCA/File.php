@@ -531,6 +531,7 @@ $TCA['sys_file']['grid'] = array(
 	'columns' => array(
 //		'__checkbox' => array(),
 		'__number' => array(
+			'width' => '5px',
 			'sortable' => FALSE,
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:number',
 		),
@@ -539,11 +540,12 @@ $TCA['sys_file']['grid'] = array(
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Preview',
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
 			'wrap' => '<div class="center">|</div>',
+			'width' => '150px',
 		),
 		'title' => array(
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Title',
 			'wrap' => '<span class="media-title">|</span>',
-			'width' => '50%',
+			'width' => '400px',
 		),
 		'tstamp' => array(
 			'visible' => FALSE,
@@ -588,6 +590,7 @@ $TCA['sys_file']['grid'] = array(
 
 		'__buttons' => array(
 			'sortable' => FALSE,
+			'width' => '70px',
 		),
 	)
 );
