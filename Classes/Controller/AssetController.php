@@ -45,6 +45,19 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	protected $variantRepository;
 
 	/**
+	 * @var \TYPO3\CMS\Core\Page\PageRenderer
+	 */
+	protected $pageRenderer;
+
+	/**
+	 * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+	 * @return void
+	 */
+	public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer) {
+		$this->pageRenderer = $pageRenderer;
+	}
+
+	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
@@ -54,12 +67,13 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
 			throw new \TYPO3\CMS\Media\Exception\StorageNotOnlineException($message, 1361461834);
 		}
+		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
 	}
 
 	/**
 	 * List action for this controller. Displays a list of assets
 	 *
-	 * @return string The rendered view
+	 * @return void
 	 */
 	public function listAction() {
 		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldList());

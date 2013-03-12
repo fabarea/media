@@ -12,7 +12,7 @@ Media.Label = {
 	/**
 	 * array containing all labels
 	 */
-	labels: Media._labels,
+	labels: Media.merge(TYPO3.lang, Media._labels),
 
 	/**
 	 *

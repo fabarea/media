@@ -22,9 +22,11 @@
 				class="btn btn-imageMaker" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-picture"></i></f:link.action>
 			</f:if>
 			<f:link.action action="edit" arguments="{asset : asset.uid}"
-			class="btn btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-pencil"></i></f:link.action>
+				class="btn-edit" additionalAttributes="{data-uid: '{asset.uid}'}"><m:sprite name="actions-document-open" /></f:link.action>
 			<f:link.action action="delete" arguments="{asset : asset.uid, format: 'json'}"
-			class="btn btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}"><i class="icon-trash"></i></f:link.action>
+				class="btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}">
+				<m:sprite name="actions-edit-delete" />
+			</f:link.action>
 		</m:format.json>,
 
 	"__number":

@@ -1,27 +1,17 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
-      xmlns:m="http://typo3.org/ns/typo3/media/viewhelpers">
-<head>
-	<meta charset="utf-8">
-	<title>Media</title>
+<em:be.container pageTitle="Media" enableJumpToUrl="false" enableClickMenu="false" loadPrototype="false"
+                 loadScriptaculous="false" loadExtJs="false" loadExtJsTheme="true"
+                 addCssFiles="{
+		0:'{f:uri.resource(path:\'StyleSheet/bootstrap.css\')}',
+		1:'{f:uri.resource(path:\'StyleSheet/bootstrap-responsive.css\')}',
+		2:'{f:uri.resource(path:\'StyleSheet/media.css\')}',
+		3:'{f:uri.resource(path:\'StyleSheet/bootstrap-datatables.css\')}',
+		4:'{f:uri.resource(path:\'StyleSheet/FileUploader/fineuploader.css\')}',
+		5:'{f:uri.resource(path:\'StyleSheet/JQueryUi/jquery-ui-1.10.1.custom.min.css\')}'
+	}"
+                 addJsFiles="{
+		0:'{f:uri.resource(path:\'JavaScript/JQuery/jquery-1.9.1.min.js\')}'
+		}">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<m:css name="bootstrap.css"/>
-	<m:css name="media.css"/>
-	<m:css name="bootstrap-responsive.css"/>
-	<m:css name="bootstrap-datatables.css"/>
-	<m:css name="validationEngine.jquery.css"/>
-	<m:css name="client/fineuploader.css"/>
-	<m:css name="JQueryUi/jquery-ui-1.10.1.custom.min.css"/>
-
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]-->
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<!--[endif]-->
-
-	<!-- Make jQuery available from the beginning -->
-	<m:js name="JQuery/jquery-1.9.1.min.js"/>
 
 	<script type="text/javascript">
 
@@ -30,68 +20,60 @@
 
 		// "Live" variables
 		Media._labels = {
-			"message-deleted": '<f:translate key="message-deleted" />',
-			"message-updated": '<f:translate key="message-updated" />',
-			"message-created": '<f:translate key="message-created" />',
-			"confirm-message": '<f:translate key="confirm-message" />',
-			"message-error": '<f:translate key="message-error" />',
-			"upload_file": '<f:translate key="upload_file" />',
 			"max_upload_size": '<m:maxUploadSize label="max_upload_file"/>'
 		};
 
 		Media._columns = [];
 		{m:grid.columnHeader()}
 
-		// Declare object
+		// Just initialize variable with empty value.
 		Media.icons = {}
 	</script>
-</head>
-<body>
 
-<f:render section="main"/>
+	<f:render section="main"/>
 
-<m:js name="JQuery/jquery.dataTables.min.js"/>
-<m:js name="JQuery/jquery.validationEngine.js"/>
-<m:js name="JQuery/Languages/jquery.validationEngine-en.js"/>
-<m:js name="JQuery/jquery.form.js"/>
-<m:js name="JQuery/TableTools/TableTools.min.js"/>
-<m:js name="JQuery/jquery.dataTables.bootstrap.js"/>
+	<m:js name="JQuery/jquery.dataTables.min.js"/>
+	<m:js name="JQuery/jquery.validationEngine.js"/>
+	<m:js name="JQuery/Languages/jquery.validationEngine-en.js"/>
+	<m:js name="JQuery/jquery.form.js"/>
+	<m:js name="JQuery/TableTools/TableTools.min.js"/>
+	<m:js name="JQuery/jquery.dataTables.bootstrap.js"/>
 
-<m:js name="Bootstrap/bootstrap.min.js"/>
-<m:js name="Bootstrap/bootbox.min.js"/>
+	<m:js name="Bootstrap/bootstrap.min.js"/>
+	<m:js name="Bootstrap/bootbox.min.js"/>
 
-<m:js name="FileUploader/header.js"/>
-<m:js name="FileUploader/util.js"/>
-<m:js name="FileUploader/button.js"/>
-<m:js name="FileUploader/handler.base.js"/>
-<m:js name="FileUploader/handler.form.js"/>
-<m:js name="FileUploader/handler.xhr.js"/>
-<m:js name="FileUploader/uploader.basic.js"/>
-<m:js name="FileUploader/dnd.js"/>
-<m:js name="FileUploader/uploader.js"/>
-<m:js name="FileUploader/jquery-plugin.js"/>
+	<m:js name="FileUploader/header.js"/>
+	<m:js name="FileUploader/util.js"/>
+	<m:js name="FileUploader/button.js"/>
+	<m:js name="FileUploader/handler.base.js"/>
+	<m:js name="FileUploader/handler.form.js"/>
+	<m:js name="FileUploader/handler.xhr.js"/>
+	<m:js name="FileUploader/uploader.basic.js"/>
+	<m:js name="FileUploader/dnd.js"/>
+	<m:js name="FileUploader/uploader.js"/>
+	<m:js name="FileUploader/jquery-plugin.js"/>
 
-<m:js name="Uri/Uri.min.js"/>
+	<m:js name="Uri/Uri.min.js"/>
 
-<m:js name="Media.js"/>
-<m:js name="Encoder.js"/>
-<m:js name="Media.Panel.js"/>
-<m:js name="Media.Action.js"/>
-<m:js name="Media.Session.js"/>
-<m:js name="Media.FlashMessage.js"/>
-<m:js name="Media.Label.js"/>
+	<m:js name="Media.js"/>
+	<m:js name="Encoder.js"/>
+	<m:js name="Media.Panel.js"/>
+	<m:js name="Media.Action.js"/>
+	<m:js name="Media.Session.js"/>
+	<m:js name="Media.FlashMessage.js"/>
+	<m:js name="Media.Label.js"/>
 
-<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
-	<m:js name="Media.Rte.LinkMaker.js"/>
-</f:if>
+	<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
+		<m:js name="Media.Rte.LinkMaker.js"/>
+	</f:if>
 
-<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
-	<m:js name="JQuery/jquery-ui-1.10.1.custom.min.js"/>
-	<m:js name="CamanJs-4.1.0/caman.full.min.js"/>
-	<m:js name="CamanJs-4.1.0/adapters/jquery.js"/>
-	<m:js name="Media.Rte.imageMaker.js"/>
-</f:if>
+	<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
+		<m:js name="JQuery/jquery-ui-1.10.1.custom.min.js"/>
+		<m:js name="CamanJs-4.1.0/caman.full.min.js"/>
+		<m:js name="CamanJs-4.1.0/adapters/jquery.js"/>
+		<m:js name="Media.Rte.imageMaker.js"/>
+	</f:if>
 
-</body>
-</html>
+</em:be.container>
+{namespace em=TYPO3\CMS\Extensionmanager\ViewHelpers}
 {namespace m=TYPO3\CMS\Media\ViewHelpers}

@@ -4,9 +4,6 @@
 
 $(document).ready(function () {
 
-	// Binds form submission and fields to the validation engine
-	$("#form-media").validationEngine();
-
 	// Enable the hide / show column
 	$('.check-visible-toggle').click(function () {
 		var iCol = $(this).val();
@@ -94,7 +91,6 @@ $(document).ready(function () {
 	Media.Session.initialize();
 });
 
-
 /**
  * Format a string give a place holder. Acts as the "sprintf" function in PHP
  *
@@ -122,3 +118,19 @@ Media.format = function (key) {
 Media.label = function (key) {
 	return Media.Label.get(key);
 };
+
+
+/**
+ * Merge second object into first
+ *
+ * @param {object} set1
+ * @param {object} set2
+ * @return {object}
+ */
+Media.merge = function(set1, set2) {
+	for (var key in set2) {
+		if (set2.hasOwnProperty(key))
+			set1[key] = set2[key]
+	}
+	return set1
+}
