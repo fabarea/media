@@ -3,28 +3,31 @@ Media for TYPO3 CMS
 ========================
 
 Media Management (media) is a tool for organizing Media files and retrieve them by categories, mime-types etc.
-and is, in this regard a pragmatic replacement to DAM build on the top of FAL for TYPO3 CMS 6 branch. Read more about DAM `history and status`_.
-
-.. _history and status: http://buzz.typo3.org/teams/dam/article/new-features-in-dam-13-and-the-future-of-dam/
+and is a `replacement of the DAM`_ built on the top of FAL for TYPO3 CMS 6 branch. This document will describe the various API
+introduced by Media for its needs along to its configuration.
 
 Development happens: https://forge.typo3.org/projects/extension-media/
 Issue tracker: https://forge.typo3.org/projects/extension-media/issues
-Backlog: https://forge.typo3.org/rb/master_backlogs/extension-media
 Mailing list: http://lists.typo3.org/cgi-bin/mailman/listinfo/typo3-dev Make sure to mention the word "media" in the subject.
 
-Media introduces different API for its needs which are going to be roughly detailed below:
+.. _replacement of the DAM: http://buzz.typo3.org/teams/dam/article/new-features-in-dam-13-and-the-future-of-dam/
 
-* File upload: how is the file upload managed in Media in correlation with FAL?
-* Form API: how to create form elements, put it into a container and render all?
-* TCA service API: how to query the TCA in a programming way. To know more about TCA : http://docs.typo3.org/typo3cms/TCAReference/
-* TCA grid: extend the TCA for the need of a grid component (AKA management list).
-* TCA widget: introduce random widgets within a form.
+
+Installation
+=================
+
+Download the source code either from the Git repository or from the TER. Install the extension as normal in the Extension Manager.
+
+Configuration
+=================
+
+Configuration is mainly provided in the Extension Manager. Check possible options there.
 
 Repository API
 =================
 
-The extension is shipping a few repositories that you can take advantage in a third-party extension for instance. The fundamental one, is the Asset Repository which is the "four-wheel" repository.
-It can query any kind of media types. Consider the snippet::
+The extension is shipping a few repositories that you can take advantage in a third-party extension such a photo gallery. The fundamental one,
+is the Asset Repository which is the "four-wheel" repository. It can query any kind of media types. Consider the snippet::
 
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
@@ -40,7 +43,7 @@ There is also an option that can be passed whether you want to be returned objec
 	# Will return an array of array instead of an array of object
 	$assetRepository->setRawResult(TRUE)->findAll();
 
-Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for a Photo Gallery you are likely to use the Image repository
+Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for an image gallery you are likely to use the Image repository
 which apply an implicit filter on Image. But there is more than that:
 
 * Text repository for plain text files (txt, html, ...)
@@ -58,22 +61,17 @@ We are following the recommendation of the Iana_ entity available here_ for the 
 RTE integration
 =================
 
-The extension is shipping two buttons that can be added into the RTE enabling to:
-
-* Create link with document, the button name reference is ``linkmaker``
-* Insert images, the button name reference is ``imagemaker``
-
-Refer to the documentation of extension HtmlArea for more insight. It could basically looks like::
+The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module itself.
+The button name references are ``linkmaker`` and ``imagemaker`` respectively. Refer to the documentation of extension HtmlArea for more details but it is a matter of
+adding this line::
 
 	# key where to define the visible buttons in the RTE
 	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
 
-Thumbnail View Helper
+Thumbnail generation
 ======================
 
-Among other, Media is delivering a thumbnail View Helper. As a first place, the thumbnail can be get from the Asset object.
-
-::
+As a first place, a thumbnail can be generated from the Asset object, like::
 
 	# Get a thumbnail of the file.
 	{asset.thumbnail}
@@ -82,7 +80,7 @@ Among other, Media is delivering a thumbnail View Helper. As a first place, the 
 	{asset.thumbnailWrapped}
 
 
-If the default thumbnail, returned by the Asset is not "sufficient", the View Helper can be used enabling configure the thumbnail to be generated::
+If the default thumbnail is not "sufficient", a View Helper can be used enabling to configure the thumbnail to be generated::
 
 	# The minimum
 	<m:thumbnail object="{asset}"/>
@@ -104,7 +102,7 @@ If the default thumbnail, returned by the Asset is not "sufficient", the View He
 Mount point
 =================
 
-It is possible to add a mount point definable per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored.
+It is possible to add a mount point configurable per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored.
 This is useful if one wants the file to be stored elsewhere than at the root of the storage.
 
 ::
@@ -147,106 +145,11 @@ On the server side, there is an API for file upload which handles transparently 
 .. _Fine Uploader: http://fineuploader.com/
 
 
-Form API
-===========
-
-With the conclusion that that TCEforms was unfortunately too monolithic to be re-used for a customized Media BE module and since I was not able to reuse the FORM object as such, a slim API was developed enabling to render a form elements. The final goal was to be able to write a Fluid ViewHelper which would render a form object based on its TCA.
-
-As example::
-
-	<m:form.tca object={media} />
-
-
-For the styling `Twitter Bootstrap framework`_ was used giving the advantage to provide responsive capability out of the box.
-
-Form element
---------------
-
-The low level API enables to render a form in a programmatic way. It provides two different types of components: (form) elements and containers. A form element implements the "renderable" interface and can be textfield, textarea, etc. A container implements the "renderable" and also the "containable" interface and can be used for panels, tab-panels, etc. Let illustrate with examples:
-
-Render a minimal text field::
-
-	$fieldName = 'title';
-	$value = 'foo';
-
-	/** @var $fieldObject \TYPO3\CMS\Media\Form\TextField */
-	$fieldObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TextField');
-	$fieldObject->setName($fieldName)->render()
-
-Render a text field with label::
-
-	$fieldName = 'title';
-	$value = 'foo';
-
-	/** @var $fieldObject \TYPO3\CMS\Media\Form\TextField */
-	$fieldObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TextField');
-	$fieldObject->setName($fieldName)
-		->setLabel($label)
-		->setValue($value)
-		->addAttribute(array('class' => 'span6'))
-		->render();
-
-Create and render a tab panel (container) ::
-
-	/** @var $tabPanel \TYPO3\CMS\Media\FormContainer\TabPanel */
-	$tabPanel = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FormContainer\TabPanel');
-
-	$tabPanel->createPanel($panelTitle)
-		->render();
-
-Create a tab panel, add a text field into it and render it::
-
-	/** @var $fieldObject \TYPO3\CMS\Media\Form\TextField */
-	$fieldObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TextField');
-	$fieldObject->setName($fieldName)
-		->setLabel($label)
-		->setValue($value)
-		->setPrefix($this->getPrefix())
-		->addAttribute(array('class' => 'span6'));
-
-	/** @var $tabPanel \TYPO3\CMS\Media\FormContainer\TabPanel */
-	$tabPanel = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FormContainer\TabPanel');
-
-	$tabPanel->createPanel($panelTitle)
-		->addItem($fieldObject)
-		->render();
-
-.. _Twitter Bootstrap framework: http://twitter.github.com/bootstrap/
-
-
-Form factory
---------------
-
-The form factory API is useful for instantiating and returning Form object (cf Form API above). In that sense, it control the final output and make the bridge with TYPO3 CMS.
-
-Limitation:
-
-* no support yet for palette, radio button (should be easy) and inline editing,
-* no language handling,
-* no version handling.
-
-
-The form object factory API looks very similar to the low level API (above) at the first glance and can been seen as helper to create form object without worrying of the field type.
-By simply passing a field name, the form factory will return the correct object, ready to be rendered.
-
-	/** @var $fieldObject \TYPO3\CMS\Media\Form\FormFieldInterface */
-	$fieldName = 'title';
-	$value = 'foo';
-
-	# Create a field form object given a field name
-	$fieldObject = $fieldFactory->setFieldName($fieldName)
-		->setValue($value)
-		->get();
-
-	# Render the form
-	$fieldObject->render();
-
-
 TCA Service API
 =================
 
 This API enables to fetch info related to TCA in a programmatic way. Since TCA covers a very large set of data, the service is divided in types.
-There are are four parts being addressed: table, field, grid and form. The "grid" part extends the TCA and is introduced for the need of media.
+There are are four parts being addressed: table, field, grid and form. The "grid" part extends the TCA and is introduced for the need of the BE module of media.
 
 * table: deal with the "ctrl" part of the TCA. Typical info is what is the label of the table name, what is the default sorting, etc...
 * field: deal with the "columns" part of the TCA. Typical info is what configuration, label, ... has a field name.
@@ -335,46 +238,3 @@ with a double underscore e.g "__":
 * __number: display a row number
 * __buttons: display "edit", "deleted", ... buttons to control the row
 
-
-Widget TCA
-===========
-
-Proposal!
-
-It may happen that some custom content (not only field!) wants to be displayed within a form. Think that it can be some random informative text
-towards the Editor for example or a custom widget which does not correspond necessarily to a field of the DB.
-The "normal" way in TYPO3, would be is make a field of type "user" connected to a "userFunc" in the "column" part of the TCA. However, in some cases,
-the field does not exist in the DB and inventing ghost field for that purpose sounds very hacky.
-
-A possible marker ``widget`` could be introduced. The marker will follow the --div-- marker and would be followed by the class of a renderable widget. Example::
-
-	--widget--;TYPO3\CMS\Media\Form\FileUpload
-
-Where "FileUpload" implements the rendering interface. If one put this example in its context::
-
-	$TCA['sys_file']['types]['image'] => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload ,name, title, description, alternative, caption, keywords')
-
-
-Access key
-=================
-
-In a web browser, an `access key`_ allows a computer user immediately to jump to a specific part of a web page via the keyboard.
-
-* "n" for creating a new media
-* "escape" for closing the editing panel
-* "s" for saving the form
-
-.. _access key: http://en.wikipedia.org/wiki/Access_key
-
-Todo
-=================
-
-* "?" to dipslay the access keys summary
-* change icon to use TYPO3 sprite. Current icon set is the one from Twitter Bootstrap (http://twitter.github.com/bootstrap/base-css.html#icons).
-* Implement action "duplicate media" in the BE module.
-* Make file upload field name configurable. For now value "qqfile" is hardcoded.
-
-Duplicate code for file:ListRow.js
---------------------------------------
-<f:link.action action="duplicate" arguments="{media : media.uid}"
-class="btn btn-grid btn-duplicate disabled" additionalAttributes="{data-uid: '{media.uid}'}"><i class="icon-tags"></i></f:link.action>
