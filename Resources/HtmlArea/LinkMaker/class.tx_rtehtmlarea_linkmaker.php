@@ -32,9 +32,8 @@ class tx_rtehtmlarea_linkmaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 
 	protected $pluginButtons = 'linkmaker';
 	protected $convertToolbarForHtmlAreaArray = array (
-		'linkmaker'	=> 'LinkMaker', #must be the same in the javascript var buttonId = LinkMaker
-		);
-
+		'linkmaker' => 'LinkMaker', #must be the same in the javascript var buttonId = LinkMaker
+	);
 
 	 /**
 	 * Return JS configuration of the htmlArea plugins registered by the extension

@@ -32,9 +32,8 @@ class tx_rtehtmlarea_imagemaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 
 	protected $pluginButtons = 'imagemaker';
 	protected $convertToolbarForHtmlAreaArray = array (
-		'imagemaker'	=> 'ImageMaker', #must be the same in the javascript var buttonId = LinkMaker
-		);
-
+		'imagemaker' => 'ImageMaker', #must be the same in the javascript var buttonId = LinkMaker
+	);
 
 	/**
 	 * Return JS configuration of the htmlArea plugins registered by the extension
