@@ -31,7 +31,54 @@ namespace TYPO3\CMS\Media\FileUpload;
  * @package TYPO3
  * @subpackage media
  */
-class ImageOptimizer {
+class ImageOptimizer implements \TYPO3\CMS\Core\SingletonInterface {
+
+	/**
+	 * @var array
+	 */
+	protected $optimizers = array();
+
+	/**
+	 * Returns a class instance.
+	 *
+	 * @return \TYPO3\CMS\Media\FileUpload\ImageOptimizer
+	 */
+	static public function getInstance() {
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\ImageOptimizer');
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @return \TYPO3\CMS\Media\FileUpload\ImageOptimizer
+	 */
+	public function __construct() {
+		$this->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
+		$this->add('TYPO3\CMS\Media\FileUpload\Optimizer\Rotate');
+	}
+
+	/**
+	 * Register a new optimizer
+	 *
+	 * @param string $className
+	 * @return void
+	 */
+	public function add($className) {
+		$this->optimizers[] = $className;
+	}
+
+	/**
+	 * Un-register a new optimizer
+	 *
+	 * @param string $className
+	 * @return void
+	 */
+	public function remove($className) {
+		if (in_array($className, $this->optimizers)) {
+			$key = array_search($className, $this->optimizers);
+			unset($this->optimizers[$key]);
+		}
+	}
 
 	/**
 	 * Optimize an image
@@ -39,73 +86,15 @@ class ImageOptimizer {
 	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
 	 */
-	public function optimize(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile){
-		$imageInfo = getimagesize($uploadedFile->getFileWithAbsolutePath());
+	public function optimize(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile) {
 
-		$currentWidth = $imageInfo[0];
-		$currentHeight = $imageInfo[1];
-
-		// resize an image if this one is bigger than telling by the settings
-		$imageDimension = \TYPO3\CMS\Media\Utility\PresetImageDimension::getInstance()->preset('image_original');
-		if ($currentWidth >= $currentHeight && $currentWidth > $imageDimension->getWidth()) {
-			// resize taking the width as reference
-			$width = $imageDimension->getWidth();
-			$height = round($imageDimension->getWidth() * $currentHeight / $currentWidth);
-			$this->resize($uploadedFile->getFileWithAbsolutePath(), $width, $height);
-		} elseif ($currentHeight > $imageDimension->getHeight()) {
-			// resize taking the height as reference
-			$width = round($imageDimension->getHeight() * $currentWidth / $currentHeight);
-			$height = $imageDimension->getHeight();
-			$this->resize($uploadedFile->getFileWithAbsolutePath(), $width, $height);
+		foreach ($this->optimizers as $optimizer) {
+			/** @var $optimizer \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface */
+			$optimizer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($optimizer);
+			$uploadedFile = $optimizer->optimize($uploadedFile);
 		}
+
 		return $uploadedFile;
 	}
-
-	/**
-	 * Resize an image according to given parameter
-	 *
-	 * @throws \Exception
-	 * @param string $fileNameAndPath
-	 * @param int $width
-	 * @param int $height
-	 * @return void
-	 */
-	public function resize($fileNameAndPath, $width = 0, $height = 0) {
-		$options = sprintf('-geometry %sx%s! -limit threads 1 -background white -extent 0x0 +matte', $width, $height);
-
-		// We want to keep the profile on the uploaded image...
-		// save current state
-		$useStripProfileByDefault = $GLOBALS['TYPO3_CONF_VARS']['GFX']['im_useStripProfileByDefault'];
-		$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_useStripProfileByDefault'] = FALSE;
-		$command = \TYPO3\CMS\Core\Utility\CommandUtility::imageMagickCommand('convert', $options . ' ' . $this->wrapFileName($fileNameAndPath) . ' ' . $this->wrapFileName($fileNameAndPath));
-		exec($command, $output);
-
-		// Reset the value
-		$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_useStripProfileByDefault'] = $useStripProfileByDefault;
-
-		if (!empty($output)) {
-			throw new \Exception('Resizing of image went wrong!', 1362509465);
-		}
-	}
-
-	/**
-	 * Escapes a file name so it can safely be used on the command line.
-	 *
-	 * @see \TYPO3\CMS\Core\Imaging\GraphicalFunctions
-	 * @param string $inputName filename to safeguard, must not be empty
-	 * @return string $inputName escaped as needed
-	 */
-	protected function wrapFileName($inputName) {
-		if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['UTF8filesystem']) {
-			$currentLocale = setlocale(LC_CTYPE, 0);
-			setlocale(LC_CTYPE, $GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']);
-		}
-		$escapedInputName = escapeshellarg($inputName);
-		if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['UTF8filesystem']) {
-			setlocale(LC_CTYPE, $currentLocale);
-		}
-		return $escapedInputName;
-	}
-
 }
 ?>

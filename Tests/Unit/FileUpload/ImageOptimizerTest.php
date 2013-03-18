@@ -38,16 +38,6 @@ class ImageOptimizerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	private $fixture;
 
-	/**
-	 * @var string
-	 */
-	private $fakeName = '';
-
-	/**
-	 * @var string
-	 */
-	private $fakePrefix = '';
-
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\FileUpload\ImageOptimizer();
 	}
@@ -59,11 +49,28 @@ class ImageOptimizerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function foo() {
-		#$this->fixture->optimize()
+	public function checkOptimizersPropertyContainsDefaultValues() {
+		$this->assertAttributeContains('TYPO3\CMS\Media\FileUpload\Optimizer\Resize', 'optimizers', $this->fixture);
+		$this->assertAttributeContains('TYPO3\CMS\Media\FileUpload\Optimizer\Rotate', 'optimizers', $this->fixture);
 	}
 
+	/**
+	 * @test
+	 */
+	public function addNewRandomOptimizer() {
+		$optimizer = uniqid();
+		$this->fixture->add($optimizer);
+		$this->assertAttributeContains($optimizer, 'optimizers', $this->fixture);
+	}
 
-
+	/**
+	 * @test
+	 */
+	public function addNewRandomAndRemoveOptimizer() {
+		$optimizer = uniqid();
+		$this->fixture->add($optimizer);
+		$this->fixture->remove($optimizer);
+		$this->assertAttributeNotContains($optimizer, 'optimizers', $this->fixture);
+	}
 }
 ?>

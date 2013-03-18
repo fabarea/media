@@ -16,15 +16,46 @@ Mailing list: http://lists.typo3.org/cgi-bin/mailman/listinfo/typo3-dev Make sur
 Installation
 =================
 
-Download the source code either from the Git repository or from the TER. Install the extension as normal in the Extension Manager.
+Download the source code either from the `Git repository`_ to get the latest branch or from the TER for the stables releases. Install the extension as normal in the Extension Manager.
+
+.. _Git repository: https://git.typo3.org/TYPO3v4/Extensions/media.git
 
 Configuration
 =================
 
-Configuration is mainly provided in the Extension Manager. Check possible options there.
+Configuration is mainly provided in the Extension Manager and is pretty much self-explanatory. Check possible options there.
 
-Repository API
+Besides the basic settings, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
+
+
+RTE integration
 =================
+
+The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module.
+The button name references are ``linkmaker`` and ``imagemaker`` respectively which can be added by TypoScript in TSConfig with the following line::
+
+	# key where to define the visible buttons in the RTE
+	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
+
+	-> Refer to the documentation of extension HtmlArea for more details.
+
+Image Optimizer
+=================
+
+When a image get uploaded, there is a post-processing step where the image get the chance to be "optimized".
+By default there are two optimizations run against the image: **resize** and **rotate**. The `resize` processing enables 
+to reduce the size of an image if a User uploads a too big image. The maximum size can be configured in the Extension Manager.
+The `rotate` optimizer read the `exif`_ metadata and automatically rotate the image.
+
+If needed, it is possible to add additional custom optimizers. Notice that the class must implement an interface ``\TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface`` and can be added with following code::
+
+	$uploadedFile = \TYPO3\CMS\Media\FileUpload\ImageOptimizer::getInstance()->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
+
+
+.. _exif: http://en.wikipedia.org/wiki/Exchangeable_image_file_format
+
+Domain Model and Repository
+=============================
 
 The extension is shipping a few repositories that you can take advantage in a third-party extension such a photo gallery. The fundamental one,
 is the Asset Repository which is the "four-wheel" repository. It can query any kind of media types. Consider the snippet::
@@ -57,18 +88,7 @@ We are following the recommendation of the Iana_ entity available here_ for the 
 .. _Iana: http://en.wikipedia.org/wiki/Internet_Assigned_Numbers_Authority
 .. _here: http://www.iana.org/assignments/media-types
 
-
-RTE integration
-=================
-
-The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module itself.
-The button name references are ``linkmaker`` and ``imagemaker`` respectively. Refer to the documentation of extension HtmlArea for more details but it is a matter of
-adding this line::
-
-	# key where to define the visible buttons in the RTE
-	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
-
-Thumbnail generation
+Thumbnail API
 ======================
 
 As a first place, a thumbnail can be generated from the Asset object, like::
@@ -99,24 +119,7 @@ If the default thumbnail is not "sufficient", a View Helper can be used enabling
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
-Mount point
-=================
-
-It is possible to add a mount point configurable per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored.
-This is useful if one wants the file to be stored elsewhere than at the root of the storage.
-
-::
-
-	# Put this line in ext_tables.php
-	# A mount point uid which can be defined on pid = 0
-	$mountPointUid = 1;
-
-	# There are currently 5 file types available. Check out file EXT:media/Classes/Utility/Configuration.php
-	$key = 'mount_point_for_file_type_2';
-
-	\TYPO3\CMS\Media\Utility\Setting::getInstance()->set($key, $mountPointUid);
-
-File Upload
+File Upload API
 =================
 
 File upload is handled by `Fine Uploader`_ which is a Javascript plugin aiming to bring a user-friendly file-uploading experience over the web.
