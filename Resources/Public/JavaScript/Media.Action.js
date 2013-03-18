@@ -46,30 +46,51 @@ Media.Action = {
 	 * @return void
 	 */
 	linkMaker: function () {
-
 		// bind the click handler script to the newly created elements held in the table
-		$('.btn-linkMaker').bind('click', function (e) {
-			e.preventDefault();
-
-			Media.Panel.showForm();
-			Media.Action.handleForm($(this).attr('href'));
-		});
+		$('.btn-linkMaker')
+			.bind('click', Media.Action.callForm)
+			.each(function (index) {
+				// find the anchor object of the thumbnail and attach call form action as well
+				$(this)
+					.closest('tr')
+					.find('a')
+					.first()
+					.attr('href', $(this).attr('href'))
+					.bind('click', Media.Action.callForm);
+			});
 	},
 
 	/**
-	 * Bind RTE link maker buttons in list view.
+	 * Bind RTE image maker buttons in list view.
 	 *
 	 * @return void
 	 */
 	imageMaker: function () {
-
 		// bind the click handler script to the newly created elements held in the table
-		$('.btn-imageMaker').bind('click', function (e) {
-			e.preventDefault();
+		$('.btn-imageMaker')
+			.bind('click', Media.Action.callForm)
+			.each(function (index) {
+				// find the anchor object of the thumbnail and attach call form action as well
+				$(this)
+					.closest('tr')
+					.find('a')
+					.first()
+					.attr('href', $(this).attr('href'))
+					.bind('click', Media.Action.callForm);
+			});
+	},
 
-			Media.Panel.showForm();
-			Media.Action.handleForm($(this).attr('href'));
-		});
+	/**
+	 * Calls editing form
+	 *
+	 * @private
+	 * @param {Object} e
+	 * @return void
+	 */
+	callForm: function (e) {
+		e.preventDefault();
+		Media.Panel.showForm();
+		Media.Action.handleForm($(this).attr('href'));
 	},
 
 	/**
