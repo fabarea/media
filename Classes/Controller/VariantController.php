@@ -105,6 +105,7 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 					'original' => $variant['original'],
 					'name' => $newFileObject->getName(),
 					'publicUrl' => $newFileObject->getPublicUrl(),
+					'timeStamp' => $newFileObject->getProperty('tstamp'),
 					'height' => $newFileObject->getProperty('height'),
 					'width' => $newFileObject->getProperty('width'),
 				);

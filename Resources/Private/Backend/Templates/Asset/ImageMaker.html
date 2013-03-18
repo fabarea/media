@@ -246,13 +246,24 @@
 						},
 						success: function (data) {
 							var params = {};
-							params.tag = '<img src="/' + data.publicUrl +
-									//'" width="' + data.width +
-									//'" height="' + data.height +
+							params.tag = '<img src="/' + data.publicUrl + '?' + data.timeStamp +
 									'" data-htmlarea-original-uid="' + data.original +
 									'" data-htmlarea-file-uid="' + data.uid +
-									'" data-htmlarea-file-table="sys_file" />';
+									'" data-htmlarea-file-table="sys_file" ';
 							if (window.opener) {
+
+								// apply previous classes
+								if (window.opener.Media.ImageMaker.elementNode.className != null) {
+									params.tag += 'class="' + window.opener.Media.ImageMaker.elementNode.className + '" '
+								}
+
+								// apply previous styles
+								if (window.opener.Media.ImageMaker.elementNode.style.cssText != null) {
+									params.tag += 'style="' + window.opener.Media.ImageMaker.elementNode.style.cssText + '" '
+								}
+								params.tag += '/>';
+
+								// write the "img" tag in the RTE
 								window.opener.Media.ImageMaker.insertImage(params);
 								window.close();
 							}
