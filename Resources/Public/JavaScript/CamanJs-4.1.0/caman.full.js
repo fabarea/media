@@ -1652,7 +1652,6 @@
     Renderer.prototype.executePlugin = function() {
       Log.debug("Executing plugin " + this.currentJob.plugin);
       Plugin.execute(this.c, this.currentJob.plugin, this.currentJob.args);
-	    console.log(123123);
       Log.debug("Plugin " + this.currentJob.plugin + " finished!");
       return this.processNext();
     };
