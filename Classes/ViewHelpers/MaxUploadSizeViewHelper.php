@@ -40,7 +40,7 @@ class MaxUploadSizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 	 * @return string
 	 */
 	public function render($label = NULL, $extensionName = 'media') {
-		$result = \TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() / 1024;
+		$result = round(\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() / 1024, 2);
 		if ($label) {
 			$label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($label, $extensionName);
 			$result = sprintf($label, $result);
