@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
 
 /**
  * View helper dealing with form.
+ * @todo View Helper is not used anymore, remove me!
  *
  * @category    ViewHelpers
  * @package     TYPO3
