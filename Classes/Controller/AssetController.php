@@ -285,7 +285,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @param array $asset
 	 * @return string
 	 */
-	public function uploadAction(array $asset = array()){
+	public function uploadAction(array $asset = array()) {
 
 		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
 		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
