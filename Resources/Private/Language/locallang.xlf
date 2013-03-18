@@ -139,6 +139,9 @@
 			<trans-unit id="number">
 				<source>#</source>
 			</trans-unit>
+			<trans-unit id="uid">
+				<source>Uid</source>
+			</trans-unit>
 			<trans-unit id="preview">
 				<source>Preview</source>
 			</trans-unit>

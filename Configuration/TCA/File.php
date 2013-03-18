@@ -535,6 +535,11 @@ $TCA['sys_file']['grid'] = array(
 			'sortable' => FALSE,
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:number',
 		),
+		'uid' => array(
+			'visible' => FALSE,
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:uid',
+			'width' => '5px',
+		),
 		'name' => array(
 			'sortable' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Preview',
