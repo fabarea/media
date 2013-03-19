@@ -25,7 +25,6 @@ CREATE TABLE sys_file (
 	note text NOT NULL,
 	variants int(11) unsigned DEfAULT '0' NOT NULL,
 	is_variant tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	categories int(11) unsigned DEfAULT '0' NOT NULL,
 
 	# TEXT + IMAGE + VIDEO
 	# 21 cm, 29.7 cm: A4

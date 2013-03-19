@@ -1,12 +1,10 @@
 config.tx_extbase {
-	# Note: this configuration has not effect since the extbase persistence is not used for now.
-	# However, this could could change in the future and the mapping will become necessary
 	persistence{
 		classes {
-			TYPO3\CMS\Media\Domain\Model\Asset {
+			TYPO3\CMS\Media\Domain\Model\Category {
 				mapping {
-					tableName = sys_file
-					recordType = TYPO3\CMS\Media\Domain\Model\Asset
+					tableName = sys_category
+					recordType = TYPO3\CMS\Media\Domain\Model\Category
 					columns {
 						#title.mapOnProperty = title
 						#path.mapOnProperty = path

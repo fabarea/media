@@ -174,6 +174,27 @@ class Query {
 					// @todo add support for uid FIELD_IN_SET
 				}
 				$clause = sprintf('%s AND (%s)', $clause, implode(' OR ', $searchParts));
+
+				// @todo improve me! temporary solution to get the search functional for categories.
+				$join = <<<EOF
+ OR uid IN (
+	SELECT
+		uid_foreign
+	FROM
+		sys_category_record_mm
+	WHERE
+		tablenames = "sys_file" AND uid_local IN (
+			SELECT
+				sys_category.uid
+			FROM
+				sys_category
+			WHERE
+			title = "%s")
+	)
+EOF;
+
+				// Add category search
+				$clause .= sprintf($join, $searchTerm);
 			}
 
 			// Add constraints to the request

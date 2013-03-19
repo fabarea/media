@@ -5,24 +5,8 @@ if (!defined ('TYPO3_MODE')) {
 
 \TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 
-// get a comma-separated list of all Media folders
-$mediaFolderPidList = \TYPO3\CMS\Media\Utility\MediaFolder::getPidList();
-
-// add categorization to all media types
-$options = array();
-$options['fieldList'] = 'categories';
-$options['fieldConfiguration']['foreign_table_where'] = ' AND sys_category.pid IN (' . $mediaFolderPidList . ') ORDER BY sys_category.title ASC';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
-// remove add wizard because if there are multiple Media folders we don't know which one is the right one
-unset($TCA['sys_file']['columns']['categories']['config']['wizards']['add']);
-// remove edit wizard because it's not working with the TCA tree
-// @TODO enable when fixed in TYPO3 Core - set by Lorenz.
-// @todo watch was recently abandoned, wasn't it? So what todo with this todo?
-unset($TCA['sys_file']['columns']['categories']['config']['wizards']['edit']);
-
 $newFileTypes = array(
 	TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -33,7 +17,6 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -43,7 +26,6 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload ,title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -54,7 +36,6 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, duration, unit,
@@ -64,7 +45,6 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -74,7 +54,6 @@ $newFileTypes = array(
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xml:tabs.relations, categories,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -560,7 +539,7 @@ $TCA['sys_file']['grid'] = array(
 		'keywords' => array(
 		),
 		'categories' => array(
-			'visible' => FALSE,
+			'visible' => TRUE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Category',
 		),
 		'permission' => array(

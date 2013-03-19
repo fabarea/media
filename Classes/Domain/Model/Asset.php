@@ -878,14 +878,11 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\Category[]
 	 */
 	public function getCategories() {
-		if (is_null($this->variants)) {
-			/** @var $categoryRepository \TYPO3\CMS\Media\Domain\Repository\VariantRepository */
-			$categoryRepository = $this->objectManager->get('TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository');
-
-			// @todo check if Extbase is able to query mm relations...
-			// @see http://www.typo3.net/forum/beitraege/extbase_und_fluid/105657/
-			//$categoryRepository->findRelated(get_class($this), $this->getUid())
-		}
+		if (is_null($this->categories)) {
+			/** @var $categoryRepository \TYPO3\CMS\Media\Domain\Repository\CategoryRepository */
+			$categoryRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\CategoryRepository');
+			$this->categories = $categoryRepository->findRelated($this->getUid());
+		};
 		return $this->categories;
 	}
 

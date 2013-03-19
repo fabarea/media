@@ -25,7 +25,7 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  ***************************************************************/
 
 /**
- * Repository for accessing software
+ * Repository for accessing applications
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3

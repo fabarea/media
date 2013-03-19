@@ -1,5 +1,6 @@
 <?php
-namespace TYPO3\CMS\Media\Renderer\Grid;
+namespace TYPO3\CMS\Media\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -24,31 +25,12 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the preview of a media
+ * Category object for Media
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Category implements \TYPO3\CMS\Media\Renderer\RendererInterface {
-
-	/**
-	 * Render a categories for a media
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return string
-	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-
-		$result = '';
-		if ($asset->getCategories()->valid()) {
-			$template = '<li>%s</li>';
-			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
-			foreach ($asset->getCategories() as $category) {
-				$result .= sprintf($template, $category->getTitle());
-			}
-		}
-		return $result;
-	}
+class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category {
 }
 ?>

@@ -7,6 +7,9 @@ storage=1
 # cat=basic//; type=string; label= Comma-separated list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
 media_folders=
 
+# cat=basic//; type=string; label= Comma-separated list of Category pages (pid): Limit categories to a range of pages. If not set all categories will be taken into account.
+category_folders=
+
 ## cat=basic//; type=string; label= Mime type allowed : List of files which are are allowed to be uploaded identified by their mime type. (@todo implement me! Has not effect yet.)
 mime_type_allowed = image/*,audio/*,video/*,application/*,text/plain,text/html
 

@@ -52,11 +52,11 @@ class MediaFolder {
 	 */
 	static public function getPidList() {
 
-		$extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['media']);
-		if (!empty($extensionConfiguration['media_folders'])) {
+		$mediaFolders = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('media_folders');
+		if (!empty($mediaFolders)) {
 			/** @var $databaseHandle \TYPO3\CMS\Core\Database\DatabaseConnection */
 			$databaseHandle = $GLOBALS['TYPO3_DB'];
-			$mediaFolderPidList = $databaseHandle->cleanIntList($extensionConfiguration['media_folders']);
+			$mediaFolderPidList = $databaseHandle->cleanIntList($mediaFolders);
 		} else {
 			$mediaFolders = self::findFolders();
 			if (empty($mediaFolders)) {
@@ -69,14 +69,22 @@ class MediaFolder {
 	}
 
 	/**
-	 * Return the default page id that corresponds to the first occurrence of
-	 * media folder (folder == a special page type in the BE).
+	 * Return the default page id corresponding to the first occurrence of "media" folder.
 	 *
 	 * @return int
 	 */
 	static public function getDefaultPid() {
 		$pidList = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::getPidList());
 		return empty($pidList[0]) ? 0 : $pidList[0];
+	}
+
+	/**
+	 * Return a page id corresponding of categories to be used against Assets.
+	 *
+	 * @return int
+	 */
+	static public function getCategoryFolders() {
+		return \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('category_folders');
 	}
 
 	/**
@@ -95,7 +103,7 @@ class MediaFolder {
 			'perms_user' => 31,
 			'perms_group' => 31,
 			'perms_everybody' => 31,
-			'title' => 'Media categories',
+			'title' => 'Media',
 			'doktype' => 254, // folder
 			'module' => 'media',
 			'crdate' => time(),

@@ -59,4 +59,18 @@ $TCA['sys_file']['ctrl']['enablecolumns'] =  array(
 	'starttime' => 'starttime',
 	'endtime' => 'endtime'
 );
+
+// get a comma-separated list of all Media folders
+$categoryFolderPidList = \TYPO3\CMS\Media\Utility\MediaFolder::getCategoryFolders();
+$options = array();
+if ($categoryFolderPidList) {
+	// add categorization to all media types
+	$options['fieldList'] = '--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category, categories';
+	$options['fieldConfiguration']['foreign_table_where'] = ' AND sys_category.pid IN (' . $categoryFolderPidList . ') ORDER BY sys_category.title ASC';
+}
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
+
+// remove edit wizard because it's not working with the TCA tree
+unset($TCA['sys_file']['columns']['categories']['config']['wizards']['edit']);
 ?>
