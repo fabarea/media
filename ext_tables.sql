@@ -23,6 +23,7 @@ CREATE TABLE sys_file (
 	longitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 	ranking int(11) unsigned DEFAULT '0',
 	note text NOT NULL,
+	categories int(11) NOT NULL default '0',
 	variants int(11) unsigned DEfAULT '0' NOT NULL,
 	is_variant tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
