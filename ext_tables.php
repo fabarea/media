@@ -15,9 +15,17 @@ $TCA["sys_file_variants"] = array(
 		'label_alt_force' => 'true',
 		'rootLevel' => -1,
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/FileVariants.php',
-		//'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Advertise.png',
+		'typeicon_classes' => array(
+			'default' => 'extensions-media-variant',
+		),
 	),
 );
+
+// Add sprite icon for type Variant
+$icons = array(
+	'variant' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
+);
+\TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons($icons, $_EXTKEY);
 
 if (TYPO3_MODE == 'BE') {
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
@@ -39,7 +47,7 @@ if (TYPO3_MODE == 'BE') {
 	);
 }
 
-// media folder type and icon
+// Add Media folder type and icon
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon(
 	'pages',
 	'contains-media', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'

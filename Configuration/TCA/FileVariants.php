@@ -15,10 +15,10 @@ $TCA["sys_file_variants"] = array (
 				"type" => "select",
 				"items" => array (
 					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.none", 0),
-					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.alternative", 1),
+					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.thumbnail", 1),
 					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.subtitle", 2),
 					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.caption", 3),
-					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.thumbnail", 4),
+					array("LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.role.alternative", 4),
 				),
 				'default' => 0,
 				"size" => 1,

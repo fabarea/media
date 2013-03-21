@@ -14,6 +14,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.geolocation, location_country, location_region, location_city, latitude, longitude,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
@@ -23,6 +24,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload ,title, description, alternative, caption, keywords,
@@ -33,6 +35,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.geolocation, location_country, location_region, location_city, latitude, longitude,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
@@ -42,6 +45,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
@@ -51,6 +55,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
 	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
@@ -60,6 +65,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 );
 
@@ -542,6 +548,11 @@ $TCA['sys_file']['grid'] = array(
 			'visible' => TRUE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Category',
 		),
+		'usage' => array(
+			'visible' => TRUE,
+			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Usage',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
+		),
 		'permission' => array(
 			'visible' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Permission',
@@ -583,6 +594,5 @@ $TCA['sys_file']['grid'] = array(
 $TCA['sys_file']['ctrl']['searchFields'] = 'uid,title,keywords,extension';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_file', $columns, 1);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_file', 'variants', '', 'after:type');
 
 ?>

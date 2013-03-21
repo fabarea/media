@@ -24,13 +24,13 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the category of a media in the grid
+ * Class rendering the preview of a media in the grid
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Category implements \TYPO3\CMS\Media\Renderer\RendererInterface {
+class Usage implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 
 	/**
 	 * Render a categories for a media
@@ -41,15 +41,20 @@ class Category implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
 
 		$result = '';
-		// We are force to convert to array to be sure of the result. E.g. method isValid is not reliable.
-		$categories = $asset->getCategories()->toArray();
-		if (!empty($categories)) {
-			$template = '<li style="list-style: disc">%s</li>';
-			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
-			foreach ($asset->getCategories() as $category) {
-				$result .= sprintf($template, $category->getTitle());
+		// we are force to convert to array. Method isValid behaves as a singleton.
+		$variants = $asset->getVariants();
+
+		if (! empty($variants)) {
+			foreach ($variants as $variant) {
+				$uids[] = $variant->getUid();
 			}
-			$result = sprintf('<ul>%s</ul>', $result);
+
+			$template = '<ul style="list-style: disc"><li title="%s">%s variant%s</li></ul>';
+			$result .= sprintf($template,
+				'file uid: ' . implode(', ', $uids),
+				count($variants),
+				count($variants) > 1 ? 's' : ''
+			);
 		}
 		return $result;
 	}

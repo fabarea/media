@@ -24,7 +24,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the preview of a media
+ * Class rendering the preview of a media in the grid
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3

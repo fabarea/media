@@ -79,7 +79,7 @@ class Variant {
 	public function __construct(array $variantData = array()) {
 		$this->uid = empty($variantData['uid']) ? 0 : $variantData['uid'];
 		$this->pid = empty($variantData['pid']) ? 0 : $variantData['pid'];
-		$this->role = empty($variantData['role']) ? '' : $variantData['role'];
+		$this->role = empty($variantData['role']) ? 1 : $variantData['role'];
 		$this->original = empty($variantData['original']) ? 0 : $variantData['original'];
 		$this->variant = empty($variantData['variant']) ? 0 : $variantData['variant'];
 		$this->variation = empty($variantData['variation']) ? 0 : $variantData['variation'];
@@ -192,6 +192,7 @@ class Variant {
 			'original' => is_object($this->original) ? $this->original->getUid() : $this->original,
 			'variant' => is_object($this->variant) ? $this->variant->getUid() : $this->variant,
 			'variation' => $this->getVariation(),
+			'role' => $this->getRole(),
 		);
 
 		if ($this->getUid() > 0) {

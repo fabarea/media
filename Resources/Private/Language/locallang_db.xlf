@@ -168,6 +168,9 @@
 			<trans-unit id="tabs.file">
 				<source>File</source>
 			</trans-unit>
+			<trans-unit id="tabs.variants">
+				<source>Variants</source>
+			</trans-unit>
 			<trans-unit id="tabs.temporalInfo">
 				<source>Temporal Info</source>
 			</trans-unit>

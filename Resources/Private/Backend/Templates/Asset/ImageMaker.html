@@ -258,7 +258,8 @@
 								}
 
 								// apply previous styles
-								if (window.opener.Media.ImageMaker.elementNode.style.cssText != null) {
+								if (window.opener.Media.ImageMaker.elementNode.style != null &&
+										window.opener.Media.ImageMaker.elementNode.style.cssText != null) {
 									params.tag += 'style="' + window.opener.Media.ImageMaker.elementNode.style.cssText + '" '
 								}
 								params.tag += '/>';
