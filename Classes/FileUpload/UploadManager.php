@@ -65,7 +65,7 @@ class UploadManager {
 		$this->allowedExtensions = $allowedExtensions;
 
 		// Initialize the upload folder for file transfer and create it if not yet existing
-		$this->uploadFolder = PATH_site . 'typo3temp/UploadedFilesTransfer';
+		$this->uploadFolder = PATH_site . 'typo3temp/pics';
 		if (!file_exists($this->uploadFolder)) {
 			\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($this->uploadFolder);
 		}
