@@ -208,6 +208,12 @@
 			<trans-unit id="usage">
 				<source>Usage</source>
 			</trans-unit>
+			<trans-unit id="references">
+				<source>References</source>
+			</trans-unit>
+			<trans-unit id="variants">
+				<source>Variants</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

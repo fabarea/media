@@ -33,27 +33,102 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
 class Usage implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 
 	/**
+	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected $databaseHandler;
+
+	/**
+	 * @return \TYPO3\CMS\Media\Renderer\Grid\Usage
+	 */
+	public function __construct() {
+		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
 	 * Render a categories for a media
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+		return $this->getVariantOutput($asset) . $this->getReferenceOutput($asset);
+	}
 
-		$result = '';
-		// we are force to convert to array. Method isValid behaves as a singleton.
+	/**
+	 * Get the variant output.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return string
+	 */
+	public function getVariantOutput($asset) {
+		$result = $_result = '';
+
+		// Get the file variants
 		$variants = $asset->getVariants();
+		if (!empty($variants)) {
 
-		if (! empty($variants)) {
+			$_template = <<<EOF
+<li title="uid: %s">
+	- %s x %s
+</li>
+EOF;
+
 			foreach ($variants as $variant) {
-				$uids[] = $variant->getUid();
+				$_result .= sprintf($_template,
+					$variant->getVariant()->getUid(),
+					$variant->getVariant()->getProperty('height'),
+					$variant->getVariant()->getProperty('width')
+				);
 			}
 
-			$template = '<ul style="list-style: disc"><li title="%s">%s variant%s</li></ul>';
-			$result .= sprintf($template,
-				'file uid: ' . implode(', ', $uids),
+			// finalize reference assembling
+			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
+			$result = sprintf($_template,
+				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('variants', 'media'),
 				count($variants),
-				count($variants) > 1 ? 's' : ''
+				$_result
+			);
+		}
+		return $result;
+	}
+
+	/**
+	 * Get the reference output.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return string
+	 */
+	public function getReferenceOutput($asset) {
+		$result = $_result = '';
+
+		// Get the file references of the asset
+		$records = $this->databaseHandler->exec_SELECTgetRows('*', 'sys_file_reference', 'uid_local = ' . $asset->getUid());
+		if (!empty($records)) {
+
+			$_template = <<<EOF
+<li title="uid: %s">
+	<a href="alt_doc.php?returnUrl=/typo3/mod.php?M=user_MediaM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a>
+	%s
+</li>
+EOF;
+
+			// assemble reference
+			foreach ($records as $record) {
+				$_result .= sprintf($_template,
+					$record['uid_foreign'],
+					$record['tablenames'],
+					$record['uid_foreign'],
+					\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-open'),
+					$record['tablenames']
+				);
+			}
+
+			// finalize reference assembling
+			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0">%s</ul>';
+			$result = sprintf($_template,
+				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('references', 'media'),
+				count($records),
+				$_result
 			);
 		}
 		return $result;

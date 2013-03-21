@@ -133,7 +133,7 @@ class Variant {
 	 * @return \TYPO3\CMS\Core\Resource\File
 	 */
 	public function getOriginal() {
-		if ($this->original > 0) {
+		if ($this->original > 0 && ! is_object($this->original)) {
 			/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
 			$fileRepository = $this->objectManager->get('TYPO3\CMS\Core\Resource\FileRepository');
 			$this->original = $fileRepository->findByUid($this->original);
@@ -152,7 +152,7 @@ class Variant {
 	 * @return \TYPO3\CMS\Core\Resource\File
 	 */
 	public function getVariant() {
-		if ($this->variant > 0) {
+		if ($this->variant > 0 && ! is_object($this->variant)) {
 			/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
 			$fileRepository = $this->objectManager->get('TYPO3\CMS\Core\Resource\FileRepository');
 			$this->variant = $fileRepository->findByUid($this->variant);
