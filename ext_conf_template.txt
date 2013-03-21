@@ -35,20 +35,20 @@ mount_point_for_file_type_5 = 0
 
 ###################### Image size ######################
 
-# cat=image size//1; type=string; label= Size of a thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the list view.
+# cat=image size//1; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the list view.
 image_thumbnail = 100x100
 
-# cat=image size//; type=string; label= Size of a mini image: Define the max width and height of a mini image.
+# cat=image size//; type=string; label= Maximum size of mini image: Define the max width and height of a mini image.
 image_mini = 120x120
 
-# cat=image size//; type=string; label= Size of a mini image: Define the max width and height of a mini image.
+# cat=image size//; type=string; label= Maximum size of small image: Define the max width and height of a small image.
 image_small = 320x320
 
-# cat=image size//; type=string; label= Size of a medium image: Define the max width and height of a medium image. This setting is currently used to define the max size in the image editor.
+# cat=image size//; type=string; label= Maximum size of medium image: Define the max width and height of a medium image. This setting is currently used to define the max size in the image editor.
 image_medium = 760x760
 
-# cat=image size//; type=string; label= Size of a large image: Define the max width and height of a large image.
+# cat=image size//; type=string; label= Maximum size of large image: Define the max width and height of a large image.
 image_large = 1200x1200
 
-# cat=image size//; type=string; label= Size of an original image: Limit by resizing the original image being uploaded. This can be useful if editor upload a too big image. Set to 0 for no file size restriction.
+# cat=image size//; type=string; label= Maximum size of original image: Limit by resizing the original image being uploaded. This can be useful if editor upload a big images not suitable for the web. Set to 0 for no file size restriction.
 image_original = 1920x1920
