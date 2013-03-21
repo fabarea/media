@@ -171,7 +171,8 @@ class Query {
 					if ($fieldType == 'text' OR $fieldType == 'input') {
 						$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
 					}
-					// @todo add support for uid FIELD_IN_SET
+
+					$searchParts[] = sprintf('uid = "%s"', $searchTerm);
 				}
 				$clause = sprintf('%s AND (%s)', $clause, implode(' OR ', $searchParts));
 
