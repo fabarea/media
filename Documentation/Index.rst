@@ -77,7 +77,26 @@ If needed, it is possible to add additional custom optimizers. Notice that the c
 Domain Model and Repository
 =============================
 
-The extension is shipping a few repositories that you can take advantage in a third-party extension such a photo gallery. The fundamental one,
+We are following the recommendation_ of the Iana_for taking apart the media types. Model works as follows:
+
+
+	---------------------
+	|       File        |  -> limited meta data
+	---------------------
+	          |
+	         \|/
+	---------------------
+	|       Asset        | -> advance meta data handling
+	---------------------
+	          |                      \                     \                     \                     \
+	         \|/                     \|/                   \|/                   \|/                   \|/
+	---------------------  ---------------------  ---------------------  ---------------------  ---------------------
+	|       Text        | |       Image        | |       Audio        | |       Video        | |       Application   | -> with specific repository
+	---------------------  ---------------------  ---------------------  ---------------------  ---------------------
+	  (txt, html, ...)      (png, jpg, ...)        (mp3, ogg, ...)        (mp4, avi, ...)       (pdf, doc, ...)
+
+
+Along to the Models, corresponding repositories can be used. The fundamental one,
 is the Asset Repository which is the "four-wheel" repository. It can query any kind of media types. Consider the snippet::
 
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
@@ -94,7 +113,7 @@ There is also an option that can be passed whether you want to be returned objec
 	# Will return an array of array instead of an array of object
 	$assetRepository->setRawResult(TRUE)->findAll();
 
-Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for an image gallery you are likely to use the Image repository
+Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for an Photo Gallery you are likely to use the Image repository
 which apply an implicit filter on Image. But there is more than that:
 
 * Text repository for plain text files (txt, html, ...)
@@ -103,10 +122,8 @@ which apply an implicit filter on Image. But there is more than that:
 * Video repository
 * Application repository (pdf, odt, doc, ...)
 
-We are following the recommendation of the Iana_ entity available here_ for the media types.
-
 .. _Iana: http://en.wikipedia.org/wiki/Internet_Assigned_Numbers_Authority
-.. _here: http://www.iana.org/assignments/media-types
+.. _recommendation:: http://www.iana.org/assignments/media-types
 
 Thumbnail API
 ======================
