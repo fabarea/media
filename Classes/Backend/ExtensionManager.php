@@ -78,6 +78,7 @@ class ExtensionManager {
 	public function renderMessage(&$params, &$tsObj) {
 		$out = '';
 
+		// display a message if DAM is detected
 		if ($this->isDamDetected()) {
 			$out .= '
 				<div style="">
@@ -94,6 +95,25 @@ class ExtensionManager {
 				</div>
 			';
 		}
+
+		// display a message if PHP EXIF extension is not installed
+		if (! $this->hasExif()) {
+			$out .= '
+				<div style="">
+					<div class="typo3-message message-warning">
+						<div class="message-header">
+						Missing EXIF PHP extension
+					</div>
+						<div class="message-body">
+							The extension is not required but Media will just work better if the extension is installed.
+						</div>
+					</div>
+				</div>
+			';
+		}
+
+
+		// display a message if Extension is not fully installed
 		if ($this->needsUpdate()) {
 			$out .= '
 			<div style="">
@@ -107,7 +127,6 @@ class ExtensionManager {
 				</div>
 			</div>
 			';
-
 		}
 		else {
 			$out .= '
@@ -125,6 +144,16 @@ class ExtensionManager {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * Check whether configuration is available
+	 *
+	 * @return boolean
+	 */
+	protected function hasExif() {
+		return function_exists('exif_read_data');
+
 	}
 
 	/**
