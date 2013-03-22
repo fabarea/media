@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 \TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 
 $newFileTypes = array(
-	TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -17,7 +17,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -27,7 +27,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload ,title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
@@ -38,7 +38,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, duration, unit,
@@ -48,7 +48,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -58,7 +58,7 @@ $newFileTypes = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, title, description, alternative, caption, keywords,
+	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
@@ -79,6 +79,12 @@ $TCA['sys_file']['palettes'] = array(
 );
 
 $columns = array(
+	'fileinfo' => array(
+		'config' => array(
+			'type' => 'user',
+			'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:TYPO3\CMS\Media\Backend\TceForms->renderFileInfo',
+		),
+	),
 	'variants' => array(
 		'exclude' => 1,
 		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.variants',

@@ -26,12 +26,13 @@ namespace TYPO3\CMS\Media\Form;
 
 /**
  * A class to render a file upload widget.
+ * Notice the file is very similar to FileUpload.php but integrates itself into TCEforms.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
+class FileUploadTceForms extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 
 	/**
 	 * @var string
@@ -115,14 +116,18 @@ EOF;
 
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Widget/FileUploadTceForms/FileUploadTceForms.js';
 
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Widget/FileUpload/FileUpload.js';
+		/** @var $maxUploadViewHelper \TYPO3\CMS\Media\ViewHelpers\MaxUploadSizeViewHelper */
+		$maxUploadViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MaxUploadSizeViewHelper');
+
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->getValue(),
 			$this->elementId,
 			$this->getAllowedExtension(),
 			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
+			$maxUploadViewHelper->render('max_upload_file'),
 			$this->getCallBack()
 		);
 	}
