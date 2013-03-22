@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\Controller;
 /**
  * Controller which handles the migration from DAM
  *
+ * @deprecated
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media

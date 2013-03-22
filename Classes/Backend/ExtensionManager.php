@@ -87,8 +87,8 @@ class ExtensionManager {
 						I found tracks of DAM.
 					</div>
 						<div class="message-body">
-							Would you like to migrate? There is a
-							<a href="/typo3/mod.php?M=user_MediaM1&tx_media_user_mediam1[controller]=Migration">script</a>
+							Would you like to migrate? There is an extension
+							<a href="https://github.com/b13/t3ext-dam_falmigration" target="_blank">dam_falmigration</a>
 							that can help importing DAM records into FAL.
 						</div>
 					</div>
