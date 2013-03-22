@@ -81,7 +81,7 @@ We are following the recommendation_ of the Iana_for taking apart the media type
 
 
 	---------------------
-	|       File        |  -> limited meta data
+	|       File        |  -> limited meta data handling (Core Model)
 	---------------------
 	          |
 	         \|/
