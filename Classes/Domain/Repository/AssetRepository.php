@@ -73,20 +73,30 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 * Update an asset with new information
 	 *
 	 * @throws \TYPO3\CMS\Media\Exception\MissingUidException
-	 * @param array $asset file information
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset|array $asset file information
 	 * @return void
 	 */
-	public function updateAsset($asset = array()) {
+	public function updateAsset($asset) {
+		if (is_object($asset)) {
+			/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
+			$assetObject = $asset;
+			$asset = $assetObject->toArray();
+		}
 
 		if (empty($asset['uid'])) {
 			throw new \TYPO3\CMS\Media\Exception\MissingUidException('Missing Uid', 1351605542);
+		}
+
+		if (is_array($asset['categories'])) {
+			$asset['categories'] = implode(',', $asset['categories']);
+		} else {
+			unset($asset['categories']);
 		}
 
 		$data['sys_file'][$asset['uid']] = $asset;
 
 		/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
 		$tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-		//$tce->stripslashes_values = 0; @todo useful setting?
 		$tce->start($data, array());
 		$tce->process_datamap();
 	}

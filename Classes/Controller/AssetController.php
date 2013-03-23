@@ -315,28 +315,34 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 				$fileName = is_object($fileObject) ? $fileObject->getName() : $uploadedFileObject->getName();
 				$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
-				// Update the tstamp - which is not updated by addFile()
-				$newFileObject->updateProperties(array(
-					'tstamp' => time(),
-					'pid' => \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid()
-				));
-				/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
-				$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
-				$fileRepository->update($newFileObject);
-
 				// Call the indexer service for updating the metadata of the file.
 				/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
 				$indexerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
 				$indexerService->indexFile($newFileObject, TRUE);
 
-				/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+				/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
+				$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
+
+				// Only for a new file
+				if (empty($asset['uid'])) {
+					$categoryList = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('default_categories');
+					$categories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $categoryList);
+					foreach ($categories as $category) {
+						$assetObject->addCategory($category);
+					}
+					$properties['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
+				}
+
+				$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
+				$assetObject->updateProperties($properties);
+				// Persist the asset
+				$this->assetRepository->updateAsset($assetObject);
 
 				$response = array(
 					'success' => TRUE,
 					'uid' => $newFileObject->getUid(),
 					'name' => $newFileObject->getName(),
-					'thumbnail' => $thumbnailService->setFile($newFileObject)->doWrap()->create(),
+					'thumbnail' => $assetObject->getThumbnailWrapped(),
 					// @todo hardcoded for now...
 					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Asset'
 				);

@@ -114,7 +114,7 @@ There is also an option that can be passed whether you want to be returned objec
 	$assetRepository->setRawResult(TRUE)->findAll();
 
 Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for an Photo Gallery you are likely to use the Image repository
-which apply an implicit filter on Image. But there is more than that:
+which apply an implicit filter on Images. But there is more than that:
 
 * Text repository for plain text files (txt, html, ...)
 * Image repository

@@ -74,6 +74,7 @@ class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 		'image_large' => '1200x1200',
 		'image_original' => '1920x1920',
 		'mime_type_allowed' => '',
+		'default_categories' => '',
 	);
 
 	/**

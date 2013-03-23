@@ -4,11 +4,14 @@ updateMessage=0
 # cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderStorage]; label = Select Storage: Defines in what storage files are going to be stored. Important!! Consider starting with an empty storage for a new installation. Create a new one next to the auto-created "fileadmin" by clicking "List" > "Top Page (uid = 0)" > "File storage" and create a new file storage there, e.g "resources/".
 storage=1
 
-# cat=basic//; type=string; label= Comma-separated list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
+# cat=basic//; type=string; label= Comma separated list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
 media_folders=
 
-# cat=basic//; type=string; label= Comma-separated list of Category pages (pid): Limit categories to a range of pages. If not set all categories will be taken into account.
+# cat=basic//; type=string; label= Comma separated list of Category pages (pid): Limit categories to a range of pages. If not set all categories will be taken into account.
 category_folders=
+
+# cat=basic//; type=string; label= Comma separated list of Categories (uid) on upload: Apply default categories when a file get uploaded. There is not check whether the Category exists, make sure to enter valid uid.
+default_categories=
 
 ## cat=basic//; type=string; label= Mime type allowed : List of files which are are allowed to be uploaded identified by their mime type. (@todo implement me! Has not effect yet.)
 mime_type_allowed = image/*,audio/*,video/*,application/*,text/plain,text/html

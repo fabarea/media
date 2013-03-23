@@ -895,12 +895,33 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * Add a Category Object or Uid to this.
+	 *
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category|int $category
 	 * @return void
 	 */
 	public function addCategory($category) {
-		// @todo persist me!
 		$this->categories[] = $category;
+	}
+
+	/**
+	 * Convert the object to an array
+	 *
+	 * @return array
+	 */
+	public function toArray() {
+		$values = parent::toArray();
+		if (! empty($this->categories)) {
+			$values['categories'] = array();
+			foreach ($this->categories as $category) {
+				if (is_object($category)) {
+					$values['categories'][] = $category->getUid();
+				} elseif ((int) $category > 0) {
+					$values['categories'][] = $category;
+				}
+			}
+		}
+		return $values;
 	}
 
 	/**
