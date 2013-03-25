@@ -153,3 +153,30 @@ if ( $.fn.DataTable.TableTools ) {
 	} );
 }
 
+/**
+ * Add API for resetting display
+ *
+ * @param {object} oSettings
+ * @param {boolean} bDraw
+ * @return void
+ */
+$.fn.dataTableExt.oApi.fnResetDisplay = function (oSettings, bDraw) {
+
+	// Reset various filter
+	oSettings.oPreviousSearch.sSearch = '';
+	oSettings.aaSorting = [];
+	oSettings._iDisplayStart = 0;
+	oSettings._iDisplayLength = 10;
+
+	// Reset UI
+	$('#media-list_length').find('select').val(10);
+	$('#media-list_filter').find('input').val('');
+
+	if (typeof bDraw === 'undefined') {
+		bDraw = true;
+	}
+
+	if (bDraw) {
+		this.fnDraw();
+	}
+}

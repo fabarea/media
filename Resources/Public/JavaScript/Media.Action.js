@@ -32,11 +32,7 @@ Media.Action = {
 
 		// bind the click handler script to the newly created elements held in the table
 		$('.btn-edit').bind('click', function (e) {
-			e.preventDefault();
-
-			Media.Panel.showForm();
-			Media.Action.handleFormWithMessage($(this).attr('href'), 'message-updated');
-
+			Media.Session.set('media.lastEditedUid', $(this).data('uid'));
 		});
 	},
 
@@ -118,7 +114,7 @@ Media.Action = {
 					$.get(url,
 						function (data) {
 							// Reload data table
-							Media.Table.fnDeleteRow(Media.Table.fnGetPosition(row));
+							Media.table.fnDeleteRow(Media.table.fnGetPosition(row));
 							var message = Media.format('message-deleted', data.asset.title);
 							Media.FlashMessage.add(message, 'success');
 						}

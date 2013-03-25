@@ -552,10 +552,12 @@ $TCA['sys_file']['grid'] = array(
 		),
 		'categories' => array(
 			'visible' => TRUE,
+			'sortable' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Category',
 		),
 		'usage' => array(
 			'visible' => TRUE,
+			'sortable' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Usage',
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 		),

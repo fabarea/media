@@ -28,66 +28,7 @@ $(document).ready(function () {
 		}
 	});
 
-	/**
-	 * Table initialization
-	 *
-	 * Internal note: properties of Datatables have prefix: m, b, s, i, o, a, fn etc...
-	 * this corresponds to the variable type e.g. mixed, boolean, string, integer, object, array, function
-	 */
-	Media.Table = $('#media-list').dataTable({
-		"bProcessing": true,
-		"bServerSide": true,
-		"sAjaxSource": "/typo3/mod.php",
-		"fnServerParams": function (aoData) {
-
-			// Get the parameter from the main URL and re-inject them into the Ajax request
-			var uri = new Uri(window.location.href);
-			for (var index = 0; index < uri.queryPairs.length; index++) {
-				var queryPair = uri.queryPairs[index];
-				var parameterName = queryPair[0];
-				var parameterValue = queryPair[1];
-				var pattern = /tx_media_user_mediam1\[filter\]/g;
-				if (pattern.test(parameterName)) {
-					aoData.push({ "name": parameterName, "value": parameterValue });
-				}
-			}
-
-			// Hand over the RTE plugin parameter
-			var rtePluginParameter = 'tx_media_user_mediam1[rtePlugin]';
-			if (uri.getQueryParamValue(rtePluginParameter)) {
-				aoData.push({ "name": rtePluginParameter, "value": uri.getQueryParamValue(rtePluginParameter) });
-			}
-
-			aoData.push({ "name": 'M', "value": 'user_MediaM1' });
-			aoData.push({ "name": 'tx_media_user_mediam1[action]', "value": 'listRow' });
-			aoData.push({ "name": 'tx_media_user_mediam1[controller]', "value": 'Asset' });
-			aoData.push({ "name": 'tx_media_user_mediam1[format]', "value": 'json' });
-		},
-		"aoColumns": Media._columns,
-		"aLengthMenu": [
-			[10, 25, 50, 100, -1],
-			[10, 25, 50, 100, "All"]
-		],
-//		@todo can be removed if table tools utility get dropped - under investigation
-//		"oTableTools": {
-//			"sRowSelect": "multi",
-//			"fnRowSelected": function (node) {
-//				console.log(node.id);
-//				console.log(node);
-//			}
-//		},
-		"fnDrawCallback": function () {
-			// Attach event to DOM elements
-			//Media.Action.edit();
-			Media.Action.linkMaker();
-			Media.Action.imageMaker();
-			Media.Action.delete();
-
-			// Handle flash message
-			Media.FlashMessage.showAll();
-		}
-	});
-
+	Media.table = $('#media-list').dataTable(Media.Table.getOptions());
 	Media.Session.initialize();
 });
 
@@ -127,7 +68,7 @@ Media.label = function (key) {
  * @param {object} set2
  * @return {object}
  */
-Media.merge = function(set1, set2) {
+Media.merge = function (set1, set2) {
 	for (var key in set2) {
 		if (set2.hasOwnProperty(key))
 			set1[key] = set2[key]

@@ -177,3 +177,13 @@ form .metadata {
 	-moz-transform: rotate(-90deg);
 	writing-mode: lr-tb;
 }
+
+.table tbody tr.fade-in td  {
+	background: rgba(255, 151, 36, 0.21) !important;
+	transition: background .25s ease-in-out;
+}
+
+.table tbody tr.fade-out td {
+	background: transparent !important;
+	transition: background .25s ease-in-out;
+}

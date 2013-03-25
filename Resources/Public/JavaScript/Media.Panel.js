@@ -43,7 +43,7 @@ Media.Panel = {
 		this.togglePanel();
 
 		if (redraw) {
-			Media.Table.fnDraw();
+			Media.table.fnDraw();
 		}
 	},
 

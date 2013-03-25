@@ -52,8 +52,7 @@ class Order  {
 
 		if (empty($this->orderings)) {
 			$this->orderings = array(
-				'tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
-				'title' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+				'uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
 			);
 		}
 	}

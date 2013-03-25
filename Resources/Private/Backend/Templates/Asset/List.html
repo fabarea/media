@@ -22,7 +22,10 @@
 										<script type="text/javascript">
 											// Callback action after file upload
 											if (responseJSON.uid) {
-												Media.Table.fnDraw()
+
+												// Remove filter, order, page browse, ...
+												Media.table.fnResetDisplay();
+
 												$('.qq-upload-list', this).html('');
 												var mediaTitle = responseJSON.name == '' ? responseJSON.uid : responseJSON.name;
 												message = Media.format('message-created', mediaTitle);
