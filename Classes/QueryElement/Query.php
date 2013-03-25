@@ -159,56 +159,109 @@ class Query {
 		}
 
 		if (! is_null($this->filter)) {
-			if ($this->filter->getSearchTerm()) {
-				$searchTerm = $this->databaseHandle->escapeStrForLike($this->filter->getSearchTerm(), $this->tableName);
-				$searchParts = array();
-				\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
+			$clauseSearchTerm = $this->getClauseSearchTerm();
+			$clauseCategories = $this->getClauseCategories();
 
-				$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
+			if (strlen($clauseSearchTerm) > 0 || strlen($clauseSearchTerm) > 0) {
+				$clause .= sprintf(' AND (%s %s)', $clauseSearchTerm, $clauseCategories);
+			}
 
-				foreach ($fields as $field) {
-					$fieldType = \TYPO3\CMS\Media\Utility\TcaField::getService()->getFieldType($field);
-					if ($fieldType == 'text' OR $fieldType == 'input') {
-						$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
+			$clause .= $this->getClauseConstraints();
+
+		}
+
+		return $clause;
+	}
+
+	/**
+	 * Get the category clause
+	 *
+	 * @return string
+	 */
+	protected function getClauseCategories() {
+		$clause = '';
+
+		$categories = $this->filter->getCategories();
+		if (! empty($categories)) {
+
+			// First check if any category is of type string and try to retrieve a corresponding uid
+			$_categories = array();
+			foreach ($categories as $category) {
+				if (!is_int($category)) {
+					$escapedCategory = $this->databaseHandle->escapeStrForLike($category, $this->tableName);
+					$records = $this->databaseHandle->exec_SELECTgetRows('uid', 'sys_category', sprintf('title LIKE "%%%s%%"', $escapedCategory));
+					if (! empty($records)) {
+						foreach ($records as $record) {
+							$_categories[] = $record['uid'];
+						}
 					}
-
-					$searchParts[] = sprintf('uid = "%s"', $searchTerm);
+				} else {
+					$_categories[] = $category;
 				}
-				$clause = sprintf('%s AND (%s)', $clause, implode(' OR ', $searchParts));
+			}
 
-				// @todo improve me! temporary solution to get the search functional for categories.
-				$join = <<<EOF
+			if (! empty($_categories)) {
+
+				$template = <<<EOF
  OR uid IN (
 	SELECT
 		uid_foreign
 	FROM
 		sys_category_record_mm
 	WHERE
-		tablenames = "sys_file" AND uid_local IN (
-			SELECT
-				sys_category.uid
-			FROM
-				sys_category
-			WHERE
-			title = "%s")
-	)
+		tablenames = "sys_file" AND uid_local IN (%s))
 EOF;
-
 				// Add category search
-				$clause .= sprintf($join, $searchTerm);
-			}
-
-			// Add constraints to the request
-			// @todo Implement OR. For now only support AND. Take inspiration from logicalAnd and logicalOr.
-			// @todo Add matching method $query->matching($query->equals($propertyName, $value))
-			foreach ($this->filter->getConstraints() as $field => $value) {
-				$clause .=  sprintf(' AND %s = "%s"',
-					$field,
-					$this->databaseHandle->escapeStrForLike($value, $this->tableName)
-				);
+				$clause = sprintf($template, implode(',', $_categories));
 			}
 		}
+		return $clause;
+	}
 
+	/**
+	 * Get the search term clause
+	 *
+	 * @return string
+	 */
+	protected function getClauseConstraints() {
+		$clause = '';
+		// Add constraints to the request
+		// @todo Implement OR. For now only support AND. Take inspiration from logicalAnd and logicalOr.
+		// @todo Add matching method $query->matching($query->equals($propertyName, $value))
+		foreach ($this->filter->getConstraints() as $field => $value) {
+			$clause .= sprintf(' AND %s = "%s"',
+				$field,
+				$this->databaseHandle->escapeStrForLike($value, $this->tableName)
+			);
+		}
+		return $clause;
+	}
+
+	/**
+	 * Get the search term clause
+	 *
+	 * @return string
+	 */
+	protected function getClauseSearchTerm() {
+		$clause = '';
+
+		if ($this->filter->getSearchTerm()) {
+			$searchTerm = $this->databaseHandle->escapeStrForLike($this->filter->getSearchTerm(), $this->tableName);
+			$searchParts = array();
+			\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
+
+			$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
+
+			foreach ($fields as $field) {
+				$fieldType = \TYPO3\CMS\Media\Utility\TcaField::getService()->getFieldType($field);
+				if ($fieldType == 'text' OR $fieldType == 'input') {
+					$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
+				}
+
+				$searchParts[] = sprintf('uid = "%s"', $searchTerm);
+			}
+			$clause = implode(' OR ', $searchParts);
+		}
 		return $clause;
 	}
 

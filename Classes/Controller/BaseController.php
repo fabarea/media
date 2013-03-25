@@ -44,16 +44,17 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 */
 	protected function createFilterObject() {
 
-		$filters = array();
+		/** @var $filter \TYPO3\CMS\Media\QueryElement\Filter */
+		$filter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Filter');
 
-		// Retrieve a possible search term
+		// Retrieve a possible search term from GP.
 		$searchTerm = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSearch');
-
 		if (strlen($searchTerm) > 0) {
-			$filters['searchTerm'] = $searchTerm;
+			$filter->setSearchTerm($searchTerm);
+			$filter->addCategories($searchTerm);
 		}
 
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Filter', $filters);
+		return $filter;
 	}
 
 	/**

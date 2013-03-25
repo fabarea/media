@@ -41,11 +41,11 @@ class Filter  {
 	protected $searchTerm = '';
 
 	/**
-	 * A category to filter by
+	 * Categories to be used to filter
 	 *
-	 * @var integer
+	 * @var array
 	 */
-	protected $category = 0;
+	protected $categories = array();
 
 	/**
 	 * fields to filter with their values
@@ -62,28 +62,41 @@ class Filter  {
 	public function __construct($filters = array()) {
 		$this->searchTerm = empty($filters['searchTerm']) ? '' : $filters['searchTerm'];
 
-		$this->constraints = !empty($filters['constraints']) && is_array($filters['constraints']) ?
-			$filters['constraints'] :
-			array();
+		if (!empty($filters['constraints']) && is_array($filters['constraints'])) {
+			$this->constraints = $filters['constraints'];
+		}
+		if (!empty($filters['categories']) && is_array($filters['categories'])) {
+			$this->categories = $filters['categories'];
+		}
 	}
 
 	/**
-	 * Sets this filter category
+	 * Returns categories to be used to filter.
 	 *
-	 * @param int $category The filter category
+	 * @return array
+	 */
+	public function getCategories() {
+		return $this->categories;
+	}
+
+	/**
+	 * Sets categories to be used to filter.
+	 *
+	 * @param array $categories The filter categories
 	 * @return void
 	 */
-	public function setCategory($category) {
-		$this->category = $category;
+	public function setCategories(array $categories) {
+		$this->categories = $categories;
 	}
 
 	/**
-	 * Returns the filter category
+	 * Add a category to be used to filter. It could be either an integer or a string. Try using integer in priority which is more performant.
+	 * Though, a string is also possible. It will firstly be converted to a possible uid.
 	 *
-	 * @return int The filter category
+	 * @param int|string $category
 	 */
-	public function getCategory() {
-		return $this->category;
+	public function addCategories($category) {
+		$this->categories[] = $category;
 	}
 
 	/**
@@ -122,7 +135,7 @@ class Filter  {
 	}
 
 	/**
-	 * Add a value to be filtered for a given field.
+	 * Add a value to be used for filtering a given field.
 	 *
 	 * @param string $field
 	 * @param string $value
