@@ -162,12 +162,15 @@ class Query {
 			$clauseSearchTerm = $this->getClauseSearchTerm();
 			$clauseCategories = $this->getClauseCategories();
 
-			if (strlen($clauseSearchTerm) > 0 || strlen($clauseSearchTerm) > 0) {
-				$clause .= sprintf(' AND (%s %s)', $clauseSearchTerm, $clauseCategories);
+			if (strlen($clauseSearchTerm) > 0 && strlen($clauseSearchTerm) > 0) {
+				$clause .= sprintf(' AND (%s OR %s)', $clauseSearchTerm, $clauseCategories);
+			} elseif (strlen($clauseSearchTerm) > 0) {
+				$clause .= sprintf(' AND (%s)', $clauseSearchTerm);
+			} elseif (strlen($clauseCategories) > 0) {
+				$clause .= sprintf(' AND (%s)', $clauseCategories);
 			}
 
 			$clause .= $this->getClauseConstraints();
-
 		}
 
 		return $clause;
@@ -187,7 +190,7 @@ class Query {
 			// First check if any category is of type string and try to retrieve a corresponding uid
 			$_categories = array();
 			foreach ($categories as $category) {
-				if (!is_int($category)) {
+				if (!is_numeric($category)) {
 					$escapedCategory = $this->databaseHandle->escapeStrForLike($category, $this->tableName);
 					$records = $this->databaseHandle->exec_SELECTgetRows('uid', 'sys_category', sprintf('title LIKE "%%%s%%"', $escapedCategory));
 					if (! empty($records)) {
@@ -203,7 +206,7 @@ class Query {
 			if (! empty($_categories)) {
 
 				$template = <<<EOF
- OR uid IN (
+uid IN (
 	SELECT
 		uid_foreign
 	FROM
