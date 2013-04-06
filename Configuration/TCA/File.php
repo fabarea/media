@@ -516,15 +516,13 @@ $TCA['sys_file']['grid'] = array(
 	#'sorting' => array(
 	#	'tstamp' => 'DESC',
 	#	'title' => 'ASC',
-	#	'renderers' => array(),
 	#),
 	#'filter' => array(),
 	'columns' => array(
-//		'__checkbox' => array(),
-		'__number' => array(
+		'__checkbox' => array(
 			'width' => '5px',
 			'sortable' => FALSE,
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:number',
+			'html' => '<input type="checkbox" class="checkbox-row-top"/>',
 		),
 		'uid' => array(
 			'visible' => FALSE,

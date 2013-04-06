@@ -12,7 +12,6 @@
 	"__buttons":
 
 		<m:format.json>
-
 			<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
 				<f:link.action action="linkMaker" arguments="{asset : asset.uid}"
 				class="btn-linkMaker" additionalAttributes="{data-uid: '{asset.uid}'}">
@@ -31,9 +30,13 @@
 			</f:link.action>
 		</m:format.json>,
 
+	"__checkbox":
+		<m:format.json>
+			<m:table.checkbox index="{number}" object="{asset}" />
+		</m:format.json>,
 	"__number":
 		<m:format.json>
-			<m:table.rowNumber value="{number}" offset="{pager.offset}" />
+			<m:table.rowNumber index="{number}" offset="{pager.offset}" />
 		</m:format.json>
 
 	}<f:if condition="{iterator.isLast}"><f:then></f:then><f:else>,</f:else></f:if>

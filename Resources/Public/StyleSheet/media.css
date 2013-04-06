@@ -20,6 +20,19 @@ label {
 }
 
 /* @todo include these styles into Scss and re-generate Css */
+/* Override Bootstrap CSS */
+.dropdown-menu .divider {
+	height: 0;
+	margin: 0;
+	overflow: hidden;
+	background-color: transparent;
+	border-bottom: 1px solid #cdcdcd;
+}
+
+.btn-group>.btn, .btn-group>.dropdown-menu {
+	font-size: 11px;
+}
+
 @media (max-width: 979px) and (min-width: 768px) {
 	html,
 	body {
@@ -179,7 +192,7 @@ form .metadata {
 }
 
 .table tbody tr.fade-in td  {
-	background: rgba(255, 151, 36, 0.21) !important;
+	background: rgba(255, 151, 36, 0.20) !important;
 	transition: background .25s ease-in-out;
 }
 

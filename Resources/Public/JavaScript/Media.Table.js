@@ -26,6 +26,11 @@ Media.Table = {
 			'bProcessing': true,
 			'bServerSide': true,
 			'sAjaxSource': "/typo3/mod.php",
+			'oLanguage': {
+				// remove some label
+				"sSearch": '',
+				"sLengthMenu": '_MENU_'
+			},
 
 			/**
 			 * Add Ajax parameters from plug-ins
@@ -87,7 +92,7 @@ Media.Table = {
 	 * @return void
 	 * @private
 	 */
-	animateRow: function() {
+	animateRow: function () {
 
 		// Only if User has previously edited a record.
 		if (Media.Session.has('media.lastEditedUid')) {

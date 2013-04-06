@@ -15,12 +15,12 @@ $(document).ready(function () {
 		multiple: false, // no multiple upload in a regular form
 		// Templating for Twitter Bootstrap
 		text: {
-			uploadButton: '<i class="icon-upload icon-white"></i>' + Media.label('upload_file')
+			uploadButton: '<i class="icon-upload icon-white"></i>' + Media.translate('upload_file')
 		},
 		template: '<div class="qq-uploader span12">' +
 			'<pre class="qq-upload-drop-area span12"><span>{dragZoneText}</span></pre>' +
 			'<div class="qq-upload-button btn btn-success" style="width: auto;">{uploadButtonText}</div>' +
-			'<span class="qq-max-size qq-vertical-align">' + Media.label('max_upload_size') +'</span>' +
+			'<span class="qq-max-size qq-vertical-align">' + Media.translate('max_upload_size') +'</span>' +
 			'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
 			'<ul class="qq-upload-list"></ul>' +
 			'</div>',

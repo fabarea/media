@@ -4,7 +4,12 @@
 
 $(document).ready(function () {
 
-	// Enable the hide / show column
+	// Initialize Session
+	Media.Session.initialize();
+
+	/**
+	 * Enable the hide / show column
+	 */
 	$('.check-visible-toggle').click(function () {
 		var iCol = $(this).val();
 
@@ -15,9 +20,43 @@ $(document).ready(function () {
 		oTable.fnSetColumnVis(iCol, bVis ? false : true);
 	});
 
+	/**
+	 * Select or deselect all rows at once.
+	 */
+	$('.checkbox-row-top').click(function () {
+		var checkboxes;
+		checkboxes = $('#media-list').find('.checkbox-row');
+		if ($(this).is(':checked')) {
+			checkboxes.filter(':not(:checked)').click();
+			$('.mass-action').removeClass('disabled');
+		} else {
+			checkboxes.filter(':checked').click();
+			$('.mass-action').addClass('disabled');
+		}
+	});
+
+	/**
+	 * Mass delete action
+	 */
+	$('.mass-delete').click(function (e) {
+		var checkboxes = [];
+		$('#media-list')
+			.find('.checkbox-row')
+			.filter(':checked')
+			.each(function() {
+				checkboxes.push($(this).data('uid'));
+			});
+
+		alert('selected uid(s): ' + checkboxes.join(','))
+		e.preventDefault();
+	});
+
+	/**
+	 * Add Access Key for switching back to the Grid with key escape
+ 	 */
 	$(document).keyup(function (e) {
 		// escape
-		var ESCAPE_KEY = 27
+		var ESCAPE_KEY = 27;
 		if (e.keyCode == ESCAPE_KEY) {
 
 			// True means the main panel is not currently displayed.
@@ -28,8 +67,13 @@ $(document).ready(function () {
 		}
 	});
 
+	/**
+	 * Initialize Grid
+	 */
 	Media.table = $('#media-list').dataTable(Media.Table.getOptions());
-	Media.Session.initialize();
+
+	// Add place holder for the search
+	$('.dataTables_filter input').attr('placeholder', Media.translate('search'));
 });
 
 /**
@@ -42,7 +86,7 @@ $(document).ready(function () {
  * @param {string} key
  */
 Media.format = function (key) {
-	var s = Media.label(key),
+	var s = Media.translate(key),
 		i = arguments.length + 1;
 
 	while (i--) {
@@ -56,13 +100,12 @@ Media.format = function (key) {
  *
  * @param {string} key
  */
-Media.label = function (key) {
+Media.translate = function (key) {
 	return Media.Label.get(key);
 };
 
-
 /**
- * Merge second object into first
+ * Merge second object into first one
  *
  * @param {object} set1
  * @param {object} set2
@@ -74,4 +117,4 @@ Media.merge = function (set1, set2) {
 			set1[key] = set2[key]
 	}
 	return set1
-}
+};

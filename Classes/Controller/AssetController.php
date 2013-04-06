@@ -76,7 +76,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * @return void
 	 */
 	public function listAction() {
-		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldList());
+		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFields());
 	}
 
 	/**

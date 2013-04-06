@@ -1,6 +1,6 @@
 
 div.dataTables_length label {
-	float: left;
+	float: right;
 	text-align: left;
 }
 
@@ -8,8 +8,8 @@ div.dataTables_length select {
 	width: 75px;
 }
 
-div.dataTables_filter label {
-	float: right;
+div.dataTables_filter input {
+	width: 300px;
 }
 
 div.dataTables_info {
@@ -82,18 +82,23 @@ div.dataTables_scrollFoot table {
  */
 .table tbody tr.active td,
 .table tbody tr.active th {
-	background-color: #08C;
+	background-color: #585858;
+	border-color: #fff;
 	color: white;
+}
+
+.btn-group {
+	font-weight: normal
 }
 
 .table tbody tr.active:hover td,
 .table tbody tr.active:hover th {
-	background-color: #0075b0 !important;
+	
 }
 
 .table-striped tbody tr.active:nth-child(odd) td,
 .table-striped tbody tr.active:nth-child(odd) th {
-	background-color: #017ebc;
+	background-color: #464646;
 }
 
 table.DTTT_selectable tbody tr {

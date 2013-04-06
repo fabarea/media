@@ -34,6 +34,31 @@ Media.Action = {
 		$('.btn-edit').bind('click', function (e) {
 			Media.Session.set('media.lastEditedUid', $(this).data('uid'));
 		});
+
+		// Make a row selectable
+		$('.checkbox-row').bind('click', function (e) {
+			var checkboxes;
+
+			$(this)
+				.closest('tr')
+				.toggleClass('active');
+			e.stopPropagation(); // we don't want the event to propagate.
+
+			checkboxes = $('#media-list').find('.checkbox-row').filter(':checked');
+			if (checkboxes.length > 0) {
+				$('.mass-action').removeClass('disabled');
+			} else {
+				$('.mass-action').addClass('disabled');
+			}
+		});
+
+		// Add listener on the row as well
+		$('.checkbox-row')
+			.parent()
+			.css('cursor', 'pointer')
+			.bind('click', function (e) {
+				$(this).find('.checkbox-row').click()
+			});
 	},
 
 	/**

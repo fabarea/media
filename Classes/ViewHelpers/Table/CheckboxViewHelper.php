@@ -24,25 +24,28 @@ namespace TYPO3\CMS\Media\ViewHelpers\Table;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * View helper which displays a row number
+ * View helper which displays a checkbox for a row
  *
  * @category    ViewHelpers
  * @package     TYPO3
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class RowNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class CheckboxViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Generates a row number
+	 * Generates a checkbox.
 	 *
 	 * @param int $index
-	 * @param int $offset
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $object
 	 * @return string the value
 	 * @api
 	 */
-	public function render($index, $offset) {
-		return $index + 1 + $offset;
+	public function render($index, $object) {
+		return sprintf('<input type="checkbox" class="checkbox-row" data-index="%s" data-uid="%s"/>',
+			$index,
+			$object->getUid()
+		);
 	}
 }
 ?>

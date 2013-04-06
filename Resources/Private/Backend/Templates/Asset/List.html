@@ -49,7 +49,7 @@
 										<span class="caret"></span>
 									</a>
 									<ul class="dropdown-menu">
-										<f:for each="{columns}" as="column" iteration="iterator">
+										<f:for each="{columns}" key="column" as="configuration" iteration="iterator">
 											<li>
 												<f:if condition="{m:grid.column.isNotSystem(fieldName: '{column}')}">
 													<label class="checkbox inline">
@@ -94,17 +94,40 @@
 			       id="media-list">
 				<thead>
 				<tr>
-					<f:for each="{columns}" as="column">
+					<f:for each="{columns}" key="column" as="configuration">
 						<th>
-							<m:translate.column column="{column}"/>
+							<f:if condition="{configuration.html}">
+								<f:then>
+									<f:format.raw>{configuration.html}</f:format.raw>
+								</f:then>
+								<f:else>
+									<m:translate.column column="{column}"/>
+								</f:else>
+							</f:if>
 						</th>
 					</f:for>
 				</tr>
 				</thead>
-
-				<tbody>
-
-				</tbody>
+				<tbody />
+				<tfoot>
+				<tr>
+					<th colspan="20">
+						<div class="btn-group dropup">
+							<a class="btn btn-mini dropdown-toggle mass-action disabled" data-toggle="dropdown" href="#" onclick="return false">
+								<span class="caret"></span>
+								Selected rows will be...
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#" class="mass-export-xml">export XML (not implemented)</a></li>
+								<li><a href="#" class="mass-export-csv">export CSV (not implemented)</a></li>
+								<li class="divider"></li>
+								<li><a href="#" class="mass-edit">edit (not implemented)</a></li>
+								<li><a href="#" class="mass-delete">delete (in progress...)</a></li>
+							</ul>
+						</div>
+					</th>
+				</tr>
+				</tfoot>
 			</table>
 
 			<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">

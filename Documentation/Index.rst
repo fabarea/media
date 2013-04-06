@@ -81,12 +81,12 @@ We are following the recommendation_ of the Iana_for taking apart the media type
 
 
 	---------------------
-	|       File        |  -> limited meta data handling (Core Model)
+	|       File        |  -> Limited meta data handling (Model in Core)
 	---------------------
 	          |
 	         \|/
 	---------------------
-	|       Asset        | -> advance meta data handling
+	|       Asset        | -> Advance meta data handling (Model in Media)
 	---------------------
 	          |                      \                     \                     \                     \
 	         \|/                     \|/                   \|/                   \|/                   \|/
@@ -230,9 +230,10 @@ A grid is a list view of records typical of a Backend module. TCA was extended t
 	// Grid configuration
 	$TCA['sys_file']['grid'] = array(
 		'columns' => array(
-			'__number' => array(
+			'__checkbox' => array(
+				'width' => '5px',
 				'sortable' => FALSE,
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:number',
+				'html' => '<input type="checkbox" class="checkbox-head"/>',
 			),
 			'name' => array(
 				'sortable' => FALSE,
@@ -268,7 +269,6 @@ What attribute can be composed within array cell "columns"?
 * wrap - default NULL - a possible wrapping of the content. Useful in case the content of the cell should be styled in a special manner.
 * width - default NULL - a possible width of the column
 
-
 System columns
 -----------------
 
@@ -276,5 +276,6 @@ There a few columns that are considered as "system" which means they don't corre
 with a double underscore e.g "__":
 
 * __number: display a row number
+* __checkbox: display a check box
 * __buttons: display "edit", "deleted", ... buttons to control the row
 
