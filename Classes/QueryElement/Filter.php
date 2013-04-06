@@ -95,7 +95,7 @@ class Filter  {
 	 *
 	 * @param int|string $category
 	 */
-	public function addCategories($category) {
+	public function addCategory($category) {
 		$this->categories[] = $category;
 	}
 
