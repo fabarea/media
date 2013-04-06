@@ -122,7 +122,13 @@
 								<li><a href="#" class="mass-export-csv">export CSV (not implemented)</a></li>
 								<li class="divider"></li>
 								<li><a href="#" class="mass-edit">edit (not implemented)</a></li>
-								<li><a href="#" class="mass-delete">delete (in progress...)</a></li>
+								<li>
+									<f:link.action action="massDelete" arguments="{format: 'json'}"
+									               class="mass-delete">
+										<m:sprite name="actions-edit-delete"/>
+										delete
+									</f:link.action>
+								</li>
 							</ul>
 						</div>
 					</th>

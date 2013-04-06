@@ -106,8 +106,20 @@
 			<trans-unit id="message-deleted">
 				<source>Media "{0}" has been deleted</source>
 			</trans-unit>
-			<trans-unit id="confirm-message">
-				<source>Are you sure to delete "{0}"</source>
+			<trans-unit id="message-mass-deleted-singular">
+				<source>{0} item has been deleted</source>
+			</trans-unit>
+			<trans-unit id="message-mass-deleted-plural">
+				<source>{0} items have been deleted</source>
+			</trans-unit>
+			<trans-unit id="confirm-delete">
+				<source>Are you sure to delete "{0}"?</source>
+			</trans-unit>
+			<trans-unit id="confirm-mass-delete-singular">
+				<source>{0} item has been selected. Are you sure you want to delete it?</source>
+			</trans-unit>
+			<trans-unit id="confirm-mass-delete-plural">
+				<source>{0} items have been selected. Are you sure you want to delete them?</source>
 			</trans-unit>
 			<trans-unit id="message-updated">
 				<source>Media "{0}" updated with success</source>

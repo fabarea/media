@@ -249,6 +249,24 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	}
 
 	/**
+	 * Mass delete a media
+	 * This action is expected to have a parameter format = json
+	 *
+	 * @param array $assets
+	 * @return string
+	 */
+	public function massDeleteAction($assets) {
+
+		foreach ($assets as $asset) {
+			$result = $this->deleteAction($asset);
+		}
+
+		# Json header is not automatically respected in the BE... so send one the hard way.
+		header('Content-type: application/json');
+		return json_encode($result);
+	}
+
+	/**
 	 * Download securely an asset
 	 *
 	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...

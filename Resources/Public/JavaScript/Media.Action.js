@@ -123,14 +123,13 @@ Media.Action = {
 
 		//bind the click handler script to the newly created elements held in the table
 		$('.btn-delete').bind('click', function (e) {
-
 			var row, title, message, url;
 
 			url = $(this).attr('href');
 			// compute media title
 			row = $(this).closest("tr").get(0);
 			title = $('.media-title', row).html();
-			message = Media.format("confirm-message", $.trim(title));
+			message = Media.format("confirm-delete", $.trim(title));
 
 			bootbox.confirm(message, function (result) {
 				if (result) {

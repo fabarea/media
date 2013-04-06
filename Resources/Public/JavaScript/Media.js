@@ -39,21 +39,51 @@ $(document).ready(function () {
 	 * Mass delete action
 	 */
 	$('.mass-delete').click(function (e) {
-		var checkboxes = [];
+		var checkboxes, message, url, uid;
+
+		e.preventDefault();
+		url = $(this).attr('href');
+
+		checkboxes = [];
 		$('#media-list')
 			.find('.checkbox-row')
 			.filter(':checked')
-			.each(function() {
-				checkboxes.push($(this).data('uid'));
+			.each(function (index) {
+				uid = $(this).data('uid');
+				checkboxes.push(uid);
+				url += '&tx_media_user_mediam1[assets][' + index + ']=' + uid;
 			});
 
-		alert('selected uid(s): ' + checkboxes.join(','))
-		e.preventDefault();
+
+		message = Media.format("confirm-mass-delete-plural", checkboxes.length);
+		if (checkboxes.length <= 1) {
+			message = Media.format("confirm-mass-delete-singular", checkboxes.length);
+		}
+
+		bootbox.confirm(message, function (result) {
+			if (result) {
+
+				// Send Ajax request to delete media
+				$.get(url,
+					function (data) {
+						message = Media.format('message-mass-deleted-plural', checkboxes.length);
+						if (checkboxes.length <= 1) {
+							message = Media.format('message-mass-deleted-singular', checkboxes.length);
+						}
+						Media.FlashMessage.add(message, 'success');
+						Media.FlashMessage.showAll();
+
+						// Reload data table
+						Media.table.fnDraw();
+					}
+				);
+			}
+		});
 	});
 
 	/**
 	 * Add Access Key for switching back to the Grid with key escape
- 	 */
+	 */
 	$(document).keyup(function (e) {
 		// escape
 		var ESCAPE_KEY = 27;

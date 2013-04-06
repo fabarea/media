@@ -34,7 +34,7 @@ if (TYPO3_MODE == 'BE') {
 		'm1',
 		'bottom', // Position
 		array(
-			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker',
+			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
 			'Migration' => 'index, migrate, reset',
 			'Tool' => 'index, checkStatus',
 			'Variant' => 'upload',
