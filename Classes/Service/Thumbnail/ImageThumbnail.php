@@ -42,10 +42,10 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 		// Makes sure the width and the height of the thumbnail is not bigger than the actual file
 		$configuration = $this->getConfiguration();
 		if (!empty($configuration['width']) && $configuration['width'] > $this->file->getProperty('width')) {
-			$configuration['width'] = $this->file->getWidth();
+			$configuration['width'] = $this->file->getProperty('width');
 		}
 		if (!empty($configuration['height']) && $configuration['height'] > $this->file->getProperty('height')) {
-			$configuration['height'] = $this->file->getHeight();
+			$configuration['height'] = $this->file->getProperty('height');
 		}
 		/** @var $processedFile \TYPO3\CMS\Core\Resource\ProcessedFile */
 		$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $configuration);
