@@ -211,6 +211,17 @@ If the default thumbnail is not "sufficient", a View Helper can be used enabling
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
+	# Or if your template contains ``<section />``,
+	# namespace declaration can be done with xmlns attribute as of TYPO3 6.1:
+	<html xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
+		xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
+
+		<section>
+			<m:thumbnail object="{asset}" preset="image_medium"/>
+		</section>
+
+    </html>
+
 File Upload API
 =================
 
