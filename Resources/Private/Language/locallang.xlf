@@ -205,8 +205,8 @@
 			<trans-unit id="update_image">
 				<source>Update image</source>
 			</trans-unit>
-			<trans-unit id="upload_file">
-				<source>Upload a file</source>
+			<trans-unit id="upload_files">
+				<source>Upload files</source>
 			</trans-unit>
 			<trans-unit id="max_upload_file">
 				<source>Max %s Mo</source>

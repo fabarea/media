@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Form;
+namespace TYPO3\CMS\Media\ViewHelpers\Form\TceForms;
 
 /***************************************************************
 *  Copyright notice
@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class FileUploadTceFormsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var string
@@ -57,8 +57,8 @@ class FileUploadTceFormsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 			$fileUid = key($parameters['edit']['sys_file']);
 		}
 
-		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUploadTceForms */
-		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUploadTceForms');
+		/** @var $fileUpload \TYPO3\CMS\Media\Form\TceForms\FileUpload */
+		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TceForms\FileUpload');
 		$fileUpload
 			->setValue($fileUid)
 			->setPrefix($this->getPrefix())

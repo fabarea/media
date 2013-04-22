@@ -116,7 +116,7 @@ EOF;
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
 
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Widget/FileUpload/FileUpload.js';
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/FileUpload/FileUpload.js';
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->getValue(),

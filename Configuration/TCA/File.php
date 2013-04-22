@@ -82,7 +82,7 @@ $columns = array(
 	'fileinfo' => array(
 		'config' => array(
 			'type' => 'user',
-			'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:TYPO3\CMS\Media\Backend\TceForms->renderFileInfo',
+			'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:TYPO3\CMS\Media\Backend\TceForms->renderFileUpload',
 		),
 	),
 	'variants' => array(

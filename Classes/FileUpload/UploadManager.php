@@ -50,6 +50,11 @@ class UploadManager {
 	protected $uploadFolder;
 
 	/**
+	 * @var \TYPO3\CMS\Media\FileUpload\FormUtility
+	 */
+	protected $formUtility;
+
+	/**
 	 * Name of the file input in the DOM.
 	 *
 	 * @var string
@@ -78,7 +83,10 @@ class UploadManager {
 		// max file size in bytes
 		$this->sizeLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024;
 		$this->checkServerSettings();
+
+		$this->formUtility = \TYPO3\CMS\Media\FileUpload\FormUtility::getInstance();
 	}
+
 
 	/**
 	 * Handle the uploaded file.
@@ -86,19 +94,25 @@ class UploadManager {
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
 	 */
 	public function handleUpload() {
-		if (!isset($GLOBALS['_SERVER']['CONTENT_TYPE'])) {
-			$uploadedFile = FALSE;
-		} elseif (strpos(strtolower($GLOBALS['_SERVER']['CONTENT_TYPE']), 'multipart/') === 0) {
-			/** @var $uploadedFile \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+
+		/** @var $uploadedFile \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+		$uploadedFile = FALSE;
+		if ($this->formUtility->isMultiparted()) {
+
+			// Default case
 			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
-		} elseif (\TYPO3\CMS\Core\Utility\GeneralUtility::_POST('fileUploaded') == 'base64') {
-			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\Base64File');
-		} else {
+		} elseif ($this->formUtility->isOctetStreamed()) {
+
+			// Fine Upload plugin would use it if forceEncoded = false and paramsInBody = false
 			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
+		} elseif ($this->formUtility->isUrlEncoded()) {
+
+			// Used for image resizing in BE
+			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\Base64File');
 		}
 
 		if (!$uploadedFile) {
-			$this->throwException('No files were uploaded.');
+			$this->throwException('Couldn\'t instantiate an upload object... No file was uploaded?');
 		}
 
 		$fileName = $this->getFileName($uploadedFile);

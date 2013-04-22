@@ -6,24 +6,26 @@
 		var recordUid = '%s';
 
 		$('#%s').fineUploader({
+			debug: true,
+			multiple: false, // no multiple upload in a regular form
 			request: {
-				endpoint: '/typo3/mod.php'
+				endpoint: '/typo3/mod.php',
+				// backward compatibility for fine upload to have parameters as GET params.
+				// Otherwise use "setEndpoint" over "setParam" in submit event
+				paramsInBody: false
 			},
 			validation: {
 				allowedExtensions: ['%s'],
 				sizeLimit: '%s' // bytes
 			},
-			multiple: false, // no multiple upload in a regular form
-
+			// Override override main template
 			template: '<div class="qq-uploader">' +
 				'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
 				'<div class="qq-upload-button" style="width: 105px;">{uploadButtonText}</div>' +
 				'<span class="qq-max-size qq-vertical-align">%s</span>' +
 				'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
 				'<ul class="qq-upload-list"></ul>' +
-				'</div>',
-			// Templating for Twitter Bootstrap
-			debug: true
+				'</div>'
 		}).on('submit', function (event, id, fileName) {
 				var params = new Object();
 				params[prefix + '[action]'] = 'upload';

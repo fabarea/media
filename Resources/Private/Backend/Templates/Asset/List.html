@@ -23,13 +23,13 @@
 											// Callback action after file upload
 											if (responseJSON.uid) {
 
-												// Remove filter, order, page browse, ...
-												Media.table.fnResetDisplay();
+												// Hide message for file upload
+												$('.qq-upload-list', this).find('li:eq(' + id + ')').fadeOut(500);
 
-												$('.qq-upload-list', this).html('');
-												var mediaTitle = responseJSON.name == '' ? responseJSON.uid : responseJSON.name;
-												message = Media.format('message-created', mediaTitle);
-												Media.FlashMessage.add(message, 'success');
+												// Reset table only if all files have been uploaded
+												if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
+													Media.table.fnResetDisplay();
+												}
 											}
 										</script>
 									</m:form.fileUpload>

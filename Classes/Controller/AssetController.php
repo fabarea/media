@@ -46,16 +46,9 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 	/**
 	 * @var \TYPO3\CMS\Core\Page\PageRenderer
+	 * @inject
 	 */
 	protected $pageRenderer;
-
-	/**
-	 * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
-	 * @return void
-	 */
-	public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer) {
-		$this->pageRenderer = $pageRenderer;
-	}
 
 	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException

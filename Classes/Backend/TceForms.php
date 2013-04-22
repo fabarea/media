@@ -50,16 +50,8 @@ class TceForms {
 
 		// js files to be loaded
 		$jsFiles = array(
-			'Resources/Public/JavaScript/FileUploader/header.js',
-			'Resources/Public/JavaScript/FileUploader/util.js',
-			'Resources/Public/JavaScript/FileUploader/button.js',
-			'Resources/Public/JavaScript/FileUploader/handler.base.js',
-			'Resources/Public/JavaScript/FileUploader/handler.form.js',
-			'Resources/Public/JavaScript/FileUploader/handler.xhr.js',
-			'Resources/Public/JavaScript/FileUploader/uploader.basic.js',
-			'Resources/Public/JavaScript/FileUploader/dnd.js',
-			'Resources/Public/JavaScript/FileUploader/uploader.js',
-			'Resources/Public/JavaScript/FileUploader/jquery-plugin.tceforms.js',
+			'Resources/Public/JavaScript/jQuery/jquery.fineuploader.compatibility.js',
+			'Resources/Public/JavaScript/jQuery/jquery.fineuploader-3.4.1.js',
 		);
 
 		foreach ($jsFiles as $file) {
@@ -76,14 +68,14 @@ class TceForms {
 	 * @param Object $tceForms: reference to calling TCEforms object
 	 * @return	string	The HTML for the form field
 	 */
-	public function renderFileInfo($PA, $tceForms) {
+	public function renderFileUpload($PA, $tceForms) {
 
 		// Instantiate Template Engine
 		/* @var $view \TYPO3\CMS\Fluid\View\StandaloneView */
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
 
 		// Get template file and pass it to the view
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Widget/FileUploadTceForms/FileUpload.html';
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/TceForms/FileUpload.html';
 		$view->setTemplatePathAndFilename($filePath);
 		return $view->render();
 	}

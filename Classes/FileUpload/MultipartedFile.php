@@ -32,18 +32,18 @@ namespace TYPO3\CMS\Media\FileUpload;
  * @package TYPO3
  * @subpackage media
  */
-class MultipartedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface {
+class MultipartedFile extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 
 	/**
 	 * @var string
 	 */
-	protected $inputName;
+	protected $inputName = 'qqfile';
 
 	/**
 	 * @return \TYPO3\CMS\Media\FileUpload\MultipartedFile
 	 */
-	public function __construct() {
-	}
+//	public function __construct() {
+//	}
 
 	/**
 	 * Save the file to the specified path
@@ -73,69 +73,12 @@ class MultipartedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterfa
 	}
 
 	/**
-	 * Get the file type.
-	 *
-	 * @return int
-	 */
-	public function getType() {
-		$_FILES[$this->inputName]['type'];
-	}
-
-	/**
-	 * Set the file input name from the DOM.
-	 *
-	 * @param string $inputName
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	public function setInputName($inputName) {
-		// TODO: Implement setInputName() method.
-	}
-
-	/**
-	 * Set the upload folder
-	 *
-	 * @param string $uploadFolder
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	public function setUploadFolder($uploadFolder) {
-		// TODO: Implement setUploadFolder() method.
-	}
-
-	/**
-	 * Get the file with its absolute path.
-	 *
-	 * @return string
-	 */
-	public function getFileWithAbsolutePath() {
-		// TODO: Implement getFileWithAbsolutePath() method.
-	}
-
-	/**
 	 * Get the mime type of the file.
 	 *
 	 * @return int
 	 */
 	public function getMimeType() {
-		// TODO: Implement getMimeType() method.
-	}
-
-	/**
-	 * Set the file name to be saved
-	 *
-	 * @param string $name
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	public function setName($name) {
-		// TODO: Implement setName() method.
-	}
-
-	/**
-	 * Get the file name.
-	 *
-	 * @return int
-	 */
-	public function getName() {
-		// TODO: Implement getName() method.
+		return $_FILES[$this->inputName]['type'];
 	}
 }
 ?>

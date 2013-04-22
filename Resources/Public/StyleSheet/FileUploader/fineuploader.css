@@ -150,6 +150,10 @@ li.alert-error {
 	display: inline;
 }
 
+.qq-upload-list .alert {
+	margin-bottom: 5px;
+}
+
 .qq-vertical-align {
 	padding-left: 10px;
 	position: relative;

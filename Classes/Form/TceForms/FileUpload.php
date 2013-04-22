@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form;
+namespace TYPO3\CMS\Media\Form\TceForms;
 
 /***************************************************************
  *  Copyright notice
@@ -32,7 +32,7 @@ namespace TYPO3\CMS\Media\Form;
  * @package TYPO3
  * @subpackage media
  */
-class FileUploadTceForms extends \TYPO3\CMS\Media\Form\AbstractFormField  {
+class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 
 	/**
 	 * @var string
@@ -116,7 +116,7 @@ EOF;
 
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Widget/FileUploadTceForms/FileUploadTceForms.js';
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/TceForms/FileUpload.js';
 
 		/** @var $maxUploadViewHelper \TYPO3\CMS\Media\ViewHelpers\MaxUploadSizeViewHelper */
 		$maxUploadViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MaxUploadSizeViewHelper');

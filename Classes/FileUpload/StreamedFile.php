@@ -32,7 +32,7 @@ namespace TYPO3\CMS\Media\FileUpload;
  * @package TYPO3
  * @subpackage media
  */
-class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface {
+class StreamedFile extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 
 	/**
 	 * @var string
@@ -48,12 +48,6 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 	 * @var string
 	 */
 	protected $name;
-
-	/**
-	 * @return \TYPO3\CMS\Media\FileUpload\StreamedFile
-	 */
-	public function __construct() {
-	}
 
 	/**
 	 * Save the file to the specified path
@@ -89,15 +83,6 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 	}
 
 	/**
-	 * Get the file with its absolute path.
-	 *
-	 * @return string
-	 */
-	public function getFileWithAbsolutePath() {
-		return $this->uploadFolder . DIRECTORY_SEPARATOR . $this->name;
-	}
-
-	/**
 	 * Get the original file name.
 	 *
 	 * @return string
@@ -121,41 +106,6 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 	}
 
 	/**
-	 * Get the file type.
-	 *
-	 * @return int
-	 */
-	public function getType() {
-		$this->checkFileExistence();
-		// this basically extracts the mimetype and guess the filetype based
-		// on the first part of the mimetype works for 99% of all cases, and
-		// we don't need to make an SQL statement like EXT:media does currently
-		$mimeType = $this->getMimeType();
-		list($fileType) = explode('/', $mimeType);
-		switch (strtolower($fileType)) {
-			case 'text':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT;
-				break;
-			case 'image':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE;
-				break;
-			case 'audio':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO;
-				break;
-			case 'video':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO;
-				break;
-			case 'application':
-			case 'software':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE;
-				break;
-			default:
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN;
-		}
-		return $type;
-	}
-
-	/**
 	 * Get MIME type of file.
 	 *
 	 * @return string|boolean MIME type. eg, text/html, FALSE on error
@@ -169,64 +119,6 @@ class StreamedFile implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface 
 			return mime_content_type($this->getFileWithAbsolutePath());
 		}
 		return FALSE;
-	}
-
-	/**
-	 * Check whether the file exists.
-	 */
-	protected function checkFileExistence() {
-		if (!is_file($this->getFileWithAbsolutePath())) {
-			$message = sprintf('File not found at "%s". Did you save it?', $this->getFileWithAbsolutePath());
-			throw new \TYPO3\CMS\Media\Exception\MissingFileException($message, 1361786958);
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getInputName() {
-		return $this->inputName;
-	}
-
-	/**
-	 * @param string $inputName
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	public function setInputName($inputName) {
-		$this->inputName = $inputName;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUploadFolder() {
-		return $this->uploadFolder;
-	}
-
-	/**
-	 * @param string $uploadFolder
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	public function setUploadFolder($uploadFolder) {
-		$this->uploadFolder = $uploadFolder;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
-
-	/**
-	 * @param string $name
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
-	 */
-	public function setName($name) {
-		$this->name = $name;
-		return $this;
 	}
 }
 
