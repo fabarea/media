@@ -31,14 +31,61 @@ Configuration
 
 Configuration is mainly provided in the Extension Manager and is pretty much self-explanatory. Check possible options there.
 
-Besides the basic settings, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
+* In the the basic settings, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
 
-FAQ
-====
+Widgets
+=================
 
-There is FAQ on the  `home of the project`_
+Carousel Widget
+-------------------
 
-.. _home of the project: https://forge.typo3.org/projects/extension-media/
+By default, the View Helper generates a Carousel Gallery based on the markup of `Twitter Bootstrap`_
+and is assuming jQuery to be loaded. Syntax is as follows::
+
+	# Note categories attribute can be an array categories="{1,3}"
+	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000"/>
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+
+
+	# Required attributes:
+	# --------------------
+	#
+	# No attribute is required. However if you don't define a category *all images* from the repository will be taken!!
+
+	# Default values:
+	# ---------------
+	#
+	# Max height of the image
+	# height = 600
+	#
+	# Max width of the image
+	# width = 600
+	#
+	# Categories to be taken as filter.
+	# categories = array()
+	#
+	# Interval value of time between the slides. "O" means no automatic sliding.
+	# interval = 0
+	#
+	# Whether to display the title and description or not.
+	# caption = true
+
+
+The underlying template can be overridden by TypoScript. The default configuration looks as::
+
+	config.tx_extbase {
+		view {
+			widget {
+				TYPO3\CMS\Media\ViewHelpers\Widget\CarouselViewHelper {
+					# Assuming a template file is under ViewHelpers/Widget/Carousel/Index.html
+					templateRootPath = EXT:media/Resources/Private/Templates
+				}
+			}
+		}
+	}
+
+
+.. _Twitter Bootstrap: http://twitter.github.io/bootstrap/examples/carousel.html
 
 RTE integration
 =================
@@ -136,7 +183,6 @@ As a first place, a thumbnail can be generated from the Asset object, like::
 	# Get a thumbnail of the file wrapped within a link pointing to the original file.
 	{asset.thumbnailWrapped}
 
-
 If the default thumbnail is not "sufficient", a View Helper can be used enabling to configure the thumbnail to be generated::
 
 	# The minimum
@@ -145,13 +191,26 @@ If the default thumbnail is not "sufficient", a View Helper can be used enabling
 	# Pass more settings to the thumbnail to be rendered.
 	<m:thumbnail object="{asset}" configuration="{width: 800, height: 800}" attributes="{class: 'file-variant'}" wrap="true"/>
 
+	# Required attributes:
+	# --------------------
+	#
+	# object="{asset}"
+
+	# Default values:
+	# ---------------
+	#
+	# configuration= array()
+	# attributes = array()
+	# wrap = FALSE
+	# preset = NULL
+
 	# Pass some preset as for the dimension. Values can be:
 	# - image_thumbnail => '100x100'  (where maximum width is 100 and maximum height is 100)
-    # - image_mini => '120x120'
-    # - image_small => '320x320'
-    # - image_medium => '760x760'
-    # - image_large => '1200x1200'
-    # - image_original => '1920x1920'
+	# - image_mini => '120x120'
+	# - image_small => '320x320'
+	# - image_medium => '760x760'
+	# - image_large => '1200x1200'
+	# - image_original => '1920x1920'
 	<m:thumbnail object="{asset}" preset="image_medium"/>
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}

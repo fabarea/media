@@ -1,0 +1,51 @@
+<f:if condition="{interval}">
+	<script type="text/javascript">
+
+		(function ($) {
+			var viewId = '{viewId}';
+			var interval = '{interval}';
+
+			<![CDATA[
+			$(document).ready(function () {
+				$('#carousel-' + viewId).carousel({
+					interval: interval
+				});
+			});
+			]]>
+
+		})(jQuery);
+
+	</script>
+</f:if>
+
+<style type="text/css">
+	.carousel-indicators li{
+		cursor: pointer;
+	}
+</style>
+
+<div class="bs-docs-example">
+	<div id="carousel-{viewId}" class="carousel slide">
+		<ol class="carousel-indicators">
+			<f:for each="{images}" as="image" key="number" iteration="iterator">
+				<li data-target="#carousel-{viewId}" data-slide-to="{number}" {f:if(condition: iterator.isFirst, then: 'class="active"')}></li>
+			</f:for>
+		</ol>
+		<div class="carousel-inner">
+			<f:for each="{images}" as="image" key="number" iteration="iterator">
+				<div class="item {f:if(condition: iterator.isFirst, then: 'active')}">
+					<m:thumbnail object="{image}" configuration="{width: width, height: height}" />
+					<f:if condition="{caption}">
+						<div class="carousel-caption">
+							<h4>{image.title}</h4>
+							<p>{image.description -> f:format.html()}</p>
+						</div>
+					</f:if>
+				</div>
+			</f:for>
+		</div>
+		<a class="left carousel-control" href="#carousel-{viewId}" data-slide="prev">‹</a>
+		<a class="right carousel-control" href="#carousel-{viewId}" data-slide="next">›</a>
+	</div>
+</div>
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

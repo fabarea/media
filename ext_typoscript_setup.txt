@@ -14,8 +14,14 @@ config.tx_extbase {
 			}
 		}
 	}
+	view {
+		widget {
+			TYPO3\CMS\Media\ViewHelpers\Widget\CarouselViewHelper {
+				templateRootPath = EXT:media/Resources/Private/Templates
+			}
+		}
+	}
 }
-
 
  # Plugin configuration
 plugin.tx_media {
