@@ -50,8 +50,8 @@ class TceForms {
 
 		// js files to be loaded
 		$jsFiles = array(
-			'Resources/Public/JavaScript/jQuery/jquery.fineuploader.compatibility.js',
-			'Resources/Public/JavaScript/jQuery/jquery.fineuploader-3.4.1.js',
+			'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js',
+			'Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
 		);
 
 		foreach ($jsFiles as $file) {
