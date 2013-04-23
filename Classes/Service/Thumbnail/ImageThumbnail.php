@@ -47,8 +47,16 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 		if (!empty($configuration['height']) && $configuration['height'] > $this->file->getProperty('height')) {
 			$configuration['height'] = $this->file->getProperty('height');
 		}
+
+		// There is a bug or a feature in FAL limiting the width and height to 1000 pixel.
+		// The problem of CONTEXT_IMAGECROPSCALEMASK is that proportion is not kept automatically when resized.
+		$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW;
+		if ($configuration['width'] > 1000 || $configuration['height'] > 1000) {
+			$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
+		}
+
 		/** @var $processedFile \TYPO3\CMS\Core\Resource\ProcessedFile */
-		$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $configuration);
+		$processedFile = $this->file->process($taskType, $configuration);
 
 		$thumbnail = sprintf('<img src="%s?%s" title="%s" alt="%s" %s/>',
 			$processedFile->getPublicUrl(TRUE),
