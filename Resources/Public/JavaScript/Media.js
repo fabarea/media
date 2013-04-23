@@ -60,25 +60,30 @@ $(document).ready(function () {
 			message = Media.format("confirm-mass-delete-singular", checkboxes.length);
 		}
 
-		bootbox.confirm(message, function (result) {
-			if (result) {
+		bootbox.dialog(message, [
+			{
+				'label': Media.translate('cancel')
+			},
+			{
+				'label': Media.translate('delete'),
+				'class': "btn-danger",
+				'callback': function () {
+					$.get(url,
+						function (data) {
+							message = Media.format('message-mass-deleted-plural', checkboxes.length);
+							if (checkboxes.length <= 1) {
+								message = Media.format('message-mass-deleted-singular', checkboxes.length);
+							}
+							Media.FlashMessage.add(message, 'success');
+							Media.FlashMessage.showAll();
 
-				// Send Ajax request to delete media
-				$.get(url,
-					function (data) {
-						message = Media.format('message-mass-deleted-plural', checkboxes.length);
-						if (checkboxes.length <= 1) {
-							message = Media.format('message-mass-deleted-singular', checkboxes.length);
+							// Reload data table
+							Media.table.fnDraw();
 						}
-						Media.FlashMessage.add(message, 'success');
-						Media.FlashMessage.showAll();
-
-						// Reload data table
-						Media.table.fnDraw();
-					}
-				);
+					);
+				}
 			}
-		});
+		]);
 	});
 
 	/**

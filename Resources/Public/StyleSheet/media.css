@@ -204,3 +204,7 @@ form .metadata {
 .text-light {
 	font-size: 8pt;
 }
+
+.popover-content {
+	text-align: center;
+}
