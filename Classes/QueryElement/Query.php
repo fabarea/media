@@ -162,7 +162,7 @@ class Query {
 			$clauseSearchTerm = $this->getClauseSearchTerm();
 			$clauseCategories = $this->getClauseCategories();
 
-			if (strlen($clauseSearchTerm) > 0 && strlen($clauseSearchTerm) > 0) {
+			if (strlen($clauseSearchTerm) > 0 && strlen($clauseCategories) > 0) {
 				$clause .= sprintf(' AND (%s OR %s)', $clauseSearchTerm, $clauseCategories);
 			} elseif (strlen($clauseSearchTerm) > 0) {
 				$clause .= sprintf(' AND (%s)', $clauseSearchTerm);
@@ -261,8 +261,8 @@ EOF;
 					$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
 				}
 
-				$searchParts[] = sprintf('uid = "%s"', $searchTerm);
 			}
+			$searchParts[] = sprintf('uid = "%s"', $searchTerm);
 			$clause = implode(' OR ', $searchParts);
 		}
 		return $clause;
