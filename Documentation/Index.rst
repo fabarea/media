@@ -306,7 +306,7 @@ A grid is a list view of records typical of a Backend module. TCA was extended t
 			'tstamp' => array(
 				'visible' => FALSE,
 				'format' => 'date',
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:tx_media.tstamp',
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
 			),
 			'keywords' => array(
 			),

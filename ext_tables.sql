@@ -40,9 +40,6 @@ CREATE TABLE sys_file (
 	# VIDEO
 	preview_image int(11) unsigned DEFAULT '0' NOT NULL,
 
-	# IMAGE
-	horizontal_resolution int(11) unsigned DEFAULT '0' NOT NULL,
-	vertical_resolution int(11) unsigned DEFAULT '0' NOT NULL,
 	# RGB,sRGB,YUV, ...
 	color_space varchar(4) DEFAULT '' NOT NULL,
 

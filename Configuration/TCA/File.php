@@ -6,76 +6,114 @@ if (!defined ('TYPO3_MODE')) {
 \TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 
 $newFileTypes = array(
-	TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.geolocation, location_country, location_region, location_city, latitude, longitude,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
-								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+	TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '
+								fileinfo, title, description, keywords, alternative, caption,
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
-								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, color_space, --palette--;;10;;, --palette--;;14;;,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.geolocation, location_country, location_region, location_city, latitude, longitude,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
-								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
+									creator,--palette--;;30;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:geo-location;40;; ,
+									--palette--;;50;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:temporal-info;60;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metrics;70;; ,
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, duration, unit,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
-								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
-								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+	TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array('showitem' => '
+								fileinfo, title, description, keywords, alternative, caption,
 
-	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '--widget--;TYPO3\CMS\Media\Form\FileUpload, fileinfo, title, description, alternative, caption, keywords,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.visibility, hidden, status, ranking,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.language, language,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.metrics, --palette--;;10;;, --palette--;;14;;,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.copyright, creator, publisher, source,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.temporalInfo, creation_date, modification_date,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.file, download_name,
-								--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tabs.variants, variants,
-								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
+									creator,--palette--;;30;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:geo-location;40;; ,
+									--palette--;;50;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:temporal-info;60;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
+
+	TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array('showitem' => '
+								fileinfo, title, description, keywords, alternative, caption,
+
+								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
+									creator,--palette--;;30;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:geo-location;40;; ,
+									--palette--;;50;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:temporal-info;60;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metrics;70;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
+
+	TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array('showitem' => '
+
+								fileinfo, title, description, keywords, alternative, caption,
+
+								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
+									duration,
+									creator,--palette--;;30;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:geo-location;40;; ,
+									--palette--;;50;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:temporal-info;60;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metrics;70;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
+
+	TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array('showitem' => '
+								fileinfo, title, description, keywords, alternative, caption,
+
+								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
+									duration,
+									creator,--palette--;;30;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:geo-location;40;; ,
+									--palette--;;50;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:temporal-info;60;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
+
+	TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE => array('showitem' => '
+								fileinfo, title, description, keywords, alternative, caption,
+
+								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
+									creator,--palette--;;30;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:geo-location;40;; ,
+									--palette--;;50;; ,
+									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:temporal-info;60;; ,
+
+								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
 );
 
 $TCA['sys_file']['types'] = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule((array)$TCA['sys_file']['types'], $newFileTypes);
 unset($newFileTypes);
 
 $TCA['sys_file']['palettes'] = array(
-	'1' => array('showitem' => 'status, ranking'),
-	'10' => array('showitem' => 'width, height, unit', 'canNotCollapse' => '1'),
-	'14' => array('showitem' => 'horizontal_resolution, vertical_resolution', 'canNotCollapse' => '1'),
+	'10' => array('showitem' => 'hidden, status, ranking', 'canNotCollapse' => '1'),
+	'20' => array('showitem' => 'starttime, endtime,', 'canNotCollapse' => '1'),
+	'30' => array('showitem' => 'publisher, source', 'canNotCollapse' => '1'),
+	'50' => array('showitem' => 'latitude, longitude', 'canNotCollapse' => '1'),
+	'40' => array('showitem' => 'location_country, location_region, location_city', 'canNotCollapse' => '1'),
+	'60' => array('showitem' => 'creation_date, modification_date', 'canNotCollapse' => '1'),
+	'70' => array('showitem' => 'width, height, unit, color_space', 'canNotCollapse' => '1'),
 );
 
 $columns = array(
@@ -87,7 +125,7 @@ $columns = array(
 	),
 	'variants' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.variants',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variants',
 		'config' => array(
 			'type' => 'inline',
 			'foreign_table' => 'sys_file_variants',
@@ -135,22 +173,22 @@ $columns = array(
 	),
 	'status' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.status',
 		'config' => array(
 			'type' => 'select',
 			'items' => array(
 				array(
-					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.1',
+					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.status.1',
 					1,
 					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/status_1.png'
 				),
 				array(
-					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.2',
+					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.status.2',
 					2,
 					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/status_2.png'
 				),
 				array(
-					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.status.3',
+					'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.status.3',
 					3,
 					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/status_3.png'
 				),
@@ -159,36 +197,35 @@ $columns = array(
 	),
 	'title' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.title',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.title',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 255,
 			'eval' => 'trim'
 		)
 	),
 	'description' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.description',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.description',
 		'config' => array(
 			'type' => 'text',
 			'cols' => 40,
-			'rows' => 15,
+			'rows' => 5,
 			'eval' => 'trim'
 		),
 	),
 	'keywords' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.keywords',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.keywords',
 		'config' => array(
-			'type' => 'text',
-			'cols' => 40,
-			'rows' => 15,
+			'type' => 'input',
+			'size' => 255,
 			'eval' => 'trim'
 		),
 	),
 	'extension' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.extension',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.extension',
 		'config' => array(
 			'type' => 'text',
 			'cols' => 40,
@@ -200,7 +237,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.creation_date',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.creation_date',
 		'config' => array(
 			'type' => 'input',
 			'size' => 12,
@@ -214,7 +251,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.modification_date',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.modification_date',
 		'config' => array(
 			'type' => 'input',
 			'size' => 12,
@@ -228,10 +265,10 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.creator_tool',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.creator_tool',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 20,
 			'eval' => 'trim'
 		),
 	),
@@ -239,7 +276,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.download_name',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.download_name',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -250,7 +287,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.creator',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.creator',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -261,25 +298,25 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.publisher',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.publisher',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 20,
 			'eval' => 'trim'
 		),
 	),
 	'source' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.source',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.source',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 20,
 			'eval' => 'trim'
 		),
 	),
 	'alternative' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.alternative',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.alternative',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -288,7 +325,7 @@ $columns = array(
 	),
 	'caption' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.caption',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.caption',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -299,7 +336,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.pages',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.pages',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -308,7 +345,7 @@ $columns = array(
 	),
 	'note' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.note',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.note',
 		'config' => array(
 			'type' => 'text',
 			'cols' => 40,
@@ -320,10 +357,10 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.location_country',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.location_country',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 20,
 			'eval' => 'trim'
 		),
 	),
@@ -331,10 +368,10 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.location_region',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.location_region',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 20,
 			'eval' => 'trim'
 		),
 	),
@@ -342,10 +379,10 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.location_city',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.location_city',
 		'config' => array(
 			'type' => 'input',
-			'size' => 30,
+			'size' => 20,
 			'eval' => 'trim'
 		),
 	),
@@ -353,7 +390,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.latitude',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.latitude',
 		'config' => array(
 			'type' => 'input',
 			'size' => '20',
@@ -366,7 +403,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.longitude',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.longitude',
 		'config' => array(
 			'type' => 'input',
 			'size' => '20',
@@ -377,7 +414,7 @@ $columns = array(
 	),
 	'ranking' => array(
 		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.ranking',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.ranking',
 		'config' => array(
 			'type' => 'select',
 			'minitems' => 1,
@@ -395,7 +432,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.language',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.language',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -409,33 +446,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.duration',
-		'config' => array(
-			'type' => 'input',
-			'size' => '10',
-			'max' => '20',
-			'eval' => 'int',
-			'default' => '0'
-		)
-	),
-	'horizontal_resolution' => array(
-		'exclude' => 1,
-		'l10n_mode' => 'exclude',
-		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.horizontal_resolution',
-		'config' => array(
-			'type' => 'input',
-			'size' => '10',
-			'max' => '20',
-			'eval' => 'int',
-			'default' => '0'
-		)
-	),
-	'vertical_resolution' => array(
-		'exclude' => 1,
-		'l10n_mode' => 'exclude',
-		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.vertical_resolution',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.duration',
 		'config' => array(
 			'type' => 'input',
 			'size' => '10',
@@ -448,7 +459,7 @@ $columns = array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.color_space',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.color_space',
 		'l10n_mode' => 'exclude',
 		'config' => array(
 			'type' => 'select',
@@ -461,40 +472,43 @@ $columns = array(
 				array('Grey', 'grey'),
 				array('indexed', 'indx'),
 			),
-			'default' => ''
+			'default' => '',
+			'readOnly' => TRUE,
 		)
 	),
 	'width' => array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.width',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.width',
 		'config' => array(
 			'type' => 'input',
 			'size' => '10',
 			'max' => '20',
 			'eval' => 'int',
-			'default' => '0'
+			'default' => '0',
+			'readOnly' => TRUE,
 		),
 	),
 	'height' => array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.height',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.height',
 		'config' => array(
 			'type' => 'input',
 			'size' => '10',
 			'max' => '20',
 			'eval' => 'int',
-			'default' => '0'
+			'default' => '0',
+			'readOnly' => TRUE,
 		),
 	),
 	'unit' => array(
 		'exclude' => 1,
 		'l10n_mode' => 'exclude',
 		'l10n_display' => 'defaultAsReadonly',
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tx_media.unit',
+		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.unit',
 		'config' => array(
 			'type' => 'select',
 			'items' => array(
@@ -505,7 +519,8 @@ $columns = array(
 				array('m', 'm'),
 				array('p', 'p'),
 			),
-			'default' => ''
+			'default' => '',
+			'readOnly' => TRUE,
 		),
 	),
 );
@@ -544,9 +559,10 @@ $TCA['sys_file']['grid'] = array(
 		'tstamp' => array(
 			'visible' => FALSE,
 			'format' => 'date',
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:tx_media.tstamp',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
 		),
 		'keywords' => array(
+			'visible' => FALSE,
 		),
 		'categories' => array(
 			'visible' => TRUE,
@@ -573,9 +589,6 @@ $TCA['sys_file']['grid'] = array(
 			'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Visibility',
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility_abbreviated',
 			'width' => '3%',
-		),
-		'language' => array(
-			'visible' => FALSE,
 		),
 		'creator' => array(
 			'visible' => FALSE,

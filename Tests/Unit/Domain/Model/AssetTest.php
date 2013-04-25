@@ -85,7 +85,6 @@ class AssetTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 			array('downloadName', uniqid('foo')),
 			array('duration', uniqid('foo')),
 			array('height', uniqid('foo')),
-			array('horizontalResolution', uniqid('foo')),
 			array('keywords', uniqid('foo')),
 			array('language', uniqid('foo')),
 			array('latitude', uniqid('foo')),
@@ -102,7 +101,6 @@ class AssetTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 			array('status', uniqid('foo')),
 			array('type', rand(1,5)),
 			array('unit', uniqid('foo')),
-			array('verticalResolution', uniqid('foo')),
 			array('width', uniqid('foo')),
 		);
 	}

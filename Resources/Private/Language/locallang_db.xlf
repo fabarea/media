@@ -4,119 +4,103 @@
 	      product-name="local lang db">
 		<header/>
 		<body>
-
 			<trans-unit id="tx_media">
 				<source>Media</source>
 			</trans-unit>
-			<trans-unit id="tx_media.status">
+			<trans-unit id="sys_file.status">
 				<source>Status</source>
 			</trans-unit>
-			<trans-unit id="tx_media.status.1">
+			<trans-unit id="sys_file.status.1">
 				<source>Ok</source>
 			</trans-unit>
-			<trans-unit id="tx_media.status.2">
+			<trans-unit id="sys_file.status.2">
 				<source>Pending</source>
 			</trans-unit>
-			<trans-unit id="tx_media.status.3">
+			<trans-unit id="sys_file.status.3">
 				<source>Under review</source>
 			</trans-unit>
-			<trans-unit id="tx_media.title">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_media.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_media.keywords">
+			<trans-unit id="sys_file.keywords">
 				<source>Keywords</source>
 			</trans-unit>
-			<trans-unit id="tx_media.extension">
+			<trans-unit id="sys_file.extension">
 				<source>Extension</source>
 			</trans-unit>
-			<trans-unit id="tx_media.mime_type">
+			<trans-unit id="sys_file.mime_type">
 				<source>Mime Type</source>
 			</trans-unit>
-			<trans-unit id="tx_media.extension">
+			<trans-unit id="sys_file.extension">
 				<source>Extension</source>
 			</trans-unit>
-			<trans-unit id="tx_media.creation_date">
+			<trans-unit id="sys_file.creation_date">
 				<source>Content Creation Date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.modification_date">
+			<trans-unit id="sys_file.modification_date">
 				<source>Content Modification Date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.creator_tool">
+			<trans-unit id="sys_file.creator_tool">
 				<source>Creator Tool</source>
 			</trans-unit>
-			<trans-unit id="tx_media.download_name">
+			<trans-unit id="sys_file.download_name">
 				<source>Download Name</source>
 			</trans-unit>
-			<trans-unit id="tx_media.identifier">
-				<source>Identifier</source>
-			</trans-unit>
-			<trans-unit id="tx_media.creator">
+			<trans-unit id="sys_file.creator">
 				<source>Creator</source>
 			</trans-unit>
-			<trans-unit id="tx_media.source">
+			<trans-unit id="sys_file.source">
 				<source>Source</source>
 			</trans-unit>
-			<trans-unit id="tx_media.alternative">
+			<trans-unit id="sys_file.alternative">
 				<source>Alternative</source>
 			</trans-unit>
-			<trans-unit id="tx_media.caption">
+			<trans-unit id="sys_file.caption">
 				<source>Caption</source>
 			</trans-unit>
-			<trans-unit id="tx_media.width">
+			<trans-unit id="sys_file.width">
 				<source>Width</source>
 			</trans-unit>
-			<trans-unit id="tx_media.height">
+			<trans-unit id="sys_file.height">
 				<source>Height</source>
 			</trans-unit>
-			<trans-unit id="tx_media.unit">
+			<trans-unit id="sys_file.unit">
 				<source>Unit</source>
 			</trans-unit>
-			<trans-unit id="tx_media.pages">
+			<trans-unit id="sys_file.pages">
 				<source>Pages</source>
 			</trans-unit>
-			<trans-unit id="tx_media.note">
+			<trans-unit id="sys_file.note">
 				<source>Note</source>
 			</trans-unit>
-			<trans-unit id="tx_media.language">
+			<trans-unit id="sys_file.language">
 				<source>Media language</source>
 			</trans-unit>
-			<trans-unit id="tx_media.duration">
+			<trans-unit id="sys_file.duration">
 				<source>Duration</source>
 			</trans-unit>
-			<trans-unit id="tx_media.horizontal_resolution">
-				<source>Horizontal resolution</source>
-			</trans-unit>
-			<trans-unit id="tx_media.vertical_resolution">
-				<source>Vertical resolution</source>
-			</trans-unit>
-			<trans-unit id="tx_media.color_space">
+			<trans-unit id="sys_file.color_space">
 				<source>Color space</source>
 			</trans-unit>
-			<trans-unit id="tx_media.publisher">
+			<trans-unit id="sys_file.publisher">
 				<source>Publisher</source>
 			</trans-unit>
-			<trans-unit id="tx_media.location_country">
+			<trans-unit id="sys_file.location_country">
 				<source>Pays</source>
 			</trans-unit>
-			<trans-unit id="tx_media.location_region">
+			<trans-unit id="sys_file.location_region">
 				<source>Region</source>
 			</trans-unit>
-			<trans-unit id="tx_media.location_city">
+			<trans-unit id="sys_file.location_city">
 				<source>City</source>
 			</trans-unit>
-			<trans-unit id="tx_media.latitude">
+			<trans-unit id="sys_file.latitude">
 				<source>Latitude</source>
 			</trans-unit>
-			<trans-unit id="tx_media.longitude">
+			<trans-unit id="sys_file.longitude">
 				<source>Longitude</source>
 			</trans-unit>
-			<trans-unit id="tx_media.ranking">
+			<trans-unit id="sys_file.ranking">
 				<source>Ranking</source>
 			</trans-unit>
-			<trans-unit id="tx_media.variants">
+			<trans-unit id="sys_file.variants">
 				<source>alternative variants (other types, preview images, ...)</source>
 			</trans-unit>
 
@@ -151,31 +135,6 @@
 
 			<trans-unit id="tx_media_file.name">
 				<source>Name</source>
-			</trans-unit>
-
-			<trans-unit id="tabs.metrics">
-				<source>Metrics</source>
-			</trans-unit>
-			<trans-unit id="tabs.language">
-				<source>Language</source>
-			</trans-unit>
-			<trans-unit id="tabs.visibility">
-				<source>Visibility</source>
-			</trans-unit>
-			<trans-unit id="tabs.copyright">
-				<source>Copyright</source>
-			</trans-unit>
-			<trans-unit id="tabs.file">
-				<source>File</source>
-			</trans-unit>
-			<trans-unit id="tabs.variants">
-				<source>Variants</source>
-			</trans-unit>
-			<trans-unit id="tabs.temporalInfo">
-				<source>Temporal Info</source>
-			</trans-unit>
-			<trans-unit id="tabs.geolocation">
-				<source>Geolocation</source>
 			</trans-unit>
 
 			<trans-unit id="sys_file_variants">

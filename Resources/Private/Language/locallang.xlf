@@ -7,40 +7,31 @@
 			<trans-unit id="tx_media">
 				<source>Media</source>
 			</trans-unit>
-			<trans-unit id="tx_media.title">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_media.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_media.keywords">
+			<trans-unit id="sys_file.keywords">
 				<source>Keywords</source>
 			</trans-unit>
-			<trans-unit id="tx_media.creation_date">
+			<trans-unit id="sys_file.creation_date">
 				<source>Content creation date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.modification_date">
+			<trans-unit id="sys_file.modification_date">
 				<source>Content modification date</source>
 			</trans-unit>
-			<trans-unit id="tx_media.creator_tool">
+			<trans-unit id="sys_file.creator_tool">
 				<source>Creator tool</source>
 			</trans-unit>
-			<trans-unit id="tx_media.download_name">
+			<trans-unit id="sys_file.download_name">
 				<source>Download name</source>
 			</trans-unit>
-			<trans-unit id="tx_media.identifier">
-				<source>Identifier</source>
-			</trans-unit>
-			<trans-unit id="tx_media.creator">
+			<trans-unit id="sys_file.creator">
 				<source>Creator</source>
 			</trans-unit>
-			<trans-unit id="tx_media.source">
+			<trans-unit id="sys_file.source">
 				<source>Source</source>
 			</trans-unit>
-			<trans-unit id="tx_media.alternative">
+			<trans-unit id="sys_file.alternative">
 				<source>Alternative title</source>
 			</trans-unit>
-			<trans-unit id="tx_media.caption">
+			<trans-unit id="sys_file.caption">
 				<source>Caption</source>
 			</trans-unit>
 			<trans-unit id="tx_media_collection">
@@ -82,26 +73,41 @@
 			<trans-unit id="tx_media_mimetype.mime_type_name">
 				<source>MIME type name</source>
 			</trans-unit>
-			<trans-unit id="tx_media.category">
+			<trans-unit id="sys_file.category">
 				<source>Category</source>
 			</trans-unit>
-			<trans-unit id="tx_media.status">
+			<trans-unit id="sys_file.status">
 				<source>Status</source>
 			</trans-unit>
-			<trans-unit id="tx_media.file_name">
+			<trans-unit id="sys_file.file_name">
 				<source>File name</source>
 			</trans-unit>
-			<trans-unit id="tx_media.author">
+			<trans-unit id="sys_file.author">
 				<source>Author</source>
 			</trans-unit>
-			<trans-unit id="tx_media.permission">
-				<source>Permission</source>
-			</trans-unit>
-			<trans-unit id="tx_media.language">
+			<trans-unit id="sys_file.language">
 				<source>Language</source>
 			</trans-unit>
-			<trans-unit id="tx_media.tstamp">
+			<trans-unit id="sys_file.tstamp">
 				<source>Updated</source>
+			</trans-unit>
+			<trans-unit id="metadata">
+				<source>Metadata</source>
+			</trans-unit>
+			<trans-unit id="metrics">
+				<source>Metrics</source>
+			</trans-unit>
+			<trans-unit id="temporal-info">
+				<source>Temporal Info</source>
+			</trans-unit>
+			<trans-unit id="geo-location">
+				<source>Geolocation</source>
+			</trans-unit>
+			<trans-unit id="visibility">
+				<source>Visibility</source>
+			</trans-unit>
+			<trans-unit id="publish-dates">
+				<source>Publish Dates</source>
 			</trans-unit>
 			<trans-unit id="message-deleted">
 				<source>Media "{0}" has been deleted</source>

@@ -96,11 +96,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $height;
 
 	/**
-	 * @var integer
-	 */
-	protected $horizontalResolution;
-
-	/**
 	 * @var string
 	 */
 	protected $keywords;
@@ -185,11 +180,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	 * @var string
 	 */
 	protected $unit;
-
-	/**
-	 * @var integer
-	 */
-	protected $verticalResolution;
 
 	/**
 	 * @var integer
@@ -433,25 +423,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	 */
 	public function setHeight($height) {
 		$this->properties['height'] = $height;
-	}
-
-	/**
-	 * Returns the horizontal resolution
-	 *
-	 * @return string $horizontalResolution
-	 */
-	public function getHorizontalResolution() {
-		return $this->getProperty('horizontal_resolution');
-	}
-
-	/**
-	 * Sets the horizontal resolution
-	 *
-	 * @param string $horizontalResolution
-	 * @return void
-	 */
-	public function setHorizontalResolution($horizontalResolution) {
-		$this->properties['horizontal_resolution'] = $horizontalResolution;
 	}
 
 	/**
@@ -775,25 +746,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	 */
 	public function setUnit($unit) {
 		$this->properties['unit'] = $unit;
-	}
-
-	/**
-	 * Returns the vertical resolution
-	 *
-	 * @return string $verticalResolution
-	 */
-	public function getVerticalResolution() {
-		return $this->getProperty('vertical_resolution');
-	}
-
-	/**
-	 * Sets the vertical resolution
-	 *
-	 * @param string $verticalResolution
-	 * @return void
-	 */
-	public function setVerticalResolution($verticalResolution) {
-		$this->properties['vertical_resolution'] = $verticalResolution;
 	}
 
 	/**
