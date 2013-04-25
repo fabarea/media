@@ -93,7 +93,7 @@ class Filter  {
 	 * Add a category to be used to filter. It could be either an integer or a string. Try using integer in priority which is more performant.
 	 * Though, a string is also possible. It will firstly be converted to a possible uid.
 	 *
-	 * @param int|string $category
+	 * @param int|string|object $category
 	 */
 	public function addCategory($category) {
 		$this->categories[] = $category;

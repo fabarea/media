@@ -190,6 +190,11 @@ class Query {
 			// First check if any category is of type string and try to retrieve a corresponding uid
 			$_categories = array();
 			foreach ($categories as $category) {
+				if (is_object($category) && method_exists($category, 'getUid')) {
+					$category = $category->getUid();
+				}
+
+				// TRUE means this is a character chain given. So, try to be smart by checking if the string correspond to a category id.
 				if (!is_numeric($category)) {
 					$escapedCategory = $this->databaseHandle->escapeStrForLike($category, $this->tableName);
 					$records = $this->databaseHandle->exec_SELECTgetRows('uid', 'sys_category', sprintf('title LIKE "%%%s%%"', $escapedCategory));
