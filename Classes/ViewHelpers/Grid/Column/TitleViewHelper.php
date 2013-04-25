@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Translate;
+namespace TYPO3\CMS\Media\ViewHelpers\Grid\Column;
 /***************************************************************
 *  Copyright notice
 *
@@ -31,7 +31,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Translate;
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class ColumnViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TitleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Returns a label

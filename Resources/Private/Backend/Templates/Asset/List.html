@@ -49,11 +49,11 @@
 										<span class="caret"></span>
 									</a>
 									<ul class="dropdown-menu">
-										<f:for each="{columns}" key="column" as="configuration" iteration="iterator">
+										<f:for each="{columns}" key="columnName" as="configuration" iteration="iterator">
 											<li>
-												<f:if condition="{m:grid.column.isNotSystem(fieldName: '{column}')}">
+												<f:if condition="{m:grid.column.isNotSystem(fieldName: '{columnName}')}">
 													<label class="checkbox inline">
-														<f:if condition="{m:grid.column.isVisible(fieldName: '{column}')}">
+														<f:if condition="{m:grid.column.isVisible(fieldName: '{columnName}')}">
 															<f:then>
 																<input class="check-visible-toggle" type="checkbox" name=""
 																       value="{iterator.index}"
@@ -64,7 +64,7 @@
 																       value="{iterator.index}"/>
 															</f:else>
 														</f:if>
-														<m:translate.column column="{column}"/>
+														<m:grid.column.title column="{columnName}"/>
 													</label>
 												</f:if>
 											</li>
@@ -94,14 +94,14 @@
 			       id="media-list">
 				<thead>
 				<tr>
-					<f:for each="{columns}" key="column" as="configuration">
+					<f:for each="{columns}" key="columnName" as="configuration">
 						<th>
 							<f:if condition="{configuration.html}">
 								<f:then>
 									<f:format.raw>{configuration.html}</f:format.raw>
 								</f:then>
 								<f:else>
-									<m:translate.column column="{column}"/>
+									<m:grid.column.title column="{columnName}"/>
 								</f:else>
 							</f:if>
 						</th>

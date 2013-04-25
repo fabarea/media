@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Grid;
+namespace TYPO3\CMS\Media\ViewHelpers\Grid\Column;
 /***************************************************************
 *  Copyright notice
 *
@@ -31,7 +31,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Grid;
  * @subpackage  media
  * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
-class ColumnHeaderViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ConfigurationViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Render the columns of the grid

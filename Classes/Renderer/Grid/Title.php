@@ -39,7 +39,7 @@ class Title implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$template = '%s <span class="text-light">%s</span>';
+		$template = '%s <br /><span class="text-light">%s</span>';
 		return sprintf($template,
 			$asset->getTitle(),
 			$asset->getDescription() // @todo shorten text if too long
