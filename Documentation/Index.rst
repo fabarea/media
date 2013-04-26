@@ -31,7 +31,7 @@ Configuration
 
 Configuration is mainly provided in the Extension Manager and is pretty much self-explanatory. Check possible options there.
 
-* In the the basic settings, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
+* In the the Variant tab, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
 
 Widgets
 =================
@@ -86,6 +86,19 @@ The underlying template can be overridden by TypoScript. The default configurati
 
 
 .. _Twitter Bootstrap: http://twitter.github.io/bootstrap/examples/carousel.html
+
+
+Permission management
+======================
+
+Permissions management is about controlling read access of an Asset by the right User. Permission can be defined on each file under tab "Access" where to connect
+an Asset to a Backend and / or a Frontend group. To properly activate permission, consider also:
+
+* Backend: there is an setting that can be activated in the Extension Manager which influences the display of files within the BE module.
+* Frontend, extension such as naw_securedl_ must be installed. It will rewrite all URL pointing to a file to be secured.
+There is a Hook in EXT:media/Resources/Private/Php/user_secure_download.php taking care of security check.
+
+.. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
 
 RTE integration
 =================

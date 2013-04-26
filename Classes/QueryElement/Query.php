@@ -143,12 +143,22 @@ class Query {
 	 * @return string
 	 */
 	public function renderClause() {
+
 		$clause = 'deleted = 0 AND is_variant = 0';
+
+		/** @var $user \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
+		$user = $GLOBALS['BE_USER'];
+		$settingManagement = \TYPO3\CMS\Media\Utility\Setting::getInstance();
+
+		// Add segment to handle BE Permission
+		if (TYPO3_MODE == 'BE' && $settingManagement->get('permission') && !$user->isAdmin()) {
+			$clause .= sprintf(' AND uid IN (SELECT uid_local FROM sys_file_begroups_mm WHERE uid_foreign IN(%s))', $user->user['usergroup']);
+		}
 
 		if ($this->respectStorage) {
 			$clause = sprintf('%s AND storage = %s',
 				$clause,
-				\TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage')
+				$settingManagement->get('storage')
 			);
 		}
 
@@ -265,7 +275,6 @@ EOF;
 				if ($fieldType == 'text' OR $fieldType == 'input') {
 					$searchParts[] = sprintf('%s LIKE "%%%s%%"', $field, $searchTerm);
 				}
-
 			}
 			$searchParts[] = sprintf('uid = "%s"', $searchTerm);
 			$clause = implode(' OR ', $searchParts);
@@ -282,6 +291,8 @@ EOF;
 		$clause = $this->renderClause();
 		$orderBy = $this->renderOrder();
 		$limit = $this->renderLimit();
+//		echo $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
+//		exit();
 
 		return $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
 	}

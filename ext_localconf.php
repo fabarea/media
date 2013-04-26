@@ -3,9 +3,15 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-// register special TCE tx_media processing
-#$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:media/Classes/Hooks/TCE.php:&Tx_Media_Hooks_TCE';
+# Activate hook for secure download for Frontend. But only if EXT:naw_securedl is loaded
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('naw_securedl')) {
+	$mediaPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media');
+	require_once($mediaPath . 'Resources/Private/Php/user_secure_download.php');
 
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/naw_securedl/class.tx_nawsecuredl_output.php']['preOutput'][] = 'user_secure_download';
+}
+
+# Configuration for RTE
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkMaker'] = array();
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkMaker']['objectReference'] = 'EXT:' . $_EXTKEY . '/Resources/HtmlArea/LinkMaker/class.tx_rtehtmlarea_linkmaker.php:&tx_rtehtmlarea_linkmaker';
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkMaker']['addIconsToSkin'] = 1;

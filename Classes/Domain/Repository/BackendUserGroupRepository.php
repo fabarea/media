@@ -25,53 +25,49 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  ***************************************************************/
 
 /**
- * Repository for accessing categories
+ * Repository for accessing Backend User Group
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository {
+class BackendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\BackendUserGroupRepository {
 
 	/**
-	 * Find related categories given a file uid
+	 * Find related Backend User Groups given a file uid.
 	 *
-	 * @param int $uid
-	 * @param string $objectType
+	 * @param int|object $file
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
 	 */
-	public function findRelated($uid, $objectType = 'sys_file') {
+	public function findRelated($file) {
 
 		// note 1: FAL is not using the persistence layer of Extbase
 		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
 		// note 2: mm query is not implemented in Extbase
 		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT * FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = '%s')";
+		$sql = "SELECT * FROM be_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_begroups_mm WHERE uid_local = %s)";
 		$statement = sprintf($sql,
-			$uid,
-			$objectType
+			is_object($file) && method_exists($file, 'getUid') ? $file->getUid() : $file
 		);
 
 		return $this->createQuery()->statement($statement)->execute();
 	}
 
 	/**
-	 * Count related categories given a file uid.
+	 * Count related Backend User Groups related to the File.
 	 *
-	 * @param int $uid
-	 * @param string $objectType
+	 * @param int|object $file
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
 	 */
-	public function countRelated($uid, $objectType = 'sys_file') {
+	public function countRelated($file) {
 
 		// note 1: FAL is not using the persistence layer of Extbase
 		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
 		// note 2: mm query is not implemented in Extbase
 		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT count(*) AS count FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = '%s')";
+		$sql = "SELECT count(*) AS count FROM be_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_begroups_mm WHERE uid_local = %s)";
 		$statement = sprintf($sql,
-			$uid,
-			$objectType
+			is_object($file) && method_exists($file, 'getUid') ? $file->getUid() : $file
 		);
 
 		/** @var $databaseHandler \TYPO3\CMS\Core\Database\DatabaseConnection */

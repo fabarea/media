@@ -1,5 +1,6 @@
 <?php
-namespace TYPO3\CMS\Media\Renderer\Grid;
+namespace TYPO3\CMS\Media\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -24,23 +25,13 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering status for the Grid.
+ * Category object for Frontend User Group
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Status implements \TYPO3\CMS\Media\Renderer\RendererInterface {
+class FrontendUserGroup extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup {
 
-	/**
-	 * Render status for the Grid.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return string
-	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$fieldService = \TYPO3\CMS\Media\Utility\TcaField::getService();
-		return $fieldService->getLabelForItem('status', $asset->getStatus());
-	}
 }
 ?>

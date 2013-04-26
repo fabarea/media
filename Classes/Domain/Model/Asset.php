@@ -187,6 +187,16 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $width;
 
 	/**
+	 * @var array
+	 */
+	protected $frontendUserGroups;
+
+	/**
+	 * @var array
+	 */
+	protected $backendUserGroups;
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Domain\Model\Category[]
 	 */
 	protected $categories;
@@ -213,6 +223,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	public function __construct(array $assetData = array(), $storage = NULL) {
 		parent::__construct($assetData, $storage);
 
+		// Not in Extbase context...
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
@@ -904,6 +915,46 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	public function addVariant($variant) {
 		// @todo persist me!
 		$this->variants[] = $variant;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFrontendUserGroups() {
+		if (is_null($this->frontendUserGroups)) {
+
+			/** @var $frontendUserGroupRepository \TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository */
+			$frontendUserGroupRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository');
+			$this->frontendUserGroups = $frontendUserGroupRepository->findRelated($this->getUid());
+		}
+		return $this->frontendUserGroups;
+	}
+
+	/**
+	 * @param array $frontendUserGroups
+	 */
+	public function setFrontendUserGroups($frontendUserGroups) {
+		$this->frontendUserGroups = $frontendUserGroups;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getBackendUserGroups() {
+		if (is_null($this->backendUserGroups)) {
+
+			/** @var $backendUserGroupRepository \TYPO3\CMS\Media\Domain\Repository\BackendUserGroupRepository */
+			$backendUserGroupRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\BackendUserGroupRepository');
+			$this->backendUserGroups = $backendUserGroupRepository->findRelated($this->getUid());
+		}
+		return $this->backendUserGroups;
+	}
+
+	/**
+	 * @param array $backendUserGroups
+	 */
+	public function setBackendUserGroups($backendUserGroups) {
+		$this->backendUserGroups = $backendUserGroups;
 	}
 }
 ?>

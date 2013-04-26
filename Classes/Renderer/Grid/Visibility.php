@@ -24,7 +24,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the preview of a media
+ * Class rendering visibility for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
 class Visibility implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 
 	/**
-	 * Render the hidden column of a media.
+	 * Render visibility for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string

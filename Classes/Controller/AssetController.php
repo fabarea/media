@@ -271,7 +271,8 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 		/** @var $asset \TYPO3\CMS\Media\Domain\Model\Asset */
 		$asset = $this->assetRepository->findByUid($asset);
 
-		if (is_object($asset) && $asset->exists() && $asset->checkActionPermission('read')) {
+		// Consider also adding check "$asset->checkActionPermission('read')" <- should be handled in the Grid as well
+		if (is_object($asset) && $asset->exists()) {
 			header('Content-Description: File Transfer');
 			header('Content-Type: ' . $asset->getMimeType());
 			header('Content-Disposition: inline; filename="' . $asset->getName() . '"');

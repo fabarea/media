@@ -24,7 +24,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the preview of a media
+ * Class rendering title for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
 class Title implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 
 	/**
-	 * Render a preview of an media.
+	 * Render title for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string

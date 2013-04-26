@@ -24,7 +24,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the category of a media in the grid
+ * Class rendering category for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
 class Category implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 
 	/**
-	 * Render a categories for a media
+	 * Render category for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
@@ -41,7 +41,8 @@ class Category implements \TYPO3\CMS\Media\Renderer\RendererInterface {
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
 
 		$result = '';
-		// We are force to convert to array to be sure of the result. E.g. method isValid is not reliable.
+		// We are force to convert to array to be sure of the result.
+		// Method "isValid" from QueryResult can not be used here.
 		$categories = $asset->getCategories()->toArray();
 		if (!empty($categories)) {
 			$template = '<li style="list-style: disc">%s</li>';

@@ -154,8 +154,8 @@
 			<trans-unit id="visibility_abbreviated">
 				<source>Vis.</source>
 			</trans-unit>
-			<trans-unit id="permission">
-				<source>Permission</source>
+			<trans-unit id="permissions">
+				<source>Permissions</source>
 			</trans-unit>
 			<trans-unit id="create_link">
 				<source>Create link</source>

@@ -26,6 +26,8 @@ CREATE TABLE sys_file (
 	categories int(11) NOT NULL default '0',
 	variants int(11) unsigned DEfAULT '0' NOT NULL,
 	is_variant tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	fe_groups int(11) unsigned DEfAULT '0' NOT NULL,
+	be_groups int(11) unsigned DEfAULT '0' NOT NULL,
 
 	# TEXT + IMAGE + VIDEO
 	# 21 cm, 29.7 cm: A4
@@ -61,6 +63,32 @@ CREATE TABLE sys_file (
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+);
+
+#
+# Table structure for table 'sys_file_fegroups_mm'
+#
+CREATE TABLE sys_file_fegroups_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'sys_file_begroups_mm'
+#
+CREATE TABLE sys_file_begroups_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );
 
 CREATE TABLE sys_file_variants (
