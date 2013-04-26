@@ -104,39 +104,6 @@
 				<source>alternative variants (other types, preview images, ...)</source>
 			</trans-unit>
 
-			<trans-unit id="tx_media_collection">
-				<source>Collection</source>
-			</trans-unit>
-			<trans-unit id="tx_media_collection.collection_name">
-				<source>Collection Name</source>
-			</trans-unit>
-			<trans-unit id="tx_media_collection.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_media_collection.visibility">
-				<source>Visibility</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter">
-				<source>Filter</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter.filter_name">
-				<source>Filter Name</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter.criteria">
-				<source>Criteria</source>
-			</trans-unit>
-
-			<trans-unit id="tx_media_file">
-				<source>File</source>
-			</trans-unit>
-
-			<trans-unit id="tx_media_file.name">
-				<source>Name</source>
-			</trans-unit>
-
 			<trans-unit id="sys_file_variants">
 				<source>variant references between sys_files</source>
 			</trans-unit>

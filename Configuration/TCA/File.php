@@ -197,7 +197,7 @@ $columns = array(
 	),
 	'title' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.title',
+		'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_file.title',
 		'config' => array(
 			'type' => 'input',
 			'size' => 255,
@@ -205,8 +205,8 @@ $columns = array(
 		)
 	),
 	'description' => array(
-		'exclude' => 1,
-		'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.description',
+		'exclude' => 0,
+		'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_file.description',
 		'config' => array(
 			'type' => 'text',
 			'cols' => 40,

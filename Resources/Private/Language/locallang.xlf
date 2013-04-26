@@ -34,45 +34,6 @@
 			<trans-unit id="sys_file.caption">
 				<source>Caption</source>
 			</trans-unit>
-			<trans-unit id="tx_media_collection">
-				<source>Collection</source>
-			</trans-unit>
-			<trans-unit id="tx_media_collection.collection_name">
-				<source>Collection name</source>
-			</trans-unit>
-			<trans-unit id="tx_media_collection.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_media_collection.visibility">
-				<source>Visibility</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter">
-				<source>Filter</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter.filter_name">
-				<source>Filter name</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter.description">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_media_filter.criteria">
-				<source>Filter criteria</source>
-			</trans-unit>
-			<trans-unit id="tx_media_file">
-				<source>Dummy for sys_file</source>
-			</trans-unit>
-			<trans-unit id="tx_media_file.name">
-				<source>Name</source>
-			</trans-unit>
-			<trans-unit id="tx_media_mimetype">
-				<source>MimeType</source>
-			</trans-unit>
-			<trans-unit id="tx_media_mimetype.mime_type">
-				<source>MIME type</source>
-			</trans-unit>
-			<trans-unit id="tx_media_mimetype.mime_type_name">
-				<source>MIME type name</source>
-			</trans-unit>
 			<trans-unit id="sys_file.category">
 				<source>Category</source>
 			</trans-unit>
@@ -113,19 +74,19 @@
 				<source>Media "{0}" has been deleted</source>
 			</trans-unit>
 			<trans-unit id="message-mass-deleted-singular">
-				<source>{0} item has been deleted</source>
+				<source>{0} item deleted</source>
 			</trans-unit>
 			<trans-unit id="message-mass-deleted-plural">
-				<source>{0} items have been deleted</source>
+				<source>{0} items deleted</source>
 			</trans-unit>
 			<trans-unit id="confirm-delete">
 				<source>Are you sure to delete "{0}"?</source>
 			</trans-unit>
 			<trans-unit id="confirm-mass-delete-singular">
-				<source>{0} item has been selected. Are you sure you want to delete it?</source>
+				<source>Are you sure you want to delete {0} item?</source>
 			</trans-unit>
 			<trans-unit id="confirm-mass-delete-plural">
-				<source>{0} items have been selected. Are you sure you want to delete them?</source>
+				<source>Are you sure you want to delete {0} items?</source>
 			</trans-unit>
 			<trans-unit id="message-updated">
 				<source>Media "{0}" updated with success</source>
