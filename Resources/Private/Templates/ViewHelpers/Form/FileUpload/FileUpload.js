@@ -17,6 +17,9 @@ $(document).ready(function () {
 			allowedExtensions: ['%s'],
 			sizeLimit: '%s' // bytes
 		},
+		showMessage: function (message) {
+			bootbox.alert(message);
+		},
 		text: {
 			uploadButton: '<i class="icon-upload icon-white"></i> ' + Media.translate('upload_files')
 		},

@@ -30,6 +30,11 @@ namespace TYPO3\CMS\Media\Utility;
 class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $extensionKey = 'media';
+
+	/**
 	 * @var array
 	 */
 	protected $settings = array();
@@ -73,14 +78,13 @@ class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 		'image_medium' => '760x760',
 		'image_large' => '1200x1200',
 		'image_original' => '1920x1920',
-		'mime_type_allowed' => '',
 		'default_categories' => '',
+		'extension_allowed_file_type_1' => 'txt, html',
+		'extension_allowed_file_type_2' => 'jpg, jpeg, bmp, png, tiff, tif, gif, eps',
+		'extension_allowed_file_type_3' => 'mp3, mp4, m4a, wma, f4a',
+		'extension_allowed_file_type_4' => 'mov, avi, mpeg, mpg, mp4, m4v, flv, f4v, webm, wmv, ogv, 3gp',
+		'extension_allowed_file_type_5' => 'doc, docx, dotx, ppt, pptx, pps, ppsx, odt, xls, xlsx, xltx, pdf, zip, rtf, xlt',
 	);
-
-	/**
-	 * @var string
-	 */
-	protected $extensionKey = 'media';
 
 	/**
 	 * Returns a setting key.

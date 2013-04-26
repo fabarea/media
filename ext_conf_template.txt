@@ -4,17 +4,14 @@ updateMessage=0
 # cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderStorage]; label = Select Storage: Defines in what storage files are going to be stored. Important!! Consider starting with an empty storage for a new installation. Create a new one next to the auto-created "fileadmin" by clicking "List" > "Top Page (uid = 0)" > "File storage" and create a new file storage there, e.g "resources/".
 storage=1
 
-# cat=basic//; type=string; label= Comma separated list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
+# cat=basic//; type=string; label= Comma list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
 media_folders=
 
-# cat=basic//; type=string; label= Comma separated list of Category pages (pid): Limit categories to a range of pages. If not set all categories will be taken into account.
+# cat=basic//; type=string; label= Comma list of Category pages (pid): Limit categories to a range of pages. If not set all categories will be taken into account.
 category_folders=
 
-# cat=basic//; type=string; label= Comma separated list of Categories (uid) on upload: Apply default categories when a file get uploaded. There is not check whether the Category exists, make sure to enter valid uid.
+# cat=basic//; type=string; label= Comma list of Categories applied upon upload (uid): Apply default categories when a file get uploaded. There is not check whether the Category exists, make sure to enter valid uid.
 default_categories=
-
-## cat=basic//; type=string; label= Mime type allowed : List of files which are are allowed to be uploaded identified by their mime type. (@todo implement me! Has not effect yet.)
-mime_type_allowed = image/*,audio/*,video/*,application/*,text/plain,text/html
 
 ###################### Mount point ######################
 
@@ -38,7 +35,7 @@ mount_point_for_file_type_5 = 0
 
 ###################### Image size ######################
 
-# cat=image size//1; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the list view.
+# cat=image size//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the list view.
 image_thumbnail = 100x100
 
 # cat=image size//; type=string; label= Maximum size of mini image: Define the max width and height of a mini image.
@@ -55,3 +52,23 @@ image_large = 1200x1200
 
 # cat=image size//; type=string; label= Maximum size of original image: Limit by resizing the original image being uploaded. This can be useful if editor upload a big images not suitable for the web. Set to 0 for no file size restriction.
 image_original = 1920x1920
+
+###################### Security ######################
+
+## cat=security//3; type=boolean; label= Activate BE User permission: By default all files are listed in the BE module. If this option is set, restrict file access according to permission for a BE User. Does not apply to admin Users. (Not fully implemented yet!)
+permission = 0
+
+## cat=security//; type=string; label= Comma list of allowed extension for text upload: List of extensions which are allowed to be uploaded as text.
+extension_allowed_file_type_1 = txt, html
+
+## cat=security//; type=string; label= Comma list of allowed extension for image upload: List of extensions which are allowed to be uploaded as image.
+extension_allowed_file_type_2 = jpg, jpeg, bmp, png, tiff, tif, gif, eps
+
+## cat=security//; type=string; label= Comma list of allowed extension for audio upload: List of extensions which are allowed to be uploaded as audio.
+extension_allowed_file_type_3 = mp3, mp4, m4a, wma, f4a
+
+## cat=security//; type=string; label= Comma list of allowed extension for video upload: List of extensions which are allowed to be uploaded as video.
+extension_allowed_file_type_4 = mov, avi, mpeg, mpg, mp4, m4v, flv, f4v, webm, wmv, ogv, 3gp
+
+## cat=security//; type=string; label= Comma list of allowed extension for application upload: List of extensions which are allowed to be uploaded as application.
+extension_allowed_file_type_5 = doc, docx, dotx, ppt, pptx, pps, ppsx, odt, xls, xlsx, xltx, pdf, zip, rtf, xlt

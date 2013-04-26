@@ -35,11 +35,6 @@ namespace TYPO3\CMS\Media\FileUpload;
 class UploadManager {
 
 	/**
-	 * @var array
-	 */
-	protected $allowedExtensions;
-
-	/**
 	 * @var int|NULL|string
 	 */
 	protected $sizeLimit;
@@ -62,12 +57,9 @@ class UploadManager {
 	protected $inputName = 'qqfile';
 
 	/**
-	 * @param array $allowedExtensions; defaults to an empty array
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadManager
 	 */
-	function __construct(array $allowedExtensions = array()) {
-
-		$this->allowedExtensions = $allowedExtensions;
+	function __construct() {
 
 		// Initialize the upload folder for file transfer and create it if not yet existing
 		$this->uploadFolder = PATH_site . 'typo3temp/pics';
@@ -210,10 +202,11 @@ class UploadManager {
 	 * @param string $fileName
 	 */
 	public function checkFileAllowed($fileName) {
+		$allowedExtensions = \TYPO3\CMS\Media\Utility\Permission::getInstance()->getAllowedExtensions();
 
 		$isAllowed = $this->checkFileExtensionPermission($fileName);
 		if (!$isAllowed) {
-			$these = implode(', ', $this->allowedExtensions);
+			$these = implode(', ', $allowedExtensions);
 			$this->throwException('File has an invalid extension, it should be one of ' . $these . '.');
 		}
 	}
@@ -300,20 +293,6 @@ class UploadManager {
 	 */
 	public function throwException($message) {
 		throw new \TYPO3\CMS\Media\Exception\FailedFileUploadException($message, 1357510420);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getAllowedExtensions() {
-		return $this->allowedExtensions;
-	}
-
-	/**
-	 * @param array $allowedExtensions
-	 */
-	public function setAllowedExtensions($allowedExtensions) {
-		$this->allowedExtensions = $allowedExtensions;
 	}
 
 	/**

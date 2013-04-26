@@ -77,7 +77,6 @@ class UploadManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			array('uploadFolder', uniqid()),
 			array('inputName', uniqid()),
 			array('sizeLimit', rand(10,100)),
-			array('allowedExtensions', array(uniqid())),
 		);
 	}
 

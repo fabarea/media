@@ -44,6 +44,11 @@ class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 	protected $callBack;
 
 	/**
+	 * @var \TYPO3\CMS\Core\Resource\File
+	 */
+	protected $fileObject;
+
+	/**
 	 * @return \TYPO3\CMS\Media\Form\FileUpload
 	 */
 	public function __construct() {
@@ -73,6 +78,11 @@ EOF;
 	 */
 	public function render() {
 
+		// Instantiate the file object for the whole class if possible.
+		if ($this->getValue()) {
+			$this->fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($this->getValue());
+		}
+
 		// @todo remove me if not used anymore after legacy upload is implemented.
 //		if (! $this->getName()) {
 //			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('Missing value for property "name" for text field', 1356217712);
@@ -93,14 +103,12 @@ EOF;
 	 */
 	protected function getThumbnail() {
 		$thumbnail = '';
-		if ($this->getValue()) {
-
-			$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($this->getValue());
+		if ($this->fileObject) {
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
 			$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
 			$thumbnail = $thumbnailService
-				->setFile($fileObject)
+				->setFile($this->fileObject)
 				->doWrap(TRUE)
 				->create();
 		}
@@ -133,8 +141,7 @@ EOF;
 	 * @return string
 	 */
 	 protected function getAllowedExtension() {
-		// @todo improve me to serve only allowed extension corresponding to the media type. Note to Fabien: get some source from EXT:ecomedias
-		$extensions = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']);
+		$extensions = \TYPO3\CMS\Media\Utility\Permission::getInstance()->getAllowedExtensions();
 		return implode("','", $extensions);
 	}
 
