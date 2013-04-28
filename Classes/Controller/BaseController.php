@@ -63,7 +63,8 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @return \TYPO3\CMS\Media\QueryElement\Order
 	 */
 	protected function createOrderObject() {
-		$order = array();
+		// Default sort
+		$order['uid'] = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
 
 		// Retrieve a possible id of the column from the request
 		$columnPosition = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('iSortCol_0');

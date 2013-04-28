@@ -25,7 +25,7 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Renderer\Grid\Category.
+ * Test case for class \TYPO3\CMS\Media\Grid\Category.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -34,12 +34,12 @@
 class CategoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Renderer\Grid\Category
+	 * @var \TYPO3\CMS\Media\Grid\Category
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Renderer\Grid\Category();
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Category();
 	}
 
 	public function tearDown() {

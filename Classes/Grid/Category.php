@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Renderer\Grid;
+namespace TYPO3\CMS\Media\Grid;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,26 +24,35 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering title for the Grid.
+ * Class rendering category for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Title implements \TYPO3\CMS\Media\Renderer\RendererInterface {
+class Category implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 	/**
-	 * Render title for the Grid.
+	 * Render category for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$template = '%s <br /><span class="text-light">%s</span>';
-		return sprintf($template,
-			$asset->getTitle(),
-			$asset->getDescription() // @todo shorten text if too long
-		);
+
+		$result = '';
+		// We are force to convert to array to be sure of the result.
+		// Method "isValid" from QueryResult can not be used here.
+		$categories = $asset->getCategories()->toArray();
+		if (!empty($categories)) {
+			$template = '<li style="list-style: disc">%s</li>';
+			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
+			foreach ($asset->getCategories() as $category) {
+				$result .= sprintf($template, $category->getTitle());
+			}
+			$result = sprintf('<ul>%s</ul>', $result);
+		}
+		return $result;
 	}
 }
 ?>

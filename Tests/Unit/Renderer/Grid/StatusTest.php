@@ -25,7 +25,7 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Renderer\Grid\Status.
+ * Test case for class \TYPO3\CMS\Media\Grid\Status.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -34,12 +34,12 @@
 class StatusTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Renderer\Grid\Status
+	 * @var \TYPO3\CMS\Media\Grid\Status
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Renderer\Grid\Status();
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Status();
 	}
 
 	public function tearDown() {

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Renderer;
+namespace TYPO3\CMS\Media\Grid;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,21 +24,23 @@ namespace TYPO3\CMS\Media\Renderer;
  ***************************************************************/
 
 /**
- * Interface dealing with rendering a media in someway.
+ * Class rendering status for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-interface RendererInterface {
+class Status implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 	/**
-	 * Render a media in someway.
+	 * Render status for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL);
-
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+		$fieldService = \TYPO3\CMS\Media\Utility\TcaField::getService();
+		return $fieldService->getLabelForItem('status', $asset->getStatus());
+	}
 }
 ?>

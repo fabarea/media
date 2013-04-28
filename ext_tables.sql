@@ -3,6 +3,10 @@
 #
 CREATE TABLE sys_file (
 
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l18n_parent int(11) DEFAULT '0' NOT NULL,
+	l18n_diffsource mediumblob NOT NULL,
+
 	status varchar(24) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
@@ -22,6 +26,7 @@ CREATE TABLE sys_file (
 	latitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 	longitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 	ranking int(11) unsigned DEFAULT '0',
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	note text NOT NULL,
 	categories int(11) NOT NULL default '0',
 	variants int(11) unsigned DEfAULT '0' NOT NULL,
@@ -52,7 +57,6 @@ CREATE TABLE sys_file (
 	# TEXT + AUDIO + VIDEO
 	# document language
 	language varchar(12) DEFAULT '' NOT NULL,
-
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

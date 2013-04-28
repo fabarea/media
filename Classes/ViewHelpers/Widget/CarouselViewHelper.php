@@ -47,9 +47,11 @@ class CarouselViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetView
 	 * @param array|string $categories categories to be taken as filter.
 	 * @param int $interval interval value of time between the slides. "O" means no automatic sliding.
 	 * @param bool $caption whether to display the title and description or not.
+	 * @param string $sort the field name to sort out.
+	 * @param string $order the direction to sort.
 	 * @return string
 	 */
-	public function render($width = 600, $height = 600, $categories = array(), $interval = 0, $caption = TRUE) {
+	public function render($width = 600, $height = 600, $categories = array(), $interval = 0, $caption = TRUE, $sort = '', $order = 'ASC') {
 		return $this->initiateSubRequest();
 	}
 }

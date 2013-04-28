@@ -65,12 +65,24 @@ class CarouselController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetCont
 	protected $caption;
 
 	/**
+	 * @var string
+	 */
+	protected $sort;
+
+	/**
+	 * @var string
+	 */
+	protected $order;
+
+	/**
 	 * @return void
 	 */
 	public function initializeAction() {
 		$this->interval = (integer) $this->widgetConfiguration['interval'];
 		$this->height = (integer) $this->widgetConfiguration['height'];
 		$this->width = (integer) $this->widgetConfiguration['width'];
+		$this->sort = (string) $this->widgetConfiguration['sort'];
+		$this->order = (string) $this->widgetConfiguration['order'];
 		$this->caption = strtolower($this->widgetConfiguration['caption'] == 'true') || $this->widgetConfiguration['caption'] == 1 ? TRUE : FALSE;
 
 		$categories = $this->widgetConfiguration['categories'];
@@ -87,13 +99,21 @@ class CarouselController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetCont
 	 */
 	public function indexAction() {
 
+		// Sort case
+		$order = NULL;
+		if ($this->sort) {
+			/** @var $order \TYPO3\CMS\Media\QueryElement\Order */
+			$order = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Order');
+			$order->addOrdering($this->sort, $this->order);
+		}
+
 		/** @var $filter \TYPO3\CMS\Media\QueryElement\Filter */
 		$filter = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Filter');
 
 		foreach ($this->categories as $category) {
 			$filter->addCategory($category);
 		}
-		$images = $this->imageRepository->findFiltered($filter);
+		$images = $this->imageRepository->findFiltered($filter, $order);
 
 		$this->view->assign('images', $images);
 		$this->view->assign('interval', $this->interval);

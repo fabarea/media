@@ -144,7 +144,7 @@ class Query {
 	 */
 	public function renderClause() {
 
-		$clause = 'deleted = 0 AND is_variant = 0';
+		$clause = 'deleted = 0 AND is_variant = 0 AND sys_language_uid = 0';
 
 		/** @var $user \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
 		$user = $GLOBALS['BE_USER'];
@@ -291,8 +291,6 @@ EOF;
 		$clause = $this->renderClause();
 		$orderBy = $this->renderOrder();
 		$limit = $this->renderLimit();
-//		echo $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
-//		exit();
 
 		return $this->databaseHandle->SELECTquery('*', $this->tableName, $clause, $groupBy = '', $orderBy, $limit);
 	}
@@ -306,15 +304,23 @@ EOF;
 		$resource = $this->databaseHandle->sql_query($this->getQuery());
 		$items = array();
 		while ($row = $this->databaseHandle->sql_fetch_assoc($resource)) {
+
+			// Get record overlay if needed
+			if (TYPO3_MODE == 'FE' && $GLOBALS['TSFE']->sys_language_uid > 0) {
+
+				$overlay = \TYPO3\CMS\Media\Utility\Overlays::getOverlayRecords('sys_file', array($row['uid']), $GLOBALS['TSFE']->sys_language_uid);
+				if (!empty($overlay[$row['uid']])) {
+					$key = key($overlay[$row['uid']]);
+					$row = $overlay[$row['uid']][$key];
+				}
+			}
+
 			if (!$this->rawResult) {
 				try {
 					$row = $this->objectFactory->createObject($row, $this->objectType);
 				} catch (\Exception $exception) {
-					\TYPO3\CMS\Core\Utility\GeneralUtility::sysLog(
-						$exception->getMessage(),
-						'media',
-						\TYPO3\CMS\Core\Utility\GeneralUtility::SYSLOG_SEVERITY_WARNING
-					);
+					$logger = \TYPO3\CMS\Media\Utility\Logger::getInstance($this);
+					$logger->warning($exception->getMessage());
 				}
 			}
 			$items[] = $row;

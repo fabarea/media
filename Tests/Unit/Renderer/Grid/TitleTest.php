@@ -25,7 +25,7 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Renderer\Grid\Title.
+ * Test case for class \TYPO3\CMS\Media\Grid\Title.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -34,12 +34,12 @@
 class TitleTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Renderer\Grid\Title
+	 * @var \TYPO3\CMS\Media\Grid\Title
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Renderer\Grid\Title();
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Title();
 	}
 
 	public function tearDown() {

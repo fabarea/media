@@ -103,7 +103,7 @@ class MediaFolder {
 			'perms_user' => 31,
 			'perms_group' => 31,
 			'perms_everybody' => 31,
-			'title' => 'Media',
+			'title' => 'Assets',
 			'doktype' => 254, // folder
 			'module' => 'media',
 			'crdate' => time(),

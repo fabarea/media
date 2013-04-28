@@ -25,7 +25,7 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Renderer\Grid\Visibility.
+ * Test case for class \TYPO3\CMS\Media\Grid\Visibility.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -34,12 +34,12 @@
 class VisibilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Renderer\Grid\Visibility
+	 * @var \TYPO3\CMS\Media\Grid\Visibility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Renderer\Grid\Visibility();
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Visibility();
 	}
 
 	public function tearDown() {

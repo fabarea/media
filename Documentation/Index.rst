@@ -43,14 +43,14 @@ By default, the View Helper generates a Carousel Gallery based on the markup of 
 and is assuming jQuery to be loaded. Syntax is as follows::
 
 	# Note categories attribute can be an array categories="{1,3}"
-	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000"/>
+	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000" sort="sorting" order="desc"/>
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
 
 	# Required attributes:
 	# --------------------
 	#
-	# No attribute is required. However if you don't define a category *all images* from the repository will be taken!!
+	# No attribute is required. However if you don't define a category *all images* will be displayed from the repository. It may take long!!
 
 	# Default values:
 	# ---------------
@@ -69,6 +69,12 @@ and is assuming jQuery to be loaded. Syntax is as follows::
 	#
 	# Whether to display the title and description or not.
 	# caption = true
+	#
+	# The field name to sort out.
+	# sort =
+	#
+	# The direction to sort.
+	# order = asc
 
 
 The underlying template can be overridden by TypoScript. The default configuration looks as::
@@ -83,7 +89,6 @@ The underlying template can be overridden by TypoScript. The default configurati
 			}
 		}
 	}
-
 
 .. _Twitter Bootstrap: http://twitter.github.io/bootstrap/examples/carousel.html
 
@@ -309,7 +314,7 @@ A grid is a list view of records typical of a Backend module. TCA was extended t
 			),
 			'name' => array(
 				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Renderer\Grid\Preview',
+				'renderer' => 'TYPO3\CMS\Media\Grid\Preview',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
 				'wrap' => '<div class="center">|</div>',
 			),

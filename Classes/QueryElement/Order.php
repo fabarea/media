@@ -49,12 +49,6 @@ class Order  {
 		foreach ($orders as $order => $direction) {
 			$this->addOrdering($order, $direction);
 		}
-
-		if (empty($this->orderings)) {
-			$this->orderings = array(
-				'uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
-			);
-		}
 	}
 
 	/**

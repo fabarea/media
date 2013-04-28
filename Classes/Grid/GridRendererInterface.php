@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Renderer\Grid;
+namespace TYPO3\CMS\Media\Grid;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,34 +24,21 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering the preview of a media in the grid
+ * Interface dealing with rendering a media in someway.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Preview implements \TYPO3\CMS\Media\Renderer\RendererInterface {
+interface GridRendererInterface {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\Thumbnail
-	 */
-	protected $thumbnailService;
-
-	/**
-	 * @return \TYPO3\CMS\Media\Renderer\Grid\Preview
-	 */
-	public function __construct() {
-		$this->thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
-	}
-
-	/**
-	 * Render a preview of an media.
+	 * Render a media in someway.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		return $this->thumbnailService->setFile($asset)->doWrap()->create();
-	}
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL);
+
 }
 ?>

@@ -25,7 +25,7 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Renderer\Grid\Permission.
+ * Test case for class \TYPO3\CMS\Media\Grid\Permission.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -34,12 +34,12 @@
 class PermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Renderer\Grid\Permission
+	 * @var \TYPO3\CMS\Media\Grid\Permission
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Renderer\Grid\Permission();
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Permission();
 	}
 
 	public function tearDown() {

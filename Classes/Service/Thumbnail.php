@@ -82,13 +82,22 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 				$className = 'TYPO3\CMS\Media\Service\Thumbnail\ApplicationThumbnail';
 		}
 
-		/** @var $instance \TYPO3\CMS\Media\Service\ThumbnailInterface */
-		$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
-		return $instance->setFile($this->file)
-			->setConfiguration($this->getConfiguration())
-			->setAttributes($this->getAttributes())
-			->doWrap($this->wrap)
-			->create();
+		/** @var $serviceInstance \TYPO3\CMS\Media\Service\ThumbnailInterface */
+		$serviceInstance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
+
+		$thumbnail = '';
+		if ($this->file->exists()) {
+			$thumbnail = $serviceInstance->setFile($this->file)
+				->setConfiguration($this->getConfiguration())
+				->setAttributes($this->getAttributes())
+				->doWrap($this->wrap)
+				->create();
+		} else {
+			$logger = \TYPO3\CMS\Media\Utility\Logger::getInstance($this);
+			$logger->warning(sprintf('Resource not found for File uid "%s" at %s', $this->file->getUid(), $this->file->getIdentifier()));
+		}
+
+		return $thumbnail;
 	}
 
 	/**

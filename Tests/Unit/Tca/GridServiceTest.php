@@ -172,7 +172,7 @@ class GridServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function getTheRendererOfColumnName() {
-		$expected = 'TYPO3\CMS\Media\Renderer\Grid\Preview';
+		$expected = 'TYPO3\CMS\Media\Grid\Preview';
 		$this->assertEquals($expected, $this->fixture->getRenderer('name'));
 	}
 

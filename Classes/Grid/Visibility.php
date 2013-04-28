@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Renderer\Grid;
+namespace TYPO3\CMS\Media\Grid;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,23 +24,32 @@ namespace TYPO3\CMS\Media\Renderer\Grid;
  ***************************************************************/
 
 /**
- * Class rendering status for the Grid.
+ * Class rendering visibility for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Status implements \TYPO3\CMS\Media\Renderer\RendererInterface {
+class Visibility implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 	/**
-	 * Render status for the Grid.
+	 * Render visibility for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$fieldService = \TYPO3\CMS\Media\Utility\TcaField::getService();
-		return $fieldService->getLabelForItem('status', $asset->getStatus());
+		$template = '<img src="%s" alt="%s" title="%s"/>';
+		$icon = sprintf(
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/hidden_%s.png' ,
+			$asset->getProperty('hidden')
+		);
+		$imageTag = sprintf($template,
+			$icon,
+			$asset->getProperty('hidden') == 0 ? 'visible' : 'hidden',
+			$asset->getProperty('hidden') == 0 ? 'visible' : 'hidden'
+		);
+		return $imageTag;
 	}
 }
 ?>
