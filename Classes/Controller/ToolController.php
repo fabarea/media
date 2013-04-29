@@ -81,7 +81,7 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		$this->view->assign('missingFiles', $missingFiles);
 
 		// Detect duplicate records
-		$resource = $this->databaseHandler->sql_query('SELECT identifier FROM sys_file WHERE deleted = 0 GROUP By identifier, storage Having COUNT(*) > 1');
+		$resource = $this->databaseHandler->sql_query('SELECT identifier FROM sys_file WHERE deleted = 0 AND sys_language_uid = 0 GROUP BY identifier, storage Having COUNT(*) > 1');
 		$duplicatedIdentifiers = array();
 		while($row = $this->databaseHandler->sql_fetch_assoc($resource)) {
 			$records = $this->databaseHandler->exec_SELECTgetRows('uid', 'sys_file', sprintf('deleted = 0 AND identifier = "%s"', $row['identifier']));
