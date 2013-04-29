@@ -77,7 +77,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean    false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[filter][type]=5&tx_media_user_mediam1[rtePlugin]=linkMaker';
+		var url = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[rtePlugin]=linkMaker';
 		var params = new Object();
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('a');
