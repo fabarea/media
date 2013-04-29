@@ -89,6 +89,9 @@ class VideoRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 		// Populate the database with records
 		$this->populateFileTable();
 		$this->populateFileTableWithVideos();
+
+		// Disable permission
+		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('permission', FALSE);
 	}
 
 	public function tearDown() {

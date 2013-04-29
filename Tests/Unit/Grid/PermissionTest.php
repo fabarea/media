@@ -49,11 +49,11 @@ class PermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderWithPermissionEqualsToOneReturnANotEmptyString() {
+	public function renderAssetWithNoPermissionReturnsEmpty() {
 		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
 		$asset->setIndexIfNotIndexed(FALSE);
 		$actual = $this->fixture->render($asset);
-		$this->assertNotEmpty($actual);
+		$this->assertEmpty($actual);
 	}
 
 }

@@ -187,12 +187,12 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $width;
 
 	/**
-	 * @var array
+	 * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroups[]
 	 */
 	protected $frontendUserGroups;
 
 	/**
-	 * @var array
+	 * @var \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroups[]
 	 */
 	protected $backendUserGroups;
 
@@ -204,7 +204,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Variants of the current asset
 	 *
-	 * @var \TYPO3\CMS\Media\Domain\Model\Variant
+	 * @var \TYPO3\CMS\Media\Domain\Model\Variant[]
 	 */
 	protected $variants;
 
@@ -844,13 +844,13 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 		if (is_null($this->categories)) {
 			/** @var $categoryRepository \TYPO3\CMS\Media\Domain\Repository\CategoryRepository */
 			$categoryRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\CategoryRepository');
-			$this->categories = $categoryRepository->findRelated($this->getUid());
+			$this->categories = $categoryRepository->findRelated($this);
 		};
 		return $this->categories;
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category[]
+	 * @param array $categories
 	 * @return void
 	 */
 	public function setCategories($categories) {
@@ -901,7 +901,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Media\Domain\Model\Variant[] $variants
+	 * @param array $variants
 	 * @return void
 	 */
 	public function setVariants($variants) {
@@ -918,14 +918,14 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @return array
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroups[]
 	 */
 	public function getFrontendUserGroups() {
 		if (is_null($this->frontendUserGroups)) {
 
 			/** @var $frontendUserGroupRepository \TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository */
 			$frontendUserGroupRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository');
-			$this->frontendUserGroups = $frontendUserGroupRepository->findRelated($this->getUid());
+			$this->frontendUserGroups = $frontendUserGroupRepository->findRelated($this);
 		}
 		return $this->frontendUserGroups;
 	}
@@ -938,14 +938,14 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @return array
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroups[]
 	 */
 	public function getBackendUserGroups() {
 		if (is_null($this->backendUserGroups)) {
 
 			/** @var $backendUserGroupRepository \TYPO3\CMS\Media\Domain\Repository\BackendUserGroupRepository */
 			$backendUserGroupRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\BackendUserGroupRepository');
-			$this->backendUserGroups = $backendUserGroupRepository->findRelated($this->getUid());
+			$this->backendUserGroups = $backendUserGroupRepository->findRelated($this);
 		}
 		return $this->backendUserGroups;
 	}

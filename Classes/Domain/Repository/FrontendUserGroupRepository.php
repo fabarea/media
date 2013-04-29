@@ -41,13 +41,14 @@ class FrontendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\F
 	 */
 	public function findRelated($file) {
 
+
 		// note 1: FAL is not using the persistence layer of Extbase
 		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
 		// note 2: mm query is not implemented in Extbase
 		//         => not possible $query = $this->createQuery();
 		$sql = "SELECT * FROM fe_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_fegroups_mm WHERE uid_local = %s)";
 		$statement = sprintf($sql,
-			is_object($file) && method_exists($file, 'getUid') ? $file->getUid() : $file
+			$this->getFileUid($file)
 		);
 
 		return $this->createQuery()->statement($statement)->execute();
@@ -67,7 +68,7 @@ class FrontendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\F
 		//         => not possible $query = $this->createQuery();
 		$sql = "SELECT count(*) AS count FROM fe_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_fegroups_mm WHERE uid_local = %s)";
 		$statement = sprintf($sql,
-			is_object($file) && method_exists($file, 'getUid') ? $file->getUid() : $file
+			$this->getFileUid($file)
 		);
 
 		/** @var $databaseHandler \TYPO3\CMS\Core\Database\DatabaseConnection */
@@ -75,6 +76,32 @@ class FrontendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\F
 		$resource = $databaseHandler->sql_query($statement);
 		$record = $databaseHandler->sql_fetch_assoc($resource);
 		return $record['count'];
+	}
+
+	/**
+	 * Get the file Uid out of mixed $file variable.
+	 *
+	 * @param int|object $file
+	 * @throws \Exception
+	 * @return int
+	 */
+	public function getFileUid($file) {
+
+		// Make sure we can make something out of $file
+		if (is_null($file)) {
+			throw new \Exception('NULL value for variable $file', 1367240003);
+		}
+
+		// Fine the file uid.
+		$fileUid = $file;
+		if (is_object($file) && method_exists($file, 'getUid')) {
+			if ($file->getUid() > 0) {
+				$fileUid = $file->getUid();
+			} else {
+				$fileUid = 0;
+			}
+		}
+		return $fileUid;
 	}
 }
 ?>

@@ -31,7 +31,7 @@
  * @package TYPO3
  * @subpackage media
  */
-class PermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class UtilityPermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Utility\Permission

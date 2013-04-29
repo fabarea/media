@@ -152,6 +152,9 @@ class Query {
 
 		// Add segment to handle BE Permission
 		if (TYPO3_MODE == 'BE' && $settingManagement->get('permission') && !$user->isAdmin()) {
+			if (empty($user->user['usergroup'])) {
+				$user->user['usergroup'] = 0;
+			}
 			$clause .= sprintf(' AND uid IN (SELECT uid_local FROM sys_file_begroups_mm WHERE uid_foreign IN(%s))', $user->user['usergroup']);
 		}
 

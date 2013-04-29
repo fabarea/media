@@ -76,6 +76,9 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 		$this->fakeFileType = rand(100, 200);
 		// Populate the database with records
 		$this->populateFileTable();
+
+		// Disable permission
+		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('permission', FALSE);
 	}
 
 	public function tearDown() {

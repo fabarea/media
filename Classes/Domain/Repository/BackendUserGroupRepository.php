@@ -47,7 +47,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Ba
 		//         => not possible $query = $this->createQuery();
 		$sql = "SELECT * FROM be_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_begroups_mm WHERE uid_local = %s)";
 		$statement = sprintf($sql,
-			is_object($file) && method_exists($file, 'getUid') ? $file->getUid() : $file
+			$this->getFileUid($file)
 		);
 
 		return $this->createQuery()->statement($statement)->execute();
@@ -67,7 +67,7 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Ba
 		//         => not possible $query = $this->createQuery();
 		$sql = "SELECT count(*) AS count FROM be_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_begroups_mm WHERE uid_local = %s)";
 		$statement = sprintf($sql,
-			is_object($file) && method_exists($file, 'getUid') ? $file->getUid() : $file
+			$this->getFileUid($file)
 		);
 
 		/** @var $databaseHandler \TYPO3\CMS\Core\Database\DatabaseConnection */
@@ -75,6 +75,32 @@ class BackendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\Ba
 		$resource = $databaseHandler->sql_query($statement);
 		$record = $databaseHandler->sql_fetch_assoc($resource);
 		return $record['count'];
+	}
+
+	/**
+	 * Get the file Uid out of mixed $file variable.
+	 *
+	 * @param int|object $file
+	 * @throws \Exception
+	 * @return int
+	 */
+	public function getFileUid($file) {
+
+		// Make sure we can make something out of $file
+		if (is_null($file)) {
+			throw new \Exception('NULL value for variable $file', 1367240002);
+		}
+
+		// Fine the file uid.
+		$fileUid = $file;
+		if (is_object($file) && method_exists($file, 'getUid')) {
+			if ($file->getUid() > 0) {
+				$fileUid = $file->getUid();
+			} else {
+				$fileUid = 0;
+			}
+		}
+		return $fileUid;
 	}
 }
 ?>

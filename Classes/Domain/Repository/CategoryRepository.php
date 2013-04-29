@@ -36,20 +36,18 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
 	/**
 	 * Find related categories given a file uid
 	 *
-	 * @param int $uid
-	 * @param string $objectType
+	 * @param int|object $file
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
 	 */
-	public function findRelated($uid, $objectType = 'sys_file') {
+	public function findRelated($file) {
 
 		// note 1: FAL is not using the persistence layer of Extbase
 		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
 		// note 2: mm query is not implemented in Extbase
 		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT * FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = '%s')";
+		$sql = "SELECT * FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = 'sys_file')";
 		$statement = sprintf($sql,
-			$uid,
-			$objectType
+			$this->getFileUid($file)
 		);
 
 		return $this->createQuery()->statement($statement)->execute();
@@ -58,20 +56,18 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
 	/**
 	 * Count related categories given a file uid.
 	 *
-	 * @param int $uid
-	 * @param string $objectType
+	 * @param int|object $file
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
 	 */
-	public function countRelated($uid, $objectType = 'sys_file') {
+	public function countRelated($file) {
 
 		// note 1: FAL is not using the persistence layer of Extbase
 		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
 		// note 2: mm query is not implemented in Extbase
 		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT count(*) AS count FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = '%s')";
+		$sql = "SELECT count(*) AS count FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = 'sys_file')";
 		$statement = sprintf($sql,
-			$uid,
-			$objectType
+			$this->getFileUid($file)
 		);
 
 		/** @var $databaseHandler \TYPO3\CMS\Core\Database\DatabaseConnection */
@@ -79,6 +75,32 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
 		$resource = $databaseHandler->sql_query($statement);
 		$record = $databaseHandler->sql_fetch_assoc($resource);
 		return $record['count'];
+	}
+
+	/**
+	 * Get the file Uid out of mixed $file variable.
+	 *
+	 * @param int|object $file
+	 * @throws \Exception
+	 * @return int
+	 */
+	public function getFileUid($file) {
+
+		// Make sure we can make something out of $file
+		if (is_null($file)) {
+			throw new \Exception('NULL value for variable $file', 1367240005);
+		}
+
+		// Fine the file uid.
+		$fileUid = $file;
+		if (is_object($file) && method_exists($file, 'getUid')) {
+			if ($file->getUid() > 0) {
+				$fileUid = $file->getUid();
+			} else {
+				$fileUid = 0;
+			}
+		}
+		return $fileUid;
 	}
 }
 ?>

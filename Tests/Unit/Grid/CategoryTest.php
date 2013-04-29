@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\Title.
+ * Test case for class \TYPO3\CMS\Media\Grid\Category.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class TitleTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class CategoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\Title
+	 * @var \TYPO3\CMS\Media\Grid\Category
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\Title();
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Category();
 	}
 
 	public function tearDown() {
@@ -49,13 +49,11 @@ class TitleTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderWithTitleEqualsToOneReturnANotEmptyString() {
+	public function renderAssetWithNoCategoryReturnsEmpty() {
 		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
 		$asset->setIndexIfNotIndexed(FALSE);
-		$asset->setTitle(uniqid());
-		$asset->setDescription(uniqid());
 		$actual = $this->fixture->render($asset);
-		$this->assertNotEmpty($actual);
+		$this->assertEmpty($actual);
 	}
 
 }

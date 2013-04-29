@@ -54,7 +54,7 @@ class Title implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 			}
 
 			$result = sprintf($template,
-				\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('flags-' . $defaultFlag),
+				empty($defaultFlag) ? '' : \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('flags-' . $defaultFlag),
 				$asset->getTitle(),
 				$asset->getDescription() // @todo shorten text if too long
 			);
@@ -62,7 +62,7 @@ class Title implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 		// Get the Language Uid checking whether to render flags
 		$languages = \TYPO3\CMS\Media\Utility\Language::getInstance()->getLanguages();
-		if (!empty($languages)) {
+		if (!empty($languages) && $asset->getUid() > 0) {
 
 			foreach ($languages as $language) {
 				$records = \TYPO3\CMS\Media\Utility\Overlays::getOverlayRecords('sys_file', array($asset->getUid()), $language['uid']);

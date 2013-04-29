@@ -59,11 +59,10 @@ class QueryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderOrderReturnsCorrectString() {
+	public function renderOrderWithNoValueReturnsEmpty() {
 		$ordering = new \TYPO3\CMS\Media\QueryElement\Order();
 		$this->fixture->setOrder($ordering);
-		$result = $this->fixture->renderOrder();
-		$this->assertEquals('tstamp DESC, title ASC', $result);
+		$this->assertEmpty($this->fixture->renderOrder());
 	}
 
 	/**

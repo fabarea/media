@@ -91,7 +91,7 @@ class FileUploadTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$method->setAccessible(TRUE);
 		$actual = $method->invoke($this->fixture);
 
-		$expected = "gif','jpg','jpeg','tif','tiff','bmp','pcx','tga','png','pdf','ai";
+		$expected = "txt','html','jpg','jpeg','bmp','png','tiff','tif','gif','eps','mp3','mp4','m4a','wma','f4a','mov','avi','mpeg','mpg','mp4','m4v','flv','f4v','webm','wmv','ogv','3gp','doc','docx','dotx','ppt','pptx','pps','ppsx','odt','xls','xlsx','xltx','pdf','zip','rtf','xlt";
 		$this->assertSame($expected, $actual);
 	}
 
@@ -110,50 +110,5 @@ class FileUploadTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$actual = $method->invokeArgs($this->fixture, array($fakePrefix));
 		$this->assertSame($basePart, $actual);
 	}
-
-//	/** @todo remove me if not used anymore after legacy upload implemented.
-//	 * @test
-//	 *
-//	public function setFakeNameShouldBeReturnedByRendered() {
-//		$field = $this->fixture->setName($this->fakeName)->render();
-//		$needle = sprintf('name="%s"', $this->fakeName);
-//		$this->assertContains($needle, $field);
-//	}
-//
-//	/**
-//	 * @test
-//	 */
-//	public function setFakeNameWithPrefixShouldBeReturnedByRendered() {
-//		$field = $this->fixture
-//			->setName($this->fakeName)
-//			->setPrefix($this->fakePrefix)
-//			->render();
-//		$needle = sprintf('name="%s[%s]"', $this->fakePrefix, $this->fakeName);
-//		$this->assertContains($needle, $field);
-//	}
-//
-//	/**
-//	 * @test
-//	 */
-//	public function renderWithFakeNameSetWillSetId() {
-//		$field = $this->fixture
-//			->setName($this->fakeName)
-//			->setLabel(uniqid('foo'))
-//			->setPrefix($this->fakePrefix)
-//			->render();
-//
-//		$needle = sprintf('id="%s-%s"', $this->fakePrefix, $this->fakeName);
-//		$this->assertContains($needle, $field);
-//		$needle = sprintf('for="%s-%s"', $this->fakePrefix, $this->fakeName);
-//		$this->assertContains($needle, $field);
-//	}
-//
-//	/**
-//	 * @test
-//	 */
-//	public function renderFileUploadWithRandomNameContainsInputString() {
-//		$actual = $this->fixture->setName($this->fakeName)->render();
-//		$this->assertContains('<input', $actual);
-//	}
 }
 ?>
