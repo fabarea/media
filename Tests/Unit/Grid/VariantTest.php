@@ -1,16 +1,16 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012
+ *  (c) 2012 Media development team <typo3-project-media@lists.typo3.org>
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
+ *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -25,22 +25,36 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * A class for handling logger
+ * Test case for class \TYPO3\CMS\Media\Grid\Variant.
+ *
+ * @author Fabien Udriot <fabien.udriot@typo3.org>
+ * @package TYPO3
+ * @subpackage media
  */
-class Logger implements \TYPO3\CMS\Core\SingletonInterface {
+class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * Returns a logger class instance.
-	 *
-	 * @param mixed $instance
-	 * @return \TYPO3\CMS\Core\Log\Logger
+	 * @var \TYPO3\CMS\Media\Grid\Variant
 	 */
-	static public function getInstance($instance) {
-		/** @var $loggerManager \TYPO3\CMS\Core\Log\LogManager */
-		$loggerManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager');
+	private $fixture;
 
-		/** @var $logger \TYPO3\CMS\Core\Log\Logger */
-		return $loggerManager->getLogger(get_class($instance));
+	public function setUp() {
+		$this->fixture = new \TYPO3\CMS\Media\Grid\Variant();
 	}
+
+	public function tearDown() {
+		unset($this->fixture);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderAssetWithNoVariantReturnsEmpty() {
+		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
+		$asset->setIndexIfNotIndexed(FALSE);
+		$actual = $this->fixture->render($asset);
+		$this->assertEmpty($actual);
+	}
+
 }
 ?>

@@ -30,19 +30,7 @@ namespace TYPO3\CMS\Media\Grid;
  * @package TYPO3
  * @subpackage media
  */
-class Usage implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
-
-	/**
-	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected $databaseHandler;
-
-	/**
-	 * @return \TYPO3\CMS\Media\Grid\Usage
-	 */
-	public function __construct() {
-		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
-	}
+class Variant implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 	/**
 	 * Render a categories for a media
@@ -54,33 +42,42 @@ class Usage implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 		$result = $_result = '';
 
-		// Get the file references of the asset
-		$records = $this->databaseHandler->exec_SELECTgetRows('*', 'sys_file_reference', 'uid_local = ' . $asset->getUid());
-		if (!empty($records)) {
+		// Get the file variants
+		$variants = $asset->getVariants();
+		if (!empty($variants)) {
 
 			$_template = <<<EOF
 <li title="uid: %s">
-	<a href="alt_doc.php?returnUrl=/typo3/mod.php?M=user_MediaM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a>
-	%s
+	<a href="/%s" class="%s" target="_blank" data-original-uid="%s" data-file-uid="%s" data-public-url="%s" data-time-stamp="%s">%s</a> %s x %s
 </li>
 EOF;
+			// Computes sprite icon.
+			$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET('tx_media_user_mediam1');
+			$icon =  isset($parameters['rtePlugin']) ?
+				\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('extensions-media-variant-link') :
+				\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('extensions-media-variant');
 
-			// assemble reference
-			foreach ($records as $record) {
+			// Compiles templates for each variants.
+			foreach ($variants as $variant) {
 				$_result .= sprintf($_template,
-					$record['uid_foreign'],
-					$record['tablenames'],
-					$record['uid_foreign'],
-					\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-open'),
-					$record['tablenames']
+					$variant->getVariant()->getUid(),
+					$variant->getVariant()->getPublicUrl(),
+					isset($parameters['rtePlugin']) ? 'btn-variant-link' : 'btn-variant',
+					$variant->getOriginal()->getUid(),
+					$variant->getVariant()->getUid(),
+					$variant->getVariant()->getPublicUrl(),
+					$GLOBALS['_SERVER']['REQUEST_TIME'],
+					$icon,
+					$variant->getVariant()->getProperty('width'),
+					$variant->getVariant()->getProperty('height')
 				);
 			}
 
 			// finalize reference assembling
-			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0">%s</ul>';
+			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
 			$result = sprintf($_template,
-				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('references', 'media'),
-				count($records),
+				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('variants', 'media'),
+				count($variants),
 				$_result
 			);
 		}

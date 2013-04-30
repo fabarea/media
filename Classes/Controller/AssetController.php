@@ -51,10 +51,16 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	protected $pageRenderer;
 
 	/**
+	 * @var \TYPO3\CMS\Media\Utility\Setting
+	 */
+	protected $settingsManager;
+
+	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
+		$this->settingsManager = \TYPO3\CMS\Media\Utility\Setting::getInstance();
+		$storageUid = (int) $this->settingsManager->get('storage');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		if (!$storageObject->isOnline()) {
 			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
@@ -136,7 +142,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 		$result['action'] = 'create';
 		$result['asset'] = array('uid' => '','title' => '',);
 
-		$asset['storage'] = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
+		$asset['storage'] = $this->settingsManager->get('storage');
 		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 
 		$assetUid = $this->assetRepository->addAsset($asset);
@@ -337,7 +343,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 				// Only for a new file
 				if (empty($asset['uid'])) {
-					$categoryList = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('default_categories');
+					$categoryList = $this->settingsManager->get('default_categories');
 					$categories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $categoryList);
 					foreach ($categories as $category) {
 						$assetObject->addCategory($category);
@@ -347,8 +353,25 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 				$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
 				$assetObject->updateProperties($properties);
+
 				// Persist the asset
 				$this->assetRepository->updateAsset($assetObject);
+
+				// Check whether Variant should be automatically created upon upload.
+				$variations = \TYPO3\CMS\Media\Utility\SettingVariant::getInstance()->getVariations();
+				if (! empty($variations)) {
+
+					/** @var \TYPO3\CMS\Media\Service\Variant $variantService */
+					$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\Variant');
+
+					foreach ($variations as $variation) {
+						$configuration = array(
+							'width' => $variation['width'],
+							'height' => $variation['height'],
+						);
+						$variantService->create($assetObject, $configuration);
+					}
+				}
 
 				$response = array(
 					'success' => TRUE,

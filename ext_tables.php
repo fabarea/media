@@ -22,12 +22,6 @@ $TCA["sys_file_variants"] = array(
 	),
 );
 
-// Add sprite icon for type Variant
-$icons = array(
-	'variant' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
-);
-\TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons($icons, $_EXTKEY);
-
 if (TYPO3_MODE == 'BE') {
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 		$_EXTKEY,
@@ -48,12 +42,25 @@ if (TYPO3_MODE == 'BE') {
 	);
 }
 
+// Add sprite icon for type Variant
+//\TYPO3\CMS\Backend\Sprite\SpriteManager::addIconSprite()
+\TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
+	array(
+		'variant' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image.png',
+		'variants' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
+		'variant-edit' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
+		'variant-link' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
+	),
+	$_EXTKEY
+);
+
 // Add Media folder type and icon
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon(
 	'pages',
 	'contains-media', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
 
+// Add module icon for Folder
 $TCA['pages']['columns']['module']['config']['items'][] = array(
 	'Media',
 	'media',

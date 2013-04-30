@@ -40,7 +40,7 @@ class ImageDimensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 * @return int
 	 */
 	public function render($preset, $dimension = 'width') {
-		$imageDimension = \TYPO3\CMS\Media\Utility\PresetImageDimension::getInstance()->preset($preset);
+		$imageDimension = \TYPO3\CMS\Media\Utility\SettingImagePreset::getInstance()->preset($preset);
 		if ($dimension == 'width') {
 			$result = $imageDimension->getWidth();
 		} else {

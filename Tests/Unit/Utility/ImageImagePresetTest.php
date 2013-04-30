@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\PresetImageDimension.
+ * Test case for class \TYPO3\CMS\Media\Utility\SettingImagePreset.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class SettingImagePresetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\PresetImageDimension
+	 * @var \TYPO3\CMS\Media\Utility\SettingImagePreset
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\PresetImageDimension();
+		$this->fixture = new \TYPO3\CMS\Media\Utility\SettingImagePreset();
 	}
 
 	public function tearDown() {
@@ -58,10 +58,10 @@ class PresetImageDimensionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function methodPresetReturnInstanceOfPresetImageDimension() {
+	public function methodPresetReturnInstanceOfSettingImagePreset() {
 		$actual = 'image_thumbnail';
 		$object = $this->fixture->preset($actual);
-		$this->assertTrue($object instanceof \TYPO3\CMS\Media\Utility\PresetImageDimension);
+		$this->assertTrue($object instanceof \TYPO3\CMS\Media\Utility\SettingImagePreset);
 	}
 
 	/**

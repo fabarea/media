@@ -87,6 +87,7 @@ Media.Action = {
 	 * @return void
 	 */
 	imageMaker: function () {
+
 		// bind the click handler script to the newly created elements held in the table
 		$('.btn-imageMaker')
 			.bind('click', Media.Action.callForm)
@@ -99,6 +100,18 @@ Media.Action = {
 					.attr('href', $(this).attr('href'))
 					.bind('click', Media.Action.callForm);
 			});
+
+		// Link variant action bind to click event
+		$('.btn-variant-link').click(function (e) {
+			var data = {
+				uid: $(this).data('file-uid'),
+				original: $(this).data('original-uid'),
+				publicUrl: $(this).data('public-url'),
+				timeStamp: $(this).data('time-stamp')
+			};
+			Media.Rte.Popup.createImage(data);
+			e.preventDefault();
+		});
 	},
 
 	/**

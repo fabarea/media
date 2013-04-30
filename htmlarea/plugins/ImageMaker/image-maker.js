@@ -94,7 +94,7 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 		var dimensions = {
 			top: 0,
 			left: 0,
-			width: 1100,
+			width: 1280,
 			height: 800
 		};
 
@@ -117,9 +117,9 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 	insertImage: function (params) {
 		if (params && typeof(params.tag) != "undefined") {
 			// true means this has been a "slidshow" link
-//			if (this.elementNode) {
-//				this.elementNode.parentNode.removeChild(this.elementNode);
-//			}
+			//if (this.elementNode) {
+			//	this.elementNode.parentNode.removeChild(this.elementNode);
+			//}
 			this.editor.insertHTML(params.tag);
 		}
 		return false;

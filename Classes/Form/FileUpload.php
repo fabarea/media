@@ -141,7 +141,7 @@ EOF;
 	 * @return string
 	 */
 	 protected function getAllowedExtension() {
-		$extensions = \TYPO3\CMS\Media\Utility\Permission::getInstance()->getAllowedExtensions();
+		$extensions = \TYPO3\CMS\Media\Utility\SettingPermission::getInstance()->getAllowedExtensions();
 		return implode("','", $extensions);
 	}
 

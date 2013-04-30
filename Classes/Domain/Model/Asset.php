@@ -138,6 +138,11 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * @var string
 	 */
+	protected $extension;
+
+	/**
+	 * @var string
+	 */
 	protected $note;
 
 	/**
@@ -586,6 +591,20 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	 */
 	public function setMimeType($mimeType) {
 		$this->properties['mime_type'] = $mimeType;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getExtension() {
+		return $this->getProperty('extension');
+	}
+
+	/**
+	 * @param string $extension
+	 */
+	public function setExtension($extension) {
+		$this->properties['extension'] = $extension;
 	}
 
 	/**

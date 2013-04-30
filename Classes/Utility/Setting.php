@@ -84,6 +84,7 @@ class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 		'extension_allowed_file_type_3' => 'mp3, mp4, m4a, wma, f4a',
 		'extension_allowed_file_type_4' => 'mov, avi, mpeg, mpg, mp4, m4v, flv, f4v, webm, wmv, ogv, 3gp',
 		'extension_allowed_file_type_5' => 'doc, docx, dotx, ppt, pptx, pps, ppsx, odt, xls, xlsx, xltx, pdf, zip, rtf, xlt',
+		'variations' => '200x200, 300x300',
 	);
 
 	/**

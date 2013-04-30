@@ -25,21 +25,21 @@
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\Configuration.
+ * Test case for class \TYPO3\CMS\Media\Utility\SettingVariant.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class UtilityPermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class SettingVariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\Permission
+	 * @var \TYPO3\CMS\Media\Utility\SettingVariant
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\Permission();
+		$this->fixture = new \TYPO3\CMS\Media\Utility\SettingVariant();
 	}
 
 	public function tearDown() {
@@ -49,34 +49,26 @@ class UtilityPermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function propertyPermissionIsAnArrayNotEmpty() {
-		$this->assertAttributeNotEmpty('permissions', $this->fixture);
+	public function propertySettingVariantIsAnArrayNotEmpty() {
+		$this->assertAttributeNotEmpty('variations', $this->fixture);
 	}
 
 	/**
 	 * @test
 	 */
-	public function returnedTypeIsByDefaultArray() {
-		$expected = 'array';
-		$this->assertSame($expected, $this->fixture->getReturnedType());
+	public function getVariantsReturnsNotEmptyArrayByDefault() {
+		$this->assertNotEmpty($this->fixture->getVariations());
 	}
 
 	/**
 	 * @test
 	 */
-	public function getListOfAllowedExtensionReturnsAnArrayNotEmptyByDefault() {
-		$actual = $this->fixture->getAllowedExtensions();
-		$this->assertInternalType('array', $actual);
-		$this->assertNotEmpty($actual);
+	public function getVariationsReturnsWidthAndHeight() {
+		foreach ($this->fixture->getVariations() as $variation) {
+			$this->assertArrayHasKey('width', $variation);
+			$this->assertArrayHasKey('height', $variation);
+		}
 	}
 
-	/**
-	 * @test
-	 */
-	public function getListOfAllowedExtensionAndSetReturnedTypeStringReturnsStringNotEmpty() {
-		$actual = $this->fixture->returnString()->getAllowedExtensions();
-		$this->assertInternalType('string', $actual);
-		$this->assertNotEmpty($actual);
-	}
 }
 ?>

@@ -44,11 +44,6 @@ class VariantRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	private $lastInsertedUid = 0;
 
 	/**
-	 * @var string
-	 */
-	private $lastInsertedIdentifier = '';
-
-	/**
 	 * @var int
 	 */
 	private $fakeFileType = 0;
@@ -130,7 +125,7 @@ class VariantRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function RemoveByUidAndfindByUidReturnsFalseAsValue() {
+	public function RemoveByUidAndFindByUidReturnsFalseAsValue() {
 		$this->fixture->removeByUid($this->lastInsertedUid);
 		$this->assertFalse($this->fixture->findByUid($this->lastInsertedUid));
 	}
@@ -140,16 +135,25 @@ class VariantRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 */
 	public function createAVariantAndCallMethodAddToInsertIntoTheRepository() {
 		$variant = new \TYPO3\CMS\Media\Domain\Model\Variant();
-		$variantUid = $this->fixture->add($variant);
-		$this->fixture->removeByUid($variantUid);
-		$this->assertGreaterThan($this->lastInsertedUid, $variantUid);
+		$variant = $this->fixture->add($variant);
+		$this->assertGreaterThan($this->lastInsertedUid, $variant->getUid());
+		$this->fixture->removeByUid($variant->getUid());
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByOriginalUidReturnsEqualsTheNumberOfFakeRecords() {
+		$this->assertEquals($this->numberOfFakeRecords, count($this->fixture->findByOriginal($this->fakeOriginalUid)));
 	}
 
 	/**
 	 * @test
 	 */
 	public function findByOriginalReturnsEqualsTheNumberOfFakeRecords() {
-		$this->assertEquals($this->numberOfFakeRecords, count($this->fixture->findByOriginal($this->fakeOriginalUid)));
+		$fileRepository = new \TYPO3\CMS\Core\Resource\FileRepository();
+		$originalFile = $fileRepository->findByUid($this->fakeOriginalUid);
+		$this->assertEquals($this->numberOfFakeRecords, count($this->fixture->findByOriginal($originalFile)));
 	}
 
 	/**
@@ -162,8 +166,19 @@ class VariantRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function findByUidByOriginalReturnsOneVariant() {
-		$this->assertEquals(1, count($this->fixture->findOneByOriginal($this->fakeOriginalUid)));
+	public function findOneByOriginalUidReturnsOneVariant() {
+		$fileRepository = new \TYPO3\CMS\Core\Resource\FileRepository();
+		$originalFile = $fileRepository->findByUid($this->fakeOriginalUid);
+		$this->assertEquals(1, count($this->fixture->findOneByOriginal($originalFile->getUid())));
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByOriginalReturnsOneVariant() {
+		$fileRepository = new \TYPO3\CMS\Core\Resource\FileRepository();
+		$originalFile = $fileRepository->findByUid($this->fakeOriginalUid);
+		$this->assertEquals(1, count($this->fixture->findOneByOriginal($originalFile)));
 	}
 
 	/**
@@ -195,11 +210,10 @@ class VariantRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 		$uids = array();
 		for ($index = 0; $index < 2; $index++) {
-			$this->lastInsertedIdentifier = uniqid();
 			$uids[] = $this->testingFramework->createRecord(
 				'sys_file',
 				array(
-					'identifier' => $this->lastInsertedIdentifier,
+					'identifier' => uniqid(),
 					'type' => $this->fakeFileType,
 					'title' => $this->fakeTitle,
 					'pid' => 0,
@@ -217,7 +231,6 @@ class VariantRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	private function populateVariantTable() {
 
 		for ($index = 0; $index < $this->numberOfFakeRecords; $index++) {
-			$this->lastInsertedIdentifier = uniqid();
 			$this->lastInsertedUid = $this->testingFramework->createRecord(
 				'sys_file_variants',
 				array(

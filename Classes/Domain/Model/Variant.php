@@ -77,8 +77,8 @@ class Variant {
 	 * @return \TYPO3\CMS\Media\Domain\Model\Variant
 	 */
 	public function __construct(array $variantData = array()) {
-		$this->uid = empty($variantData['uid']) ? 0 : $variantData['uid'];
-		$this->pid = empty($variantData['pid']) ? 0 : $variantData['pid'];
+		$this->uid = empty($variantData['uid']) ? 0 : (int) $variantData['uid'];
+		$this->pid = empty($variantData['pid']) ? 0 : (int) $variantData['pid'];
 		$this->role = empty($variantData['role']) ? 1 : $variantData['role'];
 		$this->original = empty($variantData['original']) ? 0 : $variantData['original'];
 		$this->variant = empty($variantData['variant']) ? 0 : $variantData['variant'];

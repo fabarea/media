@@ -117,28 +117,6 @@ The button name references are ``linkmaker`` and ``imagemaker`` respectively whi
 	-> Refer to the documentation of extension HtmlArea for more details.
 
 
-Variants
-=================
-
-@todo add some words here...
-
-Image Optimizer
-=================
-
-When a image get uploaded, there is a post-processing step where the image get the chance to be "optimized".
-By default there are two optimizations run against the image: **resize** and **rotate**. The `resize` processing enables
-to reduce the size of an image if a User uploads a too big image. The maximum size can be configured in the Extension Manager.
-The `rotate` optimizer read the `exif`_ metadata and automatically rotates the image. For the auto-rotation features, credits go to
-Xavier Perseguers where great inspiration was found in one of his `extension`_.
-
-If needed, it is possible to add additional custom optimizers. Notice that the class must implement an interface ``\TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface`` and can be added with following code::
-
-	$uploadedFile = \TYPO3\CMS\Media\FileUpload\ImageOptimizer::getInstance()->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
-
-
-.. _exif: http://en.wikipedia.org/wiki/Exchangeable_image_file_format
-.. _extension: https://forge.typo3.org/projects/extension-image_autoresize/
-
 Domain Model and Repository
 =============================
 
@@ -261,6 +239,68 @@ On the server side, there is an API for file upload which handles transparently 
 
 .. _Fine Uploader: http://fineuploader.com/
 
+
+Image Optimizer API
+=====================
+
+When a image get uploaded, there is a post-processing step where the image get the chance to be "optimized".
+By default there are two optimizations run against the image: **resize** and **rotate**. The `resize` processing enables
+to reduce the size of an image if a User uploads a too big image. The maximum size can be configured in the Extension Manager.
+The `rotate` optimizer read the `exif`_ metadata and automatically rotates the image. For the auto-rotation features, credits go to
+Xavier Perseguers where great inspiration was found in one of his `extension`_.
+
+If needed, it is possible to add additional custom optimizers. Notice that the class must implement an interface ``\TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface`` and can be added with following code::
+
+	$uploadedFile = \TYPO3\CMS\Media\FileUpload\ImageOptimizer::getInstance()->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
+
+
+.. _exif: http://en.wikipedia.org/wiki/Exchangeable_image_file_format
+.. _extension: https://forge.typo3.org/projects/extension-image_autoresize/
+
+
+Variants API
+=================
+
+A Variant is, as its name indicates, a variation of a file to be used in a different context as its original. It actually better works for images. Variants can be automatically created upon uploading a file and can be inserted into the RTE, as instance. This setting should be activated in the Extension Manager and is quite handy for having standardized size of images across the website.
+
+In the object land, a Variant object make the join between the original file and the Variant file. Additionally, it also stores the variation. Consider a few examples.
+
+Use the Variant Service for creating a Variant out of a File::
+
+
+	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+	$objectManager;
+
+	/** @var \TYPO3\CMS\Media\Service\Variant $variantService */
+	$variantService = $objectManager->get('TYPO3\CMS\Media\Service\Variant');
+
+	$configuration = array(
+		'width' => 200, // corresponds to maxH, respectively maxW
+		'height' => 200,
+	);
+	$variantObject = $variantService->create($assetObject, $configuration);
+
+	print $variantObject->getOriginal()->getUid();
+	print $variantObject->getVariant()->getUid();
+	print $variantObject->getVariation();
+
+Retrieving all Variants from an Asset::
+
+	/** @var $asset \TYPO3\CMS\Media\Domain\Model\Asset */
+	$variants = $asset->getVariants();
+
+Retrieving one Variant object from the Variant Repository::
+
+	/** @var $variantRepository \TYPO3\CMS\Media\Domain\Repository\VariantRepository */
+	$variantRepository;
+
+	/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
+	$fileObject;
+
+	$variantObject = $variantRepository->findOneByVariant($fileObject);
+
+	# Possible save of Variant object
+	$this->variantRepository->update($variantObject);
 
 TCA Service API
 =================

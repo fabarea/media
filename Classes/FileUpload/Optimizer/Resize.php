@@ -47,7 +47,7 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 	}
 
 	/**
-	 * Optimize the given uploaded image
+	 * Optimize the given uploaded image.
 	 *
 	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
@@ -60,8 +60,9 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 		$currentHeight = $imageInfo[1];
 
 		// resize an image if this one is bigger than telling by the settings
-		$imageDimension = \TYPO3\CMS\Media\Utility\PresetImageDimension::getInstance()->preset('image_original');
+		$imageDimension = \TYPO3\CMS\Media\Utility\SettingImagePreset::getInstance()->preset('image_original');
 		if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
+
 			// resize taking the width as reference
 			$this->resize($uploadedFile->getFileWithAbsolutePath(), $imageDimension->getWidth(), $imageDimension->getHeight());
 		}
@@ -69,7 +70,7 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 	}
 
 	/**
-	 * Resize an image according to given parameter
+	 * Resize an image according to given parameter.
 	 *
 	 * @throws \Exception
 	 * @param string $fileNameAndPath
@@ -78,7 +79,8 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 	 * @return void
 	 */
 	public function resize($fileNameAndPath, $width = 0, $height = 0) {
-		// Keep profile of the image
+
+		// Skip profile of the image
 		$imParams = '###SkipStripProfile###';
 		$options = array(
 			'maxW' => $width,
@@ -87,7 +89,8 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 
 		$tempFileInfo = $this->gifCreator->imageMagickConvert($fileNameAndPath, '', '', '', $imParams, '', $options, TRUE);
 		if ($tempFileInfo) {
-			// Replace original file
+
+			// Overwrite original file
 			@unlink($fileNameAndPath);
 			@rename($tempFileInfo[3], $fileNameAndPath);
 		}

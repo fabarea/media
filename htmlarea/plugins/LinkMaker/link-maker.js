@@ -94,7 +94,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 		var dimensions = {
 			top: 0,
 			left: 0,
-			width: 1100,
+			width: 1280,
 			height: 800
 		};
 

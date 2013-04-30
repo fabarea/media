@@ -6,8 +6,9 @@
 
 		/**
 		 * Load the proper panel whenever an image is selected in the editor.
-		 * Info: window.opener is the variable for exchanging data with the parent window
+		 * Info: window.opener is the variable for exchanging data with parent window
 		 */
+
 		// True means a link already exist in the RTE and must be updated.
 		if (window.opener && window.opener.Media.ImageMaker.elementNode) {
 			var $element, titleAttribute, matches,
@@ -19,7 +20,7 @@
 			variantUid = $($element).data('htmlarea-file-uid');
 			originalUid = $($element).data('htmlarea-original-uid');
 
-			// Get file variation
+			// Makes sure the variant uid exists
 			if (variantUid > 0 && $($element).data('htmlarea-file-table') == 'sys_file') {
 
 				var uriTarget = new Uri($('#btn-imageMaker-current').attr('href'));
@@ -31,7 +32,8 @@
 					uriTarget.addQueryParam('tx_media_user_mediam1[asset]', variantUid);
 				}
 
-				// Reset the URL with the new attribute
+				// Resetting a hidden URL with new attributes (an image was selected in the RTE)
+				// and then fire click event to load Image Editor.
 				$('#btn-imageMaker-current')
 					.attr('href', uriTarget.query())
 					.click(function (e) {

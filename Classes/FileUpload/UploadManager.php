@@ -202,7 +202,7 @@ class UploadManager {
 	 * @param string $fileName
 	 */
 	public function checkFileAllowed($fileName) {
-		$allowedExtensions = \TYPO3\CMS\Media\Utility\Permission::getInstance()->getAllowedExtensions();
+		$allowedExtensions = \TYPO3\CMS\Media\Utility\SettingPermission::getInstance()->getAllowedExtensions();
 
 		$isAllowed = $this->checkFileExtensionPermission($fileName);
 		if (!$isAllowed) {

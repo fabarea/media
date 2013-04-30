@@ -631,12 +631,15 @@ $TCA['sys_file']['grid'] = array(
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:uid',
 			'width' => '5px',
 		),
-		'name' => array(
+		'fileinfo' => array(
 			'sortable' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Grid\Preview',
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
 			'wrap' => '<div class="center">|</div>',
 			'width' => '150px',
+		),
+		'name' => array(
+			'visible' => FALSE,
 		),
 		'title' => array(
 			'renderer' => 'TYPO3\CMS\Media\Grid\Title',
@@ -664,6 +667,12 @@ $TCA['sys_file']['grid'] = array(
 			'sortable' => FALSE,
 			'renderer' => 'TYPO3\CMS\Media\Grid\Usage',
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
+		),
+		'variant' => array(
+			'visible' => TRUE,
+			'sortable' => FALSE,
+			'renderer' => 'TYPO3\CMS\Media\Grid\Variant',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variant',
 		),
 		'permission' => array(
 			'visible' => FALSE,

@@ -127,6 +127,7 @@
 
 		$(function () {
 
+			var fileExtension = '{asset.extension}'
 			var originalFileUid = '{asset.uid}' - 0; // cast value to int
 			var originalImageWidth = '{asset.width}' - 0;
 			var originalImageHeight = '{asset.height}' - 0;
@@ -233,7 +234,7 @@
 					// ajax call to submit image uploadVariant
 					$.ajax({
 						type: 'POST',
-						url: '/typo3/mod.php?M=user_MediaM1', // @todo make me configurable for FE
+						url: '/typo3/mod.php?M=user_MediaM1',
 						data: {
 							'tx_media_user_mediam1[action]': 'upload',
 							'tx_media_user_mediam1[controller]': 'Variant',
@@ -241,32 +242,10 @@
 							'tx_media_user_mediam1[variant][original]': originalFileUid,
 							'tx_media_user_mediam1[variant][variant]': variantUid,
 							'tx_media_user_mediam1[variant][variation]': variation,
-							'qqfile': this.toBase64('jpeg') // @todo can be improved if the original image is a png
+							'qqfile': this.toBase64(fileExtension == 'png' ? 'png' : 'jpeg')
 						},
 						success: function (data) {
-							var params = {};
-							params.tag = '<img src="/' + data.publicUrl + '?' + data.timeStamp +
-									'" data-htmlarea-original-uid="' + data.original +
-									'" data-htmlarea-file-uid="' + data.uid +
-									'" data-htmlarea-file-table="sys_file" ';
-							if (window.opener) {
-
-								// apply previous classes
-								if (window.opener.Media.ImageMaker.elementNode.className != null) {
-									params.tag += 'class="' + window.opener.Media.ImageMaker.elementNode.className + '" '
-								}
-
-								// apply previous styles
-								if (window.opener.Media.ImageMaker.elementNode.style != null &&
-										window.opener.Media.ImageMaker.elementNode.style.cssText != null) {
-									params.tag += 'style="' + window.opener.Media.ImageMaker.elementNode.style.cssText + '" '
-								}
-								params.tag += '/>';
-
-								// write the "img" tag in the RTE
-								window.opener.Media.ImageMaker.insertImage(params);
-								window.close();
-							}
+							Media.Rte.Popup.createImage(data);
 						}
 					});
 				});

@@ -31,7 +31,7 @@ namespace TYPO3\CMS\Media\Utility;
  * @package TYPO3
  * @subpackage media
  */
-class PresetImageDimension implements \TYPO3\CMS\Core\SingletonInterface {
+class SettingImagePreset implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
@@ -46,18 +46,19 @@ class PresetImageDimension implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\PresetImageDimension
+	 * @return \TYPO3\CMS\Media\Utility\SettingImagePreset
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\PresetImageDimension');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\SettingImagePreset');
 	}
 
 	/**
-	 * Set the current preset value
+	 * Set the current preset value. Preset values come from the settings and can be:
+	 * image_thumbnail, image_mini, image_small, image_medium, image_large, image_original
 	 *
 	 * @throws \TYPO3\CMS\Media\Exception\EmptyValueException
-	 * @param string $preset
-	 * @return \TYPO3\CMS\Media\Utility\PresetImageDimension
+	 * @param string $preset image_thumbnail, image_mini, ...
+	 * @return \TYPO3\CMS\Media\Utility\SettingImagePreset
 	 */
 	public function preset($preset){
 		$size = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get($preset);

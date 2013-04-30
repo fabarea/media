@@ -117,19 +117,21 @@ class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @param \TYPO3\CMS\Media\Domain\Model\Variant $variant
-	 * @return int
+	 * @return \TYPO3\CMS\Media\Domain\Model\Variant
 	 */
 	public function update(\TYPO3\CMS\Media\Domain\Model\Variant $variant) {
 		$this->databaseHandle->exec_UPDATEquery($this->tableName, 'uid = ' . $variant->getUid(), $variant->toArray());
+		return $variant;
 	}
 
 	/**
 	 * @param \TYPO3\CMS\Media\Domain\Model\Variant $variant
-	 * @return int
+	 * @return \TYPO3\CMS\Media\Domain\Model\Variant
 	 */
 	public function add(\TYPO3\CMS\Media\Domain\Model\Variant $variant) {
 		$this->databaseHandle->exec_INSERTquery($this->tableName, $variant->toArray());
-		return $this->databaseHandle->sql_insert_id();
+		$variant->setUid($this->databaseHandle->sql_insert_id());
+		return $variant;
 	}
 
 	/**
@@ -137,6 +139,8 @@ class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return void
 	 */
 	public function remove(\TYPO3\CMS\Media\Domain\Model\Variant $variant) {
+		// Remove Variant file
+		$variant->getVariant()->delete();
 		$this->removeByUid($variant->getUid());
 	}
 
@@ -154,7 +158,7 @@ class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $methodName The name of the magic method
 	 * @param string $arguments The arguments of the magic method
 	 * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException
-	 * @return mixed
+	 * @return array|\TYPO3\CMS\Media\Domain\Model\Variant
 	 * @api
 	 */
 	public function __call($methodName, $arguments) {
@@ -178,10 +182,16 @@ class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Handle the magic call findBy*
 	 *
 	 * @param string $field
-	 * @param string $value
+	 * @param mixed $value
 	 * @return null|array|\TYPO3\CMS\Media\Domain\Model\Variant[]
 	 */
 	protected function processMagicFindBy($field, $value) {
+
+		// Special case enabling to resolve object, e.g. findOneByOriginal
+		if (is_object($value) && method_exists($value, 'getUid')) {
+			$value = $value->getUid();
+		}
+
 		$clause = sprintf('%s = %s',
 			$field,
 			$this->databaseHandle->fullQuoteStr($value, $this->tableName)
@@ -205,6 +215,12 @@ class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return null|\TYPO3\CMS\Media\Domain\Model\Variant
 	 */
 	protected function processMagicFindOneBy($field, $value) {
+
+		// Special case enabling to resolve object, e.g. findOneByOriginal
+		if (is_object($value) && method_exists($value, 'getUid')) {
+			$value = $value->getUid();
+		}
+
 		$clause = sprintf('%s = %s',
 			$field,
 			$this->databaseHandle->fullQuoteStr($value, $this->tableName)

@@ -187,6 +187,9 @@
 			<trans-unit id="crop">
 				<source>Crop</source>
 			</trans-unit>
+			<trans-unit id="variant">
+				<source>Variant</source>
+			</trans-unit>
 			<trans-unit id="usage">
 				<source>Usage</source>
 			</trans-unit>
