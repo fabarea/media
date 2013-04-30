@@ -20,7 +20,7 @@ config.tx_extbase {
             }
 			TYPO3\CMS\Media\Domain\Model\FrontendUserGroup {
                 mapping {
-                    tableName = be_groups
+                    tableName = fe_groups
                     recordType = TYPO3\CMS\Media\Domain\Model\FrontendUserGroup
                 }
             }
