@@ -277,7 +277,7 @@ class UploadManager {
 	 */
 	protected function unAccent($string) {
 		if (extension_loaded('intl') === true) {
-			$string = Normalizer::normalize($string, Normalizer::FORM_KD);
+			$string = \Normalizer::normalize($string, \Normalizer::FORM_KD);
 		}
 
 		if (strpos($string = htmlentities($string, ENT_QUOTES, 'UTF-8'), '&') !== false) {
