@@ -49,28 +49,28 @@ class ImageRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepository
 	}
 
 	/**
-	 * Finds all Images given a specified filter.
+	 * Finds all Images given specified matches.
 	 *
-	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
+	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
+	 * @param int $limit
 	 * @param int $offset
-	 * @param int $itemsPerPage
 	 * @return \TYPO3\CMS\Media\Domain\Model\Image[]
 	 */
-	public function findFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $offset = NULL, $itemsPerPage = NULL) {
-		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
-		return parent::findFiltered($filter, $order, $offset, $itemsPerPage);
+	public function findBy(\TYPO3\CMS\Media\QueryElement\Match $match, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $limit = NULL, $offset = NULL) {
+		$match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
+		return parent::findBy($match, $order, $limit, $offset);
 	}
 
 	/**
-	 * Count all Images given a specified filter.
+	 * Count all Images given specified matches.
 	 *
-	 * @param \TYPO3\CMS\Media\QueryElement\Filter $filter The filter the references must apply to
+	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
 	 * @return int
 	 */
-	public function countFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter) {
-		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
-		return parent::countFiltered($filter);
+	public function countBy(\TYPO3\CMS\Media\QueryElement\Match $match) {
+		$match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
+		return parent::countBy($match);
 	}
 
 	/**

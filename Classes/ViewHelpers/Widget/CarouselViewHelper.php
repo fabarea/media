@@ -44,7 +44,7 @@ class CarouselViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetView
 	 *
 	 * @param int $width max width of the image.
 	 * @param int $height max height of the image.
-	 * @param array|string $categories categories to be taken as filter.
+	 * @param array|string $categories categories to be taken as match.
 	 * @param int $interval interval value of time between the slides. "O" means no automatic sliding.
 	 * @param bool $caption whether to display the title and description or not.
 	 * @param string $sort the field name to sort out.

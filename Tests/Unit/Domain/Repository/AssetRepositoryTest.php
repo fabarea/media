@@ -105,19 +105,19 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	/**
 	 * @test
 	 */
-	public function findFilteredReturnsSameNumberOfRecordsAsNumberOfFakeRecords() {
-		$filter = new \TYPO3\CMS\Media\QueryElement\Filter();
-		$filter->addConstraint('tx_phpunit_is_dummy_record', '1');
-		$this->assertEquals($this->numberOfFakeRecords, count($this->fixture->findFiltered($filter)));
+	public function findByReturnsSameNumberOfRecordsAsNumberOfFakeRecords() {
+		$match = new \TYPO3\CMS\Media\QueryElement\Match();
+		$match->addMatch('tx_phpunit_is_dummy_record', '1');
+		$this->assertEquals($this->numberOfFakeRecords, count($this->fixture->findBy($match)));
 	}
 
 	/**
 	 * @test
 	 */
-	public function countFilteredReturnsSameNumberOfRecordsAsNumberOfFakeRecords() {
-		$filter = new \TYPO3\CMS\Media\QueryElement\Filter();
-		$filter->addConstraint('tx_phpunit_is_dummy_record', '1');
-		$this->assertEquals($this->numberOfFakeRecords, $this->fixture->countFiltered($filter));
+	public function countByReturnsSameNumberOfRecordsAsNumberOfFakeRecords() {
+		$match = new \TYPO3\CMS\Media\QueryElement\Match();
+		$match->addMatch('tx_phpunit_is_dummy_record', '1');
+		$this->assertEquals($this->numberOfFakeRecords, $this->fixture->countBy($match));
 	}
 
 	/**

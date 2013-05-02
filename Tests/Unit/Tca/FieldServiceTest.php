@@ -121,5 +121,27 @@ class FieldServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->assertContains('status_1', $actual);
 	}
 
+	/**
+	 * @test
+	 * @dataProvider fieldProvider
+	 */
+	public function hasRelationReturnsFalseForFieldName($fieldName, $hasRelation, $hasRelationOneToMany, $hasRelationManyToMany) {
+		$this->assertEquals($hasRelation, $this->fixture->hasRelation($fieldName));
+		$this->assertNotEquals($hasRelation, $this->fixture->hasNoRelation($fieldName));
+		$this->assertEquals($hasRelationOneToMany, $this->fixture->hasRelationOneToMany($fieldName));
+		$this->assertEquals($hasRelationManyToMany, $this->fixture->hasRelationManyToMany($fieldName));
+	}
+
+	/**
+	 * Provider
+	 */
+	public function fieldProvider() {
+		return array(
+			array('name', FALSE, FALSE, FALSE),
+			array('categories', TRUE, FALSE, TRUE),
+			array('fe_groups', TRUE, FALSE, TRUE),
+		);
+	}
+
 }
 ?>

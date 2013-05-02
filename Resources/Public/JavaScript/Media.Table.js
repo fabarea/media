@@ -46,7 +46,7 @@ Media.Table = {
 					var queryPair = uri.queryPairs[index];
 					var parameterName = queryPair[0];
 					var parameterValue = queryPair[1];
-					var pattern = /tx_media_user_mediam1\[filter\]/g;
+					var pattern = /tx_media_user_mediam1\[matches\]/g;
 					if (pattern.test(parameterName)) {
 						aoData.push({ "name": parameterName, "value": parameterValue });
 					}

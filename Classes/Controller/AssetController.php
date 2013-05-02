@@ -82,19 +82,23 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 	 * List Row action for this controller. Output a json list of assets
 	 * This action is expected to have a parameter format = json
 	 *
-	 * @param array $filter
+	 * @param array $matches
 	 * @return void
 	 */
-	public function listRowAction($filter = array()) {
+	public function listRowAction($matches = array()) {
 
 		// Initialize some objects related to the query
-		$filterObject = $this->createFilterObject()->setConstraints($filter);
+		$matchObject = $this->createMatchObject();
+		foreach ($matches as $propertyName => $value) {
+			$matchObject->addMatch($propertyName, $value);
+		}
+
 		$orderObject = $this->createOrderObject();
 		$pagerObject = $this->createPagerObject();
 
 		// Query the repository
-		$assets = $this->assetRepository->findFiltered($filterObject, $orderObject, $pagerObject->getOffset(), $pagerObject->getItemsPerPage());
-		$numberOfAssets = $this->assetRepository->countFiltered($filterObject);
+		$assets = $this->assetRepository->findBy($matchObject, $orderObject, $pagerObject->getLimit(), $pagerObject->getOffset());
+		$numberOfAssets = $this->assetRepository->countBy($matchObject);
 		$pagerObject->setCount($numberOfAssets);
 
 		// Assign values

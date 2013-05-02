@@ -195,5 +195,48 @@ class FieldService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 	public function getField($fieldName) {
 		return $this->tca['columns'][$fieldName];
 	}
+
+	/**
+	 * Returns whether the field has relation (one to many, many to many)
+	 *
+	 * @param string $fieldName the name of the field
+	 * @return bool
+	 */
+	public function hasRelation($fieldName) {
+		$configuration = $this->getConfiguration($fieldName);
+		return isset($configuration['foreign_table']);
+	}
+
+	/**
+	 * Returns whether the field has no relation (one to many, many to many)
+	 *
+	 * @param string $fieldName the name of the field
+	 * @return bool
+	 */
+	public function hasNoRelation($fieldName) {
+		return !$this->hasRelation($fieldName);
+	}
+
+	/**
+	 * Returns whether the field has one to many relation.
+	 *
+	 * @param string $fieldName the name of the field
+	 * @return bool
+	 */
+	public function hasRelationOneToMany($fieldName) {
+		$configuration = $this->getConfiguration($fieldName);
+		return $this->hasRelation($fieldName) && !isset($configuration['MM']);
+	}
+
+	/**
+	 * Returns whether the field has many to many relation.
+	 *
+	 * @param string $fieldName the name of the field
+	 * @return bool
+	 */
+	public function hasRelationManyToMany($fieldName) {
+		$configuration = $this->getConfiguration($fieldName);
+		return $this->hasRelation($fieldName) && isset($configuration['MM']);
+	}
 }
 ?>

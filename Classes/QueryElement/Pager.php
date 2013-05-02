@@ -59,7 +59,7 @@ class Pager  {
 	 *
 	 * @var integer
 	 */
-	protected $itemsPerPage = 10;
+	protected $limit = 10;
 
 	/**
 	 * Constructs a new Pager
@@ -106,21 +106,21 @@ class Pager  {
 	}
 
 	/**
-	 * Returns the current itemsPerPage index
+	 * Returns the current limit index
 	 *
 	 * @return int
 	 */
-	public function getItemsPerPage() {
-		return $this->itemsPerPage;
+	public function getLimit() {
+		return $this->limit;
 	}
 
 	/**
-	 * Sets the current itemsPerPage index
+	 * Sets the current limit index
 	 *
-	 * @param int $itemsPerPage
+	 * @param int $limit
 	 */
-	public function setItemsPerPage($itemsPerPage) {
-		$this->itemsPerPage = $itemsPerPage;
+	public function setLimit($limit) {
+		$this->limit = $limit;
 	}
 
 	/**
@@ -142,8 +142,8 @@ class Pager  {
 	 * @return int The last page index
 	 */
 	public function getLastPage() {
-		$last = intval($this->count / $this->itemsPerPage);
-		if ($this->count % $this->itemsPerPage > 0) {
+		$last = intval($this->count / $this->limit);
+		if ($this->count % $this->limit > 0) {
 			$last++;
 		}
 		return $last;

@@ -26,21 +26,21 @@ namespace TYPO3\CMS\Media\QueryElement;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\QueryElement\Filter.
+ * Test case for class \TYPO3\CMS\Media\QueryElement\Match.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class FilterTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class MatchTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\QueryElement\Filter
+	 * @var \TYPO3\CMS\Media\QueryElement\Match
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\QueryElement\Filter();
+		$this->fixture = new \TYPO3\CMS\Media\QueryElement\Match();
 	}
 
 	public function tearDown() {
@@ -55,6 +55,5 @@ class FilterTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$this->fixture->setSearchTerm($randomValue);
 		$this->assertEquals($randomValue, $this->fixture->getSearchTerm());
 	}
-
 }
 ?>
