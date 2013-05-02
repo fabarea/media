@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\CMS\Media\Service;
 
 /***************************************************************
  *  Copyright notice
@@ -34,7 +35,7 @@
 class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var Tx_Phpunit_Framework
+	 * @var \Tx_Phpunit_Framework
 	 */
 	private $testingFramework;
 
@@ -61,8 +62,8 @@ class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Service\Variant();
-		$this->testingFramework = new Tx_Phpunit_Framework('sys_file');
-		$this->variantRepository = new TYPO3\CMS\Media\Domain\Repository\VariantRepository();
+		$this->testingFramework = new \Tx_Phpunit_Framework('sys_file');
+		$this->variantRepository = new \TYPO3\CMS\Media\Domain\Repository\VariantRepository();
 		$this->sourcePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Tests/Resources';
 	}
 

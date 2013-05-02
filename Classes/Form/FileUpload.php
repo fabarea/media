@@ -129,7 +129,7 @@ EOF;
 			$basePrefix,
 			$this->getValue(),
 			$this->elementId,
-			$this->getAllowedExtension(),
+			$this->getAllowedExtensions(),
 			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getCallBack()
 		);
@@ -140,7 +140,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	 protected function getAllowedExtension() {
+	 protected function getAllowedExtensions() {
 		$extensions = \TYPO3\CMS\Media\Utility\SettingPermission::getInstance()->getAllowedExtensions();
 		return implode("','", $extensions);
 	}

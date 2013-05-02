@@ -48,7 +48,6 @@ class SettingPermission implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @var array
 	 */
 	protected $fileTypes = array(
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN,
 		\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT,
 		\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE,
 		\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO,

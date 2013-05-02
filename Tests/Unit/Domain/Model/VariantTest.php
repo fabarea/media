@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
@@ -34,7 +35,7 @@
 class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var Tx_Phpunit_Framework
+	 * @var \Tx_Phpunit_Framework
 	 */
 	private $testingFramework;
 
@@ -54,7 +55,7 @@ class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	private $fakeVariantUid = 0;
 
 	public function setUp() {
-		$this->testingFramework = new Tx_Phpunit_Framework('sys_file');
+		$this->testingFramework = new \Tx_Phpunit_Framework('sys_file');
 		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Variant();
 
 		// Populate the database with records

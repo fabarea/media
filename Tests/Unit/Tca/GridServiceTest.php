@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\CMS\Media\Tca;
 
 /***************************************************************
  *  Copyright notice
@@ -52,7 +53,7 @@ class GridServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function getLabelReturnNameAsValue() {
-		$this->assertEquals('Preview', $this->fixture->getLabel('name'));
+		$this->assertEquals('Filename', $this->fixture->getLabel('name'));
 	}
 
 	/**
@@ -158,7 +159,7 @@ class GridServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function columnNameHasARenderer() {
-		$this->assertTrue($this->fixture->hasRenderer('name'));
+		$this->assertTrue($this->fixture->hasRenderer('fileinfo'));
 	}
 
 	/**
@@ -173,7 +174,7 @@ class GridServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function getTheRendererOfColumnName() {
 		$expected = 'TYPO3\CMS\Media\Grid\Preview';
-		$this->assertEquals($expected, $this->fixture->getRenderer('name'));
+		$this->assertEquals($expected, $this->fixture->getRenderer('fileinfo'));
 	}
 
 	/**

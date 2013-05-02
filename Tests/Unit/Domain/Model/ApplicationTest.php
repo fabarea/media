@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Model;
 
 /***************************************************************
  *  Copyright notice

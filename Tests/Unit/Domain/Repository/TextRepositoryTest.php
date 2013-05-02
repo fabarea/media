@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\CMS\Media\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
@@ -34,7 +35,7 @@
 class TextRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var Tx_Phpunit_Framework
+	 * @var \Tx_Phpunit_Framework
 	 */
 	private $testingFramework;
 
@@ -79,7 +80,7 @@ class TextRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	private $fixture;
 
 	public function setUp() {
-		$this->testingFramework = new Tx_Phpunit_Framework('sys_file');
+		$this->testingFramework = new \Tx_Phpunit_Framework('sys_file');
 		$this->fixture = new \TYPO3\CMS\Media\Domain\Repository\TextRepository();
 
 		$this->fakeStorage = rand(100, 200);

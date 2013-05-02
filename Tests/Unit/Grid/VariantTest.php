@@ -1,5 +1,5 @@
 <?php
-
+namespace TYPO3\CMS\Media\Grid;
 /***************************************************************
  *  Copyright notice
  *
