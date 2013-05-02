@@ -45,7 +45,7 @@ class ApplicationRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepo
 	 */
 	public function findAll() {
 		$this->setObjectType($this->objectType);
-		return $this->findByType(\TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
+		return $this->findByType(\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION);
 	}
 
 	/**
@@ -58,7 +58,7 @@ class ApplicationRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepo
 	 * @return \TYPO3\CMS\Media\Domain\Model\Application[]
 	 */
 	public function findFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $offset = NULL, $itemsPerPage = NULL) {
-		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
+		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION);
 		return parent::findFiltered($filter, $order, $offset, $itemsPerPage);
 	}
 
@@ -69,7 +69,7 @@ class ApplicationRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepo
 	 * @return int
 	 */
 	public function countFiltered(\TYPO3\CMS\Media\QueryElement\Filter $filter) {
-		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
+		$filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION);
 		return parent::countFiltered($filter);
 	}
 

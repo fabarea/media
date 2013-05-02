@@ -173,7 +173,6 @@ class Tx_Media_Hooks_TCE {
 	 * @return array
 	 */
 	protected function getFields($tableName) {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($tableName);
 		return $GLOBALS['TCA'][$tableName]['columns'];
 	}
 

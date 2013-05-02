@@ -194,7 +194,7 @@ class ApplicationRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCa
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
 					'storage' => \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage'),
-					'type' => \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE,
+					'type' => \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION,
 					'title' => $this->fakeTitle,
 					'pid' => 0,
 				)

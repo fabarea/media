@@ -61,7 +61,7 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 				break;
 			case 'application':
 			case 'software':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE;
+				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION;
 				break;
 			default:
 				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN;

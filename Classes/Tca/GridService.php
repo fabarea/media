@@ -54,7 +54,6 @@ class GridService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 
 		$this->tableName = $tableName;
 
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
 		if (empty($GLOBALS['TCA'][$this->tableName])) {
 			throw new \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException('No TCA existence for table name: ' . $this->tableName, 1356945108);
 		}

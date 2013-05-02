@@ -39,7 +39,6 @@ class DomElementTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $fixture;
 
 	public function setUp() {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('sys_file');
 		$this->fixture = new \TYPO3\CMS\Media\Utility\DomElement();
 	}
 

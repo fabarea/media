@@ -269,7 +269,6 @@ EOF;
 		if ($this->filter->getSearchTerm()) {
 			$searchTerm = $this->databaseHandle->escapeStrForLike($this->filter->getSearchTerm(), $this->tableName);
 			$searchParts = array();
-			\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA($this->tableName);
 
 			$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
 

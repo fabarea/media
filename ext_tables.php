@@ -4,24 +4,6 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-// Extend TCA of File
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/File.php');
-
-$TCA["sys_file_variants"] = array(
-	"ctrl" => array(
-		'title' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variants',
-		'label' => 'role',
-		'label_alt' => 'original',
-		'label_alt_force' => 'true',
-		'hideTable' => TRUE,
-		'rootLevel' => -1,
-		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/FileVariants.php',
-		'typeicon_classes' => array(
-			'default' => 'extensions-media-variant',
-		),
-	),
-);
-
 if (TYPO3_MODE == 'BE') {
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 		$_EXTKEY,
@@ -67,19 +49,6 @@ $TCA['pages']['columns']['module']['config']['items'][] = array(
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
 
-// Extend File TCA
-$TCA['sys_file']['ctrl']['languageField'] = 'sys_language_uid';
-$TCA['sys_file']['ctrl']['transOrigPointerField'] = 'l18n_parent';
-$TCA['sys_file']['ctrl']['transOrigDiffSourceField'] = 'l18n_diffsource';
-$TCA['sys_file']['ctrl']['hideTable'] = FALSE;
-$TCA['sys_file']['ctrl']['tstamp'] = 'tstamp';
-$TCA['sys_file']['ctrl']['crdate'] = 'crdate';
-$TCA['sys_file']['ctrl']['enablecolumns'] =  array(
-	'disabled' => 'hidden',
-	'starttime' => 'starttime',
-	'endtime' => 'endtime'
-);
-
 // Get a comma-separated list of all Media folders
 $categoryFolderPidList = \TYPO3\CMS\Media\Utility\MediaFolder::getCategoryFolders();
 $options = array();
@@ -87,9 +56,9 @@ if ($categoryFolderPidList) {
 	// add categorization to all media types
 	$options['fieldList'] = '--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category, categories';
 	$options['fieldConfiguration']['foreign_table_where'] = ' AND sys_category.pid IN (' . $categoryFolderPidList . ') ORDER BY sys_category.title ASC';
-	// @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
 }
 
+// @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
 
 // Remove edit wizard because it's not working with the TCA tree

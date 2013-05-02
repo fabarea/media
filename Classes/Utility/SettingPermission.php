@@ -53,7 +53,7 @@ class SettingPermission implements \TYPO3\CMS\Core\SingletonInterface {
 		\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE,
 		\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO,
 		\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO,
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE,
+		\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION,
 	);
 
 	/**

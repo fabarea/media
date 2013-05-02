@@ -77,7 +77,7 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 		$className = 'TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail';
 		if (\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE == $this->file->getType()) {
 			$className = 'TYPO3\CMS\Media\Service\Thumbnail\ImageThumbnail';
-		} elseif (\TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE == $this->file->getType() ||
+		} elseif (\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION == $this->file->getType() ||
 			\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT == $this->file->getType()) {
 				$className = 'TYPO3\CMS\Media\Service\Thumbnail\ApplicationThumbnail';
 		}

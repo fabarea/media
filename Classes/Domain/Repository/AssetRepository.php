@@ -291,7 +291,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 		 } elseif ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Video') {
 			 $filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO);
 		 } elseif ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Application') {
-			 $filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_SOFTWARE);
+			 $filter->addConstraint('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION);
 		 }
 
 		 /** @var $query \TYPO3\CMS\Media\QueryElement\Query */
