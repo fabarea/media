@@ -81,7 +81,7 @@ class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$targetFileNameAndPath = $this->sourcePath . '/sample01_517fd09f56799.jpg';
 		copy($sourceFileNameAndPath, $targetFileNameAndPath);
 
-		$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getCurrentStorage();
+		$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
 		$file = $storage->addFile($targetFileNameAndPath, $storage->getRootLevelFolder(), NULL, 'changeName');
 
 		$configuration = array('height' => 300, 'width' => 300);
@@ -103,7 +103,7 @@ class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$targetFileNameAndPath = $this->sourcePath . '/sample02_517fd09f56701.jpg';
 		copy($sourceFileNameAndPath, $targetFileNameAndPath);
 
-		$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getCurrentStorage();
+		$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
 		$file = $storage->addFile($targetFileNameAndPath, $storage->getRootLevelFolder(), NULL, 'changeName');
 
 		$configuration = array('height' => 300, 'width' => 300);

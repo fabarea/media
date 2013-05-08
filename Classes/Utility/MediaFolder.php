@@ -75,7 +75,7 @@ class MediaFolder {
 	 */
 	static public function getDefaultPid() {
 		$pidList = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', self::getPidList());
-		return empty($pidList[0]) ? 0 : $pidList[0];
+		return empty($pidList[0]) ? 0 : (int) $pidList[0];
 	}
 
 	/**

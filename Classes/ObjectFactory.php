@@ -78,13 +78,23 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Return the current storage
+	 * Return media storage.
 	 *
 	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
 	 */
-	public function getCurrentStorage() {
+	public function getStorage() {
 		$storageUid = (int) \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
 		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
+	}
+
+	/**
+	 * Return the current storage
+	 *
+	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
+	 * @deprecated will be removed in media 1.2
+	 */
+	public function getCurrentStorage() {
+		return $this->getStorage();
 	}
 
 	/**
@@ -95,7 +105,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getContainingFolder($fileObject = NULL) {
 
-		$storageObject = $this->getCurrentStorage();
+		$storageObject = $this->getStorage();
 
 		// default is the root level
 		$folderObject = $storageObject->getRootLevelFolder(); // get the root folder by default
@@ -122,7 +132,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getVariantFolder() {
 
-		$storageObject = $this->getCurrentStorage();
+		$storageObject = $this->getStorage();
 
 		// default is the root level
 		$folderObject = $storageObject->getRootLevelFolder();

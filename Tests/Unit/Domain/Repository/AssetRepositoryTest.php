@@ -158,6 +158,34 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	}
 
 	/**
+	 * @test
+	 */
+	public function methodGetFileMethodReturnsValueZeroForFileObjectFoo() {
+
+		$method = new \ReflectionMethod(
+			'TYPO3\CMS\Media\Domain\Repository\AssetRepository', 'getFileType'
+		);
+		$method->setAccessible(TRUE);
+
+		$expected = 0;
+		$this->assertSame($expected, $method->invokeArgs($this->fixture, array('foo')));
+	}
+
+	/**
+	 * @test
+	 */
+	public function methodGetFileMethodReturnsValueTwoForFileObjectImage() {
+
+		$method = new \ReflectionMethod(
+			'TYPO3\CMS\Media\Domain\Repository\AssetRepository', 'getFileType'
+		);
+		$method->setAccessible(TRUE);
+
+		$expected = 2;
+		$this->assertSame($expected, $method->invokeArgs($this->fixture, array('TYPO3\CMS\Media\Domain\Model\Image')));
+	}
+
+	/**
 	 * Populate DB with default records
 	 */
 	private function populateFileTable() {

@@ -359,7 +359,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 				$assetObject->updateProperties($properties);
 
 				// Persist the asset
-				$this->assetRepository->updateAsset($assetObject);
+				$this->assetRepository->update($assetObject);
 
 				// Check whether Variant should be automatically created upon upload.
 				$variations = \TYPO3\CMS\Media\Utility\SettingVariant::getInstance()->getVariations();

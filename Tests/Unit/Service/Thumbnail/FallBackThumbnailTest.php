@@ -51,7 +51,7 @@ class FallBackThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function canCreateThumbnail() {
-		$expected = '<img src="/typo3conf/ext/media/Resources/Public/Icons/UnknownMimeType.png" hspace="2" class="" alt="" />';
+		$expected = '<img src="../typo3conf/ext/media/Resources/Public/Icons/UnknownMimeType.png" hspace="2" class="" alt="" />';
 		$this->assertEquals($expected, $this->fixture->create());
 	}
 

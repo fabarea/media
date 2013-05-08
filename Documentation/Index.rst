@@ -51,6 +51,14 @@ Configuration is mainly provided in the Extension Manager and is pretty much sel
 * In the the Variant tab, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
 
 
+Suhosin
+--------
+
+Please note that PHP setups with the suhosin patch installed will have a default limit of 100 maximum number of variables that may be registered through the URL. This limit must be increased to 140::
+
+	suhosin.get.max_vars = 140
+
+
 Domain Model and Repository
 =============================
 
@@ -278,12 +286,14 @@ Retrieving one Variant object from the Variant Repository::
 Permission management
 ======================
 
-Permissions management is about controlling access of an Asset by the User. Permission can be defined on each file under tab "Access" where to connect
-an Asset to a Backend and / or a Frontend group. It is important to notice, that permission control is not enabled by default which means all assets will be visible
-for everyone. There are a few things to activate:
+Permissions management is about controlling accessibility of assets. Permissions can be defined on each file under tab "Access" where to connect
+an Asset to a Backend and / or a Frontend group. Beware activating the setting in the Extension Manager revert the logic of file access. Out of the box, all files are accessible by everyone (allowed by default policy). With permission enabled, only authorized users are able to access a resource (deny by default policy). Admin users still have access to all files, though. On the FE, permission handling is provided by third party extension. Media provides integration with EXT:naw_securedl. In order to enable permission, a few things must be activated:
 
-* Backend: there is an setting that can be activated in the Extension Manager which influences the display of files within the BE module.
-* Frontend: Media **delegates file permission check to third party extensions**. However, Media provides integration with extension naw_securedl_. Once the extension is installed **and configured** all URL pointing to a PDF will be secured. There is a Hook in EXT:media/Classes/Hooks/NawSecuredl.php taking care of security check.
+* Backend: there is a flag to check in the Extension Manager in tab "security"
+* Frontend: Media **delegates file permission to third party extensions**. Media provides integration with extension naw_securedl_. However the Hook is not enabled by default and must be commented out in ``ext_localconf.php``. Once the extension is installed all URL pointing to a file will be rewritten.
+* If using Apache, htaccess file is required for restricting direct delivery of a file by the web server.
+
+Current implementation is beta quality. Rough edges are to be expected. Secure images are not supported for instance but are in the pipeline. Also, important to mention, it was tested with master version of EXT:naw_securedl https://github.com/TYPO3-Extensions/naw_securedl and it looks a patch is required to be applied http://forge.typo3.org/issues/48269. Also, default setting "filetype" was changed removing images file types.
 
 .. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
 

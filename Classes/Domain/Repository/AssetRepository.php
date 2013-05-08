@@ -56,6 +56,17 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset';
 
 	/**
+	 * @var array
+	 */
+	protected $objectTypes = array(
+		\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => 'TYPO3\CMS\Media\Domain\Model\Text',
+		\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => 'TYPO3\CMS\Media\Domain\Model\Image',
+		\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => 'TYPO3\CMS\Media\Domain\Model\Audio',
+		\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => 'TYPO3\CMS\Media\Domain\Model\Video',
+		\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => 'TYPO3\CMS\Media\Domain\Model\Application',
+	);
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
@@ -216,7 +227,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 			if ($asset->exists()) {
 				// Get the recycler folder. Create on if needed.
 				$recyclerFolderName = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('recycler_folder');
-				$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getCurrentStorage();
+				$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
 			    if (! $storageObject->hasFolder($recyclerFolderName)) {
 					$storageObject->createFolder($recyclerFolderName);
 				 }
@@ -255,46 +266,6 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 			throw new \TYPO3\CMS\Extbase\Persistence\Generic\Exception\UnsupportedMethodException('The method "' . $methodName . '" is not supported by the repository.', 1360838010);
 		}
 		return $result;
-	}
-
-	/**
-	 * Handle the magic call by properly creating a Query object and returning its result.
-	 *
-	 * @param string $field
-	 * @param string $value
-	 * @param string $flag
-	 * @return array
-	 */
-	 protected function processMagicCall($field, $value, $flag = '') {
-
-		 $match = $this->createMatch()->addMatch($field, $value);
-
-		 // Add check if the object type returned is different than Media.
-		 // @todo can be converted automatically with a Helper method
-		 if ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Text') {
-		    $match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT);
-		 } elseif ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Image') {
-			 $match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE);
-		 } elseif ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Audio') {
-			 $match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO);
-		 } elseif ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Video') {
-			 $match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO);
-		 } elseif ($this->objectType == 'TYPO3\CMS\Media\Domain\Model\Application') {
-			 $match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION);
-		 }
-
-		 $query = $this->createQuery();
-		 $query->setRawResult($this->rawResult)
-			 ->setObjectType($this->objectType)
-			 ->setMatch($match);
-
-		 if ($flag == 'count') {
-			 $result = $query->count();
-		 } else {
-			 $result = $query->execute();
-		 }
-
-		 return $flag == 'one' && !empty($result) ? reset($result) : $result;
 	}
 
 	/**
@@ -347,6 +318,63 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	public function setObjectType($objectType) {
 		$this->objectType = $objectType;
 		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getObjectTypes() {
+		return $this->objectTypes;
+	}
+
+	/**
+	 * @param array $objectTypes
+	 */
+	public function setObjectTypes($objectTypes) {
+		$this->objectTypes = $objectTypes;
+	}
+
+	/**
+	 * Handle the magic call by properly creating a Query object and returning its result.
+	 *
+	 * @param string $field
+	 * @param string $value
+	 * @param string $flag
+	 * @return array
+	 */
+	protected function processMagicCall($field, $value, $flag = '') {
+
+		$match = $this->createMatch()->addMatch($field, $value);
+
+		// Add "automatic" file type restriction if method get called from child repository.
+		$fileType = $this->getFileType($this->objectType);
+		if ($fileType > 0) {
+			$match->addMatch('type', $fileType);
+		}
+
+		$query = $this->createQuery();
+		$query->setRawResult($this->rawResult)
+			->setObjectType($this->objectType)
+			->setMatch($match);
+
+		if ($flag == 'count') {
+			$result = $query->count();
+		} else {
+			$result = $query->execute();
+		}
+
+		return $flag == 'one' && !empty($result) ? reset($result) : $result;
+	}
+
+	/**
+	 * Return the file type according to the object name
+	 *
+	 * @param string $objectType
+	 * @return int
+	 */
+	protected function getFileType($objectType) {
+		$key = array_search($objectType, $this->objectTypes);
+		return $key === FALSE ? 0 : $key;
 	}
 }
 

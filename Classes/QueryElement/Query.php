@@ -244,7 +244,7 @@ class Query {
 		FROM
 			%s
 		WHERE
-			tablenames = "sys_file" AND uid_local IN (%s))
+			tablenames = "{$this->tableName}" AND uid_local IN (%s))
 EOF;
 					// Add MM search
 					$clause .= sprintf($template, $tcaConfiguration['MM'], implode(',', $_items));
@@ -266,9 +266,9 @@ EOF;
 		// @todo Add matching method $query->matching($query->equals($propertyName, $value))
 		foreach ($this->match->getMatches() as $field => $value) {
 			if ($this->tcaFieldService->hasNoRelation($field)) {
-				$clause .= sprintf(' AND %s = "%s"',
+				$clause .= sprintf(' AND %s = %s',
 					$field,
-					$this->databaseHandle->escapeStrForLike($value, $this->tableName)
+					$this->databaseHandle->fullQuoteStr($value, $this->tableName)
 				);
 			}
 		}
@@ -327,7 +327,7 @@ EOF;
 			// Get record overlay if needed
 			if (TYPO3_MODE == 'FE' && $GLOBALS['TSFE']->sys_language_uid > 0) {
 
-				$overlay = \TYPO3\CMS\Media\Utility\Overlays::getOverlayRecords('sys_file', array($row['uid']), $GLOBALS['TSFE']->sys_language_uid);
+				$overlay = \TYPO3\CMS\Media\Utility\Overlays::getOverlayRecords($this->tableName, array($row['uid']), $GLOBALS['TSFE']->sys_language_uid);
 				if (!empty($overlay[$row['uid']])) {
 					$key = key($overlay[$row['uid']]);
 					$row = $overlay[$row['uid']][$key];

@@ -52,7 +52,7 @@ image_original = 1920x1920
 
 ###################### Security ######################
 
-## cat=security//3; type=boolean; label= Activate BE User permission: By default all files are listed in the BE module. If this option is set, restrict file access according to permission for a BE User. Does not apply to admin Users. (Not fully implemented yet!)
+## cat=security//3; type=boolean; label= Activate User permissions: Beware this setting revert the logic of file access. Out of the box, all files are accessible by everyone (allowed by default policy). When activating this option, only authorized users are able to access a resource (deny by default policy). Admin users still have access to all files. FE permission handling is provided by third party extension. Media provides integration with EXT:naw_securedl. Refer to the documentation for more info.
 permission = 0
 
 ## cat=security//; type=string; label= Comma list of allowed extension for text upload: List of extensions which are allowed to be uploaded as text.

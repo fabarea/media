@@ -8,6 +8,7 @@ $tca = array(
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'hideTable' => FALSE,
 		'tstamp' => 'tstamp',
+		'default_sortby' => 'ORDER BY is_variant ASC, uid DESC',
 		'crdate' => 'crdate',
 		'searchFields' => 'uid,title,keywords,extension,name',
 		'enablecolumns' => array(
