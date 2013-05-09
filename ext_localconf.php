@@ -22,4 +22,10 @@ $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker']['objectRefer
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker']['addIconsToSkin'] = 1;
 $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageMaker']['disableInFE'] = 1;
 
+// Override classes for the Object Manager
+// @todo remove me when http://forge.typo3.org/issues/47211 is resolved
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Core\Resource\ProcessedFile'] = array(
+	'className' => 'TYPO3\CMS\Media\Override\Core\Resource\ProcessedFile'
+);
+
 ?>
