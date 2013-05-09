@@ -26,13 +26,13 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\PublicResource.
+ * Test case for class \TYPO3\CMS\Media\Utility\Path.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class PublicResourceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	public function setUp() {
 	}
@@ -43,10 +43,10 @@ class PublicResourceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function canReturnsAnAbsolutePath() {
+	public function canResolvesAPath() {
 		$resourceName = uniqid('resource');
 		$expected = 'media/Resources/Public/' . $resourceName;
-		$actual = \TYPO3\CMS\Media\Utility\PublicResource::getAbsolutePath($resourceName);
+		$actual = \TYPO3\CMS\Media\Utility\Path::resolvePath($resourceName);
 
 		$this->assertTrue(strpos($actual, $expected) > 0);
 		$this->assertEquals(0, strpos(PATH_site, $expected));
@@ -59,10 +59,33 @@ class PublicResourceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 		$resourceName = uniqid('resource');
 		$expected = 'media/Resources/Public/' . $resourceName;
-		$actual = \TYPO3\CMS\Media\Utility\PublicResource::getPublicPath($resourceName);
+		$actual = \TYPO3\CMS\Media\Utility\Path::getRelativePath($resourceName);
 
 		$this->assertTrue(strpos($actual, $expected) > 0);
 		$this->assertFalse(strpos(PATH_site, $expected));
+	}
+
+	/**
+	 * @test
+	 */
+	public function methodExistsReturnTrueForFileExistingInExtensionMedia() {
+		$this->assertTrue(\TYPO3\CMS\Media\Utility\Path::exists('Icons/MissingMimeTypeIcon.png'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function methodNotExistsReturnFalseForFileExistingInExtensionMedia() {
+		$this->assertFalse(\TYPO3\CMS\Media\Utility\Path::notExists('Icons/MissingMimeTypeIcon.png'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function returnsCanonicalPathForPathContainingRelativeSegment() {
+		$actual = '../bar/../../foo.png';
+		$expected = 'bar/foo.png';
+		$this->assertSame($expected, Path::canonicalPath($actual));
 	}
 }
 ?>

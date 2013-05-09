@@ -38,8 +38,8 @@ class FallBackThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	 * @return string
 	 */
 	public function create() {
-		return sprintf('<img src="/%s" hspace="2" class="" alt="" />',
-			\TYPO3\CMS\Media\Utility\PublicResource::getPublicPath('Icons/UnknownMimeType.png')
+		return sprintf('<img src="%s" hspace="2" class="" alt="" />',
+			\TYPO3\CMS\Media\Utility\Path::getRelativePath('Icons/UnknownMimeType.png')
 		);
 	}
 }

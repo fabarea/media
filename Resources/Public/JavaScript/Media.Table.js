@@ -25,7 +25,7 @@ Media.Table = {
 			'iCookieDuration': 43200, // 12 hours
 			'bProcessing': true,
 			'bServerSide': true,
-			'sAjaxSource': "/typo3/mod.php",
+			'sAjaxSource': "mod.php",
 			'oLanguage': {
 				// remove some label
 				"sSearch": '',

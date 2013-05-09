@@ -107,14 +107,14 @@ class Thumbnail implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 * @return string
 	 */
 	public function getIcon($extension) {
-
-		$uri = \TYPO3\CMS\Media\Utility\PublicResource::getPublicPath(sprintf('Icons/MimeType/%s.png', $extension));
+		$resource = \TYPO3\CMS\Media\Utility\Path::getRelativePath(sprintf('Icons/MimeType/%s.png', $extension));
 
 		// If file is not found, fall back to a default icon
-		if (!is_file(PATH_site . $uri)) {
-			$uri = \TYPO3\CMS\Media\Utility\PublicResource::getPublicPath('Icons/MissingMimeTypeIcon.png');
+		if (\TYPO3\CMS\Media\Utility\Path::notExists($resource)) {
+			$resource = \TYPO3\CMS\Media\Utility\Path::getRelativePath('Icons/MissingMimeTypeIcon.png');
 		}
-		return '/' . $uri;
+
+		return $resource;
 	}
 
 	/**

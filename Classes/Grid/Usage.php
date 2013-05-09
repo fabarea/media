@@ -60,7 +60,7 @@ class Usage implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 			$_template = <<<EOF
 <li title="uid: %s">
-	<a href="alt_doc.php?returnUrl=/typo3/mod.php?M=user_MediaM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a>
+	<a href="alt_doc.php?returnUrl=mod.php?M=user_MediaM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a>
 	%s
 </li>
 EOF;

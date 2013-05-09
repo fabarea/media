@@ -22,7 +22,7 @@
 				class="btn-imageMaker" additionalAttributes="{data-uid: '{asset.uid}'}">
 					<m:sprite name="extensions-media-variant-edit" /></f:link.action>
 			</f:if>
-			<a href="alt_doc.php?returnUrl=/typo3/mod.php?M=user_MediaM1&edit[sys_file][{asset.uid}]=edit" data-uid="{asset.uid}" class="btn-edit">
+			<a href="alt_doc.php?returnUrl=mod.php?M=user_MediaM1&edit[sys_file][{asset.uid}]=edit" data-uid="{asset.uid}" class="btn-edit">
 				<m:sprite name="actions-document-open" /></a>
 			<f:link.action action="delete" arguments="{asset : asset.uid, format: 'json'}"
 				class="btn-delete" additionalAttributes="{data-uid: '{asset.uid}'}">

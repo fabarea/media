@@ -9,7 +9,7 @@
 			debug: true,
 			multiple: false, // no multiple upload in a regular form
 			request: {
-				endpoint: '/typo3/mod.php',
+				endpoint: 'mod.php',
 				// backward compatibility for fine upload to have parameters as GET params.
 				// Otherwise use "setEndpoint" over "setParam" in submit event
 				paramsInBody: false

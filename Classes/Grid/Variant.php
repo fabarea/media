@@ -48,7 +48,7 @@ class Variant implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 			$_template = <<<EOF
 <li title="uid: %s">
-	<a href="/%s" class="%s" target="_blank" data-original-uid="%s" data-file-uid="%s" data-public-url="%s" data-time-stamp="%s">%s</a> %s x %s
+	<a href="%s" class="%s" target="_blank" data-original-uid="%s" data-file-uid="%s" data-public-url="%s" data-time-stamp="%s">%s</a> %s x %s
 </li>
 EOF;
 			// Computes sprite icon.
@@ -61,7 +61,7 @@ EOF;
 			foreach ($variants as $variant) {
 				$_result .= sprintf($_template,
 					$variant->getVariant()->getUid(),
-					$variant->getVariant()->getPublicUrl(),
+					\TYPO3\CMS\Media\Utility\Path::getRelativePath($variant->getVariant()->getPublicUrl()),
 					isset($parameters['rtePlugin']) ? 'btn-variant-link' : 'btn-variant',
 					$variant->getOriginal()->getUid(),
 					$variant->getVariant()->getUid(),
