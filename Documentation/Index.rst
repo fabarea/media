@@ -2,27 +2,44 @@
 Media for TYPO3 CMS
 ========================
 
-Media Management (media) is a tool for organizing Media files and retrieve them by categories, mime-types etc.
-and is a `replacement of the DAM`_ built on the top of FAL for TYPO3 CMS 6 branch. This document will describe the various API
-introduced by Media for its needs along to its configuration.
+Media is the successor of DAM for TYPO3 CMS 6.0 and is logically built on top of FAL. FAL, for those who are unfamiliar, is a the File Abstraction Layer introduced in TYPO3 6.0enables to handle files in centralized way across the CMS. The basic idea of FAL is that every file has an entry in the database leverage the use of an asset.
 
-Development happens: https://forge.typo3.org/projects/extension-media/
-Issue tracker: https://forge.typo3.org/projects/extension-media/issues
-Mailing list: http://lists.typo3.org/cgi-bin/mailman/listinfo/typo3-dev Make sure to mention the word "media" in the subject.
+Likewise DAM, Media is a tool for organizing assets and retrieving them by categories, mime types etc. Metadata can be inserted by a User or extracted automatically upon upload. Basically, Media provides the following set of features:
 
-.. _replacement of the DAM: http://buzz.typo3.org/teams/dam/article/new-features-in-dam-13-and-the-future-of-dam/
+* Advance metadata support
+* API for querying Image, Text, Audio, Video, Application from their repository
+* Multi language handling of metadata
+* File permission management
+* File optimization on upload
+* Mass upload of files
+* Automatic Metadata extraction provided by EXT:metadata
+* Integration in the text editor (RTE)
 
 
-Overview
-=============
+Project info and releases
+=============================
 
-@todo add some words here....
+The home page of the project is at http://forge.typo3.org/projects/extension-media/
+
+Stable version:
+http://typo3.org/extensions/repository/view/media
+
+Development version:
+https://git.typo3.org/TYPO3v4/Extensions/media.git
+
+git clone git://git.typo3.org/TYPO3v4/Extensions/media.git
+
+Live website with pre-configured extension:
+http://get.typo3.org/bootstrap
+
+Flash news about latest development:
+http://twitter.com/fudriot
 
 
 Installation
 =================
 
-Download the source code either from the `Git repository`_ to get the latest branch or from the TER for the stables releases. Install the extension as normal in the Extension Manager.
+Download the source code either from the `Git repository`_ to get the latest branch or from the TER for the stable releases. Install the extension as normal in the Extension Manager.
 
 .. _Git repository: https://git.typo3.org/TYPO3v4/Extensions/media.git
 
@@ -32,89 +49,6 @@ Configuration
 Configuration is mainly provided in the Extension Manager and is pretty much self-explanatory. Check possible options there.
 
 * In the the Variant tab, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
-
-Widgets
-=================
-
-Carousel Widget
--------------------
-
-By default, the View Helper generates a Carousel Gallery based on the markup of `Twitter Bootstrap`_
-and is assuming jQuery to be loaded. Syntax is as follows::
-
-	# Note categories attribute can be an array categories="{1,3}"
-	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000" sort="sorting" order="desc"/>
-	{namespace m=TYPO3\CMS\Media\ViewHelpers}
-
-
-	# Required attributes:
-	# --------------------
-	#
-	# No attribute is required. However if you don't define a category *all images* will be displayed from the repository. It may take long!!
-
-	# Default values:
-	# ---------------
-	#
-	# Max height of the image
-	# height = 600
-	#
-	# Max width of the image
-	# width = 600
-	#
-	# Categories to be taken as filter.
-	# categories = array()
-	#
-	# Interval value of time between the slides. "O" means no automatic sliding.
-	# interval = 0
-	#
-	# Whether to display the title and description or not.
-	# caption = true
-	#
-	# The field name to sort out.
-	# sort =
-	#
-	# The direction to sort.
-	# order = asc
-
-
-The underlying template can be overridden by TypoScript. The default configuration looks as::
-
-	config.tx_extbase {
-		view {
-			widget {
-				TYPO3\CMS\Media\ViewHelpers\Widget\CarouselViewHelper {
-					# Assuming a template file is under ViewHelpers/Widget/Carousel/Index.html
-					templateRootPath = EXT:media/Resources/Private/Templates
-				}
-			}
-		}
-	}
-
-.. _Twitter Bootstrap: http://twitter.github.io/bootstrap/examples/carousel.html
-
-
-Permission management
-======================
-
-Permissions management is about controlling read access of an Asset by the right User. Permission can be defined on each file under tab "Access" where to connect
-an Asset to a Backend and / or a Frontend group. To properly activate permission, consider also:
-
-* Backend: there is an setting that can be activated in the Extension Manager which influences the display of files within the BE module.
-* Frontend, extension such as naw_securedl_ must be installed. It will rewrite all URL pointing to a file to be secured.
-There is a Hook in EXT:media/Resources/Private/Php/user_secure_download.php taking care of security check.
-
-.. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
-
-RTE integration
-=================
-
-The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module.
-The button name references are ``linkmaker`` and ``imagemaker`` respectively which can be added by TypoScript in TSConfig with the following line::
-
-	# key where to define the visible buttons in the RTE
-	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
-
-	-> Refer to the documentation of extension HtmlArea for more details.
 
 
 Domain Model and Repository
@@ -140,7 +74,7 @@ We are following the recommendation_ of the Iana_for taking apart the media type
 
 
 Along to the Models, corresponding repositories can be used. The fundamental one,
-is the Asset Repository which is the "four-wheel" repository. It can query any kind of media types. Consider the snippet::
+is the Asset Repository which is the "four-wheel" repository. It can query any kind of media types. Although FAL is not using the Extbase persistence layer, the API is very close to what one would expect from it. Consider the snippet::
 
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
@@ -151,13 +85,42 @@ is the Asset Repository which is the "four-wheel" repository. It can query any k
 	$assetRepository->findOneBy*($value)  e.g findOneByType
 	$assetRepository->countBy*($value)  e.g countBy
 
+Look for assets given a search term::
+
+	/** @var $match \TYPO3\CMS\Media\QueryElement\Match */
+	$match = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Match');
+	$match->setSearchTerm('foo');
+
+	/** @var $assetRepository \TYPO3\CMS\Media\Domain\Model\AssetRepository */
+	$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Model\AssetRepository');
+	$assetRepository->findBy($match);
+
+
+Look for assets given multiple categories::
+
+	/** @var $match \TYPO3\CMS\Media\QueryElement\Match */
+	$match = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Match');
+	$match->addMatch('categories', $uidOrObject);
+	$match->addMatch('categories', $uidOrObject2);
+
+	/** @var $assetRepository \TYPO3\CMS\Media\Domain\Model\AssetRepository */
+	$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Model\AssetRepository');
+	$assetRepository->findBy($match);
+
+	# Alternative syntax which for only one category
+
+	/** @var $assetRepository \TYPO3\CMS\Media\Domain\Model\AssetRepository */
+	$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Model\AssetRepository');
+	$assetRepository->findByCategories($uidOrObject);
+
 There is also an option that can be passed whether you want to be returned objects (the default) or arrays::
 
 	# Will return an array of array instead of an array of object
 	$assetRepository->setRawResult(TRUE)->findAll();
 
-Besides the Asset repository, it comes a few repositories for "specialized" media type. As instance, for an Photo Gallery you are likely to use the Image repository
-which apply an implicit filter on Images. But there is more than that:
+
+Besides the Asset repository, it comes a few repositories for "specialized" media types. As instance, for an Photo Gallery you are likely to use the Image repository
+which apply an implicit filter on Images. But there is more than that with:
 
 * Text repository for plain text files (txt, html, ...)
 * Image repository
@@ -255,7 +218,7 @@ Image Optimizer API
 =====================
 
 When a image get uploaded, there is a post-processing step where the image get the chance to be "optimized".
-By default there are two optimizations run against the image: **resize** and **rotate**. The `resize` processing enables
+By default there are two out-of-the-box optimizations: **resize** and **rotate**. The `resize` processing enables
 to reduce the size of an image if a User uploads a too big image. The maximum size can be configured in the Extension Manager.
 The `rotate` optimizer read the `exif`_ metadata and automatically rotates the image. For the auto-rotation features, credits go to
 Xavier Perseguers where great inspiration was found in one of his `extension`_.
@@ -277,7 +240,6 @@ A Variant is, as its name indicates, a variation of a file to be used in a diffe
 In the object land, a Variant object make the join between the original file and the Variant file. Additionally, it also stores the variation. Consider a few examples.
 
 Use the Variant Service for creating a Variant out of a File::
-
 
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
 	$objectManager;
@@ -312,6 +274,89 @@ Retrieving one Variant object from the Variant Repository::
 
 	# Possible save of Variant object
 	$this->variantRepository->update($variantObject);
+
+Permission management
+======================
+
+Permissions management is about controlling access of an Asset by the User. Permission can be defined on each file under tab "Access" where to connect
+an Asset to a Backend and / or a Frontend group. It is important to notice, that permission control is not enabled by default which means all assets will be visible
+for everyone. There are a few things to activate:
+
+* Backend: there is an setting that can be activated in the Extension Manager which influences the display of files within the BE module.
+* Frontend: Media **delegates file permission check to third party extensions**. However, Media provides integration with extension naw_securedl_. Once the extension is installed **and configured** all URL pointing to a PDF will be secured. There is a Hook in EXT:media/Classes/Hooks/NawSecuredl.php taking care of security check.
+
+.. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
+
+RTE integration
+=================
+
+The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module.
+The button name references are ``linkmaker`` and ``imagemaker`` respectively which can be added by TypoScript in TSConfig with the following line::
+
+	# key where to define the visible buttons in the RTE
+	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
+
+	-> Refer to the documentation of extension HtmlArea for more details.
+
+
+Widgets
+=================
+
+Carousel Widget
+-------------------
+
+By default, the View Helper generates a Carousel Gallery based on the markup of `Twitter Bootstrap`_
+and is assuming jQuery to be loaded. Syntax is as follows::
+
+	# Note categories attribute can be an array categories="{1,3}"
+	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000" sort="sorting" order="desc"/>
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+
+
+	# Required attributes:
+	# --------------------
+	#
+	# No attribute is required. However if you don't define a category *all images* will be displayed from the repository. It may take long!!
+
+	# Default values:
+	# ---------------
+	#
+	# Max height of the image
+	# height = 600
+	#
+	# Max width of the image
+	# width = 600
+	#
+	# Categories to be taken as filter.
+	# categories = array()
+	#
+	# Interval value of time between the slides. "O" means no automatic sliding.
+	# interval = 0
+	#
+	# Whether to display the title and description or not.
+	# caption = true
+	#
+	# The field name to sort out.
+	# sort =
+	#
+	# The direction to sort.
+	# order = asc
+
+
+The underlying template can be overridden by TypoScript. The default configuration looks as::
+
+	config.tx_extbase {
+		view {
+			widget {
+				TYPO3\CMS\Media\ViewHelpers\Widget\CarouselViewHelper {
+					# Assuming a template file is under ViewHelpers/Widget/Carousel/Index.html
+					templateRootPath = EXT:media/Resources/Private/Templates
+				}
+			}
+		}
+	}
+
+.. _Twitter Bootstrap: http://twitter.github.io/bootstrap/examples/carousel.html
 
 TCA Service API
 =================
