@@ -172,7 +172,7 @@ class Query {
 
 		if (TYPO3_MODE === 'BE' && $this->ignoreEnableFields) {
 			$clause .= \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($this->tableName);
-		} elseif (TYPO3_MODE === 'FE' && $this->ignoreEnableFields) {
+		} elseif (TYPO3_MODE === 'FE' && $this->ignoreEnableFields != TRUE) {
 			$clause .= $GLOBALS['TSFE']->sys_page->enableFields($this->tableName);
 		}
 
