@@ -309,8 +309,53 @@ The button name references are ``linkmaker`` and ``imagemaker`` respectively whi
 	-> Refer to the documentation of extension HtmlArea for more details.
 
 
-Widgets
-=================
+Media View Helpers
+====================
+
+Media ships a few View Helpers that are described below and can be considered part as the API.
+
+Metadata
+--------
+
+A metadata VH is available for displaying in a flexible way meta information of a file such as width, height, size, ...
+
+::
+
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+	<m:metadata object="{asset}" format="%s x %s" properties="{width, height}" />
+
+	# Will output: <div class="metadata">300 x 200</div>
+
+	<m:metadata object="{asset}" format="%s K" properties="{size}" />
+
+	# Will output: <div class="metadata">500 K</div>
+
+	# With all options
+	<m:metadata object="{asset}" format="%s K" properties="{size}" template="<div class='metadata'>%s</div>"
+		configuration="{sizeUnit: 1000}"/>
+
+	# Required attributes:
+	# --------------------
+	#
+	# object, format, properties
+
+	# Default values:
+	# ---------------
+	#
+	# The object used as reference
+	# object = NULL
+	#
+	# The format which should contain the placeholder "%s"
+	# format = NULL
+	#
+	# What properties of object, must corresponds to the number of placeholder in the format
+	# properties = array()
+	#
+	# The template used agains the formatting
+	# template = NULL
+	#
+	# Possible configuration used internally
+	# configuration = array()
 
 Carousel Widget
 -------------------

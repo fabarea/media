@@ -68,13 +68,10 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 		$uri = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[asset]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
 		$template = <<<EOF
 <a href="$uri" target="_blank">%s</a>
-<div class="metadata">%s K</div>
 EOF;
-
 		return sprintf($template,
 			$this->file->getUid(),
-			$thumbnail,
-			round($this->file->getSize() / 1000)
+			$thumbnail
 		);
 	}
 

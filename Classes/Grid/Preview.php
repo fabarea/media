@@ -38,10 +38,16 @@ class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 	protected $thumbnailService;
 
 	/**
+	 * @var \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper
+	 */
+	protected $metadataViewHelper;
+
+	/**
 	 * @return \TYPO3\CMS\Media\Grid\Preview
 	 */
 	public function __construct() {
 		$this->thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+		$this->metadataViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
 	}
 
 	/**
@@ -51,7 +57,18 @@ class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		return $this->thumbnailService->setFile($asset)->doWrap()->create();
+		$result = $this->thumbnailService->setFile($asset)->doWrap()->create();
+
+		$format = '%s K';
+		$properties = array('size');
+
+		if ($asset->getType() === \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
+			$format = '%s x %s';
+			$properties = array('width', 'height');
+		}
+
+		$result .= $this->metadataViewHelper->render($asset, $format, $properties);
+		return $result;
 	}
 }
 ?>
