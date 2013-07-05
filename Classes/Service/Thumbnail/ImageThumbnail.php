@@ -30,7 +30,13 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
+class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail
+	implements \TYPO3\CMS\Media\Service\ThumbnailRenderableInterface {
+
+	protected $defaultConfigurationWrap = array(
+		'width' => 0,
+		'height' => 0,
+	);
 
 	/**
 	 * Render a thumbnail of a media
@@ -38,6 +44,22 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	 * @return string
 	 */
 	public function create() {
+		$steps = $this->getRenderingSteps();
+
+		$result = '';
+		while($step = array_shift($steps)) {
+			$result = $this->$step($result);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Render the URI of the thumbnail.
+	 *
+	 * @return string
+	 */
+	public function renderUri(){
 
 		// Makes sure the width and the height of the thumbnail is not bigger than the actual file
 		$configuration = $this->getConfiguration();
@@ -49,39 +71,61 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 		}
 
 		$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW;
-		/** @var $processedFile \TYPO3\CMS\Core\Resource\ProcessedFile */
-		$processedFile = $this->file->process($taskType, $configuration);
 
-		$thumbnail = sprintf('<img src="%s?%s" title="%s" alt="%s" %s/>',
-			$processedFile->getPublicUrl(TRUE),
-			$processedFile->isUpdated() ? time() : $processedFile->getProperty('tstamp'),
+		$this->processedFile = $this->file->process($taskType, $configuration);
+
+		return $this->processedFile->getPublicUrl(TRUE);
+	}
+
+	/**
+	 * Render the tag image which is the main one for a thumbnail.
+	 *
+	 * @param string $result
+	 * @return string
+	 */
+	public function renderTagImage($result) {
+		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
+			$result,
+			$this->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
 			htmlspecialchars($this->file->getName()),
 			htmlspecialchars($this->file->getName()),
 			$this->renderAttributes()
 		);
-
-		if ($this->isWrapped()) {
-			$thumbnail = $this->wrap($thumbnail);
-		}
-		return $thumbnail;
 	}
 
 	/**
-	 * Get Wrap template
+	 * Render a wrapping anchor around the thumbnail.
 	 *
-	 * @param string $thumbnail
+	 * @param string $result
 	 * @return string
 	 */
-	public function wrap($thumbnail) {
-		$template = <<<EOF
-<a href="%s?%s" target="_blank">%s</a>
-EOF;
-		return sprintf($template,
-			$this->file->getPublicUrl(TRUE),
-			$this->file->getProperty('tstamp'),
-			$thumbnail
+	public function renderTagAnchor($result) {
+
+		$file =  $this->file;
+
+		// Perhaps the wrapping file must be processed
+		$configurationWrap = $this->getConfigurationWrap();
+
+		// Make sure we have configurationWrap initialized correctly
+		if (!empty($configurationWrap['width']) || !empty($configurationWrap['height'])) {
+			$configurationWrap = array_merge($this->defaultConfigurationWrap, $configurationWrap);
+
+			// It looks maxW or maxH does not work as expected with CONTEXT_IMAGEPREVIEW...
+			// ... uses "width" and "height" instead.
+			if ($configurationWrap['width'] < $this->file->getProperty('width')
+				|| $configurationWrap['height'] < $this->file->getProperty('height'))
+			{
+				$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW;
+				$file = $this->file->process($taskType, $configurationWrap);
+			}
+		}
+
+		return sprintf('<a href="%s%s" target="%s">%s</a>',
+			$file->getPublicUrl(TRUE),
+			$this->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
+			$this->getTarget(),
+			$result
 		);
 	}
-
 }
 ?>

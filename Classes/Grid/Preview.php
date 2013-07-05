@@ -57,7 +57,11 @@ class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$result = $this->thumbnailService->setFile($asset)->doWrap()->create();
+		$result = $this->thumbnailService->setFile($asset)
+			->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+			->setAppendTimeStamp(TRUE)
+			->setTarget(\TYPO3\CMS\Media\Service\ThumbnailInterface::TARGET_BLANK)
+			->create();
 
 		$format = '%s K';
 		$properties = array('size');

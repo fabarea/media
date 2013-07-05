@@ -38,11 +38,14 @@ class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	 * @param object $object
 	 * @param array $configuration
 	 * @param array $attributes DOM attributes to add to the thumbnail image
-	 * @param boolean $wrap whether the thumbnail should be wrapped with an anchor tag.
+	 * @param boolean $wrap whether the thumbnail should be wrapped with an anchor tag. (OBSOLETE WILL BE REMOVED IN MEDIA 1.2!)
 	 * @param string $preset an image dimension preset
+	 * @param string $output an image dimension preset. Can be: uri, image, imageWrapped
+	 * @param array $configurationWrap the configuration given to the wrap
 	 * @return string
 	 */
-	public function render($object, $configuration = array(), $attributes = array(), $wrap = FALSE, $preset = NULL) {
+	public function render($object, $configuration = array(), $attributes = array(), $wrap = FALSE, $preset = NULL,
+	                       $output = 'image', $configurationWrap = array()) {
 
 		/** @var $object \TYPO3\CMS\Media\Domain\Model\Asset */
 		if ($preset) {
@@ -51,14 +54,19 @@ class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 			$configuration['height'] = $imageDimension->getHeight();
 		}
 
-		/** @var $thumbnailSpecification \TYPO3\CMS\Media\Service\ThumbnailSpecification */
-		$thumbnailSpecification = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailSpecification');
-		$thumbnailSpecification->setConfiguration($configuration)
-			->setAttributes($attributes)
-			->setWrap($wrap);
+		// @todo remove me as of Media 1.2
+		if ($wrap) {
+			$output = \TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED;
+		}
 
-		return $object->getThumbnail($thumbnailSpecification);
+		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+		return $thumbnailService->setFile($object)
+			->setConfiguration($configuration)
+			->setConfigurationWrap($configurationWrap)
+			->setAttributes($attributes)
+			->setOutputType($output)
+			->create();
 	}
 }
-
 ?>

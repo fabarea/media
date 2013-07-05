@@ -30,7 +30,8 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
+class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail
+	implements \TYPO3\CMS\Media\Service\ThumbnailRenderableInterface {
 
 	/**
 	 * Render a thumbnail of a media
@@ -39,41 +40,64 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
 	 */
 	public function create() {
 
-		if ($this->isThumbnailPossible($this->file->getExtension())) {
-			$processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $this->getConfiguration());
-			$icon = $processedFile->getPublicUrl(TRUE);
-		} else {
-			$icon = $this->getIcon($this->file->getExtension());
+		$steps = $this->getRenderingSteps();
+
+		$result = '';
+		while ($step = array_shift($steps)) {
+			$result = $this->$step($result);
 		}
 
-		$thumbnail = sprintf('<img src="%s" title="%s" alt="%s" %s/>',
-			$icon,
+		return $result;
+	}
+
+	/**
+	 * Render the URI of the thumbnail.
+	 *
+	 * @return string
+	 */
+	public function renderUri() {
+		if ($this->isThumbnailPossible($this->file->getExtension())) {
+			$this->processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $this->getConfiguration());
+			$result = $this->processedFile->getPublicUrl(TRUE);
+		} else {
+			$result = $this->getIcon($this->file->getExtension());
+		}
+		return $result;
+	}
+
+	/**
+	 * Render the tag image which is the main one for a thumbnail.
+	 *
+	 * @param string $result
+	 * @return string
+	 */
+	public function renderTagImage($result) {
+		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
+			$result,
+			$this->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
 			htmlspecialchars($this->file->getName()),
 			htmlspecialchars($this->file->getName()),
 			$this->renderAttributes()
 		);
-
-		if ($this->isWrapped()) {
-			$thumbnail = $this->wrap($thumbnail);
-		}
-		return $thumbnail;
 	}
 
 	/**
-	 * Get Wrap template
+	 * Render a wrapping anchor around the thumbnail.
+	 *
+	 * @param string $result
+	 * @return string
 	 */
-	public function wrap($thumbnail) {
-
-//		// @todo implementation of secure download not ideal for now. Improve it! Make it compatible with the FE, too.
-		$uri = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[asset]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
+	public function renderTagAnchor($result) {
+		// @todo implementation of secure download not ideal for now. Improve it!
+		// @todo improve me! Make it compatible with the FE.
+			$uri = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[asset]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
 		$template = <<<EOF
 <a href="$uri" target="_blank">%s</a>
 EOF;
 		return sprintf($template,
 			$this->file->getUid(),
-			$thumbnail
+			$result
 		);
 	}
-
 }
 ?>

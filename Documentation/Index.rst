@@ -62,8 +62,7 @@ Please note that PHP setups with the suhosin patch installed will have a default
 Domain Model and Repository
 =============================
 
-We are following the recommendation_ of the Iana_for taking apart the media types. Model works as follows:
-
+We are following the recommendation_ of the Iana_for taking apart the media types. Model works as follows::
 
 	---------------------
 	|       File        |  -> Limited meta data handling (Model in Core)
@@ -142,6 +141,12 @@ which apply an implicit filter on Images. But there is more than that with:
 Thumbnail API
 ======================
 
+The thumbnail API is meant for generating out of an asset a preview, regardless of its type. The entry point of the API is the
+Thumbnail service class which then delegates the rendering of the thumbnail to the right sub service according to the asset
+type. A strategy pattern is used to determine which sub service fits the best . In case no one is found,
+a fallback thumbnail generator is used. For now, asset of type "image" and "application" are implemented. Video
+and audio thumbnail service would still be on the todo list...
+
 As a first place, a thumbnail can be generated from the Asset object, like::
 
 	# Get a thumbnail of the file.
@@ -150,13 +155,17 @@ As a first place, a thumbnail can be generated from the Asset object, like::
 	# Get a thumbnail of the file wrapped within a link pointing to the original file.
 	{asset.thumbnailWrapped}
 
-If the default thumbnail is not "sufficient", a View Helper can be used enabling to configure the thumbnail to be generated::
+If the default thumbnail is not enough, which likely will be the case, a View Helper can be used enabling to configure the
+thumbnail to be generated::
 
 	# The minimum
 	<m:thumbnail object="{asset}"/>
 
 	# Pass more settings to the thumbnail to be rendered.
-	<m:thumbnail object="{asset}" configuration="{width: 800, height: 800}" attributes="{class: 'file-variant'}" wrap="true"/>
+	<m:thumbnail object="{asset}"
+		configuration="{width: 800, height: 800}"
+		attributes="{class: 'file-variant'}"
+		output="image"/>
 
 	# Required attributes:
 	# --------------------
@@ -168,7 +177,7 @@ If the default thumbnail is not "sufficient", a View Helper can be used enabling
 	#
 	# configuration= array()
 	# attributes = array()
-	# wrap = FALSE
+	# output = image (possible values: "uri", "image", "imageWrapped")
 	# preset = NULL
 
 	# Pass some preset as for the dimension. Values can be:
@@ -190,8 +199,25 @@ If the default thumbnail is not "sufficient", a View Helper can be used enabling
 		<section>
 			<m:thumbnail object="{asset}" preset="image_medium"/>
 		</section>
-
     </html>
+
+
+Let see also how we can generate a thumbnail in a programming way. The example emphasises some configuration to illustrate the
+use of the API and does not show every configuration possibility. Refer to the class itself::
+
+	/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+	$thumbnail = $thumbnailService
+		->setFile($file)
+		->setConfiguration($configuration)
+		->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+		->setAppendTimeStamp(TRUE)
+		->create();
+
+	print $thumbnail;
+	<a href="..." target="_blank">
+		<img src="..." alt="..." title="..." />
+	</a>
 
 File Upload API
 =================

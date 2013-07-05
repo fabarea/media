@@ -83,11 +83,6 @@ EOF;
 			$this->fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($this->getValue());
 		}
 
-		// @todo remove me if not used anymore after legacy upload is implemented.
-//		if (! $this->getName()) {
-//			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('Missing value for property "name" for text field', 1356217712);
-//		}
-
 		$result = sprintf($this->template,
 			$this->getThumbnail(),
 			$this->elementId,
@@ -109,7 +104,8 @@ EOF;
 			$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
 			$thumbnail = $thumbnailService
 				->setFile($this->fileObject)
-				->doWrap(TRUE)
+				->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+				->setAppendTimeStamp(TRUE)
 				->create();
 		}
 		return $thumbnail;

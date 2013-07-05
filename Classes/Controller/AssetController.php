@@ -377,11 +377,15 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 					}
 				}
 
+				/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+				$thumbnailService->setAppendTimeStamp(TRUE);
+
 				$response = array(
 					'success' => TRUE,
 					'uid' => $newFileObject->getUid(),
 					'name' => $newFileObject->getName(),
-					'thumbnail' => $assetObject->getThumbnailWrapped(),
+					'thumbnail' => $assetObject->getThumbnailWrapped($thumbnailService),
 					// @todo hardcoded for now...
 					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Asset'
 				);

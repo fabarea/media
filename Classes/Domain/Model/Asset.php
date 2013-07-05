@@ -818,42 +818,36 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Return a thumbnail of the Asset.
 	 *
-	 * @param \TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification
+	 * @param \TYPO3\CMS\Media\Service\Thumbnail $thumbnailService
 	 * @return string
 	 */
-	public function getThumbnail(\TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification = NULL) {
-		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
-		$thumbnailService->setFile($this);
+	public function getThumbnail(\TYPO3\CMS\Media\Service\Thumbnail $thumbnailService = NULL) {
 
-		// Add more rendering specification if given.
-		if (is_object($thumbnailSpecification)) {
-			$thumbnailService->setConfiguration($thumbnailSpecification->getConfiguration())
-				->setAttributes($thumbnailSpecification->getAttributes())
-				->doWrap($thumbnailSpecification->getWrap());
+		if (is_null($thumbnailService)) {
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\Thumbnail');
 		}
-		return $thumbnailService->create();
+
+		return $thumbnailService->setFile($this)
+			->create();
 	}
 
 	/**
 	 * Return a thumbnail of the Asset wrapped with a link.
 	 *
-	 * @param \TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification
+	 * @param \TYPO3\CMS\Media\Service\Thumbnail $thumbnailService
 	 * @return string
 	 */
-	public function getThumbnailWrapped(\TYPO3\CMS\Media\Service\ThumbnailSpecification $thumbnailSpecification = NULL) {
+	public function getThumbnailWrapped(\TYPO3\CMS\Media\Service\Thumbnail $thumbnailService = NULL) {
 
-		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
-		$thumbnailService->setFile($this)
-			->doWrap();
-
-		// Add more rendering specification if given.
-		if (is_object($thumbnailSpecification)) {
-			$thumbnailService->setConfiguration($thumbnailSpecification->getConfiguration())
-				->setAttributes($thumbnailSpecification->getAttributes());
+		if (is_null($thumbnailService)) {
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
+			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\Thumbnail');
 		}
-		return $thumbnailService->create();
+
+		return $thumbnailService->setFile($this)
+			->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+			->create();
 	}
 
 	/**
