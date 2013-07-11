@@ -34,11 +34,6 @@ namespace TYPO3\CMS\Media\Domain\Repository;
 class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var \TYPO3\CMS\Core\Resource\FileRepository
-	 */
-	protected $fileRepository;
-
-	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
 	protected $databaseHandle;
@@ -69,7 +64,6 @@ class VariantRepository implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Media\Domain\Repository\VariantRepository
 	 */
 	public function __construct() {
-		$this->fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
 		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
 		$this->objectFactory = \TYPO3\CMS\Media\ObjectFactory::getInstance();
 	}

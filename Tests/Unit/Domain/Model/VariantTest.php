@@ -72,16 +72,16 @@ class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	public function getOriginalMethodReturnFileObject() {
 		$dataSet = array('original' => $this->fakeOriginalUid);
 		$fixture = new \TYPO3\CMS\Media\Domain\Model\Variant($dataSet);
-		$this->assertInstanceOf('\TYPO3\CMS\Core\Resource\File', $fixture->getOriginal());
+		$this->assertInstanceOf('\TYPO3\CMS\Media\Domain\Model\Asset', $fixture->getOriginal());
 	}
 
 	/**
 	 * @test
 	 */
-	public function getVariantMethodReturnFileObject() {
+	public function getVariantMethodReturnsAssetObject() {
 		$dataSet = array('variant' => $this->fakeVariantUid);
 		$fixture = new \TYPO3\CMS\Media\Domain\Model\Variant($dataSet);
-		$this->assertInstanceOf('\TYPO3\CMS\Core\Resource\File', $fixture->getVariant());
+		$this->assertInstanceOf('\TYPO3\CMS\Media\Domain\Model\Asset', $fixture->getVariant());
 	}
 
 	/**
@@ -120,6 +120,8 @@ class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 */
 	private function populateFileTable() {
 
+		$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
+
 		$uids = array();
 		for ($index = 0; $index < 2; $index++) {
 			$this->lastInsertedIdentifier = uniqid();
@@ -129,6 +131,7 @@ class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 					'identifier' => $this->lastInsertedIdentifier,
 					'type' => $this->fakeFileType,
 					'title' => $this->fakeTitle,
+					'storage' => $storageObject->getUid(),
 					'pid' => 0,
 				)
 			);
