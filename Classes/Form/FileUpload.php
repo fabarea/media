@@ -100,8 +100,8 @@ EOF;
 		$thumbnail = '';
 		if ($this->fileObject) {
 
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-			$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 			$thumbnail = $thumbnailService
 				->setFile($this->fileObject)
 				->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)

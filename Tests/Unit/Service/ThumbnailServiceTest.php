@@ -26,21 +26,21 @@ namespace TYPO3\CMS\Media\Service;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Service\Thumbnail.
+ * Test case for class \TYPO3\CMS\Media\Service\ThumbnailService.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class ThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class ThumbnailServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\Thumbnail
+	 * @var \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Service\Thumbnail();
+		$this->fixture = new \TYPO3\CMS\Media\Service\ThumbnailService();
 	}
 
 	public function tearDown() {
@@ -101,7 +101,7 @@ class ThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function setterForPropertyMediaReturnsInstanceOfSelfObject() {
-		$this->assertTrue($this->fixture->setFile($this->getMockMedia()) instanceof \TYPO3\CMS\Media\Service\Thumbnail);
+		$this->assertTrue($this->fixture->setFile($this->getMockMedia()) instanceof \TYPO3\CMS\Media\Service\ThumbnailService);
 	}
 
 	/**

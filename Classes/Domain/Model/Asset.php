@@ -818,14 +818,14 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Return a thumbnail of the Asset.
 	 *
-	 * @param \TYPO3\CMS\Media\Service\Thumbnail $thumbnailService
+	 * @param \TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService
 	 * @return string
 	 */
-	public function getThumbnail(\TYPO3\CMS\Media\Service\Thumbnail $thumbnailService = NULL) {
+	public function getThumbnail(\TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService = NULL) {
 
 		if (is_null($thumbnailService)) {
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\Thumbnail');
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\ThumbnailService');
 		}
 
 		return $thumbnailService->setFile($this)
@@ -835,14 +835,14 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	/**
 	 * Return a thumbnail of the Asset wrapped with a link.
 	 *
-	 * @param \TYPO3\CMS\Media\Service\Thumbnail $thumbnailService
+	 * @param \TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService
 	 * @return string
 	 */
-	public function getThumbnailWrapped(\TYPO3\CMS\Media\Service\Thumbnail $thumbnailService = NULL) {
+	public function getThumbnailWrapped(\TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService = NULL) {
 
 		if (is_null($thumbnailService)) {
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\Thumbnail');
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\ThumbnailService');
 		}
 
 		return $thumbnailService->setFile($this)

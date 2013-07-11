@@ -59,8 +59,8 @@ class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 			$output = \TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED;
 		}
 
-		/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+		/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 		return $thumbnailService->setFile($object)
 			->setConfiguration($configuration)
 			->setConfigurationWrap($configurationWrap)

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service\Thumbnail;
+namespace TYPO3\CMS\Media\Service\ThumbnailService;
 
 /***************************************************************
  *  Copyright notice
@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class FallBackThumbnail extends \TYPO3\CMS\Media\Service\Thumbnail {
+class FallBackThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 
 	/**
 	 * Render a thumbnail of a media

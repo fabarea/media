@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service\Thumbnail;
+namespace TYPO3\CMS\Media\Service\ThumbnailService;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +26,7 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail.
+ * Test case for class \TYPO3\CMS\Media\Service\ThumbnailService\FallBackThumbnail.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -35,12 +35,12 @@ namespace TYPO3\CMS\Media\Service\Thumbnail;
 class FallBackThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail
+	 * @var \TYPO3\CMS\Media\Service\ThumbnailService\FallBackThumbnail
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Service\Thumbnail\FallBackThumbnail();
+		$this->fixture = new \TYPO3\CMS\Media\Service\ThumbnailService\FallBackThumbnail();
 	}
 
 	public function tearDown() {

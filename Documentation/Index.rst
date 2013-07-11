@@ -205,8 +205,8 @@ thumbnail to be generated::
 Let see also how we can generate a thumbnail in a programming way. The example emphasises some configuration to illustrate the
 use of the API and does not show every configuration possibility. Refer to the class itself::
 
-	/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+	/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 	$thumbnail = $thumbnailService
 		->setFile($file)
 		->setConfiguration($configuration)

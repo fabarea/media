@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\Grid;
 class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\Thumbnail
+	 * @var \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
 	protected $thumbnailService;
 
@@ -46,7 +46,7 @@ class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 	 * @return \TYPO3\CMS\Media\Grid\Preview
 	 */
 	public function __construct() {
-		$this->thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+		$this->thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 		$this->metadataViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
 	}
 

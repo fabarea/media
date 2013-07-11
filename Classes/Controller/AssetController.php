@@ -378,8 +378,8 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 					}
 				}
 
-				/** @var $thumbnailService \TYPO3\CMS\Media\Service\Thumbnail */
-				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\Thumbnail');
+				/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 				$thumbnailService->setAppendTimeStamp(TRUE);
 
 				$response = array(
