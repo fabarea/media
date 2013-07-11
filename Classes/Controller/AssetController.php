@@ -89,6 +89,7 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 
 		// Initialize some objects related to the query
 		$matchObject = $this->createMatchObject();
+		$matchObject->setDefaultLogicalOperator(\TYPO3\CMS\Media\QueryElement\Query::LOGICAL_OR);
 		foreach ($matches as $propertyName => $value) {
 			$matchObject->addMatch($propertyName, $value);
 		}

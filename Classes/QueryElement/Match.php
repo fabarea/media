@@ -39,6 +39,11 @@ class Match {
 	protected $searchTerm = '';
 
 	/**
+	 * @var string
+	 */
+	protected $defaultLogicalOperator = 'AND';
+
+	/**
 	 * Contains associative values used for finding matches array($fieldName => $value)
 	 *
 	 * @var array
@@ -122,6 +127,20 @@ class Match {
 			$this->matches[$field] = $value;
 		}
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultLogicalOperator() {
+		return $this->defaultLogicalOperator;
+	}
+
+	/**
+	 * @param string $defaultLogicalOperator value must be "or", "and"
+	 */
+	public function setDefaultLogicalOperator($defaultLogicalOperator) {
+		$this->defaultLogicalOperator = $defaultLogicalOperator;
 	}
 }
 

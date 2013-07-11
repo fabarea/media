@@ -34,6 +34,16 @@ namespace TYPO3\CMS\Media\QueryElement;
 class Query {
 
 	/**
+	 * Constants representing a logical OR
+	 */
+	const LOGICAL_OR = 'OR';
+
+	/**
+	 * Constants representing a logical OR
+	 */
+	const LOGICAL_AND = 'AND';
+
+	/**
 	 * @var string
 	 */
 	protected $tableName = 'sys_file';
@@ -181,7 +191,11 @@ class Query {
 			$clauseCategories = $this->getClauseManyToMany();
 
 			if (strlen($clauseSearchTerm) > 0 && strlen($clauseCategories) > 0) {
-				$clause .= sprintf(' AND (%s OR %s)', $clauseSearchTerm, $clauseCategories);
+				$queryPart = ' AND (%s) AND (%s)';
+				if ($this->match->getDefaultLogicalOperator() === self::LOGICAL_OR) {
+					$queryPart = ' AND (%s OR %s)';
+				}
+				$clause .= sprintf($queryPart, $clauseSearchTerm, $clauseCategories);
 			} elseif (strlen($clauseSearchTerm) > 0) {
 				$clause .= sprintf(' AND (%s)', $clauseSearchTerm);
 			} elseif (strlen($clauseCategories) > 0) {
