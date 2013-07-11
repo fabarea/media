@@ -111,18 +111,18 @@ class ImageRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 * @test
 	 */
 	public function findByReturnsSameNumberOfRecordsAsNumberOfFakeRecords() {
-		$match = new \TYPO3\CMS\Media\QueryElement\Match();
-		$match->addMatch('tx_phpunit_is_dummy_record', '1');
-		$this->assertEquals($this->numberOfFakeImages, count($this->fixture->findBy($match)));
+		$matcher = new \TYPO3\CMS\Media\QueryElement\Matcher();
+		$matcher->addMatch('tx_phpunit_is_dummy_record', '1');
+		$this->assertEquals($this->numberOfFakeImages, count($this->fixture->findBy($matcher)));
 	}
 
 	/**
 	 * @test
 	 */
 	public function countByReturnsSameNumberOfRecordsAsNumberOfFakeRecords() {
-		$match = new \TYPO3\CMS\Media\QueryElement\Match();
-		$match->addMatch('tx_phpunit_is_dummy_record', '1');
-		$this->assertEquals($this->numberOfFakeImages, $this->fixture->countBy($match));
+		$matcher = new \TYPO3\CMS\Media\QueryElement\Matcher();
+		$matcher->addMatch('tx_phpunit_is_dummy_record', '1');
+		$this->assertEquals($this->numberOfFakeImages, $this->fixture->countBy($matcher));
 	}
 
 	/**

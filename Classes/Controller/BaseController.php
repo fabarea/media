@@ -38,25 +38,25 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	protected $frontendUser;
 
 	/**
-	 * Returns an match object.
+	 * Returns a matcher object.
 	 * Note: this code is very much tight to the BE module. It should / could probably be improved at one point...
 	 *
-	 * @return \TYPO3\CMS\Media\QueryElement\Match
+	 * @return \TYPO3\CMS\Media\QueryElement\Matcher
 	 */
 	protected function createMatchObject() {
 
-		/** @var $match \TYPO3\CMS\Media\QueryElement\Match */
-		$match = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Match');
+		/** @var $matcher \TYPO3\CMS\Media\QueryElement\Matcher */
+		$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Matcher');
 
 		// Special case for Grid in the BE using jQuery DataTables plugin.
 		// Retrieve a possible search term from GP.
 		$searchTerm = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSearch');
 		if (strlen($searchTerm) > 0) {
-			$match->setSearchTerm($searchTerm);
-			$match->addCategory($searchTerm);
+			$matcher->setSearchTerm($searchTerm);
+			$matcher->addCategory($searchTerm);
 		}
 
-		return $match;
+		return $matcher;
 	}
 
 	/**

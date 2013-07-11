@@ -56,9 +56,9 @@ class Query {
 	protected $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset';
 
 	/**
-	 * @var \TYPO3\CMS\Media\QueryElement\Match
+	 * @var \TYPO3\CMS\Media\QueryElement\Matcher
 	 */
-	protected $match;
+	protected $matcher;
 
 	/**
 	 * @var \TYPO3\CMS\Media\QueryElement\Order
@@ -186,13 +186,13 @@ class Query {
 			$clause .= $GLOBALS['TSFE']->sys_page->enableFields($this->tableName);
 		}
 
-		if (! is_null($this->match)) {
+		if (! is_null($this->matcher)) {
 			$clauseSearchTerm = $this->getClauseSearchTerm();
 			$clauseCategories = $this->getClauseManyToMany();
 
 			if (strlen($clauseSearchTerm) > 0 && strlen($clauseCategories) > 0) {
 				$queryPart = ' AND (%s) AND (%s)';
-				if ($this->match->getDefaultLogicalOperator() === self::LOGICAL_OR) {
+				if ($this->matcher->getDefaultLogicalOperator() === self::LOGICAL_OR) {
 					$queryPart = ' AND (%s OR %s)';
 				}
 				$clause .= sprintf($queryPart, $clauseSearchTerm, $clauseCategories);
@@ -216,7 +216,7 @@ class Query {
 	protected function getClauseManyToMany() {
 		$clause = '';
 
-		foreach ($this->match->getMatches() as $field => $values) {
+		foreach ($this->matcher->getMatches() as $field => $values) {
 
 			if ($this->tcaFieldService->hasRelationManyToMany($field)) {
 
@@ -278,7 +278,7 @@ EOF;
 		// Add constraints to the request
 		// @todo Implement OR. For now only support AND. Take inspiration from logicalAnd and logicalOr.
 		// @todo Add matching method $query->matching($query->equals($propertyName, $value))
-		foreach ($this->match->getMatches() as $field => $value) {
+		foreach ($this->matcher->getMatches() as $field => $value) {
 			if ($this->tcaFieldService->hasNoRelation($field)) {
 				$clause .= sprintf(' AND %s = %s',
 					$field,
@@ -297,8 +297,8 @@ EOF;
 	protected function getClauseSearchTerm() {
 		$clause = '';
 
-		if ($this->match->getSearchTerm()) {
-			$searchTerm = $this->databaseHandle->escapeStrForLike($this->match->getSearchTerm(), $this->tableName);
+		if ($this->matcher->getSearchTerm()) {
+			$searchTerm = $this->databaseHandle->escapeStrForLike($this->matcher->getSearchTerm(), $this->tableName);
 			$searchParts = array();
 
 			$fields = explode(',', \TYPO3\CMS\Media\Utility\TcaTable::getService()->getSearchableFields());
@@ -372,19 +372,36 @@ EOF;
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\QueryElement\Match
+	 * @return \TYPO3\CMS\Media\QueryElement\Matcher
+	 */
+	public function getMatcher() {
+		return $this->matcher;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Media\QueryElement\Matcher $matcher
+	 * @return \TYPO3\CMS\Media\QueryElement\Query
+	 */
+	public function setMatcher(\TYPO3\CMS\Media\QueryElement\Matcher $matcher) {
+		$this->matcher = $matcher;
+		return $this;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\QueryElement\Matcher
+	 * @deprecated will be removed in Media 1.2
 	 */
 	public function getMatch() {
-		return $this->match;
+		return $this->getMatcher();
 	}
 
 	/**
 	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
 	 * @return \TYPO3\CMS\Media\QueryElement\Query
+	 * @deprecated will be removed in Media 1.2
 	 */
 	public function setMatch(\TYPO3\CMS\Media\QueryElement\Match $match) {
-		$this->match = $match;
-		return $this;
+		return $this->setMatcher($match);
 	}
 
 	/**

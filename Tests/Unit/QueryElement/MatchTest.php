@@ -26,7 +26,7 @@ namespace TYPO3\CMS\Media\QueryElement;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\QueryElement\Match.
+ * Test case for class \TYPO3\CMS\Media\QueryElement\Matcher.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -35,12 +35,12 @@ namespace TYPO3\CMS\Media\QueryElement;
 class MatchTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\QueryElement\Match
+	 * @var \TYPO3\CMS\Media\QueryElement\Matcher
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\QueryElement\Match();
+		$this->fixture = new \TYPO3\CMS\Media\QueryElement\Matcher();
 	}
 
 	public function tearDown() {

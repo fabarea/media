@@ -117,7 +117,7 @@ class QueryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			array('offset', rand(0,100)),
 			array('limit', rand(0,100)),
 			array('order', new \TYPO3\CMS\Media\QueryElement\Order()),
-			array('match', new \TYPO3\CMS\Media\QueryElement\Match()),
+			array('matcher', new \TYPO3\CMS\Media\QueryElement\Matcher()),
 			array('rawResult', uniqid()),
 			array('objectType', uniqid()),
 			array('ignoreEnableFields', TRUE),

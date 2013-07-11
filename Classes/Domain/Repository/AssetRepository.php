@@ -158,12 +158,12 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 */
 	public function findByUid($uid) {
 
-		$match = $this->createMatch()->addMatch('uid', $uid);
+		$matcher = $this->createMatch()->addMatch('uid', $uid);
 
 		$query = $this->createQuery();
 		$result = $query->setRawResult($this->rawResult)
 			->setObjectType($this->objectType)
-			->setMatch($match)
+			->setMatcher($matcher)
 			->execute();
 
 		if (is_array($result)) {
@@ -175,15 +175,15 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	/**
 	 * Finds all Assets given specified matches.
 	 *
-	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
+	 * @param \TYPO3\CMS\Media\QueryElement\Matcher $matcher
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \TYPO3\CMS\Media\Domain\Model\Asset[]
 	 */
-	public function findBy(\TYPO3\CMS\Media\QueryElement\Match $match, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $limit = NULL, $offset = NULL) {
+	public function findBy(\TYPO3\CMS\Media\QueryElement\Matcher $matcher, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $limit = NULL, $offset = NULL) {
 
-		$query = $this->createQuery()->setMatch($match);
+		$query = $this->createQuery()->setMatcher($matcher);
 
 		if ($order) {
 			$query->setOrder($order);
@@ -206,12 +206,12 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	/**
 	 * Count all Assets given specified matches.
 	 *
-	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
+	 * @param \TYPO3\CMS\Media\QueryElement\Matcher $matcher
 	 * @return int
 	 */
-	public function countBy(\TYPO3\CMS\Media\QueryElement\Match $match) {
+	public function countBy(\TYPO3\CMS\Media\QueryElement\Matcher $matcher) {
 		$query = $this->createQuery();
-		return $query->setMatch($match)->count();
+		return $query->setMatcher($matcher)->count();
 	}
 
 	/**
@@ -279,13 +279,13 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	}
 
 	/**
-	 * Returns a match object for this repository
+	 * Returns a matcher object for this repository
 	 *
-	 * @return \TYPO3\CMS\Media\QueryElement\Match
+	 * @return \TYPO3\CMS\Media\QueryElement\Matcher
 	 * @return object
 	 */
 	public function createMatch() {
-		return $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Match');
+		return $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Matcher');
 	}
 
 	/**
@@ -344,18 +344,18 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 */
 	protected function processMagicCall($field, $value, $flag = '') {
 
-		$match = $this->createMatch()->addMatch($field, $value);
+		$matcher = $this->createMatch()->addMatch($field, $value);
 
 		// Add "automatic" file type restriction if method get called from child repository.
 		$fileType = $this->getFileType($this->objectType);
 		if ($fileType > 0) {
-			$match->addMatch('type', $fileType);
+			$matcher->addMatch('type', $fileType);
 		}
 
 		$query = $this->createQuery();
 		$query->setRawResult($this->rawResult)
 			->setObjectType($this->objectType)
-			->setMatch($match);
+			->setMatcher($matcher);
 
 		if ($flag == 'count') {
 			$result = $query->count();

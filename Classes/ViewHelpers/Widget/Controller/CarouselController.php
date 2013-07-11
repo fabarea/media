@@ -107,13 +107,13 @@ class CarouselController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetCont
 			$order->addOrdering($this->sort, $this->order);
 		}
 
-		/** @var $match \TYPO3\CMS\Media\QueryElement\Match */
-		$match = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Match');
+		/** @var $matcher \TYPO3\CMS\Media\QueryElement\Matcher */
+		$matcher = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Matcher');
 
 		foreach ($this->categories as $category) {
-			$match->addCategory($category);
+			$matcher->addCategory($category);
 		}
-		$images = $this->imageRepository->findBy($match, $order);
+		$images = $this->imageRepository->findBy($matcher, $order);
 
 		$this->view->assign('images', $images);
 		$this->view->assign('interval', $this->interval);

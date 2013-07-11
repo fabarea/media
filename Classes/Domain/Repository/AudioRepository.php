@@ -52,26 +52,26 @@ class AudioRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepository
 	/**
 	 * Finds all Audios given specified matches.
 	 *
-	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
+	 * @param \TYPO3\CMS\Media\QueryElement\Matcher $matcher
 	 * @param \TYPO3\CMS\Media\QueryElement\Order $order The order
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \TYPO3\CMS\Media\Domain\Model\Audio[]
 	 */
-	public function findBy(\TYPO3\CMS\Media\QueryElement\Match $match, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $limit = NULL, $offset = NULL) {
-		$match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO);
-		return parent::findBy($match, $order, $limit, $offset);
+	public function findBy(\TYPO3\CMS\Media\QueryElement\Matcher $matcher, \TYPO3\CMS\Media\QueryElement\Order $order = NULL, $limit = NULL, $offset = NULL) {
+		$matcher->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO);
+		return parent::findBy($matcher, $order, $limit, $offset);
 	}
 
 	/**
 	 * Count all Audios given specified matches.
 	 *
-	 * @param \TYPO3\CMS\Media\QueryElement\Match $match
+	 * @param \TYPO3\CMS\Media\QueryElement\Matcher $matcher
 	 * @return int
 	 */
-	public function countBy(\TYPO3\CMS\Media\QueryElement\Match $match) {
-		$match->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO);
-		return parent::countBy($match);
+	public function countBy(\TYPO3\CMS\Media\QueryElement\Matcher $matcher) {
+		$matcher->addMatch('type', \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO);
+		return parent::countBy($matcher);
 	}
 
 	/**

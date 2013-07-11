@@ -94,25 +94,25 @@ is the Asset Repository which is the "four-wheel" repository. It can query any k
 
 Look for assets given a search term::
 
-	/** @var $match \TYPO3\CMS\Media\QueryElement\Match */
-	$match = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Match');
-	$match->setSearchTerm('foo');
+	/** @var $matcher \TYPO3\CMS\Media\QueryElement\Matcher */
+	$matcher = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Matcher');
+	$matcher->setSearchTerm('foo');
 
 	/** @var $assetRepository \TYPO3\CMS\Media\Domain\Model\AssetRepository */
 	$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Model\AssetRepository');
-	$assetRepository->findBy($match);
+	$assetRepository->findBy($matcher);
 
 
 Look for assets given multiple categories::
 
-	/** @var $match \TYPO3\CMS\Media\QueryElement\Match */
-	$match = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Match');
-	$match->addMatch('categories', $uidOrObject);
-	$match->addMatch('categories', $uidOrObject2);
+	/** @var $matcher \TYPO3\CMS\Media\QueryElement\Matcher */
+	$matcher = $this->objectManager->get('TYPO3\CMS\Media\QueryElement\Matcher');
+	$matcher->addMatch('categories', $uidOrObject);
+	$matcher->addMatch('categories', $uidOrObject2);
 
 	/** @var $assetRepository \TYPO3\CMS\Media\Domain\Model\AssetRepository */
 	$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Model\AssetRepository');
-	$assetRepository->findBy($match);
+	$assetRepository->findBy($matcher);
 
 	# Alternative syntax which for only one category
 
