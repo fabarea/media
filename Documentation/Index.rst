@@ -278,8 +278,8 @@ Use the Variant Service for creating a Variant out of a File::
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
 	$objectManager;
 
-	/** @var \TYPO3\CMS\Media\Service\Variant $variantService */
-	$variantService = $objectManager->get('TYPO3\CMS\Media\Service\Variant');
+	/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
+	$variantService = $objectManager->get('TYPO3\CMS\Media\Service\VariantService');
 
 	$configuration = array(
 		'width' => 200, // corresponds to maxH, respectively maxW

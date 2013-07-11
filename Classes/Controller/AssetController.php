@@ -366,8 +366,8 @@ class AssetController extends \TYPO3\CMS\Media\Controller\BaseController {
 				$variations = \TYPO3\CMS\Media\Utility\SettingVariant::getInstance()->getVariations();
 				if (! empty($variations)) {
 
-					/** @var \TYPO3\CMS\Media\Service\Variant $variantService */
-					$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\Variant');
+					/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
+					$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
 
 					foreach ($variations as $variation) {
 						$configuration = array(

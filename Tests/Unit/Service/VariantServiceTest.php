@@ -26,13 +26,13 @@ namespace TYPO3\CMS\Media\Service;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Service\Variant.
+ * Test case for class \TYPO3\CMS\Media\Service\VariantService.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class VariantServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
 	 * @var \Tx_Phpunit_Framework
@@ -40,7 +40,7 @@ class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $testingFramework;
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\Variant
+	 * @var \TYPO3\CMS\Media\Service\VariantService
 	 */
 	private $fixture;
 
@@ -61,7 +61,7 @@ class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Service\Variant();
+		$this->fixture = new \TYPO3\CMS\Media\Service\VariantService();
 		$this->testingFramework = new \Tx_Phpunit_Framework('sys_file');
 		$this->variantRepository = new \TYPO3\CMS\Media\Domain\Repository\VariantRepository();
 		$this->sourcePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Tests/Resources';
