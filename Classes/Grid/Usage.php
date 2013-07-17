@@ -55,7 +55,12 @@ class Usage implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 		$result = $_result = '';
 
 		// Get the file references of the asset
-		$records = $this->databaseHandler->exec_SELECTgetRows('*', 'sys_file_reference', 'uid_local = ' . $asset->getUid());
+		$records = $this->databaseHandler->exec_SELECTgetRows(
+			'*',
+			'sys_file_reference',
+			'deleted = 0 AND uid_local = ' . $asset->getUid()
+		);
+
 		if (!empty($records)) {
 
 			$_template = <<<EOF
