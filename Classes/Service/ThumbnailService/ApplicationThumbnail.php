@@ -72,11 +72,15 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	public function renderTagImage($result) {
+		$imageTitle = $this->overlayFile->getProperty('title');
+		if (empty($imageTitle)) {
+			$imageTitle = $this->overlayFile->getName();
+		}
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
 			$this->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
-			htmlspecialchars($this->file->getName()),
-			htmlspecialchars($this->file->getName()),
+			htmlspecialchars($imageTitle),
+			htmlspecialchars($imageTitle),
 			$this->renderAttributes()
 		);
 	}

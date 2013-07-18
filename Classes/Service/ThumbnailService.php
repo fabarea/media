@@ -75,6 +75,11 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	protected $file;
 
 	/**
+	 * @var \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset
+	 */
+	protected $overlayFile;
+
+	/**
 	 * @var \TYPO3\CMS\Core\Resource\ProcessedFile
 	 */
 	protected $processedFile;
@@ -141,12 +146,13 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 				$className = 'TYPO3\CMS\Media\Service\ThumbnailService\ApplicationThumbnail';
 		}
 
-		/** @var $serviceInstance \TYPO3\CMS\Media\Service\ThumbnailInterface */
+		/** @var $serviceInstance \TYPO3\CMS\Media\Service\ThumbnailService */
 		$serviceInstance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
 
 		$thumbnail = '';
 		if ($this->file->exists()) {
 			$thumbnail = $serviceInstance->setFile($this->file)
+				->setOverlayFile($this->overlayFile)
 				->setConfiguration($this->getConfiguration())
 				->setConfigurationWrap($this->getConfigurationWrap())
 				->setAttributes($this->getAttributes())
@@ -283,10 +289,40 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
 	public function setFile($file) {
+
 		if (!is_object($file)) {
 			throw new \RuntimeException('Given parameter "file" should be an object', 1362999411);
 		}
+
+		$this->overlayFile = $file;
+
+		// Retrieve a possible original file if the file is detected as overlay.
+		// The original file is the source of truth when it comes about width / height, ...
+		if ($file->getProperty('sys_language_uid') > 0) {
+
+			/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+			$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+			$file = $fileRepository->findByUid($file->getProperty('l18n_parent'));
+		}
+
 		$this->file = $file;
+
+		return $this;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset
+	 */
+	public function getOverlayFile() {
+		return $this->overlayFile;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset $overlayFile
+	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
+	 */
+	public function setOverlayFile($overlayFile) {
+		$this->overlayFile = $overlayFile;
 		return $this;
 	}
 
