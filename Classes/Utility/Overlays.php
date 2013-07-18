@@ -192,6 +192,8 @@ final class Overlays {
 				$enableCondition = $GLOBALS['TSFE']->sys_page->enableFields($table, $showHidden, $ignoreArray);
 			} elseif (TYPO3_MODE == 'BE') {
 				$enableCondition = \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($table);
+				// @fix: overlays patch for the need of Media, we don't want deleted file displayed in the BE.
+				$enableCondition .= ' AND deleted = 0 ';
 			}
 			// If an enable clause was returned, strip the first ' AND '
 			if (!empty($enableCondition)) {
