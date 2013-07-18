@@ -84,17 +84,26 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	public function renderTagImage($result) {
-		$imageTitle = $this->overlayFile->getProperty('title');
-		if (empty($imageTitle)) {
-			$imageTitle = $this->overlayFile->getName();
-		}
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
 			$this->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
-			htmlspecialchars($imageTitle),
-			htmlspecialchars($imageTitle),
+			$this->getTitle(),
+			$this->getTitle(),
 			$this->renderAttributes()
 		);
+	}
+
+	/**
+	 * Compute and return the title of the file.
+	 *
+	 * @return string
+	 */
+	protected function getTitle() {
+		$result = $this->overlayFile->getProperty('title');
+		if (empty($result)) {
+			$result = $this->overlayFile->getName();
+		}
+		return htmlspecialchars($result);
 	}
 
 	/**
