@@ -1,0 +1,11 @@
+# This is the project specific Settings.yml file.
+# Place Sphinx specific build information here.
+# Settings given here will replace the settings of 'conf.py'.
+
+---
+conf.py:
+  copyright: 2013 to now
+  project: Media management system for TYPO3
+  version: 1.0
+  release: 1.0.0
+...
