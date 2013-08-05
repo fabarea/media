@@ -1,6 +1,6 @@
-<em:be.container pageTitle="Media" enableJumpToUrl="false" enableClickMenu="false" loadPrototype="false"
-                 loadScriptaculous="false" loadExtJs="false" loadExtJsTheme="true"
-                 addCssFiles="{
+<m:be.container pageTitle="Media" enableJumpToUrl="false" enableClickMenu="false" loadPrototype="false"
+				loadScriptaculous="false" loadExtJs="false" loadExtJsTheme="true"
+				includeCssFiles="{
 		0:'{f:uri.resource(path:\'StyleSheet/bootstrap.css\')}',
 		1:'{f:uri.resource(path:\'StyleSheet/bootstrap-responsive.css\')}',
 		2:'{f:uri.resource(path:\'StyleSheet/media.css\')}',
@@ -8,7 +8,7 @@
 		4:'{f:uri.resource(path:\'StyleSheet/FileUploader/fineuploader.css\')}',
 		5:'{f:uri.resource(path:\'StyleSheet/JQueryUi/jquery-ui-1.10.1.custom.min.css\')}'
 	}"
-                 addJsFiles="{
+				includeJsFiles="{
 		0:'{f:uri.resource(path:\'JavaScript/JQuery/jquery-1.9.1.min.js\')}'
 		}">
 
@@ -65,7 +65,6 @@
 		<m:js name="Media.Rte.Popup.js"/>
 	</f:if>
 
-</em:be.container>
-{namespace em=TYPO3\CMS\Extensionmanager\ViewHelpers}
+</m:be.container>
 {namespace m=TYPO3\CMS\Media\ViewHelpers}
 
