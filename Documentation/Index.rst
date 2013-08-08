@@ -310,6 +310,29 @@ Retrieving one Variant object from the Variant Repository::
 	# Possible save of Variant object
 	$this->variantRepository->update($variantObject);
 
+
+Indexing Service
+======================
+
+Admin Users have access to a BE module allowing to check the index of the storage.
+It can be opened by clicking a special icon displayed on the top bar
+of the main module. Notice The same actions can also be performed by CLI.
+
+Index Media storage
+-----------------------
+
+Indexing of all files within the Media storage can be done by a scheduler task or by a CLI command::
+
+	./typo3/cli_dispatch.phpsh extbase media:index
+
+Check Media storage index
+-----------------------------
+
+Detect whether a file is existing in the database but missing in the storage.
+The tool can also detect duplicate file objects in the database.
+
+	./typo3/cli_dispatch.phpsh extbase media:checkIndex
+
 Permission management
 ======================
 
@@ -439,43 +462,6 @@ The underlying template can be overridden by TypoScript. The default configurati
 	}
 
 .. _Twitter Bootstrap: http://twitter.github.io/bootstrap/examples/carousel.html
-
-TCA Service API
-=================
-
-This API enables to fetch info related to TCA in a programmatic way. Since TCA covers a very large set of data, the service is divided in types.
-There are are four parts being addressed: table, field, grid and form. The "grid" part extends the TCA and is introduced for the need of the BE module of media.
-
-* table: deal with the "ctrl" part of the TCA. Typical info is what is the label of the table name, what is the default sorting, etc...
-* field: deal with the "columns" part of the TCA. Typical info is what configuration, label, ... has a field name.
-* grid: deal with the "grid" part of the TCA.
-* form: deal with the "types" (and possible "palette") part of the TCA. Get what field compose a record type.
-
-The API is meant to be generic and can be re-use for every record type within TYPO3. Find below some code example making use of the service factory.
-
-Instantiate a TCA service related to **fields**::
-
-	$tableName = 'sys_file';
-	$serviceType = 'field';
-
-	/** @var $fieldService \TYPO3\CMS\Media\Tca\FieldService */
-	$fieldService = \TYPO3\CMS\Media\Tca\ServiceFactory::getService($tableName, $serviceType);
-
-	// Refer to internal methods of the class.
-	$fieldService->getFields();
-
-Instantiate a TCA service related to **table**::
-
-	$tableName = 'sys_file';
-	$serviceType = 'table';
-
-	/** @var $tableService \TYPO3\CMS\Media\Tca\TableService */
-	$tableService = \TYPO3\CMS\Media\Tca\ServiceFactory::getService($tableName, $serviceType);
-
-	// Refer to internal methods of the class.
-	$tableService->getLabel();
-
-The same would apply for the other part: form and grid.
 
 Grid TCA
 =================

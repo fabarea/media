@@ -1,0 +1,106 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+	<script type="text/javascript">
+
+		// short-hand version
+		(function ($) {
+			$(function () {
+
+				/**
+				 * Check or un check all check box
+				 */
+				$('#checkbox-top').click(function () {
+					var isChecked = $(this).is(':checked');
+					$('.list-files').find('input[type=checkbox]').each(function () {
+						if ($(this).is(':checked') !== isChecked) {
+							$(this).click();
+						}
+					});
+				});
+			});
+		})(jQuery);
+	</script>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-typo3">
+			<div class="container-fluid">
+
+				<div id="navbar-main">
+					<f:link.action action="index" class="btn">
+						Back
+					</f:link.action>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="container" style="padding-left: 10px;">
+
+		<h3>Index of storage has been checked...</h3>
+
+		<f:if condition="{everythingOk}">
+			<div class="alert alert-success">
+				Everything seems to be fine.
+			</div>
+		</f:if>
+
+		<f:if condition="{missingResources}">
+			<div class="alert alert-error">
+				Some files were missing!
+			</div>
+
+			<ul>
+				<li>
+					<label>
+						<input type="checkbox" id="checkbox-top" checked="checked"/>
+						(Un)check all
+					</label>
+				</li>
+			</ul>
+
+			<f:form action="deleteFiles">
+
+				<ul class="list-files">
+					<f:for each="{missingResources}" as="missingResource">
+						<li>
+							<label>
+								<f:form.checkbox name="files[]" value="{missingResource.uid}" id="checkbox-" checked="checked"/>
+								Missing resource for uid "{missingResource.uid}" with identifier "{missingResource.identifier}".
+							</label>
+						</li>
+					</f:for>
+				</ul>
+
+				<input type="submit" value="Deleted selected record(s)" class="btn"/>
+			</f:form>
+			<hr/>
+		</f:if>
+
+		<f:if condition="{duplicates}">
+			<div class="alert alert-error">
+				Duplicated identifiers detected!
+			</div>
+
+			<ul>
+				<f:for each="{duplicates}" key="identifier" as="records">
+					<li>* Uids
+						<f:for each="{records}" as="record" iteration="iterator">
+							{record.uid}<f:if condition="{iterator.isLast}"><f:then></f:then><f:else>,</f:else></f:if>
+						</f:for>
+						having same identifier <strong>{identifier}</strong>.
+					</li>
+				</f:for>
+			</ul>
+
+			Consider fixing the problem!
+		</f:if>
+	</div>
+
+</f:section>
+</html>
+

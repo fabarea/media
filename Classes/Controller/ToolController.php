@@ -38,15 +38,33 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	protected $databaseHandler;
 
 	/**
+	 * @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected $backendUser;
+
+	/**
+	 * @var \TYPO3\CMS\Media\Service\AssetIndexerService
+	 */
+	protected $assetIndexerService;
+
+	/**
 	 * @var string
 	 */
 	protected $importedFieldPrefix = '_dam_imported_';
 
 	/**
-	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
+	 * Initialize actions. These actions are meant to be called by an admin.
 	 */
 	public function initializeAction() {
 		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
+		$this->backendUser = $GLOBALS['BE_USER'];
+
+		// This action is only allowed by Admin
+		if (! $this->backendUser->isAdmin()) {
+			$message = 'Admin permission required.';
+			throw new \TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException($message, 1375952765);
+		}
+		$this->assetIndexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
 	}
 
 	/**
@@ -56,39 +74,53 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		$storageUid = (int) \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		$this->view->assign('publicPath', $storageObject->getRootLevelFolder()->getPublicUrl());
+		$this->view->assign('sitePath', PATH_site);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function checkStatusAction() {
+	public function checkIndexAction() {
 
-		$this->databaseHandler->exec_SELECTgetRows('*', 'sys_file', 'deleted = 0');
+		$missingResources = $this->assetIndexerService->getMissingResources();
+		$duplicates = $this->assetIndexerService->getDuplicates();
 
-		/** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->view->assign('missingResources', $missingResources);
+		$this->view->assign('duplicates', $duplicates);
+		$this->view->assign('everythingOk', empty($missingResources) && empty($duplicates));
+	}
 
-		/** @var $assetRepository \TYPO3\CMS\Media\Domain\Repository\AssetRepository */
-		$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
+	/**
+	 * Delete files given as parameter.
+	 * This is a special case as we have a missing file in the file system
+	 * As a result, we can't use $fileObject->delete(); which will
+	 * raise exception "Error while fetching permissions".
+	 *
+	 * @param array $files
+	 * @return void
+	 */
+	public function deleteFilesAction(array $files = array()) {
 
-		$missingFiles = array();
-		foreach ($assetRepository->findAll() as $asset) {
-			if (!$asset->exists()) {
-				$missingFiles[] = $asset;
+		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+		$fileRepository = $this->objectManager->get('TYPO3\CMS\Core\Resource\FileRepository');
+
+		foreach ($files as $file) {
+
+			/** @var \TYPO3\CMS\Core\Resource\File $fileObject */
+			try {
+				$fileObject = $fileRepository->findByUid($file);
+				if ($fileObject) {
+					// The case is special as we have a missing file in the file system
+					// As a result, we can't use $fileObject->delete(); which will
+					// raise exception "Error while fetching permissions"
+					$this->databaseHandler->exec_UPDATEquery('sys_file', 'uid = ' . $fileObject->getUid(), array('deleted' => 1));
+				}
+			}
+			catch(\Exception $e) {
+				continue;
 			}
 		}
-
-		$this->view->assign('missingFiles', $missingFiles);
-
-		// Detect duplicate records
-		$resource = $this->databaseHandler->sql_query('SELECT identifier FROM sys_file WHERE deleted = 0 AND sys_language_uid = 0 GROUP BY identifier, storage Having COUNT(*) > 1');
-		$duplicatedIdentifiers = array();
-		while($row = $this->databaseHandler->sql_fetch_assoc($resource)) {
-			$records = $this->databaseHandler->exec_SELECTgetRows('uid', 'sys_file', sprintf('deleted = 0 AND identifier = "%s"', $row['identifier']));
-			$duplicatedIdentifiers[$row['identifier']] = $records;
-		}
-		$this->view->assign('duplicatedIdentifiers', $duplicatedIdentifiers);
-		$this->view->assign('everythingOk', empty($missingFiles) && empty($duplicatedIdentifiers));
+		$this->redirect('checkIndex');
 	}
 }
 ?>

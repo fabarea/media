@@ -13,7 +13,7 @@ if (TYPO3_MODE == 'BE') {
 		array(
 			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
 			'Migration' => 'index, migrate, reset',
-			'Tool' => 'index, checkStatus',
+			'Tool' => 'index, checkIndex, deleteFiles',
 			'Variant' => 'upload',
 		),
 		array(
