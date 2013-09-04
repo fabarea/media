@@ -55,7 +55,7 @@ $options = array();
 if ($categoryFolderPidList) {
 	// add categorization to all media types
 	$options['fieldList'] = '--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category, categories';
-	$options['fieldConfiguration']['foreign_table_where'] = ' AND sys_category.pid IN (' . $categoryFolderPidList . ') ORDER BY sys_category.title ASC';
+	$options['fieldConfiguration']['foreign_table_where'] = ' AND sys_category.pid IN (' . $categoryFolderPidList . ') AND sys_category.sys_language_uid IN (0,-1) ORDER BY sys_category.title ASC';
 }
 
 // @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
