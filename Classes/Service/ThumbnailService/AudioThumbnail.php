@@ -30,16 +30,14 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
-	implements \TYPO3\CMS\Media\Service\ThumbnailRenderableInterface {
+class AudioThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 
 	/**
-	 * Render a thumbnail of a resource of type application.
+	 * Render a thumbnail of a resource of type audio.
 	 *
 	 * @return string
 	 */
 	public function create() {
-
 		$steps = $this->getRenderingSteps();
 
 		$result = '';
@@ -56,13 +54,14 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	public function renderUri() {
-		if ($this->isThumbnailPossible($this->file->getExtension())) {
-			$this->processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $this->getConfiguration());
-			$result = $this->processedFile->getPublicUrl(TRUE);
-		} else {
-			$result = $this->getIcon($this->file->getExtension());
+
+		$relativePath = sprintf('Icons/MimeType/%s.png', $this->file->getProperty('extension'));
+		$fileNameAndPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:media/Resources/Public/' . $relativePath);
+		if (!file_exists($fileNameAndPath)) {
+			$relativePath = 'Icons/UnknownMimeType.png';
 		}
-		return $result;
+
+		return \TYPO3\CMS\Media\Utility\Path::getRelativePath($relativePath);
 	}
 
 	/**
@@ -74,24 +73,11 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	public function renderTagImage($result) {
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
-			$this->getAppendTimeStamp() ? '?' . $this->getTimeStamp() : '',
+			$this->getAppendTimeStamp() ? '?' . $this->file->getProperty('tstamp') : '',
 			$this->getTitle(),
 			$this->getTitle(),
 			$this->renderAttributes()
 		);
-	}
-
-	/**
-	 * Compute and return the time stamp.
-	 *
-	 * @return int
-	 */
-	protected function getTimeStamp(){
-		$result = $this->file->getProperty('tstamp');
-		if ($this->processedFile) {
-			$result = $this->processedFile->getProperty('tstamp');
-		}
-		return $result;
 	}
 
 	/**
@@ -114,14 +100,13 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	public function renderTagAnchor($result) {
-		// @todo implementation of secure download not ideal for now. Improve it!
-		// @todo improve me! Make it compatible with the FE.
-			$uri = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[asset]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
-		$template = <<<EOF
-<a href="$uri" target="_blank">%s</a>
-EOF;
-		return sprintf($template,
-			$this->file->getUid(),
+
+		$file = $this->file;
+
+		return sprintf('<a href="%s%s" target="%s">%s</a>',
+			$file->getPublicUrl(TRUE),
+			$this->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
+			$this->getTarget(),
 			$result
 		);
 	}

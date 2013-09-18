@@ -33,7 +33,7 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
 class FallBackThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 
 	/**
-	 * Render a thumbnail of a media
+	 * Render a fallback thumbnail if no type was found for the given resource.
 	 *
 	 * @return string
 	 */

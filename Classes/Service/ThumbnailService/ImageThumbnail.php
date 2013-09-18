@@ -39,7 +39,7 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	);
 
 	/**
-	 * Render a thumbnail of a media
+	 * Render a thumbnail of a resource of type image.
 	 *
 	 * @return string
 	 */
