@@ -27,20 +27,6 @@
 				]]>
 			</source>
 			</trans-unit>
-			<trans-unit id="open_updater">
-				<source>Updater Script</source>
-			</trans-unit>
-			<trans-unit id="ok_table_header">
-				<source>UUID fields are OK and values have been successfully checked</source>
-			</trans-unit>
-			<trans-unit id="information_table_header">
-				<source>Some table(s) are missing</source>
-			</trans-unit>
-			<trans-unit id="information_table_message">
-				<source>While checking the system, it has been detected some table(s) are missing.
-					You should open up the Install tool and run the "Compare" tool under "Database Analyser"
-				</source>
-			</trans-unit>
 		</body>
 	</file>
 </xliff>
