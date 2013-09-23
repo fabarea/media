@@ -317,21 +317,16 @@ Indexing Service
 Admin Users have access to a BE module allowing to check the index of the storage.
 It can be opened by clicking a special icon displayed on the top bar
 of the main module. Notice The same actions can also be performed by CLI.
+There are basically two commands that are explained below::
 
-Index Media storage
------------------------
-
-Indexing of all files within the Media storage can be done by a scheduler task or by a CLI command::
-
+	# Indexing of all files within the Media storage
+	# The command is also available as scheduler task for convenience.
 	./typo3/cli_dispatch.phpsh extbase media:index
 
-Check Media storage index
------------------------------
-
-Detect whether a file is existing in the database but missing in the storage.
-The tool can also detect duplicate file objects in the database.
-
+	# Detect whether a file is existing in the database but missing in the storage.
+	# The tool can also detect duplicate file objects from the database::
 	./typo3/cli_dispatch.phpsh extbase media:checkIndex
+
 
 Permission management
 ======================
