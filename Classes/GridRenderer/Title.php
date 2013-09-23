@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Grid;
  * @package TYPO3
  * @subpackage media
  */
-class Title implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
+class Title implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 
 	/**
 	 * Render title for the Grid.

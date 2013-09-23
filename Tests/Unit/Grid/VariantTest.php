@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +25,7 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\Variant.
+ * Test case for class \TYPO3\CMS\Media\GridRenderer\Variant.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -34,12 +34,12 @@ namespace TYPO3\CMS\Media\Grid;
 class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\Variant
+	 * @var \TYPO3\CMS\Media\GridRenderer\Variant
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\Variant();
+		$this->fixture = new \TYPO3\CMS\Media\GridRenderer\Variant();
 	}
 
 	public function tearDown() {

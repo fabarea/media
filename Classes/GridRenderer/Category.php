@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,23 +24,35 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Class rendering status for the Grid.
+ * Class rendering category for the Grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Status implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
+class Category implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 
 	/**
-	 * Render status for the Grid.
+	 * Render category for the Grid.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$fieldService = \TYPO3\CMS\Media\Utility\TcaField::getService();
-		return $fieldService->getLabelForItem('status', $asset->getStatus());
+
+		$result = '';
+		// We are force to convert to array to be sure of the result.
+		// Method "isValid" from QueryResult can not be used here.
+		$categories = $asset->getCategories()->toArray();
+		if (!empty($categories)) {
+			$template = '<li style="list-style: disc">%s</li>';
+			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
+			foreach ($asset->getCategories() as $category) {
+				$result .= sprintf($template, $category->getTitle());
+			}
+			$result = sprintf('<ul>%s</ul>', $result);
+		}
+		return $result;
 	}
 }
 ?>

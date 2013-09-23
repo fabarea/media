@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,32 +24,21 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Class rendering visibility for the Grid.
+ * Interface dealing with rendering a media in someway.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Visibility implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
+interface GridRendererInterface {
 
 	/**
-	 * Render visibility for the Grid.
+	 * Render a media in someway.
 	 *
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
-		$template = '<img src="%s" alt="%s" title="%s"/>';
-		$icon = sprintf(
-			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/hidden_%s.png' ,
-			$asset->getProperty('hidden')
-		);
-		$imageTag = sprintf($template,
-			$icon,
-			$asset->getProperty('hidden') == 0 ? 'visible' : 'hidden',
-			$asset->getProperty('hidden') == 0 ? 'visible' : 'hidden'
-		);
-		return $imageTag;
-	}
+	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL);
+
 }
 ?>

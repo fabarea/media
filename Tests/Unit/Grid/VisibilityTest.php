@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +26,7 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\Visibility.
+ * Test case for class \TYPO3\CMS\Media\GridRenderer\Visibility.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -35,12 +35,12 @@ namespace TYPO3\CMS\Media\Grid;
 class VisibilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\Visibility
+	 * @var \TYPO3\CMS\Media\GridRenderer\Visibility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\Visibility();
+		$this->fixture = new \TYPO3\CMS\Media\GridRenderer\Visibility();
 	}
 
 	public function tearDown() {

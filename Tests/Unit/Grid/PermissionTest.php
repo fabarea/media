@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +26,7 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\Permission.
+ * Test case for class \TYPO3\CMS\Media\GridRenderer\Permission.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -35,12 +35,12 @@ namespace TYPO3\CMS\Media\Grid;
 class PermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\Permission
+	 * @var \TYPO3\CMS\Media\GridRenderer\Permission
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\Permission();
+		$this->fixture = new \TYPO3\CMS\Media\GridRenderer\Permission();
 	}
 
 	public function tearDown() {

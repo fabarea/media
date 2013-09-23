@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Grid;
  * @package TYPO3
  * @subpackage media
  */
-class Variant implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
+class Variant implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 
 	/**
 	 * Render a categories for a media

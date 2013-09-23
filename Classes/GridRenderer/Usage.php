@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Grid;
  * @package TYPO3
  * @subpackage media
  */
-class Usage implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
+class Usage implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 
 	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
@@ -38,7 +38,7 @@ class Usage implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 	protected $databaseHandler;
 
 	/**
-	 * @return \TYPO3\CMS\Media\Grid\Usage
+	 * @return \TYPO3\CMS\Media\GridRenderer\Usage
 	 */
 	public function __construct() {
 		$this->databaseHandler = $GLOBALS['TYPO3_DB'];

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +26,7 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\Usage.
+ * Test case for class \TYPO3\CMS\Media\GridRenderer\Usage.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
@@ -35,12 +35,12 @@ namespace TYPO3\CMS\Media\Grid;
 class UsageTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\Usage
+	 * @var \TYPO3\CMS\Media\GridRenderer\Usage
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\Usage();
+		$this->fixture = new \TYPO3\CMS\Media\GridRenderer\Usage();
 	}
 
 	public function tearDown() {

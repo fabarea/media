@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace TYPO3\CMS\Media\GridRenderer;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\Grid;
  * @package TYPO3
  * @subpackage media
  */
-class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
+class Preview implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Service\ThumbnailService
@@ -43,7 +43,7 @@ class Preview implements \TYPO3\CMS\Media\Grid\GridRendererInterface {
 	protected $metadataViewHelper;
 
 	/**
-	 * @return \TYPO3\CMS\Media\Grid\Preview
+	 * @return \TYPO3\CMS\Media\GridRenderer\Preview
 	 */
 	public function __construct() {
 		$this->thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
