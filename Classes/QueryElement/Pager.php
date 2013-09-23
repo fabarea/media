@@ -30,6 +30,7 @@ namespace TYPO3\CMS\Media\QueryElement;
  * @author Mario Matzulla <mario@matzullas.de>
  * @package TYPO3
  * @subpackage media
+ * @deprecated use TYPO3\CMS\Vidi\Persistence\Pager instead
  */
 class Pager  {
 

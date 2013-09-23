@@ -30,6 +30,7 @@ namespace TYPO3\CMS\Media\QueryElement;
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
+ * @deprecated use TYPO3\CMS\Vidi\Persistence\Query instead
  */
 class Query {
 
