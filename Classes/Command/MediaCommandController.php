@@ -39,16 +39,17 @@ class MediaCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\CommandCo
 	 */
 	public function indexCommand() {
 
-		$this->outputLine('Scanning of storages...');
+		$this->outputLine('Scanning Media Storages...');
 
 		/** @var \TYPO3\CMS\Media\Service\AssetIndexerService $indexerService */
 		$indexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
 		$result = $indexerService->indexStorage();
 
 		// Format the message to output.
-		$message = sprintf('* Storage "%s" contains %s file(s).',
+		$message = sprintf('* Storage "%s" contains %s file%s (variants included).',
 			$result['storageName'],
-			$result['fileNumber']
+			$result['fileNumber'],
+			$result['fileNumber'] > 1 ? 's' : ''
 		);
 
 		$this->outputLine($message);
@@ -61,7 +62,7 @@ class MediaCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\CommandCo
 	 */
 	public function checkIndexCommand() {
 
-		$this->outputLine('Checking index of storages...');
+		$this->outputLine('Checking index of storage...');
 
 		/** @var \TYPO3\CMS\Media\Service\AssetIndexerService $assetIndexerService */
 		$assetIndexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
