@@ -11,7 +11,7 @@
 $EM_CONF[$_EXTKEY] = array (
   'title' => 'Media management',
   'description' => 'Media management system for TYPO3.',
-  'category' => 'plugin',
+  'category' => 'misc',
   'author' => 'Media team',
   'author_email' => 'typo3-dev@lists.typo3.org',
   'author_company' => 'TYPO3 Association',
