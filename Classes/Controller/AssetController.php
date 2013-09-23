@@ -88,7 +88,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	public function listRowAction($matches = array()) {
 
 		// Initialize some objects related to the query
-		$matchObject = $this->createMatchObject();
+		$matchObject = $this->createMatcherObject();
 		$matchObject->setDefaultLogicalOperator(\TYPO3\CMS\Media\QueryElement\Query::LOGICAL_OR);
 		foreach ($matches as $propertyName => $value) {
 			$matchObject->addMatch($propertyName, $value);
@@ -417,7 +417,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 *
 	 * @return \TYPO3\CMS\Media\QueryElement\Matcher
 	 */
-	protected function createMatchObject() {
+	protected function createMatcherObject() {
 
 		/** @var $matcher \TYPO3\CMS\Media\QueryElement\Matcher */
 		$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Matcher');
