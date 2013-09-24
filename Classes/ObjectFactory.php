@@ -77,6 +77,40 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		return $object;
 	}
 
+	protected $assetInstances = array();
+
+	/**
+	 * Convert a content object into an asset and keep the instance for later use.
+	 * Convenience method
+	 *
+	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
+	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
+	 * @throws \RuntimeException
+	 */
+	public function convertContentObjectToAsset(\TYPO3\CMS\Vidi\Domain\Model\Content $object) {
+
+		if (empty($this->assetInstances[$object->getUid()])) {
+
+			/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
+			$asset = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Domain\Model\Asset', $object->toArray());
+
+			if ($object['storage'] === NULL) {
+				throw new \RuntimeException('Preview rendering fails because storage property was null.', 1379946981);
+			}
+
+			if (is_numeric($object['storage']['uid'])) {
+				$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+				$storageObject = $resourceFactory->getStorageObject($object['storage']['uid']);
+				$asset->setStorage($storageObject);
+			}
+
+			$this->assetInstances[$object->getUid()] = $asset;
+		}
+
+		return $this->assetInstances[$object->getUid()];
+
+	}
+
 	/**
 	 * Return media storage.
 	 *
