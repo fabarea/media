@@ -24,13 +24,13 @@ namespace TYPO3\CMS\Media\GridRenderer;
  ***************************************************************/
 
 /**
- * Class rendering usage for the Grid.
+ * Class rendering usage of an asset in the grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Usage implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
+class Usage extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
@@ -45,12 +45,13 @@ class Usage implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 	}
 
 	/**
-	 * Render a categories for a media
+	 * Render usage of an asset in the grid.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+	public function render() {
+
+		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
 		$result = $_result = '';
 

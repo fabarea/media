@@ -24,26 +24,25 @@ namespace TYPO3\CMS\Media\GridRenderer;
  ***************************************************************/
 
 /**
- * Class rendering title and description for the Grid.
+ * Class rendering title and description in the grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Title implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
+class Title extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
-	 * Render title for the Grid.
+	 * Render title in the grid.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+	public function render() {
 
 		$result = '';
 		$template = '<div>%s %s <br /><span class="text-light">%s</span></div>';
 
-		if ($asset->getTitle() || $asset->getDescription()) {
+		if ($this->object->getTitle() || $this->object->getDescription()) {
 
 			// Get a possible default icon
 			$defaultFlag = '';
@@ -55,21 +54,21 @@ class Title implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 
 			$result = sprintf($template,
 				empty($defaultFlag) ? '' : \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('flags-' . $defaultFlag),
-				$asset->getTitle(),
-				$asset->getDescription() // @todo shorten text if too long
+				$this->object->getTitle(),
+				$this->object->getDescription() // @todo shorten text if too long
 			);
 		}
 
 		// Get the Language Uid checking whether to render flags
 		$languages = \TYPO3\CMS\Media\Utility\Language::getInstance()->getLanguages();
-		if (!empty($languages) && $asset->getUid() > 0) {
+		if (!empty($languages) && $this->object->getUid() > 0) {
 
 			foreach ($languages as $language) {
-				$records = \TYPO3\CMS\Media\Utility\Overlays::getOverlayRecords('sys_file', array($asset->getUid()), $language['uid']);
+				$records = \TYPO3\CMS\Media\Utility\Overlays::getOverlayRecords('sys_file', array($this->object->getUid()), $language['uid']);
 
-				if (!empty($records[$asset->getUid()])) {
-					$key = key($records[$asset->getUid()]);
-					$record = $records[$asset->getUid()][$key];
+				if (!empty($records[$this->object->getUid()])) {
+					$key = key($records[$this->object->getUid()]);
+					$record = $records[$this->object->getUid()][$key];
 
 					$result .= sprintf($template,
 						\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('flags-' . $language['flag']),

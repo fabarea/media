@@ -24,21 +24,22 @@ namespace TYPO3\CMS\Media\GridRenderer;
  ***************************************************************/
 
 /**
- * Class rendering usage for the Grid.
+ * Class rendering variants of assets in the grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Variant implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
+class Variant extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
-	 * Render a categories for a media
+	 * Render a variants list for a media.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+	public function render() {
+
+		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
 		$result = $_result = '';
 

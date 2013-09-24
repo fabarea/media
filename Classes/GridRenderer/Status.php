@@ -24,23 +24,22 @@ namespace TYPO3\CMS\Media\GridRenderer;
  ***************************************************************/
 
 /**
- * Class rendering status for the Grid.
+ * Class rendering status in the grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Status implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
+class Status extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
-	 * Render status for the Grid.
+	 * Render status in the grid.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+	public function render() {
 		$fieldService = \TYPO3\CMS\Media\Utility\TcaField::getService();
-		return $fieldService->getLabelForItem('status', $asset->getStatus());
+		return $fieldService->getLabelForItem('status', $this->object->getStatus());
 	}
 }
 ?>

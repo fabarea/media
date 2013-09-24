@@ -24,21 +24,22 @@ namespace TYPO3\CMS\Media\GridRenderer;
  ***************************************************************/
 
 /**
- * Class rendering category for the Grid.
+ * Class rendering category list of an asset in the grid.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class Category implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
+class Category extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
-	 * Render category for the Grid.
+	 * Renders category list of an asset in the grid.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+	public function render() {
+
+		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
 		$result = '';
 		// We are force to convert to array to be sure of the result.

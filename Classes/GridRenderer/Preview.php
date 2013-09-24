@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\GridRenderer;
  * @package TYPO3
  * @subpackage media
  */
-class Preview implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
+class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Service\ThumbnailService
@@ -53,10 +53,12 @@ class Preview implements \TYPO3\CMS\Media\GridRenderer\GridRendererInterface {
 	/**
 	 * Render a preview of an media.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Media\Domain\Model\Asset $asset = NULL) {
+	public function render() {
+
+		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
+
 		$result = $this->thumbnailService->setFile($asset)
 			->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 			->setAppendTimeStamp(TRUE)
