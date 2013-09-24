@@ -5,22 +5,32 @@ if (!defined('TYPO3_MODE')) {
 }
 
 if (TYPO3_MODE == 'BE') {
-	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-		$_EXTKEY,
-		'user', // Make media module a submodule of 'user'
-		'm1',
-		'bottom', // Position
-		array(
-			'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
-			'Migration' => 'index, migrate, reset',
-			'Tool' => 'index, checkIndex, deleteFiles',
-			'Variant' => 'upload',
-		),
-		array(
-			'access' => 'user,group',
-			'icon' => 'EXT:media/ext_icon.gif',
-			'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang_module.xlf',
-		)
+
+	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
+	/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
+	$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
+	$configuration = $configurationUtility->getCurrentConfiguration('vidi');
+
+	/** @var \TYPO3\CMS\Vidi\ModuleLoader $moduleLoader */
+	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader', 'sys_file');
+	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
+		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
+//		->addJavaScriptFiles(array('EXT:media/Resources/Public/JavaScript/Media.js'))
+//		->addStyleSheetFiles(array('EXT:media/Resources/Public/StyleSheet/media.css'))
+		->setDefaultPid($configuration['default_pid']['value'])
+		->register();
+
+	// Connect "postFileIndex" signal slot with the metadata service.
+	/** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
+	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+	$signalSlotDispatcher->connect(
+		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
+		'processMatcherObject',
+		'TYPO3\CMS\Media\SignalSlot\ContentController',
+		'processMatcherObject',
+		TRUE
 	);
 }
 
