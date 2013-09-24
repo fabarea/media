@@ -276,9 +276,8 @@ $tca = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.extension',
 			'config' => array(
-				'type' => 'text',
-				'cols' => 40,
-				'rows' => 15,
+				'type' => 'input',
+				'size' => 255,
 				'eval' => 'trim'
 			),
 		),
@@ -625,7 +624,14 @@ $tca = array(
 		#	'tstamp' => 'DESC',
 		#	'title' => 'ASC',
 		#),
-		#'filter' => array(),
+		'facets' => array(
+			'uid',
+			'title' => array(
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:title',
+			),
+			'extension',
+			'name',
+		),
 		'columns' => array(
 			'__checkbox' => array(
 				'width' => '5px',
@@ -639,7 +645,7 @@ $tca = array(
 			),
 			'fileinfo' => array(
 				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Grid\Preview',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Preview',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
 				'wrap' => '<div class="center">|</div>',
 				'width' => '150px',
@@ -648,7 +654,7 @@ $tca = array(
 				'visible' => FALSE,
 			),
 			'title' => array(
-				'renderer' => 'TYPO3\CMS\Media\Grid\Title',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Title',
 				'wrap' => '<span class="media-title">|</span>',
 				'width' => '400px',
 			),
@@ -666,34 +672,34 @@ $tca = array(
 			'categories' => array(
 				'visible' => TRUE,
 				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Grid\Category',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Category',
 			),
 			'usage' => array(
 				'visible' => TRUE,
 				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Grid\Usage',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Usage',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 			),
-			'variant' => array(
+			'variants' => array(
 				'visible' => TRUE,
 				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Grid\Variant',
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variant',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Variant',
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
 			),
 			'permission' => array(
 				'visible' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Grid\Permission',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Permission',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions',
 				'sortable' => FALSE,
 			),
 			'status' => array(
 				'visible' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\Grid\Status',
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Status',
 				'width' => '5%',
 			),
 			'hidden' => array(
-				'renderer' => 'TYPO3\CMS\Media\Grid\Visibility',
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility_abbreviated',
+				'renderer' => 'TYPO3\CMS\Vidi\GridRenderer\Visibility',
+				'label' => 'LLL:EXT:vidi/Resources/Private/Language/locallang.xlf:visibility_abbreviation',
 				'width' => '3%',
 			),
 			'creator' => array(
