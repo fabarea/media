@@ -631,6 +631,8 @@ $tca = array(
 			),
 			'extension',
 			'name',
+			'categories',
+			'fe_groups',
 		),
 		'columns' => array(
 			'__checkbox' => array(
@@ -650,13 +652,15 @@ $tca = array(
 				'wrap' => '<div class="center">|</div>',
 				'width' => '150px',
 			),
-			'name' => array(
-				'visible' => FALSE,
-			),
 			'title' => array(
-				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Title',
-				'wrap' => '<span class="media-title">|</span>',
+				#'renderer' => 'TYPO3\CMS\Media\GridRenderer\Title',
+				#'wrap' => '<span class="media-title">|</span>',
 				'width' => '400px',
+				'editable' => TRUE,
+			),
+			'description' => array(
+				'visible' => FALSE,
+				'editable' => TRUE,
 			),
 			'tstamp' => array(
 				'visible' => FALSE,
@@ -672,7 +676,12 @@ $tca = array(
 			'categories' => array(
 				'visible' => TRUE,
 				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Category',
+				'renderers' => array(
+					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
+				    'TYPO3\CMS\Media\GridRenderer\Category',
+					# The Vidi relation renderer is slower to render but display more info...
+					#'TYPO3\CMS\Vidi\GridRenderer\Relation',
+				),
 			),
 			'usage' => array(
 				'visible' => TRUE,
@@ -686,10 +695,26 @@ $tca = array(
 				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Variant',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
 			),
-			'permission' => array(
-				'visible' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Permission',
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions',
+			'fe_groups' => array(
+				'visible' => FALSE, //@todo make conditional whether the storage handles permission or not.
+				'renderers' => array(
+					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
+					#'TYPO3\CMS\Media\GridRenderer\PermissionFe',
+					# The Vidi relation renderer is slower to render but display more info...
+					'TYPO3\CMS\Vidi\GridRenderer\Relation',
+				),
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
+				'sortable' => FALSE,
+			),
+			'be_groups' => array(
+				'visible' => FALSE, //@todo make conditional whether the storage handles permission or not.
+				'renderers' => array(
+					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
+					'TYPO3\CMS\Media\GridRenderer\PermissionBe',
+					# The Vidi relation renderer is slower to render but display more info...
+					#'TYPO3\CMS\Vidi\GridRenderer\Relation',
+				),
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_be_groups',
 				'sortable' => FALSE,
 			),
 			'status' => array(
@@ -707,13 +732,12 @@ $tca = array(
 			),
 			'creation_date' => array(
 				'visible' => FALSE,
-				'format' => 'date',
+				'format' => 'datetime',
 			),
 			'modification_date' => array(
 				'visible' => FALSE,
-				'format' => 'date',
+				'format' => 'datetime',
 			),
-
 			'__buttons' => array(
 				'sortable' => FALSE,
 				'width' => '70px',
