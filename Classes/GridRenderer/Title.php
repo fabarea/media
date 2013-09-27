@@ -46,12 +46,13 @@ class Title extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 			// Get a possible default icon
 			$defaultFlag = '';
-			$tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getModTSconfig(0, 'mod.SHARED');
-			// fallback non sprite-configuration
-			if (($pos = strrpos($tsConfig['properties']['defaultLanguageFlag'], '.')) !== FALSE) {
-				$defaultFlag = substr($tsConfig['properties']['defaultLanguageFlag'], 0, $pos);
-			}
-
+			// @todo fix performance
+//			$tsConfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getModTSconfig(0, 'mod.SHARED');
+//			// fallback non sprite-configuration
+//			if (($pos = strrpos($tsConfig['properties']['defaultLanguageFlag'], '.')) !== FALSE) {
+//				$defaultFlag = substr($tsConfig['properties']['defaultLanguageFlag'], 0, $pos);
+//			}
+			$defaultFlag = '';
 			$result = sprintf($template,
 				empty($defaultFlag) ? '' : \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('flags-' . $defaultFlag),
 				$this->object->getTitle(),

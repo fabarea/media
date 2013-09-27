@@ -30,7 +30,7 @@ namespace TYPO3\CMS\Media\GridRenderer;
  * @package TYPO3
  * @subpackage media
  */
-class Permission extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
+class PermissionFe extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
 	 * Render permission in the grid.
@@ -41,24 +41,7 @@ class Permission extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
-		$backendResult = '';
-
-		// We are force to convert to array to be sure the result exists.
-		// Method "isValid" from QueryResult can not be used here (returns TRUE only once?).
-		$backendUserGroups = $asset->getBackendUserGroups()->toArray();
-		if (!empty($backendUserGroups)) {
-			$template = '<li style="list-style: disc">%s</li>';
-			/** @var $backendUserGroup \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroup */
-			foreach ($asset->getBackendUserGroups() as $backendUserGroup) {
-				$backendResult .= sprintf($template, $backendUserGroup->getTitle());
-			}
-			$backendResult = sprintf('%s<ul>%s</ul>',
-				'<span style="text-decoration: underline">Backend User Group</span>',
-				$backendResult
-			);
-		}
-
-		$frontendResult = '';
+		$result = '';
 
 		// We are force to convert to array to be sure the result exists.
 		// Method "isValid" from QueryResult can not be used here (returns TRUE only once?).
@@ -67,14 +50,10 @@ class Permission extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 			$template = '<li style="list-style: disc">%s</li>';
 			/** @var $frontendUserGroup \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup */
 			foreach ($asset->getFrontendUserGroups() as $frontendUserGroup) {
-				$frontendResult .= sprintf($template, $frontendUserGroup->getTitle());
+				$result .= sprintf($template, $frontendUserGroup->getTitle());
 			}
-			$frontendResult = sprintf('%s<ul>%s</ul>',
-				'<span style="text-decoration: underline">Frontend User Group</span>',
-				$frontendResult
-			);
 		}
-		return $frontendResult . $backendResult;
+		return $result;
 	}
 }
 ?>
