@@ -200,8 +200,8 @@ $tca = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 255,
-				'default' => '',
-				'eval' => '250x250, 320x320',
+				'default' => '250x250, 320x320',
+				'eval' => 'trim',
 			),
 		),
 	),
