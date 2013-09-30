@@ -84,7 +84,6 @@ CREATE TABLE sys_file_fegroups_mm (
 
 #
 # Table structure for table 'sys_file_begroups_mm'
-#
 CREATE TABLE sys_file_begroups_mm (
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
@@ -94,7 +93,32 @@ CREATE TABLE sys_file_begroups_mm (
 	KEY uid_local (uid_local),
 	KEY uid_foreign (uid_foreign)
 );
+#
+# Table structure for table 'sys_file_storage'
+#
+CREATE TABLE sys_file_storage (
+	mount_point_file_type_1 int(11) unsigned DEFAULT '0' NOT NULL,
+	mount_point_file_type_2 int(11) unsigned DEFAULT '0' NOT NULL,
+	mount_point_file_type_3 int(11) unsigned DEFAULT '0' NOT NULL,
+	mount_point_file_type_4 int(11) unsigned DEFAULT '0' NOT NULL,
+	mount_point_file_type_5 int(11) unsigned DEFAULT '0' NOT NULL,
+	mount_point_file_type_5 int(11) unsigned DEFAULT '0' NOT NULL,
+	mount_point_variant int(11) unsigned DEFAULT '0' NOT NULL,
 
+	maximum_dimension_original_image varchar(24) DEFAULT '' NOT NULL,
+	default_variations varchar(24) DEFAULT '' NOT NULL,
+
+	is_protected  int(11) unsigned DEFAULT '0' NOT NULL,
+	extension_allowed_file_type_1 varchar(255) DEFAULT '' NOT NULL,
+	extension_allowed_file_type_2 varchar(255) DEFAULT '' NOT NULL,
+	extension_allowed_file_type_3 varchar(255) DEFAULT '' NOT NULL,
+	extension_allowed_file_type_4 varchar(255) DEFAULT '' NOT NULL,
+	extension_allowed_file_type_5 varchar(255) DEFAULT '' NOT NULL,
+);
+
+##
+# Table structure for table 'sys_file_variants'
+#
 CREATE TABLE sys_file_variants (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
