@@ -50,8 +50,8 @@ class SettingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getSettingsReturnNotEmptyArrayByDefault() {
-		$actual = $this->fixture->getSettings();
+	public function getConfigurationReturnNotEmptyArrayByDefault() {
+		$actual = $this->fixture->getConfiguration();
 		$this->assertTrue(is_array($actual));
 		$this->assertNotEmpty($actual);
 	}
@@ -79,7 +79,7 @@ class SettingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	public function configurationArrayNotEmptyAfterGetARandomValue() {
 		$this->fixture->get(uniqid('foo'));
 
-		$actual = $this->fixture->getSettings();
+		$actual = $this->fixture->getConfiguration();
 		$this->assertTrue(count($actual) > 0);
 	}
 

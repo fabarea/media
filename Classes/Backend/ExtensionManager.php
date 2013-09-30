@@ -25,6 +25,8 @@ namespace TYPO3\CMS\Media\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
@@ -38,11 +40,11 @@ class ExtensionManager {
 	protected $extKey = 'media';
 
 	/**
-	 * The Configuration Array
+	 * The Configuration array
 	 *
 	 * @var array
 	 */
-	protected $settings = array();
+	protected $configuration = array();
 
 	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
@@ -57,12 +59,12 @@ class ExtensionManager {
 	public function __construct() {
 
 		// Load configuration
-		$this->settings = \TYPO3\CMS\Media\Utility\Setting::getInstance()->getSettings();
+		$this->configuration = \TYPO3\CMS\Media\Utility\Setting::getInstance()->getConfiguration();
 
 		// Merge with Data that comes from the User
-		$postData = \TYPO3\CMS\Core\Utility\GeneralUtility::_POST();
+		$postData = GeneralUtility::_POST();
 		if (!empty($postData['data'])) {
-			$this->settings = array_merge($this->settings, $postData['data']);
+			$this->configuration = array_merge($this->configuration, $postData['data']);
 		}
 
 		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
@@ -147,7 +149,7 @@ class ExtensionManager {
 	}
 
 	/**
-	 * Check whether configuration is available
+	 * Check whether PHP module is available
 	 *
 	 * @return boolean
 	 */
@@ -157,12 +159,12 @@ class ExtensionManager {
 	}
 
 	/**
-	 * Check whether configuration is available
+	 * Check whether update is necessary
 	 *
 	 * @return boolean
 	 */
 	protected function needsUpdate() {
-		return empty($this->settings);
+		return empty($this->configuration);
 	}
 
 	/**
@@ -184,28 +186,46 @@ class ExtensionManager {
 	public function renderStorage() {
 
 		/** @var $storageRepository \TYPO3\CMS\Core\Resource\StorageRepository */
-		$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+		$storageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
 		$records = $storageRepository->findAll();
 
 		$options = '';
 
+		$storages = GeneralUtility::trimExplode(',', $this->configuration['storage']);
+
 		/** @var $record \TYPO3\CMS\Core\Resource\ResourceStorage */
 		foreach ($records as $record) {
-			$selected = '';
+			$checked = '';
 
-			if ($this->settings['storage'] == $record->getUid()) {
-				$selected = 'selected="selected"';
+			if (in_array($record->getUid(), $storages)) {
+				$checked = 'checked="checked"';
 			}
-			$options .= '<option value="' . $record->getUid() . '" ' . $selected . '>' . $record->getName() . '</option>';
+			$options .= '<label><input type="checkbox" class="fieldStorage" value="' . $record->getUid() . '" ' . $checked . ' /> ' . $record->getName() . '</label>';
 		}
 
 		$output = <<<EOF
 				<div class="typo3-tstemplate-ceditor-row" id="userTS-storage">
-					<select type="text" name="tx_extensionmanager_tools_extensionmanagerextensionmanager[config][storage][value]">
-						$options
-					</select>
+					<script type="text/javascript">
+						$(document).ready(function() {
+
+							// Handler which will concatenate selected data types.
+							$('.fieldStorage').change(function() {
+								var selected = [];
+
+								$('.fieldStorage').each(function(){
+									if ($(this).is(':checked')) {
+										selected.push($(this).val());
+									}
+								});
+								$('#fieldStorages').val(selected.join(','));
+							});
+						});
+					</script>
+					$options
+					<input type="hidden" id="fieldStorages" name="tx_extensionmanager_tools_extensionmanagerextensionmanager[config][storage][value]" value="{$this->configuration['storage']}" />
 				</div>
 EOF;
+
 		return $output;
 	}
 }
