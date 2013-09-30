@@ -129,7 +129,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 		/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
 		$assetObject = $objectFactory->createObject($asset);
-		$assetObject->setIndexIfNotIndexed(FALSE); // mandatory, otherwise FAL will try to index a non yet created object.
+		$assetObject->setIndexable(FALSE); // mandatory, otherwise FAL will try to index a non yet created object.
 		$this->view->assign('asset', $assetObject);
 	}
 

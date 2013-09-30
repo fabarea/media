@@ -49,12 +49,8 @@ class VariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderAssetWithNoVariantReturnsEmpty() {
-		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$asset->setIndexIfNotIndexed(FALSE);
-		$actual = $this->fixture->render($asset);
-		$this->assertEmpty($actual);
+	public function fixtureIsOfTypeGridRendererVariant() {
+		$this->assertInstanceOf('TYPO3\CMS\Media\GridRenderer\Variant', $this->fixture);
 	}
-
 }
 ?>

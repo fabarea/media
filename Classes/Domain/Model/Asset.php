@@ -809,13 +809,6 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @param boolean $indexIfNotIndexed
-	 */
-	public function setIndexIfNotIndexed($indexIfNotIndexed) {
-		$this->indexed = $indexIfNotIndexed;
-	}
-
-	/**
 	 * Return a thumbnail of the Asset.
 	 *
 	 * @param \TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService

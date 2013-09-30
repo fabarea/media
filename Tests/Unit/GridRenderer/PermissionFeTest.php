@@ -35,12 +35,12 @@ namespace TYPO3\CMS\Media\GridRenderer;
 class PermissionFeTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\GridRenderer\Permission
+	 * @var \TYPO3\CMS\Media\GridRenderer\PermissionFe
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\GridRenderer\Permission();
+		$this->fixture = new \TYPO3\CMS\Media\GridRenderer\PermissionFe();
 	}
 
 	public function tearDown() {
@@ -50,12 +50,8 @@ class PermissionFeTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderAssetWithNoPermissionReturnsEmpty() {
-		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$asset->setIndexIfNotIndexed(FALSE);
-		$actual = $this->fixture->render($asset);
-		$this->assertEmpty($actual);
+	public function fixtureIsOfTypeGridRendererPermissionFE() {
+		$this->assertInstanceOf('TYPO3\CMS\Media\GridRenderer\PermissionFe', $this->fixture);
 	}
-
 }
 ?>

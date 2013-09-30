@@ -50,12 +50,8 @@ class UsageTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderAssetWithNoUsageReturnsEmpty() {
-		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$asset->setIndexIfNotIndexed(FALSE);
-		$actual = $this->fixture->render($asset);
-		$this->assertEmpty($actual);
+	public function fixtureIsOfTypeGridRendererUsage() {
+		$this->assertInstanceOf('TYPO3\CMS\Media\GridRenderer\Usage', $this->fixture);
 	}
-
 }
 ?>

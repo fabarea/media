@@ -50,13 +50,8 @@ class StatusTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderWithStatusEqualsToOneReturnANotEmptyString() {
-		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$asset->setIndexIfNotIndexed(FALSE);
-		$asset->setStatus(1);
-		$actual = $this->fixture->render($asset);
-		$this->assertNotEmpty($actual);
+	public function fixtureIsOfTypeGridRendererStatus() {
+		$this->assertInstanceOf('TYPO3\CMS\Media\GridRenderer\Status', $this->fixture);
 	}
-
 }
 ?>

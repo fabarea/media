@@ -50,15 +50,8 @@ class TitleTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderWithTitleEqualsToOneReturnANotEmptyString() {
-		$GLOBALS['TBE_STYLES']['spriteIconApi']['iconsAvailable'] = array(); // Unit Test purpose.
-		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$asset->setIndexIfNotIndexed(FALSE);
-		$asset->setTitle(uniqid());
-		$asset->setDescription(uniqid());
-		$actual = $this->fixture->render($asset);
-		$this->assertNotEmpty($actual);
+	public function fixtureIsOfTypeGridRendererTitle() {
+		$this->assertInstanceOf('TYPO3\CMS\Media\GridRenderer\Title', $this->fixture);
 	}
-
 }
 ?>

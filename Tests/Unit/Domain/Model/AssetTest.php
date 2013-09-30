@@ -41,7 +41,7 @@ class AssetTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$this->fixture->setIndexIfNotIndexed(FALSE);
+		$this->fixture->setIndexable(FALSE);
 	}
 
 	public function tearDown() {

@@ -50,12 +50,8 @@ class CategoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function renderAssetWithNoCategoryReturnsEmpty() {
-		$asset = new \TYPO3\CMS\Media\Domain\Model\Asset();
-		$asset->setIndexIfNotIndexed(FALSE);
-		$actual = $this->fixture->render($asset);
-		$this->assertEmpty($actual);
+	public function fixtureIsOfTypeGridRendererCategory() {
+		$this->assertInstanceOf('TYPO3\CMS\Media\GridRenderer\Category', $this->fixture);
 	}
-
 }
 ?>

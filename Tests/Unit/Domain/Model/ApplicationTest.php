@@ -41,7 +41,6 @@ class ApplicationTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	public function setUp() {
 		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Application();
-		$this->fixture->setIndexIfNotIndexed(FALSE);
 	}
 
 	public function tearDown() {
