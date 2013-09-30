@@ -27,7 +27,7 @@ namespace TYPO3\CMS\Media\Utility;
 /**
  * A class for handling configuration of the extension
  */
-class Setting implements \TYPO3\CMS\Core\SingletonInterface {
+class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var string
@@ -42,16 +42,16 @@ class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\Setting
+	 * @return \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\Setting');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ConfigurationUtility');
 	}
 
 	/**
 	 * Constructor
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\Setting
+	 * @return \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
 	public function __construct() {
 
@@ -75,8 +75,7 @@ class Setting implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return array
 	 */
 	public function get($key) {
-		$configuration = $this->getConfiguration();
-		return isset($configuration[$key]) ? $configuration[$key] : NULL;
+		return isset($this->configuration[$key]) ? $this->configuration[$key] : NULL;
 	}
 
 	/**

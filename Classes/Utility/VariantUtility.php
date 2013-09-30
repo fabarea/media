@@ -27,7 +27,7 @@ namespace TYPO3\CMS\Media\Utility;
 /**
  * A class for handling variants settings
  */
-class SettingVariant implements \TYPO3\CMS\Core\SingletonInterface {
+class VariantUtility implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
@@ -35,26 +35,26 @@ class SettingVariant implements \TYPO3\CMS\Core\SingletonInterface {
 	protected $variations = array();
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\Setting
+	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
 	protected $setting;
 
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\SettingVariant
+	 * @return \TYPO3\CMS\Media\Utility\VariantUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\SettingVariant');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\VariantUtility');
 	}
 
 	/**
 	 * Constructor
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\SettingVariant
+	 * @return \TYPO3\CMS\Media\Utility\VariantUtility
 	 */
 	public function __construct() {
-		$this->setting = \TYPO3\CMS\Media\Utility\Setting::getInstance();
+		$this->setting = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
 
 		if ($this->setting->get('variations')) {
 			$variations = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->setting->get('variations'));

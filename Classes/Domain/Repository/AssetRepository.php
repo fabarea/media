@@ -227,7 +227,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 
 			if ($asset->exists()) {
 				// Get the recycler folder. Create on if needed.
-				$recyclerFolderName = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('recycler_folder');
+				$recyclerFolderName = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('recycler_folder');
 				$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
 			    if (! $storageObject->hasFolder($recyclerFolderName)) {
 					$storageObject->createFolder($recyclerFolderName);

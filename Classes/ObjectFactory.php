@@ -108,17 +108,22 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		return $this->assetInstances[$object->getUid()];
-
 	}
 
 	/**
 	 * Return media storage.
 	 *
+	 * @param int $uid
 	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
 	 */
-	public function getStorage() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage');
-		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
+	public function getStorage($uid = 0) {
+		if ($uid == 0) {
+			$storageList = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage');
+			$storages = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $storageList);
+			// @todo fix me, error prone!
+			$uid = $storages[0];
+		}
+		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($uid);
 	}
 
 	/**
@@ -147,7 +152,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 			$folderObject = $storageObject->getFolder(dirname($fileObject->getIdentifier()));
 		} elseif ($fileObject instanceof \TYPO3\CMS\Media\FileUpload\UploadedFileInterface) {
 			// Get a possible mount point within the storage
-			$mountPointUid = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('mount_point_for_file_type_' . $fileObject->getType());
+			$mountPointUid = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('mount_point_for_file_type_' . $fileObject->getType());
 			if ($mountPointUid > 0) {
 				// since we don't have a Mount Point repository in FAL, query the database directly.
 				$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointUid);
@@ -172,7 +177,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		$folderObject = $storageObject->getRootLevelFolder();
 
 		// Get a possible mount point within the storage
-		$mountPointUid = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('mount_point_for_variants');
+		$mountPointUid = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('mount_point_for_variants');
 		if ($mountPointUid > 0) {
 
 			// since we don't have a Mount Point repository in FAL, query the database directly.

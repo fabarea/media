@@ -26,21 +26,21 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\SettingImagePreset.
+ * Test case for class \TYPO3\CMS\Media\Utility\ImagePresetUtility.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class SettingImagePresetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class ImagePresetUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\SettingImagePreset
+	 * @var \TYPO3\CMS\Media\Utility\ImagePresetUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\SettingImagePreset();
+		$this->fixture = new \TYPO3\CMS\Media\Utility\ImagePresetUtility();
 	}
 
 	public function tearDown() {
@@ -59,10 +59,10 @@ class SettingImagePresetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function methodPresetReturnInstanceOfSettingImagePreset() {
+	public function methodPresetReturnInstanceOfImagePresetUtility() {
 		$actual = 'image_thumbnail';
 		$object = $this->fixture->preset($actual);
-		$this->assertTrue($object instanceof \TYPO3\CMS\Media\Utility\SettingImagePreset);
+		$this->assertTrue($object instanceof \TYPO3\CMS\Media\Utility\ImagePresetUtility);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class SettingImagePresetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @dataProvider presetProvider
 	 */
 	public function testProperty($preset, $setting, $width, $height) {
-		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set($preset, $setting);
+		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set($preset, $setting);
 		$this->assertSame($width, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($height, $this->fixture->preset($preset)->getHeight());
 	}
@@ -127,7 +127,7 @@ class SettingImagePresetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function setOriginalImageAsPresetWithValue0AndCheckWidthEquals0() {
 		$actual = 'image_original';
-		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('image_original', 0);
+		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_original', 0);
 		$this->assertSame(0, $this->fixture->preset($actual)->getWidth());
 	}
 
@@ -138,7 +138,7 @@ class SettingImagePresetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$preset = 'image_original';
 		$actualWidth = rand(10, 100);
 		$actualHeight = rand(10, 100);
-		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('image_original', $actualWidth . 'x' . $actualHeight);
+		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_original', $actualWidth . 'x' . $actualHeight);
 		$this->assertSame($actualWidth, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($actualHeight, $this->fixture->preset($preset)->getHeight());
 	}

@@ -51,16 +51,16 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	protected $pageRenderer;
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\Setting
+	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
-	protected $settingsManager;
+	protected $configurationUtility;
 
 	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
-		$this->settingsManager = \TYPO3\CMS\Media\Utility\Setting::getInstance();
-		$storageUid = (int) $this->settingsManager->get('storage');
+		$this->configurationUtility = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
+		$storageUid = (int) $this->configurationUtility->get('storage');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		if (!$storageObject->isOnline()) {
 			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
@@ -147,7 +147,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$result['action'] = 'create';
 		$result['asset'] = array('uid' => '','title' => '',);
 
-		$asset['storage'] = $this->settingsManager->get('storage');
+		$asset['storage'] = $this->configurationUtility->get('storage');
 		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 
 		$assetUid = $this->assetRepository->addAsset($asset);
@@ -348,7 +348,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 				// Only for a new file
 				if (empty($asset['uid'])) {
-					$categoryList = $this->settingsManager->get('default_categories');
+					$categoryList = $this->configurationUtility->get('default_categories');
 					$categories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $categoryList);
 					foreach ($categories as $category) {
 						$assetObject->addCategory($category);
@@ -363,7 +363,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$this->assetRepository->update($assetObject);
 
 				// Check whether Variant should be automatically created upon upload.
-				$variations = \TYPO3\CMS\Media\Utility\SettingVariant::getInstance()->getVariations();
+				$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance()->getVariations();
 				if (! empty($variations)) {
 
 					/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */

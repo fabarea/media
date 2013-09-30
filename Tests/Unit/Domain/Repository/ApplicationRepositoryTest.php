@@ -90,9 +90,6 @@ class ApplicationRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCa
 		// Populate the database with records
 		$this->populateFileTable();
 		$this->populateFileTableWithApplications();
-
-		// Disable permission
-		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('permission', FALSE);
 	}
 
 	public function tearDown() {
@@ -194,7 +191,7 @@ class ApplicationRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCa
 				'sys_file',
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
-					'storage' => \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage'),
+					'storage' => \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage'),
 					'type' => \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION,
 					'title' => $this->fakeTitle,
 					'pid' => 0,

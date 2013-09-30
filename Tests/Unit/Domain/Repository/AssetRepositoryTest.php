@@ -77,9 +77,6 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 		$this->fakeFileType = rand(100, 200);
 		// Populate the database with records
 		$this->populateFileTable();
-
-		// Disable permission
-		\TYPO3\CMS\Media\Utility\Setting::getInstance()->set('permission', FALSE);
 	}
 
 	public function tearDown() {
@@ -196,7 +193,7 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 				'sys_file',
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
-					'storage' => \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('storage'),
+					'storage' => \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage'),
 					'type' => $this->fakeFileType,
 					'title' => uniqid(),
 					'pid' => 0,

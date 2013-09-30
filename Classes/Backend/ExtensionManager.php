@@ -59,7 +59,7 @@ class ExtensionManager {
 	public function __construct() {
 
 		// Load configuration
-		$this->configuration = \TYPO3\CMS\Media\Utility\Setting::getInstance()->getConfiguration();
+		$this->configuration = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->getConfiguration();
 
 		// Merge with Data that comes from the User
 		$postData = GeneralUtility::_POST();

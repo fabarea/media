@@ -31,7 +31,7 @@ namespace TYPO3\CMS\Media\Utility;
  * @package TYPO3
  * @subpackage media
  */
-class SettingImagePreset implements \TYPO3\CMS\Core\SingletonInterface {
+class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
@@ -46,10 +46,10 @@ class SettingImagePreset implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\SettingImagePreset
+	 * @return \TYPO3\CMS\Media\Utility\ImagePresetUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\SettingImagePreset');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ImagePresetUtility');
 	}
 
 	/**
@@ -58,10 +58,10 @@ class SettingImagePreset implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @throws \TYPO3\CMS\Media\Exception\EmptyValueException
 	 * @param string $preset image_thumbnail, image_mini, ...
-	 * @return \TYPO3\CMS\Media\Utility\SettingImagePreset
+	 * @return \TYPO3\CMS\Media\Utility\ImagePresetUtility
 	 */
 	public function preset($preset){
-		$size = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get($preset);
+		$size = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get($preset);
 		if (is_null($size)) {
 			throw new \TYPO3\CMS\Media\Exception\EmptyValueException('No value for preset: ' . $preset, 1362501066);
 		}

@@ -26,21 +26,21 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\SettingVariant.
+ * Test case for class \TYPO3\CMS\Media\Utility\VariantUtility.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class SettingVariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class VariantUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\SettingVariant
+	 * @var \TYPO3\CMS\Media\Utility\VariantUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\SettingVariant();
+		$this->fixture = new \TYPO3\CMS\Media\Utility\VariantUtility();
 	}
 
 	public function tearDown() {
@@ -50,7 +50,7 @@ class SettingVariantTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function propertySettingVariantIsAnArrayNotEmpty() {
+	public function propertyVariantUtilityIsAnArrayNotEmpty() {
 		$this->assertAttributeNotEmpty('variations', $this->fixture);
 	}
 

@@ -174,10 +174,10 @@ class Query {
 
 		/** @var $user \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
 		$user = $GLOBALS['BE_USER'];
-		$settingManagement = \TYPO3\CMS\Media\Utility\Setting::getInstance();
+		$configurationUtility = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
 
 		// Add segment to handle BE Permission
-		if (TYPO3_MODE == 'BE' && $settingManagement->get('permission') && !$user->isAdmin()) {
+		if (TYPO3_MODE == 'BE' && $configurationUtility->get('permission') && !$user->isAdmin()) {
 			if (empty($user->user['usergroup'])) {
 				$user->user['usergroup'] = 0;
 			}
@@ -187,7 +187,7 @@ class Query {
 		if ($this->respectStorage) {
 			$clause = sprintf('%s AND storage = %s',
 				$clause,
-				$settingManagement->get('storage')
+				\TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage()->getUid()
 			);
 		}
 

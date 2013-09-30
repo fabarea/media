@@ -52,7 +52,7 @@ class MediaFolder {
 	 */
 	static public function getPidList() {
 
-		$mediaFolders = \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('media_folders');
+		$mediaFolders = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('media_folders');
 		if (!empty($mediaFolders)) {
 			/** @var $databaseHandle \TYPO3\CMS\Core\Database\DatabaseConnection */
 			$databaseHandle = $GLOBALS['TYPO3_DB'];
@@ -84,7 +84,7 @@ class MediaFolder {
 	 * @return int
 	 */
 	static public function getCategoryFolders() {
-		return \TYPO3\CMS\Media\Utility\Setting::getInstance()->get('category_folders');
+		return \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('category_folders');
 	}
 
 	/**

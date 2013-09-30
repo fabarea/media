@@ -49,7 +49,7 @@ class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
 		/** @var $object \TYPO3\CMS\Media\Domain\Model\Asset */
 		if ($preset) {
-			$imageDimension = \TYPO3\CMS\Media\Utility\SettingImagePreset::getInstance()->preset($preset);
+			$imageDimension = \TYPO3\CMS\Media\Utility\ImagePresetUtility::getInstance()->preset($preset);
 			$configuration['width'] = $imageDimension->getWidth();
 			$configuration['height'] = $imageDimension->getHeight();
 		}

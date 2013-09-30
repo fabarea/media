@@ -27,10 +27,10 @@ namespace TYPO3\CMS\Media\Utility;
 /**
  * A class for handling permission
  */
-class SettingPermission implements \TYPO3\CMS\Core\SingletonInterface {
+class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\Setting
+	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
 	protected $setting;
 
@@ -58,19 +58,19 @@ class SettingPermission implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\SettingPermission
+	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\SettingPermission');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\PermissionUtility');
 	}
 
 	/**
 	 * Constructor
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\SettingPermission
+	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
 	 */
 	public function __construct() {
-		$this->setting = \TYPO3\CMS\Media\Utility\Setting::getInstance();
+		$this->setting = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
 
 		// Fill permissions tables
 		foreach ($this->fileTypes as $type) {
@@ -113,7 +113,7 @@ class SettingPermission implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Utility\SettingPermission
+	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
 	 */
 	public function returnArray() {
 		$this->returnedType = 'array';
@@ -121,7 +121,7 @@ class SettingPermission implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Utility\SettingPermission
+	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
 	 */
 	public function returnString() {
 		$this->returnedType = 'string';

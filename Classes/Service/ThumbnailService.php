@@ -245,7 +245,7 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 */
 	public function getConfiguration() {
 		if (empty($this->configuration)) {
-			$dimension = \TYPO3\CMS\Media\Utility\SettingImagePreset::getInstance()->preset('image_thumbnail');
+			$dimension = \TYPO3\CMS\Media\Utility\ImagePresetUtility::getInstance()->preset('image_thumbnail');
 			$this->configuration = array(
 				'width' => $dimension->getWidth(),
 				'height' => $dimension->getHeight(),

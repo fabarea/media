@@ -60,7 +60,7 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 		$currentHeight = $imageInfo[1];
 
 		// resize an image if this one is bigger than telling by the settings
-		$imageDimension = \TYPO3\CMS\Media\Utility\SettingImagePreset::getInstance()->preset('image_original');
+		$imageDimension = \TYPO3\CMS\Media\Utility\ImagePresetUtility::getInstance()->preset('image_original');
 		if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
 
 			// resize taking the width as reference

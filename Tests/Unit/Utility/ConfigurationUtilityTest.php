@@ -26,21 +26,21 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\SettingPermission.
+ * Test case for class \TYPO3\CMS\Media\Utility\Configuration.
  *
  * @author Fabien Udriot <fabien.udriot@typo3.org>
  * @package TYPO3
  * @subpackage media
  */
-class SettingPermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class ConfigurationUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\SettingPermission
+	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\SettingPermission();
+		$this->fixture = new \TYPO3\CMS\Media\Utility\ConfigurationUtility();
 	}
 
 	public function tearDown() {
@@ -50,34 +50,54 @@ class SettingPermissionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function propertyPermissionIsAnArrayNotEmpty() {
-		$this->assertAttributeNotEmpty('permissions', $this->fixture);
-	}
-
-	/**
-	 * @test
-	 */
-	public function returnedTypeIsByDefaultArray() {
-		$expected = 'array';
-		$this->assertSame($expected, $this->fixture->getReturnedType());
-	}
-
-	/**
-	 * @test
-	 */
-	public function getListOfAllowedExtensionReturnsAnArrayNotEmptyByDefault() {
-		$actual = $this->fixture->getAllowedExtensions();
-		$this->assertInternalType('array', $actual);
+	public function getConfigurationReturnNotEmptyArrayByDefault() {
+		$actual = $this->fixture->getConfiguration();
+		$this->assertTrue(is_array($actual));
 		$this->assertNotEmpty($actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getListOfAllowedExtensionAndSetReturnedTypeStringReturnsStringNotEmpty() {
-		$actual = $this->fixture->returnString()->getAllowedExtensions();
-		$this->assertInternalType('string', $actual);
+	public function thumbnailSizeSettingReturnsNotEmpty() {
+		$actual = $this->fixture->get('image_thumbnail');
+		$this->assertTrue($actual > 1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getFooValueReturnsEmpty() {
+		$expected = '';
+		$actual = $this->fixture->get(uniqid('foo'));
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function configurationArrayNotEmptyAfterGetARandomValue() {
+		$this->fixture->get(uniqid('foo'));
+
+		$actual = $this->fixture->getConfiguration();
+		$this->assertTrue(count($actual) > 0);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getStorageValueIsNotEmpty() {
+		$actual = $this->fixture->get('storage');
 		$this->assertNotEmpty($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setConfigurationValueAndCheckReturnedValueIsCorresponding() {
+		$expected = 'bar';
+		$this->fixture->set('foo', $expected);
+		$this->assertSame($expected, $this->fixture->get('foo'));
 	}
 }
 ?>
