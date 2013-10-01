@@ -54,7 +54,7 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 */
 	public function render() {
 
-		$storageList = ConfigurationUtility::getInstance()->get('storage');
+		$storageList = ConfigurationUtility::getInstance()->get('storages');
 		$storages = GeneralUtility::trimExplode(',', $storageList);
 
 		$parameters = GeneralUtility::_GET($this->moduleLoader->getParameterPrefix());

@@ -87,7 +87,7 @@ class ConfigurationUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function getStorageValueIsNotEmpty() {
-		$actual = $this->fixture->get('storage');
+		$actual = $this->fixture->get('storages');
 		$this->assertNotEmpty($actual);
 	}
 

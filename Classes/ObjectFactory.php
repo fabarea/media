@@ -113,17 +113,18 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Return media storage.
 	 *
-	 * @param int $uid
+	 * @param int $identifier
 	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
 	 */
-	public function getStorage($uid = 0) {
-		if ($uid == 0) {
-			$storageList = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage');
+	public function getStorage($identifier = 0) {
+		if ($identifier == 0) {
+			$storageList = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages');
 			$storages = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $storageList);
-			// @todo fix me, error prone!
-			$uid = $storages[0];
+			if (!empty($storages)) {
+				$identifier = current($storages);
+			}
 		}
-		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($uid);
+		return \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($identifier);
 	}
 
 	/**

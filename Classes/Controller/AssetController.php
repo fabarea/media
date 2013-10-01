@@ -60,7 +60,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function initializeAction() {
 		$this->configurationUtility = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
-		$storageUid = (int) $this->configurationUtility->get('storage');
+		$storageUid = (int) $this->configurationUtility->get('storages');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		if (!$storageObject->isOnline()) {
 			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
@@ -147,7 +147,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$result['action'] = 'create';
 		$result['asset'] = array('uid' => '','title' => '',);
 
-		$asset['storage'] = $this->configurationUtility->get('storage');
+		$asset['storage'] = $this->configurationUtility->get('storages');
 		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 
 		$assetUid = $this->assetRepository->addAsset($asset);

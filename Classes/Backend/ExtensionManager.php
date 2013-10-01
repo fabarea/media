@@ -183,7 +183,7 @@ class ExtensionManager {
 	 *
 	 * @return string
 	 */
-	public function renderStorage() {
+	public function renderStorages() {
 
 		/** @var $storageRepository \TYPO3\CMS\Core\Resource\StorageRepository */
 		$storageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
@@ -191,7 +191,7 @@ class ExtensionManager {
 
 		$options = '';
 
-		$storages = GeneralUtility::trimExplode(',', $this->configuration['storage']);
+		$storages = GeneralUtility::trimExplode(',', $this->configuration['storages']);
 
 		/** @var $record \TYPO3\CMS\Core\Resource\ResourceStorage */
 		foreach ($records as $record) {
@@ -222,7 +222,7 @@ class ExtensionManager {
 						});
 					</script>
 					$options
-					<input type="hidden" id="fieldStorages" name="tx_extensionmanager_tools_extensionmanagerextensionmanager[config][storage][value]" value="{$this->configuration['storage']}" />
+					<input type="hidden" id="fieldStorages" name="tx_extensionmanager_tools_extensionmanagerextensionmanager[config][storages][value]" value="{$this->configuration['storages']}" />
 				</div>
 EOF;
 

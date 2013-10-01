@@ -47,7 +47,7 @@ class MigrationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage');
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		if (!$storageObject->isOnline()) {
 			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
@@ -61,7 +61,7 @@ class MigrationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 * @return void
 	 */
 	public function indexAction() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage');
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 		$this->view->assign('publicPath', $storageObject->getRootLevelFolder()->getPublicUrl());
 	}
@@ -134,7 +134,7 @@ class MigrationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		);
 
 		// Get the storage object
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage');
+		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages');
 		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
 
 		// Fetch existing field from tables ``sys_file`` and ``tx_dam``
@@ -205,7 +205,7 @@ class MigrationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 				}
 
 				$_record['imported_from_dam'] = '1';
-				$_record['storage'] = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storage');
+				$_record['storage'] = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages');
 
 				$this->databaseHandler->exec_INSERTquery('sys_file', $_record);
 			} else {
