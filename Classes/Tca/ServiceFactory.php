@@ -4,7 +4,7 @@ namespace TYPO3\CMS\Media\Tca;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012
+ *  (c) 2012-2013 Fabien Udriot <fabien.udriot@typo3.org>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,10 +26,6 @@ namespace TYPO3\CMS\Media\Tca;
 
 /**
  * A class to handle TCA ctrl.
- *
- * @author Fabien Udriot <fabien.udriot@typo3.org>
- * @package TYPO3
- * @subpackage media
  */
 class ServiceFactory implements \TYPO3\CMS\Core\SingletonInterface {
 

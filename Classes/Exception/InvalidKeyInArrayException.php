@@ -4,7 +4,7 @@ namespace TYPO3\CMS\Media\Exception;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012
+ *  (c) 2012-2013 Fabien Udriot <fabien.udriot@typo3.org>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,10 +26,6 @@ namespace TYPO3\CMS\Media\Exception;
 
 /**
  * Handle Exception for missing media object
- *
- * @author Fabien Udriot <fabien.udriot@typo3.org>
- * @package TYPO3
- * @subpackage media
  */
 class InvalidKeyInArrayException extends \Exception {
 

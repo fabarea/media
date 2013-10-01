@@ -11,7 +11,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Format;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-
 /**
  * Wrapper for PHPs json_encode function.
  *

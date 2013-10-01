@@ -27,10 +27,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class providing a Hook for naw_securedl.
- *
- * @package media
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class NawSecuredl {
 

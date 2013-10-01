@@ -4,7 +4,7 @@ namespace TYPO3\CMS\Media\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Media development team <typo3-project-media@lists.typo3.org>
+ *  (c) 2012-2013 Fabien Udriot <fabien.udriot@typo3.org>
  *
  *  All rights reserved
  *
@@ -27,10 +27,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
 
 /**
  * Test case for class \TYPO3\CMS\Media\Domain\Model\Variant.
- *
- * @author Fabien Udriot <fabien.udriot@typo3.org>
- * @package TYPO3
- * @subpackage media
  */
 class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 

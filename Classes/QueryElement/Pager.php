@@ -4,7 +4,7 @@ namespace TYPO3\CMS\Media\QueryElement;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012
+ *  (c) 2010 Mario Matzulla <mario@matzullas.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,11 +26,6 @@ namespace TYPO3\CMS\Media\QueryElement;
 
 /**
  * A page browser
- *
- * @author Mario Matzulla <mario@matzullas.de>
- * @package TYPO3
- * @subpackage media
- * @deprecated use TYPO3\CMS\Vidi\Persistence\Pager instead
  */
 class Pager  {
 
