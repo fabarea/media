@@ -33,17 +33,37 @@ namespace TYPO3\CMS\Media\SignalSlot;
 class ContentController {
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 * @inject
+	 */
+	protected $objectManager;
+
+	/**
+	 * @var \TYPO3\CMS\Vidi\ModuleLoader
+	 * @inject
+	 */
+	protected $moduleLoader;
+
+	/**
 	 * Post process the matcher object.
 	 *
 	 * @param \TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject
 	 * @param string $dataType
 	 * @return void
 	 */
-	public function processMatcherObject(\TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject, $dataType) {
+	public function postProcessMatcherObject(\TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject, $dataType) {
 		if ($dataType === 'sys_file') {
 
-			$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
-			$matcherObject->equals('storage', $storage->getUid());
+			$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET($this->moduleLoader->getParameterPrefix());
+
+			if (!empty($parameters['storage']) && (int) $parameters['storage'] > 0) {
+				$storageIdentifier = (int) $parameters['storage'];
+			} else {
+				$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
+				$storageIdentifier = $storage->getUid();
+			}
+
+			$matcherObject->equals('storage', $storageIdentifier);
 			$matcherObject->equals('is_variant', 0);
 		}
 	}
