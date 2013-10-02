@@ -66,49 +66,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 
 	/**
-	 * List action for this controller. Displays a list of assets
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-		$this->view->assign('columns', \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFields());
-	}
-
-	/**
-	 * List Row action for this controller. Output a json list of assets
-	 * This action is expected to have a parameter format = json
-	 *
-	 * @param array $matches
-	 * @return void
-	 */
-	public function listRowAction($matches = array()) {
-
-		// Initialize some objects related to the query
-		$matchObject = $this->createMatcherObject();
-		$matchObject->setDefaultLogicalOperator(\TYPO3\CMS\Media\QueryElement\Query::LOGICAL_OR);
-		foreach ($matches as $propertyName => $value) {
-			$matchObject->addMatch($propertyName, $value);
-		}
-
-		$orderObject = $this->createOrderObject();
-		$pagerObject = $this->createPagerObject();
-
-		// Query the repository
-		$assets = $this->assetRepository->findBy($matchObject, $orderObject, $pagerObject->getLimit(), $pagerObject->getOffset());
-		$numberOfAssets = $this->assetRepository->countBy($matchObject);
-		$pagerObject->setCount($numberOfAssets);
-
-		// Assign values
-		$this->view->assign('assets', $assets);
-		$this->view->assign('numberOfAssets', $numberOfAssets);
-		$this->view->assign('pager', $pagerObject);
-
-		$this->request->setFormat('json');
-		# Json header is not automatically respected in the BE... so send one the hard way.
-		header('Content-type: application/json');
-	}
-
-	/**
 	 * Action new: return a form for creating a new media
 	 *
 	 * @param array $asset
@@ -406,84 +363,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		// to pass data through iframe you will need to encode all html tags
 		header("Content-Type: text/plain");
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
-	}
-
-	/**
-	 * Returns a matcher object.
-	 *
-	 * @return \TYPO3\CMS\Media\QueryElement\Matcher
-	 */
-	protected function createMatcherObject() {
-
-		/** @var $matcher \TYPO3\CMS\Media\QueryElement\Matcher */
-		$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Matcher');
-
-		// Special case for Grid in the BE using jQuery DataTables plugin.
-		// Retrieve a possible search term from GP.
-		$searchTerm = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSearch');
-		if (strlen($searchTerm) > 0) {
-			$matcher->setSearchTerm($searchTerm);
-			$matcher->addCategory($searchTerm);
-		}
-
-		return $matcher;
-	}
-
-	/**
-	 * Returns an order object.
-	 *
-	 * @return \TYPO3\CMS\Media\QueryElement\Order
-	 */
-	protected function createOrderObject() {
-		// Default sort
-		$order['uid'] = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
-
-		// Retrieve a possible id of the column from the request
-		$columnPosition = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('iSortCol_0');
-		if ($columnPosition > 0) {
-			$field = \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file')->getFieldNameByPosition($columnPosition);
-
-			$direction = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('sSortDir_0');
-			$order = array(
-				$field => $direction
-			);
-		}
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Order', $order);
-	}
-
-	/**
-	 * Returns a pager object.
-	 *
-	 * @return \TYPO3\CMS\Media\QueryElement\Pager
-	 */
-	protected function createPagerObject() {
-
-		/** @var $pager \TYPO3\CMS\Media\QueryElement\Pager */
-		$pager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\QueryElement\Pager');
-
-		// Set items per page
-		// DataTables plugin is not flexible enough - or makes it complicated - to encapsulate parameters like tx_media_pi[page]
-		// $this->request->hasArgument('page')
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayLength')) {
-			$limit = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayLength');
-			$pager->setLimit($limit);
-		}
-
-		// Set offset
-		$offset = 0;
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayStart')) {
-			$offset = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GET('iDisplayStart');
-		}
-		$pager->setOffset($offset);
-
-		// set page
-		$page = 1;
-		if ($pager->getLimit() > 0) {
-			$page = round($pager->getOffset() / $pager->getLimit());
-		}
-		$pager->setPage($page);
-
-		return $pager;
 	}
 }
 ?>
