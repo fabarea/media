@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\Service;
 
 /**
  * A class providing indexing service for Media/
+ */
 class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
