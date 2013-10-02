@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
-      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:v="http://typo3.org/ns/TYPO3/CMS/Vidi/ViewHelpers">
 
 <f:layout name="Default"/>
 
@@ -28,12 +29,29 @@
 
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-typo3">
-			<div class="container-fluid">
-
-				<div id="navbar-main">
-					<f:link.action action="index" class="btn">
-						Back
-					</f:link.action>
+			<div class="navbar navbar-fixed-top">
+				<div class="navbar-typo3">
+					<div class="container-fluid navbar-typo3-top">
+						<div>
+							<div class="row-fluid">
+								<div class="span6">
+								</div>
+								<div class="span6">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container-fluid navbar-typo3-bottom">
+						<div>
+							<div class="row-fluid">
+								<div class="span6">
+									<v:docHeader.linkBack/>
+								</div>
+								<div class="span6">
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

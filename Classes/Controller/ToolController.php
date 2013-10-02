@@ -67,9 +67,6 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @return void
 	 */
 	public function indexAction() {
-		$storageUid = (int) \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages');
-		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
-		$this->view->assign('publicPath', $storageObject->getRootLevelFolder()->getPublicUrl());
 		$this->view->assign('sitePath', PATH_site);
 	}
 
