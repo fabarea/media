@@ -20,6 +20,16 @@ if (TYPO3_MODE == 'BE') {
 //		->addJavaScriptFiles(array('EXT:media/Resources/Public/JavaScript/Media.js'))
 //		->addStyleSheetFiles(array('EXT:media/Resources/Public/StyleSheet/media.css'))
 		->setDefaultPid($configuration['default_pid']['value'])
+		->setDocHeader(
+			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_TOP,
+			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_LEFT,
+			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\MenuStorageViewHelper')
+		)
+		->setDocHeader(
+			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_TOP,
+			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_RIGHT,
+			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\ButtonToolModuleViewHelper')
+		)
 		->register();
 
 	// Connect "postFileIndex" signal slot with the metadata service.
@@ -27,10 +37,34 @@ if (TYPO3_MODE == 'BE') {
 	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
 	$signalSlotDispatcher->connect(
 		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
-		'processMatcherObject',
+		'postProcessMatcherObject',
 		'TYPO3\CMS\Media\SignalSlot\ContentController',
-		'processMatcherObject',
+		'postProcessMatcherObject',
 		TRUE
+	);
+
+	$controllerActions = array(
+//		'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
+//		'Migration' => 'index, migrate, reset',
+		'Tool' => 'index, checkIndex, deleteFiles',
+//		'Variant' => 'upload',
+	);
+
+	/**
+	 * Register some controllers for the Backend (Ajax)
+	 * Special case for FE User and FE Group
+	 */
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+		$_EXTKEY,
+		'Pi1',
+		$controllerActions,
+		$controllerActions
+	);
+
+	\TYPO3\CMS\Vidi\AjaxDispatcher::addAllowedActions(
+		$_EXTKEY,
+		'Pi1',
+		$controllerActions
 	);
 }
 
