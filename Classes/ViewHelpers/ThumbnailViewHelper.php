@@ -24,11 +24,6 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  ***************************************************************/
 /**
  * View helper which returns a configurable thumbnail of an Asset
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

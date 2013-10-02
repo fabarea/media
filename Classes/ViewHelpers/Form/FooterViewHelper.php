@@ -27,11 +27,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
 /**
  * View helper dealing with form footer.
  * @todo View Helper is not used anymore, remove me! It was used when https://github.com/Ecodev/swiftform was in Media.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class FooterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

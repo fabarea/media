@@ -24,11 +24,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Grid\Column;
  ***************************************************************/
 /**
  * Tells about the column of a grid
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class IsVisibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

@@ -25,11 +25,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Widget\Controller;
  ***************************************************************/
 /**
  * Carousel Controller
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class CarouselController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController {
 

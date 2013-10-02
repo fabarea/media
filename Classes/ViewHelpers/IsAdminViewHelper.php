@@ -24,11 +24,6 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  ***************************************************************/
 /**
  * View helper which tells whether the user is admin or not.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class IsAdminViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

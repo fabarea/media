@@ -24,11 +24,6 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  ***************************************************************/
 /**
  * View helper which returns the max upload file size.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class MaxUploadSizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

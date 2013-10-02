@@ -27,11 +27,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\TceForms;
 /**
  * View helper dealing with file upload widget.
  * Notice the file is very similar to FileUploadViewHelper.php but integrates itself into TCEforms.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

@@ -60,12 +60,6 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
  * 88          88      88  88
  * 88          88  888888  888888
  *
- *
- * @category    Utility
- * @package     TYPO3
- * @subpackage  tx_imageautoresize
- * @author      Xavier Perseguers <xavier@causal.ch>
- * @license     http://www.gnu.org/copyleft/gpl.html
  */
 class JpegExifOrient {
 

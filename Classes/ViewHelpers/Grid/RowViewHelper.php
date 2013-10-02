@@ -25,11 +25,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Grid;
 
 /**
  * View helper for rendering rows of assets
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class RowViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

@@ -24,11 +24,6 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  ***************************************************************/
 /**
  * View helper which tells whether a RTE plugin is requested from the URL parameters
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class IsRtePluginViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

@@ -29,11 +29,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
  *
  * Example <m:form.tca object="{asset}" />
  * @todo View Helper is not used anymore, remove me! It was used when https://github.com/Ecodev/swiftform was in Media
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

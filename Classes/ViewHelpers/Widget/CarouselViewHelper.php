@@ -25,11 +25,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Widget;
 /**
  * View helper which return a Carousel Gallery based on the markup of Twitter Bootstrap.
  * JQuery is assuming to be loaded.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class CarouselViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper {
 

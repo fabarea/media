@@ -26,11 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

@@ -25,11 +25,6 @@ namespace TYPO3\CMS\Media\ViewHelpers;
 
 /**
  * View helper which render an icon using sprites
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
  */
 class SpriteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
