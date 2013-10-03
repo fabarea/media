@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * A class providing services related to Variants.
@@ -75,7 +76,8 @@ class VariantService {
 		if ($this->doProcess($file, $configuration)) {
 
 			// Retrieve Variant container.
-			$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getVariantFolder();
+			$storageIdentifier = $file->getProperty('storage');
+			$targetFolderObject = ObjectFactory::getInstance()->getVariantFolder($storageIdentifier);
 			$variantFile = $file->copyTo($targetFolderObject, 'variant_' . $file->getName(), 'renameNewFile');
 
 			$fileNameWithPath = PATH_site . $variantFile->getPublicUrl();

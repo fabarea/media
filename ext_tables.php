@@ -6,6 +6,28 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE == 'BE') {
 
+	if (TYPO3_MODE == 'BE') {
+		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+			$_EXTKEY,
+			'user', // Make media module a submodule of 'user'
+			'm1',
+			'bottom', // Position
+			array(
+//				'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
+//				'Migration' => 'index, migrate, reset',
+				'Tool' => 'index, checkStatus',
+				'Asset' => 'delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
+				'Variant' => 'upload',
+			),
+			array(
+				'access' => 'user,group',
+				'icon' => 'EXT:media/ext_icon.gif',
+				'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf',
+				'isDisplayed' => FALSE,
+			)
+		);
+	}
+
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
@@ -17,8 +39,12 @@ if (TYPO3_MODE == 'BE') {
 	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader', 'sys_file');
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
 		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
-//		->addJavaScriptFiles(array('EXT:media/Resources/Public/JavaScript/Media.js'))
-//		->addStyleSheetFiles(array('EXT:media/Resources/Public/StyleSheet/media.css'))
+		->addJavaScriptFiles(
+			array('EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js')
+		)
+		->addStyleSheetFiles(
+			array('EXT:media/Resources/Public/StyleSheet/FileUploader/fineuploader.css')
+		)
 		->setDefaultPid($configuration['default_pid']['value'])
 		->setDocHeader(
 			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_TOP,
@@ -29,6 +55,11 @@ if (TYPO3_MODE == 'BE') {
 			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_TOP,
 			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_RIGHT,
 			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\ButtonToolModuleViewHelper')
+		)
+		->setDocHeader(
+			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_BOTTOM,
+			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_LEFT,
+			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\ButtonUploadModuleViewHelper')
 		)
 		->register();
 

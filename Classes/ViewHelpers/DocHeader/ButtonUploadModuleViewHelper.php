@@ -1,6 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Form;
-
+namespace TYPO3\CMS\Media\ViewHelpers\DocHeader;
 /***************************************************************
  *  Copyright notice
  *
@@ -23,30 +22,43 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * View helper dealing with file upload widget.
+ * View helper which renders a button for uploading assets.
  */
-class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonUploadModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var string
 	 */
-	protected $prefix;
+	protected $extensionName = 'media';
 
 	/**
-	 * Render a file upload field
+	 * Renders a button for uploading assets.
 	 *
 	 * @return string
 	 */
 	public function render() {
 
-		$searches[] = '<script type="text/javascript">';
-		$searches[] = '</script>';
-		$callBack = str_replace($searches, '', $this->renderChildren());
+		$callBack = <<< EOF
+
+			// Callback action after file upload
+			if (responseJSON.uid) {
+
+				// Hide message for file upload
+				$('.qq-upload-list', this).find('li:eq(' + id + ')').fadeOut(500);
+
+				// Reset table only if all files have been uploaded
+				if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
+					Vidi.table.fnResetDisplay();
+				}
+			}
+EOF;
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
-		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
+		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
 		$fileUpload->setPrefix($this->getPrefix())->setCallBack($callBack);
 		return $fileUpload->render();
 	}
@@ -57,13 +69,14 @@ class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	 * @return string
 	 */
 	protected function getPrefix() {
+		// hard-coded for now
 		return 'tx_media_user_mediam1';
-		$prefix = (string) $this->viewHelperVariableContainer->get('TYPO3\\CMS\\Fluid\\ViewHelpers\\FormViewHelper', 'fieldNamePrefix');
-
-		if (!empty($this->prefix)) {
-			$prefix = sprintf('%s[%s]', $prefix, $this->prefix);
-		}
-		return $prefix;
+//		$prefix = (string) $this->viewHelperVariableContainer->get('TYPO3\\CMS\\Fluid\\ViewHelpers\\FormViewHelper', 'fieldNamePrefix');
+//
+//		if (!empty($this->prefix)) {
+//			$prefix = sprintf('%s[%s]', $prefix, $this->prefix);
+//		}
+//		return $prefix;
 	}
 }
 

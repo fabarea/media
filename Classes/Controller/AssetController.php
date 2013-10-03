@@ -22,6 +22,8 @@ namespace TYPO3\CMS\Media\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 
 /**
  * Controller which handles actions related to Assets.
@@ -47,21 +49,9 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	protected $pageRenderer;
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
-	 */
-	protected $configurationUtility;
-
-	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
-		$this->configurationUtility = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
-		$storageUid = (int) $this->configurationUtility->get('storages');
-		$storageObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getStorageObject($storageUid);
-		if (!$storageObject->isOnline()) {
-			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
-			throw new \TYPO3\CMS\Media\Exception\StorageNotOnlineException($message, 1361461834);
-		}
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
 	}
 
@@ -100,7 +90,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$result['action'] = 'create';
 		$result['asset'] = array('uid' => '','title' => '',);
 
-		$asset['storage'] = $this->configurationUtility->get('storages');
+		$asset['storage'] = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage()->getUid();
 		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 
 		$assetUid = $this->assetRepository->addAsset($asset);
@@ -258,13 +248,16 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	/**
 	 * Handle the file upload action for a new file and an existing one.
 	 *
-	 * @param array $asset
+	 * @param int $storageIdentifier
+	 * @param int $assetIdentifier
+	 * @validate $storageIdentifier TYPO3\CMS\Media\Domain\Validator\StorageValidator
+	 * @validate $assetIdentifier TYPO3\CMS\Media\Domain\Validator\AssetValidator
 	 * @return string
 	 */
-	public function uploadAction(array $asset = array()) {
+	public function uploadAction($storageIdentifier = NULL, $assetIdentifier = NULL) { // storage?
 
 		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
-		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
+		$uploadManager = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
 		try {
 			/** @var $uploadedFileObject \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
 			$uploadedFileObject = $uploadManager->handleUpload();
@@ -276,14 +269,14 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 			// TRUE means a file already exists and we should update it.
 			$fileObject = NULL;
-			if (!empty($asset['uid'])) {
+			if (!empty($assetIdentifier)) {
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
-				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($asset['uid']);
+				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($assetIdentifier);
 				$fileObject->getType();
-				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($fileObject);
+				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($fileObject, $storageIdentifier);
 			} else {
 				// Get the target folder
-				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject);
+				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject, $storageIdentifier);
 			}
 
 			try {
@@ -293,16 +286,16 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 				// Call the indexer service for updating the metadata of the file.
 				/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
-				$indexerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+				$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
 				$indexerService->indexFile($newFileObject, TRUE);
 
 				/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
 				$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
 
 				// Only for a new file
-				if (empty($asset['uid'])) {
-					$categoryList = $this->configurationUtility->get('default_categories');
-					$categories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $categoryList);
+				if (! $assetIdentifier) {
+					$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
+					$categories = GeneralUtility::trimExplode(',', $categoryList);
 					foreach ($categories as $category) {
 						$assetObject->addCategory($category);
 					}
@@ -314,7 +307,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 				// Persist the asset
 				$this->assetRepository->update($assetObject);
-
 				// Check whether Variant should be automatically created upon upload.
 				$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance()->getVariations();
 				if (! empty($variations)) {
@@ -332,7 +324,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				}
 
 				/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-				$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+				$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 				$thumbnailService->setAppendTimeStamp(TRUE);
 
 				$response = array(

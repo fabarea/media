@@ -1,13 +1,13 @@
 $(document).ready(function () {
 
-	var prefix = '%s';
+	var parameterPrefix = '%s';
 	var recordUid = '%s';
 
 	$('#%s').fineUploader({
 		multiple: true,
 		debug: true,
 		request: {
-			endpoint: 'mod.php',
+			endpoint: '/typo3/mod.php',
 			// backward compatibility for fine upload to have parameters as GET params.
 			// Otherwise use "setEndpoint" over "setParam" in submit event
 			forceMultipart: true, // when IE9 will be support octet stream upload change me to true
@@ -21,13 +21,13 @@ $(document).ready(function () {
 			bootbox.alert(message);
 		},
 		text: {
-			uploadButton: '<i class="icon-upload icon-white"></i> ' + Media.translate('upload_files')
+			uploadButton: '<span class="t3-icon t3-icon-actions t3-icon-actions-edit t3-icon-edit-upload">&nbsp;</span>'//Media.translate('upload_files')
 		},
 		// Note: main template adapted for Twitter Bootstrap
 		template: '<div class="qq-uploader span8">' +
 			'<pre class="qq-upload-drop-area span8"><span>{dragZoneText}</span></pre>' +
-			'<div class="qq-upload-button btn btn-success" style="width: auto;">{uploadButtonText}</div>' +
-			'<span class="qq-max-size qq-vertical-align">' + Media.translate('max_upload_size') +'</span>' +
+			'<div class="qq-upload-button" style="display: inline-block;">{uploadButtonText}</div>' +
+			'<div class="qq-upload-button" style="display: inline-block; bottom: 3px; position: relative"><span class="qq-max-size qq-vertical-align">%s</span></div>' +
 			'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
 			'<ul class="qq-upload-list"></ul>' +
 			'</div>',
@@ -49,19 +49,18 @@ $(document).ready(function () {
 		}
 	}).on('submit', function (event, id, fileName) {
 			var params = {};
-			params[prefix + '[action]'] = 'upload';
-			params[prefix + '[controller]'] = 'Asset';
-			params[prefix + '[asset][uid]'] = $('#asset-uid').length > 0 ? $('#asset-uid').val() : '';
-			params['M'] = 'user_MediaM1'; // @todo Make me configurable... for FE plugin for instance.
+			params[parameterPrefix + '[action]'] = 'upload';
+			params[parameterPrefix + '[controller]'] = 'Asset';
+			params[parameterPrefix + '[assetIdentifier]'] = $('#asset-uid').length > 0 ? $('#asset-uid').val() : '0';
+			params[parameterPrefix + '[storageIdentifier]'] = '%s';
+			params['M'] = 'user_MediaM1';
 			$(this).fineUploader('setParams', params);
 		})
 		.on('cancel', function (event, id, fileName) {
 		})
 		.on('complete', function (event, id, fileName, responseJSON) {
 
-			// Code injected below by the server.
+			// Code below injected by the server.
 			//%s
 		});
 });
-
-

@@ -23,6 +23,9 @@ namespace TYPO3\CMS\Media\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * A class to render a file upload widget.
@@ -97,7 +100,7 @@ EOF;
 		if ($this->fileObject) {
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-			$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 			$thumbnail = $thumbnailService
 				->setFile($this->fileObject)
 				->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
@@ -116,15 +119,34 @@ EOF;
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
 
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/FileUpload/FileUpload.js';
+		/** @var \TYPO3\CMS\Vidi\ModuleLoader $moduleLoader */
+		$moduleLoader = GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader');
+		$parameterPrefix = $moduleLoader->getParameterPrefix();
+		$parameters = GeneralUtility::_GET($parameterPrefix);
+
+		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/FileUpload/FileUpload.js';
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->getValue(),
 			$this->elementId,
 			$this->getAllowedExtensions(),
-			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
+			GeneralUtility::getMaxUploadFileSize() * 1024,
+			$this->getMaximumUploadLabel(),
+			empty($parameters['storage']) ? '0' : $parameters['storage'],
 			$this->getCallBack()
 		);
+	}
+
+	/**
+	 * Returns the max upload file size in Mo.
+	 *
+	 * @return string
+	 */
+	protected function getMaximumUploadLabel() {
+		$result = round(GeneralUtility::getMaxUploadFileSize() / 1024, 2);
+		$label = LocalizationUtility::translate('max_upload_file', 'media');
+		$result = sprintf($label, $result);
+		return $result;
 	}
 
 	/**

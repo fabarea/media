@@ -522,6 +522,22 @@ EOF;
 		$this->filterVariant = $filterVariant;
 		return $this;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getRespectStorage() {
+		return $this->respectStorage;
+	}
+
+	/**
+	 * @param boolean $respectStorage
+	 * @return $this
+	 */
+	public function setRespectStorage($respectStorage) {
+		$this->respectStorage = $respectStorage;
+		return $this;
+	}
 }
 
 ?>

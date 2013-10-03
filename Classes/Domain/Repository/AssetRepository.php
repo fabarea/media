@@ -160,6 +160,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 		$result = $query->setRawResult($this->rawResult)
 			->setObjectType($this->objectType)
 			->setMatcher($matcher)
+			->setRespectStorage(FALSE)
 			->setFilterVariant(FALSE)
 			->execute();
 

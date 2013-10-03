@@ -35,16 +35,6 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 	protected $extensionName = 'media';
 
 	/**
-	 * @var string
-	 */
-	protected $controllerName = 'Tool';
-
-	/**
-	 * @var string
-	 */
-	protected $actionName = 'index';
-
-	/**
 	 * @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
 	 */
 	protected $backendUser;
@@ -70,7 +60,7 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 			$ajaxDispatcherViewHelper = $this->objectManager->get('TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper');
 
 			$result = sprintf('<div class="pull-right"><a href="%s" class="btn btn-mini btn-doc-header"><span class="icon-cog"></span></a></div>',
-				$ajaxDispatcherViewHelper->render($this->extensionName, $this->controllerName, $this->actionName)
+				$ajaxDispatcherViewHelper->render($this->extensionName, 'Asset', 'upload')
 			);
 		}
 		return $result;
