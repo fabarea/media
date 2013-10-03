@@ -116,21 +116,20 @@ class ExtensionManager {
 
 
 		// display a message if Extension is not fully installed
-		if ($this->needsUpdate()) {
+		if (empty($this->configuration['storages'])) {
 			$out .= '
 			<div style="">
 				<div class="typo3-message message-warning">
 					<div class="message-header">'
-						. $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:updater_header') .
-					'</div>
-					<div class="message-body">
-						' . $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:updater_message') . '
+				. $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:updater_header') .
+				'</div>
+				<div class="message-body">
+					' . $GLOBALS['LANG']->sL('LLL:EXT:media/Resources/Private/Language/locallang_extension_manager.xlf:updater_message') . '
 					</div>
 				</div>
 			</div>
 			';
-		}
-		else {
+		} else {
 			$out .= '
 			<div style="">
 				<div class="typo3-message message-ok">

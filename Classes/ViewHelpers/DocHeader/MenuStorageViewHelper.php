@@ -23,7 +23,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\DocHeader;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
@@ -49,18 +48,16 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 */
 	public function render() {
 
-		$storageList = ConfigurationUtility::getInstance()->get('storages');
-		$storages = GeneralUtility::trimExplode(',', $storageList);
+		$storages = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages();
 
 		$parameters = GeneralUtility::_GET($this->moduleLoader->getParameterPrefix());
 		$storageIdentifierParameter = !empty($parameters['storage']) > 0 ? $parameters['storage'] : NULL;
 
 		/** @var $storage \TYPO3\CMS\Core\Resource\ResourceStorage */
 		$options = '';
-		foreach ($storages as $storageIdentifier) {
-			$storage = $this->storageRepository->findByIdentifier($storageIdentifier);
+		foreach ($storages as $storage) {
 			$selected = '';
-			if ($storageIdentifierParameter == $storageIdentifier) {
+			if ($storageIdentifierParameter == $storage->getUid()) {
 				$selected = 'selected';
 			}
 			$options .= sprintf('<option value="%s" %s>%s</option>',

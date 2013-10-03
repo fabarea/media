@@ -5,13 +5,13 @@
 		<header/>
 		<body>
 			<trans-unit id="updater_header">
-				<source>Configuration is still missing. Update Extension Manager Configuration</source>
+				<source>Storage configuration is missing.</source>
 			</trans-unit>
 			<trans-unit id="updater_message">
 				<source>
 					<![CDATA[
 				<p style="margin-bottom: 10px"><source>
-				It is very likely Media is being set up for the first time. Check out the options bellow and click the "Update" button to save your configuration.
+				It could be Media is being set up for the first time. Check at least one "storage" and click the save button.
 				</p>
 				]]>
 			</source>

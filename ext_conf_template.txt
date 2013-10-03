@@ -1,8 +1,8 @@
 # cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderMessage];
 updateMessage=0
 
-# cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderStorages]; label = Storage controlled by Media: Defines what storage is going to be controlled by Media.
-storages=1
+# cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderStorages]; label = Storage managed by Media: Defines what storage is going to be controlled by Media.
+storages=
 
 # cat=basic//; type=string; label= Comma list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
 media_folders=

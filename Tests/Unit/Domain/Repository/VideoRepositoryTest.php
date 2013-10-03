@@ -187,7 +187,7 @@ class VideoRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 				'sys_file',
 				array(
 					'identifier' => $this->lastInsertedIdentifier,
-					'storage' => \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('storages'),
+					'storage' => 1,
 					'type' => \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO,
 					'title' => $this->fakeTitle,
 					'pid' => 0,

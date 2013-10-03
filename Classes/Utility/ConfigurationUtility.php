@@ -75,7 +75,7 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return array
 	 */
 	public function get($key) {
-		return isset($this->configuration[$key]) ? $this->configuration[$key] : NULL;
+		return isset($this->configuration[$key]) ? trim($this->configuration[$key]) : NULL;
 	}
 
 	/**
