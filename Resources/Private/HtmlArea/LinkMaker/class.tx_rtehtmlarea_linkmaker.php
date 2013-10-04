@@ -28,7 +28,7 @@ class tx_rtehtmlarea_linkmaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 
 	protected $extensionKey = 'media'; // The key of the extension that is extending htmlArea RTE
 	protected $pluginName = 'LinkMaker'; // The name of the plugin registered by the extension
-	protected $relativePathToSkin = 'Resources/HtmlArea/LinkMaker/skin/htmlarea.css';// Path to the skin (css) file relative to the extension dir.
+	protected $relativePathToSkin = 'Resources/Public/HtmlArea/LinkMaker/HtmlArea.css';// Path to the skin (css) file relative to the extension dir.
 
 	protected $pluginButtons = 'linkmaker';
 	protected $convertToolbarForHtmlAreaArray = array (

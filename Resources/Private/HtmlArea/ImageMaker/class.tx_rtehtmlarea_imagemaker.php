@@ -28,7 +28,7 @@ class tx_rtehtmlarea_imagemaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 
 	protected $extensionKey = 'media'; // The key of the extension that is extending htmlArea RTE
 	protected $pluginName = 'ImageMaker'; // The name of the plugin registered by the extension
-	protected $relativePathToSkin = 'Resources/HtmlArea/ImageMaker/skin/htmlarea.css';// Path to the skin (css) file relative to the extension dir.
+	protected $relativePathToSkin = 'Resources/Public/HtmlArea/ImageMaker/HtmlArea.css';// Path to the skin (css) file relative to the extension dir.
 
 	protected $pluginButtons = 'imagemaker';
 	protected $convertToolbarForHtmlAreaArray = array (
