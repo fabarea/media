@@ -1,6 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Table;
-
+namespace TYPO3\CMS\Media\ViewHelpers\Component;
 /***************************************************************
  *  Copyright notice
  *
@@ -23,21 +22,27 @@ namespace TYPO3\CMS\Media\ViewHelpers\Table;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
- * View helper which displays a row number
+ * View helper which renders a dropdown menu for storage.
  */
-class RowNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class LinkImageMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Generates a row number
-	 *
-	 * @param int $index
-	 * @param int $offset
-	 * @return string the value
-	 * @api
+	 * @var \TYPO3\CMS\Vidi\ModuleLoader
+	 * @inject
 	 */
-	public function render($index, $offset) {
-		return $index + 1 + $offset;
+	protected $moduleLoader;
+
+	/**
+	 * Renders a dropdown menu for storage.
+	 *
+	 * @return string
+	 */
+	public function render() {
+		return '';
 	}
 }
+
 ?>

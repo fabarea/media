@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\DocHeader;
+namespace TYPO3\CMS\Media\ViewHelpers\Component;
 /***************************************************************
  *  Copyright notice
  *
@@ -28,12 +28,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * View helper which renders a dropdown menu for storage.
  */
 class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-	/**
-	 * @var \TYPO3\CMS\Core\Resource\StorageRepository
-	 * @inject
-	 */
-	protected $storageRepository;
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\ModuleLoader

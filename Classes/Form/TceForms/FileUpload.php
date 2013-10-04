@@ -41,16 +41,13 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
 		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/TceForms/FileUpload.js';
 
-		/** @var $maxUploadViewHelper \TYPO3\CMS\Media\ViewHelpers\MaxUploadSizeViewHelper */
-		$maxUploadViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MaxUploadSizeViewHelper');
-
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->getValue(),
 			$this->elementId,
 			$this->getAllowedExtension(),
 			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
-			$maxUploadViewHelper->render('max_upload_file'),
+			$this->getMaximumUploadLabel(),
 			$this->getCallBack()
 		);
 	}

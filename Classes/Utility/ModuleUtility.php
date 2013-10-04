@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Table;
+namespace TYPO3\CMS\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -10,7 +10,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Table;
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
+ *  the Free Software Foundation; either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  The GNU General Public License can be found at
@@ -23,23 +23,44 @@ namespace TYPO3\CMS\Media\ViewHelpers\Table;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 /**
- * View helper which displays a checkbox for a row
+ * A utility class for module
  */
-class CheckboxViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ModuleUtility {
 
 	/**
-	 * Generates a checkbox.
+	 * Returns the parameter prefix
 	 *
-	 * @param int $index
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $object
-	 * @return string the value
-	 * @api
+	 * @return string
 	 */
-	public function render($index, $object) {
-		return sprintf('<input type="checkbox" class="checkbox-row" data-index="%s" data-uid="%s"/>',
-			$index,
-			$object->getUid()
+	static public function getParameterPrefix() {
+		return 'tx_media_user_mediam1';
+	}
+
+	/**
+	 * Returns the module signature
+	 *
+	 * @return string
+	 */
+	static public function getModuleSignature() {
+		return 'user_MediaM1';
+	}
+
+	/**
+	 * Returns the module signature
+	 *
+	 * @param string $action
+	 * @param string $controller
+	 * @return string
+	 */
+	static public function getUri($action, $controller) {
+		return sprintf('mod.php?M=%s&%s[action]=%s&%s[controller]=%s',
+			self::getModuleSignature(),
+			self::getParameterPrefix(),
+			$action,
+			self::getParameterPrefix(),
+			$controller
 		);
 	}
 }

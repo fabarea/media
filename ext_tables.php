@@ -40,26 +40,37 @@ if (TYPO3_MODE == 'BE') {
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
 		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
 		->addJavaScriptFiles(
-			array('EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js')
+			array(
+				'EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
+				'EXT:media/Resources/Public/JavaScript/Media.Rte.LinkMaker.js',
+				'EXT:media/Resources/Public/JavaScript/Media.Rte.ImageMaker.js',
+			)
 		)
 		->addStyleSheetFiles(
 			array('EXT:media/Resources/Public/StyleSheet/FileUploader/fineuploader.css')
 		)
 		->setDefaultPid($configuration['default_pid']['value'])
-		->setDocHeader(
-			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_TOP,
-			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_LEFT,
-			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\MenuStorageViewHelper')
+		->setHeaderComponentsTopLeft(
+			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
 		)
-		->setDocHeader(
-			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_TOP,
-			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_RIGHT,
-			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\ButtonToolModuleViewHelper')
+		->setHeaderComponentsTopRight(
+			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonToolModuleViewHelper')
 		)
-		->setDocHeader(
-			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_BOTTOM,
-			TYPO3\CMS\Vidi\ModuleLoader::DOC_HEADER_LEFT,
-			array('TYPO3\CMS\Media\ViewHelpers\DocHeader\ButtonUploadModuleViewHelper')
+		->setHeaderComponentsBottomLeft(
+			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadModuleViewHelper')
+		)
+		->setBodyComponentsBottom(
+			array(
+				'TYPO3\CMS\Media\ViewHelpers\Component\LinkLinkMakerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\LinkImageMakerViewHelper',
+			)
+		)
+		->setGridComponentsButtons(
+			array(
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkMakerViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonDeleteViewHelper',
+			)
 		)
 		->register();
 

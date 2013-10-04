@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\DocHeader;
+namespace TYPO3\CMS\Media\ViewHelpers\Component;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\DocHeader;
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a button for uploading assets.
@@ -59,24 +60,8 @@ EOF;
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		$fileUpload->setPrefix($this->getPrefix())->setCallBack($callBack);
+		$fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->setCallBack($callBack);
 		return $fileUpload->render();
-	}
-
-	/**
-	 * Prefixes / namespaces the given name with the form field prefix
-	 *
-	 * @return string
-	 */
-	protected function getPrefix() {
-		// hard-coded for now
-		return 'tx_media_user_mediam1';
-//		$prefix = (string) $this->viewHelperVariableContainer->get('TYPO3\\CMS\\Fluid\\ViewHelpers\\FormViewHelper', 'fieldNamePrefix');
-//
-//		if (!empty($this->prefix)) {
-//			$prefix = sprintf('%s[%s]', $prefix, $this->prefix);
-//		}
-//		return $prefix;
 	}
 }
 

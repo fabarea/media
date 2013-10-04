@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\DocHeader;
+namespace TYPO3\CMS\Media\ViewHelpers\Component;
 /***************************************************************
  *  Copyright notice
  *
