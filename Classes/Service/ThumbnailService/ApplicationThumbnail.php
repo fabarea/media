@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  */
@@ -110,13 +111,16 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	public function renderTagAnchor($result) {
-		// @todo implementation of secure download not ideal for now. Improve it!
-		// @todo improve me! Make it compatible with the FE.
-			$uri = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[asset]=%s&tx_media_user_mediam1[action]=download&tx_media_user_mediam1[controller]=Asset';
-		$template = <<<EOF
-<a href="$uri" target="_blank">%s</a>
-EOF;
-		return sprintf($template,
+		$uri = $this->getAnchorUri();
+		if (! $uri) {
+			$uri = sprintf('%s%s',
+				ModuleUtility::getUri('download', 'Asset'),
+				$this->file->getUid()
+			);
+		}
+
+		return sprintf('<a href="%s" target="_blank" data-uid="%s">%s</a>',
+			$uri,
 			$this->file->getUid(),
 			$result
 		);

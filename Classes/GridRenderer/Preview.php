@@ -22,6 +22,11 @@ namespace TYPO3\CMS\Media\GridRenderer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\ObjectFactory;
+use TYPO3\CMS\Media\Utility\ModuleUtility;
+use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
  * Class rendering the preview of a media in the grid
@@ -42,8 +47,8 @@ class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 	 * @return \TYPO3\CMS\Media\GridRenderer\Preview
 	 */
 	public function __construct() {
-		$this->thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-		$this->metadataViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+		$this->thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+		$this->metadataViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
 	}
 
 	/**
@@ -53,18 +58,35 @@ class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 	 */
 	public function render() {
 
-		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
+		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
+
+		$uri = FALSE;
+		// Compute image-maker or link-maker URL.
+		if (ModulePlugin::getInstance()->isPluginCalled('imageMaker')) {
+			$uri = sprintf('%s&%s[asset]=%s',
+				ModuleUtility::getUri('imageMaker', 'Asset'),
+				ModuleUtility::getParameterPrefix(),
+				$this->object->getUid()
+			);
+		} elseif (ModulePlugin::getInstance()->isPluginCalled('linkMaker')) {
+			$uri = sprintf('%s&%s[asset]=%s',
+				ModuleUtility::getUri('linkMaker', 'Asset'),
+				ModuleUtility::getParameterPrefix(),
+				$this->object->getUid()
+			);
+		}
 
 		$result = $this->thumbnailService->setFile($asset)
 			->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 			->setAppendTimeStamp(TRUE)
 			->setTarget(\TYPO3\CMS\Media\Service\ThumbnailInterface::TARGET_BLANK)
+			->setAnchorUri($uri)
 			->create();
 
 		$format = '%s K';
 		$properties = array('size');
 
-		if ($asset->getType() === \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
+		if ($asset->getType() === File::FILETYPE_IMAGE) {
 			$format = '%s x %s';
 			$properties = array('width', 'height');
 		}

@@ -10,6 +10,10 @@
 <!-- identifier for the *top* part for identification in the global view -->
 <div id="content-header">
 
+	<m:js name="CamanJs-4.1.1/caman.full.min.js"/>
+	<m:js name="CamanJs-4.1.1/adapters/jquery.js"/>
+	<m:js name="Media.Rte.Popup.js"/>
+
 	<style type="text/css">
 		#slider {
 			float: left;
@@ -41,18 +45,34 @@
 		}
 	</style>
 
-	<f:render partial="Widget/CloseButton"/>
+	<div class="container-fluid navbar-typo3-top">
+		<div>
+			<div class="row-fluid">
+				<div class="span6">
+				</div>
+				<div class="span6">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid navbar-typo3-bottom">
+		<div>
+			<div class="row-fluid">
+				<div class="span6">
 
-	<button type="button" class="btn btn-success btn-create-image" accesskey="s">
-		<f:if condition="{variant}">
-			<f:then>
-				<f:translate key="update_image"/>
-			</f:then>
-			<f:else>
-				<f:translate key="insert_image"/>
-			</f:else>
-		</f:if>
-	</button>
+					<f:render partial="CloseButton"/>
+
+					<!-- update_image -->
+					<a href="#" class="btn-create-image" accesskey="s" title="{f:translate(key:'insert_image')}">
+						<m:sprite name="extensions-media-variant-edit"/>
+					</a>
+				</div>
+				<div class="span6 toolbar-left">
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 

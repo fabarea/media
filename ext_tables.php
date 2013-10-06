@@ -16,14 +16,14 @@ if (TYPO3_MODE == 'BE') {
 //				'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
 //				'Migration' => 'index, migrate, reset',
 				'Tool' => 'index, checkStatus',
-				'Asset' => 'delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
+				'Asset' => 'download, upload, linkMaker, imageMaker, delete, massDelete',
 				'Variant' => 'upload',
 			),
 			array(
 				'access' => 'user,group',
 				'icon' => 'EXT:media/ext_icon.gif',
 				'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf',
-				'isDisplayed' => FALSE,
+				'hideInMenu' => FALSE,
 			)
 		);
 	}
@@ -42,8 +42,7 @@ if (TYPO3_MODE == 'BE') {
 		->addJavaScriptFiles(
 			array(
 				'EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
-				'EXT:media/Resources/Public/JavaScript/Media.Rte.LinkMaker.js',
-				'EXT:media/Resources/Public/JavaScript/Media.Rte.ImageMaker.js',
+				'EXT:media/Resources/Public/JavaScript/Media.js',
 			)
 		)
 		->addStyleSheetFiles(
@@ -61,13 +60,14 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setBodyComponentsBottom(
 			array(
-				'TYPO3\CMS\Media\ViewHelpers\Component\LinkLinkMakerViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\LinkImageMakerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenLinkMakerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenImageMakerViewHelper',
 			)
 		)
 		->setGridComponentsButtons(
 			array(
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkMakerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageMakerViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonDeleteViewHelper',
 			)

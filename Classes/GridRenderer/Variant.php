@@ -22,6 +22,9 @@ namespace TYPO3\CMS\Media\GridRenderer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
  * Class rendering variants of assets in the grid.
@@ -49,17 +52,16 @@ class Variant extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 </li>
 EOF;
 			// Computes sprite icon.
-			$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET('tx_media_user_mediam1');
-			$icon =  isset($parameters['rtePlugin']) ?
-				\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('extensions-media-variant-link') :
-				\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('extensions-media-variant');
+			$icon = ModulePlugin::getInstance()->isPluginCalled('imageMaker') ?
+				IconUtility::getSpriteIcon('extensions-media-variant-link') :
+				IconUtility::getSpriteIcon('extensions-media-variant');
 
 			// Compiles templates for each variants.
 			foreach ($variants as $variant) {
 				$_result .= sprintf($_template,
 					$variant->getVariant()->getUid(),
 					\TYPO3\CMS\Media\Utility\Path::getRelativePath($variant->getVariant()->getPublicUrl()),
-					isset($parameters['rtePlugin']) ? 'btn-variant-link' : 'btn-variant',
+					ModulePlugin::getInstance()->isPluginCalled('imageMaker') ? 'btn-variant-link' : 'btn-variant',
 					$variant->getOriginal()->getUid(),
 					$variant->getVariant()->getUid(),
 					$variant->getVariant()->getPublicUrl(),
@@ -70,13 +72,19 @@ EOF;
 				);
 			}
 
-			// finalize reference assembling
-			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
+			// finalize variant assembling
+			$_template = '<ul style="margin: 0 0 10px 0">%s</ul>';
 			$result = sprintf($_template,
-				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('variants', 'media'),
-				count($variants),
 				$_result
 			);
+
+//			// finalize variant assembling
+//			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
+//			$result = sprintf($_template,
+//				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('variants', 'media'),
+//				count($variants),
+//				$_result
+//			);
 		}
 		return $result;
 	}

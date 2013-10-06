@@ -55,7 +55,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Media\ObjectFactory
 	 */
 	static public function getInstance() {
-		return GeneralUtility::makeInstance('TYPO3\\CMS\\Media\\ObjectFactory');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ObjectFactory');
 	}
 
 	/**
@@ -121,8 +121,9 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return ResourceStorage
 	 */
 	public function getStorage($identifier = NULL) {
+
 		// If given storage is NULL, look into the configuration for getting a default value.
-		if (is_null($identifier)) {
+		if ((int) $identifier === 0) {
 			$storageList = ConfigurationUtility::getInstance()->get('storages');
 			$storages = GeneralUtility::trimExplode(',', $storageList);
 

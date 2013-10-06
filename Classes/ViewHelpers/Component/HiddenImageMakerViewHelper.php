@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Grid\Column;
+namespace TYPO3\CMS\Media\ViewHelpers\Component;
 /***************************************************************
  *  Copyright notice
  *
@@ -22,21 +22,36 @@ namespace TYPO3\CMS\Media\ViewHelpers\Grid\Column;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ModuleUtility;
+use TYPO3\CMS\Media\Utility\Path;
+use TYPO3\CMS\Vidi\ModulePlugin;
+
 /**
- * Tells about the column of a grid
+ * View helper which renders a hidden link for image maker.
  */
-class IsVisibleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class HiddenImageMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Returns whether the column is visible
+	 * Renders a hidden link for image maker.
 	 *
-	 * @param string $fieldName the column Name
-	 * @return boolean
+	 * @return string
 	 */
-	public function render($fieldName) {
-		return \TYPO3\CMS\Media\Utility\TcaGrid::getService()->isVisible($fieldName);
-	}
+	public function render() {
 
+		$result = '';
+		if (ModulePlugin::getInstance()->isPluginCalled('imageMaker')) {
+
+			$result = sprintf('<script type="text/javascript" src="%s"></script>
+				<script type="text/javascript" src="%s"></script>
+				<a href="%s" id="btn-imageMaker-current" class="btn btn-imageMaker" style="display: none"></a>',
+				Path::getRelativePath('JavaScript/Media.Rte.ImageMaker.js'),
+				Path::getRelativePath('JavaScript/Media.Rte.Popup.js'),
+				ModuleUtility::getUri('imageMaker', 'Asset')
+			);
+		};
+		return $result;
+	}
 }
 
 ?>

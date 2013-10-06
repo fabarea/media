@@ -11,57 +11,19 @@
 		}">
 
 
-	<script type="text/javascript">
-
-		// Declare namespace
-		window.Media = {};
-
-		// "Live" variables
-		Media._labels = {
-			"max_upload_size": '<m:maxUploadSize label="max_upload_file"/>'
-		};
-
-		Media._columns = [];
-		{m:grid.column.configuration()}
-
-		// Just initialize variable with empty value.
-		Media.icons = {}
-	</script>
-
 	<f:render section="main"/>
 
-	<m:js name="JQuery/jquery.dataTables.min.js"/>
-	<m:js name="JQuery/jquery.form.js"/>
-	<m:js name="JQuery/jquery.dataTables.bootstrap.js"/>
+	<m:js name="JQuery/jquery.form.js" extensionName="vidi"/>
 
-	<m:js name="Bootstrap/bootstrap.min.js"/>
-	<m:js name="Bootstrap/bootbox.min.js"/>
-	<m:js name="Bootstrap/bootstrapx-clickover.js"/>
+	<m:js name="Bootstrap/bootstrap.min.js" extensionName="vidi"/>
+	<m:js name="Bootstrap/bootbox.min.js" extensionName="vidi"/>
+	<m:js name="Bootstrap/bootstrapx-clickover.js" extensionName="vidi"/>
 
-	<m:js name="JQuery/jquery.fineuploader-3.4.1.js"/>
-
-	<m:js name="Uri/Uri.min.js"/>
+	<m:js name="Uri/Uri.min.js" extensionName="vidi"/>
 
 	<m:js name="Media.js"/>
-	<m:js name="Encoder.js"/>
-	<m:js name="Media.Panel.js"/>
-	<m:js name="Media.Table.js"/>
 	<m:js name="Media.Action.js"/>
 	<m:js name="Media.Session.js"/>
-	<m:js name="Media.FlashMessage.js"/>
-	<m:js name="Media.Label.js"/>
-
-	<f:if condition="{m:isRtePlugin(plugin: 'linkMaker')}">
-		<m:js name="Media.Rte.LinkMaker.js"/>
-	</f:if>
-
-	<f:if condition="{m:isRtePlugin(plugin: 'imageMaker')}">
-		<m:js name="JQuery/jquery-ui-1.10.1.custom.min.js"/>
-		<m:js name="CamanJs-4.1.1/caman.full.min.js"/>
-		<m:js name="CamanJs-4.1.1/adapters/jquery.js"/>
-		<m:js name="Media.Rte.imageMaker.js"/>
-		<m:js name="Media.Rte.Popup.js"/>
-	</f:if>
 
 </m:be.container>
 {namespace m=TYPO3\CMS\Media\ViewHelpers}

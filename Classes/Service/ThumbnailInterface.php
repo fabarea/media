@@ -151,6 +151,17 @@ interface ThumbnailInterface {
 	public function setTarget($target);
 
 	/**
+	 * @return string
+	 */
+	public function getAnchorUri();
+
+	/**
+	 * @param string $uri
+	 * @return \TYPO3\CMS\Media\Service\ThumbnailInterface
+	 */
+	public function setAnchorUri($uri);
+
+	/**
 	 * @return boolean
 	 */
 	public function getAppendTimeStamp();

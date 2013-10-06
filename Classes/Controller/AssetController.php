@@ -269,7 +269,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 			// TRUE means a file already exists and we should update it.
 			$fileObject = NULL;
-			if (!empty($assetIdentifier)) {
+			if ((int) $assetIdentifier > 0) {
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
 				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($assetIdentifier);
 				$fileObject->getType();

@@ -10,14 +10,34 @@
 		<!-- identifier for the *top* part for identification in the global view -->
 		<div id="content-header">
 
-			<!--<a href="#" class="btn disabled">Previous</a>-->
-			<!--<a href="#" class="btn disabled">Next</a>-->
+			<div class="container-fluid navbar-typo3-top">
+				<div>
+					<div class="row-fluid">
+						<div class="span6">
+						</div>
+						<div class="span6">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid navbar-typo3-bottom">
+				<div>
+					<div class="row-fluid">
+						<div class="span6">
 
-			<f:render partial="Widget/CloseButton" />
+							<f:render partial="CloseButton"/>
 
-			<button type="button" class="btn btn-success btn-create-link" accesskey="s">
-				<f:translate key="create_link"/>
-			</button>
+							<a href="#" class="btn-create-link" accesskey="s" title="{f:translate(key:'create_link')}">
+								<m:sprite name="apps-pagetree-page-shortcut-external-root"/>
+							</a>
+						</div>
+						<div class="span6 toolbar-left">
+
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<!-- identifier for the *middle* part for identification in the global view -->

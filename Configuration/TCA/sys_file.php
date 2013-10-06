@@ -649,7 +649,7 @@ $tca = array(
 				'sortable' => FALSE,
 				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Preview',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
-				'wrap' => '<div class="center">|</div>',
+				'wrap' => '<div class="center preview">|</div>',
 				'width' => '150px',
 			),
 			'title' => array(

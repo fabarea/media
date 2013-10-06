@@ -76,8 +76,7 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-
-		var url = 'mod.php?M=user_MediaM1&tx_media_user_mediam1[matches][type]=2&tx_media_user_mediam1[rtePlugin]=imageMaker';
+		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=imageMaker&tx_vidi_user_vidisysfilem1[matches][type]=2';
 		var params = new Object();
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('img');

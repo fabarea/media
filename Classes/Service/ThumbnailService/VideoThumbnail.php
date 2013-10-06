@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Utility\Path;
 
 /**
  */
@@ -57,7 +58,7 @@ class VideoThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 			$relativePath = 'Icons/UnknownMimeType.png';
 		}
 
-		return \TYPO3\CMS\Media\Utility\Path::getRelativePath($relativePath);
+		return Path::getRelativePath($relativePath);
 	}
 
 	/**
@@ -100,7 +101,7 @@ class VideoThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 		$file = $this->file;
 
 		return sprintf('<a href="%s%s" target="%s">%s</a>',
-			$file->getPublicUrl(TRUE),
+			$this->getAnchorUri() ? $this->getAnchorUri() : $file->getPublicUrl(TRUE),
 			$this->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
 			$this->getTarget(),
 			$result

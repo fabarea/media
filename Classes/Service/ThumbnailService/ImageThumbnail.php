@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ProcessedFile;
 
 /**
  */
@@ -124,15 +125,16 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			if ($configurationWrap['width'] < $this->file->getProperty('width')
 				|| $configurationWrap['height'] < $this->file->getProperty('height'))
 			{
-				$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW;
+				$taskType = ProcessedFile::CONTEXT_IMAGEPREVIEW;
 				$file = $this->file->process($taskType, $configurationWrap);
 			}
 		}
 
-		return sprintf('<a href="%s%s" target="%s">%s</a>',
-			$file->getPublicUrl(TRUE),
-			$this->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
+		return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
+			$this->getAnchorUri() ? $this->getAnchorUri() : $file->getPublicUrl(TRUE),
+			$this->getAppendTimeStamp() && !$this->getAnchorUri() ? '?' . $file->getProperty('tstamp') : '',
 			$this->getTarget(),
+			$file->getUid(),
 			$result
 		);
 	}

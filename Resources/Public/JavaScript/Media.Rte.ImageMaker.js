@@ -1,13 +1,42 @@
 /*
  * Media link creator
+ *
+ * Load the proper panel whenever an image is selected in the editor.
+ * Info: window.opener is the variable for exchanging data with parent window
  */
 (function ($) {
 	$(function () {
 
 		/**
-		 * Load the proper panel whenever an image is selected in the editor.
-		 * Info: window.opener is the variable for exchanging data with parent window
+		 * Bind handler against RTE image maker buttons in the grid.
 		 */
+		$(document).on('click', '.dataTable tbody .btn-imageMaker', function (e) {
+			console.log($(this).attr('href'));
+			Media.handleForm($(this).attr('href'));
+			e.preventDefault();
+		});
+
+		/**
+		 * Bind handler against image preview buttons in the grid.
+		 */
+		$(document).on('click', '.dataTable tbody .preview a', function (e) {
+			Media.handleForm($(this).attr('href'));
+			e.preventDefault();
+		});
+
+		/**
+		 * Handler against Variant icon.
+		 */
+		$(document).on('click', '.dataTable tbody .btn-variant-link', function (e) {
+			e.preventDefault();
+			var data = {
+				uid: $(this).data('file-uid'),
+				original: $(this).data('original-uid'),
+				publicUrl: $(this).data('public-url'),
+				timeStamp: $(this).data('time-stamp')
+			};
+			Media.Rte.Popup.createImage(data);
+		});
 
 		// True means a link already exist in the RTE and must be updated.
 		if (window.opener && window.opener.Media.ImageMaker.elementNode) {
@@ -40,13 +69,13 @@
 						e.preventDefault();
 
 						// Display the form in the appropriate panel.
-						Media.Panel.showForm();
+						Vidi.Panel.showForm();
 
 						var url = $.ajax({
 							url: $(this).attr('href'),
 							success: function (data) {
 
-								Media.Action.setContent(data);
+								Media.setContent(data);
 
 								// Set back values
 								$('#file-title').val($($element).attr('title'));

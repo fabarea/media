@@ -1,13 +1,28 @@
 /*
  * Media link creator
+ *
+ * Load the proper panel whenever a link is selected in the editor.
+ * Info: window.opener is the variable for exchanging data with the parent window
  */
 (function($) {
 	$(function() {
 
 		/**
-		 * Load the proper panel whenever an image is selected in the editor.
-		 * Info: window.opener is the variable for exchanging data with the parent window
+		 * Bind handler against RTE link maker buttons in the grid.
 		 */
+		$(document).on('click', '.dataTable tbody .btn-linkMaker', function (e) {
+			Media.handleForm($(this).attr('href'));
+			e.preventDefault();
+		});
+
+		/**
+		 * Bind handler against image preview buttons in the grid.
+		 */
+		$(document).on('click', '.dataTable tbody .preview a', function (e) {
+			Media.handleForm($(this).attr('href'));
+			e.preventDefault();
+		});
+
 		// True means a link already exist in the RTE and must be updated.
 		if (window.opener && window.opener.Media.LinkMaker.elementNode) {
 			var $element, titleAttribute, matches,
@@ -29,13 +44,13 @@
 					e.preventDefault();
 
 					// Display the form in the appropriate panel.
-					Media.Panel.showForm();
+					Vidi.Panel.showForm();
 
 					var url = $.ajax({
 						url: $(this).attr('href'),
 						success: function (data) {
 
-							Media.Action.setContent(data);
+							Media.setContent(data);
 
 							// Set back values
 							$('#file-title').val($($element).attr('title'));

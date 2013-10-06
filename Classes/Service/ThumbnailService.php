@@ -23,18 +23,19 @@ namespace TYPO3\CMS\Media\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Utility\Path;
 
 /**
  */
-class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
+class ThumbnailService implements ThumbnailInterface {
 
 	/**
 	 * @var array
 	 */
 	protected $allowedOutputTypes = array(
-		\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE,
-		\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED,
-		\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_URI,
+		ThumbnailInterface::OUTPUT_IMAGE,
+		ThumbnailInterface::OUTPUT_IMAGE_WRAPPED,
+		ThumbnailInterface::OUTPUT_URI,
 	);
 
 	/**
@@ -51,9 +52,9 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 * @var array
 	 */
 	protected $renderingSteps = array(
-		\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_URI => 'renderUri',
-		\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE => 'renderTagImage',
-		\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED => 'renderTagAnchor',
+		ThumbnailInterface::OUTPUT_URI => 'renderUri',
+		ThumbnailInterface::OUTPUT_IMAGE => 'renderTagImage',
+		ThumbnailInterface::OUTPUT_IMAGE_WRAPPED => 'renderTagAnchor',
 	);
 
 	/**
@@ -110,7 +111,15 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 *
 	 * @var string
 	 */
-	protected $target = \TYPO3\CMS\Media\Service\ThumbnailInterface::TARGET_BLANK;
+	protected $target = ThumbnailInterface::TARGET_BLANK;
+
+	/**
+	 * URI of the wrapping anchor pointing to the file.
+	 * replacing the "?" <a href="?">...</a>
+	 * The URI is automatically computed if not set.
+	 * @var string
+	 */
+	protected $anchorUri;
 
 	/**
 	 * Whether a time stamp is appended to the image.
@@ -158,6 +167,7 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 				->setOutputType($this->getOutputType())
 				->setAppendTimeStamp($this->getAppendTimeStamp())
 				->setTarget($this->getTarget())
+				->setAnchorUri($this->getAnchorUri())
 				->create();
 		} else {
 			$logger = \TYPO3\CMS\Media\Utility\Logger::getInstance($this);
@@ -174,11 +184,11 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 * @return string
 	 */
 	public function getIcon($extension) {
-		$resource = \TYPO3\CMS\Media\Utility\Path::getRelativePath(sprintf('Icons/MimeType/%s.png', $extension));
+		$resource = Path::getRelativePath(sprintf('Icons/MimeType/%s.png', $extension));
 
 		// If file is not found, fall back to a default icon
-		if (\TYPO3\CMS\Media\Utility\Path::notExists($resource)) {
-			$resource = \TYPO3\CMS\Media\Utility\Path::getRelativePath('Icons/MissingMimeTypeIcon.png');
+		if (Path::notExists($resource)) {
+			$resource = Path::getRelativePath('Icons/MissingMimeTypeIcon.png');
 		}
 
 		return $resource;
@@ -386,6 +396,22 @@ class ThumbnailService implements \TYPO3\CMS\Media\Service\ThumbnailInterface {
 	 */
 	public function setTarget($target) {
 		$this->target = $target;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAnchorUri() {
+		return $this->anchorUri;
+	}
+
+	/**
+	 * @param string $anchorUri
+	 * @return ThumbnailInterface
+	 */
+	public function setAnchorUri($anchorUri) {
+		$this->anchorUri = $anchorUri;
 		return $this;
 	}
 

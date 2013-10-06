@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers;
+namespace TYPO3\CMS\Media\ViewHelpers\Component;
 /***************************************************************
  *  Copyright notice
  *
@@ -22,20 +22,31 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ModuleUtility;
+use TYPO3\CMS\Media\Utility\Path;
+use TYPO3\CMS\Vidi\ModulePlugin;
+
 /**
- * View helper which tells whether a RTE plugin is requested from the URL parameters
+ * View helper which renders a hidden link for link maker.
  */
-class IsRtePluginViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class HiddenLinkMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Tells whether the given RTE plugin corresponds to a parameter.
+	 * Renders a hidden link for link maker.
 	 *
-	 * @param string $plugin
-	 * @return boolean
+	 * @return string
 	 */
-	public function render($plugin) {
-		$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_media_user_mediam1');
-		return $parameters['rtePlugin'] == $plugin || $parameters['action'] == $plugin;
+	public function render() {
+		$result = '';
+		if (ModulePlugin::getInstance()->isPluginCalled('linkMaker')) {
+			$result = sprintf('<script type="text/javascript" src="%s"></script>
+			<a href="%s" id="btn-linkMaker-current" class="btn btn-linkMaker" style="display: none"></a>',
+				Path::getRelativePath('JavaScript/Media.Rte.LinkMaker.js'),
+				ModuleUtility::getUri('linkMaker', 'Asset')
+			);
+		};
+		return $result;
 	}
 }
 
