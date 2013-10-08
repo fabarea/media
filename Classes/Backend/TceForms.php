@@ -69,8 +69,8 @@ class TceForms {
 		/* @var $view \TYPO3\CMS\Fluid\View\StandaloneView */
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
 
-		// Get template file and pass it to the view
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/TceForms/FileUpload.html';
+		// Get template file and pass it to the view.
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms/FileUpload.html';
 		$view->setTemplatePathAndFilename($filePath);
 		return $view->render();
 	}

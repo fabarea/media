@@ -124,7 +124,7 @@ EOF;
 		$parameterPrefix = $moduleLoader->getParameterPrefix();
 		$parameters = GeneralUtility::_GET($parameterPrefix);
 
-		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Templates/ViewHelpers/Form/FileUpload/FileUpload.js';
+		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUpload/FileUpload.js';
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->getValue(),
