@@ -51,7 +51,7 @@ $(document).ready(function () {
 			var params = {};
 			params[parameterPrefix + '[action]'] = 'upload';
 			params[parameterPrefix + '[controller]'] = 'Asset';
-			params[parameterPrefix + '[assetIdentifier]'] = $('#asset-uid').length > 0 ? $('#asset-uid').val() : '0';
+			params[parameterPrefix + '[fileIdentifier]'] = $('#asset-uid').length > 0 ? $('#asset-uid').val() : '0';
 			params[parameterPrefix + '[storageIdentifier]'] = '%s';
 			params['M'] = 'user_MediaM1';
 			$(this).fineUploader('setParams', params);

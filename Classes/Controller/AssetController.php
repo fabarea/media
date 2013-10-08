@@ -249,12 +249,12 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * Handle the file upload action for a new file and an existing one.
 	 *
 	 * @param int $storageIdentifier
-	 * @param int $assetIdentifier
+	 * @param int $fileIdentifier
 	 * @validate $storageIdentifier TYPO3\CMS\Media\Domain\Validator\StorageValidator
-	 * @validate $assetIdentifier TYPO3\CMS\Media\Domain\Validator\AssetValidator
+	 * @validate $fileIdentifier TYPO3\CMS\Media\Domain\Validator\FileValidator
 	 * @return string
 	 */
-	public function uploadAction($storageIdentifier = NULL, $assetIdentifier = NULL) { // storage?
+	public function uploadAction($storageIdentifier = NULL, $fileIdentifier = NULL) { // storage?
 
 		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
 		$uploadManager = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
@@ -269,9 +269,9 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 			// TRUE means a file already exists and we should update it.
 			$fileObject = NULL;
-			if ((int) $assetIdentifier > 0) {
+			if ((int) $fileIdentifier > 0) {
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
-				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($assetIdentifier);
+				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 				$fileObject->getType();
 				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($fileObject, $storageIdentifier);
 			} else {
@@ -293,7 +293,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
 
 				// Only for a new file
-				if (! $assetIdentifier) {
+				if (! $fileIdentifier) {
 					$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
 					$categories = GeneralUtility::trimExplode(',', $categoryList);
 					foreach ($categories as $category) {

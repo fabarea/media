@@ -25,29 +25,29 @@ namespace TYPO3\CMS\Media\Domain\Validator;
  ***************************************************************/
 
 /**
- * Validate whether "assetIdentifier" exists.
+ * Validate whether "fileIdentifier" exists.
  */
-class AssetValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator {
+class FileValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator {
 
 	/**
-	 * Check whether $assetIdentifier exists. If it is not valid, throw an exception.
+	 * Check whether $fileIdentifier exists. If it is not valid, throw an exception.
 	 *
-	 * @param int $assetIdentifier
+	 * @param int $fileIdentifier
 	 * @return void
 	 */
-	public function isValid($assetIdentifier = NULL) {
+	public function isValid($fileIdentifier = NULL) {
 
-		if ((int) $assetIdentifier > 0) {
+		if ((int) $fileIdentifier > 0) {
 
 			/** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
 			$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
 			/** @var $assetRepository \TYPO3\CMS\Media\Domain\Repository\AssetRepository */
 			$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
-			$asset = $assetRepository->findByIdentifier($assetIdentifier);
+			$asset = $assetRepository->findByIdentifier($fileIdentifier);
 
 			if (!$asset) {
-				$message = sprintf('Asset with identifier "%s" could not be found.', $assetIdentifier);
+				$message = sprintf('Asset with identifier "%s" could not be found.', $fileIdentifier);
 				$this->addError($message , 1380813504);
 			}
 
