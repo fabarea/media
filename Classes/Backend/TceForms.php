@@ -38,9 +38,9 @@ class TceForms {
 	 */
 	public function __construct() {
 
-		// Load StyleSheet in the Page Renderer
+		// Load StyleSheets in the Page Renderer
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$cssFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheet/FileUploader/fineuploader.tceforms.css';
+		$cssFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/FileUploader/fineuploader.tceforms.css';
 		$this->pageRenderer->addCssFile($cssFile);
 
 		// js files to be loaded
