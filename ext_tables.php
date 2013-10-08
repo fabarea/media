@@ -60,8 +60,8 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setBodyComponentsBottom(
 			array(
-				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenLinkCreatorViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenImageEditorViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\PluginLinkCreatorViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\PluginImageEditorViewHelper',
 			)
 		)
 		->setGridComponentsButtons(

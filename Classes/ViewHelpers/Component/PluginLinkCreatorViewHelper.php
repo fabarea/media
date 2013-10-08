@@ -28,9 +28,9 @@ use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a hidden link for link creator.
+ * View helper which renders content for link creator plugin.
  */
-class HiddenLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class PluginLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Renders a hidden link for link creator.

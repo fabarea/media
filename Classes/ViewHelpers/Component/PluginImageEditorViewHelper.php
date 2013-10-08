@@ -28,9 +28,9 @@ use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a hidden link for image editor.
+ * View helper which renders content for image editor plugin.
  */
-class HiddenImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class PluginImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Renders a hidden link for image editor.
