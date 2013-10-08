@@ -61,16 +61,16 @@ class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
 		$uri = FALSE;
-		// Compute image-maker or link-maker URL.
-		if (ModulePlugin::getInstance()->isPluginCalled('imageMaker')) {
+		// Compute image-editor or link-creator URL.
+		if (ModulePlugin::getInstance()->isPluginCalled('imageEditor')) {
 			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('imageMaker', 'Asset'),
+				ModuleUtility::getUri('imageEditor', 'Asset'),
 				ModuleUtility::getParameterPrefix(),
 				$this->object->getUid()
 			);
-		} elseif (ModulePlugin::getInstance()->isPluginCalled('linkMaker')) {
+		} elseif (ModulePlugin::getInstance()->isPluginCalled('linkCreator')) {
 			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('linkMaker', 'Asset'),
+				ModuleUtility::getUri('linkCreator', 'Asset'),
 				ModuleUtility::getParameterPrefix(),
 				$this->object->getUid()
 			);

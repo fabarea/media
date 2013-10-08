@@ -3,7 +3,7 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2011-10-17T20:22:35Z" product-name="media">
 		<header/>
 		<body>
-			<trans-unit id="linkmaker" xml:space="preserve">
+			<trans-unit id="linkcreator" xml:space="preserve">
 				<source>Link document from Media module</source>
 			</trans-unit>
 		</body>

@@ -13,10 +13,10 @@ if (TYPO3_MODE == 'BE') {
 			'm1',
 			'bottom', // Position
 			array(
-//				'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
+//				'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkCreator, imageEditor, massDelete',
 //				'Migration' => 'index, migrate, reset',
 				'Tool' => 'index, checkStatus',
-				'Asset' => 'download, upload, linkMaker, imageMaker, delete, massDelete',
+				'Asset' => 'download, upload, linkCreator, imageEditor, delete, massDelete',
 				'Variant' => 'upload',
 			),
 			array(
@@ -60,14 +60,14 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setBodyComponentsBottom(
 			array(
-				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenLinkMakerViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenImageMakerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenLinkCreatorViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\HiddenImageEditorViewHelper',
 			)
 		)
 		->setGridComponentsButtons(
 			array(
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkMakerViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageMakerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkCreatorViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageEditorViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonDeleteViewHelper',
 			)
@@ -86,7 +86,7 @@ if (TYPO3_MODE == 'BE') {
 	);
 
 	$controllerActions = array(
-//		'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkMaker, imageMaker, massDelete',
+//		'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkCreator, imageEditor, massDelete',
 //		'Migration' => 'index, migrate, reset',
 		'Tool' => 'index, checkIndex, deleteFiles',
 //		'Variant' => 'upload',

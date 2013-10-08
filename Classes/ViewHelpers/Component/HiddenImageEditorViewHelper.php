@@ -28,22 +28,26 @@ use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a hidden link for link maker.
+ * View helper which renders a hidden link for image editor.
  */
-class HiddenLinkMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class HiddenImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Renders a hidden link for link maker.
+	 * Renders a hidden link for image editor.
 	 *
 	 * @return string
 	 */
 	public function render() {
+
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginCalled('linkMaker')) {
+		if (ModulePlugin::getInstance()->isPluginCalled('imageEditor')) {
+
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
-			<a href="%s" id="btn-linkMaker-current" class="btn btn-linkMaker" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Rte.LinkMaker.js'),
-				ModuleUtility::getUri('linkMaker', 'Asset')
+				<script type="text/javascript" src="%s"></script>
+				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
+				Path::getRelativePath('JavaScript/Media.Rte.ImageEditor.js'),
+				Path::getRelativePath('JavaScript/Media.Rte.Popup.js'),
+				ModuleUtility::getUri('imageEditor', 'Asset')
 			);
 		};
 		return $result;

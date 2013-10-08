@@ -27,9 +27,9 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a "image-maker" button to be placed in the grid
+ * View helper which renders a "link-creator" button to be placed in the grid
  */
-class ButtonImageMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper
@@ -38,20 +38,20 @@ class ButtonImageMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 	protected $uriEditViewHelper;
 
 	/**
-	 * Renders a "image-maker" button to be placed in the grid.
+	 * Renders a "link-creator" button to be placed in the grid.
 	 *
 	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Vidi\Domain\Model\Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginCalled('imageMaker')) {
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-imageMaker" data-uid="%s">%s</a>',
-				ModuleUtility::getUri('imageMaker', 'Asset'),
+		if (ModulePlugin::getInstance()->isPluginCalled('linkCreator')) {
+			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s">%s</a>',
+				ModuleUtility::getUri('linkCreator', 'Asset'),
 				ModuleUtility::getParameterPrefix(),
 				$object->getUid(),
 				$object->getUid(),
-				IconUtility::getSpriteIcon('extensions-media-variant-edit')
+				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
 			);
 		}
 		return $result;

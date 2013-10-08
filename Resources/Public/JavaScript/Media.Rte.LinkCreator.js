@@ -8,9 +8,9 @@
 	$(function() {
 
 		/**
-		 * Bind handler against RTE link maker buttons in the grid.
+		 * Bind handler against RTE link creator buttons in the grid.
 		 */
-		$(document).on('click', '.dataTable tbody .btn-linkMaker', function (e) {
+		$(document).on('click', '.dataTable tbody .btn-linkCreator', function (e) {
 			Media.handleForm($(this).attr('href'));
 			e.preventDefault();
 		});
@@ -24,23 +24,23 @@
 		});
 
 		// True means a link already exist in the RTE and must be updated.
-		if (window.opener && window.opener.Media.LinkMaker.elementNode) {
+		if (window.opener && window.opener.Media.LinkCreator.elementNode) {
 			var $element, titleAttribute, matches,
 				uri, classAttribute, targetAttribute, fileUid;
 
-			$element = $(window.opener.Media.LinkMaker.elementNode);
+			$element = $(window.opener.Media.LinkCreator.elementNode);
 
 			uri = new Uri($($element).attr('href'))
 			matches = uri.query().match(/file:([0-9]+)/i);
 			if (matches.length > 0) {
 				fileUid = matches[1];
 
-				var uriTarget = new Uri($('#btn-linkMaker-current').attr('href'));
+				var uriTarget = new Uri($('#btn-linkCreator-current').attr('href'));
 				uriTarget.addQueryParam('tx_media_user_mediam1[asset]', fileUid);
 
 				// Reset the URL with the new attribute
-				$('#btn-linkMaker-current').attr('href', uriTarget.query());
-				$('#btn-linkMaker-current').click(function(e) {
+				$('#btn-linkCreator-current').attr('href', uriTarget.query());
+				$('#btn-linkCreator-current').click(function(e) {
 					e.preventDefault();
 
 					// Display the form in the appropriate panel.
@@ -61,7 +61,7 @@
 				})
 
 				// Fire a click
-				$('#btn-linkMaker-current').click();
+				$('#btn-linkCreator-current').click();
 			}
 		}
 	});

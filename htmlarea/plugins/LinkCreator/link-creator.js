@@ -29,7 +29,7 @@
 /*
  * Document Map Plugin for TYPO3 htmlArea RTE
  */
-HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
+HTMLArea.LinkCreator = Ext.extend(HTMLArea.Plugin, {
 
 	/**
 	 * This function gets called by the class constructor
@@ -55,10 +55,10 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 		/*
 		 * Registering the button
 		 */
-		var buttonId = "LinkMaker";
+		var buttonId = "LinkCreator";
 		var buttonConfiguration = {
 			id: buttonId,
-			tooltip: this.localize("linkmaker"),
+			tooltip: this.localize("linkcreator"),
 			action: "onButtonPress",
 			context: "a",
 			selection: false,
@@ -77,7 +77,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean    false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=linkMaker';
+		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=linkCreator';
 		var params = new Object();
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('a');
@@ -90,7 +90,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 			this.elementNode = '';
 		}
 
-		var name = 'Media LinkMaker';
+		var name = 'Media LinkCreator';
 		var dimensions = {
 			top: 0,
 			left: 0,
@@ -102,7 +102,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 
 		// Transmit this to the parent window (AKA the popup)
 		this.dialogWindow.opener.Media = {};
-		this.dialogWindow.opener.Media.LinkMaker = this;
+		this.dialogWindow.opener.Media.LinkCreator = this;
 
 		return false;
 	},
@@ -133,7 +133,7 @@ HTMLArea.LinkMaker = Ext.extend(HTMLArea.Plugin, {
 	 * This function gets called when the toolbar is updated
 	 */
 	onUpdateToolbar: function (button, mode, selectionEmpty, ancestors) {
-		if (mode === 'wysiwyg' && this.editor.isEditable() && button.itemId === 'LinkMaker') {
+		if (mode === 'wysiwyg' && this.editor.isEditable() && button.itemId === 'LinkCreator') {
 			button.setDisabled(selectionEmpty && !button.isInContext(mode, selectionEmpty, ancestors));
 			if (!button.disabled) {
 				var node = this.editor.getParentElement();

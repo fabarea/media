@@ -27,19 +27,19 @@ Media.Rte = {
 
 			if (window.opener) {
 				// apply previous classes
-				if (window.opener.Media.ImageMaker.elementNode.className != null) {
-					params.tag += 'class="' + window.opener.Media.ImageMaker.elementNode.className + '" '
+				if (window.opener.Media.ImageEditor.elementNode.className != null) {
+					params.tag += 'class="' + window.opener.Media.ImageEditor.elementNode.className + '" '
 				}
 
 				// apply previous styles
-				if (window.opener.Media.ImageMaker.elementNode.style != null &&
-					window.opener.Media.ImageMaker.elementNode.style.cssText != null) {
-					params.tag += 'style="' + window.opener.Media.ImageMaker.elementNode.style.cssText + '" '
+				if (window.opener.Media.ImageEditor.elementNode.style != null &&
+					window.opener.Media.ImageEditor.elementNode.style.cssText != null) {
+					params.tag += 'style="' + window.opener.Media.ImageEditor.elementNode.style.cssText + '" '
 				}
 				params.tag += '/>';
 
 				// write the "img" tag in the RTE
-				window.opener.Media.ImageMaker.insertImage(params);
+				window.opener.Media.ImageEditor.insertImage(params);
 				window.close();
 			}
 

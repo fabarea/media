@@ -22,23 +22,23 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 /**
- * Link Maker plugin for htmlArea RTE
+ * Link Creator plugin for htmlArea RTE
  */
-class tx_rtehtmlarea_linkmaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
+class tx_rtehtmlarea_imageeditor extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 
 	protected $extensionKey = 'media'; // The key of the extension that is extending htmlArea RTE
-	protected $pluginName = 'LinkMaker'; // The name of the plugin registered by the extension
-	protected $relativePathToSkin = 'Resources/Public/HtmlArea/LinkMaker/HtmlArea.css';// Path to the skin (css) file relative to the extension dir.
+	protected $pluginName = 'ImageEditor'; // The name of the plugin registered by the extension
+	protected $relativePathToSkin = 'Resources/Public/HtmlArea/ImageEditor/HtmlArea.css';// Path to the skin (css) file relative to the extension dir.
 
-	protected $pluginButtons = 'linkmaker';
+	protected $pluginButtons = 'imageeditor';
 	protected $convertToolbarForHtmlAreaArray = array (
-		'linkmaker' => 'LinkMaker', #must be the same in the javascript var buttonId = LinkMaker
+		'imageeditor' => 'ImageEditor', #must be the same in the javascript var buttonId = LinkCreator
 	);
 
-	 /**
+	/**
 	 * Return JS configuration of the htmlArea plugins registered by the extension
 	 *
-	 * @param integer $RTEcounter relative id of the RTE editing area in the form
+	 * @param integer Relative id of the RTE editing area in the form
 	 * @return string JS configuration for registered plugins
 	 *
 	 * The returned string will be a set of JS instructions defining the configuration that will be provided to the plugin(s)
@@ -52,4 +52,5 @@ class tx_rtehtmlarea_linkmaker extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 		return $registerRTEinJavascriptString;
 	}
 }
+
 ?>

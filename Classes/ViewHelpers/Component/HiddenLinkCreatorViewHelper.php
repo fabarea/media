@@ -28,26 +28,22 @@ use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a hidden link for image maker.
+ * View helper which renders a hidden link for link creator.
  */
-class HiddenImageMakerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class HiddenLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Renders a hidden link for image maker.
+	 * Renders a hidden link for link creator.
 	 *
 	 * @return string
 	 */
 	public function render() {
-
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginCalled('imageMaker')) {
-
+		if (ModulePlugin::getInstance()->isPluginCalled('linkCreator')) {
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
-				<script type="text/javascript" src="%s"></script>
-				<a href="%s" id="btn-imageMaker-current" class="btn btn-imageMaker" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Rte.ImageMaker.js'),
-				Path::getRelativePath('JavaScript/Media.Rte.Popup.js'),
-				ModuleUtility::getUri('imageMaker', 'Asset')
+			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
+				Path::getRelativePath('JavaScript/Media.Rte.LinkCreator.js'),
+				ModuleUtility::getUri('linkCreator', 'Asset')
 			);
 		};
 		return $result;

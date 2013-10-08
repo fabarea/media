@@ -30,7 +30,7 @@
  * Image Plugin for TYPO3 htmlArea RTE
  */
 
-HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
+HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 
 	/*
 	 * This function gets called by the class constructor
@@ -54,10 +54,10 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 		/*
 		 * Registering the button
 		 */
-		var buttonId = "ImageMaker";
+		var buttonId = "ImageEditor";
 		var buttonConfiguration = {
 			id: buttonId,
-			tooltip: this.localize("imagemaker"),
+			tooltip: this.localize("imageeditor"),
 			action: "onButtonPress",
 			textMode: true,
 			dialog: true
@@ -76,7 +76,7 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=imageMaker&tx_vidi_user_vidisysfilem1[matches][type]=2';
+		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=imageEditor&tx_vidi_user_vidisysfilem1[matches][type]=2';
 		var params = new Object();
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('img');
@@ -89,7 +89,7 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 			this.elementNode = '';
 		}
 
-		var name = 'Media ImageMaker';
+		var name = 'Media ImageEditor';
 		var dimensions = {
 			top: 0,
 			left: 0,
@@ -101,7 +101,7 @@ HTMLArea.ImageMaker = Ext.extend(HTMLArea.Plugin, {
 
 		// Transmit this to the parent window (AKA the popup)
 		this.dialogWindow.opener.Media = {};
-		this.dialogWindow.opener.Media.ImageMaker = this;
+		this.dialogWindow.opener.Media.ImageEditor = this;
 
 		return false;
 	},

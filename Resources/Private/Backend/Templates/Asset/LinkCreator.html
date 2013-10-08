@@ -46,8 +46,8 @@
 				<f:flashMessages/>
 
 
-				<f:form method="post" action="linkMaker" name="asset"
-				        object="{asset}" arguments="{format: 'json'}" id="form-action-linkMaker">
+				<f:form method="post" action="linkCreator" name="asset"
+				        object="{asset}" arguments="{format: 'json'}" id="form-action-linkCreator">
 
 					<div class="control-group">
 						{asset.thumbnailWrapped -> f:format.html()}
@@ -112,7 +112,7 @@
 
 				$(function () {
 					// Prevent the form to be submitted
-					$('#form-action-linkMaker').submit(function (e) {
+					$('#form-action-linkCreator').submit(function (e) {
 						e.preventDefault();
 						$('.btn-create-link').click();
 					});
@@ -124,7 +124,7 @@
 						params.targetAttribute = $('#file-target').val();
 						params.hrefAttribute = '?file:' + $('#file-uid').val();
 						if (window.opener) {
-							window.opener.Media.LinkMaker.createDocumentLink(params);
+							window.opener.Media.LinkCreator.createDocumentLink(params);
 							window.close();
 						}
 					});

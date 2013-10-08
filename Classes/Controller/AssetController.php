@@ -126,7 +126,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param int $asset
 	 * @return void
 	 */
-	public function linkMakerAction($asset) {
+	public function linkCreatorAction($asset) {
 		$assetObject = $this->assetRepository->findByUid($asset);
 		$this->view->assign('asset', $assetObject);
 	}
@@ -138,7 +138,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @param int $variant a possible variant can be given.
 	 * @return void
 	 */
-	public function imageMakerAction($asset, $variant = 0) {
+	public function imageEditorAction($asset, $variant = 0) {
 		$assetObject = $this->assetRepository->findByUid($asset);
 
 		$variantObject = NULL;

@@ -8,9 +8,9 @@
 	$(function () {
 
 		/**
-		 * Bind handler against RTE image maker buttons in the grid.
+		 * Bind handler against RTE image editor buttons in the grid.
 		 */
-		$(document).on('click', '.dataTable tbody .btn-imageMaker', function (e) {
+		$(document).on('click', '.dataTable tbody .btn-imageEditor', function (e) {
 			console.log($(this).attr('href'));
 			Media.handleForm($(this).attr('href'));
 			e.preventDefault();
@@ -39,12 +39,12 @@
 		});
 
 		// True means a link already exist in the RTE and must be updated.
-		if (window.opener && window.opener.Media.ImageMaker.elementNode) {
+		if (window.opener && window.opener.Media.ImageEditor.elementNode) {
 			var $element, titleAttribute, matches,
 				uri, classAttribute, targetAttribute,
 				variantUid, originalUid;
 
-			$element = $(window.opener.Media.ImageMaker.elementNode);
+			$element = $(window.opener.Media.ImageEditor.elementNode);
 
 			variantUid = $($element).data('htmlarea-file-uid');
 			originalUid = $($element).data('htmlarea-original-uid');
@@ -52,7 +52,7 @@
 			// Makes sure the variant uid exists
 			if (variantUid > 0 && $($element).data('htmlarea-file-table') == 'sys_file') {
 
-				var uriTarget = new Uri($('#btn-imageMaker-current').attr('href'));
+				var uriTarget = new Uri($('#btn-imageEditor-current').attr('href'));
 				if (originalUid > 0) {
 					uriTarget.addQueryParam('tx_media_user_mediam1[asset]', originalUid);
 					uriTarget.addQueryParam('tx_media_user_mediam1[variant]', variantUid);
@@ -63,7 +63,7 @@
 
 				// Resetting a hidden URL with new attributes (an image was selected in the RTE)
 				// and then fire click event to load Image Editor.
-				$('#btn-imageMaker-current')
+				$('#btn-imageEditor-current')
 					.attr('href', uriTarget.query())
 					.click(function (e) {
 						e.preventDefault();

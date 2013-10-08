@@ -346,10 +346,10 @@ RTE integration
 =================
 
 The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module.
-The button name references are ``linkmaker`` and ``imagemaker`` respectively which can be added by TypoScript in TSConfig with the following line::
+The button name references are ``linkcreator`` and ``imageeditor`` respectively which can be added by TypoScript in TSConfig with the following line::
 
 	# key where to define the visible buttons in the RTE
-	toolbarOrder = bar, linkmaker, bar, imagemaker, ...
+	toolbarOrder = bar, linkcreator, bar, imageeditor, ...
 
 	-> Refer to the documentation of extension HtmlArea for more details.
 

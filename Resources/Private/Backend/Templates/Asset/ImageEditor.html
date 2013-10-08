@@ -107,10 +107,10 @@
 			</div>
 		</div>
 
-		<div class="container-imageMaker">
+		<div class="container-imageEditor">
 
-			<f:form method="post" action="imageMaker" name="asset"
-			        object="{asset}" arguments="{format: 'json'}" id="form-action-imageMaker">
+			<f:form method="post" action="imageEditor" name="asset"
+			        object="{asset}" arguments="{format: 'json'}" id="form-action-imageEditor">
 
 				<div class="container-height"></div>
 				<div class="control-group">
@@ -272,7 +272,7 @@
 			});
 
 			// Prevent the form to be submitted
-			$('#form-action-imageMaker').submit(function (e) {
+			$('#form-action-imageEditor').submit(function (e) {
 				$('.btn-create-image').click();
 				e.preventDefault();
 			});

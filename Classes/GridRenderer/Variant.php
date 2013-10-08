@@ -52,7 +52,7 @@ class Variant extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 </li>
 EOF;
 			// Computes sprite icon.
-			$icon = ModulePlugin::getInstance()->isPluginCalled('imageMaker') ?
+			$icon = ModulePlugin::getInstance()->isPluginCalled('imageEditor') ?
 				IconUtility::getSpriteIcon('extensions-media-variant-link') :
 				IconUtility::getSpriteIcon('extensions-media-variant');
 
@@ -61,7 +61,7 @@ EOF;
 				$_result .= sprintf($_template,
 					$variant->getVariant()->getUid(),
 					\TYPO3\CMS\Media\Utility\Path::getRelativePath($variant->getVariant()->getPublicUrl()),
-					ModulePlugin::getInstance()->isPluginCalled('imageMaker') ? 'btn-variant-link' : 'btn-variant',
+					ModulePlugin::getInstance()->isPluginCalled('imageEditor') ? 'btn-variant-link' : 'btn-variant',
 					$variant->getOriginal()->getUid(),
 					$variant->getVariant()->getUid(),
 					$variant->getVariant()->getPublicUrl(),

@@ -3,7 +3,7 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2011-10-17T20:22:35Z" product-name="media">
 		<header/>
 		<body>
-			<trans-unit id="imagemaker" xml:space="preserve">
+			<trans-unit id="imageeditor" xml:space="preserve">
 				<source>Insert image from Media module</source>
 			</trans-unit>
 		</body>
