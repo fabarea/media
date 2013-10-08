@@ -83,36 +83,6 @@
 			<trans-unit id="publish-dates">
 				<source>Publish Dates</source>
 			</trans-unit>
-			<trans-unit id="message-deleted">
-				<source>Media "{0}" has been deleted</source>
-			</trans-unit>
-			<trans-unit id="message-mass-deleted-singular">
-				<source>{0} item deleted</source>
-			</trans-unit>
-			<trans-unit id="message-mass-deleted-plural">
-				<source>{0} items deleted</source>
-			</trans-unit>
-			<trans-unit id="confirm-delete">
-				<source>Are you sure to delete "{0}"?</source>
-			</trans-unit>
-			<trans-unit id="confirm-mass-delete-singular">
-				<source>Are you sure you want to delete {0} item?</source>
-			</trans-unit>
-			<trans-unit id="confirm-mass-delete-plural">
-				<source>Are you sure you want to delete {0} items?</source>
-			</trans-unit>
-			<trans-unit id="message-updated">
-				<source>Media "{0}" updated with success</source>
-			</trans-unit>
-			<trans-unit id="message-created">
-				<source>Media "{0}" created with success</source>
-			</trans-unit>
-			<trans-unit id="message-error">
-				<source>Transaction did not succeed</source>
-			</trans-unit>
-			<trans-unit id="save">
-				<source>Save</source>
-			</trans-unit>
 			<trans-unit id="close">
 				<source>Close</source>
 			</trans-unit>
