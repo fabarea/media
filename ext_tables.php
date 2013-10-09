@@ -1,7 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
@@ -15,8 +13,6 @@ if (TYPO3_MODE == 'BE') {
 			'm1',
 			'bottom', // Position
 			array(
-//				'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkCreator, imageEditor, massDelete',
-//				'Migration' => 'index, migrate, reset',
 				'Tool' => 'index, checkStatus',
 				'Asset' => 'download, upload, linkCreator, imageEditor, delete, massDelete',
 				'Variant' => 'upload',
@@ -25,7 +21,7 @@ if (TYPO3_MODE == 'BE') {
 				'access' => 'user,group',
 				'icon' => 'EXT:media/ext_icon.gif',
 				'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf',
-				'hideInMenu' => FALSE,
+				'hideInMenu' => TRUE,
 			)
 		);
 	}
@@ -88,10 +84,7 @@ if (TYPO3_MODE == 'BE') {
 	);
 
 	$controllerActions = array(
-//		'Asset' => 'list, listRow, new, create, delete, edit, update, download, upload, linkCreator, imageEditor, massDelete',
-//		'Migration' => 'index, migrate, reset',
 		'Tool' => 'index, checkIndex, deleteFiles',
-//		'Variant' => 'upload',
 	);
 
 	/**
@@ -116,10 +109,10 @@ if (TYPO3_MODE == 'BE') {
 //\TYPO3\CMS\Backend\Sprite\SpriteManager::addIconSprite()
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
 	array(
-		'variant' => ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image.png',
-		'variants' => ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
-		'variant-edit' => ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
-		'variant-link' => ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
+		'variant' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image.png',
+		'variants' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
+		'variant-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
+		'variant-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
 	),
 	$_EXTKEY
 );
@@ -127,14 +120,14 @@ if (TYPO3_MODE == 'BE') {
 // Add Media folder type and icon
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon(
 	'pages',
-	'contains-media', ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
+	'contains-media', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
 
 // Add module icon for Folder
 $TCA['pages']['columns']['module']['config']['items'][] = array(
 	'Media',
 	'media',
-	ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
 
 // Get a comma-separated list of all Media folders
@@ -147,7 +140,7 @@ if ($categoryFolderPidList) {
 }
 
 // @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
-ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
 
 // Remove edit wizard because it's not working with the TCA tree
 unset($TCA['sys_file']['columns']['categories']['config']['wizards']['edit']);
