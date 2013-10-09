@@ -24,7 +24,7 @@ namespace TYPO3\CMS\Media\Controller;
  ***************************************************************/
 
 /**
- * Controller which handles the migration from DAM
+ * Controller which handles tools related to Media.
  */
 class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
