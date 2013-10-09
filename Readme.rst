@@ -16,6 +16,12 @@ The basic idea of FAL is that every file has an entry in the database to leverag
 * Integration with the text editor (RTE)
 * ...
 
+
+Documentation
+=============================
+
+Documentation is available at https://github.com/TYPO3-extensions/media/blob/master/Documentation/Index.rst
+
 Project info and releases
 =============================
 
