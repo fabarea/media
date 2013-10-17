@@ -56,71 +56,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 
 	/**
-	 * Action new: return a form for creating a new media
-	 *
-	 * @param array $asset
-	 * @return void
-	 * @dontvalidate $asset
-	 */
-	public function newAction(array $asset = array()) {
-
-		// Makes sure a media type is set.
-		$asset['type'] = empty($asset['type']) ? 0 : (int) $asset['type'];
-
-		/** @var $objectFactory \TYPO3\CMS\Media\ObjectFactory */
-		$objectFactory = \TYPO3\CMS\Media\ObjectFactory::getInstance();
-
-		/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
-		$assetObject = $objectFactory->createObject($asset);
-		$assetObject->setIndexable(FALSE); // mandatory, otherwise FAL will try to index a non yet created object.
-		$this->view->assign('asset', $assetObject);
-	}
-
-	/**
-	 * Action create: store a new media in the repository
-	 *
-	 * @param array $asset
-	 * @return void
-	 * @dontvalidate $asset
-	 */
-	public function createAction(array $asset = array()) {
-
-		// Prepare output
-		$result['status'] = FALSE;
-		$result['action'] = 'create';
-		$result['asset'] = array('uid' => '','title' => '',);
-
-		$asset['storage'] = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage()->getUid();
-		$asset['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
-
-		$assetUid = $this->assetRepository->addAsset($asset);
-
-		if ($assetUid > 0) {
-			$assetObject = $this->assetRepository->findByUid($assetUid);
-			$result['status'] = TRUE;
-			$result['asset'] = array(
-				'uid' => $assetObject->getUid(),
-				'title' => $assetObject->getTitle(),
-			);
-		}
-
-		# Json header is not automatically respected in the BE... so send one the hard way.
-		header('Content-type: application/json');
-		return json_encode($result);
-	}
-
-	/**
-	 * Action edit
-	 *
-	 * @param int $asset
-	 * @return void
-	 */
-	public function editAction($asset) {
-		$assetObject = $this->assetRepository->findByUid($asset);
-		$this->view->assign('asset', $assetObject);
-	}
-
-	/**
 	 * Handle GUI for creating a link in the RTE.
 	 *
 	 * @param int $asset
@@ -148,28 +83,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 		$this->view->assign('asset', $assetObject);
 		$this->view->assign('variant', $variantObject);
-	}
-
-	/**
-	 * Action update media.
-	 *
-	 * @param array $asset
-	 * @return void
-	 * @dontvalidate $asset
-	 */
-	public function updateAction(array $asset) {
-		$this->assetRepository->updateAsset($asset);
-		$assetObject = $this->assetRepository->findByUid($asset['uid']);
-		$result['status'] = TRUE;
-		$result['action'] = 'update';
-		$result['asset'] = array(
-			'uid' => $assetObject->getUid(),
-			'title' => $assetObject->getTitle(),
-		);
-
-		# Json header is not automatically respected in the BE... so send one the hard way.
-		header('Content-type: application/json');
-		return json_encode($result);
 	}
 
 	/**
