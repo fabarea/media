@@ -11,11 +11,6 @@ $tca = array(
 		'default_sortby' => 'ORDER BY is_variant ASC, uid DESC',
 		'crdate' => 'crdate',
 		'searchFields' => 'uid,title,keywords,extension,name',
-		'enablecolumns' => array(
-			'disabled' => 'hidden',
-			'starttime' => 'starttime',
-			'endtime' => 'endtime'
-		),
 	),
 	'types' => array(
 		TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN => array('showitem' => '
@@ -23,7 +18,6 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 									fe_groups, be_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
@@ -40,7 +34,6 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 									fe_groups, be_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
@@ -56,7 +49,6 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 									fe_groups, be_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
@@ -74,7 +66,6 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 									fe_groups, be_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
@@ -92,7 +83,6 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 									fe_groups, be_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
@@ -109,7 +99,6 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:publish-dates;20;; ,
 									fe_groups, be_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
@@ -121,8 +110,7 @@ $tca = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
 	),
 	'palettes' => array(
-		'10' => array('showitem' => 'hidden, status, ranking', 'canNotCollapse' => '1'),
-		'20' => array('showitem' => 'starttime, endtime,', 'canNotCollapse' => '1'),
+		'10' => array('showitem' => 'visible, status, ranking', 'canNotCollapse' => '1'),
 		'30' => array('showitem' => 'publisher, source', 'canNotCollapse' => '1'),
 		'50' => array('showitem' => 'latitude, longitude', 'canNotCollapse' => '1'),
 		'40' => array('showitem' => 'location_country, location_region, location_city', 'canNotCollapse' => '1'),
@@ -209,9 +197,9 @@ $tca = array(
 				)
 			)
 		),
-		'hidden' => Array(
+		'visible' => Array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.hidden',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.visible',
 			'config' => Array(
 				'type' => 'check',
 				'default' => '1'
@@ -706,8 +694,8 @@ $tca = array(
 				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Status',
 				'width' => '5%',
 			),
-			'hidden' => array(
-				'renderer' => 'TYPO3\CMS\Vidi\GridRenderer\Visibility',
+			'visible' => array(
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Visibility',
 				'label' => 'LLL:EXT:vidi/Resources/Private/Language/locallang.xlf:visibility_abbreviation',
 				'width' => '3%',
 			),

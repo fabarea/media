@@ -7,6 +7,9 @@
 			<trans-unit id="tx_media">
 				<source>Media</source>
 			</trans-unit>
+			<trans-unit id="sys_file.visible">
+				<source>Visible</source>
+			</trans-unit>
 			<trans-unit id="sys_file.status">
 				<source>Status</source>
 			</trans-unit>

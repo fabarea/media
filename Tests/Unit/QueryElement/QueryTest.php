@@ -72,16 +72,6 @@ class QueryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function methodGetReturnsEnableFieldsInSqlQuery() {
-		$actual = $this->fixture->setIgnoreEnableFields(TRUE)->getQuery();
-		$this->assertContains('sys_file.hidden', $actual);
-		$this->assertContains('sys_file.starttime', $actual);
-		$this->assertContains('sys_file.endtime', $actual);
-	}
-
-	/**
-	 * @test
-	 */
 	public function methodCountReturnAnIntegerValue() {
 		$this->assertTrue(is_int($this->fixture->count()));
 	}
