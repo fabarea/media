@@ -140,9 +140,6 @@
 			<trans-unit id="permissions_fe_groups">
 				<source>FE Group permissions</source>
 			</trans-unit>
-			<trans-unit id="permissions_be_groups">
-				<source>BE Group permissions</source>
-			</trans-unit>
 			<trans-unit id="create_link">
 				<source>Create link</source>
 			</trans-unit>

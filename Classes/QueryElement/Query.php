@@ -168,18 +168,6 @@ class Query {
 			$clause .= ' AND is_variant = 0';
 		}
 
-		/** @var $user \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
-		$user = $GLOBALS['BE_USER'];
-		$configurationUtility = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
-
-		// Add segment to handle BE Permission
-		if (TYPO3_MODE == 'BE' && $configurationUtility->get('permission') && !$user->isAdmin()) {
-			if (empty($user->user['usergroup'])) {
-				$user->user['usergroup'] = 0;
-			}
-			$clause .= sprintf(' AND uid IN (SELECT uid_local FROM sys_file_begroups_mm WHERE uid_foreign IN(%s))', $user->user['usergroup']);
-		}
-
 		if ($this->respectStorage) {
 			$clause = sprintf('%s AND storage = %s',
 				$clause,

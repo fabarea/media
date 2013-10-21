@@ -18,7 +18,7 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									fe_groups, be_groups,
+									fe_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
 									creator,--palette--;;30;; ,
@@ -34,7 +34,7 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									fe_groups, be_groups,
+									fe_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
 									creator,--palette--;;30;; ,
@@ -49,7 +49,7 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									fe_groups, be_groups,
+									fe_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
 									creator,--palette--;;30;; ,
@@ -66,7 +66,7 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									fe_groups, be_groups,
+									fe_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
 									duration,
@@ -83,7 +83,7 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									fe_groups, be_groups,
+									fe_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
 									duration,
@@ -99,7 +99,7 @@ $tca = array(
 
 								--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
 									--palette--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:visibility;10;; ,
-									fe_groups, be_groups,
+									fe_groups,
 
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:metadata,
 									creator,--palette--;;30;; ,
@@ -576,21 +576,6 @@ $tca = array(
 				'MM' => 'sys_file_fegroups_mm',
 			),
 		),
-		'be_groups' => array(
-			'exclude' => 1,
-			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.be_groups',
-			'config' => array(
-				'type' => 'select',
-				'size' => 10,
-				'minitems' => 0,
-				'maxitems' => 9999,
-				'autoSizeMax' => 30,
-				'multiple' => 0,
-				'foreign_table' => 'be_groups',
-				'MM' => 'sys_file_begroups_mm',
-			),
-		),
 	),
 	'grid' => array(
 
@@ -671,22 +656,11 @@ $tca = array(
 				'visible' => FALSE, //@todo make conditional whether the storage handles permission or not.
 				'renderers' => array(
 					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
-					# The Media permission renderer is faster to render but display less info...
+					# Decide what grid renderer must be used "PermissionFe" or "Relation"
 					#'TYPO3\CMS\Media\GridRenderer\PermissionFe',
 					'TYPO3\CMS\Vidi\GridRenderer\Relation',
 				),
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
-				'sortable' => FALSE,
-			),
-			'be_groups' => array(
-				'visible' => FALSE, //@todo make conditional whether the storage handles permission or not.
-				'renderers' => array(
-					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
-					# The Media permission renderer is faster to render but display less info...
-					#'TYPO3\CMS\Media\GridRenderer\PermissionBe',
-					'TYPO3\CMS\Vidi\GridRenderer\Relation',
-				),
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_be_groups',
 				'sortable' => FALSE,
 			),
 			'status' => array(

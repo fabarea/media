@@ -12,12 +12,6 @@ config.tx_extbase {
 					}
 				}
 			}
-			TYPO3\CMS\Media\Domain\Model\BackendUserGroup {
-                mapping {
-                    tableName = be_groups
-                    recordType = TYPO3\CMS\Media\Domain\Model\BackendUserGroup
-                }
-            }
 			TYPO3\CMS\Media\Domain\Model\FrontendUserGroup {
                 mapping {
                     tableName = fe_groups

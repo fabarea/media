@@ -36,18 +36,6 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 	protected $extensionName = 'media';
 
 	/**
-	 * @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-	 */
-	protected $backendUser;
-
-	/**
-	 *
-	 */
-	public function __construct(){
-		$this->backendUser = $GLOBALS['BE_USER'];
-	}
-
-	/**
 	 * Renders a dropdown menu for storage.
 	 *
 	 * @return string
@@ -55,7 +43,7 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 	public function render() {
 
 		$result = '';
-		if ($this->backendUser->isAdmin()) {
+		if ($this->getBackendUser()->isAdmin()) {
 
 			/** @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper $ajaxDispatcherViewHelper */
 			$ajaxDispatcherViewHelper = $this->objectManager->get('TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper');
@@ -66,6 +54,15 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * Returns an instance of the current Backend User.
+	 *
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getBackendUser() {
+		return $GLOBALS['BE_USER'];
 	}
 }
 

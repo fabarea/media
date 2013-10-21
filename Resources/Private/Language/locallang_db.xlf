@@ -70,9 +70,6 @@
 			<trans-unit id="sys_file.fe_groups">
 				<source>Frontend Permission</source>
 			</trans-unit>
-			<trans-unit id="sys_file.be_groups">
-				<source>Backend Permission</source>
-			</trans-unit>
 			<trans-unit id="sys_file.pages">
 				<source>Pages</source>
 			</trans-unit>
