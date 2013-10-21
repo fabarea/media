@@ -23,16 +23,12 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper dealing with file upload widget.
  */
 class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $prefix;
 
 	/**
 	 * Render a file upload field
@@ -47,23 +43,8 @@ class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
 		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		$fileUpload->setPrefix($this->getPrefix())->setCallBack($callBack);
+		$fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->setCallBack($callBack);
 		return $fileUpload->render();
-	}
-
-	/**
-	 * Prefixes / namespaces the given name with the form field prefix
-	 *
-	 * @return string
-	 */
-	protected function getPrefix() {
-		return 'tx_media_user_mediam1';
-		$prefix = (string) $this->viewHelperVariableContainer->get('TYPO3\\CMS\\Fluid\\ViewHelpers\\FormViewHelper', 'fieldNamePrefix');
-
-		if (!empty($this->prefix)) {
-			$prefix = sprintf('%s[%s]', $prefix, $this->prefix);
-		}
-		return $prefix;
 	}
 }
 
