@@ -409,7 +409,7 @@ By default, the View Helper generates a Carousel Gallery based on the markup of 
 and is assuming jQuery to be loaded. Syntax is as follows::
 
 	# Note categories attribute can be an array categories="{1,3}"
-	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000" sort="sorting" order="desc"/>
+	<m:widget.carousel height="340" width="1200" categories="1,3" interval="2000" sort="ranking" order="desc"/>
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
 
