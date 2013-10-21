@@ -6,25 +6,25 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE == 'BE') {
 
-	if (TYPO3_MODE == 'BE') {
-		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-			$_EXTKEY,
-			'user', // Make media module a submodule of 'user'
-			'm1',
-			'bottom', // Position
-			array(
-				'Tool' => 'index, checkStatus',
-				'Asset' => 'download, upload, linkCreator, imageEditor, delete, massDelete',
-				'Variant' => 'upload',
-			),
-			array(
-				'access' => 'user,group',
-				'icon' => 'EXT:media/ext_icon.gif',
-				'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf',
-				'hideInMenu' => TRUE,
-			)
-		);
-	}
+	# Hide the module in the BE.
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.hideModules.user := addToList(MediaM1)');
+
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		$_EXTKEY,
+		'user', // Make media module a submodule of 'user'
+		'm1',
+		'bottom', // Position
+		array(
+			'Tool' => 'index, checkStatus',
+			'Asset' => 'download, upload, linkCreator, imageEditor, delete, massDelete',
+			'Variant' => 'upload',
+		),
+		array(
+			'access' => 'user,group',
+			'icon' => 'EXT:media/ext_icon.gif',
+			'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf',
+		)
+	);
 
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
@@ -81,27 +81,6 @@ if (TYPO3_MODE == 'BE') {
 		'TYPO3\CMS\Media\SignalSlot\ContentController',
 		'postProcessMatcherObject',
 		TRUE
-	);
-
-	$controllerActions = array(
-		'Tool' => 'index, checkIndex, deleteFiles',
-	);
-
-	/**
-	 * Register some controllers for the Backend (Ajax)
-	 * Special case for FE User and FE Group
-	 */
-	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-		$_EXTKEY,
-		'Pi1',
-		$controllerActions,
-		$controllerActions
-	);
-
-	\TYPO3\CMS\Vidi\AjaxDispatcher::addAllowedActions(
-		$_EXTKEY,
-		'Pi1',
-		$controllerActions
 	);
 }
 
