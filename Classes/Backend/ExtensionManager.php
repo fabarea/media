@@ -86,12 +86,13 @@ class ExtensionManager {
 				<div style="">
 					<div class="typo3-message message-warning">
 						<div class="message-header">
-						I found tracks of DAM.
+							How to migrate DAM with its file references, categories, etc... to FAL? There isn\'t one click way.
+							I have successfully migrated DAM installations with extension
+							<a href="http://typo3.org/extensions/repository/view/we_dam2fal" target="_blank">we_dam2fal</a>. It provides different wizards
+							for exporting advanced metadata of files, DAM references, DAM categories.
 					</div>
 						<div class="message-body">
-							Would you like to migrate? There is an extension
-							<a href="https://github.com/b13/t3ext-dam_falmigration" target="_blank">dam_falmigration</a>
-							that can help importing DAM records into FAL.
+							Let me know if you know something
 						</div>
 					</div>
 				</div>
