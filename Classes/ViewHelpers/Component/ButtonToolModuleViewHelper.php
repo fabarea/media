@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
@@ -59,8 +60,9 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 			/** @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper $ajaxDispatcherViewHelper */
 			$ajaxDispatcherViewHelper = $this->objectManager->get('TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper');
 
-			$result = sprintf('<div class="pull-right"><a href="%s" class="btn btn-mini btn-doc-header"><span class="icon-cog"></span></a></div>',
-				$ajaxDispatcherViewHelper->render($this->extensionName, 'Asset', 'upload')
+			$result = sprintf('<div class="pull-right"><a href="%s&returnUrl=%s" class="btn btn-mini btn-doc-header"><span class="icon-cog"></span></a></div>',
+				ModuleUtility::getUri('index', 'Tool'),
+				urlencode($GLOBALS['_SERVER']['REQUEST_URI'])
 			);
 		}
 		return $result;
