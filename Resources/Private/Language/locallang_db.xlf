@@ -79,9 +79,6 @@
 			<trans-unit id="sys_file.language">
 				<source>Media language</source>
 			</trans-unit>
-			<trans-unit id="sys_file.sorting">
-				<source>Sorting</source>
-			</trans-unit>
 			<trans-unit id="sys_file.duration">
 				<source>Duration</source>
 			</trans-unit>

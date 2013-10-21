@@ -121,7 +121,7 @@ $tca = array(
 								--div--;LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants, variants,'),
 	),
 	'palettes' => array(
-		'10' => array('showitem' => 'hidden, status, ranking, sorting', 'canNotCollapse' => '1'),
+		'10' => array('showitem' => 'hidden, status, ranking', 'canNotCollapse' => '1'),
 		'20' => array('showitem' => 'starttime, endtime,', 'canNotCollapse' => '1'),
 		'30' => array('showitem' => 'publisher, source', 'canNotCollapse' => '1'),
 		'50' => array('showitem' => 'latitude, longitude', 'canNotCollapse' => '1'),
@@ -489,19 +489,6 @@ $tca = array(
 				'eval' => 'trim'
 			)
 		),
-		'sorting' => array(
-			'exclude' => 1,
-			'l10n_mode' => 'exclude',
-			'l10n_display' => 'defaultAsReadonly',
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.sorting',
-			'config' => array(
-				'type' => 'input',
-				'size' => '10',
-				'max' => '20',
-				'eval' => 'int',
-				'default' => '0'
-			)
-		),
 		/*
 		 * METRICS ###########################################
 		 */
@@ -668,9 +655,6 @@ $tca = array(
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
 			),
 			'keywords' => array(
-				'visible' => FALSE,
-			),
-			'sorting' => array(
 				'visible' => FALSE,
 			),
 			'categories' => array(

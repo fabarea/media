@@ -13,10 +13,8 @@ CREATE TABLE sys_file (
 	keywords text NOT NULL,
 	creator_tool varchar(255) DEFAULT '' NOT NULL,
 	download_name varchar(255) DEFAULT '' NOT NULL,
-	identifier varchar(255) DEFAULT '' NOT NULL,
 	creator varchar(255) DEFAULT '' NOT NULL,
 	publisher varchar(45) DEFAULT '' NOT NULL,
-	published int(11) unsigned DEfAULT '0' NOT NULL,
 	source varchar(255) DEFAULT '' NOT NULL,
 	alternative varchar(255) DEFAULT '' NOT NULL,
 	caption varchar(255) DEFAULT '' NOT NULL,
@@ -26,13 +24,10 @@ CREATE TABLE sys_file (
 	latitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 	longitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 	ranking int(11) unsigned DEFAULT '0',
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	note text NOT NULL,
-	categories int(11) NOT NULL default '0',
 	variants int(11) unsigned DEfAULT '0' NOT NULL,
 	is_variant tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	fe_groups int(11) unsigned DEfAULT '0' NOT NULL,
-	be_groups int(11) unsigned DEfAULT '0' NOT NULL,
 
 	# TEXT + IMAGE + VIDEO
 	# 21 cm, 29.7 cm: A4
@@ -43,9 +38,6 @@ CREATE TABLE sys_file (
 
 	# AUDIO + VIDEO
 	duration float unsigned DEFAULT '0' NOT NULL,
-
-	# VIDEO
-	preview_image int(11) unsigned DEFAULT '0' NOT NULL,
 
 	# RGB,sRGB,YUV, ...
 	color_space varchar(4) DEFAULT '' NOT NULL,
