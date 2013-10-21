@@ -34,29 +34,18 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	protected $databaseHandler;
 
 	/**
-	 * @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-	 */
-	protected $backendUser;
-
-	/**
 	 * @var \TYPO3\CMS\Media\Service\AssetIndexerService
 	 */
 	protected $assetIndexerService;
-
-	/**
-	 * @var string
-	 */
-	protected $importedFieldPrefix = '_dam_imported_';
 
 	/**
 	 * Initialize actions. These actions are meant to be called by an admin.
 	 */
 	public function initializeAction() {
 		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
-		$this->backendUser = $GLOBALS['BE_USER'];
 
 		// This action is only allowed by Admin
-		if (! $this->backendUser->isAdmin()) {
+		if (! $this->getBackendUser()->isAdmin()) {
 			$message = 'Admin permission required.';
 			throw new \TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException($message, 1375952765);
 		}
@@ -114,6 +103,15 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 			}
 		}
 		$this->redirect('checkIndex');
+	}
+
+	/**
+	 * Returns an instance of the current Backend User.
+	 *
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getBackendUser() {
+		return $GLOBALS['BE_USER'];
 	}
 }
 ?>
