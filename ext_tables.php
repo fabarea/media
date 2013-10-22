@@ -43,10 +43,10 @@ if (TYPO3_MODE == 'BE') {
 			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
 		)
 		->setHeaderComponentsTopRight(
-			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonToolModuleViewHelper')
+			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonToolViewHelper')
 		)
 		->setHeaderComponentsBottomLeft(
-			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadModuleViewHelper')
+			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadViewHelper')
 		)
 		->setBodyComponentsTop(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ConfigurationCheckViewHelper')

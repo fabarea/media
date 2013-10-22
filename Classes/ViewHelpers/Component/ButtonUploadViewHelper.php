@@ -29,7 +29,7 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 /**
  * View helper which renders a button for uploading assets.
  */
-class ButtonUploadModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var string

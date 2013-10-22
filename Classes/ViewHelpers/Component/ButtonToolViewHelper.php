@@ -28,7 +28,7 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 /**
  * View helper which renders a dropdown menu for storage.
  */
-class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonToolViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var string
@@ -44,9 +44,6 @@ class ButtonToolModuleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 
 		$result = '';
 		if ($this->getBackendUser()->isAdmin()) {
-
-			/** @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper $ajaxDispatcherViewHelper */
-			$ajaxDispatcherViewHelper = $this->objectManager->get('TYPO3\CMS\Vidi\ViewHelpers\Uri\AjaxDispatcherViewHelper');
 
 			$result = sprintf('<div class="pull-right"><a href="%s&returnUrl=%s" class="btn btn-mini btn-doc-header"><span class="icon-cog"></span></a></div>',
 				ModuleUtility::getUri('index', 'Tool'),
