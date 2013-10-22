@@ -1,15 +1,3 @@
-# cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderMessage];
-updateMessage=0
-
-# cat=basic//; type=user[EXT:media/Classes/Backend/ExtensionManager.php:TYPO3\CMS\Media\Backend\ExtensionManager->renderStorages]; label = Storage managed by Media: Defines what storage is going to be controlled by Media.
-storages=
-
-# cat=basic//; type=string; label= Comma list of Media pages (pid): If not set, a Media folder will be created automatically otherwise take this list as default for storing Media related data.
-media_folders=
-
-# cat=basic//; type=string; label= Comma list of Category pages (pid): Limit categories to a range of pages. If not set all categories will be taken into account.
-category_folders=
-
 # cat=basic//; type=string; label= Comma list of Categories applied upon upload (uid): Apply default categories when a file get uploaded. There is not check whether the Category exists, make sure to enter valid uid.
 default_categories=
 
