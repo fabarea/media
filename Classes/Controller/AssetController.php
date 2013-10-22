@@ -169,6 +169,8 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function uploadAction($storageIdentifier = NULL, $fileIdentifier = NULL) { // storage?
 
+		$uploadedFileObject = NULL;
+
 		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
 		$uploadManager = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
 		try {
@@ -220,17 +222,19 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 				// Persist the asset
 				$this->assetRepository->update($assetObject);
+
 				// Check whether Variant should be automatically created upon upload.
-				$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance()->getVariations();
+				$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance($storageIdentifier)->getVariations();
 				if (! empty($variations)) {
 
 					/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
 					$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
 
-					foreach ($variations as $variation) {
+					/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
+					foreach ($variations as $variationDimension) {
 						$configuration = array(
-							'width' => $variation['width'],
-							'height' => $variation['height'],
+							'width' => $variationDimension->getWidth(),
+							'height' => $variationDimension->getHeight(),
 						);
 						$variantService->create($assetObject, $configuration);
 					}

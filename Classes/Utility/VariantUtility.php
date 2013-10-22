@@ -23,6 +23,8 @@ namespace TYPO3\CMS\Media\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * A class for handling variants settings
@@ -35,51 +37,45 @@ class VariantUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	protected $variations = array();
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
+	 * @var int
 	 */
-	protected $setting;
+	protected $storageIdentifier;
 
 	/**
 	 * Returns a class instance.
 	 *
+	 * @param int $storageIdentifier
 	 * @return \TYPO3\CMS\Media\Utility\VariantUtility
 	 */
-	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\VariantUtility');
+	static public function getInstance($storageIdentifier = NULL) {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\VariantUtility', $storageIdentifier);
 	}
 
 	/**
-	 * Constructor
-	 *
-	 * @return \TYPO3\CMS\Media\Utility\VariantUtility
+	 * @param $storageIdentifier
 	 */
-	public function __construct() {
-		$this->setting = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
-
-		if ($this->setting->get('variations')) {
-			$variations = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->setting->get('variations'));
-
-			foreach ($variations as $variation) {
-				$dimensions = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('x', $variation);
-				$_variation['width'] = empty($dimensions[0]) ? 0 : $dimensions[0];
-				$_variation['height'] = empty($dimensions[1]) ? 0 : $dimensions[1];
-				$this->variations[] = $_variation;
-			}
-		}
+	public function __construct($storageIdentifier) {
+		$this->storageIdentifier = $storageIdentifier;
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getVariations() {
-		return $this->variations;
-	}
+		if (empty($this->variations)) {
+			$storage = ObjectFactory::getInstance()->getStorage($this->storageIdentifier);
+			$storageRecord = $storage->getStorageRecord();
+			if (strlen($storageRecord['default_variations']) > 0) {
+				$variations = GeneralUtility::trimExplode(',', $storageRecord['default_variations']);
+				foreach ($variations as $variation) {
 
-	/**
-	 * @param array $variations
-	 */
-	public function setVariations($variations) {
-		$this->variations = $variations;
+					/** @var \TYPO3\CMS\Media\Dimension $dimension */
+					$dimension = GeneralUtility::makeInstance('TYPO3\CMS\Media\Dimension', $variation);
+					$this->variations[] = $dimension;
+				}
+			}
+		}
+		return $this->variations;
 	}
 }
 ?>
