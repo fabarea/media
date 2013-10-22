@@ -113,8 +113,9 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	public function renderTagAnchor($result) {
 		$uri = $this->getAnchorUri();
 		if (! $uri) {
-			$uri = sprintf('%s%s',
+			$uri = sprintf('%s&%s[asset]=%s',
 				ModuleUtility::getUri('download', 'Asset'),
+				ModuleUtility::getParameterPrefix(),
 				$this->file->getUid()
 			);
 		}

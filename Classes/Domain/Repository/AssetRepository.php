@@ -220,23 +220,24 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 */
 	public function remove($asset) {
 		$result = FALSE;
-		if ($asset) {
+		if (is_object($asset) && $asset->exists()) {
 
-			if ($asset->exists()) {
-				// Get the recycler folder. Create on if needed.
-				$recyclerFolderName = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('recycler_folder');
-				$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
-			    if (! $storageObject->hasFolder($recyclerFolderName)) {
-					$storageObject->createFolder($recyclerFolderName);
-				 }
-				$recyclerFolder = $storageObject->getFolder($recyclerFolderName);
+			// Delete record
+			$result = $this->databaseHandle->exec_DELETEquery('sys_file', 'uid = ' . $asset->getUid());
+			$asset->delete();
 
-				// Move the asset to the recycler
-				$asset->moveTo($recyclerFolder, $asset->getName(), 'renameNewFile');
-			}
+			// Get the recycler folder. Create on if needed.
+			// @todo revamp recycler concept.
+			#$recyclerFolderName = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('recycler_folder');
+			#$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
+			#$storageObject->deleteFile($asset);
+		    #if (! $storageObject->hasFolder($recyclerFolderName)) {
+			#	$storageObject->createFolder($recyclerFolderName);
+			#}
+			#$recyclerFolder = $storageObject->getFolder($recyclerFolderName);
 
-			// Mark the record as deleted
-			$result = $this->databaseHandle->exec_UPDATEquery('sys_file', 'uid = ' . $asset->getUid(), array('deleted' => 1));
+			#// Move the asset to the recycler
+			#$asset->moveTo($recyclerFolder, $asset->getName(), 'renameNewFile');
 		}
 		return $result;
 	}
