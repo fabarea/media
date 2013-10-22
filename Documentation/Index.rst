@@ -187,7 +187,6 @@ thumbnail to be generated::
 	# - image_small => '320x320'
 	# - image_medium => '760x760'
 	# - image_large => '1200x1200'
-	# - image_original => '1920x1920'
 	<m:thumbnail object="{asset}" preset="image_medium"/>
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}

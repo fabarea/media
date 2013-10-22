@@ -56,6 +56,9 @@ if (TYPO3_MODE == 'BE') {
 		->setHeaderComponentsBottomLeft(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadModuleViewHelper')
 		)
+		->setBodyComponentsTop(
+			array('TYPO3\CMS\Media\ViewHelpers\Component\ConfigurationCheckViewHelper')
+		)
 		->setBodyComponentsBottom(
 			array(
 				'TYPO3\CMS\Media\ViewHelpers\Component\PluginLinkCreatorViewHelper',

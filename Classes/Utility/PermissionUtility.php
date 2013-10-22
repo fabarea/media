@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class for handling permission
@@ -30,109 +31,49 @@ namespace TYPO3\CMS\Media\Utility;
 class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
-	 */
-	protected $setting;
-
-	/**
-	 * @var array
-	 */
-	protected $permissions;
-
-	/**
-	 * @var array
-	 */
-	protected $returnedType = 'array';
-
-	/**
-	 * @var array
-	 */
-	protected $fileTypes = array(
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT,
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE,
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO,
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO,
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION,
-	);
-
-	/**
 	 * Returns a class instance.
 	 *
 	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\PermissionUtility');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\PermissionUtility');
 	}
 
 	/**
-	 * Constructor
+	 * Returns allowed extensions.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
-	 */
-	public function __construct() {
-		$this->setting = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance();
-
-		// Fill permissions tables
-		foreach ($this->fileTypes as $type) {
-			$_permission = $this->setting->get('extension_allowed_file_type_' . $type);
-			$this->permissions[$type] = \TYPO3\CMS\Core\Utility\GeneralUtility::expandList($_permission);
-		}
-	}
-
-	/**
-	 * Returns list of allowed extension.
-	 *
-	 * @return array|string
+	 * @return array
 	 */
 	public function getAllowedExtensions() {
 
-		$result = array();
-		foreach ($this->permissions as $permission) {
-			$result = array_merge($result, \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $permission));
+		$fieldNames = array(
+			'extension_allowed_file_type_1',
+			'extension_allowed_file_type_2',
+			'extension_allowed_file_type_3',
+			'extension_allowed_file_type_4',
+			'extension_allowed_file_type_5',
+		);
+
+		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		$storageRecord = $storage->getStorageRecord();
+		$allowedExtensions = array();
+		foreach ($fieldNames as $fieldName) {
+			$_allowedExtensions = GeneralUtility::trimExplode(',', $storageRecord[$fieldName], TRUE);
+			$allowedExtensions = array_merge($allowedExtensions, $_allowedExtensions);
 		}
 
-		if ($this->returnedType == 'string') {
-			$result = implode(',', $result);
-		}
-
-		return $result;
+		$uniqueAllowedExtensions = array_unique($allowedExtensions);
+		return array_filter($uniqueAllowedExtensions, 'strlen');
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getFileTypes() {
-		return $this->fileTypes;
-	}
-
-	/**
-	 * @param array $fileTypes
-	 */
-	public function setFileTypes($fileTypes) {
-		$this->fileTypes = $fileTypes;
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
-	 */
-	public function returnArray() {
-		$this->returnedType = 'array';
-		return $this;
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
-	 */
-	public function returnString() {
-		$this->returnedType = 'string';
-		return $this;
-	}
-
-	/**
+	 * Returns allowed extensions list.
+	 *
 	 * @return string
 	 */
-	public function getReturnedType() {
-		return $this->returnedType;
+	public function getAllowedExtensionList() {
+		return implode(',', $this->getAllowedExtensions());
 	}
+
 }
 ?>

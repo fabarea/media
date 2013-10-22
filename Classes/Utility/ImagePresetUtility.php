@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class to handle validation on the client side
@@ -45,26 +46,27 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Media\Utility\ImagePresetUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ImagePresetUtility');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ImagePresetUtility');
 	}
 
 	/**
 	 * Set the current preset value. Preset values come from the settings and can be:
-	 * image_thumbnail, image_mini, image_small, image_medium, image_large, image_original
+	 * image_thumbnail, image_mini, image_small, image_medium, image_large
 	 *
 	 * @throws \TYPO3\CMS\Media\Exception\EmptyValueException
 	 * @param string $preset image_thumbnail, image_mini, ...
 	 * @return \TYPO3\CMS\Media\Utility\ImagePresetUtility
 	 */
 	public function preset($preset){
-		$size = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get($preset);
+		$size = ConfigurationUtility::getInstance()->get($preset);
 		if (is_null($size)) {
 			throw new \TYPO3\CMS\Media\Exception\EmptyValueException('No value for preset: ' . $preset, 1362501066);
 		}
 
 		$this->currentPreset = $preset;
 		if (!isset($this->store[$this->currentPreset])) {
-			$dimensions = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('x', $size);
+			// @todo use object Dimension instead
+			$dimensions = GeneralUtility::trimExplode('x', $size);
 			$this->store[$this->currentPreset]['width'] = empty($dimensions[0]) ? 0 : $dimensions[0];
 			$this->store[$this->currentPreset]['height'] = empty($dimensions[1]) ? 0 : $dimensions[1];
 		}

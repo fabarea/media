@@ -78,23 +78,6 @@ class FileUploadTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getAllowedExtensionReturnsAListOfExtension() {
-		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
-
-		$method = new \ReflectionMethod(
-			'TYPO3\CMS\Media\Form\FileUpload', 'getAllowedExtensions'
-		);
-
-		$method->setAccessible(TRUE);
-		$actual = $method->invoke($this->fixture);
-
-		$expected = "txt','html','jpg','jpeg','bmp','png','tiff','tif','gif','eps','mp3','mp4','m4a','wma','f4a','mov','avi','mpeg','mpg','mp4','m4v','flv','f4v','webm','wmv','ogv','3gp','doc','docx','dotx','ppt','pptx','pps','ppsx','odt','xls','xlsx','xltx','pdf','zip','rtf','xlt";
-		$this->assertSame($expected, $actual);
-	}
-
-	/**
-	 * @test
-	 */
 	public function getBasePrefixStripsTheSquareBraquets() {
 		$method = new \ReflectionMethod(
 			'TYPO3\CMS\Media\Form\FileUpload', 'getBasePrefix'

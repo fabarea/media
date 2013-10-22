@@ -82,14 +82,6 @@ class ConfigurationUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getStorageValueIsNotEmpty() {
-		$actual = $this->fixture->get('storages');
-		$this->assertNotEmpty($actual);
-	}
-
-	/**
-	 * @test
-	 */
 	public function setConfigurationValueAndCheckReturnedValueIsCorresponding() {
 		$expected = 'bar';
 		$this->fixture->set('foo', $expected);

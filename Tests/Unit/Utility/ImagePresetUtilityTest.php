@@ -98,7 +98,6 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			array('image_small', '340x320', 340, 320),
 			array('image_medium', '780x760', 780, 760),
 			array('image_large', '1210x1200', 1210, 1200),
-			array('image_original', '1910x1920', 1910, 1920),
 		);
 	}
 
@@ -122,8 +121,8 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function setOriginalImageAsPresetWithValue0AndCheckWidthEquals0() {
-		$actual = 'image_original';
-		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_original', 0);
+		$actual = 'image_large';
+		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', 0);
 		$this->assertSame(0, $this->fixture->preset($actual)->getWidth());
 	}
 
@@ -131,10 +130,10 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function setOriginalImageAsPresetWithRandomValueAndCheckWidthAndHeightCorrespondsToThisRandomValue() {
-		$preset = 'image_original';
+		$preset = 'image_large';
 		$actualWidth = rand(10, 100);
 		$actualHeight = rand(10, 100);
-		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_original', $actualWidth . 'x' . $actualHeight);
+		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', $actualWidth . 'x' . $actualHeight);
 		$this->assertSame($actualWidth, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($actualHeight, $this->fixture->preset($preset)->getHeight());
 	}

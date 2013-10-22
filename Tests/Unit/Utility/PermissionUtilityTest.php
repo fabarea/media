@@ -46,34 +46,8 @@ class PermissionUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function propertyPermissionIsAnArrayNotEmpty() {
-		$this->assertAttributeNotEmpty('permissions', $this->fixture);
-	}
-
-	/**
-	 * @test
-	 */
-	public function returnedTypeIsByDefaultArray() {
-		$expected = 'array';
-		$this->assertSame($expected, $this->fixture->getReturnedType());
-	}
-
-	/**
-	 * @test
-	 */
-	public function getListOfAllowedExtensionReturnsAnArrayNotEmptyByDefault() {
-		$actual = $this->fixture->getAllowedExtensions();
-		$this->assertInternalType('array', $actual);
-		$this->assertNotEmpty($actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getListOfAllowedExtensionAndSetReturnedTypeStringReturnsStringNotEmpty() {
-		$actual = $this->fixture->returnString()->getAllowedExtensions();
-		$this->assertInternalType('string', $actual);
-		$this->assertNotEmpty($actual);
+	public function checkWhetherPermissionUtilityIsCorrect() {
+		$this->assertInstanceOf('\TYPO3\CMS\Media\Utility\PermissionUtility', $this->fixture);
 	}
 }
 ?>

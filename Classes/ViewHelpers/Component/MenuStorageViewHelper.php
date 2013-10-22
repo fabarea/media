@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
@@ -54,10 +55,11 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 			if ($storageIdentifierParameter == $storage->getUid()) {
 				$selected = 'selected';
 			}
-			$options .= sprintf('<option value="%s" %s>%s</option>',
+			$options .= sprintf('<option value="%s" %s>%s %s</option>',
 				$storage->getUid(),
 				$selected,
-				$storage->getName()
+				$storage->getName(),
+				$storage->isOnline() ? '' : '(' . LocalizationUtility::translate('offline', 'media') . ')'
 			);
 		}
 

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\SignalSlot;
+namespace TYPO3\CMS\Media;
 
 /***************************************************************
  *  Copyright notice
@@ -27,49 +27,45 @@ namespace TYPO3\CMS\Media\SignalSlot;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Exception\StorageNotOnlineException;
-use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
- * Class which handle signal slot for Vidi Content controller
+ * Class for handling a dimension. The constructor takes a value such as "100x100" and split it in two parts: width and height.
  */
-class ContentController {
+class Dimension {
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 * @inject
+	 * @var int
 	 */
-	protected $objectManager;
+	protected $width = 0;
 
 	/**
-	 * @var \TYPO3\CMS\Vidi\ModuleLoader
-	 * @inject
+	 * @var int
 	 */
-	protected $moduleLoader;
+	protected $height = 0;
 
 	/**
-	 * Post process the matcher object.
-	 *
-	 * @param \TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject
-	 * @param string $dataType
-	 * @return void
+	 * Constructor
 	 */
-	public function postProcessMatcherObject(\TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject, $dataType) {
-		if ($dataType === 'sys_file') {
+	public function __construct($dimension) {
+		$dimensions = GeneralUtility::trimExplode('x', $dimension);
+		$this->width = empty($dimensions[0]) ? 0 : $dimensions[0];
+		$this->height = empty($dimensions[1]) ? 0 : $dimensions[1];
+	}
 
-			$storage = StorageUtility::getInstance()->getCurrentStorage();
+	/**
+	 * @return mixed
+	 */
+	public function getWidth() {
+		return $this->width;
+	}
 
-			// Set the storage identifier only if the storage is on-line.
-			$identifier = -1;
-			if ($storage->isOnline()) {
-				$identifier = $storage->getUid();
-			}
-
-			$matcherObject->equals('storage', $identifier);
-			$matcherObject->equals('is_variant', 0);
-		}
+	/**
+	 * @return int
+	 */
+	public function getHeight() {
+		return $this->height;
 	}
 }
+
 
 ?>

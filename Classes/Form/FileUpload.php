@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\Form;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Utility\PermissionUtility;
 
 /**
  * A class to render a file upload widget.
@@ -155,8 +156,7 @@ EOF;
 	 * @return string
 	 */
 	 protected function getAllowedExtensions() {
-		$extensions = \TYPO3\CMS\Media\Utility\PermissionUtility::getInstance()->getAllowedExtensions();
-		return implode("','", $extensions);
+		return implode("','", PermissionUtility::getInstance()->getAllowedExtensions());
 	}
 
 	/**

@@ -23,6 +23,8 @@ namespace TYPO3\CMS\Media\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * A class for handling configuration of the extension
@@ -45,7 +47,7 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Media\Utility\ConfigurationUtility
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ConfigurationUtility');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ConfigurationUtility');
 	}
 
 	/**
@@ -55,17 +57,21 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function __construct() {
 
-		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
 		/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-		$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
+		$configurationUtility = $this->getObjectManager()->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
 		$configuration = $configurationUtility->getCurrentConfiguration($this->extensionKey);
 
 		// Fill up configuration array with relevant values.
 		foreach ($configuration as $key => $data) {
 			$this->configuration[$key] = $data['value'];
 		}
+	}
+
+	/**
+	 * @return ObjectManager
+	 */
+	protected function getObjectManager() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 	/**

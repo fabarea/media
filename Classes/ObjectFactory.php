@@ -122,22 +122,11 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getStorage($identifier = NULL) {
 
-		// If given storage is NULL, look into the configuration for getting a default value.
-		if ((int) $identifier === 0) {
-			$storageList = ConfigurationUtility::getInstance()->get('storages');
-			$storages = GeneralUtility::trimExplode(',', $storageList);
-
-			if (empty($storages)) {
-				throw new \RuntimeException('No storage could be found. Check configuration in the Extension Manager', 1380793365);
-			}
-			$identifier = current($storages);
-		}
-		$storage = ResourceFactory::getInstance()->getStorageObject($identifier);
-
-		// Check the storage is on-line
-		if (!$storage->isOnline()) {
-			$message = sprintf('The storage "%s" looks currently off-line. Check the storage configuration if you think this is an error', $storageObject->getName());
-			throw new StorageNotOnlineException($message, 1361461834);
+		if ($identifier == NULL) {
+			$storages = $this->getStorages();
+			$storage = current($storages);
+		} else {
+			$storage = ResourceFactory::getInstance()->getStorageObject($identifier);
 		}
 		return $storage;
 	}
@@ -151,20 +140,20 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getStorages() {
 
-		$storages = array();
-		$storageList = ConfigurationUtility::getInstance()->get('storages');
-		if (strlen($storageList) === 0) {
-			throw new \RuntimeException('No storage was selected in the Extension Manager. Check configuration there.', 1380801970);
-		}
-		$storageIdentifiers = GeneralUtility::trimExplode(',', $storageList);
-		foreach ($storageIdentifiers as $storageIdentifier) {
-			$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
-			if ($storage->isOnline()) {
-				$storages[] = $storage;
-
-			}
+		$storages = $this->getBackendUser()->getFileStorages();
+		if (empty($storages)) {
+			throw new \RuntimeException('No storage is accessible for the current BE User. Forgotten to define a mount point for this BE User?', 1380801970);
 		}
 		return $storages;
+	}
+
+	/**
+	 * Returns an instance of the current Backend User.
+	 *
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getBackendUser() {
+		return $GLOBALS['BE_USER'];
 	}
 
 	/**

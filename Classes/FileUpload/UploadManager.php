@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Utility\PermissionUtility;
 
 /**
  * Class that encapsulates the file-upload internals
@@ -199,11 +200,9 @@ class UploadManager {
 	 * @param string $fileName
 	 */
 	public function checkFileAllowed($fileName) {
-		$allowedExtensions = \TYPO3\CMS\Media\Utility\PermissionUtility::getInstance()->getAllowedExtensions();
-
 		$isAllowed = $this->checkFileExtensionPermission($fileName);
 		if (!$isAllowed) {
-			$these = implode(', ', $allowedExtensions);
+			$these = PermissionUtility::getInstance()->getAllowedExtensionList();
 			$this->throwException('File has an invalid extension, it should be one of ' . $these . '.');
 		}
 	}

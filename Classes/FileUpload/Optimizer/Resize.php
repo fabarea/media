@@ -22,6 +22,8 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * Class that optimize an image according to some settings.
@@ -55,12 +57,18 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 		$currentWidth = $imageInfo[0];
 		$currentHeight = $imageInfo[1];
 
-		// resize an image if this one is bigger than telling by the settings
-		$imageDimension = \TYPO3\CMS\Media\Utility\ImagePresetUtility::getInstance()->preset('image_original');
-		if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
+		// resize an image if this one is bigger than telling by the settings.
+		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		$storageRecord = $storage->getStorageRecord();
+		if (strlen($storageRecord['maximum_dimension_original_image']) > 0) {
 
-			// resize taking the width as reference
-			$this->resize($uploadedFile->getFileWithAbsolutePath(), $imageDimension->getWidth(), $imageDimension->getHeight());
+			/** @var \TYPO3\CMS\Media\Dimension $imageDimension */
+			$imageDimension = GeneralUtility::makeInstance('TYPO3\CMS\Media\Dimension', $storageRecord['maximum_dimension_original_image']);
+			if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
+
+				// resize taking the width as reference
+				$this->resize($uploadedFile->getFileWithAbsolutePath(), $imageDimension->getWidth(), $imageDimension->getHeight());
+			}
 		}
 		return $uploadedFile;
 	}
