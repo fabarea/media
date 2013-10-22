@@ -22,7 +22,7 @@ if (TYPO3_MODE == 'BE') {
 		array(
 			'access' => 'user,group',
 			'icon' => 'EXT:media/ext_icon.gif',
-			'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf',
+			'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang_module.xlf',
 		)
 	);
 

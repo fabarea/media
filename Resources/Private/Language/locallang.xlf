@@ -191,6 +191,9 @@
 			<trans-unit id="are-you-sure">
 				<source>Are you sure?</source>
 			</trans-unit>
+			<trans-unit id="offline">
+				<source>offline</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
