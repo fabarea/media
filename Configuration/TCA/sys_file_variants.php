@@ -8,7 +8,11 @@ return array (
 		'label_alt' => 'original',
 		'label_alt_force' => 'true',
 		'hideTable' => TRUE,
-		'rootLevel' => -1,
+		'security' => array(
+			'ignoreRootLevelRestriction' => 1,
+			'ignoreWebMountRestriction' => 1,
+		),
+		'rootLevel' => 1,
 		'typeicon_classes' => array(
 			'default' => 'extensions-media-variant',
 		),

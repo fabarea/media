@@ -6,7 +6,6 @@ $tca = array(
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l18n_parent',
 		'transOrigDiffSourceField' => 'l18n_diffsource',
-		'hideTable' => FALSE,
 		'tstamp' => 'tstamp',
 		'default_sortby' => 'ORDER BY is_variant ASC, uid DESC',
 		'crdate' => 'crdate',

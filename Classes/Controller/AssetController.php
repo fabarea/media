@@ -214,7 +214,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 					foreach ($categories as $category) {
 						$assetObject->addCategory($category);
 					}
-					$properties['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 				}
 
 				$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()

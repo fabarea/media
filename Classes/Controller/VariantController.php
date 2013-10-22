@@ -43,6 +43,8 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function uploadAction(array $variant = array()) {
 
+		$uploadedFileObject = NULL;
+
 		if (empty($variant['original'])) {
 			throw new \TYPO3\CMS\Media\Exception\MissingKeyInArrayException('Missing "original" value', 1362673433);
 		}
@@ -73,7 +75,6 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 				$newFileObject->updateProperties(array(
 					'tstamp' => time(), // Update the tstamp - which is not updated by addFile()
-					'pid' => \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid(),
 					'is_variant' => 1,
 				));
 
@@ -99,7 +100,6 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 					$variantObject->setVariation($variant['variation']);
 					$this->variantRepository->update($variantObject);
 				} else {
-					$variant['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 					$variant['variant'] = $newFileObject->getUid();
 					$variantObject = new \TYPO3\CMS\Media\Domain\Model\Variant($variant);
 					$this->variantRepository->add($variantObject);

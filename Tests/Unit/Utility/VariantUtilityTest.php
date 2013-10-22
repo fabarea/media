@@ -46,26 +46,8 @@ class VariantUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function propertyVariantUtilityIsAnArrayNotEmpty() {
-		$this->assertAttributeNotEmpty('variations', $this->fixture);
+	public function getVariantsReturnsEmptyArrayByDefault() {
+		$this->assertEmpty($this->fixture->getVariations());
 	}
-
-	/**
-	 * @test
-	 */
-	public function getVariantsReturnsNotEmptyArrayByDefault() {
-		$this->assertNotEmpty($this->fixture->getVariations());
-	}
-
-	/**
-	 * @test
-	 */
-	public function getVariationsReturnsWidthAndHeight() {
-		foreach ($this->fixture->getVariations() as $variation) {
-			$this->assertArrayHasKey('width', $variation);
-			$this->assertArrayHasKey('height', $variation);
-		}
-	}
-
 }
 ?>

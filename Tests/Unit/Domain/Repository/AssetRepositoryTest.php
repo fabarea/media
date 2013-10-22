@@ -82,14 +82,6 @@ class AssetRepositoryTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
 	 * @test
-	 * @expectedException \TYPO3\CMS\Media\Exception\MissingUidException
-	 */
-	public function updateAssetReturnsException() {
-		$this->fixture->updateAsset(array());
-	}
-
-	/**
-	 * @test
 	 */
 	public function findAllReturnsGreaterOrEqualNumberOfRecordsAsNumberOfFakeRecords() {
 		$this->assertGreaterThanOrEqual($this->numberOfFakeRecords, count($this->fixture->findAll()));

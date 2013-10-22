@@ -26,13 +26,6 @@ if (TYPO3_MODE == 'BE') {
 		)
 	);
 
-	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
-	/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-	$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-	$configuration = $configurationUtility->getCurrentConfiguration('vidi');
-
 	/** @var \TYPO3\CMS\Vidi\ModuleLoader $moduleLoader */
 	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader', 'sys_file');
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
@@ -46,7 +39,6 @@ if (TYPO3_MODE == 'BE') {
 		->addStyleSheetFiles(
 			array('EXT:media/Resources/Public/StyleSheets/FileUploader/fineuploader.css')
 		)
-		->setDefaultPid($configuration['default_pid']['value'])
 		->setHeaderComponentsTopLeft(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
 		)
@@ -70,14 +62,19 @@ if (TYPO3_MODE == 'BE') {
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkCreatorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageEditorViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonDeleteViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonDeleteViewHelper',
 			)
 		)
 		->register();
 
-	// Connect "postFileIndex" signal slot with the metadata service.
+
+	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
 	/** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
 	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+
+	// Connect "postFileIndex" signal slot with the metadata service.
 	$signalSlotDispatcher->connect(
 		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
 		'postProcessMatcherObject',
@@ -112,7 +109,7 @@ $TCA['pages']['columns']['module']['config']['items'][] = array(
 	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
 
-// @todo remove me as 6.2
+// @todo remove me as of TYPO3 6.2 because sys_file is categorized by default.
 // @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file');
 

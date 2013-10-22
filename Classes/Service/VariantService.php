@@ -91,7 +91,6 @@ class VariantService {
 
 			$variantFile->updateProperties(array(
 				'tstamp' => time(), // Update the tstamp - which is not updated by addFile()
-				'pid' => \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid(),
 				'is_variant' => 1,
 			));
 
@@ -99,7 +98,6 @@ class VariantService {
 			$this->fileRepository->update($variantFile);
 
 			// Persist Variation
-			$variant['pid'] = \TYPO3\CMS\Media\Utility\MediaFolder::getDefaultPid();
 			$variant['original'] = $file->getUid();
 			$variant['variant'] = $variantFile->getUid();
 			$variant['variation'] = $variation;
