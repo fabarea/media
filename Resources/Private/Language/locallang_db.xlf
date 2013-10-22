@@ -144,38 +144,38 @@
 				<source>Default mount points</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.mount_point_file_type_1">
-				<source>Default mount point for "Text" files, example: txt, html, ...</source>
+				<source>Default mount point for "text" files, example: txt, html, ...</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.mount_point_file_type_2">
-				<source>Default mount point for "Image" files</source>
+				<source>Default mount point for "image" files</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.mount_point_file_type_3">
-				<source>Default mount point for "Audio" files</source>
+				<source>Default mount point for "audio" files</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.mount_point_file_type_4">
-				<source>Default mount point for "Video" files</source>
+				<source>Default mount point for "video" files</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.mount_point_file_type_5">
-				<source>Default mount point for "Application" files, example: pdf, doc, ...</source>
+				<source>Default mount point for "document" files, example: pdf, doc, ...</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.maximum_dimension_original_image">
 				<source>Maximum dimension of original image (will be re-sized if bigger)</source>
 			</trans-unit>
 
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_1">
-				<source>Allowed extensions for "Text" upload.</source>
+				<source>Allowed extensions for "text" upload.</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_2">
-				<source>Allowed extensions for "Image" upload.</source>
+				<source>Allowed extensions for "image" upload.</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_3">
-				<source>Allowed extensions for "Audio" upload.</source>
+				<source>Allowed extensions for "audio" upload.</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_4">
-				<source>Allowed extensions for "Video" upload.</source>
+				<source>Allowed extensions for "video" upload.</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_5">
-				<source>Allowed extensions for "Application" upload.</source>
+				<source>Allowed extensions for "document" upload.</source>
 			</trans-unit>
 
 			<trans-unit id="tab.upload_settings">
@@ -183,10 +183,10 @@
 			</trans-unit>
 
 			<trans-unit id="sys_file_storage.mount_point_variant">
-				<source>Default mount point for Variants</source>
+				<source>Default mount point for variant files</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.default_variations">
-				<source>Dimensions of Variant files to be created upon upload</source>
+				<source>Dimensions of variant files to be created upon upload</source>
 			</trans-unit>
 		</body>
 	</file>
