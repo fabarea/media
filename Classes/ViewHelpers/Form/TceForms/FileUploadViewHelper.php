@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\TceForms;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper dealing with file upload widget.
@@ -31,20 +32,11 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\TceForms;
 class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @var string
-	 */
-	protected $prefix;
-
-	/**
 	 * Render a file upload field
 	 *
 	 * @return string
 	 */
 	public function render() {
-
-		$searches[] = '<script type="text/javascript">';
-		$searches[] = '</script>';
-		$callBack = str_replace($searches, '', $this->renderChildren());
 
 		$parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
 		$fileUid = '';
@@ -54,25 +46,8 @@ class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\TceForms\FileUpload */
 		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TceForms\FileUpload');
-		$fileUpload
-			->setValue($fileUid)
-			->setPrefix($this->getPrefix())
-			->setCallBack($callBack);
+		$fileUpload->setValue($fileUid)->setPrefix(ModuleUtility::getParameterPrefix());
 		return $fileUpload->render();
-	}
-
-	/**
-	 * Prefixes / namespaces the given name with the form field prefix
-	 *
-	 * @return string
-	 */
-	protected function getPrefix() {
-		$prefix = 'tx_media_user_mediam1';
-
-		if (!empty($this->prefix)) {
-			$prefix = sprintf('%s[%s]', $prefix, $this->prefix);
-		}
-		return $prefix;
 	}
 }
 

@@ -22,7 +22,15 @@ namespace TYPO3\CMS\Media\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
+use TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException;
+use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
+use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
+use TYPO3\CMS\Core\Resource\Exception\UploadException;
+use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
+use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 
 /**
@@ -131,7 +139,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 *
 	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
 	 * @param int $asset
-	 * @return void
+	 * @return string|boolean
 	 */
 	public function downloadAction($asset) {
 
@@ -150,7 +158,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			header('Content-Length: ' . $asset->getSize());
 			flush();
 			readfile(PATH_site .  $asset->getPublicUrl());
-			return;
+			return TRUE;
 		}
 		else {
 			$result = "Access denied!";
@@ -159,118 +167,217 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 
 	/**
-	 * Handle the file upload action for a new file and an existing one.
+	 * Handle file upload for a new file.
 	 *
 	 * @param int $storageIdentifier
-	 * @param int $fileIdentifier
 	 * @validate $storageIdentifier TYPO3\CMS\Media\Domain\Validator\StorageValidator
-	 * @validate $fileIdentifier TYPO3\CMS\Media\Domain\Validator\FileValidator
 	 * @return string
 	 */
-	public function uploadAction($storageIdentifier = NULL, $fileIdentifier = NULL) { // storage?
+	public function createAction($storageIdentifier) {
 
-		$uploadedFileObject = NULL;
-
-		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
-		$uploadManager = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
-		try {
-			/** @var $uploadedFileObject \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
-			$uploadedFileObject = $uploadManager->handleUpload();
-		} catch (\Exception $e) {
-			$response = array('error' => $e->getMessage());
+		/** @var UploadedFileInterface $uploadedFileObject */
+		$uploadedFileObject = $this->handleUpload();
+		if (!is_object($uploadedFileObject)) {
+			return htmlspecialchars(json_encode($uploadedFileObject), ENT_NOQUOTES);
 		}
 
-		if (is_object($uploadedFileObject)) {
+		// Get the target folder
+		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject, $storageIdentifier);
 
-			// TRUE means a file already exists and we should update it.
-			$fileObject = NULL;
-			if ((int) $fileIdentifier > 0) {
-				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
-				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($fileIdentifier);
-				$fileObject->getType();
-				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($fileObject, $storageIdentifier);
-			} else {
-				// Get the target folder
-				$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject, $storageIdentifier);
+		try {
+			$conflictMode = 'changeName';
+			$fileName = $uploadedFileObject->getName();
+			$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
+
+			// Call the indexer service for updating the metadata of the file.
+			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
+			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+			$indexerService->indexFile($newFileObject, TRUE);
+
+			/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
+			$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
+
+			$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
+			$categories = GeneralUtility::trimExplode(',', $categoryList);
+			foreach ($categories as $category) {
+				$assetObject->addCategory($category);
 			}
+			$this->createVariants($assetObject);
 
-			try {
-				$conflictMode = is_object($fileObject) ? 'replace' : 'changeName';
-				$fileName = is_object($fileObject) ? $fileObject->getName() : $uploadedFileObject->getName();
-				$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
+			// Persist the asset
+			$this->assetRepository->update($assetObject);
 
-				// Call the indexer service for updating the metadata of the file.
-				/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
-				$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-				$indexerService->indexFile($newFileObject, TRUE);
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+			$thumbnailService->setAppendTimeStamp(TRUE);
 
-				/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
-				$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
-
-				// Only for a new file
-				if (! $fileIdentifier) {
-					$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
-					$categories = GeneralUtility::trimExplode(',', $categoryList);
-					foreach ($categories as $category) {
-						$assetObject->addCategory($category);
-					}
-				}
-
-				$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
-				$assetObject->updateProperties($properties);
-
-				// Persist the asset
-				$this->assetRepository->update($assetObject);
-
-				// Check whether Variant should be automatically created upon upload.
-				$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance($storageIdentifier)->getVariations();
-				if (! empty($variations)) {
-
-					/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
-					$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
-
-					/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
-					foreach ($variations as $variationDimension) {
-						$configuration = array(
-							'width' => $variationDimension->getWidth(),
-							'height' => $variationDimension->getHeight(),
-						);
-						$variantService->create($assetObject, $configuration);
-					}
-				}
-
-				/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-				$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-				$thumbnailService->setAppendTimeStamp(TRUE);
-
-				$response = array(
-					'success' => TRUE,
-					'uid' => $newFileObject->getUid(),
-					'name' => $newFileObject->getName(),
-					'thumbnail' => $assetObject->getThumbnailWrapped($thumbnailService),
-					// @todo hardcoded for now...
-					'formAction' => 'mod.php?M=user_MediaM1&tx_media_user_mediam1[format]=json&tx_media_user_mediam1[action]=update&tx_media_user_mediam1[controller]=Asset'
-				);
-			} catch (\TYPO3\CMS\Core\Resource\Exception\UploadException $e) {
-				$response = array('error' => 'The upload has failed, no uploaded file found!');
-			} catch (\TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException $e) {
-				$response = array('error' => 'You are not allowed to upload files!');
-			} catch (\TYPO3\CMS\Core\Resource\Exception\UploadSizeException $e) {
-				$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($fileName)));
-			} catch (\TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException $e) {
-				$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
-			} catch (\TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException $e) {
-				$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($fileName, $targetFolderObject->getIdentifier())));
-			} catch (\TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException $e) {
-				$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
-			} catch (\RuntimeException $e) {
-				$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolderObject->getIdentifier())));
-			}
+			$response = array(
+				'success' => TRUE,
+				'uid' => $newFileObject->getUid(),
+				'name' => $newFileObject->getName(),
+				'thumbnail' => $assetObject->getThumbnailWrapped($thumbnailService),
+			);
+		} catch (UploadException $e) {
+			$response = array('error' => 'The upload has failed, no uploaded file found!');
+		} catch (InsufficientUserPermissionsException $e) {
+			$response = array('error' => 'You are not allowed to upload files!');
+		} catch (UploadSizeException $e) {
+			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFileObject->getName())));
+		} catch (InsufficientFolderWritePermissionsException $e) {
+			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
+		} catch (IllegalFileExtensionException $e) {
+			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFileObject->getName(), $targetFolderObject->getIdentifier())));
+		} catch (ExistingTargetFileNameException $e) {
+			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
+		} catch (\RuntimeException $e) {
+			$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolderObject->getIdentifier())));
 		}
 
 		// to pass data through iframe you will need to encode all html tags
 		header("Content-Type: text/plain");
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
+	}
+
+	/**
+	 * Handle file upload for an existing file.
+	 *
+	 * @param int $fileIdentifier
+	 * @validate $fileIdentifier TYPO3\CMS\Media\Domain\Validator\FileValidator
+	 * @return string
+	 */
+	public function updateAction($fileIdentifier) {
+
+		$uploadedFileObject = $this->handleUpload();
+		if (!is_object($uploadedFileObject)) {
+			return htmlspecialchars(json_encode($uploadedFileObject), ENT_NOQUOTES);
+		}
+
+
+		/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
+		$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($fileIdentifier);
+		$fileObject->getType();
+		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($fileObject, $fileObject->getStorage()->getUid());
+
+		try {
+			$conflictMode = 'replace';
+			$fileName = $fileObject->getName();
+			$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName, $conflictMode);
+
+			// Call the indexer service for updating the metadata of the file.
+			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
+			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+			$indexerService->indexFile($newFileObject, TRUE);
+
+			/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
+			$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
+
+			$this->updateVariants($assetObject);
+
+			// @todo fix me at the core level.
+			$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
+			$assetObject->updateProperties($properties);
+
+			// Persist the asset
+			$this->assetRepository->update($assetObject);
+
+			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+			$thumbnailService->setAppendTimeStamp(TRUE);
+
+			$response = array(
+				'success' => TRUE,
+				'uid' => $newFileObject->getUid(),
+				'name' => $newFileObject->getName(),
+				'thumbnail' => $assetObject->getThumbnailWrapped($thumbnailService),
+			);
+		} catch (UploadException $e) {
+			$response = array('error' => 'The upload has failed, no uploaded file found!');
+		} catch (InsufficientUserPermissionsException $e) {
+			$response = array('error' => 'You are not allowed to upload files!');
+		} catch (UploadSizeException $e) {
+			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFileObject->getName())));
+		} catch (InsufficientFolderWritePermissionsException $e) {
+			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
+		} catch (IllegalFileExtensionException $e) {
+			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFileObject->getName(), $targetFolderObject->getIdentifier())));
+		} catch (ExistingTargetFileNameException $e) {
+			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
+		} catch (\RuntimeException $e) {
+			$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolderObject->getIdentifier())));
+		}
+
+		// to pass data through iframe you will need to encode all html tags
+		header("Content-Type: text/plain");
+		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
+	}
+
+	/**
+	 * Create variants for new uploaded file.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $assetObject
+	 * @return void
+	 */
+	protected function createVariants(\TYPO3\CMS\Media\Domain\Model\Asset $assetObject) {
+
+		$storageIdentifier = $assetObject->getStorage()->getUid();
+
+		// Check whether Variant should be automatically created upon upload.
+		$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance($storageIdentifier)->getVariations();
+		if (!empty($variations)) {
+
+			/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
+			$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
+
+			/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
+			foreach ($variations as $variationDimension) {
+				$configuration = array(
+					'width' => $variationDimension->getWidth(),
+					'height' => $variationDimension->getHeight(),
+				);
+				$variantService->create($assetObject, $configuration);
+			}
+		}
+	}
+
+	/**
+	 * Update variants for existing uploaded file.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return void
+	 */
+	protected function updateVariants(\TYPO3\CMS\Media\Domain\Model\Asset $asset) {
+
+		/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
+		$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
+		foreach ($asset->getVariants() as $variant) {
+
+			/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
+			$configuration = array(
+				'width' => $variant->getVariant()->getWidth(),
+				'height' => $variant->getVariant()->getHeight(),
+			);
+			$variantService->update($asset, $variant->getVariant(), $configuration);
+		}
+	}
+
+	/**
+	 * Handle file upload.
+	 *
+	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface|array
+	 */
+	protected function handleUpload() {
+
+		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
+		$uploadManager = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
+
+		try {
+			/** @var $result \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+			$result = $uploadManager->handleUpload();
+		} catch (\Exception $e) {
+			$result = array('error' => $e->getMessage());
+		}
+
+		return $result;
 	}
 }
 ?>

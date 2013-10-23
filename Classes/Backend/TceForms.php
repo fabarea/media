@@ -47,6 +47,7 @@ class TceForms {
 		$jsFiles = array(
 			'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js',
 			'Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
+			'Resources/Public/JavaScript/Encoder.js',
 		);
 
 		foreach ($jsFiles as $file) {
@@ -65,14 +66,9 @@ class TceForms {
 	 */
 	public function renderFileUpload($PA, $tceForms) {
 
-		// Instantiate Template Engine
-		/* @var $view \TYPO3\CMS\Fluid\View\StandaloneView */
-		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
-
-		// Get template file and pass it to the view.
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms/FileUpload.html';
-		$view->setTemplatePathAndFilename($filePath);
-		return $view->render();
+		/** @var \TYPO3\CMS\Media\ViewHelpers\Form\TceForms\FileUploadViewHelper $viewHelper */
+		$viewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\Form\TceForms\FileUploadViewHelper');
+		return $viewHelper->render();
 	}
 }
 

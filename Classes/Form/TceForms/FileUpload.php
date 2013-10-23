@@ -39,15 +39,15 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms/FileUpload.js';
+		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
 
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
-			$this->getValue(),
 			$this->elementId,
 			$this->getAllowedExtension(),
 			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),
+			$this->getValue(),
 			$this->getCallBack()
 		);
 	}

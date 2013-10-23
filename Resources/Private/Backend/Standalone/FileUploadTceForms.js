@@ -2,8 +2,7 @@
 	$(function () {
 
 
-		var prefix = '%s';
-		var recordUid = '%s';
+		var parameterPrefix = '%s';
 
 		$('#%s').fineUploader({
 			debug: true,
@@ -28,9 +27,9 @@
 				'</div>'
 		}).on('submit', function (event, id, fileName) {
 				var params = new Object();
-				params[prefix + '[action]'] = 'upload';
-				params[prefix + '[controller]'] = 'Asset';
-				params[prefix + '[asset][uid]'] = recordUid;
+				params[parameterPrefix + '[action]'] = 'update';
+				params[parameterPrefix + '[controller]'] = 'Asset';
+				params[parameterPrefix + '[fileIdentifier]'] = '%s';
 				params['M'] = 'user_MediaM1';
 				$(this).fineUploader('setParams', params);
 

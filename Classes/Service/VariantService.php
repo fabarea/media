@@ -62,7 +62,7 @@ class VariantService {
 	}
 
 	/**
-	 * Create a Variant out of File according to configuration
+	 * Create a Variant out of File according to configuration.
 	 *
 	 * @param \TYPO3\CMS\Core\Resource\File $file
 	 * @param array $configuration
@@ -110,11 +110,42 @@ class VariantService {
 	}
 
 	/**
+	 * Update a Variant according to its configuration.
+	 *
+	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @param \TYPO3\CMS\Core\Resource\File $variantFile
+	 * @param array $configuration
+	 *              + width maximum width of image
+	 *              + height maximum height of image
+	 * @return \TYPO3\CMS\Media\Domain\Model\Variant
+	 */
+	public function update($file, $variantFile, array $configuration) {
+
+		// Retrieve Variant container.
+		$targetFolderObject = $variantFile->getStorage()->getFolder(dirname($variantFile->getIdentifier()));
+
+		$variantFile = $file->copyTo($targetFolderObject, $variantFile->getName(), 'overrideExistingFile');
+		$fileNameWithPath = PATH_site . $variantFile->getPublicUrl();
+
+		// Create file (optimizer)
+		$this->resize($fileNameWithPath, $configuration['width'], $configuration['height']);
+
+		$variantFile->updateProperties(array(
+			'tstamp' => time(), // Update the tstamp - which is not updated by addFile()
+		));
+
+		/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
+		$this->fileRepository->update($variantFile);
+
+		return $variantFile;
+	}
+
+	/**
 	 * Tell whether to create a Variant or not
 	 *
 	 * @param \TYPO3\CMS\Core\Resource\File $file
 	 * @param array $configuration
-	 * @return bool
+	 * @return boolean
 	 */
 	public function doProcess($file, $configuration) {
 		if (empty($configuration['width']) || empty($configuration['height'])) {

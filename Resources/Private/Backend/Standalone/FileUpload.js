@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
 	var parameterPrefix = '%s';
-	var recordUid = '%s';
 
 	$('#%s').fineUploader({
 		multiple: true,
@@ -49,9 +48,8 @@ $(document).ready(function () {
 		}
 	}).on('submit', function (event, id, fileName) {
 			var params = {};
-			params[parameterPrefix + '[action]'] = 'upload';
+			params[parameterPrefix + '[action]'] = 'create';
 			params[parameterPrefix + '[controller]'] = 'Asset';
-			params[parameterPrefix + '[fileIdentifier]'] = $('#asset-uid').length > 0 ? $('#asset-uid').val() : '0';
 			params[parameterPrefix + '[storageIdentifier]'] = '%s';
 			params['M'] = 'user_MediaM1';
 			$(this).fineUploader('setParams', params);

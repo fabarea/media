@@ -125,10 +125,9 @@ EOF;
 		$parameterPrefix = $moduleLoader->getParameterPrefix();
 		$parameters = GeneralUtility::_GET($parameterPrefix);
 
-		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUpload/FileUpload.js';
+		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUpload.js';
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
-			$this->getValue(),
 			$this->elementId,
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
@@ -184,9 +183,6 @@ EOF;
 				// Replace thumbnail by new one.
 				$(this).prev().html(Encoder.htmlDecode(responseJSON.thumbnail));
 				$('.qq-upload-list', this).html('');
-			}
-			if (responseJSON.formAction) {
-				$(this).closest('form').attr('action', (Encoder.htmlDecode(responseJSON.formAction)));
 			}
 EOF;
 		}
