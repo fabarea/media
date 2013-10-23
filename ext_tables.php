@@ -37,7 +37,10 @@ if (TYPO3_MODE == 'BE') {
 			)
 		)
 		->addStyleSheetFiles(
-			array('EXT:media/Resources/Public/StyleSheets/FileUploader/fineuploader.css')
+			array(
+				'EXT:media/Resources/Public/StyleSheets/media.css',
+				'EXT:media/Resources/Public/StyleSheets/FileUploader/fineuploader.css'
+			)
 		)
 		->setHeaderComponentsTopLeft(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
