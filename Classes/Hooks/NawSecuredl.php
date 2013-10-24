@@ -43,57 +43,107 @@ class NawSecuredl {
 	}
 
 	/**
+	 * Check file permission against frontend user group.
+	 *
 	 * @param mixed $params array('pObj' => $pObj)
 	 * @param \tx_nawsecuredl_output $secureDownload
+	 * @return void
 	 */
 	public function preOutput($params, $secureDownload) {
 
+		// Initialize Frontend
+		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
+		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+		$GLOBALS['TSFE']->initFEuser();
+
 		$file = GeneralUtility::_GP('file');
 
-		$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
-		$rootFolder = $storage->getRootLevelFolder()->getPublicUrl();
+		/** @var \TYPO3\CMS\Core\Resource\StorageRepository $storageRepository */
+		$storageRepository = $this->objectManager->get('TYPO3\CMS\Core\Resource\StorageRepository');
 
-		/** @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository $assetRepository */
-		$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
+		foreach ($storageRepository->findAll() as $storage) {
 
-		// Remove the segment from mount point
-		$identifier = str_replace($rootFolder, '', $file);
+			$rootFolderIdentifier = $storage->getRootLevelFolder()->getPublicUrl();
 
-		// Makes sure the identifier start with a slash
-		$identifier = '/' . ltrim($identifier, '/');
+			// Remove the segment from mount point
+			$identifier = str_replace($rootFolderIdentifier, '', $file);
 
-		/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
-		$asset = $assetRepository->findOneByIdentifier($identifier);
+			// Makes sure the identifier start with a slash
+			$identifier = '/' . ltrim($identifier, '/');
 
-		if ($asset) {
+			/** @var \TYPO3\CMS\Media\Domain\Model\Asset $file */
+			$fileRecord = $this->getDatabaseConnexion()->exec_SELECTgetSingleRow('uid, identifier', 'sys_file', 'identifier = "' . $identifier . '"');
+			if (!empty($fileRecord)) {
 
-			/** @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $user */
-			$user = \TYPO3\CMS\Frontend\Utility\EidUtility::initFeUser();
-			if ($user->user !== FALSE) {
-				$hasAccess = FALSE;
-				$userGroups = explode(',', $user->user['usergroup']);
+				$frontendUserGroups = $this->findFrontendUserGroups($fileRecord);
 
-				/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup $group */
-				foreach ($asset->getFrontendUserGroups() as $frontendGroup) {
-					if (in_array($frontendGroup->getUid(), $userGroups)) {
-						$hasAccess = TRUE;
-						break;
-					}
+				if (!empty($frontendUserGroups)) {
+
+					$affectedUserGroups = GeneralUtility::trimExplode(',', $this->getFrontendUser()->user['usergroup'], TRUE);
+
+					$this->checkFilePermission($affectedUserGroups, $frontendUserGroups);
 				}
-
-				// No access
-				if (!$hasAccess) {
-					header('HTTP/1.0 403 Forbidden');
-					die("Accessing the resource is forbidden!");
-				}
-
-			// when groups are set user needs to be logged-in
+				break;
 			}
-			# @todo find a better way enabling file download when no permission applies. Envisaged solution http://forge.typo3.org/issues/48485
-			#else {
-			#	header('HTTP/1.0 401 Unauthorized');
-			#	die("Accessing the resource requires authentication!");
-			#}
 		}
+	}
+
+	/**
+	 * Check file permission
+	 *
+	 * @param array $affectedUserGroups
+	 * @param array $frontendUserGroups
+	 * @return void
+	 */
+	public function checkFilePermission(array $affectedUserGroups, array $frontendUserGroups) {
+		$result = FALSE;
+		foreach ($affectedUserGroups as $affectedUserGroup) {
+			if (in_array($affectedUserGroup, $frontendUserGroups)) {
+				$result = TRUE;
+				break;
+			}
+		}
+
+		// No access
+		if ($result === FALSE) {
+			header('HTTP/1.0 403 Forbidden');
+			die("Accessing the resource is forbidden!");
+		}
+	}
+
+	/**
+	 * Find all Frontend User Groups
+	 *
+	 * @param array $fileRecord
+	 * @return array
+	 */
+	public function findFrontendUserGroups(array $fileRecord) {
+
+		// Fetch if there is a relations
+		$frontendUserGroups = $this->getDatabaseConnexion()->exec_SELECTgetRows('uid_foreign', 'sys_file_fegroups_mm', 'uid_local = ' . $fileRecord['uid']);
+		$result = array();
+		foreach ($frontendUserGroups as $frontendUserGroup) {
+			$result[] = $frontendUserGroup['uid_foreign'];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Return a mount point according to an identifier
+	 *
+	 * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
+	 */
+	protected function getFrontendUser() {
+		return $GLOBALS['TSFE']->fe_user;
+	}
+
+	/**
+	 * Return a mount point according to an identifier
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnexion() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

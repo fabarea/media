@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 # Hook for secure download in Frontend
 # Hook is not enabled by default for now and must be commented out. More info in Documentation.
-#$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/naw_securedl/class.tx_nawsecuredl_output.php']['preOutput'][] = 'EXT:media/Classes/Hooks/NawSecuredl.php:TYPO3\CMS\Media\Hooks\NawSecuredl->preOutput';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/naw_securedl/class.tx_nawsecuredl_output.php']['preOutput'][] = 'EXT:media/Classes/Hooks/NawSecuredl.php:TYPO3\CMS\Media\Hooks\NawSecuredl->preOutput';
 
 if (TYPO3_MODE == 'BE') {
 
