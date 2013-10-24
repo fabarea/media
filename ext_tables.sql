@@ -7,7 +7,7 @@ CREATE TABLE sys_file (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 
-	status varchar(24) DEFAULT '' NOT NULL,
+	status tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	keywords text NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE sys_file (
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
 	upuser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	visible tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	visible tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 );
 
