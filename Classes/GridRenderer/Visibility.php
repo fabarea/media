@@ -34,7 +34,7 @@ class Visibility extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 	 * @return string
 	 */
 	public function render() {
-		$spriteName = $this->object->getVisible() ? 'actions-edit-unhide' : 'actions-edit-hide';
+		$spriteName = $this->object->getVisible() ? 'actions-edit-hide' : 'actions-edit-unhide';
 		$result = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($spriteName);
 		return $result;
 	}
