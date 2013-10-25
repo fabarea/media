@@ -166,36 +166,6 @@ $tca = array(
 				'foreign_field' => 'original'
 			)
 		),
-		'starttime' => Array(
-			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
-			'config' => Array(
-				'type' => 'input',
-				'size' => '10',
-				'max' => '20',
-				'eval' => 'datetime',
-				'checkbox' => '0',
-				'default' => '0'
-			)
-		),
-		'endtime' => Array(
-			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
-			'config' => Array(
-				'type' => 'input',
-				'size' => '8',
-				'max' => '20',
-				'eval' => 'datetime',
-				'checkbox' => '0',
-				'default' => '0',
-				'range' => Array(
-					'upper' => mktime(0, 0, 0, 12, 31, 2020),
-					'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
-				)
-			)
-		),
 		'visible' => Array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.visible',
@@ -635,24 +605,18 @@ $tca = array(
 				'renderers' => array(
 					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
 					# The Media category renderer is faster to render but display less info...
-				    #'TYPO3\CMS\Media\GridRenderer\Category',
+					#'TYPO3\CMS\Media\GridRenderer\Category',
 					'TYPO3\CMS\Vidi\GridRenderer\Relation',
 				),
 			),
 			'usage' => array(
-				'visible' => TRUE,
+				'visible' => FALSE,
 				'sortable' => FALSE,
 				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Usage',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 			),
-			'variants' => array(
-				'visible' => TRUE,
-				'sortable' => FALSE,
-				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Variant',
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
-			),
 			'fe_groups' => array(
-				'visible' => FALSE, //@todo make conditional whether the storage handles permission or not.
+				'visible' => TRUE,
 				'renderers' => array(
 					'TYPO3\CMS\Vidi\GridRenderer\RelationCreate',
 					# Decide what grid renderer must be used "PermissionFe" or "Relation"
@@ -662,16 +626,23 @@ $tca = array(
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
 				'sortable' => FALSE,
 			),
+			'variants' => array(
+				'visible' => TRUE,
+				'sortable' => FALSE,
+				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Variant',
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
+			),
 			'status' => array(
 				'visible' => FALSE,
 				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Status',
 				'width' => '5%',
 			),
-			'visible' => array(
-				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Visibility',
-				'label' => 'LLL:EXT:vidi/Resources/Private/Language/locallang.xlf:visibility_abbreviation',
-				'width' => '3%',
-			),
+			# un-comment me to see the "visible" flag in the grid.
+			#'visible' => array(
+			#	'renderer' => 'TYPO3\CMS\Media\GridRenderer\Visibility',
+			#	'label' => 'LLL:EXT:vidi/Resources/Private/Language/locallang.xlf:visibility_abbreviation',
+			#	'width' => '3%',
+			#),
 			'creator' => array(
 				'visible' => FALSE,
 			),
