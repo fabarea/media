@@ -66,7 +66,7 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
 				$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($variant['variant']);
 			}
-			$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getVariantFolder();
+			$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getVariantTargetFolder();
 
 			try {
 				$conflictMode = is_object($fileObject) ? 'replace' : 'changeName';

@@ -28,6 +28,7 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsExceptio
 use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\UploadException;
 use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
@@ -81,6 +82,78 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			);
 		}
 
+		# Json header is not automatically respected in the BE... so send one the hard way.
+		header('Content-type: application/json');
+		return json_encode($result);
+	}
+
+	/**
+	 * Mass delete a media
+	 * This action is expected to have a parameter format = json
+	 *
+	 * @param int $storageIdentifier
+	 * @param array $assets
+	 * @return string
+	 */
+	public function moveAction($storageIdentifier, $assets = array()) {
+
+		$storage = ObjectFactory::getInstance()->getStorage($storageIdentifier);
+
+		if ($storage) {
+
+			foreach ($assets as $assetIdentifier) {
+
+				$asset = $this->assetRepository->findByIdentifier($assetIdentifier);
+
+				/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
+				if ($asset->getStorage()->getUid() !== $storage->getUid()) {
+
+					// Retrieve target directory in the new storage
+					$targetFolder = ObjectFactory::getInstance()->getTargetFolder($storage, $asset);
+					# @todo implement me! Moving file across storages is not yet implemented.
+					#$asset->moveToStorage($targetFolder);
+
+					# @todo Quick and dirty implementation! security hole since User permissions are not checked.
+					$sourceStorageConfiguration = $asset->getStorage()->getConfiguration();
+					$sourceFileNameAndPath = sprintf('%s/%s/%s',
+						rtrim(PATH_site, '/'),
+						trim($sourceStorageConfiguration['basePath'], '/'),
+						trim($asset->getIdentifier(), '/')
+					);
+
+					$storageConfiguration = $storage->getConfiguration();
+					$targetFileNameAndPath = sprintf('%s/%s/%s/%s',
+						rtrim(PATH_site, '/'),
+						trim($storageConfiguration['basePath'], '/'),
+						trim($targetFolder->getIdentifier(), '/'),
+						basename($asset->getIdentifier())
+					);
+
+					if (!file_exists($targetFileNameAndPath)) {
+
+						rename($sourceFileNameAndPath, $targetFileNameAndPath);
+
+						// Change file data
+						$newIdentifier = sprintf('/%s/%s',
+							trim($targetFolder->getIdentifier(), '/'),
+							basename($asset->getIdentifier())
+						);
+
+						/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
+						$asset->updateProperties(
+							array(
+								'storage' => $storage->getUid(),
+								'identifier' => $newIdentifier,
+								'tstamp' => time(),
+							)
+						);
+						$this->assetRepository->update($asset);
+					}
+				}
+			}
+		}
+
+		$result = 1;
 		# Json header is not automatically respected in the BE... so send one the hard way.
 		header('Content-type: application/json');
 		return json_encode($result);

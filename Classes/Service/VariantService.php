@@ -77,7 +77,7 @@ class VariantService {
 
 			// Retrieve Variant container.
 			$storageIdentifier = $file->getProperty('storage');
-			$targetFolderObject = ObjectFactory::getInstance()->getVariantFolder($storageIdentifier);
+			$targetFolderObject = ObjectFactory::getInstance()->getVariantTargetFolder($storageIdentifier);
 			$variantFile = $file->copyTo($targetFolderObject, 'variant_' . $file->getName(), 'renameNewFile');
 
 			$fileNameWithPath = PATH_site . $variantFile->getPublicUrl();

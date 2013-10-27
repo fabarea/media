@@ -38,18 +38,6 @@ use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected $databaseHandler;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
-	}
-
-	/**
 	 * Gets a singleton instance of this class.
 	 *
 	 * @return \TYPO3\CMS\Media\ObjectFactory
@@ -189,7 +177,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 			if ($mountPointIdentifier > 0) {
 
 				// We don't have a Mount Point repository in FAL, so query the database directly.
-				$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
+				$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
 				if (!empty($record['path'])) {
 					$folderObject = $storageObject->getFolder($record['path']);
 				}
@@ -201,10 +189,37 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Return a folder object containing variant files.
 	 *
+	 * @param ResourceStorage $storage
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return \TYPO3\CMS\Core\Resource\Folder
+	 */
+	public function getTargetFolder($storage, $asset) {
+
+		// default is the root level
+		$folderObject = $storage->getRootLevelFolder();
+
+		// Get a possible mount point for variant coming from the storage record.
+		$storageRecord = $storage->getStorageRecord();
+		$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $asset->getType()];
+
+		if ($mountPointIdentifier > 0) {
+
+			// We don't have a Mount Point repository in FAL, so query the database directly.
+			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
+			if (!empty($record['path'])) {
+				$folderObject = $storage->getFolder($record['path']);
+			}
+		}
+		return $folderObject;
+	}
+
+	/**
+	 * Return a folder object containing variant files.
+	 *
 	 * @param int|NULL $storageIdentifier
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
-	public function getVariantFolder($storageIdentifier = NULL) {
+	public function getVariantTargetFolder($storageIdentifier = NULL) {
 
 		$storageObject = $this->getStorage($storageIdentifier);
 
@@ -218,12 +233,21 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($mountPointIdentifier > 0) {
 
 			// We don't have a Mount Point repository in FAL, so query the database directly.
-			$record = $this->databaseHandler->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
+			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
 			if (!empty($record['path'])) {
 				$folderObject = $storageObject->getFolder($record['path']);
 			}
 		}
 		return $folderObject;
+	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }
 

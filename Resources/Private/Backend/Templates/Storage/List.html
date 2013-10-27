@@ -1,0 +1,24 @@
+<form action="/typo3/mod.php" id="form-change-storage" method="get">
+
+	<!-- required field for BE Ajax call -->
+	<input type="hidden" name="M" value="user_MediaM1"/>
+	<input type="hidden" name="tx_media_user_mediam1[controller]" value="Asset"/>
+	<input type="hidden" name="tx_media_user_mediam1[action]" value="move"/>
+
+	<div class="control-group create-one">
+
+		<label class="control-label">
+			<v:sprite name="apps-filetree-root"/>
+			{storageTitle}
+		</label>
+
+		<div class="controls">
+			<m:form.select.storage objects="{storages}" />
+		</div>
+	</div>
+
+	<!-- HIDDEN SUBMIT BUTTON -->
+	<input type="submit" style="visibility: hidden; height: 1px">
+</form>
+{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

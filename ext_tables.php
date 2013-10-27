@@ -15,8 +15,11 @@ if (TYPO3_MODE == 'BE') {
 		'm1',
 		'bottom', // Position
 		array(
-			'Tool' => 'index, checkStatus',
-			'Asset' => 'download, create, update, linkCreator, imageEditor, delete, massDelete',
+			'Tool' => 'index, checkIndex, deleteFiles',
+			'Asset' => 'download, create, update, move , delete, massDelete',
+			'ImageEditor' => 'show',
+			'Storage' => 'list',
+			'LinkCreator' => 'show',
 			'Variant' => 'upload',
 		),
 		array(
@@ -42,30 +45,36 @@ if (TYPO3_MODE == 'BE') {
 				'EXT:media/Resources/Public/StyleSheets/FileUploader/fineuploader.css'
 			)
 		)
-		->setHeaderComponentsTopLeft(
+		->setNavigationTopLeftComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
 		)
-		->setHeaderComponentsTopRight(
+		->setNavigationTopRightComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonToolViewHelper')
 		)
-		->setHeaderComponentsBottomLeft(
+		->setNavigationBottomLeftComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadViewHelper')
 		)
-		->setBodyComponentsTop(
+		->setGridTopComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ConfigurationCheckViewHelper')
 		)
-		->setBodyComponentsBottom(
+		->setGridBottomComponents(
 			array(
 				'TYPO3\CMS\Media\ViewHelpers\Component\PluginLinkCreatorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\PluginImageEditorViewHelper',
 			)
 		)
-		->setGridComponentsButtons(
+		->setGridButtonsComponents(
 			array(
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkCreatorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageEditorViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonDeleteViewHelper',
+			)
+		)
+		->setGridMenuComponents(
+			array(
+				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemChangeStorageViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemMassDeleteViewHelper',
 			)
 		)
 		->register();
@@ -95,6 +104,7 @@ if (TYPO3_MODE == 'BE') {
 		'variants' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
 		'variant-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
 		'variant-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
+		'storage-change' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/folder_go.png',
 	),
 	$_EXTKEY
 );
