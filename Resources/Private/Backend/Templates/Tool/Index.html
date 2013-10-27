@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
-      xmlns:v="http://typo3.org/ns/TYPO3/CMS/Vidi/ViewHelpers">
+      xmlns:v="http://typo3.org/ns/TYPO3/CMS/Vidi/ViewHelpers"
+      xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
 
 <f:layout name="Default"/>
 
@@ -42,7 +43,7 @@
 
 						<p>Detect whether a file is existing in the database but missing in the storage. The tool can also
 							detect duplicate file objects in the database.
-							<a href="{v:uri.ajaxDispatcher(extensionName: 'media', controllerName: 'Tool', actionName: 'checkIndex')}" class="btn">Check index</a>
+							<m:component.buttonCheckIndex />
 						</p>
 
 						<p>The same can be achieved with a CLI command:</p>

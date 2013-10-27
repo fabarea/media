@@ -29,11 +29,6 @@ namespace TYPO3\CMS\Media\Controller;
 class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected $databaseHandler;
-
-	/**
 	 * @var \TYPO3\CMS\Media\Service\AssetIndexerService
 	 */
 	protected $assetIndexerService;
@@ -42,7 +37,6 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * Initialize actions. These actions are meant to be called by an admin.
 	 */
 	public function initializeAction() {
-		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
 
 		// This action is only allowed by Admin
 		if (! $this->getBackendUser()->isAdmin()) {
@@ -95,7 +89,7 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 					// The case is special as we have a missing file in the file system
 					// As a result, we can't use $fileObject->delete(); which will
 					// raise exception "Error while fetching permissions"
-					$this->databaseHandler->exec_UPDATEquery('sys_file', 'uid = ' . $fileObject->getUid(), array('deleted' => 1));
+					$this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $fileObject->getUid());
 				}
 			}
 			catch(\Exception $e) {
@@ -112,6 +106,15 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 */
 	protected function getBackendUser() {
 		return $GLOBALS['BE_USER'];
+	}
+
+	/**
+	 * Return a mount point according to an identifier
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }
 ?>
