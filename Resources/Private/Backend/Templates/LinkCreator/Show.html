@@ -46,7 +46,7 @@
 				<f:flashMessages/>
 
 
-				<f:form method="post" action="linkCreator" name="asset"
+				<f:form method="post" name="asset"
 				        object="{asset}" arguments="{format: 'json'}" id="form-action-linkCreator">
 
 					<div class="control-group">
@@ -111,7 +111,11 @@
 			<script type="text/javascript">
 
 				$(function () {
-					// Prevent the form to be submitted
+
+					/**
+					 * Prevent the form to be submitted as such.
+					 * Fire a click on ".btn-create-link".
+					 */
 					$('#form-action-linkCreator').submit(function (e) {
 						e.preventDefault();
 						$('.btn-create-link').click();

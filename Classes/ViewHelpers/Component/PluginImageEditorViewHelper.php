@@ -47,7 +47,7 @@ class PluginImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
 				Path::getRelativePath('JavaScript/Media.Rte.ImageEditor.js'),
 				Path::getRelativePath('JavaScript/Media.Rte.Popup.js'),
-				ModuleUtility::getUri('imageEditor', 'Asset')
+				ModuleUtility::getUri('show', 'ImageEditor')
 			);
 		};
 		return $result;

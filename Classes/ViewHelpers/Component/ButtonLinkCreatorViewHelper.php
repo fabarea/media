@@ -47,7 +47,7 @@ class ButtonLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 		$result = '';
 		if (ModulePlugin::getInstance()->isPluginCalled('linkCreator')) {
 			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s">%s</a>',
-				ModuleUtility::getUri('linkCreator', 'Asset'),
+				ModuleUtility::getUri('show', 'LinkCreator'),
 				ModuleUtility::getParameterPrefix(),
 				$object->getUid(),
 				$object->getUid(),

@@ -11,7 +11,6 @@
 		 * Bind handler against RTE image editor buttons in the grid.
 		 */
 		$(document).on('click', '.dataTable tbody .btn-imageEditor', function (e) {
-			console.log($(this).attr('href'));
 			Media.handleForm($(this).attr('href'));
 			e.preventDefault();
 		});

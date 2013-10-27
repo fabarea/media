@@ -34,7 +34,7 @@ use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 
 /**
- * Controller which handles actions related to Assets.
+ * Controller which handles actions related to Asset.
  */
 class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
@@ -61,36 +61,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function initializeAction() {
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
-	}
-
-	/**
-	 * Handle GUI for creating a link in the RTE.
-	 *
-	 * @param int $asset
-	 * @return void
-	 */
-	public function linkCreatorAction($asset) {
-		$assetObject = $this->assetRepository->findByUid($asset);
-		$this->view->assign('asset', $assetObject);
-	}
-
-	/**
-	 * Handle GUI for inserting an image in the RTE.
-	 *
-	 * @param int $asset
-	 * @param int $variant a possible variant can be given.
-	 * @return void
-	 */
-	public function imageEditorAction($asset, $variant = 0) {
-		$assetObject = $this->assetRepository->findByUid($asset);
-
-		$variantObject = NULL;
-		if ($variant > 0) {
-			$variantObject = $this->variantRepository->findOneByVariant($variant);
-		}
-
-		$this->view->assign('asset', $assetObject);
-		$this->view->assign('variant', $variantObject);
 	}
 
 	/**

@@ -109,8 +109,8 @@
 
 		<div class="container-imageEditor">
 
-			<f:form method="post" action="imageEditor" name="asset"
-			        object="{asset}" arguments="{format: 'json'}" id="form-action-imageEditor">
+			<f:form method="post" name="asset"
+			        object="{asset}" id="form-action-imageEditor">
 
 				<div class="container-height"></div>
 				<div class="control-group">
@@ -147,7 +147,7 @@
 
 		$(function () {
 
-			var fileExtension = '{asset.extension}'
+			var fileExtension = '{asset.extension}';
 			var originalFileUid = '{asset.uid}' - 0; // cast value to int
 			var originalImageWidth = '{asset.width}' - 0;
 			var originalImageHeight = '{asset.height}' - 0;
@@ -271,12 +271,14 @@
 				});
 			});
 
-			// Prevent the form to be submitted
+			/**
+			 * Prevent the form to be submitted as such.
+			 * Fire a click on ".btn-create-image".
+			 */
 			$('#form-action-imageEditor').submit(function (e) {
 				$('.btn-create-image').click();
 				e.preventDefault();
 			});
-
 
 			/**
 			 * Transform the image tag into canvas thanks to CamanJS.

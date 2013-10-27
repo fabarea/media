@@ -47,7 +47,7 @@ class ButtonImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 		$result = '';
 		if (ModulePlugin::getInstance()->isPluginCalled('imageEditor')) {
 			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-imageEditor" data-uid="%s">%s</a>',
-				ModuleUtility::getUri('imageEditor', 'Asset'),
+				ModuleUtility::getUri('show', 'ImageEditor'),
 				ModuleUtility::getParameterPrefix(),
 				$object->getUid(),
 				$object->getUid(),
