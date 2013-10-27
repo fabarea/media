@@ -153,7 +153,7 @@ EOF;
 	 * @return array
 	 */
 	protected function fetchMountPoint($identifier) {
-		return $this->getDatabaseConnexion()->exec_SELECTgetSingleRow('*', 'sys_filemounts', 'uid = ' . $identifier);
+		return $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'sys_filemounts', 'uid = ' . $identifier);
 	}
 
 	/**
@@ -206,7 +206,7 @@ EOF;
 	 *
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
-	protected function getDatabaseConnexion() {
+	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
 }

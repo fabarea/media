@@ -72,7 +72,7 @@ class NawSecuredl {
 			$identifier = '/' . ltrim($identifier, '/');
 
 			/** @var \TYPO3\CMS\Media\Domain\Model\Asset $file */
-			$fileRecord = $this->getDatabaseConnexion()->exec_SELECTgetSingleRow('uid, identifier', 'sys_file', 'identifier = "' . $identifier . '"');
+			$fileRecord = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid, identifier', 'sys_file', 'identifier = "' . $identifier . '"');
 			if (!empty($fileRecord)) {
 
 				$frontendUserGroups = $this->findFrontendUserGroups($fileRecord);
@@ -120,7 +120,7 @@ class NawSecuredl {
 	public function findFrontendUserGroups(array $fileRecord) {
 
 		// Fetch if there is a relations
-		$frontendUserGroups = $this->getDatabaseConnexion()->exec_SELECTgetRows('uid_foreign', 'sys_file_fegroups_mm', 'uid_local = ' . $fileRecord['uid']);
+		$frontendUserGroups = $this->getDatabaseConnection()->exec_SELECTgetRows('uid_foreign', 'sys_file_fegroups_mm', 'uid_local = ' . $fileRecord['uid']);
 		$result = array();
 		foreach ($frontendUserGroups as $frontendUserGroup) {
 			$result[] = $frontendUserGroup['uid_foreign'];
@@ -143,7 +143,7 @@ class NawSecuredl {
 	 *
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
-	protected function getDatabaseConnexion() {
+	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
 }
