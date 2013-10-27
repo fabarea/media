@@ -37,14 +37,45 @@ class ButtonDeleteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Vidi\Domain\Model\Content $object = NULL) {
-		$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-delete" data-uid="%s">%s</a>',
-			ModuleUtility::getUri('delete', 'Asset'),
-			ModuleUtility::getParameterPrefix(),
-			$object->getUid(),
-			$object->getUid(),
-			IconUtility::getSpriteIcon('actions-edit-delete')
-		);
+		$result = '';
+		if ($this->hasFileNoReferences($object)) {
+			// check if the file has a reference
+			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-delete" data-uid="%s">%s</a>',
+				ModuleUtility::getUri('delete', 'Asset'),
+				ModuleUtility::getParameterPrefix(),
+				$object->getUid(),
+				$object->getUid(),
+				IconUtility::getSpriteIcon('actions-edit-delete')
+			);
+		}
 		return $result;
+	}
+
+	/**
+	 * Tell whether the file has references.
+	 *
+	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
+	 * @return boolean
+	 */
+	protected function hasFileNoReferences($object) {
+
+		// Get the file references of the asset
+		$references = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'*',
+			'sys_file_reference',
+			'deleted = 0 AND uid_local = ' . $object->getUid()
+		);
+
+		return empty($references);
+	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }
 

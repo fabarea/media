@@ -29,18 +29,6 @@ namespace TYPO3\CMS\Media\GridRenderer;
 class Usage extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 	/**
-	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected $databaseHandler;
-
-	/**
-	 * @return \TYPO3\CMS\Media\GridRenderer\Usage
-	 */
-	public function __construct() {
-		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
-	}
-
-	/**
 	 * Render usage of an asset in the grid.
 	 *
 	 * @return string
@@ -52,7 +40,7 @@ class Usage extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 		$result = $_result = '';
 
 		// Get the file references of the asset
-		$records = $this->databaseHandler->exec_SELECTgetRows(
+		$records = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'*',
 			'sys_file_reference',
 			'deleted = 0 AND uid_local = ' . $asset->getUid()
@@ -87,6 +75,15 @@ EOF;
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }
 ?>
