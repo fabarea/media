@@ -178,13 +178,13 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	}
 
 	/**
-	 * Download securely an asset
+	 * Read and output file to the browser.
 	 *
 	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
 	 * @param int $asset
 	 * @return string|boolean
 	 */
-	public function downloadAction($asset) {
+	public function showAction($asset) {
 
 		/** @var $asset \TYPO3\CMS\Media\Domain\Model\Asset */
 		$asset = $this->assetRepository->findByUid($asset);

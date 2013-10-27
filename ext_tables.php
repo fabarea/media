@@ -16,7 +16,7 @@ if (TYPO3_MODE == 'BE') {
 		'bottom', // Position
 		array(
 			'Tool' => 'index, checkIndex, deleteFiles',
-			'Asset' => 'download, create, update, move , delete, massDelete',
+			'Asset' => 'show, create, update, move , delete, massDelete',
 			'ImageEditor' => 'show',
 			'Storage' => 'list',
 			'LinkCreator' => 'show',
