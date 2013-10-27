@@ -109,7 +109,7 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	}
 
 	/**
-	 * Return a mount point according to an identifier
+	 * Return a pointer to the database.
 	 *
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */

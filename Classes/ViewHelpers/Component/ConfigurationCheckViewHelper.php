@@ -202,7 +202,7 @@ EOF;
 	}
 
 	/**
-	 * Return a mount point according to an identifier
+	 * Return a pointer to the database.
 	 *
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
