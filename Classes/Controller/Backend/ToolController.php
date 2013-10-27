@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Controller;
+namespace TYPO3\CMS\Media\Controller\Backend;
 /***************************************************************
  *  Copyright notice
  *
