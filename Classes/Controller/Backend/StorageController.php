@@ -38,7 +38,6 @@ class StorageController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$tcaTableService = TcaServiceFactory::getTableService('sys_file_storage');
 		$this->view->assign('storageTitle', $tcaTableService->getTitle());
-//
 	}
 }
 ?>

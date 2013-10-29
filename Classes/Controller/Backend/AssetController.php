@@ -28,7 +28,6 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsExceptio
 use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\UploadException;
 use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
-use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
@@ -108,12 +107,13 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
 				if ($asset->getStorage()->getUid() !== $storage->getUid()) {
 
-					// Retrieve target directory in the new storage
+					// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
+					// @todo add a try / catch since exception can be risen.
 					$targetFolder = ObjectFactory::getInstance()->getTargetFolder($storage, $asset);
 					# @todo implement me! Moving file across storages is not yet implemented.
 					#$asset->moveToStorage($targetFolder);
 
-					# @todo Quick and dirty implementation! security hole since User permissions are not checked.
+					# @todo Quick and dirty implementation!
 					$sourceStorageConfiguration = $asset->getStorage()->getConfiguration();
 					$sourceFileNameAndPath = sprintf('%s/%s/%s',
 						rtrim(PATH_site, '/'),
