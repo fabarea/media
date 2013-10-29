@@ -62,6 +62,11 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 
 		$result = '';
 
+		// Check whether storage is configured or not.
+		if ($this->checkStorageNotConfigured()) {
+			$result .= $this->formatMessageStorageNotConfigured();
+		}
+
 		// Check whether storage is online or not.
 		if ($this->checkStorageOffline()) {
 			$result .= $this->formatMessageStorageOffline();
@@ -71,6 +76,68 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 		if (!$this->checkMountPoints()) {
 			$result .= $this->formatMessageMountPoints();
 		}
+
+		return $result;
+	}
+
+	/**
+	 * Check whether the storage is correctly configured.
+	 *
+	 * @return boolean
+	 */
+	protected function checkStorageNotConfigured() {
+		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
+		$storageRecord = $currentStorage->getStorageRecord();
+
+		// Take the storage fields and check whether some data was initialized.
+		$fields = array(
+			'maximum_dimension_original_image',
+			'extension_allowed_file_type_1',
+			'extension_allowed_file_type_2',
+			'extension_allowed_file_type_3',
+			'extension_allowed_file_type_4',
+			'extension_allowed_file_type_5',
+			'default_variations',
+			'mount_point_variant',
+			'mount_point_file_type_1',
+			'mount_point_file_type_2',
+			'mount_point_file_type_3',
+			'mount_point_file_type_4',
+			'mount_point_file_type_5',
+		);
+
+		$result = TRUE;
+		foreach ($fields as $fieldName) {
+			// TRUE means the storage has data and thus was configured / saved once.
+			if (!empty($storageRecord[$fieldName])) {
+				$result = FALSE;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Format a message whenever the storage is offline.
+	 *
+	 * @return string
+	 */
+	protected function formatMessageStorageNotConfigured() {
+
+		$storage = StorageUtility::getInstance()->getCurrentStorage();
+
+		$result = <<< EOF
+			<div class="typo3-message message-warning">
+					<div class="message-header">
+						Storage is not configured
+				</div>
+					<div class="message-body">
+						The storage "{$storage->getName()}" looks currently not configured. Open the storage record "{$storage->getName()}"
+						and assign some value in tab "Upload Settings" or "Default mount points.
+					</div>
+				</div>
+			</div>
+EOF;
 
 		return $result;
 	}
