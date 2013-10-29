@@ -86,7 +86,6 @@ CREATE TABLE sys_file_storage (
 	maximum_dimension_original_image varchar(24) DEFAULT '' NOT NULL,
 	default_variations varchar(24) DEFAULT '' NOT NULL,
 
-	is_protected  int(11) unsigned DEFAULT '0' NOT NULL,
 	extension_allowed_file_type_1 varchar(255) DEFAULT '' NOT NULL,
 	extension_allowed_file_type_2 varchar(255) DEFAULT '' NOT NULL,
 	extension_allowed_file_type_3 varchar(255) DEFAULT '' NOT NULL,
