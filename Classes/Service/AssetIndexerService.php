@@ -81,6 +81,7 @@ class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$missingFiles = array();
 		foreach ($assetRepository->findAll() as $asset) {
+			/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
 			if (!$asset->exists()) {
 				$missingFiles[] = $asset;
 			}
