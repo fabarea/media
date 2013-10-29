@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\Select;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * View helper dealing with file upload widget.
@@ -39,7 +40,7 @@ class StorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	public function render($objects = array()) {
 
 		// Check if a storages is selected
-		$parameters = GeneralUtility::_GET('tx_vidi_user_vidisysfilem1');
+		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
 
 		$template = '<select name="tx_media_user_mediam1[storageIdentifier]">%s</select>';
 		$options = array();
@@ -48,7 +49,7 @@ class StorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 			/** @var \TYPO3\CMS\Core\Resource\ResourceStorage $storage */
 			$options[] = sprintf('<option value="%s" %s>%s %s</option>',
 				$storage->getUid(),
-				!empty($parameters['storage']) && $parameters['storage'] == $storage->getUid() ? 'selected="selected"' : '',
+				is_object($currentStorage) && $currentStorage->getUid() == $storage->getUid() ? 'selected="selected"' : '',
 				$storage->getName(),
 				!$storage->isOnline() ? '(offline)' : ''
 			);
