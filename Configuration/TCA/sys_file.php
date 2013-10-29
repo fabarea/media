@@ -574,6 +574,9 @@ $tca = array(
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:uid',
 				'width' => '5px',
 			),
+			'identifier' => array(
+				'visible' => FALSE,
+			),
 			'fileinfo' => array(
 				'sortable' => FALSE,
 				'renderer' => 'TYPO3\CMS\Media\GridRenderer\Preview',
