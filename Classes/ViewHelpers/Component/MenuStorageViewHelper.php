@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
@@ -45,14 +46,13 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 
 		$storages = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages();
 
-		$parameters = GeneralUtility::_GET($this->moduleLoader->getParameterPrefix());
-		$storageIdentifierParameter = !empty($parameters['storage']) > 0 ? $parameters['storage'] : NULL;
+		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
 
 		/** @var $storage \TYPO3\CMS\Core\Resource\ResourceStorage */
 		$options = '';
 		foreach ($storages as $storage) {
 			$selected = '';
-			if ($storageIdentifierParameter == $storage->getUid()) {
+			if ($currentStorage->getUid() == $storage->getUid()) {
 				$selected = 'selected';
 			}
 			$options .= sprintf('<option value="%s" %s>%s %s</option>',

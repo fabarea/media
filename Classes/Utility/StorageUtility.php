@@ -58,9 +58,20 @@ class StorageUtility implements \TYPO3\CMS\Core\SingletonInterface {
 			$parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
 			$parameters = GeneralUtility::_GET($parameterPrefix);
 
+			// Default value
 			$identifierParameter = NULL;
+
+			// Get last selected storage from User settings
+			if (SessionUtility::getInstance()->get('lastSelectedStorage') > 0) {
+				$identifierParameter = SessionUtility::getInstance()->get('lastSelectedStorage');
+			}
+
+			// Override selected storage if get parameter is seen.
 			if (!empty($parameters['storage']) && (int) $parameters['storage'] > 0) {
 				$identifierParameter = (int) $parameters['storage'];
+
+				// Save state
+				SessionUtility::getInstance()->set('lastSelectedStorage', $identifierParameter);
 			}
 
 			$this->currentStorage = ObjectFactory::getInstance()->getStorage($identifierParameter);
@@ -76,5 +87,6 @@ class StorageUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	public function getModuleLoader() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader');
 	}
+
 }
 ?>
