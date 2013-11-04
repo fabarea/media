@@ -213,7 +213,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * Handle file upload for a new file.
 	 *
 	 * @param int $storageIdentifier
-	 * @validate $storageIdentifier TYPO3\CMS\Media\Domain\Validator\StorageValidator
+	 * @validate $storageIdentifier \TYPO3\CMS\Media\Domain\Validator\StorageValidator
 	 * @return string
 	 */
 	public function createAction($storageIdentifier) {
@@ -285,7 +285,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * Handle file upload for an existing file.
 	 *
 	 * @param int $fileIdentifier
-	 * @validate $fileIdentifier TYPO3\CMS\Media\Domain\Validator\FileValidator
+	 * @validate $fileIdentifier \TYPO3\CMS\Media\Domain\Validator\FileValidator
 	 * @return string
 	 */
 	public function updateAction($fileIdentifier) {
