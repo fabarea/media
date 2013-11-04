@@ -295,7 +295,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 			return htmlspecialchars(json_encode($uploadedFileObject), ENT_NOQUOTES);
 		}
 
-
 		/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
 		$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 		$fileObject->getType();

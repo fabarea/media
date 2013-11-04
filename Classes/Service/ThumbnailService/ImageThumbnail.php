@@ -70,8 +70,14 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 		$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW;
 
 		$this->processedFile = $this->file->process($taskType, $configuration);
+		$result = $this->processedFile->getPublicUrl(TRUE);
 
-		return $this->processedFile->getPublicUrl(TRUE);
+		// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
+		if ($this->processedFile->getProperty('originalfilesha1') != $this->file->getProperty('sha1')) {
+			$this->processedFile->updateProperties(array('tstamp' => $this->file->getProperty('tstamp')));
+		}
+
+		return $result;
 	}
 
 	/**

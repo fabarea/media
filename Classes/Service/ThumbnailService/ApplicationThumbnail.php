@@ -56,6 +56,11 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 		if ($this->isThumbnailPossible($this->file->getExtension())) {
 			$this->processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $this->getConfiguration());
 			$result = $this->processedFile->getPublicUrl(TRUE);
+
+			// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
+			if ($this->processedFile->getProperty('originalfilesha1') != $this->file->getProperty('sha1')) {
+				$this->processedFile->updateProperties(array('tstamp' => $this->file->getProperty('tstamp')));
+			}
 		} else {
 			$result = $this->getIcon($this->file->getExtension());
 		}
