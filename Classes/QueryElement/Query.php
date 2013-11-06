@@ -99,13 +99,6 @@ class Query {
 	protected $ignoreEnableFields = FALSE;
 
 	/**
-	 * Tell whether the storage will be respected. It normally should, but exception may happen.
-	 *
-	 * @var bool
-	 */
-	protected $respectStorage = TRUE;
-
-	/**
 	 * Tell whether the variant should be filtered by default
 	 *
 	 * @var bool
@@ -166,13 +159,6 @@ class Query {
 		$clause = 'deleted = 0 AND sys_language_uid = 0';
 		if ($this->filterVariant) {
 			$clause .= ' AND is_variant = 0';
-		}
-
-		if ($this->respectStorage) {
-			$clause = sprintf('%s AND storage = %s',
-				$clause,
-				\TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage()->getUid()
-			);
 		}
 
 		if (TYPO3_MODE === 'BE' && $this->ignoreEnableFields) {
@@ -508,22 +494,6 @@ EOF;
 	 */
 	public function setFilterVariant($filterVariant) {
 		$this->filterVariant = $filterVariant;
-		return $this;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getRespectStorage() {
-		return $this->respectStorage;
-	}
-
-	/**
-	 * @param boolean $respectStorage
-	 * @return $this
-	 */
-	public function setRespectStorage($respectStorage) {
-		$this->respectStorage = $respectStorage;
 		return $this;
 	}
 }
