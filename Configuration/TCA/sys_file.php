@@ -567,7 +567,7 @@ $tca = array(
 			'__checkbox' => array(
 				'width' => '5px',
 				'sortable' => FALSE,
-				'html' => '<input type="checkbox" class="checkbox-row-top"/>',
+				'html' => '<input type="checkbox" class="checkbox-row-top" autocomplete="off"/>',
 			),
 			'uid' => array(
 				'visible' => FALSE,

@@ -78,7 +78,7 @@ HTMLArea.LinkCreator = Ext.extend(HTMLArea.Plugin, {
 	 */
 	onButtonPress: function (editor, id) {
 		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=linkCreator';
-		var params = new Object();
+		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('a');
 		// true means there is an existing link selected in the RTE

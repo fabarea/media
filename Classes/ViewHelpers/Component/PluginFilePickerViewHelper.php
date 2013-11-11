@@ -22,30 +22,26 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders content for image editor plugin.
+ * View helper which renders content for file picker plugin.
  */
-class PluginImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class PluginFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Renders a hidden link for image editor.
+	 * Renders a hidden link for file picker.
 	 *
 	 * @return string
 	 */
 	public function render() {
 
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
 
-			$result = sprintf('<script type="text/javascript" src="%s"></script>
-				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
-				ModuleUtility::getUri('show', 'ImageEditor')
+			$result = sprintf('<script type="text/javascript" src="%s"></script>',
+				Path::getRelativePath('JavaScript/Media.Plugin.FilePicker.js')
 			);
 		};
 		return $result;

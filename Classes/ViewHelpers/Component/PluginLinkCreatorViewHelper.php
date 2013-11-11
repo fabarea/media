@@ -39,10 +39,10 @@ class PluginLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 	 */
 	public function render() {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginCalled('linkCreator')) {
+		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
 			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Rte.LinkCreator.js'),
+				Path::getRelativePath('JavaScript/Media.Plugin.LinkCreator.js'),
 				ModuleUtility::getUri('show', 'LinkCreator')
 			);
 		};

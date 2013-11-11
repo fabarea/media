@@ -27,9 +27,9 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a "link-creator" button to be placed in the grid.
+ * View helper which renders a "file-picker" button to be placed in the grid.
  */
-class ButtonLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper
@@ -38,20 +38,20 @@ class ButtonLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 	protected $uriEditViewHelper;
 
 	/**
-	 * Renders a "link-creator" button to be placed in the grid.
+	 * Renders a "file-picker" button to be placed in the grid.
 	 *
 	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
 	 * @return string
 	 */
 	public function render(\TYPO3\CMS\Vidi\Domain\Model\Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s">%s</a>',
-				ModuleUtility::getUri('show', 'LinkCreator'),
+		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
+			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-filePicker" data-uid="%s">%s</a>',
+				ModuleUtility::getUri('show', 'Asset'),
 				ModuleUtility::getParameterPrefix(),
 				$object->getUid(),
 				$object->getUid(),
-				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
+				IconUtility::getSpriteIcon('actions-edit-add')
 			);
 		}
 		return $result;

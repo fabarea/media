@@ -53,7 +53,7 @@ window.Media = {
 $(document).ready(function () {
 
 	/**
-	 * Create relation action
+	 * Create relation action.
 	 */
 	$('.change-storage').click(function (e) {
 		var uri, storage, selectedIdentifiers, selectedIdentifier;

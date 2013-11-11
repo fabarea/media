@@ -62,15 +62,15 @@ class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 		$uri = FALSE;
 		// Compute image-editor or link-creator URL.
-		if (ModulePlugin::getInstance()->isPluginCalled('imageEditor')) {
+		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
 			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('imageEditor', 'Asset'),
+				ModuleUtility::getUri('show', 'ImageEditor'),
 				ModuleUtility::getParameterPrefix(),
 				$this->object->getUid()
 			);
-		} elseif (ModulePlugin::getInstance()->isPluginCalled('linkCreator')) {
+		} elseif (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
 			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('linkCreator', 'Asset'),
+				ModuleUtility::getUri('show', 'LinkCreator'),
 				ModuleUtility::getParameterPrefix(),
 				$this->object->getUid()
 			);

@@ -51,6 +51,14 @@ Configuration is mainly provided in the Extension Manager and is pretty much sel
 
 * In the the Variant tab, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
 
+User TSconfig
+---------------
+
+Following option can be set::
+
+	# Define whether to use default file picker or the one from Media (default = 1)
+	options.vidi.enableMediaFilePicker = 1
+
 
 Suhosin
 --------

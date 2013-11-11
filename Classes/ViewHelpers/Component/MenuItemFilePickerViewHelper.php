@@ -27,34 +27,39 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a "link-creator" button to be placed in the grid.
+ * View helper which renders a "file picker" menu item to be placed in the grid menu for Media.
  */
-class ButtonLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MenuItemFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper
-	 * @inject
-	 */
-	protected $uriEditViewHelper;
-
-	/**
-	 * Renders a "link-creator" button to be placed in the grid.
+	 * Renders a "file picker" menu item to be placed in the grid menu for Media.
 	 *
-	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
 	 * @return string
 	 */
-	public function render(\TYPO3\CMS\Vidi\Domain\Model\Content $object = NULL) {
+	public function render() {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s">%s</a>',
-				ModuleUtility::getUri('show', 'LinkCreator'),
-				ModuleUtility::getParameterPrefix(),
-				$object->getUid(),
-				$object->getUid(),
-				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
+		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
+			$result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
+				$this->renderMassDeleteUri(),
+				IconUtility::getSpriteIcon('actions-edit-add')
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * Render a mass delete URI.
+	 *
+	 * @return string
+	 */
+	public function renderMassDeleteUri() {
+
+		return sprintf('mod.php?M=%s&%s[format]=json&%s[action]=massDelete&%s[controller]=Asset',
+			ModuleUtility::getModuleSignature(),
+			ModuleUtility::getParameterPrefix(),
+			ModuleUtility::getParameterPrefix(),
+			ModuleUtility::getParameterPrefix()
+		);
 	}
 }
 

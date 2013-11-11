@@ -26,7 +26,7 @@ use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a "delete" button to be placed in the grid
+ * View helper which renders a "delete" button to be placed in the grid.
  */
 class ButtonDeleteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -39,6 +39,7 @@ class ButtonDeleteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
 	public function render(\TYPO3\CMS\Vidi\Domain\Model\Content $object = NULL) {
 		$result = '';
 		if ($this->hasFileNoReferences($object)) {
+
 			// check if the file has a reference
 			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-delete" data-uid="%s">%s</a>',
 				ModuleUtility::getUri('delete', 'Asset'),

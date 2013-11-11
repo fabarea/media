@@ -27,7 +27,7 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * View helper which renders a "image-editor" button to be placed in the grid
+ * View helper which renders a "image-editor" button to be placed in the grid.
  */
 class ButtonImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -45,7 +45,7 @@ class ButtonImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 	 */
 	public function render(\TYPO3\CMS\Vidi\Domain\Model\Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginCalled('imageEditor')) {
+		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
 			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-imageEditor" data-uid="%s">%s</a>',
 				ModuleUtility::getUri('show', 'ImageEditor'),
 				ModuleUtility::getParameterPrefix(),

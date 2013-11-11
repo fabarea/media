@@ -77,7 +77,7 @@ HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 	 */
 	onButtonPress: function (editor, id) {
 		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=imageEditor&tx_vidi_user_vidisysfilem1[matches][type]=2';
-		var params = new Object();
+		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('img');
 		// true means there is an existing link selected in the RTE

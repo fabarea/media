@@ -4,6 +4,9 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+// USER TSconfig
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.vidi.enableMediaFilePicker = 1');
+
 if (TYPO3_MODE == 'BE') {
 
 	# Hide the module in the BE.
@@ -61,18 +64,21 @@ if (TYPO3_MODE == 'BE') {
 			array(
 				'TYPO3\CMS\Media\ViewHelpers\Component\PluginLinkCreatorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\PluginImageEditorViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\PluginFilePickerViewHelper',
 			)
 		)
 		->setGridButtonsComponents(
 			array(
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkCreatorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageEditorViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonFilePickerViewHelper',
 				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonDeleteViewHelper',
 			)
 		)
 		->setGridMenuComponents(
 			array(
+				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemFilePickerViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemChangeStorageViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemMassDeleteViewHelper',
 			)
