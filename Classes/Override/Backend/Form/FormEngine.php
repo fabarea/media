@@ -42,6 +42,7 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 	 * @return string JavaScript functions/code (NOT contained in a <script>-element)
 	 */
 	public function dbFileCon($formObj = 'document.forms[0]') {
+
 		$enableMediaFilePicker = (bool) $GLOBALS['BE_USER']->getTSConfigVal('options.vidi.enableMediaFilePicker');
 		if (! $enableMediaFilePicker) {
 			return parent::dbFileCon($formObj);
@@ -56,19 +57,30 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 			function setFormValueOpenBrowser(mode,params) {
 
-				// Changed here from original implementation - Fabien - 11.11.2013
-				// Check if filter against file is required "&tx_vidi_user_vidisysfilem1[matches][type]=2"
-				var url = "mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=" + params;
+				// Custom code
+				if (mode == "file") {
 
-				var name = "File Picker";
-				var dimensions = {
-					top: 0,
-					left: 0,
-					width: 1280,
-					height: 800
-				};
-				browserWin = window.open(url, name, "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
-				browserWin.focus();
+					// Changed here from original implementation - Fabien - 11.11.2013
+					// Check if filter against file is required "&tx_vidi_user_vidisysfilem1[matches][type]=2"
+					var url = "mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=" + params;
+
+					var name = "File Picker";
+					var dimensions = {
+						top: 0,
+						left: 0,
+						width: 1280,
+						height: 800
+					};
+					browserWin = window.open(url, name, "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
+					browserWin.focus();
+				} else {
+
+					// default code
+					var url = "' . $this->backPath . 'browser.php?mode="+mode+"&bparams="+params;
+
+					browserWin = window.open(url,"Typo3WinBrowser","height=650,width="+(mode=="db"?650:600)+",status=0,menubar=0,resizable=1,scrollbars=1");
+					browserWin.focus();
+				}
 			}
 			function setFormValueFromBrowseWin(fName,value,label,title,exclusiveValues) {
 				var formObj = setFormValue_getFObj(fName), fObj, isMultiple = false, isList = false, len;
