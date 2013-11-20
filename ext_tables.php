@@ -130,8 +130,9 @@ $TCA['pages']['columns']['module']['config']['items'][] = array(
 
 // @todo remove me as of TYPO3 6.2 because sys_file is categorized by default.
 // @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file');
 
 // Remove edit wizard because it's not working with the TCA tree
-unset($TCA['sys_file']['columns']['categories']['config']['wizards']['edit']);
+$options['fieldConfiguration']['wizards']['edit'] = '__UNSET';
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
+
 ?>
