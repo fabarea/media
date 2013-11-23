@@ -61,14 +61,18 @@ class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
 		$uri = FALSE;
+		$appendTime = TRUE;
+
 		// Compute image-editor or link-creator URL.
 		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+			$appendTime = FALSE;
 			$uri = sprintf('%s&%s[asset]=%s',
 				ModuleUtility::getUri('show', 'ImageEditor'),
 				ModuleUtility::getParameterPrefix(),
 				$this->object->getUid()
 			);
 		} elseif (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
+			$appendTime = FALSE;
 			$uri = sprintf('%s&%s[asset]=%s',
 				ModuleUtility::getUri('show', 'LinkCreator'),
 				ModuleUtility::getParameterPrefix(),
@@ -78,7 +82,7 @@ class Preview extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 
 		$result = $this->thumbnailService->setFile($asset)
 			->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
-			->setAppendTimeStamp(TRUE)
+			->setAppendTimeStamp($appendTime)
 			->setTarget(\TYPO3\CMS\Media\Service\ThumbnailInterface::TARGET_BLANK)
 			->setAnchorUri($uri)
 			->create();
