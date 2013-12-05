@@ -30,6 +30,9 @@ use TYPO3\CMS\Core\Resource\ProcessedFile;
 class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	implements \TYPO3\CMS\Media\Service\ThumbnailRenderableInterface {
 
+	/**
+	 * @var array
+	 */
 	protected $defaultConfigurationWrap = array(
 		'width' => 0,
 		'height' => 0,
@@ -44,7 +47,7 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 		$steps = $this->getRenderingSteps();
 
 		$result = '';
-		while($step = array_shift($steps)) {
+		while ($step = array_shift($steps)) {
 			$result = $this->$step($result);
 		}
 
@@ -56,7 +59,7 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 *
 	 * @return string
 	 */
-	public function renderUri(){
+	public function renderUri() {
 
 		// Makes sure the width and the height of the thumbnail is not bigger than the actual file
 		$configuration = $this->getConfiguration();
@@ -67,9 +70,8 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			$configuration['height'] = $this->file->getProperty('height');
 		}
 
-		$taskType = \TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW;
-
-		$this->processedFile = $this->file->process($taskType, $configuration);
+		$configuration = $this->computeImageFinalDimension($configuration);
+		$this->processedFile = $this->file->process($this->getTaskType(), $configuration);
 		$result = $this->processedFile->getPublicUrl(TRUE);
 
 		// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
@@ -117,7 +119,7 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
 	public function renderTagAnchor($result) {
 
-		$file =  $this->file;
+		$file = $this->file;
 
 		// Perhaps the wrapping file must be processed
 		$configurationWrap = $this->getConfigurationWrap();
@@ -129,10 +131,10 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			// It looks maxW or maxH does not work as expected with CONTEXT_IMAGEPREVIEW...
 			// ... uses "width" and "height" instead.
 			if ($configurationWrap['width'] < $this->file->getProperty('width')
-				|| $configurationWrap['height'] < $this->file->getProperty('height'))
-			{
-				$taskType = ProcessedFile::CONTEXT_IMAGEPREVIEW;
-				$file = $this->file->process($taskType, $configurationWrap);
+				|| $configurationWrap['height'] < $this->file->getProperty('height')
+			) {
+				$configurationWrap = $this->computeImageFinalDimension($configurationWrap);
+				$file = $this->file->process($this->getTaskType(), $configurationWrap);
 			}
 		}
 
@@ -144,5 +146,54 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			$result
 		);
 	}
+
+	/**
+	 * Compute the final configuration for the image preview.
+	 * Keep ratio of width / height for the image.
+	 *
+	 * @param array $configuration
+	 * @return array
+	 */
+	protected function computeImageFinalDimension(array $configuration) {
+		$ratio = $this->computeImageRatio();
+
+		if ($ratio > 1) {
+			$configuration['height'] = round($configuration['width'] / $ratio);
+		} else {
+			$configuration['width'] = round($configuration['height'] * $ratio);
+		}
+		return $configuration;
+	}
+
+	/**
+	 * Compute the width / height ratio of the image.
+	 *
+	 * @return NULL|float
+	 */
+	protected function computeImageRatio() {
+		$ratio = NULL;
+		if ($this->file->getProperty('width') > 0 && $this->file->getProperty('height') > 0) {
+			$ratio = $this->file->getProperty('width') / $this->file->getProperty('height');
+		}
+		return $ratio;
+	}
+
+	/**
+	 * Get the adequate task type according to TYPO3 mode (Frontend vs Backend).
+	 *
+	 * Frontend: ProcessedFile::CONTEXT_IMAGECROPSCALEMASK which does not work in BE mode and has a better thumbnail quality.
+	 * Backend: ProcessedFile::CONTEXT_IMAGEPREVIEW more suitable for BE.
+	 *
+	 * @return string
+	 */
+	protected function getTaskType() {
+		$taskType = ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
+		if (TYPO3_MODE === 'BE') {
+			$taskType = ProcessedFile::CONTEXT_IMAGEPREVIEW;
+		}
+		return $taskType;
+	}
+
 }
+
 ?>
