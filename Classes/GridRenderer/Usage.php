@@ -22,11 +22,16 @@ namespace TYPO3\CMS\Media\GridRenderer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\ObjectFactory;
+use TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract;
+use TYPO3\CMS\Vidi\Tca\TcaService;
 
 /**
  * Class rendering usage of an asset in the grid.
  */
-class Usage extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
+class Usage extends GridRendererAbstract {
 
 	/**
 	 * Render usage of an asset in the grid.
@@ -35,46 +40,154 @@ class Usage extends \TYPO3\CMS\Vidi\GridRenderer\GridRendererAbstract {
 	 */
 	public function render() {
 
-		$asset = \TYPO3\CMS\Media\ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
+		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 
-		$result = $_result = '';
+		$result = '';
 
-		// Get the file references of the asset
-		$records = $this->getDatabaseConnection()->exec_SELECTgetRows(
+		// Render File usage
+		$fileReferences = $this->getFileReferences($asset);
+		if (!empty($fileReferences)) {
+
+			// Finalize file references assembling.
+			$result .= sprintf($this->getWrappingTemplate(),
+				LocalizationUtility::translate('references', 'media'),
+				count($fileReferences),
+				$this->assembleOutput($fileReferences, array('referenceIdentifier' => 'uid_foreign', 'tableName' => 'tablenames'))
+			);
+		}
+
+		// Render link usage in RTE
+		$linkSoftReferences = $this->getSoftLinkReferences($asset);
+		if (!empty($linkSoftReferences)) {
+
+			// Finalize link references assembling.
+			$result .= sprintf($this->getWrappingTemplate(),
+				LocalizationUtility::translate('link_references_in_rte', 'media'),
+				count($linkSoftReferences),
+				$this->assembleOutput($linkSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
+			);
+		}
+
+		// Render Variant usage in RTE
+		$imageSoftReferences = $this->getSoftImageReferences($asset);
+		if (!empty($imageSoftReferences)) {
+
+			// Finalize variant references assembling.
+			$result .= sprintf($this->getWrappingTemplate(),
+				LocalizationUtility::translate('variant_references_in_rte', 'media'),
+				count($imageSoftReferences),
+				$this->assembleOutput($imageSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Assemble output reference.
+	 *
+	 * @param array $references
+	 * @param array $mapping
+	 * @return string
+	 */
+	protected function assembleOutput(array $references, array $mapping) {
+
+		$result = '';
+		foreach ($references as $reference) {
+
+			$result .= sprintf($this->getReferenceTemplate(),
+				$reference[$mapping['referenceIdentifier']],
+				$this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
+				$reference[$mapping['tableName']],
+				$reference[$mapping['referenceIdentifier']],
+				IconUtility::getSpriteIcon('actions-document-open'),
+				TcaService::table($reference[$mapping['tableName']])->getTitle()
+			);
+		}
+		return $result;
+	}
+
+	/**
+	 * Return the title given a table name and an identifier.
+	 *
+	 * @param string $tableName
+	 * @param string $identifier
+	 * @return string
+	 */
+	public function getRecordTitle($tableName, $identifier) {
+
+		$result = '';
+		if ($tableName && (int) $identifier > 0) {
+
+			$labelField = TcaService::table($tableName)->getLabelField();
+
+			// Get the title of the record.
+			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
+				$labelField,
+				$tableName,
+				'uid = ' . $identifier
+			);
+
+			$result = $record[$labelField];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Return all references found in sys_file_reference.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return array
+	 */
+	public function getFileReferences($asset) {
+
+		// Get the file references of the asset.
+		return $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'*',
 			'sys_file_reference',
 			'deleted = 0 AND uid_local = ' . $asset->getUid()
 		);
+	}
 
-		if (!empty($records)) {
+	/**
+	 * Return soft image references.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return array
+	 */
+	public function getSoftImageReferences($asset) {
+		$softReferences = array();
+		foreach ($asset->getVariants() as $variant) {
 
-			$_template = <<<EOF
-<li title="uid: %s">
-	<a href="alt_doc.php?returnUrl=mod.php?M=user_MediaM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a>
-	%s
-</li>
-EOF;
-
-			// assemble reference
-			foreach ($records as $record) {
-				$_result .= sprintf($_template,
-					$record['uid_foreign'],
-					$record['tablenames'],
-					$record['uid_foreign'],
-					\TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-open'),
-					$record['tablenames']
-				);
-			}
-
-			// finalize reference assembling
-			$_template = '<span style="text-decoration: underline">%s (%s)</span><ul style="margin: 0">%s</ul>';
-			$result = sprintf($_template,
-				\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('references', 'media'),
-				count($records),
-				$_result
+			// Get the file references of the asset.
+			$_softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
+				'recuid, tablename',
+				'sys_refindex',
+				'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $variant->getVariant()->getUid()
 			);
+
+			$softReferences = array_merge($softReferences, $_softReferences);
 		}
-		return $result;
+		return $softReferences;
+	}
+
+	/**
+	 * Return link image references.
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return array
+	 */
+	public function getSoftLinkReferences($asset) {
+
+		// Get the link references of the asset.
+		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'recuid, tablename',
+			'sys_refindex',
+			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
+		);
+
+		return $softReferences;
 	}
 
 	/**
@@ -85,5 +198,24 @@ EOF;
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
+
+	/**
+	 * Return HTML template for the Reference case.
+	 *
+	 * @return string
+	 */
+	protected function getReferenceTemplate() {
+		return '<li title="%s - %s"><a href="/typo3/alt_doc.php?returnUrl=mod.php?M=user_VidiSysFileM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a> %s</li>';
+	}
+
+	/**
+	 * Return the wrapping HTML template.
+	 *
+	 * @return string
+	 */
+	protected function getWrappingTemplate() {
+		return '<span style="text-decoration: underline; ">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
+	}
 }
+
 ?>

@@ -179,6 +179,12 @@
 			<trans-unit id="references">
 				<source>References</source>
 			</trans-unit>
+			<trans-unit id="link_references_in_rte">
+				<source>Link references in RTE</source>
+			</trans-unit>
+			<trans-unit id="variant_references_in_rte">
+				<source>Variant references in RTE</source>
+			</trans-unit>
 			<trans-unit id="variants">
 				<source>Variants</source>
 			</trans-unit>

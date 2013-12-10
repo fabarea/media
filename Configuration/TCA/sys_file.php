@@ -530,6 +530,14 @@ $tca = array(
 				'readOnly' => TRUE,
 			),
 		),
+		'is_variant' => array(
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.is_variant',
+			'config' => array(
+				'type' => 'check',
+				'default' => '1',
+				'readOnly' => TRUE,
+			)
+		),
 		'fe_groups' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
