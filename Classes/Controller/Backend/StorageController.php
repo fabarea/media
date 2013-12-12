@@ -22,7 +22,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Vidi\Tca\TcaServiceFactory;
+use TYPO3\CMS\Vidi\Tca\TcaService;
 
 /**
  * Controller which handles actions related to Storage.
@@ -30,14 +30,16 @@ use TYPO3\CMS\Vidi\Tca\TcaServiceFactory;
 class StorageController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
+	 * @var string
+	 */
+	protected $tableName = 'sys_file_storage';
+
+	/**
 	 * @return void
 	 */
 	public function listAction() {
-
 		$this->view->assign('storages', \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages());
-
-		$tcaTableService = TcaServiceFactory::getTableService('sys_file_storage');
-		$this->view->assign('storageTitle', $tcaTableService->getTitle());
+		$this->view->assign('storageTitle', TcaService::table($this->tableName)->getTitle());
 	}
 }
 ?>
