@@ -79,6 +79,13 @@ interface UploadedFileInterface {
 	public function getFileWithAbsolutePath();
 
 	/**
+	 * Get the file's public URL.
+	 *
+	 * @return string
+	 */
+	public function getPublicUrl();
+
+	/**
 	 * Set the file input name from the DOM.
 	 *
 	 * @param string $inputName

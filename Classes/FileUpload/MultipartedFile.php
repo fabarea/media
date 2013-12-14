@@ -29,7 +29,7 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  * @see original implementation: https://github.com/valums/file-uploader/blob/master/server/php.php
  */
-class MultipartedFile extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
+class MultipartedFile extends UploadedFileAbstract {
 
 	/**
 	 * @var string

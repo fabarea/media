@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * A class for handling permission
@@ -40,11 +41,12 @@ class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Returns allowed extensions.
+	 * Returns allowed extensions given a possible storage.
 	 *
+	 * @param int $storageIdentifier
 	 * @return array
 	 */
-	public function getAllowedExtensions() {
+	public function getAllowedExtensions($storageIdentifier = 0) {
 
 		$fieldNames = array(
 			'extension_allowed_file_type_1',
@@ -54,7 +56,12 @@ class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 			'extension_allowed_file_type_5',
 		);
 
-		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		if ($storageIdentifier > 0) {
+			$storage = ObjectFactory::getInstance()->getStorage($storageIdentifier);
+		} else {
+			$storage = StorageUtility::getInstance()->getCurrentStorage();
+		}
+
 		$storageRecord = $storage->getStorageRecord();
 		$allowedExtensions = array();
 		foreach ($fieldNames as $fieldName) {

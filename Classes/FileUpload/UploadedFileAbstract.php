@@ -23,11 +23,28 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Media\Exception\MissingFileException;
 
 /**
  * An abstract class for uploaded file.
  */
-abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\UploadedFileInterface {
+abstract class UploadedFileAbstract implements UploadedFileInterface {
+
+	/**
+	 * @var string
+	 */
+	protected $uploadFolder;
+
+	/**
+	 * @var string
+	 */
+	protected $inputName;
+
+	/**
+	 * @var string
+	 */
+	protected $name;
 
 	/**
 	 * Get the file type.
@@ -44,23 +61,23 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 		list($fileType) = explode('/', $mimeType);
 		switch (strtolower($fileType)) {
 			case 'text':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT;
+				$type = File::FILETYPE_TEXT;
 				break;
 			case 'image':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE;
+				$type = File::FILETYPE_IMAGE;
 				break;
 			case 'audio':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO;
+				$type = File::FILETYPE_AUDIO;
 				break;
 			case 'video':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO;
+				$type = File::FILETYPE_VIDEO;
 				break;
 			case 'application':
 			case 'software':
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION;
+				$type = File::FILETYPE_APPLICATION;
 				break;
 			default:
-				$type = \TYPO3\CMS\Core\Resource\File::FILETYPE_UNKNOWN;
+				$type = File::FILETYPE_UNKNOWN;
 		}
 		return $type;
 	}
@@ -75,6 +92,16 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 	}
 
 	/**
+	 * Get the file's public URL.
+	 *
+	 * @return string
+	 */
+	public function getPublicUrl() {
+		$fileNameAndPath = str_replace(PATH_site, '', $this->getFileWithAbsolutePath());
+		return '/' . ltrim($fileNameAndPath, '/');
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getInputName() {
@@ -83,7 +110,7 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 
 	/**
 	 * @param string $inputName
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return UploadedFileInterface
 	 */
 	public function setInputName($inputName) {
 		$this->inputName = $inputName;
@@ -99,7 +126,7 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 
 	/**
 	 * @param string $uploadFolder
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return UploadedFileInterface
 	 */
 	public function setUploadFolder($uploadFolder) {
 		$this->uploadFolder = $uploadFolder;
@@ -115,7 +142,7 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 
 	/**
 	 * @param string $name
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return UploadedFileInterface
 	 */
 	public function setName($name) {
 		$this->name = $name;
@@ -128,7 +155,7 @@ abstract class UploadedFileAbstract implements \TYPO3\CMS\Media\FileUpload\Uploa
 	protected function checkFileExistence() {
 		if (!is_file($this->getFileWithAbsolutePath())) {
 			$message = sprintf('File not found at "%s". Did you save it?', $this->getFileWithAbsolutePath());
-			throw new \TYPO3\CMS\Media\Exception\MissingFileException($message, 1361786958);
+			throw new MissingFileException($message, 1361786958);
 		}
 	}
 

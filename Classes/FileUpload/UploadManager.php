@@ -23,6 +23,8 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Exception\FailedFileUploadException;
 use TYPO3\CMS\Media\Utility\PermissionUtility;
 
 /**
@@ -40,10 +42,10 @@ class UploadManager {
 	/**
 	 * @var string
 	 */
-	protected $uploadFolder;
+	protected $uploadFolder = 'typo3temp/pics';
 
 	/**
-	 * @var \TYPO3\CMS\Media\FileUpload\FormUtility
+	 * @var FormUtility
 	 */
 	protected $formUtility;
 
@@ -59,22 +61,13 @@ class UploadManager {
 	 */
 	function __construct() {
 
-		// Initialize the upload folder for file transfer and create it if not yet existing
-		$this->uploadFolder = PATH_site . 'typo3temp/pics';
-		if (!file_exists($this->uploadFolder)) {
-			\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($this->uploadFolder);
-		}
-
-		// Check whether the upload folder is writable
-		if (!is_writable($this->uploadFolder)) {
-			$this->throwException("Server error. Upload directory isn't writable.");
-		}
+		$this->initializeUploadFolder();
 
 		// max file size in bytes
-		$this->sizeLimit = \TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024;
+		$this->sizeLimit = GeneralUtility::getMaxUploadFileSize() * 1024;
 		$this->checkServerSettings();
 
-		$this->formUtility = \TYPO3\CMS\Media\FileUpload\FormUtility::getInstance();
+		$this->formUtility = FormUtility::getInstance();
 	}
 
 
@@ -90,15 +83,15 @@ class UploadManager {
 		if ($this->formUtility->isMultiparted()) {
 
 			// Default case
-			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
+			$uploadedFile = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
 		} elseif ($this->formUtility->isOctetStreamed()) {
 
 			// Fine Upload plugin would use it if forceEncoded = false and paramsInBody = false
-			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
+			$uploadedFile = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
 		} elseif ($this->formUtility->isUrlEncoded()) {
 
 			// Used for image resizing in BE
-			$uploadedFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\Base64File');
+			$uploadedFile = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\Base64File');
 		}
 
 		if (!$uploadedFile) {
@@ -121,7 +114,7 @@ class UploadManager {
 
 		// Optimize file if the uploaded file is an image.
 		if ($uploadedFile->getType() == \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
-			$uploadedFile = \TYPO3\CMS\Media\FileUpload\ImageOptimizer::getInstance()->optimize($uploadedFile);
+			$uploadedFile = ImageOptimizer::getInstance()->optimize($uploadedFile);
 		}
 		return $uploadedFile;
 	}
@@ -217,21 +210,21 @@ class UploadManager {
 	 * @return boolean TRUE if extension/filename is allowed
 	 */
 	public function checkFileExtensionPermission($fileName) {
-		$isAllowed = \TYPO3\CMS\Core\Utility\GeneralUtility::verifyFilenameAgainstDenyPattern($fileName);
+		$isAllowed = GeneralUtility::verifyFilenameAgainstDenyPattern($fileName);
 		if ($isAllowed) {
-			$fileInfo = \TYPO3\CMS\Core\Utility\GeneralUtility::split_fileref($fileName);
+			$fileInfo = GeneralUtility::split_fileref($fileName);
 			// Set up the permissions for the file extension
 			$fileExtensionPermissions = $GLOBALS['TYPO3_CONF_VARS']['BE']['fileExtensions']['webspace'];
-			$fileExtensionPermissions['allow'] = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['allow']));
-			$fileExtensionPermissions['deny'] = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['deny']));
+			$fileExtensionPermissions['allow'] = GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['allow']));
+			$fileExtensionPermissions['deny'] = GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['deny']));
 			$fileExtension = strtolower($fileInfo['fileext']);
 			if ($fileExtension !== '') {
 				// If the extension is found amongst the allowed types, we return TRUE immediately
-				if ($fileExtensionPermissions['allow'] === '*' || \TYPO3\CMS\Core\Utility\GeneralUtility::inList($fileExtensionPermissions['allow'], $fileExtension)) {
+				if ($fileExtensionPermissions['allow'] === '*' || GeneralUtility::inList($fileExtensionPermissions['allow'], $fileExtension)) {
 					return TRUE;
 				}
 				// If the extension is found amongst the denied types, we return FALSE immediately
-				if ($fileExtensionPermissions['deny'] === '*' || \TYPO3\CMS\Core\Utility\GeneralUtility::inList($fileExtensionPermissions['deny'], $fileExtension)) {
+				if ($fileExtensionPermissions['deny'] === '*' || GeneralUtility::inList($fileExtensionPermissions['deny'], $fileExtension)) {
 					return FALSE;
 				}
 				// If no match we return TRUE
@@ -284,11 +277,30 @@ class UploadManager {
 	}
 
 	/**
-	 * @throws \TYPO3\CMS\Media\Exception\FailedFileUploadException
+	 * @throws FailedFileUploadException
 	 * @param string $message
 	 */
-	public function throwException($message) {
-		throw new \TYPO3\CMS\Media\Exception\FailedFileUploadException($message, 1357510420);
+	protected function throwException($message) {
+		throw new FailedFileUploadException($message, 1357510420);
+	}
+
+	/**
+	 * Initialize Upload Folder.
+	 *
+	 * @return void
+	 */
+	protected function initializeUploadFolder() {
+		$this->uploadFolder = PATH_site . $this->uploadFolder;
+
+		// Initialize the upload folder for file transfer and create it if not yet existing
+		if (!file_exists($this->uploadFolder)) {
+			GeneralUtility::mkdir($this->uploadFolder);
+		}
+
+		// Check whether the upload folder is writable
+		if (!is_writable($this->uploadFolder)) {
+			$this->throwException("Server error. Upload directory isn't writable.");
+		}
 	}
 
 	/**
