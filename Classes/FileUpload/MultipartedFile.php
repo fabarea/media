@@ -37,12 +37,6 @@ class MultipartedFile extends UploadedFileAbstract {
 	protected $inputName = 'qqfile';
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileUpload\MultipartedFile
-	 */
-//	public function __construct() {
-//	}
-
-	/**
 	 * Save the file to the specified path
 	 *
 	 * @return boolean TRUE on success

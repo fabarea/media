@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\Exception\EmptyPropertyException;
 
 /**
  * Handle file uploads via XMLHttpRequest.
@@ -49,17 +50,17 @@ class StreamedFile extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 	/**
 	 * Save the file to the specified path
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\EmptyPropertyException
+	 * @throws EmptyPropertyException
 	 * @return boolean TRUE on success
 	 */
 	public function save() {
 
 		if (is_null($this->uploadFolder)) {
-			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('Upload folder is not defined', 1361787579);
+			throw new EmptyPropertyException('Upload folder is not defined', 1361787579);
 		}
 
 		if (is_null($this->name)) {
-			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('File name is not defined', 1361787580);
+			throw new EmptyPropertyException('File name is not defined', 1361787580);
 		}
 
 		$input = fopen("php://input", "r");

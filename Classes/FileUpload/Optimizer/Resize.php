@@ -23,12 +23,13 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface;
 use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * Class that optimize an image according to some settings.
  */
-class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
+class Resize implements ImageOptimizerInterface {
 
 	/**
 	 * @var \TYPO3\CMS\Frontend\Imaging\GifBuilder
@@ -36,10 +37,17 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 	protected $gifCreator;
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileUpload\Optimizer\Resize
+	 * @var \TYPO3\CMS\Core\Resource\ResourceStorage
 	 */
-	public function __construct() {
-		$this->gifCreator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
+	protected $storage;
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @return Resize
+	 */
+	public function __construct($storage = NULL) {
+		$this->storage = $storage;
+		$this->gifCreator = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
 		$this->gifCreator->init();
 		$this->gifCreator->absPrefix = PATH_site;
 	}
@@ -58,8 +66,14 @@ class Resize implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 		$currentHeight = $imageInfo[1];
 
 		// resize an image if this one is bigger than telling by the settings.
-		$storage = StorageUtility::getInstance()->getCurrentStorage();
-		$storageRecord = $storage->getStorageRecord();
+		if (is_object($this->storage)) {
+			$storageRecord = $this->storage->getStorageRecord();
+		} else {
+			// Will only work in the BE for now.
+			$storage = StorageUtility::getInstance()->getCurrentStorage();
+			$storageRecord = $storage->getStorageRecord();
+		}
+
 		if (strlen($storageRecord['maximum_dimension_original_image']) > 0) {
 
 			/** @var \TYPO3\CMS\Media\Dimension $imageDimension */

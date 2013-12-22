@@ -34,6 +34,8 @@ use TYPO3\CMS\Media\Utility\PermissionUtility;
  */
 class UploadManager {
 
+	const UPLOAD_FOLDER = 'typo3temp/pics';
+
 	/**
 	 * @var int|NULL|string
 	 */
@@ -42,12 +44,17 @@ class UploadManager {
 	/**
 	 * @var string
 	 */
-	protected $uploadFolder = 'typo3temp/pics';
+	protected $uploadFolder;
 
 	/**
 	 * @var FormUtility
 	 */
 	protected $formUtility;
+
+	/**
+	 * @var \TYPO3\CMS\Core\Resource\ResourceStorage
+	 */
+	protected $storage;
 
 	/**
 	 * Name of the file input in the DOM.
@@ -57,9 +64,10 @@ class UploadManager {
 	protected $inputName = 'qqfile';
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadManager
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @return UploadManager
 	 */
-	function __construct() {
+	function __construct($storage = NULL) {
 
 		$this->initializeUploadFolder();
 
@@ -68,17 +76,17 @@ class UploadManager {
 		$this->checkServerSettings();
 
 		$this->formUtility = FormUtility::getInstance();
+		$this->storage = $storage;
 	}
-
 
 	/**
 	 * Handle the uploaded file.
 	 *
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return UploadedFileInterface
 	 */
 	public function handleUpload() {
 
-		/** @var $uploadedFile \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+		/** @var $uploadedFile UploadedFileInterface */
 		$uploadedFile = FALSE;
 		if ($this->formUtility->isMultiparted()) {
 
@@ -108,13 +116,13 @@ class UploadManager {
 			->setName($fileName)
 			->save();
 
-		if (! $saved) {
+		if (!$saved) {
 			$this->throwException('Could not save uploaded file. The upload was cancelled, or server error encountered');
 		}
 
 		// Optimize file if the uploaded file is an image.
 		if ($uploadedFile->getType() == \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
-			$uploadedFile = ImageOptimizer::getInstance()->optimize($uploadedFile);
+			$uploadedFile = ImageOptimizer::getInstance()->optimize($uploadedFile, $this->storage);
 		}
 		return $uploadedFile;
 	}
@@ -159,10 +167,10 @@ class UploadManager {
 	/**
 	 * Return a file name given an uploaded file
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @param UploadedFileInterface $uploadedFile
 	 * @return string
 	 */
-	public function getFileName(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile){
+	public function getFileName(UploadedFileInterface $uploadedFile) {
 		$pathInfo = pathinfo($uploadedFile->getOriginalName());
 		$fileName = $this->sanitizeFileName($pathInfo['filename']);
 		$fileNameWithExtension = $fileName;
@@ -177,7 +185,7 @@ class UploadManager {
 	 *
 	 * @param int $size
 	 */
-	public function checkFileSize($size){
+	public function checkFileSize($size) {
 		if ($size == 0) {
 			$this->throwException('File is empty');
 		}
@@ -205,7 +213,6 @@ class UploadManager {
 	 * TYPO3_CONF_VARS[BE][fileDenyPattern] + and if the file extension is allowed
 	 *
 	 * @see \TYPO3\CMS\Core\Resource\ResourceStorage->checkFileExtensionPermission($fileName);
-	 *
 	 * @param string $fileName Full filename
 	 * @return boolean TRUE if extension/filename is allowed
 	 */
@@ -247,13 +254,12 @@ class UploadManager {
 	 * It has been noticed issues when letting done this work by FAL. Give it a little hand.
 	 *
 	 * @see https://github.com/alixaxel/phunction/blob/master/phunction/Text.php#L252
-	 *
 	 * @param string $fileName
 	 * @param string $slug
 	 * @param string $extra
 	 * @return string
 	 */
-	public function sanitizeFileName($fileName, $slug = '-', $extra = NULL){
+	public function sanitizeFileName($fileName, $slug = '-', $extra = NULL) {
 		return trim(preg_replace('~[^0-9a-z_' . preg_quote($extra, '~') . ']+~i', $slug, $this->unAccent($fileName)), $slug);
 	}
 
@@ -290,7 +296,7 @@ class UploadManager {
 	 * @return void
 	 */
 	protected function initializeUploadFolder() {
-		$this->uploadFolder = PATH_site . $this->uploadFolder;
+		$this->uploadFolder = PATH_site . self::UPLOAD_FOLDER;
 
 		// Initialize the upload folder for file transfer and create it if not yet existing
 		if (!file_exists($this->uploadFolder)) {
@@ -312,9 +318,11 @@ class UploadManager {
 
 	/**
 	 * @param int|NULL|string $sizeLimit
+	 * @return $this
 	 */
 	public function setSizeLimit($sizeLimit) {
 		$this->sizeLimit = $sizeLimit;
+		return $this;
 	}
 
 	/**
@@ -326,9 +334,11 @@ class UploadManager {
 
 	/**
 	 * @param string $uploadFolder
+	 * @return $this
 	 */
 	public function setUploadFolder($uploadFolder) {
 		$this->uploadFolder = $uploadFolder;
+		return $this;
 	}
 
 	/**
@@ -340,10 +350,29 @@ class UploadManager {
 
 	/**
 	 * @param string $inputName
+	 * @return $this
 	 */
 	public function setInputName($inputName) {
 		$this->inputName = $inputName;
+		return $this;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Resource\ResourceStorage
+	 */
+	public function getStorage() {
+		return $this->storage;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @return $this
+	 */
+	public function setStorage($storage) {
+		$this->storage = $storage;
+		return $this;
 	}
 
 }
+
 ?>

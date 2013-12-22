@@ -23,11 +23,13 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class that optimize an image according to some settings.
  */
-class ImageOptimizer implements \TYPO3\CMS\Core\SingletonInterface {
+class ImageOptimizer implements SingletonInterface {
 
 	/**
 	 * @var array
@@ -40,7 +42,7 @@ class ImageOptimizer implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return \TYPO3\CMS\Media\FileUpload\ImageOptimizer
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\ImageOptimizer');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\ImageOptimizer');
 	}
 
 	/**
@@ -48,7 +50,7 @@ class ImageOptimizer implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @return \TYPO3\CMS\Media\FileUpload\ImageOptimizer
 	 */
-	public function __construct() {
+	public function __construct($storage) {
 		$this->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
 		$this->add('TYPO3\CMS\Media\FileUpload\Optimizer\Rotate');
 	}
@@ -79,18 +81,21 @@ class ImageOptimizer implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Optimize an image
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @param UploadedFileInterface $uploadedFile
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+	 * @return UploadedFileInterface
 	 */
-	public function optimize(\TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile) {
+	public function optimize(UploadedFileInterface $uploadedFile, $storage = NULL) {
 
 		foreach ($this->optimizers as $optimizer) {
+
 			/** @var $optimizer \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface */
-			$optimizer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($optimizer);
+			$optimizer = GeneralUtility::makeInstance($optimizer, $storage);
 			$uploadedFile = $optimizer->optimize($uploadedFile);
 		}
 
 		return $uploadedFile;
 	}
 }
+
 ?>

@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\FileUpload;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Handle a posted file encoded in base 64.
@@ -60,7 +61,7 @@ class Base64File extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 	public function __construct() {
 
 		// Processes the encoded image data and returns the decoded image
-		$encodedImage = \TYPO3\CMS\Core\Utility\GeneralUtility::_POST($this->inputName);
+		$encodedImage = GeneralUtility::_POST($this->inputName);
 		if (preg_match('/^data:image\/(jpg|jpeg|png)/i', $encodedImage, $matches)) {
 			$this->extension = $matches[1];
 		} else {

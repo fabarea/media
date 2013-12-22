@@ -22,11 +22,12 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface;
 
 /**
  * Class that optimize an image according to some settings.
  */
-class Rotate implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
+class Rotate implements ImageOptimizerInterface {
 
 	/**
 	 * @var \TYPO3\CMS\Frontend\Imaging\GifBuilder
@@ -166,7 +167,7 @@ class Rotate implements \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface {
 	 * @see http://sylvana.net/jpegcrop/exif_orientation.html
 	 */
 	protected function resetOrientation($filename) {
-		\TYPO3\CMS\Media\FileUpload\Optimizer\JpegExifOrient::setOrientation($filename, 1);
+		JpegExifOrient::setOrientation($filename, 1);
 	}
 
 }
