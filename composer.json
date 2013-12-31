@@ -1,5 +1,5 @@
 {
-    "name": "typo3cms/media",
+    "name": "typo3/cms-media",
     "description": "Media management system for TYPO3.",
     "type": "typo3-cms-extension"
 }
