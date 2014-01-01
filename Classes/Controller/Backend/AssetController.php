@@ -108,55 +108,15 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 				if ($asset->getStorage()->getUid() !== $storage->getUid()) {
 
 					// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-					// @todo add a try / catch since exception can be risen.
 					$targetFolder = ObjectFactory::getInstance()->getTargetFolder($storage, $asset);
-					# @todo implement me! Moving file across storages is not yet implemented.
-					#$asset->moveToStorage($targetFolder);
-
-					# @todo Quick and dirty implementation!
-					$sourceStorageConfiguration = $asset->getStorage()->getConfiguration();
-					$sourceFileNameAndPath = sprintf('%s/%s/%s',
-						rtrim(PATH_site, '/'),
-						trim($sourceStorageConfiguration['basePath'], '/'),
-						trim($asset->getIdentifier(), '/')
-					);
-
-					$storageConfiguration = $storage->getConfiguration();
-					$targetFileNameAndPath = sprintf('%s/%s/%s/%s',
-						rtrim(PATH_site, '/'),
-						trim($storageConfiguration['basePath'], '/'),
-						trim($targetFolder->getIdentifier(), '/'),
-						basename($asset->getIdentifier())
-					);
-
-					if (!file_exists($targetFileNameAndPath)) {
-
-						rename($sourceFileNameAndPath, $targetFileNameAndPath);
-
-						// Change file data
-						$newIdentifier = sprintf('/%s/%s',
-							trim($targetFolder->getIdentifier(), '/'),
-							basename($asset->getIdentifier())
-						);
-
-						/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
-						$asset->updateProperties(
-							array(
-								'storage' => $storage->getUid(),
-								'identifier' => $newIdentifier,
-								'tstamp' => time(),
-							)
-						);
-						$this->assetRepository->update($asset);
-					}
+					$asset->moveTo($targetFolder, $asset->getName(), 'renameNewFile');
 				}
 			}
 		}
 
-		$result = 1;
 		# Json header is not automatically respected in the BE... so send one the hard way.
 		header('Content-type: application/json');
-		return json_encode($result);
+		return json_encode(TRUE);
 	}
 
 	/**
