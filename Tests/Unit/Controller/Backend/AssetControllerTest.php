@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Controller;
+namespace TYPO3\CMS\Media\Controller\Backend;
 
 /***************************************************************
  *  Copyright notice
@@ -31,12 +31,12 @@ namespace TYPO3\CMS\Media\Controller;
 class AssetControllerTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Controller\AssetController
+	 * @var \TYPO3\CMS\Media\Controller\Backend\AssetController
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Controller\AssetController();
+		$this->fixture = new \TYPO3\CMS\Media\Controller\Backend\AssetController();
 	}
 
 	public function tearDown() {

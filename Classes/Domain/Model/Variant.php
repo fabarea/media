@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * File Variant representation.
@@ -80,7 +81,7 @@ class Variant {
 		$this->variant = empty($variantData['variant']) ? 0 : $variantData['variant'];
 		$this->variation = empty($variantData['variation']) ? 0 : $variantData['variation'];
 
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 	/**
