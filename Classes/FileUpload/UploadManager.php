@@ -122,7 +122,7 @@ class UploadManager {
 
 		// Optimize file if the uploaded file is an image.
 		if ($uploadedFile->getType() == \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
-			$uploadedFile = ImageOptimizer::getInstance()->optimize($uploadedFile, $this->storage);
+			$uploadedFile = ImageOptimizer::getInstance($this->storage)->optimize($uploadedFile);
 		}
 		return $uploadedFile;
 	}
