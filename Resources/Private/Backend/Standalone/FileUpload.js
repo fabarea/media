@@ -6,7 +6,7 @@ $(document).ready(function () {
 		multiple: true,
 		debug: true,
 		request: {
-			endpoint: '/typo3/mod.php',
+			endpoint: 'mod.php',
 			// backward compatibility for fine upload to have parameters as GET params.
 			// Otherwise use "setEndpoint" over "setParam" in submit event
 			forceMultipart: true, // when IE9 will be support octet stream upload change me to true

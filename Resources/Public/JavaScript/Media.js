@@ -77,7 +77,7 @@ $(document).ready(function () {
 		$.ajax(
 			{
 				type: 'get',
-				url: '/typo3/mod.php',
+				url: 'mod.php',
 				data: {
 					M: 'user_MediaM1',
 					'tx_media_user_mediam1[controller]': 'Storage',
