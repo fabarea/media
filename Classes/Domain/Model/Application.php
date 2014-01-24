@@ -27,6 +27,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
 /**
  * Application representation in the file abstraction layer.
  */
-class Application extends \TYPO3\CMS\Media\Domain\Model\Asset {
+class Application extends Asset {
 }
 ?>

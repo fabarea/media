@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 /**
- * Link Creator plugin for htmlArea RTE
+ * Image Editor plugin for htmlArea RTE
  */
 class tx_rtehtmlarea_imageeditor extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 

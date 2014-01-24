@@ -23,7 +23,13 @@ namespace TYPO3\CMS\Media\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Domain\Model\Variant;
 use TYPO3\CMS\Media\ObjectFactory;
+use TYPO3\CMS\Media\Utility\Logger;
+use TYPO3\CMS\Media\Utility\VariantUtility;
 
 /**
  * A class providing services related to Variants.
@@ -31,13 +37,14 @@ use TYPO3\CMS\Media\ObjectFactory;
 class VariantService {
 
 	/**
-	 * @var \TYPO3\CMS\Core\Resource\FileRepository
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 * @inject
 	 */
-	protected $fileRepository;
+	protected $objectManager;
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\VariantRepository
+	 * @inject
 	 */
 	protected $variantRepository;
 
@@ -50,27 +57,44 @@ class VariantService {
 	 * @return \TYPO3\CMS\Media\Service\VariantService
 	 */
 	public function __construct() {
-		$this->fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
-
-		/** @var \TYPO3\CMS\Media\Domain\Repository\VariantRepository $variantRepository */
-		$variantRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Domain\Repository\VariantRepository');
-		$this->variantRepository = $variantRepository;
-
 		$this->gifCreator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
 		$this->gifCreator->init();
 		$this->gifCreator->absPrefix = PATH_site;
 	}
 
 	/**
-	 * Create a Variant out of File according to configuration.
+	 * Create variants for new uploaded file.
 	 *
-	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @param File $file
+	 * @return void
+	 */
+	public function createVariants(File $file) {
+
+		// Check whether Variant should be automatically created upon upload.
+		$variations = $this->fetchVariations($file->getStorage());
+		if (!empty($variations)) {
+
+			/** @var \TYPO3\CMS\Media\Dimension $dimension */
+			foreach ($variations['dimensions'] as $dimension) {
+				$configuration = array(
+					'width' => $dimension->getWidth(),
+					'height' => $dimension->getHeight(),
+				);
+				$this->create($file, $configuration);
+			}
+		}
+	}
+
+	/**
+	 * Create a Variant out of File according to a configuration array.
+	 *
+	 * @param File $file
 	 * @param array $configuration
 	 *              + width maximum width of image
 	 *              + height maximum height of image
-	 * @return \TYPO3\CMS\Media\Domain\Model\Variant|NULL
+	 * @return Variant|NULL
 	 */
-	public function create($file, array $configuration) {
+	public function create(File $file, array $configuration) {
 
 		$result = NULL;
 		if ($this->doProcess($file, $configuration)) {
@@ -78,80 +102,91 @@ class VariantService {
 			// Retrieve Variant container.
 			$storageIdentifier = $file->getProperty('storage');
 			$targetFolderObject = ObjectFactory::getInstance()->getVariantTargetFolder($storageIdentifier);
-			$variantFile = $file->copyTo($targetFolderObject, 'variant_' . $file->getName(), 'renameNewFile');
+			$newFile = $file->copyTo($targetFolderObject, 'variant_' . $file->getName(), 'renameNewFile');
 
-			$fileNameWithPath = PATH_site . $variantFile->getPublicUrl();
+			/** @var \TYPO3\CMS\Media\Domain\Model\Variant $variant */
+			$variant = $this->objectManager->get('TYPO3\CMS\Media\Domain\Model\Variant',
+				$newFile->getProperties(),
+				$newFile->getStorage(),
+				$file
+			);
+
+			$fileNameWithPath = PATH_site . $variant->getPublicUrl();
 
 			// Create file (optimizer)
 			$fileInfo = $this->resize($fileNameWithPath, $configuration['width'], $configuration['height']);
-			$variation = sprintf('resize({width: %s, height: %s})',
-				$fileInfo[0],
-				$fileInfo[1]
-			);
+			$variation = sprintf('resize({width: %s, height: %s})', $fileInfo[0], $fileInfo[1]);
+			$this->getIndexerService()->indexFile($variant); // Re-index the file
 
-			$variantFile->updateProperties(array(
-				'tstamp' => time(), // Update the tstamp - which is not updated by addFile()
+			$variant->updateProperties(array(
 				'is_variant' => 1,
+				'variation' => $variation,
 			));
 
-			/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
-			$this->fileRepository->update($variantFile);
-
-			// Persist Variation
-			$variant['original'] = $file->getUid();
-			$variant['variant'] = $variantFile->getUid();
-			$variant['variation'] = $variation;
-
-			$variantObject = new \TYPO3\CMS\Media\Domain\Model\Variant($variant);
-			$result = $this->variantRepository->add($variantObject);
+			$this->variantRepository->add($variant);
+			$result = $variant;
 		}
 
 		return $result;
 	}
 
 	/**
+	 * Update variants for existing uploaded file.
+	 *
+	 * @param File $file
+	 * @return void
+	 */
+	public function updateVariants(File $file) {
+
+		foreach ($this->variantRepository->findByOriginalResource($file) as $variant) {
+
+			/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
+			$configuration = array(
+				'width' => $variant->getProperty('width'),
+				'height' => $variant->getProperty('height'),
+			);
+			$this->update($variant, $configuration);
+		}
+	}
+
+	/**
 	 * Update a Variant according to its configuration.
 	 *
-	 * @param \TYPO3\CMS\Core\Resource\File $file
-	 * @param \TYPO3\CMS\Core\Resource\File $variantFile
+	 * @param Variant $variant
 	 * @param array $configuration
 	 *              + width maximum width of image
 	 *              + height maximum height of image
-	 * @return \TYPO3\CMS\Media\Domain\Model\Variant
+	 * @return Variant
 	 */
-	public function update($file, $variantFile, array $configuration) {
+	public function update(Variant $variant, array $configuration) {
 
 		// Retrieve Variant container.
-		$targetFolderObject = $variantFile->getStorage()->getFolder(dirname($variantFile->getIdentifier()));
+		$targetFolderObject = $variant->getStorage()->getFolder(dirname($variant->getIdentifier()));
 
-		$variantFile = $file->copyTo($targetFolderObject, $variantFile->getName(), 'overrideExistingFile');
-		$fileNameWithPath = PATH_site . $variantFile->getPublicUrl();
+		$variant->getOriginalResource()->copyTo($targetFolderObject, $variant->getName(), 'overrideExistingFile');
+		$fileNameWithPath = PATH_site . $variant->getPublicUrl();
 
 		// Create file (optimizer)
 		$this->resize($fileNameWithPath, $configuration['width'], $configuration['height']);
+		$this->getIndexerService()->indexFile($variant); // Re-index the file
 
-		$variantFile->updateProperties(array(
-			'tstamp' => time(), // Update the tstamp - which is not updated by addFile()
-		));
-
-		/** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
-		$this->fileRepository->update($variantFile);
-
-		return $variantFile;
+		$this->variantRepository->update($variant);
+		return $variant;
 	}
 
 	/**
 	 * Tell whether to create a Variant or not
 	 *
-	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @param File $file
 	 * @param array $configuration
 	 * @return boolean
 	 */
-	public function doProcess($file, $configuration) {
+	protected function doProcess($file, $configuration) {
+
 		if (empty($configuration['width']) || empty($configuration['height'])) {
 
 			// For now write a log entry. Height and Width could become optional. If you need this report an issue.
-			$logger = \TYPO3\CMS\Media\Utility\Logger::getInstance($this);
+			$logger = Logger::getInstance($this);
 			$logger->warning('Missing width or height as configuration', $configuration);
 			$result = FALSE;
 		} else if ($file->getProperty('width') > $file->getProperty('height')) { // image orientation
@@ -171,7 +206,7 @@ class VariantService {
 	 * @param int $height
 	 * @return array
 	 */
-	public function resize($fileNameAndPath, $width = 0, $height = 0) {
+	protected function resize($fileNameAndPath, $width = 0, $height = 0) {
 		// Keep profile of the image
 		$imParams = '###SkipStripProfile###';
 		$options = array(
@@ -181,10 +216,38 @@ class VariantService {
 
 		// Renamed image is typo3temp directory
 		$tempFileInfo = $this->gifCreator->imageMagickConvert($fileNameAndPath, '', '', '', $imParams, '', $options, TRUE);
-		if ($tempFileInfo) {
+		if (!empty($tempFileInfo)) {
 			@rename($tempFileInfo[3], $fileNameAndPath);
 		}
 		return $tempFileInfo;
 	}
+
+	/**
+	 * @param ResourceStorage $storage
+	 * @return array
+	 */
+	protected function fetchVariations(ResourceStorage $storage) {
+		$variations = array();
+		$storageRecord = $storage->getStorageRecord();
+		if (strlen($storageRecord['default_variations']) > 0) {
+			$dimensions = GeneralUtility::trimExplode(',', $storageRecord['default_variations'], TRUE);
+			foreach ($dimensions as $dimension) {
+
+				/** @var \TYPO3\CMS\Media\Dimension $dimension */
+				$variations['dimensions'][] = GeneralUtility::makeInstance('TYPO3\CMS\Media\Dimension', $dimension);
+			}
+		}
+		return $variations;
+	}
+
+	/**
+	 * Return the Indexer Service
+	 *
+	 * @return \TYPO3\CMS\Core\Resource\Service\IndexerService
+	 */
+	protected function getIndexerService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+	}
 }
+
 ?>

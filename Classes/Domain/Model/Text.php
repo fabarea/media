@@ -27,6 +27,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
 /**
  * Text representation in the file abstraction layer.
  */
-class Text extends \TYPO3\CMS\Media\Domain\Model\Asset {
+class Text extends Asset {
 }
 ?>

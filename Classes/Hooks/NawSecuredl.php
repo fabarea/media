@@ -120,6 +120,7 @@ class NawSecuredl {
 	public function findFrontendUserGroups(array $fileRecord) {
 
 		// Fetch if there is a relations
+		// @todo
 		$frontendUserGroups = $this->getDatabaseConnection()->exec_SELECTgetRows('uid_foreign', 'sys_file_fegroups_mm', 'uid_local = ' . $fileRecord['uid']);
 		$result = array();
 		foreach ($frontendUserGroups as $frontendUserGroup) {

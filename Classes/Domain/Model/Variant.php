@@ -23,37 +23,27 @@ namespace TYPO3\CMS\Media\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 
 /**
- * File Variant representation.
+ * Variant representation.
  */
-class Variant {
+class Variant extends Asset {
 
 	/**
+	 * Role of the Variant. This is also defined in the TCA of sys_file_variants:
+	 *
+	 * 0 -> none
+	 * 1 -> thumbnail
+	 * 2 -> subtitle
+	 * 3 -> caption
+	 * 4 -> alternative
+	 *
 	 * @var int
 	 */
-	protected $uid;
-
-	/**
-	 * @var int
-	 */
-	protected $pid;
-
-	/**
-	 * @var string
-	 */
-	protected $role;
-
-	/**
-	 * @var \TYPO3\CMS\Core\Resource\File
-	 */
-	protected $original;
-
-	/**
-	 * @var \TYPO3\CMS\Core\Resource\File
-	 */
-	protected $variant;
+	protected $role = 1;
 
 	/**
 	 * Description of the file variation
@@ -63,140 +53,99 @@ class Variant {
 	protected $variation;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 * @var \TYPO3\CMS\Core\Resource\File
 	 */
-	protected $objectManager;
+	protected $originalResource;
 
 	/**
-	 * Constructor for a Media object.
+	 * Constructor for a Variant object.
 	 *
+	 * @param array $assetData
+	 * @param ResourceStorage $storage
+	 * @param File $originalResource
 	 * @param array $variantData
 	 * @return \TYPO3\CMS\Media\Domain\Model\Variant
 	 */
-	public function __construct(array $variantData = array()) {
-		$this->uid = empty($variantData['uid']) ? 0 : (int) $variantData['uid'];
-		$this->pid = empty($variantData['pid']) ? 0 : (int) $variantData['pid'];
+	public function __construct(array $assetData = array(), ResourceStorage $storage, File $originalResource = NULL, array $variantData = array()) {
+		parent::__construct($assetData, $storage);
+		$this->originalResource = $originalResource;
 		$this->role = empty($variantData['role']) ? 1 : $variantData['role'];
-		$this->original = empty($variantData['original']) ? 0 : $variantData['original'];
-		$this->variant = empty($variantData['variant']) ? 0 : $variantData['variant'];
 		$this->variation = empty($variantData['variation']) ? 0 : $variantData['variation'];
-
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 	/**
 	 * @return int
-	 */
-	public function getUid() {
-		return $this->uid;
-	}
-
-	/**
-	 * @param int $uid
-	 */
-	public function setUid($uid) {
-		$this->uid = $uid;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPid() {
-		return $this->pid;
-	}
-
-	/**
-	 * @param int $pid
-	 */
-	public function setPid($pid) {
-		$this->pid = $pid;
-	}
-
-	/**
-	 * @return string
 	 */
 	public function getRole() {
 		return $this->role;
 	}
 
 	/**
-	 * @param string $role
+	 * @param int $role
 	 */
 	public function setRole($role) {
 		$this->role = $role;
 	}
 
 	/**
-	 * @return Asset
-	 */
-	public function getOriginal() {
-		if ($this->original > 0 && ! is_object($this->original)) {
-			/** @var $assetRepository \TYPO3\CMS\Media\Domain\Repository\AssetRepository */
-			$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
-			$this->original = $assetRepository->findByUid($this->original);
-		}
-		return $this->original;
-	}
-
-	/**
-	 * @param \TYPO3\CMS\Core\Resource\File $original
-	 */
-	public function setOriginal($original) {
-		$this->original = $original;
-	}
-
-	/**
-	 * @return Asset
-	 */
-	public function getVariant() {
-		if ($this->variant > 0 && ! is_object($this->variant)) {
-			/** @var $assetRepository \TYPO3\CMS\Media\Domain\Repository\AssetRepository */
-			$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
-			$this->variant = $assetRepository->findByUid($this->variant);
-		}
-		return $this->variant;
-	}
-
-	/**
-	 * @param \TYPO3\CMS\Core\Resource\File $variant
-	 */
-	public function setVariant($variant) {
-		$this->variant = $variant;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getVariation() {
-		return $this->variation;
+		return $this->getProperty('variation');
 	}
 
 	/**
 	 * @param string $variation
 	 */
 	public function setVariation($variation) {
-		$this->variation = $variation;
+		$this->setProperty('variation', $variation);
 	}
 
 	/**
-	 * Transform the object to an array
+	 * @throws \Exception
+	 * @return File
+	 */
+	public function getOriginalResource() {
+		if (is_null($this->originalResource)) {
+			$clause = sprintf('uid IN (SELECT original_resource FROM sys_file_variants WHERE variant_resource = %s)', $this->getUid());
+			$fileData = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'sys_file', $clause);
+			if (empty($fileData)) {
+				$message = sprintf('I can not retrieve original resource from variant resource "%s"', $this->getUid());
+				throw new \Exception($message, 1390890031);
+			}
+			$this->originalResource = ResourceFactory::getInstance()->getFileObject($fileData['uid']);
+		}
+		return $this->originalResource;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\File $original
+	 */
+	public function setOriginalResource($original) {
+		$this->originalResource = $original;
+	}
+
+	/**
+	 * Get the properties related to Variant only
 	 *
 	 * @return array
 	 */
-	public function toArray() {
-		$result = array(
-			'pid' => $this->getPid(),
-			'original' => is_object($this->original) ? $this->original->getUid() : $this->original,
-			'variant' => is_object($this->variant) ? $this->variant->getUid() : $this->variant,
-			'variation' => $this->getVariation(),
+	public function getVariantProperties() {
+		return array(
+			'original_resource' => $this->getOriginalResource()->getUid(),
+			'variant_resource' => $this->getUid(),
 			'role' => $this->getRole(),
 		);
-
-		if ($this->getUid() > 0) {
-			$result['uid'] = $this->getUid();
-		}
-		return $result;
 	}
 
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
 }
+
 ?>

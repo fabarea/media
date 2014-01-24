@@ -28,14 +28,20 @@ namespace TYPO3\CMS\Media;
  ***************************************************************/
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Exception\StorageNotOnlineException;
-use TYPO3\CMS\Media\Utility\ConfigurationUtility;
+use TYPO3\CMS\Media\Domain\Model\Asset;
+use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
  * Factory class for Media objects.
  */
-class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
+class ObjectFactory implements SingletonInterface {
+
+	/**
+	 * @var array
+	 */
+	protected $assetInstances = array();
 
 	/**
 	 * Gets a singleton instance of this class.
@@ -50,50 +56,44 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Creates a media object from an array of file data. Requires a database
 	 * row to be fetched.
 	 *
-	 * @param array $fileData
+	 * @param array $assetData
 	 * @param string $objectType
-	 * @return object
+	 * @throws \RuntimeException
+	 * @return Asset
 	 */
-	public function createObject(array $fileData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset') {
-		/** @var $object \TYPO3\CMS\Core\Resource\FileInterface */
-		$object = GeneralUtility::makeInstance($objectType, $fileData);
+	public function createObject(array $assetData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset') {
 
-		if (is_numeric($fileData['storage'])) {
-			$resourceFactory = ResourceFactory::getInstance();
-			$storageObject = $resourceFactory->getStorageObject($fileData['storage']);
-			$object->setStorage($storageObject);
+		if (!isset($assetData['storage']) && $assetData['storage'] === NULL) {
+			throw new \RuntimeException('Storage identifier can not be null.', 1379947982);
 		}
-		return $object;
-	}
 
-	protected $assetInstances = array();
+		$storage = ResourceFactory::getInstance()->getStorageObject($assetData['storage']);
+		return GeneralUtility::makeInstance($objectType, $assetData, $storage);
+	}
 
 	/**
 	 * Convert a content object into an asset and keep the instance for later use.
 	 * Convenience method
 	 *
-	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
-	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
+	 * @param Content $object
+	 * @return Asset
 	 * @throws \RuntimeException
 	 */
-	public function convertContentObjectToAsset(\TYPO3\CMS\Vidi\Domain\Model\Content $object) {
+	public function convertContentObjectToAsset(Content $object) {
 
 		if (empty($this->assetInstances[$object->getUid()])) {
 
-			/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
-			$asset = GeneralUtility::makeInstance('TYPO3\CMS\Media\Domain\Model\Asset', $object->toArray());
+			$assetData = $object->toArray();
 
-			if ($object['storage'] === NULL) {
-				throw new \RuntimeException('Preview rendering fails because storage property was null.', 1379946981);
+			if (!isset($assetData['storage']) && $assetData['storage'] === NULL) {
+				throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
 			}
 
-			if (is_numeric($object['storage']['uid'])) {
-				$resourceFactory = ResourceFactory::getInstance();
-				$storageObject = $resourceFactory->getStorageObject($object['storage']['uid']);
-				$asset->setStorage($storageObject);
-			}
+			$storage = ResourceFactory::getInstance()->getStorageObject($assetData['storage']);
 
-			$this->assetInstances[$object->getUid()] = $asset;
+			/** @var Asset $asset */
+			$asset = GeneralUtility::makeInstance('TYPO3\CMS\Media\Domain\Model\Asset', $assetData, $storage);
+			$this->assetInstances[$asset->getUid()] = $asset;
 		}
 
 		return $this->assetInstances[$object->getUid()];
@@ -190,7 +190,7 @@ class ObjectFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Return a folder object containing variant files.
 	 *
 	 * @param ResourceStorage $storage
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @param Asset $asset
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
 	public function getTargetFolder($storage, $asset) {

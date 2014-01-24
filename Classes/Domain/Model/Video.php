@@ -27,6 +27,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
 /**
  * Video representation in the file abstraction layer.
  */
-class Video extends \TYPO3\CMS\Media\Domain\Model\Asset {
+class Video extends Asset {
 }
 ?>

@@ -156,7 +156,7 @@ class Query {
 	 */
 	public function renderClause() {
 
-		$clause = 'deleted = 0 AND sys_language_uid = 0';
+		$clause = '1=1';
 		if ($this->filterVariant) {
 			$clause .= ' AND is_variant = 0';
 		}

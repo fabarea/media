@@ -91,7 +91,7 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 			$_softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
 				'recuid, tablename',
 				'sys_refindex',
-				'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $variant->getVariant()->getUid()
+				'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $variant->getUid()
 			);
 
 			$softReferences = array_merge($softReferences, $_softReferences);

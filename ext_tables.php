@@ -4,13 +4,40 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-// USER TSconfig
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.vidi.enableMediaFilePicker = 1');
-
 if (TYPO3_MODE == 'BE') {
 
-	# Hide the module in the BE.
-	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.hideModules.user := addToList(MediaM1)');
+	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
+	/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
+	$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
+	$configuration = $configurationUtility->getCurrentConfiguration($_EXTKEY);
+
+	// Default User TSConfig to be added in any case.
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
+
+		# Enable or disabled the Media File Picker in the BE
+		options.vidi.enableMediaFilePicker = 1
+
+		# Hide the module in the BE.
+		options.hideModules.user := addToList(MediaM1)
+
+	');
+
+	// Possibly load additional User TSConfig.
+	if ($configuration['load_rte_configuration']['value'] == 1) {
+
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
+			RTE.default.showButtons := addToList(linkcreator,imageeditor)
+
+			// Toolbar order
+			// Must be completely reset
+			RTE.default.toolbarOrder = formatblock, blockstyle, textstyle, linebreak, bold, italic, underline, strikethrough, bar, textcolor, bgcolor, bar, orderedlist, unorderedlist, bar, left, center, right, justifyfull, copy, cut, paste, bar, undo, redo, bar, findreplace, removeformat, bar, link, unlink, linkcreator, bar, imageeditor, bar, table, bar, line, bar, insertparagraphbefore, insertparagraphafter, bar, chMode, showhelp, about, linebreak, tableproperties, rowproperties, rowinsertabove, rowinsertunder, rowdelete, rowsplit, columninsertbefore, columninsertafter, columndelete, columnsplit, cellproperties, cellinsertbefore, cellinsertafter, celldelete, cellsplit, cellmerge
+
+			RTE.default.RTEHeightOverride = 700
+			RTE.default.RTEWidthOverride = 700
+		');
+	}
 
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 		$_EXTKEY,
@@ -72,7 +99,7 @@ if (TYPO3_MODE == 'BE') {
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkCreatorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageEditorViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonFilePickerViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\ButtonEditViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonEditViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonDeleteViewHelper',
 			)
 		)
@@ -84,7 +111,6 @@ if (TYPO3_MODE == 'BE') {
 			)
 		)
 		->register();
-
 
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
 	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
@@ -127,12 +153,5 @@ $TCA['pages']['columns']['module']['config']['items'][] = array(
 	'media',
 	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
-
-// @todo remove me as of TYPO3 6.2 because sys_file is categorized by default.
-// @todo open issue on to make category 'l10n_mode' => 'exclude' forge.typo3.org/projects/typo3v4-core/issues
-
-// Remove edit wizard because it's not working with the TCA tree
-$options['fieldConfiguration']['wizards']['edit'] = '__UNSET';
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable('media', 'sys_file', 'categories', $options);
 
 ?>

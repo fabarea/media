@@ -28,7 +28,10 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsExceptio
 use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\UploadException;
 use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\ConfigurationUtility;
@@ -36,7 +39,7 @@ use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 /**
  * Controller which handles actions related to Asset.
  */
-class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class AssetController extends ActionController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
@@ -49,6 +52,12 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @inject
 	 */
 	protected $variantRepository;
+
+	/**
+	 * @var \TYPO3\CMS\Media\Service\VariantService
+	 * @inject
+	 */
+	protected $variantService;
 
 	/**
 	 * @var \TYPO3\CMS\Core\Page\PageRenderer
@@ -71,14 +80,17 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @return string
 	 */
 	public function deleteAction($asset) {
-		$assetObject = $this->assetRepository->findByUid($asset);
-		$result['status'] = $this->assetRepository->remove($assetObject);
+		$asset = $this->assetRepository->findByUid($asset);
+		$assetData = array(
+			'uid' => $asset->getUid(),
+			'title' => $asset->getTitle(),
+			'name' => $asset->getTitle(), // "name" is the label of sys_file used in the flash message.
+		);
+
+		$result['status'] = $asset->delete();
 		$result['action'] = 'delete';
 		if ($result['status']) {
-			$result['asset'] = array(
-				'uid' => $assetObject->getUid(),
-				'title' => $assetObject->getTitle(),
-			);
+			$result['object'] = $assetData;
 		}
 
 		# Json header is not automatically respected in the BE... so send one the hard way.
@@ -104,7 +116,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 				$asset = $this->assetRepository->findByIdentifier($assetIdentifier);
 
-				/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
+				/** @var Asset $asset */
 				if ($asset->getStorage()->getUid() !== $storage->getUid()) {
 
 					// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
@@ -128,6 +140,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function massDeleteAction($assets) {
 
+		$result = array();
 		foreach ($assets as $asset) {
 			$result = $this->deleteAction($asset);
 		}
@@ -146,7 +159,7 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function showAction($asset) {
 
-		/** @var $asset \TYPO3\CMS\Media\Domain\Model\Asset */
+		/** @var $asset Asset */
 		$asset = $this->assetRepository->findByUid($asset);
 
 		// Consider also adding check "$asset->checkActionPermission('read')" <- should be handled in the Grid as well
@@ -185,30 +198,31 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		}
 
 		// Get the target folder
-		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject, $storageIdentifier);
+		$targetFolder = ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject, $storageIdentifier);
 
 		try {
 			$conflictMode = 'changeName';
 			$fileName = $uploadedFileObject->getName();
-			$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
+			$newFile = $targetFolder->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
 			// Call the indexer service for updating the metadata of the file.
 			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
 			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-			$indexerService->indexFile($newFileObject, TRUE);
+			$indexerService->indexFile($newFile);
 
-			/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
-			$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
+			/** @var $asset Asset */
+			$asset = $this->assetRepository->findByUid($newFile->getUid());
 
 			$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
-			$categories = GeneralUtility::trimExplode(',', $categoryList);
+			$categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
 			foreach ($categories as $category) {
-				$assetObject->addCategory($category);
+				$asset->addCategory($category);
 			}
-			$this->createVariants($assetObject);
+
+			$this->variantService->createVariants($asset);
 
 			// Persist the asset
-			$this->assetRepository->update($assetObject);
+			$this->assetRepository->update($asset);
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
 			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
@@ -216,9 +230,9 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 			$response = array(
 				'success' => TRUE,
-				'uid' => $newFileObject->getUid(),
-				'name' => $newFileObject->getName(),
-				'thumbnail' => $assetObject->getThumbnailWrapped($thumbnailService),
+				'uid' => $newFile->getUid(),
+				'name' => $newFile->getName(),
+				'thumbnail' => $asset->getThumbnailWrapped($thumbnailService),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -227,13 +241,13 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		} catch (UploadSizeException $e) {
 			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFileObject->getName())));
 		} catch (InsufficientFolderWritePermissionsException $e) {
-			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolder->getIdentifier())));
 		} catch (IllegalFileExtensionException $e) {
-			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFileObject->getName(), $targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFileObject->getName(), $targetFolder->getIdentifier())));
 		} catch (ExistingTargetFileNameException $e) {
-			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolder->getIdentifier())));
 		} catch (\RuntimeException $e) {
-			$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolder->getIdentifier())));
 		}
 
 		// to pass data through iframe you will need to encode all html tags
@@ -256,31 +270,30 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		}
 
 		/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
-		$fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($fileIdentifier);
+		$fileObject = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 		$fileObject->getType();
 		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($fileObject, $fileObject->getStorage()->getUid());
 
 		try {
 			$conflictMode = 'replace';
 			$fileName = $fileObject->getName();
-			$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName, $conflictMode);
+			$newFile = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
 			// Call the indexer service for updating the metadata of the file.
 			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
 			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-			$indexerService->indexFile($newFileObject, TRUE);
+			$indexerService->indexFile($newFile, TRUE);
 
-			/** @var $assetObject \TYPO3\CMS\Media\Domain\Model\Asset */
-			$assetObject = $this->assetRepository->findByUid($newFileObject->getUid());
-
-			$this->updateVariants($assetObject);
+			/** @var $asset Asset */
+			$asset = $this->assetRepository->findByUid($newFile->getUid());
+			$this->updateVariants($asset);
 
 			// @todo fix me at the core level.
 			$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
-			$assetObject->updateProperties($properties);
+			$asset->updateProperties($properties);
 
 			// Persist the asset
-			$this->assetRepository->update($assetObject);
+			$this->assetRepository->update($asset);
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
 			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
@@ -288,9 +301,9 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 			$response = array(
 				'success' => TRUE,
-				'uid' => $newFileObject->getUid(),
-				'name' => $newFileObject->getName(),
-				'thumbnail' => $assetObject->getThumbnailWrapped($thumbnailService),
+				'uid' => $newFile->getUid(),
+				'name' => $newFile->getName(),
+				'thumbnail' => $asset->getThumbnailWrapped($thumbnailService),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -311,55 +324,6 @@ class AssetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		// to pass data through iframe you will need to encode all html tags
 		header("Content-Type: text/plain");
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
-	}
-
-	/**
-	 * Create variants for new uploaded file.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $assetObject
-	 * @return void
-	 */
-	protected function createVariants(\TYPO3\CMS\Media\Domain\Model\Asset $assetObject) {
-
-		$storageIdentifier = $assetObject->getStorage()->getUid();
-
-		// Check whether Variant should be automatically created upon upload.
-		$variations = \TYPO3\CMS\Media\Utility\VariantUtility::getInstance($storageIdentifier)->getVariations();
-		if (!empty($variations)) {
-
-			/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
-			$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
-
-			/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
-			foreach ($variations as $variationDimension) {
-				$configuration = array(
-					'width' => $variationDimension->getWidth(),
-					'height' => $variationDimension->getHeight(),
-				);
-				$variantService->create($assetObject, $configuration);
-			}
-		}
-	}
-
-	/**
-	 * Update variants for existing uploaded file.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return void
-	 */
-	protected function updateVariants(\TYPO3\CMS\Media\Domain\Model\Asset $asset) {
-
-		/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
-		$variantService = $this->objectManager->get('TYPO3\CMS\Media\Service\VariantService');
-		foreach ($asset->getVariants() as $variant) {
-
-			/** @var \TYPO3\CMS\Media\Dimension $variationDimension */
-			$configuration = array(
-				'width' => $variant->getVariant()->getWidth(),
-				'height' => $variant->getVariant()->getHeight(),
-			);
-			$variantService->update($asset, $variant->getVariant(), $configuration);
-		}
 	}
 
 	/**

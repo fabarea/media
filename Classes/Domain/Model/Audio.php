@@ -27,6 +27,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
 /**
  * Audio representation in the file abstraction layer.
  */
-class Audio extends \TYPO3\CMS\Media\Domain\Model\Asset {
+class Audio extends Asset {
 }
 ?>

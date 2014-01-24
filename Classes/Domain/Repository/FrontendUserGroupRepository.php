@@ -23,81 +23,115 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
- * Repository for accessing Frontend User Group
+ * Repository for accessing Frontend User Group.
  */
 class FrontendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository {
 
 	/**
-	 * Find related Frontend User Groups given a file uid.
-	 *
-	 * @param int|object $file
-	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 * @var string
 	 */
-	public function findRelated($file) {
+	protected $tableName = 'fe_groups';
 
+	/**
+	 * Find related Frontend User Groups given a File.
+	 *
+	 * @param File $file
+	 * @return ObjectStorage
+	 */
+	public function findRelated(File $file) {
 
-		// note 1: FAL is not using the persistence layer of Extbase
-		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
-		// note 2: mm query is not implemented in Extbase
-		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT * FROM fe_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_fegroups_mm WHERE uid_local = %s)";
-		$statement = sprintf($sql,
-			$this->getFileUid($file)
-		);
+		$frontendGroupList = implode(',', $this->getFrontendGroupIdentifiers($file));
 
-		return $this->createQuery()->statement($statement)->execute();
+		$clause = sprintf('uid IN (%s)', $frontendGroupList);
+		$clause .= $this->getWhereClauseForEnabledFields();
+
+		$rows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', $this->tableName, $clause);
+
+		$objectStorage = new ObjectStorage();
+		foreach ($rows as $row) {
+			/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup $frontendUserGroup */
+			$frontendUserGroup = $this->objectManager->get('TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup');
+
+			foreach ($row as $fieldName => $value) {
+				$propertyName = GeneralUtility::underscoredToLowerCamelCase($fieldName);
+				$frontendUserGroup->_setProperty($propertyName, $value);
+			}
+			$objectStorage->attach($frontendUserGroup);
+		}
+
+		return $objectStorage;
 	}
 
 	/**
 	 * Count related Frontend User Groups related to the File.
 	 *
-	 * @param int|object $file
-	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 * @param File $file
+	 * @return int
 	 */
-	public function countRelated($file) {
-
-		// note 1: FAL is not using the persistence layer of Extbase
-		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
-		// note 2: mm query is not implemented in Extbase
-		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT count(*) AS count FROM fe_groups WHERE uid IN (SELECT uid_foreign FROM sys_file_fegroups_mm WHERE uid_local = %s)";
-		$statement = sprintf($sql,
-			$this->getFileUid($file)
-		);
-
-		/** @var $databaseHandler \TYPO3\CMS\Core\Database\DatabaseConnection */
-		$databaseHandler = $GLOBALS['TYPO3_DB'];
-		$resource = $databaseHandler->sql_query($statement);
-		$record = $databaseHandler->sql_fetch_assoc($resource);
-		return $record['count'];
+	public function countRelated(File $file) {
+		return count($this->getFrontendGroupIdentifiers($file));
 	}
 
 	/**
-	 * Get the file Uid out of mixed $file variable.
+	 * Returns the Frontend Group Identifier from a given File
 	 *
-	 * @param int|object $file
-	 * @throws \Exception
-	 * @return int
+	 * @param File $file
+	 * @return array
 	 */
-	public function getFileUid($file) {
+	protected function getFrontendGroupIdentifiers(File $file) {
+		$frontendGroupCsv = $file->getProperty('fe_groups');
+		return GeneralUtility::trimExplode(',', $frontendGroupCsv, TRUE);
+	}
 
-		// Make sure we can make something out of $file
-		if (is_null($file)) {
-			throw new \Exception('NULL value for variable $file', 1367240003);
+	/**
+	 * get the WHERE clause for the enabled fields of this TCA table
+	 * depending on the context
+	 *
+	 * @return string the additional where clause, something like " AND deleted=0 AND hidden=0"
+	 */
+	protected function getWhereClauseForEnabledFields() {
+		if ($this->isFrontendMode()) {
+			// frontend context
+			$whereClause = $this->getPageRepository()->enableFields($this->tableName);
+			$whereClause .= $this->getPageRepository()->deleteClause($this->tableName);
+		} else {
+			// backend context
+			$whereClause = \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($this->tableName);
+			$whereClause .= \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause($this->tableName);
 		}
+		return $whereClause;
+	}
 
-		// Fine the file uid.
-		$fileUid = $file;
-		if (is_object($file) && method_exists($file, 'getUid')) {
-			if ($file->getUid() > 0) {
-				$fileUid = $file->getUid();
-			} else {
-				$fileUid = 0;
-			}
-		}
-		return $fileUid;
+	/**
+	 * Returns whether the current mode is Frontend
+	 *
+	 * @return string
+	 */
+	protected function isFrontendMode() {
+		return TYPO3_MODE == 'FE';
+	}
+
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * Returns an instance of the page repository.
+	 *
+	 * @return \TYPO3\CMS\Frontend\Page\PageRepository
+	 */
+	protected function getPageRepository() {
+		return $GLOBALS['TSFE']->sys_page;
 	}
 }
 ?>

@@ -12,6 +12,7 @@ $tca = array(
 				'autoSizeMax' => 30,
 				'multiple' => 0,
 				'foreign_table' => 'sys_file',
+				// @todo
 				'MM' => 'sys_file_fegroups_mm',
 				'MM_opposite_field' => 'fe_groups',
 			),

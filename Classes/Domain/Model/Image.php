@@ -27,7 +27,7 @@ namespace TYPO3\CMS\Media\Domain\Model;
 /**
  * Media representation in the file abstraction layer.
  */
-class Image extends \TYPO3\CMS\Media\Domain\Model\Asset {
+class Image extends Asset {
 
 }
 ?>

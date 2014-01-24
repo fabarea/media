@@ -20,33 +20,6 @@
 			<trans-unit id="tx_media">
 				<source>Media</source>
 			</trans-unit>
-			<trans-unit id="sys_file.keywords">
-				<source>Keywords</source>
-			</trans-unit>
-			<trans-unit id="sys_file.creation_date">
-				<source>Content creation date</source>
-			</trans-unit>
-			<trans-unit id="sys_file.modification_date">
-				<source>Content modification date</source>
-			</trans-unit>
-			<trans-unit id="sys_file.creator_tool">
-				<source>Creator tool</source>
-			</trans-unit>
-			<trans-unit id="sys_file.download_name">
-				<source>Download name</source>
-			</trans-unit>
-			<trans-unit id="sys_file.creator">
-				<source>Creator</source>
-			</trans-unit>
-			<trans-unit id="sys_file.source">
-				<source>Source</source>
-			</trans-unit>
-			<trans-unit id="sys_file.alternative">
-				<source>Alternative title</source>
-			</trans-unit>
-			<trans-unit id="sys_file.caption">
-				<source>Caption</source>
-			</trans-unit>
 			<trans-unit id="sys_file.category">
 				<source>Category</source>
 			</trans-unit>

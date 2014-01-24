@@ -23,11 +23,15 @@ namespace TYPO3\CMS\Media\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Media representation in the file abstraction layer.
  */
-class Asset extends \TYPO3\CMS\Core\Resource\File {
+class Asset extends File {
 
 	/**
 	 * Alternative title
@@ -86,7 +90,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $duration;
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $height;
 
@@ -182,17 +186,17 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $unit;
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $width;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroups[]
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup>
 	 */
 	protected $frontendUserGroups;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Domain\Model\Category[]
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
 	 */
 	protected $categories;
 
@@ -204,23 +208,9 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	protected $variants;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 * @var boolean
 	 */
-	protected $objectManager;
-
-	/**
-	 * Constructor for a Media object.
-	 *
-	 * @param array $assetData
-	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Domain\Model\Asset
-	 */
-	public function __construct(array $assetData = array(), $storage = NULL) {
-		parent::__construct($assetData, $storage);
-
-		// Not in Extbase context...
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-	}
+	protected $isVariant;
 
 	/**
 	 * Returns the alternative
@@ -808,7 +798,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 
 		if (is_null($thumbnailService)) {
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\ThumbnailService');
+			$thumbnailService = $this->getObjectManager()->get('TYPO3\CMS\Media\Service\ThumbnailService');
 		}
 
 		return $thumbnailService->setFile($this)
@@ -825,7 +815,7 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 
 		if (is_null($thumbnailService)) {
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-			$thumbnailService = $this->objectManager->get('TYPO3\CMS\Media\Service\ThumbnailService');
+			$thumbnailService = $this->getObjectManager()->get('TYPO3\CMS\Media\Service\ThumbnailService');
 		}
 
 		return $thumbnailService->setFile($this)
@@ -834,12 +824,12 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\Category[]
+	 * @return ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
 	 */
 	public function getCategories() {
 		if (is_null($this->categories)) {
 			/** @var $categoryRepository \TYPO3\CMS\Media\Domain\Repository\CategoryRepository */
-			$categoryRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\CategoryRepository');
+			$categoryRepository = $this->getObjectManager()->get('TYPO3\CMS\Media\Domain\Repository\CategoryRepository');
 			$this->categories = $categoryRepository->findRelated($this);
 		};
 		return $this->categories;
@@ -887,11 +877,11 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	 * @return \TYPO3\CMS\Media\Domain\Model\Variant[]
 	 */
 	public function getVariants() {
-		// @todo test me!
 		if (is_null($this->variants)) {
+
 			/** @var $variantRepository \TYPO3\CMS\Media\Domain\Repository\VariantRepository */
-			$variantRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\VariantRepository');
-			$this->variants = $variantRepository->findByOriginal($this->getUid());
+			$variantRepository = $this->getObjectManager()->get('TYPO3\CMS\Media\Domain\Repository\VariantRepository');
+			$this->variants = $variantRepository->findByOriginalResource($this);
 		}
 		return $this->variants;
 	}
@@ -905,22 +895,28 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Media\Domain\Model\Variant $variant
-	 * @return void
+	 * @return boolean
 	 */
-	public function addVariant($variant) {
-		// @todo persist me!
-		$this->variants[] = $variant;
+	public function getIsVariant() {
+		return $this->getProperty('is_variant');
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroups[]
+	 * @param boolean $isVariant
+	 * @return $this
+	 */
+	public function setIsVariant($isVariant) {
+		$this->setProperty('is_variant', $isVariant);
+	}
+
+	/**
+	 * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroups[]>
 	 */
 	public function getFrontendUserGroups() {
 		if (is_null($this->frontendUserGroups)) {
 
 			/** @var $frontendUserGroupRepository \TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository */
-			$frontendUserGroupRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository');
+			$frontendUserGroupRepository = $this->getObjectManager()->get('TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository');
 			$this->frontendUserGroups = $frontendUserGroupRepository->findRelated($this);
 		}
 		return $this->frontendUserGroups;
@@ -932,5 +928,13 @@ class Asset extends \TYPO3\CMS\Core\Resource\File {
 	public function setFrontendUserGroups($frontendUserGroups) {
 		$this->frontendUserGroups = $frontendUserGroups;
 	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+	 */
+	protected function getObjectManager() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+	}
+
 }
 ?>

@@ -1,0 +1,14 @@
+# This is the project specific Settings.yml file.
+# Place Sphinx specific build information here.
+# Settings given here will replace the settings of 'conf.py'.
+
+---
+conf.py:
+  copyright: 2013 to now
+  project: Media management system for TYPO3
+  version: 3.0
+  release: 3.0.0
+
+  #render README.rst, not Documentation/Index.rst
+  master_doc: README
+...

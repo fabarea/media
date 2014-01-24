@@ -23,11 +23,15 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * Repository for accessing Asset
  */
-class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
+class AssetRepository extends FileRepository {
 
 	/**
 	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
@@ -35,7 +39,7 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	protected $databaseHandle;
 
 	/**
-	 * @var \TYPO3\CMS\Media\ObjectFactory
+	 * @var ObjectFactory
 	 */
 	protected $objectFactory;
 
@@ -55,11 +59,11 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 * @var array
 	 */
 	protected $objectTypes = array(
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => 'TYPO3\CMS\Media\Domain\Model\Text',
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => 'TYPO3\CMS\Media\Domain\Model\Image',
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => 'TYPO3\CMS\Media\Domain\Model\Audio',
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => 'TYPO3\CMS\Media\Domain\Model\Video',
-		\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => 'TYPO3\CMS\Media\Domain\Model\Application',
+		File::FILETYPE_TEXT => 'TYPO3\CMS\Media\Domain\Model\Text',
+		File::FILETYPE_IMAGE => 'TYPO3\CMS\Media\Domain\Model\Image',
+		File::FILETYPE_AUDIO => 'TYPO3\CMS\Media\Domain\Model\Audio',
+		File::FILETYPE_VIDEO => 'TYPO3\CMS\Media\Domain\Model\Video',
+		File::FILETYPE_APPLICATION => 'TYPO3\CMS\Media\Domain\Model\Application',
 	);
 
 	/**
@@ -72,8 +76,8 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	 */
 	public function __construct() {
 		$this->databaseHandle = $GLOBALS['TYPO3_DB'];
-		$this->objectFactory = \TYPO3\CMS\Media\ObjectFactory::getInstance();
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->objectFactory = ObjectFactory::getInstance();
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 	/**
@@ -154,45 +158,6 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	public function countBy(\TYPO3\CMS\Media\QueryElement\Matcher $matcher) {
 		$query = $this->createQuery();
 		return $query->setMatcher($matcher)->count();
-	}
-
-	/**
-	 * Removes an object from this repository.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset The object to remove
-	 * @return boolean
-	 */
-	public function remove($asset) {
-
-		$result = FALSE;
-		if (is_object($asset) && $asset->exists()) {
-
-			// Delete variant files.
-			foreach ($asset->getVariants() as $variant) {
-
-				/** @var \TYPO3\CMS\Media\Domain\Model\Variant $variant */
-				$this->databaseHandle->exec_DELETEquery('sys_file', 'uid = ' . $variant->getVariant()->getUid());
-				$variant->getVariant()->delete();
-			}
-
-			// Delete main file.
-			$result = $this->databaseHandle->exec_DELETEquery('sys_file', 'uid = ' . $asset->getUid());
-			$asset->delete();
-
-			// Get the recycler folder. Create on if needed.
-			// @todo revamp recycler concept.
-			#$recyclerFolderName = \TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->get('recycler_folder');
-			#$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
-			#$storageObject->deleteFile($asset);
-		    #if (! $storageObject->hasFolder($recyclerFolderName)) {
-			#	$storageObject->createFolder($recyclerFolderName);
-			#}
-			#$recyclerFolder = $storageObject->getFolder($recyclerFolderName);
-
-			#// Move the asset to the recycler
-			#$asset->moveTo($recyclerFolder, $asset->getName(), 'renameNewFile');
-		}
-		return $result;
 	}
 
 	/**
@@ -327,6 +292,34 @@ class AssetRepository extends \TYPO3\CMS\Core\Resource\FileRepository {
 	protected function getFileType($objectType) {
 		$key = array_search($objectType, $this->objectTypes);
 		return $key === FALSE ? 0 : $key;
+	}
+
+	/**
+	 * Update an asset with new information
+	 * This method is tight to the BE for now
+	 * @todo write a patch to persist File relations in FAL
+	 *
+	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @return void
+	 */
+	public function update($asset) {
+
+		$this->getFileIndexRepository()->update($asset);
+		$assetData = $asset->toArray();
+		$values = array();
+
+		// Required by the Data Handler.
+		if (is_array($assetData['categories'])) {
+			$values['categories'] = implode(',', $assetData['categories']);
+
+			$metadataProperties = $asset->_getMetaData();
+			$data['sys_file_metadata'][$metadataProperties['uid']] = $values;
+
+			/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
+			$tce = $this->objectManager->get('TYPO3\CMS\Core\DataHandling\DataHandler');
+			$tce->start($data, array());
+			$tce->process_datamap();
+		}
 	}
 }
 

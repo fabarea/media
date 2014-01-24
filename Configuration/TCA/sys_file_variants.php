@@ -5,7 +5,7 @@ return array (
 	'ctrl' => array(
 		'title' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variants',
 		'label' => 'role',
-		'label_alt' => 'original',
+		'label_alt' => 'original_resource',
 		'label_alt_force' => 'true',
 		'hideTable' => TRUE,
 		'security' => array(
@@ -16,9 +16,6 @@ return array (
 		'typeicon_classes' => array(
 			'default' => 'extensions-media-variant',
 		),
-	),
-	'interface' => array (
-		'showRecordFieldList' => 'role,original,variant'
 	),
 	'columns' => array (
 		'role' => array (
@@ -39,9 +36,9 @@ return array (
 				'maxitems' => 1
 			)
 		),
-		'original' => array (
+		'original_resource' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.original',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.original_resource',
 			'config' => array (
 				'type' => 'select',
 				'foreign_table' => 'sys_file',
@@ -50,9 +47,9 @@ return array (
 				'maxitems' => 1,
 			)
 		),
-		'variant' => array (
+		'variant_resource' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.variant',
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_variant.variant_resource',
 			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -64,10 +61,10 @@ return array (
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'original,--palette--;;1'),
+		'0' => array('showitem' => 'original_resource,--palette--;;1'),
 	),
 	'palettes' => array (
-		'1' => array('showitem' => 'role,variant', 'canNotCollapse' => 1),
+		'1' => array('showitem' => 'role,variant_resource', 'canNotCollapse' => 1),
 	)
 );
 ?>

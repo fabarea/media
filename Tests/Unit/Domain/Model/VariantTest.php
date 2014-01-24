@@ -24,16 +24,15 @@ namespace TYPO3\CMS\Media\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Media\Domain\VariantTestAbstract;
+
+require_once(PATH_site . 'typo3conf/ext/media/Tests/Unit/Domain/VariantTestAbstract.php');
 
 /**
  * Test case for class \TYPO3\CMS\Media\Domain\Model\Variant.
  */
-class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
-
-	/**
-	 * @var \Tx_Phpunit_Framework
-	 */
-	private $testingFramework;
+class VariantTest extends VariantTestAbstract {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Model\Variant
@@ -41,52 +40,58 @@ class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	private $fixture;
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	private $fakeOriginalUid = 0;
+	private $className = 'TYPO3\CMS\Media\Domain\Model\Variant';
 
 	/**
-	 * @var int
+	 * @var ResourceStorage
 	 */
-	private $fakeVariantUid = 0;
+	protected $storageMock;
 
 	public function setUp() {
 		$this->testingFramework = new \Tx_Phpunit_Framework('sys_file');
-		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Variant();
+
+		$this->storageMock = $this->getMock('TYPO3\CMS\Core\Resource\ResourceStorage', array(), array(), '', FALSE);
+		$this->storageMock->expects($this->any())->method('getUid')->will($this->returnValue(5));
 
 		// Populate the database with records
 		$this->populateFileTable();
+		$this->populateVariantTable();
+
+		$this->fixture = new \TYPO3\CMS\Media\Domain\Model\Variant(array('uid' => $this->fakeVariantResourceUid), $this->storageMock);
+		$this->fixture->setIndexable(FALSE);
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		$this->testingFramework->cleanUp();
+		unset($this->fixture, $this->testingFramework, $this->storageMock);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getOriginalMethodReturnFileObject() {
-		$dataSet = array('original' => $this->fakeOriginalUid);
-		$fixture = new \TYPO3\CMS\Media\Domain\Model\Variant($dataSet);
-		$this->assertInstanceOf('\TYPO3\CMS\Media\Domain\Model\Asset', $fixture->getOriginal());
+	public function canInstantiateVariant() {
+		$fixture = new \TYPO3\CMS\Media\Domain\Model\Variant(array('fakeVariant'), $this->storageMock);
+		$fixture->setIndexable(FALSE);
+		$this->assertInstanceOf($this->className, $fixture);
+	}
+
+	/**
+	 * @test
+	 * @expectedException \Exception
+	 */
+	public function variantResourceWithoutOriginalResourceRaisesException() {
+		$fixture = new \TYPO3\CMS\Media\Domain\Model\Variant(array('uid' => -1), $this->storageMock);
+		$fixture->setIndexable(FALSE);
+		$this->assertSame($this->fakeOriginalResourceUid, (int) $fixture->getOriginalResource()->getUid());
 	}
 
 	/**
 	 * @test
 	 */
-	public function getVariantMethodReturnsAssetObject() {
-		$dataSet = array('variant' => $this->fakeVariantUid);
-		$fixture = new \TYPO3\CMS\Media\Domain\Model\Variant($dataSet);
-		$this->assertInstanceOf('\TYPO3\CMS\Media\Domain\Model\Asset', $fixture->getVariant());
-	}
-
-	/**
-	 * @test
-	 */
-	public function createAVariantObjectAndCallToArrayMethodWhichShouldHaveAssociatedKeys() {
-		foreach (array('pid', 'original', 'variant', 'variation') as $key) {
-			$this->assertArrayHasKey($key, $this->fixture->toArray());
-		}
+	public function canGetOriginalResource() {
+		$this->assertSame($this->fakeOriginalResourceUid, (int)$this->fixture->getOriginalResource()->getUid());
 	}
 
 	/**
@@ -105,51 +110,8 @@ class VariantTest extends \TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase {
 	 */
 	public function propertyProvider() {
 		return array(
-			array('uid', rand(1, 10)),
-			array('pid', rand(1, 10)),
-			array('variation', uniqid()),
-		);
-	}
-
-	/**
-	 * Populate DB with default records for sys_file
-	 */
-	private function populateFileTable() {
-
-		$this->markTestIncomplete('Fix test by mocking storage');
-		$storageObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage(1);
-
-		$uids = array();
-		for ($index = 0; $index < 2; $index++) {
-			$this->lastInsertedIdentifier = uniqid();
-			$uids[] = $this->testingFramework->createRecord(
-				'sys_file',
-				array(
-					'identifier' => $this->lastInsertedIdentifier,
-					'type' => $this->fakeFileType,
-					'title' => $this->fakeTitle,
-					'storage' => $storageObject->getUid(),
-					'pid' => 0,
-				)
-			);
-		}
-		$this->fakeOriginalUid = $uids[0];
-		$this->fakeVariantUid = $uids[1];
-	}
-
-	/**
-	 * Populate DB with default records for sys_file_records
-	 */
-	private function populateVariantTable() {
-		$this->lastInsertedUid = $this->testingFramework->createRecord(
-			'sys_file_variants',
-			array(
-				'pid' => 0,
-				'role' => uniqid(),
-				'original' => $this->fakeOriginalUid,
-				'variant' => $this->fakeVariantUid,
-				'variation' => uniqid(),
-			)
+			array('variation', 'fake-variation-value'),
+			array('role', 1),
 		);
 	}
 }

@@ -23,6 +23,9 @@ namespace TYPO3\CMS\Media\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Repository for accessing categories
@@ -30,73 +33,98 @@ namespace TYPO3\CMS\Media\Domain\Repository;
 class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository {
 
 	/**
-	 * Find related categories given a file uid
-	 *
-	 * @param int|object $file
-	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 * @var string
 	 */
-	public function findRelated($file) {
+	protected $tableName = 'sys_category';
 
-		// note 1: FAL is not using the persistence layer of Extbase
-		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
-		// note 2: mm query is not implemented in Extbase
-		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT * FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = 'sys_file')";
-		$statement = sprintf($sql,
-			$this->getFileUid($file)
-		);
+	/**
+	 * Find related categories given a file uid.
+	 *
+	 * note 1: FAL is not using the persistence layer of Extbase
+	 * => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
+	 *
+	 * note 2: mm query is not implemented in Extbase
+	 * => not possible $query = $this->createQuery();
+	 *
+	 * @param File $file
+	 * @return ObjectStorage
+	 */
+	public function findRelated(File $file) {
+		$metadataProperties = $file->_getMetaData();
+		$clause = sprintf('uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = "sys_file_metadata")', $metadataProperties['uid']);
+		$clause .= $this->getWhereClauseForEnabledFields();
 
-		return $this->createQuery()->statement($statement)->execute();
+		$rows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', $this->tableName, $clause);
+
+		$objectStorage = new ObjectStorage();
+		foreach ($rows as $row) {
+			/** @var \TYPO3\CMS\Extbase\Domain\Model\Category $category */
+			$category = $this->objectManager->get('TYPO3\CMS\Extbase\Domain\Model\Category');
+
+			foreach ($row as $fieldName => $value) {
+				$propertyName = GeneralUtility::underscoredToLowerCamelCase($fieldName);
+				$category->_setProperty($propertyName, $value);
+			}
+			$objectStorage->attach($category);
+		}
+
+		return $objectStorage;
 	}
 
 	/**
-	 * Count related categories given a file uid.
+	 * Count related categories given a File.
 	 *
-	 * @param int|object $file
-	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
-	 */
-	public function countRelated($file) {
-
-		// note 1: FAL is not using the persistence layer of Extbase
-		//         => annotation not possible @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
-		// note 2: mm query is not implemented in Extbase
-		//         => not possible $query = $this->createQuery();
-		$sql = "SELECT count(*) AS count FROM sys_category AS category WHERE uid IN (SELECT uid_local FROM sys_category_record_mm WHERE uid_foreign = %s and tablenames = 'sys_file')";
-		$statement = sprintf($sql,
-			$this->getFileUid($file)
-		);
-
-		/** @var $databaseHandler \TYPO3\CMS\Core\Database\DatabaseConnection */
-		$databaseHandler = $GLOBALS['TYPO3_DB'];
-		$resource = $databaseHandler->sql_query($statement);
-		$record = $databaseHandler->sql_fetch_assoc($resource);
-		return $record['count'];
-	}
-
-	/**
-	 * Get the file Uid out of mixed $file variable.
-	 *
-	 * @param int|object $file
-	 * @throws \Exception
+	 * @param File $file
 	 * @return int
 	 */
-	public function getFileUid($file) {
+	public function countRelated(File $file) {
+		return $file->getProperty('categories');
+	}
 
-		// Make sure we can make something out of $file
-		if (is_null($file)) {
-			throw new \Exception('NULL value for variable $file', 1367240005);
+	/**
+	 * get the WHERE clause for the enabled fields of this TCA table
+	 * depending on the context
+	 *
+	 * @return string the additional where clause, something like " AND deleted=0 AND hidden=0"
+	 */
+	protected function getWhereClauseForEnabledFields() {
+		if ($this->isFrontendMode()) {
+			// frontend context
+			$whereClause = $this->getPageRepository()->enableFields($this->tableName);
+			$whereClause .= $this->getPageRepository()->deleteClause($this->tableName);
+		} else {
+			// backend context
+			$whereClause = \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($this->tableName);
+			$whereClause .= \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause($this->tableName);
 		}
+		return $whereClause;
+	}
 
-		// Fine the file uid.
-		$fileUid = $file;
-		if (is_object($file) && method_exists($file, 'getUid')) {
-			if ($file->getUid() > 0) {
-				$fileUid = $file->getUid();
-			} else {
-				$fileUid = 0;
-			}
-		}
-		return $fileUid;
+	/**
+	 * Returns whether the current mode is Frontend
+	 *
+	 * @return string
+	 */
+	protected function isFrontendMode() {
+		return TYPO3_MODE == 'FE';
+	}
+
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * Returns an instance of the page repository.
+	 *
+	 * @return \TYPO3\CMS\Frontend\Page\PageRepository
+	 */
+	protected function getPageRepository() {
+		return $GLOBALS['TSFE']->sys_page;
 	}
 }
 ?>
