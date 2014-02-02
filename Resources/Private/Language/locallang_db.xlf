@@ -70,7 +70,7 @@
 				<source>Default mount point for "document" files, example: pdf, doc, ...</source>
 			</trans-unit>
 			<trans-unit id="sys_file_storage.maximum_dimension_original_image">
-				<source>Maximum dimension of original image (will be re-sized if bigger)</source>
+				<source>Maximum dimension of original image (will be resized if bigger)</source>
 			</trans-unit>
 
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_1">

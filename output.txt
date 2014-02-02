@@ -1,6 +1,0 @@
-BEGIN;
-
-mv /var/git/repositories/TYPO3v4/Backports.git /var/git/repositories/TYPO3CMS/Backports.git
-
-mv /var/git/repositories/TYPO3v4/Incubator.git /var/git/repositories/TYPO3CMS/Incubator.git
-COMMIT;

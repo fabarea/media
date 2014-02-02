@@ -16,7 +16,7 @@ The basic idea of FAL is that every file has an entry in the database to leverag
 * Integration with the text editor (RTE)
 * ...
 
-.. image:: https://raw.github.com/TYPO3-extensions/vidi/master/Documentation/Manual-01.png
+.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-01.png
 
 Project info and releases
 =============================
@@ -35,7 +35,7 @@ https://git.typo3.org/TYPO3CMS/Extensions/media.git
 
 
 Github mirror:
-https://github.com/TYPO3-extensions/vidi
+https://github.com/TYPO3-extensions/media
 
 Live website with pre-configured extension:
 http://get.typo3.org/bootstrap
@@ -46,16 +46,30 @@ http://twitter.com/fudriot
 Installation
 ============
 
-Download the source code either from the `Git repository`_ to get the latest branch or from the TER for the stable releases. Install the extension as normal in the Extension Manager.
+Download the source code either from the `Git repository`_ to get the dev version or from the TER for the stable releases. Install the extension as normal in the Extension Manager.
 
 .. _Git repository: https://git.typo3.org/TYPO3CMS/Extensions/media.git
 
 Configuration
 =============
 
-Configuration is mainly provided in the Extension Manager and is pretty much self-explanatory. Check possible options there.
+Some settings, such as default categories applied upon upload, are global and can be activated in the settings of Media in the Extension Manager.
 
-* In the the Variant tab, you can configure possible mount points per file type. A mount point can be considered as a sub folder within the storage where the files are going to be stored. This is useful if one wants the file to be stored elsewhere than at the root of the storage.
+Besides, since Media is multi-storage capable, many settings are to be configured per storage. Make sure it is correctly set.
+This is not a problem for new storage record since default values will be inserted.
+However, this will be a problem for existing storage if created before Media is installed.
+
+Edit a storage:
+
+.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-02.png
+
+Apply different settings upon upload:
+
+.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-03.png
+
+Configured target folder for each file type:
+
+ .. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-04.png
 
 User TSConfig
 -------------
@@ -74,17 +88,16 @@ Please note that PHP setups with the suhosin patch installed will have a default
 	suhosin.get.max_vars = 140
 
 
-
 Thumbnail API
 =============
 
-The thumbnail API is meant for generating out of an asset a preview, regardless of its type. The entry point of the API is the
-Thumbnail service class which then delegates the rendering of the thumbnail to the right sub service according to the asset
-type. A strategy pattern is used to determine which sub service fits the best . In case no one is found,
-a fallback thumbnail generator is used. For now, asset of type "image" and "application" are implemented. Video
-and audio thumbnail service would still be on the todo list...
+The thumbnail API is meant to render a preview of a file independently of its type. The entry point of the API is the
+Thumbnail service class which delegates the rendering of the thumbnail to the right sub-service according to the file
+type. A strategy pattern is used to determine which service fits the best. In case no appropriate service is found,
+a fallback thumbnail service is called. For now, only thumbnail services for file type "image" and "application" are implemented. Video
+and audio thumbnail service are still on the todo list.
 
-As a first place, a thumbnail can be generated from the Asset object, like::
+A thumbnail can be generated from the Asset object as a first place, like::
 
 	# Get a thumbnail of the file.
 	{asset.thumbnail}
@@ -187,10 +200,10 @@ On the server side, there is an API for file upload which handles transparently 
 Image Optimizer API
 ===================
 
-When a image get uploaded, there is a post-processing step where the image get the chance to be "optimized".
-By default there are two out-of-the-box optimizations: **resize** and **rotate**. The ``resize`` processing enables
-to reduce the size of an image if a User uploads a too big image. The maximum size can be configured in the Extension Manager.
-The ``rotate`` optimizer read the `exif`_ metadata and automatically rotates the image. For the auto-rotation features, credits go to
+When a image is uploaded, there is a post-processing step where the image can be optimized to suit in the storage.
+By default there are two pre-configured "optimizations": **resize** and **rotate**. The **resize** processing will
+reduce the size of an image in case this one exceeds a certain dimension. The maximum dimension allowed is to be configured per storage.
+The **rotate** optimizer read the `exif`_ metadata and automatically rotates the image. For the auto-rotation features, credits go to
 Xavier Perseguers where great inspiration was found in one of his `extension`_.
 
 If needed, it is possible to add additional custom optimizers. Notice that the class must implement an interface ``\TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface`` and can be added with following code::
@@ -242,7 +255,7 @@ Retrieving all Variants of an original file using the Variant Repository::
 Permission Management
 =====================
 
-Permissions management is about controlling accessibility of assets. Permissions can be defined on each file under tab "Access" where to connect
+Permissions management is about controlling accessibility of files. Permissions can be defined on each file under tab "Access" where to connect
 an Asset to a Frontend group.
 
 * Frontend: Media **delegates file permission to third party extensions**. Media provides integration with extension naw_securedl_. The Hook is enabled by default in ``ext_localconf.php``. Once the extension is installed all URL pointing to a file will be rewritten.
@@ -253,7 +266,7 @@ an Asset to a Frontend group.
 RTE integration
 ===============
 
-The extension is shipping two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module.
+The extension ships two buttons that can be added into the RTE for (1) linking a document and (2) inserting images from the Media module.
 The button name references are ``linkcreator`` and ``imageeditor`` respectively which can be added by TypoScript in Page / User TSConfig with the following line::
 
 
@@ -278,13 +291,9 @@ Refer to the `documentation`_ of extension HtmlArea for more details.
 
 .. _documentation: http://docs.typo3.org/typo3cms/extensions/rtehtmlarea/Configuration/PageTsconfig/interfaceConfiguration/Index.html
 
-Media View Helpers
-==================
 
-Media ships a few View Helpers that are described below and can be considered part as the API.
-
-Metadata
---------
+Metadata View Helpers
+=====================
 
 A metadata VH is available for displaying in a flexible way meta information of a file such as width, height, size, ...
 
@@ -331,7 +340,9 @@ A metadata VH is available for displaying in a flexible way meta information of 
 How to customize the Grid in Media module
 =========================================
 
-The grid is powered by extension "Vidi". Refer to the Vidi documentation for more insight.
+The grid is powered by `Vidi`_. Refer to the Vidi documentation for more insight.
 https://github.com/TYPO3-Extensions/vidi#grid-tca
+
+.. _Vidi: https://forge.typo3.org/projects/extension-vidi
 
 
