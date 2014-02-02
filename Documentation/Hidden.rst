@@ -1,4 +1,4 @@
-Hidden documentation because it is now working 100% after 6.2 migration
+Hidden documentation because it will not be working 100% following 6.2 migration.
 
 Domain Model and Repository
 ===========================
@@ -95,6 +95,50 @@ There are basically two commands that are explained below::
 	# Detect whether a file is existing in the database but missing in the storage.
 	# The tool can also detect duplicate file objects from the database::
 	./typo3/cli_dispatch.phpsh extbase media:checkIndex
+
+
+Metadata View Helper
+====================
+
+A metadata VH is available for displaying in a flexible way meta information of a file such as width, height, size, ...
+
+::
+
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+	<m:metadata object="{asset}" format="%s x %s" properties="{width, height}" />
+
+	# Will output: <div class="metadata">300 x 200</div>
+
+	<m:metadata object="{asset}" format="%s K" properties="{size}" />
+
+	# Will output: <div class="metadata">500 K</div>
+
+	# With all options
+	<m:metadata object="{asset}" format="%s K" properties="{size}" template="<div class='metadata'>%s</div>"
+		configuration="{sizeUnit: 1000}"/>
+
+	# Required attributes:
+	# --------------------
+	#
+	# object, format, properties
+
+	# Default values:
+	# ---------------
+	#
+	# The object used as reference
+	# object = NULL
+	#
+	# The format which should contain the placeholder "%s"
+	# format = NULL
+	#
+	# What properties of object, must corresponds to the number of placeholder in the format
+	# properties = array()
+	#
+	# The template used agains the formatting
+	# template = NULL
+	#
+	# Possible configuration used internally
+	# configuration = array()
 
 
 Carousel Widget
