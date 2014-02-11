@@ -60,7 +60,7 @@ Edit the settings of a Storage:
 
 .. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-02.png
 
-Apply different settings upon upload:
+Apply different upload settings:
 
 .. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-03.png
 
