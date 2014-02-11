@@ -41,7 +41,7 @@ class MenuItemFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
 			$result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
 				$this->renderMassDeleteUri(),
-				IconUtility::getSpriteIcon('actions-edit-add')
+				IconUtility::getSpriteIcon('extensions-media-image-export')
 			);
 		}
 		return $result;

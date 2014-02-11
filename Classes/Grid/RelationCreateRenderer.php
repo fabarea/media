@@ -52,7 +52,7 @@ class RelationCreateRenderer extends GridRendererAbstract {
 			$dataType,
 			$this->getFieldName(),
 			$foreignTable,
-			IconUtility::getSpriteIcon('actions-document-new')
+			IconUtility::getSpriteIcon('actions-edit-add')
 		);
 
 		return $result;

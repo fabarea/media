@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 ***************************************************************/
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Media\ObjectFactory;
@@ -44,9 +45,10 @@ class ButtonEditViewHelper extends AbstractViewHelper {
 		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($object);
 		$metadataProperties = $asset->_getMetaData();
 
-		return sprintf('<a href="%s" data-uid="%s" class="btn-edit">%s</a>',
+		return sprintf('<a href="%s" data-uid="%s" class="btn-edit" title="%s">%s</a>',
 			$this->getUri($asset),
 			$metadataProperties['uid'],
+			LocalizationUtility::translate('edit_metadata', 'media'),
 			IconUtility::getSpriteIcon('actions-document-open')
 		);
 	}

@@ -128,6 +128,18 @@
 			<trans-unit id="insert_image">
 				<source>Insert image</source>
 			</trans-unit>
+			<trans-unit id="insert_images">
+				<source>Insert images</source>
+			</trans-unit>
+			<trans-unit id="edit_image">
+				<source>Edit image</source>
+			</trans-unit>
+			<trans-unit id="edit_metadata">
+				<source>Edit metadata</source>
+			</trans-unit>
+			<trans-unit id="create_link">
+				<source>Create link</source>
+			</trans-unit>
 			<trans-unit id="update_image">
 				<source>Update image</source>
 			</trans-unit>

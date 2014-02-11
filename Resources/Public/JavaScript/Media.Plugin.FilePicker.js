@@ -12,7 +12,7 @@
 		 */
 		$(document).on('click', '.dataTable tbody .btn-filePicker', function (e) {
 			var identifier = $(this).data('uid');
-			var closeWindow = false;
+			var closeWindow = true;
 			importElement(identifier, closeWindow);
 			e.preventDefault();
 		});

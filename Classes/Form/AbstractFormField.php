@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * A class to render a field.
@@ -91,7 +92,7 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 			$template = '<label class="control-label" for="%s">%s</label>';
 
 			if (strpos($this->label, 'LLL:') === 0) {
-				$this->label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($this->label, '');
+				$this->label = LocalizationUtility::translate($this->label, '');
 			}
 
 			$result = sprintf($template,
