@@ -51,4 +51,3 @@ class PaletteService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 		// @todo
 	}
 }
-?>

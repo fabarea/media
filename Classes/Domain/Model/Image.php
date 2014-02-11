@@ -30,4 +30,3 @@ namespace TYPO3\CMS\Media\Domain\Model;
 class Image extends Asset {
 
 }
-?>

@@ -217,5 +217,3 @@ class UsageRenderer extends GridRendererAbstract {
 		return '<span style="text-decoration: underline; ">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
 	}
 }
-
-?>

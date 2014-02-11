@@ -147,5 +147,3 @@ class Variant extends Asset {
 		return $GLOBALS['TYPO3_DB'];
 	}
 }
-
-?>

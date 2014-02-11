@@ -57,5 +57,3 @@ class ButtonImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 		return $result;
 	}
 }
-
-?>

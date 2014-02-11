@@ -39,4 +39,3 @@ class FallBackThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 		);
 	}
 }
-?>

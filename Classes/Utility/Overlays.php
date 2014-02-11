@@ -723,5 +723,3 @@ final class Overlays {
 		return $overlaidRecord;
 	}
 }
-
-?>

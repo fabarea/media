@@ -140,5 +140,3 @@ class Matcher {
 		$this->defaultLogicalOperator = $defaultLogicalOperator;
 	}
 }
-
-?>

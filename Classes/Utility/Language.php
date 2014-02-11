@@ -87,4 +87,3 @@ class Language implements \TYPO3\CMS\Core\SingletonInterface {
 		return $this->languageUids;
 	}
 }
-?>

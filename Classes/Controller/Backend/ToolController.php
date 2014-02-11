@@ -117,4 +117,3 @@ class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		return $GLOBALS['TYPO3_DB'];
 	}
 }
-?>

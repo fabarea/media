@@ -83,4 +83,3 @@ class ApplicationRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepo
 		return parent::__call($methodName, $arguments);
 	}
 }
-?>

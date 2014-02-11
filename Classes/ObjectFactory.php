@@ -250,6 +250,3 @@ class ObjectFactory implements SingletonInterface {
 		return $GLOBALS['TYPO3_DB'];
 	}
 }
-
-
-?>

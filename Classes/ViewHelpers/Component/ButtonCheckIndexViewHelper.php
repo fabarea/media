@@ -62,5 +62,3 @@ class ButtonCheckIndexViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 		return $GLOBALS['BE_USER'];
 	}
 }
-
-?>

@@ -66,6 +66,3 @@ class Dimension {
 		return $this->height;
 	}
 }
-
-
-?>

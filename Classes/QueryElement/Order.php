@@ -68,5 +68,3 @@ class Order  {
 		return $this->orderings;
 	}
 }
-
-?>

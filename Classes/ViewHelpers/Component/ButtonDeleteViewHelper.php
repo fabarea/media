@@ -126,5 +126,3 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 		return $GLOBALS['TYPO3_DB'];
 	}
 }
-
-?>

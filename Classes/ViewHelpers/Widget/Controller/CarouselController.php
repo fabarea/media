@@ -118,5 +118,3 @@ class CarouselController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetCont
 		$this->view->assign('viewId', uniqid());
 	}
 }
-
-?>

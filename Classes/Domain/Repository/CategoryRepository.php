@@ -127,4 +127,3 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
 		return $GLOBALS['TSFE']->sys_page;
 	}
 }
-?>

@@ -161,5 +161,3 @@ class VariantRepository extends AssetRepository {
 		return $GLOBALS['TYPO3_DB'];
 	}
 }
-
-?>

@@ -43,4 +43,3 @@ class TcaTable {
 		return \TYPO3\CMS\Media\Tca\ServiceFactory::getTableService('sys_file');
 	}
 }
-?>

@@ -104,5 +104,3 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		return $result;
 	}
 }
-
-?>

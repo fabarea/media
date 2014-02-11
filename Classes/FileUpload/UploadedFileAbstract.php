@@ -160,4 +160,3 @@ abstract class UploadedFileAbstract implements UploadedFileInterface {
 	}
 
 }
-?>

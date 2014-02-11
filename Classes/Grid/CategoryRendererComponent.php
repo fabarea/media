@@ -37,5 +37,3 @@ class CategoryRendererComponent extends GenericRendererComponent {
 		parent::__construct($className, array());
 	}
 }
-
-?>

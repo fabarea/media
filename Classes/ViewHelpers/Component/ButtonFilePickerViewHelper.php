@@ -57,5 +57,3 @@ class ButtonFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 		return $result;
 	}
 }
-
-?>

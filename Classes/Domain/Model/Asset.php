@@ -937,4 +937,3 @@ class Asset extends File {
 	}
 
 }
-?>

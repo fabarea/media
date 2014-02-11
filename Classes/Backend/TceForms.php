@@ -71,5 +71,3 @@ class TceForms {
 		return $viewHelper->render();
 	}
 }
-
-?>

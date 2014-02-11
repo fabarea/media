@@ -52,4 +52,3 @@ class FrontendPermissionRenderer extends GridRendererAbstract {
 		return $result;
 	}
 }
-?>

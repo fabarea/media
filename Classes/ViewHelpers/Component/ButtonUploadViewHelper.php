@@ -64,5 +64,3 @@ EOF;
 		return $fileUpload->render();
 	}
 }
-
-?>

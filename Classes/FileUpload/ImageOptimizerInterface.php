@@ -37,4 +37,3 @@ interface ImageOptimizerInterface {
 	 */
 	public function optimize($uploadedFile);
 }
-?>

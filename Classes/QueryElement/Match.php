@@ -30,5 +30,3 @@ namespace TYPO3\CMS\Media\QueryElement;
  */
 class Match extends Matcher {
 }
-
-?>

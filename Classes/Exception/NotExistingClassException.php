@@ -30,5 +30,3 @@ namespace TYPO3\CMS\Media\Exception;
 class NotExistingClassException extends \Exception {
 
 }
-
-?>

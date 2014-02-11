@@ -293,4 +293,3 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 		return $this;
 	}
 }
-?>

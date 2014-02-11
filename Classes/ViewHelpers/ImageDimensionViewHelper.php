@@ -44,5 +44,3 @@ class ImageDimensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 		return $result;
 	}
 }
-
-?>

@@ -43,4 +43,3 @@ class TcaGrid {
 		return \TYPO3\CMS\Media\Tca\ServiceFactory::getGridService('sys_file');
 	}
 }
-?>

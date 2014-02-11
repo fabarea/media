@@ -29,4 +29,3 @@ namespace TYPO3\CMS\Media\Domain\Model;
  */
 class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category {
 }
-?>

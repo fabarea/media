@@ -39,5 +39,3 @@ class SpriteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 	}
 
 }
-
-?>

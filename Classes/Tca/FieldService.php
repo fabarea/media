@@ -235,4 +235,3 @@ class FieldService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 		return $this->hasRelation($fieldName) && isset($configuration['MM']);
 	}
 }
-?>

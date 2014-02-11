@@ -61,4 +61,3 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 		return $this->fileObject->getExtension();
 	}
 }
-?>

@@ -140,5 +140,3 @@ class TcaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		return $prefix;
 	}
 }
-
-?>

@@ -136,4 +136,3 @@ class VariantController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
 	}
 }
-?>

@@ -29,4 +29,3 @@ namespace TYPO3\CMS\Media\Domain\Model;
  */
 class Application extends Asset {
 }
-?>

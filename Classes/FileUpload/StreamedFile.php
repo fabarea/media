@@ -119,5 +119,3 @@ class StreamedFile extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 		return FALSE;
 	}
 }
-
-?>

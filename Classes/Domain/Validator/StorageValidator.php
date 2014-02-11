@@ -51,5 +51,3 @@ class StorageValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractV
 		}
 	}
 }
-
-?>

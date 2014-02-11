@@ -133,4 +133,3 @@ class Resize implements ImageOptimizerInterface {
 		return $escapedInputName;
 	}
 }
-?>

@@ -104,5 +104,3 @@ class ImageOptimizer implements SingletonInterface {
 		return $uploadedFile;
 	}
 }
-
-?>

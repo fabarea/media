@@ -43,4 +43,3 @@ class Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		return $loggerManager->getLogger(get_class($instance));
 	}
 }
-?>

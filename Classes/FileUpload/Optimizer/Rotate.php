@@ -171,4 +171,3 @@ class Rotate implements ImageOptimizerInterface {
 	}
 
 }
-?>

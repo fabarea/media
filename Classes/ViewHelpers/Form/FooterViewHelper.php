@@ -102,5 +102,3 @@ class FooterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 		return $result;
 	}
 }
-
-?>

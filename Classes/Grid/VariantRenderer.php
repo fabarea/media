@@ -120,4 +120,3 @@ class VariantRenderer extends GridRendererAbstract {
 
 
 }
-?>

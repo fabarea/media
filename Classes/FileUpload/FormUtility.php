@@ -75,4 +75,3 @@ class FormUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 }
-?>

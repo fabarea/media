@@ -83,4 +83,3 @@ class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 }
-?>

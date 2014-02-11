@@ -65,5 +65,3 @@ class ButtonEditViewHelper extends AbstractViewHelper {
 		);
 	}
 }
-
-?>

@@ -80,4 +80,3 @@ class DomElement implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 }
-?>

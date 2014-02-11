@@ -172,4 +172,3 @@ interface ThumbnailInterface {
 	 */
 	public function setAppendTimeStamp($appendTimeStamp);
 }
-?>

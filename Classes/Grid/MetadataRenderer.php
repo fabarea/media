@@ -89,4 +89,3 @@ class MetadataRenderer extends GridRendererAbstract {
 		return $result;
 	}
 }
-?>

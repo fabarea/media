@@ -431,4 +431,3 @@ class ThumbnailService implements ThumbnailInterface {
 		return $this;
 	}
 }
-?>

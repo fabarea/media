@@ -132,4 +132,3 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 		);
 	}
 }
-?>

@@ -113,4 +113,3 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface {
 		return (int) $this->store[$this->currentPreset]['height'];
 	}
 }
-?>

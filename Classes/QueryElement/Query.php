@@ -497,5 +497,3 @@ EOF;
 		return $this;
 	}
 }
-
-?>

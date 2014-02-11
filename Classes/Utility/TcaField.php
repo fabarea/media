@@ -43,4 +43,3 @@ class TcaField {
 		return \TYPO3\CMS\Media\Tca\ServiceFactory::getFieldService('sys_file');
 	}
 }
-?>

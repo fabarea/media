@@ -68,4 +68,3 @@ class LinkCreatorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->view->assign('asset', $assetObject);
 	}
 }
-?>

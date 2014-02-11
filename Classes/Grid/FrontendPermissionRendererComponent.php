@@ -37,5 +37,3 @@ class FrontendPermissionRendererComponent extends GenericRendererComponent {
 		parent::__construct($className, array());
 	}
 }
-
-?>

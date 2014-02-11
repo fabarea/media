@@ -29,4 +29,3 @@ namespace TYPO3\CMS\Media\Domain\Model;
  */
 class Video extends Asset {
 }
-?>

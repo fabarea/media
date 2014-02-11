@@ -134,4 +134,3 @@ class FrontendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\F
 		return $GLOBALS['TSFE']->sys_page;
 	}
 }
-?>

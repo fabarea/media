@@ -72,4 +72,3 @@ class MultipartedFile extends UploadedFileAbstract {
 		return $_FILES[$this->inputName]['type'];
 	}
 }
-?>

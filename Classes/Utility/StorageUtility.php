@@ -89,4 +89,3 @@ class StorageUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 }
-?>

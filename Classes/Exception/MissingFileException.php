@@ -30,5 +30,3 @@ namespace TYPO3\CMS\Media\Exception;
 class MissingFileException extends \Exception {
 
 }
-
-?>

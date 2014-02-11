@@ -57,5 +57,3 @@ class MenuItemChangeStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 		);
 	}
 }
-
-?>

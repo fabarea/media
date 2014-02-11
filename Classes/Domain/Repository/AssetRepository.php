@@ -322,5 +322,3 @@ class AssetRepository extends FileRepository {
 		}
 	}
 }
-
-?>

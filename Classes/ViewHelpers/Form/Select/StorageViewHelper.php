@@ -57,5 +57,3 @@ class StorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		return sprintf($template, implode("\n", $options));
 	}
 }
-
-?>

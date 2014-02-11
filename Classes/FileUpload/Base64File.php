@@ -139,5 +139,3 @@ class Base64File extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 		return FALSE;
 	}
 }
-
-?>

@@ -191,4 +191,3 @@ class GridService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 		return empty($field['label']) ? FALSE : TRUE;
 	}
 }
-?>

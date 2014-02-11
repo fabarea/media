@@ -109,4 +109,3 @@ interface UploadedFileInterface {
 	 */
 	public function setName($name);
 }
-?>

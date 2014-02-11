@@ -30,4 +30,3 @@ namespace TYPO3\CMS\Media\Domain\Model;
 class FrontendUserGroup extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup {
 
 }
-?>

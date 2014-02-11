@@ -101,4 +101,3 @@ class PreviewRenderer extends GridRendererAbstract {
 		return $result;
 	}
 }
-?>

@@ -84,4 +84,3 @@ class SessionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 		return $GLOBALS['BE_USER'];
 	}
 }
-?>

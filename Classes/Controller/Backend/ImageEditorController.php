@@ -82,4 +82,3 @@ class ImageEditorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->view->assign('variant', $variantObject);
 	}
 }
-?>

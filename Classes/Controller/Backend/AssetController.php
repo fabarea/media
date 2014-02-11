@@ -346,4 +346,3 @@ class AssetController extends ActionController {
 		return $result;
 	}
 }
-?>

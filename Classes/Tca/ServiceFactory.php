@@ -113,4 +113,3 @@ class ServiceFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		return self::$instanceStorage;
 	}
 }
-?>

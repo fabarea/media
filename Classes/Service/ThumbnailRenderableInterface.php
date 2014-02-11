@@ -51,4 +51,3 @@ interface ThumbnailRenderableInterface {
 	 */
 	public function renderTagAnchor($result);
 }
-?>

@@ -76,4 +76,3 @@ class TableService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 		return $this->tca['searchFields'];
 	}
 }
-?>

@@ -62,5 +62,3 @@ class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		return vsprintf($stringToFormat, $propertyValues);
 	}
 }
-
-?>

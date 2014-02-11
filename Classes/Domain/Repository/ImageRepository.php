@@ -83,4 +83,3 @@ class ImageRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepository
 		return parent::__call($methodName, $arguments);
 	}
 }
-?>

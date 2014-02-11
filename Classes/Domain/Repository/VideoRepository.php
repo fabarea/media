@@ -84,4 +84,3 @@ class VideoRepository extends \TYPO3\CMS\Media\Domain\Repository\AssetRepository
 	}
 
 }
-?>

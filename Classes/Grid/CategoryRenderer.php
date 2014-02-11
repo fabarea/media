@@ -52,4 +52,3 @@ class CategoryRenderer extends GridRendererAbstract {
 		return $result;
 	}
 }
-?>

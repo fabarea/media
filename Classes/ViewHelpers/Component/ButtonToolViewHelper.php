@@ -62,5 +62,3 @@ class ButtonToolViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		return $GLOBALS['BE_USER'];
 	}
 }
-
-?>

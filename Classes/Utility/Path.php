@@ -101,4 +101,3 @@ class Path {
 		return implode('/', $segments);
 	}
 }
-?>

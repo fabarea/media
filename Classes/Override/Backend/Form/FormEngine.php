@@ -63,4 +63,3 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 		return $result;
 	}
 }
-?>

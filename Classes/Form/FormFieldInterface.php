@@ -40,4 +40,3 @@ interface FormFieldInterface {
 	 */
 	public function setTemplate($template);
 }
-?>

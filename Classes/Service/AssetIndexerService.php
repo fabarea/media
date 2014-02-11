@@ -106,4 +106,3 @@ class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 		return $duplicates;
 	}
 }
-?>

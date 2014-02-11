@@ -249,5 +249,3 @@ class VariantService {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
 	}
 }
-
-?>

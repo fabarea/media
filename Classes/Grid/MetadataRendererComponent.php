@@ -39,5 +39,3 @@ class MetadataRendererComponent extends GenericRendererComponent {
 		parent::__construct($className, $configuration);
 	}
 }
-
-?>

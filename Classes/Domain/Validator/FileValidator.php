@@ -54,5 +54,3 @@ class FileValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVali
 		}
 	}
 }
-
-?>

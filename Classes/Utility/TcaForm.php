@@ -43,4 +43,3 @@ class TcaForm {
 		return \TYPO3\CMS\Media\Tca\ServiceFactory::getFormService('sys_file');
 	}
 }
-?>

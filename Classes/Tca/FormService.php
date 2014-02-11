@@ -115,4 +115,3 @@ class FormService implements \TYPO3\CMS\Media\Tca\ServiceInterface {
 		return $structure;
 	}
 }
-?>

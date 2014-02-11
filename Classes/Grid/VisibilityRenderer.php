@@ -39,4 +39,3 @@ class VisibilityRenderer extends \TYPO3\CMS\Vidi\Grid\GridRendererAbstract {
 		return $result;
 	}
 }
-?>
