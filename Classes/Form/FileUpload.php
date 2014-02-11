@@ -27,6 +27,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Media\Utility\PermissionUtility;
+use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * A class to render a file upload widget.
@@ -120,11 +121,6 @@ EOF;
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
 
-		/** @var \TYPO3\CMS\Vidi\ModuleLoader $moduleLoader */
-		$moduleLoader = GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader');
-		$parameterPrefix = $moduleLoader->getParameterPrefix();
-		$parameters = GeneralUtility::_GET($parameterPrefix);
-
 		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUpload.js';
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
@@ -132,7 +128,7 @@ EOF;
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),
-			empty($parameters['storage']) ? '0' : $parameters['storage'],
+			StorageUtility::getInstance()->getCurrentStorage()->getUid(),
 			$this->getCallBack()
 		);
 	}
