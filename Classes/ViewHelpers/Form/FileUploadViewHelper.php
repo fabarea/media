@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
@@ -37,13 +38,9 @@ class FileUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	 */
 	public function render() {
 
-		$searches[] = '<script type="text/javascript">';
-		$searches[] = '</script>';
-		$callBack = str_replace($searches, '', $this->renderChildren());
-
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
-		$fileUpload = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		$fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->setCallBack($callBack);
+		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
+		$fileUpload->setPrefix(ModuleUtility::getParameterPrefix());
 		return $fileUpload->render();
 	}
 }

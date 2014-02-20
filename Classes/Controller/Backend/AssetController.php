@@ -159,6 +159,7 @@ class AssetController extends ActionController {
 	 */
 	public function showAction($asset) {
 
+
 		/** @var $asset Asset */
 		$asset = $this->assetRepository->findByUid($asset);
 
@@ -219,7 +220,8 @@ class AssetController extends ActionController {
 				$asset->addCategory($category);
 			}
 
-			$this->variantService->createVariants($asset);
+			// Update variants @todo variant may be removed
+			#$this->variantService->createVariants($asset);
 
 			// Persist the asset
 			$this->assetRepository->update($asset);
@@ -286,14 +288,16 @@ class AssetController extends ActionController {
 
 			/** @var $asset Asset */
 			$asset = $this->assetRepository->findByUid($newFile->getUid());
-			$this->updateVariants($asset);
 
-			// @todo fix me at the core level.
-			$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
-			$asset->updateProperties($properties);
-
-			// Persist the asset
-			$this->assetRepository->update($asset);
+			// Update variants @todo variant may be removed
+			#$this->variantService->updateVariants($asset);
+//
+//			// @todo fix me at the core level.
+//			$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
+//			$asset->updateProperties($properties);
+//
+//			// Persist the asset
+//			$this->assetRepository->update($asset);
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
 			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');

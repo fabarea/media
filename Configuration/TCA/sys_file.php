@@ -7,17 +7,17 @@ $tca = array(
 		'searchFields' => 'uid,extension,name', // sys_file_metadata.title,sys_file_metadata.keywords,
 	),
 	'columns' => array(
-		'variants' => array(
-			'exclude' => 1,
-			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variants',
-			'config' => array(
-				'type' => 'inline',
-				'foreign_table' => 'sys_file_variants',
-				'foreign_selector' => 'role',
-				'foreign_field' => 'original'
-			)
-		),
+		#'variants' => array(
+		#	'exclude' => 1,
+		#	'l10n_mode' => 'exclude',
+		#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variants',
+		#	'config' => array(
+		#		'type' => 'inline',
+		#		'foreign_table' => 'sys_file_variants',
+		#		'foreign_selector' => 'role',
+		#		'foreign_field' => 'original'
+		#	)
+		#),
 		'is_variant' => array(
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.is_variant',
 			'config' => array(
@@ -26,13 +26,13 @@ $tca = array(
 				'readOnly' => TRUE,
 			)
 		),
-		'variation' => array(
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variation',
-			'config' => array(
-				'type' => 'text',
-				'readOnly' => TRUE,
-			)
-		),
+		#'variation' => array(
+		#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variation',
+		#	'config' => array(
+		#		'type' => 'text',
+		#		'readOnly' => TRUE,
+		#	)
+		#),
 	),
 	'grid' => array(
 		'facets' => array(
@@ -41,6 +41,11 @@ $tca = array(
 			#'title' => array(
 			#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:title',
 			#),
+			#new GenericFacetComponent($label)
+			#new FacetComponent($label, $filterObject)
+//			'usage' => array(
+//				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:title',
+//			),
 			'extension',
 			'name',
 			#'categories',
@@ -120,12 +125,13 @@ $tca = array(
 				'visible' => FALSE,
 				'sortable' => FALSE,
 			),
-			'variants' => array(
-				'renderer' => 'TYPO3\CMS\Media\Grid\VariantRenderer',
-				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
-				'visible' => TRUE,
-				'sortable' => FALSE,
-			),
+			// @todo variants may be completely removed.
+			#'variants' => array(
+			#	'renderer' => 'TYPO3\CMS\Media\Grid\VariantRenderer',
+			#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
+			#	'visible' => TRUE,
+			#	'sortable' => FALSE,
+			#),
 			'status' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'status')),
 				'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.status',

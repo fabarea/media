@@ -26,11 +26,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
 
 /**
  * View helper dealing with form footer.
- *
- * @category    ViewHelpers
- * @package     TYPO3
- * @subpackage  media
- * @author      Fabien Udriot <fabien.udriot@typo3.org>
+ * @deprecated not used anymore!
  */
 class FooterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

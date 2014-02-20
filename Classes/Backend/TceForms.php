@@ -22,6 +22,9 @@ namespace TYPO3\CMS\Media\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * Custom fields for Media
@@ -40,7 +43,7 @@ class TceForms {
 
 		// Load StyleSheets in the Page Renderer
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$cssFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/FileUploader/fineuploader.tceforms.css';
+		$cssFile = ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/FileUploader/fineuploader.tceforms.css';
 		$this->pageRenderer->addCssFile($cssFile);
 
 		// js files to be loaded
@@ -51,23 +54,30 @@ class TceForms {
 		);
 
 		foreach ($jsFiles as $file) {
-			$this->pageRenderer->addJsFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . $file);
+			$this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . $file);
 
 		}
 	}
 
 	/**
 	 * This method renders the user friendly upload widget.
-	 * @see http://fineuploader.com/
 	 *
-	 * @param array $PA: information related to the field
-	 * @param Object $tceForms: reference to calling TCEforms object
-	 * @return	string	The HTML for the form field
+	 * @param array $propertyArray : information related to the field
+	 * @param Object $tceForms : reference to calling TCEforms object
+	 * @throws \Exception
+	 * @return string
 	 */
-	public function renderFileUpload($PA, $tceForms) {
+	public function renderFileUpload($propertyArray, $tceForms) {
 
-		/** @var \TYPO3\CMS\Media\ViewHelpers\Form\TceForms\FileUploadViewHelper $viewHelper */
-		$viewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\Form\TceForms\FileUploadViewHelper');
-		return $viewHelper->render();
+		$fileMetadataRecord = $propertyArray['row'];
+
+		if ($fileMetadataRecord['file'] <= 0) {
+			throw new \Exception('I could not find a valid file identifier', 1392926871);
+		}
+
+		/** @var $fileUpload \TYPO3\CMS\Media\Form\TceForms\FileUpload */
+		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TceForms\FileUpload');
+		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(ModuleUtility::getParameterPrefix());
+		return $fileUpload->render();
 	}
 }

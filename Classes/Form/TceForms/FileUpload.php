@@ -23,6 +23,8 @@ namespace TYPO3\CMS\Media\Form\TceForms;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class to render a file upload widget.
@@ -31,7 +33,7 @@ namespace TYPO3\CMS\Media\Form\TceForms;
 class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 
 	/**
-	 * Get the javascript from a file and replace the markers with live variables.
+	 * Fetch the javascript to be rendered and replace the markers with "live" variables.
 	 *
 	 * @return string
 	 */
@@ -39,13 +41,13 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 
 		// Get the base prefix
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
-		$filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
+		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
 
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->elementId,
 			$this->getAllowedExtension(),
-			\TYPO3\CMS\Core\Utility\GeneralUtility::getMaxUploadFileSize() * 1024,
+			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),
 			$this->getValue(),
 			$this->getCallBack()
