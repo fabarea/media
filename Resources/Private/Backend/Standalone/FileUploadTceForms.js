@@ -26,7 +26,7 @@
 				'<ul class="qq-upload-list"></ul>' +
 				'</div>'
 		}).on('submit', function (event, id, fileName) {
-				var params = new Object();
+				var params = {};
 				params[parameterPrefix + '[action]'] = 'update';
 				params[parameterPrefix + '[controller]'] = 'Asset';
 				params[parameterPrefix + '[fileIdentifier]'] = '%s';

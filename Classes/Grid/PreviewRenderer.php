@@ -31,7 +31,7 @@ use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\ModulePlugin;
 
 /**
- * Class rendering the preview of a media in the grid
+ * Class rendering the preview of a media in the Grid.
  */
 class PreviewRenderer extends GridRendererAbstract {
 
@@ -54,7 +54,7 @@ class PreviewRenderer extends GridRendererAbstract {
 	}
 
 	/**
-	 * Render a preview of an media.
+	 * Render a preview of a file in the Grid.
 	 *
 	 * @return string
 	 */
@@ -89,15 +89,15 @@ class PreviewRenderer extends GridRendererAbstract {
 			->setAnchorUri($uri)
 			->create();
 
-		$format = '%s K';
-		$properties = array('size');
+		$template = '%s K';
+		$metadata = array('size');
 
-		if ($asset->getType() === File::FILETYPE_IMAGE) {
-			$format = '%s x %s';
-			$properties = array('width', 'height');
+		if ($asset->getType() == File::FILETYPE_IMAGE) {
+			$template = '%s x %s';
+			$metadata = array('width', 'height');
 		}
 
-		$result .= $this->metadataViewHelper->render($asset, $format, $properties);
+		$result .= $this->metadataViewHelper->render($asset, $template, $metadata);
 		return $result;
 	}
 }

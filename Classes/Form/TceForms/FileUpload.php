@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Form\TceForms;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -61,5 +62,26 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 	 */
 	protected function getAllowedExtension() {
 		return $this->fileObject->getExtension();
+	}
+
+	/**
+	 * Returns additional file info.
+	 *
+	 * @return string
+	 */
+	protected function getFileInfo() {
+
+		/** @var \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
+		$metadataViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+
+		$template = '%s K';
+		$metadata = array('size');
+
+		if ($this->fileObject->getType() == File::FILETYPE_IMAGE) {
+			$template = '%s x %s';
+			$metadata = array('width', 'height');
+		}
+
+		return $metadataViewHelper->render($this->fileObject, $template, $metadata);
 	}
 }

@@ -22,43 +22,49 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+
 /**
  * View helper which can output metadata of an asset in a flexible way.
+ * Give a input a template + set of metadata properties to render, example:
+ *
+ * $template = '%s x %s';
+ * $fileProperties = array('width', 'height');
  */
 class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @var string
 	 */
-	protected $template = '<div class="metadata">%s</div>';
+	protected $wrapper = '<div class="fileInfo" style="font-size: 7pt; color: #777;">%s</div>';
 
 	/**
-	 * Returns formatted metadata
+	 * Returns metadata according to a template.
 	 *
-	 * @param object $object
-	 * @param string $format
-	 * @param array $properties
+	 * @param File $file
 	 * @param string $template
+	 * @param array $metadataProperties
+	 * @param string $wrapper
 	 * @param array $configuration
 	 * @return string
 	 */
-	public function render($object, $format, array $properties, $template = NULL, $configuration = array()) {
+	public function render(File $file, $template, array $metadataProperties, $wrapper = '', $configuration = array()) {
 
-		$propertyValues = array();
-		foreach ($properties as $propertyName) {
-			$value = $object->getProperty($propertyName);
-			if ($propertyName === 'size') {
+		$values = array();
+		foreach ($metadataProperties as $metadataProperty) {
+			$value = $file->getProperty($metadataProperty);
+			if ($metadataProperty === 'size') {
 				$sizeUnit = empty($configuration['sizeUnit']) ? 1000 : $configuration['sizeUnit'];
-				$value = round($object->getSize() / $sizeUnit);
+				$value = round($file->getSize() / $sizeUnit);
 			}
-			$propertyValues[] = $value;
+			$values[] = $value;
 		}
 
-		if (! is_null($template)) {
-			$this->template = $template;
+		if (!empty($wrapper)) {
+			$this->wrapper = $wrapper;
 		}
 
-		$stringToFormat = sprintf($this->template, $format);
-		return vsprintf($stringToFormat, $propertyValues);
+		$wrappedTemplate = sprintf($this->wrapper, $template);
+		return vsprintf($wrappedTemplate, $values);
 	}
 }

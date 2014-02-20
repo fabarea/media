@@ -70,8 +70,8 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			$configuration['height'] = $this->file->getProperty('height');
 		}
 
-		$configuration = $this->computeImageFinalDimension($configuration);
-		$this->processedFile = $this->file->process($this->getTaskType(), $configuration);
+		$configuration = $this->computeFinalImageDimension($configuration);
+		$this->processedFile = $this->file->process($this->getProcessingType(), $configuration);
 		$result = $this->processedFile->getPublicUrl(TRUE);
 
 		// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
@@ -133,8 +133,8 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			if ($configurationWrap['width'] < $this->file->getProperty('width')
 				|| $configurationWrap['height'] < $this->file->getProperty('height')
 			) {
-				$configurationWrap = $this->computeImageFinalDimension($configurationWrap);
-				$file = $this->file->process($this->getTaskType(), $configurationWrap);
+				$configurationWrap = $this->computeFinalImageDimension($configurationWrap);
+				$file = $this->file->process($this->getProcessingType(), $configurationWrap);
 			}
 		}
 
@@ -154,7 +154,7 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @param array $configuration
 	 * @return array
 	 */
-	protected function computeImageFinalDimension(array $configuration) {
+	protected function computeFinalImageDimension(array $configuration) {
 		$ratio = $this->computeImageRatio();
 
 		if ($ratio > 1) {
@@ -179,19 +179,12 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	}
 
 	/**
-	 * Get the adequate task type according to TYPO3 mode (Frontend vs Backend).
-	 *
-	 * Frontend: ProcessedFile::CONTEXT_IMAGECROPSCALEMASK which does not work in BE mode and has a better thumbnail quality.
-	 * Backend: ProcessedFile::CONTEXT_IMAGEPREVIEW more suitable for BE.
-	 *
 	 * @return string
 	 */
-	protected function getTaskType() {
-		$taskType = ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
-		if (TYPO3_MODE === 'BE') {
-			$taskType = ProcessedFile::CONTEXT_IMAGEPREVIEW;
+	public function getProcessingType() {
+		if ($this->processingType === NULL) {
+			return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
 		}
-		return $taskType;
+		return $this->processingType;
 	}
-
 }

@@ -39,8 +39,8 @@ class ThumbnailService implements ThumbnailInterface {
 	);
 
 	/**
-	 * Configure the output of the thumbnail service. Default output is:
-	 * \TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE
+	 * Configure the output of the thumbnail service whether it is wrapped or not.
+	 * Default output is: ThumbnailInterface::OUTPUT_IMAGE
 	 *
 	 * @var string
 	 */
@@ -130,6 +130,14 @@ class ThumbnailService implements ThumbnailInterface {
 	protected $appendTimeStamp = FALSE;
 
 	/**
+	 * Define the processing type for the thumbnail.
+	 * As instance for image the default is ProcessedFile::CONTEXT_IMAGECROPSCALEMASK.
+	 *
+	 * @var string
+	 */
+	protected $processingType;
+
+	/**
 	 * Render a thumbnail of a media
 	 *
 	 * @throws \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException
@@ -168,6 +176,7 @@ class ThumbnailService implements ThumbnailInterface {
 				->setAppendTimeStamp($this->getAppendTimeStamp())
 				->setTarget($this->getTarget())
 				->setAnchorUri($this->getAnchorUri())
+				->setProcessingType($this->getProcessingType())
 				->create();
 		} else {
 			$logger = \TYPO3\CMS\Media\Utility\Logger::getInstance($this);
@@ -428,6 +437,22 @@ class ThumbnailService implements ThumbnailInterface {
 	 */
 	public function setAppendTimeStamp($appendTimeStamp) {
 		$this->appendTimeStamp = (bool) $appendTimeStamp;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProcessingType() {
+		$this->processingType;
+	}
+
+	/**
+	 * @param string $processingType
+	 * @return \TYPO3\CMS\Media\Service\ThumbnailInterface
+	 */
+	public function setProcessingType($processingType) {
+		$this->processingType = $processingType;
 		return $this;
 	}
 }

@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -62,6 +63,7 @@ class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 		$this->template = <<<EOF
 <div class="control-group control-group-upload">
     <div class="container-thumbnail">%s</div>
+    %s
     <div id="%s"></div>
 	<script type="text/javascript">
 	    %s
@@ -81,15 +83,43 @@ EOF;
 
 		// Instantiate the file object for the whole class if possible.
 		if ($this->getValue()) {
-			$this->fileObject = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFileObject($this->getValue());
+			$this->fileObject = ResourceFactory::getInstance()->getFileObject($this->getValue());
 		}
 
 		$result = sprintf($this->template,
 			$this->getThumbnail(),
+			$this->getFileInfo(),
 			$this->elementId,
 			$this->getJavaScript()
 		);
 		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCallBack() {
+		if (is_null($this->callBack)) {
+			$this->callBack = <<<EOF
+			// Default callback
+			if (responseJSON.uid) {
+				$('#asset-uid').val(responseJSON.uid);
+			}
+			if (responseJSON.thumbnail) {
+				// Replace thumbnail by new one.
+				$(this).prev().html(Encoder.htmlDecode(responseJSON.thumbnail));
+				$('.qq-upload-list', this).html('');
+			}
+EOF;
+		}
+		return "\n" . $this->callBack;
+	}
+
+	/**
+	 * @param string $callBack
+	 */
+	public function setCallBack($callBack) {
+		$this->callBack = $callBack;
 	}
 
 	/**
@@ -166,30 +196,12 @@ EOF;
 	}
 
 	/**
+	 * Returns additional file info.
+	 *
 	 * @return string
 	 */
-	public function getCallBack() {
-		if (is_null($this->callBack)) {
-			$this->callBack = <<<EOF
-			// Default callback
-			if (responseJSON.uid) {
-				$('#asset-uid').val(responseJSON.uid);
-			}
-			if (responseJSON.thumbnail) {
-				// Replace thumbnail by new one.
-				$(this).prev().html(Encoder.htmlDecode(responseJSON.thumbnail));
-				$('.qq-upload-list', this).html('');
-			}
-EOF;
-		}
-		return "\n" . $this->callBack;
-	}
-
-	/**
-	 * @param string $callBack
-	 */
-	public function setCallBack($callBack) {
-		$this->callBack = $callBack;
+	protected function getFileInfo() {
+		return ''; // empty return here but check out Tceforms/FileUpload.
 	}
 
 }

@@ -129,6 +129,8 @@ interface ThumbnailInterface {
 	public function setAttributes($attributes);
 
 	/**
+	 * Whether the thumbnail must be outputted wrapped or not. Check constants OUTPUT_*.
+	 *
 	 * @return string
 	 */
 	public function getOutputType();
@@ -171,4 +173,15 @@ interface ThumbnailInterface {
 	 * @return \TYPO3\CMS\Media\Service\ThumbnailInterface
 	 */
 	public function setAppendTimeStamp($appendTimeStamp);
+
+	/**
+	 * @return string
+	 */
+	public function getProcessingType();
+
+	/**
+	 * @param string $processingType
+	 * @return \TYPO3\CMS\Media\Service\ThumbnailInterface
+	 */
+	public function setProcessingType($processingType);
 }

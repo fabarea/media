@@ -27,12 +27,12 @@ use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
 /**
- * Class rendering the preview of a media in the grid
+ * Class for rendering a configurable metadata property of a file in the Grid.
  */
 class MetadataRenderer extends GridRendererAbstract {
 
 	/**
-	 * Render a preview of an media.
+	 * Renders a configurable metadata property of a file in the Grid.
 	 *
 	 * @throws \Exception
 	 * @return string
