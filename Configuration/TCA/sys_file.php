@@ -33,13 +33,6 @@ $tca = array(
 				'readOnly' => TRUE,
 			)
 		),
-		'extension' => array(
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.extension',
-			'config' => array(
-				'type' => 'input',
-				'readOnly' => TRUE,
-			)
-		),
 	),
 	'grid' => array(
 		'facets' => array(
