@@ -27,6 +27,7 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Service\ThumbnailInterface;
 use TYPO3\CMS\Media\Utility\PermissionUtility;
 use TYPO3\CMS\Media\Utility\StorageUtility;
 
@@ -41,14 +42,9 @@ class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 	protected $elementId;
 
 	/**
-	 * @var string
-	 */
-	protected $callBack;
-
-	/**
 	 * @var \TYPO3\CMS\Core\Resource\File
 	 */
-	protected $fileObject;
+	protected $file;
 
 	/**
 	 * @return \TYPO3\CMS\Media\Form\FileUpload
@@ -83,7 +79,7 @@ EOF;
 
 		// Instantiate the file object for the whole class if possible.
 		if ($this->getValue()) {
-			$this->fileObject = ResourceFactory::getInstance()->getFileObject($this->getValue());
+			$this->file = ResourceFactory::getInstance()->getFileObject($this->getValue());
 		}
 
 		$result = sprintf($this->template,
@@ -96,46 +92,19 @@ EOF;
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getCallBack() {
-		if (is_null($this->callBack)) {
-			$this->callBack = <<<EOF
-			// Default callback
-			if (responseJSON.uid) {
-				$('#asset-uid').val(responseJSON.uid);
-			}
-			if (responseJSON.thumbnail) {
-				// Replace thumbnail by new one.
-				$(this).prev().html(Encoder.htmlDecode(responseJSON.thumbnail));
-				$('.qq-upload-list', this).html('');
-			}
-EOF;
-		}
-		return "\n" . $this->callBack;
-	}
-
-	/**
-	 * @param string $callBack
-	 */
-	public function setCallBack($callBack) {
-		$this->callBack = $callBack;
-	}
-
-	/**
 	 * Get the javascript from a file and replace the markers with live variables.
 	 *
 	 * @return string
 	 */
 	protected function getThumbnail() {
 		$thumbnail = '';
-		if ($this->fileObject) {
+		if ($this->file) {
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
 			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 			$thumbnail = $thumbnailService
-				->setFile($this->fileObject)
-				->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+				->setFile($this->file)
+				->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 				->setAppendTimeStamp(TRUE)
 				->create();
 		}
@@ -158,8 +127,7 @@ EOF;
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),
-			StorageUtility::getInstance()->getCurrentStorage()->getUid(),
-			$this->getCallBack()
+			StorageUtility::getInstance()->getCurrentStorage()->getUid()
 		);
 	}
 
@@ -201,7 +169,7 @@ EOF;
 	 * @return string
 	 */
 	protected function getFileInfo() {
-		return ''; // empty return here but check out Tceforms/FileUpload.
+		return ''; // empty return here but check out Tceforms/FileUpload
 	}
 
 }

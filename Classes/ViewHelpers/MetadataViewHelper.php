@@ -28,15 +28,10 @@ use TYPO3\CMS\Core\Resource\File;
  * View helper which can output metadata of an asset in a flexible way.
  * Give a input a template + set of metadata properties to render, example:
  *
- * $template = '%s x %s';
+ * $template = '%width x %height';
  * $fileProperties = array('width', 'height');
  */
 class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $wrapper = '<div class="fileInfo" style="font-size: 7pt; color: #777;">%s</div>';
 
 	/**
 	 * Returns metadata according to a template.
@@ -44,11 +39,10 @@ class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 * @param File $file
 	 * @param string $template
 	 * @param array $metadataProperties
-	 * @param string $wrapper
 	 * @param array $configuration
 	 * @return string
 	 */
-	public function render(File $file, $template, array $metadataProperties, $wrapper = '', $configuration = array()) {
+	public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = array()) {
 
 		$values = array();
 		foreach ($metadataProperties as $metadataProperty) {
@@ -57,14 +51,35 @@ class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 				$sizeUnit = empty($configuration['sizeUnit']) ? 1000 : $configuration['sizeUnit'];
 				$value = round($file->getSize() / $sizeUnit);
 			}
-			$values[] = $value;
+			$values[$metadataProperty] = $value;
 		}
 
-		if (!empty($wrapper)) {
-			$this->wrapper = $wrapper;
+		if (empty($template)) {
+			$template = $this->getDefaultTemplate($file);
 		}
 
-		$wrappedTemplate = sprintf($this->wrapper, $template);
-		return vsprintf($wrappedTemplate, $values);
+		$result = $template;
+		foreach ($values as $metadataProperty => $value) {
+			$result = str_replace('%' . $metadataProperty, $value, $result);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns a default template.
+	 *
+	 * @param File $file
+	 * @return string
+	 */
+	protected function getDefaultTemplate(File $file){
+
+		$template = '%size Ko';
+
+		if ($file->getType() == File::FILETYPE_IMAGE) {
+			$template = '%width x %height - ' . $template;
+		}
+
+		return $template;
 	}
 }

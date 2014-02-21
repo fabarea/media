@@ -75,8 +75,8 @@ class TceForms {
 			throw new \Exception('I could not find a valid file identifier', 1392926871);
 		}
 
-		/** @var $fileUpload \TYPO3\CMS\Media\Form\TceForms\FileUpload */
-		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\TceForms\FileUpload');
+		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUploadTceForms */
+		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUploadTceForms');
 		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(ModuleUtility::getParameterPrefix());
 		return $fileUpload->render();
 	}

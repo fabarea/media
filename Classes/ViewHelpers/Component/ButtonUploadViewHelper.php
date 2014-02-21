@@ -32,35 +32,14 @@ use TYPO3\CMS\Media\Utility\ModuleUtility;
 class ButtonUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @var string
-	 */
-	protected $extensionName = 'media';
-
-	/**
 	 * Renders a button for uploading assets.
 	 *
 	 * @return string
 	 */
 	public function render() {
 
-		$callBack = <<< EOF
-
-			// Callback action after file upload
-			if (responseJSON.uid) {
-
-				// Hide message for file upload
-				$('.qq-upload-list', this).find('li:eq(' + id + ')').fadeOut(500);
-
-				// Reset table only if all files have been uploaded
-				if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
-					Vidi.table.fnResetDisplay();
-				}
-			}
-EOF;
-
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		$fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->setCallBack($callBack);
-		return $fileUpload->render();
+		return $fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->render();
 	}
 }

@@ -22,6 +22,10 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ImagePresetUtility;
+
 /**
  * View helper which returns a configurable thumbnail of an Asset
  */
@@ -30,33 +34,27 @@ class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	/**
 	 * Returns a configurable thumbnail of an asset
 	 *
-	 * @param object $object
+	 * @param File $file
 	 * @param array $configuration
 	 * @param array $attributes DOM attributes to add to the thumbnail image
-	 * @param boolean $wrap whether the thumbnail should be wrapped with an anchor tag. (OBSOLETE WILL BE REMOVED IN MEDIA 1.2!)
 	 * @param string $preset an image dimension preset
 	 * @param string $output an image dimension preset. Can be: uri, image, imageWrapped
 	 * @param array $configurationWrap the configuration given to the wrap
 	 * @return string
 	 */
-	public function render($object, $configuration = array(), $attributes = array(), $wrap = FALSE, $preset = NULL,
+	public function render(File $file, $configuration = array(), $attributes = array(), $preset = NULL,
 	                       $output = 'image', $configurationWrap = array()) {
 
-		/** @var $object \TYPO3\CMS\Media\Domain\Model\Asset */
+		/** @var $file \TYPO3\CMS\Media\Domain\Model\Asset */
 		if ($preset) {
-			$imageDimension = \TYPO3\CMS\Media\Utility\ImagePresetUtility::getInstance()->preset($preset);
+			$imageDimension = ImagePresetUtility::getInstance()->preset($preset);
 			$configuration['width'] = $imageDimension->getWidth();
 			$configuration['height'] = $imageDimension->getHeight();
 		}
 
-		// @todo remove me as of Media 1.2
-		if ($wrap) {
-			$output = \TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED;
-		}
-
 		/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-		$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-		return $thumbnailService->setFile($object)
+		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+		return $thumbnailService->setFile($file)
 			->setConfiguration($configuration)
 			->setConfigurationWrap($configurationWrap)
 			->setAttributes($attributes)

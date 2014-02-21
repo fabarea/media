@@ -36,24 +36,6 @@ use TYPO3\CMS\Vidi\ModulePlugin;
 class PreviewRenderer extends GridRendererAbstract {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Service\ThumbnailService
-	 */
-	protected $thumbnailService;
-
-	/**
-	 * @var \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper
-	 */
-	protected $metadataViewHelper;
-
-	/**
-	 * @return \TYPO3\CMS\Media\Grid\PreviewRenderer
-	 */
-	public function __construct() {
-		$this->thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-		$this->metadataViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
-	}
-
-	/**
 	 * Render a preview of a file in the Grid.
 	 *
 	 * @return string
@@ -82,22 +64,31 @@ class PreviewRenderer extends GridRendererAbstract {
 			);
 		}
 
-		$result = $this->thumbnailService->setFile($asset)
+		$result = $this->getThumbnailService()->setFile($asset)
 			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 			->setAppendTimeStamp($appendTime)
 			->setTarget(ThumbnailInterface::TARGET_BLANK)
 			->setAnchorUri($uri)
 			->create();
 
-		$template = '%s K';
-		$metadata = array('size');
-
-		if ($asset->getType() == File::FILETYPE_IMAGE) {
-			$template = '%s x %s';
-			$metadata = array('width', 'height');
-		}
-
-		$result .= $this->metadataViewHelper->render($asset, $template, $metadata);
+		// Add file info
+		$result .= sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
+			$this->getMetadataViewHelper()->render($asset)
+		);
 		return $result;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
+	 */
+	protected function getThumbnailService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper
+	 */
+	protected function getMetadataViewHelper() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
 	}
 }

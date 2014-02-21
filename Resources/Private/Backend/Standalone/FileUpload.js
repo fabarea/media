@@ -58,7 +58,16 @@ $(document).ready(function () {
 		})
 		.on('complete', function (event, id, fileName, responseJSON) {
 
-			// Code below injected by the server.
-			//%s
+			// Callback action after file upload
+			if (responseJSON.uid) {
+
+				// Hide message for file upload
+				$('.qq-upload-list', this).find('li:eq(' + id + ')').fadeOut(500);
+
+				// Reset table only if all files have been uploaded
+				if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
+					Vidi.table.fnResetDisplay();
+				}
+			}
 		});
 });

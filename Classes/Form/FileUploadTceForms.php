@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form\TceForms;
+namespace TYPO3\CMS\Media\Form;
 
 /***************************************************************
  *  Copyright notice
@@ -31,10 +31,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * A class to render a file upload widget.
  * Notice the file is very similar to FileUpload.php but integrates itself into TCEforms.
  */
-class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
+class FileUploadTceForms extends FileUpload {
 
 	/**
-	 * Fetch the javascript to be rendered and replace the markers with "live" variables.
+	 * Fetch the JavaScript to be rendered and replace the markers with "live" variables.
 	 *
 	 * @return string
 	 */
@@ -50,8 +50,7 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 			$this->getAllowedExtension(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),
-			$this->getValue(),
-			$this->getCallBack()
+			$this->getValue()
 		);
 	}
 
@@ -61,7 +60,7 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 	 * @return string
 	 */
 	protected function getAllowedExtension() {
-		return $this->fileObject->getExtension();
+		return $this->file->getExtension();
 	}
 
 	/**
@@ -70,18 +69,11 @@ class FileUpload extends \TYPO3\CMS\Media\Form\FileUpload {
 	 * @return string
 	 */
 	protected function getFileInfo() {
-
 		/** @var \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
 		$metadataViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
 
-		$template = '%s K';
-		$metadata = array('size');
-
-		if ($this->fileObject->getType() == File::FILETYPE_IMAGE) {
-			$template = '%s x %s';
-			$metadata = array('width', 'height');
-		}
-
-		return $metadataViewHelper->render($this->fileObject, $template, $metadata);
+		return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
+			$metadataViewHelper->render($this->file)
+		);
 	}
 }

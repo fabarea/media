@@ -1,7 +1,6 @@
 (function ($) {
 	$(function () {
 
-
 		var parameterPrefix = '%s';
 
 		$('#%s').fineUploader({
@@ -44,14 +43,18 @@
 
 				$('.qq-max-size').toggle();
 				$('.qq-upload-list').hide();
+				$('.qq-upload-list', this).html(''); // remove progress bar
 
 				if (responseJSON.thumbnail) {
+
+					// Replace thumbnail by new one.
 					var decoded = $("<div/>").html(responseJSON.thumbnail).text();
 					$('.container-thumbnail').html(decoded);
 				}
 
-				// Code injected below by the server.
-				//%s
+				if (responseJSON.fileInfo) {
+					$('.container-fileInfo').html(responseJSON.fileInfo);
+				}
 			});
 	});
 })(TYPO3.jQuery);

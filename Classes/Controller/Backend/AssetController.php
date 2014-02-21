@@ -220,21 +220,14 @@ class AssetController extends ActionController {
 				$asset->addCategory($category);
 			}
 
-			// Update variants @todo variant may be removed
-			#$this->variantService->createVariants($asset);
-
 			// Persist the asset
 			$this->assetRepository->update($asset);
-
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-			$thumbnailService->setAppendTimeStamp(TRUE);
 
 			$response = array(
 				'success' => TRUE,
 				'uid' => $newFile->getUid(),
 				'name' => $newFile->getName(),
-				'thumbnail' => $asset->getThumbnailWrapped($thumbnailService),
+				'thumbnail' => $asset->getThumbnailWrapped($this->getThumbnailService()),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -289,25 +282,12 @@ class AssetController extends ActionController {
 			/** @var $asset Asset */
 			$asset = $this->assetRepository->findByUid($newFile->getUid());
 
-			// Update variants @todo variant may be removed
-			#$this->variantService->updateVariants($asset);
-//
-//			// @todo fix me at the core level.
-//			$properties['tstamp'] = time(); // Force update tstamp - which is not done by addFile()
-//			$asset->updateProperties($properties);
-//
-//			// Persist the asset
-//			$this->assetRepository->update($asset);
-
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-			$thumbnailService->setAppendTimeStamp(TRUE);
-
 			$response = array(
 				'success' => TRUE,
 				'uid' => $newFile->getUid(),
 				'name' => $newFile->getName(),
-				'thumbnail' => $asset->getThumbnailWrapped($thumbnailService),
+				'thumbnail' => $asset->getThumbnailWrapped($this->getThumbnailService()),
+				'fileInfo' => $this->getMetadataViewHelper()->render($asset),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -348,5 +328,23 @@ class AssetController extends ActionController {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper
+	 */
+	protected function getMetadataViewHelper() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
+	 */
+	protected function getThumbnailService() {
+
+		/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+		$thumbnailService->setAppendTimeStamp(TRUE);
+		return $thumbnailService;
 	}
 }
