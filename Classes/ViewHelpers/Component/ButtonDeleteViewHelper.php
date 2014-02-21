@@ -82,7 +82,7 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return array
 	 */
-	public function hasNotSoftImageReferences($asset) {
+	protected function hasNotSoftImageReferences($asset) {
 		$softReferences = array();
 
 		foreach ($asset->getVariants() as $variant) {
@@ -105,7 +105,7 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
 	 * @return array
 	 */
-	public function hasNotSoftLinkReferences($asset) {
+	protected function hasNotSoftLinkReferences($asset) {
 
 		// Get the link references of the asset.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(

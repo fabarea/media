@@ -316,7 +316,7 @@ class AssetRepository extends FileRepository {
 			$data['sys_file_metadata'][$metadataProperties['uid']] = $values;
 
 			/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
-			$tce = $this->objectManager->get('TYPO3\CMS\Core\DataHandling\DataHandler');
+			$tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
 			$tce->start($data, array());
 			$tce->process_datamap();
 		}

@@ -117,7 +117,7 @@ class UsageRenderer extends GridRendererAbstract {
 	public function getRecordTitle($tableName, $identifier) {
 
 		$result = '';
-		if ($tableName && (int) $identifier > 0) {
+		if ($tableName && (int)$identifier > 0) {
 
 			$labelField = TcaService::table($tableName)->getLabelField();
 
@@ -157,18 +157,14 @@ class UsageRenderer extends GridRendererAbstract {
 	 * @return array
 	 */
 	public function getSoftImageReferences($asset) {
-		$softReferences = array();
-		foreach ($asset->getVariants() as $variant) {
 
-			// Get the file references of the asset.
-			$_softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-				'recuid, tablename',
-				'sys_refindex',
-				'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $variant->getUid()
-			);
+		// Get the file references of the asset in the RTE.
+		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'recuid, tablename',
+			'sys_refindex',
+			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
+		);
 
-			$softReferences = array_merge($softReferences, $_softReferences);
-		}
 		return $softReferences;
 	}
 

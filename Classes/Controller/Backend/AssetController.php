@@ -158,10 +158,10 @@ class AssetController extends ActionController {
 	 * @return string|boolean
 	 */
 	public function showAction($asset) {
-
+		$assetIdentifier = $asset;
 
 		/** @var $asset Asset */
-		$asset = $this->assetRepository->findByUid($asset);
+		$asset = $this->assetRepository->findByUid($assetIdentifier);
 
 		// Consider also adding check "$asset->checkActionPermission('read')" <- should be handled in the Grid as well
 		if (is_object($asset) && $asset->exists()) {
@@ -192,27 +192,27 @@ class AssetController extends ActionController {
 	 */
 	public function createAction($storageIdentifier) {
 
-		/** @var UploadedFileInterface $uploadedFileObject */
-		$uploadedFileObject = $this->handleUpload();
-		if (!is_object($uploadedFileObject)) {
-			return htmlspecialchars(json_encode($uploadedFileObject), ENT_NOQUOTES);
+		/** @var UploadedFileInterface $uploadedFile */
+		$uploadedFile = $this->handleUpload();
+		if (!is_object($uploadedFile)) {
+			return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
 		}
 
 		// Get the target folder
-		$targetFolder = ObjectFactory::getInstance()->getContainingFolder($uploadedFileObject, $storageIdentifier);
+		$targetFolder = ObjectFactory::getInstance()->getContainingFolder($uploadedFile, $storageIdentifier);
 
 		try {
 			$conflictMode = 'changeName';
-			$fileName = $uploadedFileObject->getName();
-			$newFile = $targetFolder->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName , $conflictMode);
+			$fileName = $uploadedFile->getName();
+			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
 			// Call the indexer service for updating the metadata of the file.
 			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
 			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-			$indexerService->indexFile($newFile);
+			$indexerService->indexFile($file);
 
 			/** @var $asset Asset */
-			$asset = $this->assetRepository->findByUid($newFile->getUid());
+			$asset = $this->assetRepository->findByUid($file->getUid());
 
 			$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
 			$categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
@@ -225,8 +225,8 @@ class AssetController extends ActionController {
 
 			$response = array(
 				'success' => TRUE,
-				'uid' => $newFile->getUid(),
-				'name' => $newFile->getName(),
+				'uid' => $file->getUid(),
+				'name' => $file->getName(),
 				'thumbnail' => $asset->getThumbnailWrapped($this->getThumbnailService()),
 			);
 		} catch (UploadException $e) {
@@ -234,11 +234,11 @@ class AssetController extends ActionController {
 		} catch (InsufficientUserPermissionsException $e) {
 			$response = array('error' => 'You are not allowed to upload files!');
 		} catch (UploadSizeException $e) {
-			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFileObject->getName())));
+			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFile->getName())));
 		} catch (InsufficientFolderWritePermissionsException $e) {
 			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolder->getIdentifier())));
 		} catch (IllegalFileExtensionException $e) {
-			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFileObject->getName(), $targetFolder->getIdentifier())));
+			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFile->getName(), $targetFolder->getIdentifier())));
 		} catch (ExistingTargetFileNameException $e) {
 			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolder->getIdentifier())));
 		} catch (\RuntimeException $e) {
@@ -259,9 +259,9 @@ class AssetController extends ActionController {
 	 */
 	public function updateAction($fileIdentifier) {
 
-		$uploadedFileObject = $this->handleUpload();
-		if (!is_object($uploadedFileObject)) {
-			return htmlspecialchars(json_encode($uploadedFileObject), ENT_NOQUOTES);
+		$uploadedFile = $this->handleUpload();
+		if (!is_object($uploadedFile)) {
+			return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
 		}
 
 		/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
@@ -272,20 +272,23 @@ class AssetController extends ActionController {
 		try {
 			$conflictMode = 'replace';
 			$fileName = $fileObject->getName();
-			$newFile = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $fileName, $conflictMode);
+			$file = $targetFolderObject->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
 			// Call the indexer service for updating the metadata of the file.
 			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
 			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-			$indexerService->indexFile($newFile, TRUE);
+			$indexerService->indexFile($file, TRUE);
+
+			// Clear cache on pages holding a reference to this file.
+			$this->getCacheService()->clearCache($file);
 
 			/** @var $asset Asset */
-			$asset = $this->assetRepository->findByUid($newFile->getUid());
+			$asset = $this->assetRepository->findByUid($file->getUid());
 
 			$response = array(
 				'success' => TRUE,
-				'uid' => $newFile->getUid(),
-				'name' => $newFile->getName(),
+				'uid' => $file->getUid(),
+				'name' => $file->getName(),
 				'thumbnail' => $asset->getThumbnailWrapped($this->getThumbnailService()),
 				'fileInfo' => $this->getMetadataViewHelper()->render($asset),
 			);
@@ -294,11 +297,11 @@ class AssetController extends ActionController {
 		} catch (InsufficientUserPermissionsException $e) {
 			$response = array('error' => 'You are not allowed to upload files!');
 		} catch (UploadSizeException $e) {
-			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFileObject->getName())));
+			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFile->getName())));
 		} catch (InsufficientFolderWritePermissionsException $e) {
 			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
 		} catch (IllegalFileExtensionException $e) {
-			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFileObject->getName(), $targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFile->getName(), $targetFolderObject->getIdentifier())));
 		} catch (ExistingTargetFileNameException $e) {
 			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
 		} catch (\RuntimeException $e) {
@@ -346,5 +349,12 @@ class AssetController extends ActionController {
 		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
 		$thumbnailService->setAppendTimeStamp(TRUE);
 		return $thumbnailService;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Service\CacheService
+	 */
+	protected function getCacheService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\CacheService');
 	}
 }

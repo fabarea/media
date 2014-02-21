@@ -44,22 +44,17 @@ class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 */
 	public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = array()) {
 
-		$values = array();
+		if (empty($template)) {
+			$template = $this->getDefaultTemplate($file);
+		}
+
+		$result = $template;
 		foreach ($metadataProperties as $metadataProperty) {
 			$value = $file->getProperty($metadataProperty);
 			if ($metadataProperty === 'size') {
 				$sizeUnit = empty($configuration['sizeUnit']) ? 1000 : $configuration['sizeUnit'];
 				$value = round($file->getSize() / $sizeUnit);
 			}
-			$values[$metadataProperty] = $value;
-		}
-
-		if (empty($template)) {
-			$template = $this->getDefaultTemplate($file);
-		}
-
-		$result = $template;
-		foreach ($values as $metadataProperty => $value) {
 			$result = str_replace('%' . $metadataProperty, $value, $result);
 		}
 
