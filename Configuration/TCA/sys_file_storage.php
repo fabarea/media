@@ -6,7 +6,7 @@ $tca = array(
 		0 => array('showitem' => $GLOBALS['TCA']['sys_file_storage']['types'][0]['showitem'] . ',
 
 			--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tab.media_mount_point,
-			mount_point_file_type_1, mount_point_file_type_2, mount_point_file_type_3, mount_point_file_type_4, mount_point_file_type_5, mount_point_variant,
+			mount_point_file_type_1, mount_point_file_type_2, mount_point_file_type_3, mount_point_file_type_4, mount_point_file_type_5,
 
 			--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tab.upload_settings,
 			maximum_dimension_original_image, default_variations, extension_allowed_file_type_1, extension_allowed_file_type_2, extension_allowed_file_type_3, extension_allowed_file_type_4, extension_allowed_file_type_5,
@@ -172,27 +172,6 @@ $tca = array(
 				'size' => 255,
 				'default' => 'pdf, zip, doc, docx, dotx, ppt, pptx, pps, ppsx, odt, xls, xlsx, xltx, rtf, xlt',
 				'eval' => 'trim',
-			),
-		),
-		'mount_point_variant' => array(
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.mount_point_variant',
-			'config' => array(
-				'type' => 'group',
-				'internal_type' => 'db',
-				'allowed' => 'sys_filemounts',
-				'size' => 1,
-				'minitems' => 0,
-				'maxitems' => 1,
-				'wizards' => array(
-					'edit' => array(
-						'type' => 'popup',
-						'script' => 'wizard_edit.php',
-						'icon' => 'edit2.gif',
-						'popup_onlyOpenIfSelected' => 1,
-						'notNewRecords' => 1,
-						'JSopenParams' => 'height=500,width=800,status=0,menubar=0,scrollbars=1,resizable=yes'
-					),
-				),
 			),
 		),
 		'default_variations' => array(

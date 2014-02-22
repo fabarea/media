@@ -8,46 +8,8 @@
 				<source>Media</source>
 			</trans-unit>
 
-			<trans-unit id="sys_file.is_variant">
-				<source>Is variant</source>
-			</trans-unit>
-			<trans-unit id="sys_file.variation">
-				<source>Is variant</source>
-			</trans-unit>
-			<trans-unit id="sys_file.variants">
-				<source>Alternative variants (other types, preview images, ...)</source>
-			</trans-unit>
 			<trans-unit id="sys_file.extension">
 				<source>Extension</source>
-			</trans-unit>
-
-			<!-- File Variant -->
-			<trans-unit id="sys_file_variants">
-				<source>variant references between sys_files</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.role">
-				<source>role of variant</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.role.none">
-				<source>-- undefined --</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.role.alternative">
-				<source>alternative file format</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.role.subtitle">
-				<source>subtitle (of video)</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.role.caption">
-				<source>caption (for video)</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.role.thumbnail">
-				<source>preview / thumbnail</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.original_resource">
-				<source>original file</source>
-			</trans-unit>
-			<trans-unit id="sys_file_variant.variant_resource">
-				<source>variant file</source>
 			</trans-unit>
 
 			<!-- File Storage -->
@@ -93,12 +55,6 @@
 				<source>Upload settings</source>
 			</trans-unit>
 
-			<trans-unit id="sys_file_storage.mount_point_variant">
-				<source>Default mount point for variant files</source>
-			</trans-unit>
-			<trans-unit id="sys_file_storage.default_variations">
-				<source>Dimensions of variant files to be created upon upload</source>
-			</trans-unit>
 		</body>
 	</file>
 </xliff>

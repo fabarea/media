@@ -109,7 +109,6 @@ class AssetRepository extends FileRepository {
 		$result = $query->setRawResult($this->rawResult)
 			->setObjectType($this->objectType)
 			->setMatcher($matcher)
-			->setFilterVariant(FALSE)
 			->execute();
 
 		if (is_array($result)) {

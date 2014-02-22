@@ -201,18 +201,6 @@ class Asset extends File {
 	protected $categories;
 
 	/**
-	 * Variants of the current asset
-	 *
-	 * @var \TYPO3\CMS\Media\Domain\Model\Variant[]
-	 */
-	protected $variants;
-
-	/**
-	 * @var boolean
-	 */
-	protected $isVariant;
-
-	/**
 	 * Returns the alternative
 	 *
 	 * @return string $alternative
@@ -871,42 +859,6 @@ class Asset extends File {
 			}
 		}
 		return $values;
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Media\Domain\Model\Variant[]
-	 */
-	public function getVariants() {
-		if (is_null($this->variants)) {
-
-			/** @var $variantRepository \TYPO3\CMS\Media\Domain\Repository\VariantRepository */
-			$variantRepository = $this->getObjectManager()->get('TYPO3\CMS\Media\Domain\Repository\VariantRepository');
-			$this->variants = $variantRepository->findByOriginalResource($this);
-		}
-		return $this->variants;
-	}
-
-	/**
-	 * @param array $variants
-	 * @return void
-	 */
-	public function setVariants($variants) {
-		$this->variants = $variants;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getIsVariant() {
-		return $this->getProperty('is_variant');
-	}
-
-	/**
-	 * @param boolean $isVariant
-	 * @return $this
-	 */
-	public function setIsVariant($isVariant) {
-		$this->setProperty('is_variant', $isVariant);
 	}
 
 	/**

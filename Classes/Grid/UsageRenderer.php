@@ -68,13 +68,13 @@ class UsageRenderer extends GridRendererAbstract {
 			);
 		}
 
-		// Render Variant usage in RTE
+		// Render image usage in RTE
 		$imageSoftReferences = $this->getSoftImageReferences($asset);
 		if (!empty($imageSoftReferences)) {
 
-			// Finalize variant references assembling.
+			// Finalize image references assembling.
 			$result .= sprintf($this->getWrappingTemplate(),
-				LocalizationUtility::translate('variant_references_in_rte', 'media'),
+				LocalizationUtility::translate('image_references_in_rte', 'media'),
 				count($imageSoftReferences),
 				$this->assembleOutput($imageSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
 			);

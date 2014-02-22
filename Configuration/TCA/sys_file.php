@@ -3,36 +3,8 @@ if (!defined('TYPO3_MODE')) die ('Access denied.');
 
 $tca = array(
 	'ctrl' => array(
-		'default_sortby' => 'ORDER BY is_variant ASC, uid DESC',
+		'default_sortby' => 'uid DESC',
 		'searchFields' => 'uid,extension,name', // sys_file_metadata.title,sys_file_metadata.keywords,
-	),
-	'columns' => array(
-		#'variants' => array(
-		#	'exclude' => 1,
-		#	'l10n_mode' => 'exclude',
-		#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variants',
-		#	'config' => array(
-		#		'type' => 'inline',
-		#		'foreign_table' => 'sys_file_variants',
-		#		'foreign_selector' => 'role',
-		#		'foreign_field' => 'original'
-		#	)
-		#),
-		'is_variant' => array(
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.is_variant',
-			'config' => array(
-				'type' => 'check',
-				'default' => '1',
-				'readOnly' => TRUE,
-			)
-		),
-		#'variation' => array(
-		#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file.variation',
-		#	'config' => array(
-		#		'type' => 'text',
-		#		'readOnly' => TRUE,
-		#	)
-		#),
 	),
 	'grid' => array(
 		'facets' => array(
@@ -125,13 +97,6 @@ $tca = array(
 				'visible' => FALSE,
 				'sortable' => FALSE,
 			),
-			// @todo variants may be completely removed.
-			#'variants' => array(
-			#	'renderer' => 'TYPO3\CMS\Media\Grid\VariantRenderer',
-			#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:variants',
-			#	'visible' => TRUE,
-			#	'sortable' => FALSE,
-			#),
 			'status' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'status')),
 				'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.status',

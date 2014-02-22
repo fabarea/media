@@ -110,7 +110,7 @@ If the default thumbnail through the object is not enough, which will likely be 
 	# Give more settings to the thumbnail:
 	<m:thumbnail object="{asset}"
 		configuration="{width: 800, height: 800}"
-		attributes="{class: 'file-variant'}"
+		attributes="{class: 'file-thumbnail'}"
 		output="image"/>
 
 	# Required attributes:
@@ -207,44 +207,6 @@ If needed, it is possible to add additional custom optimizers. Notice that the c
 
 .. _exif: http://en.wikipedia.org/wiki/Exchangeable_image_file_format
 .. _extension: https://forge.typo3.org/projects/extension-image_autoresize/
-
-
-Variants API
-============
-
-A Variant is, as its name indicates, a variation of a file and can have different roles such as "thumbnail", "subtitle", "caption".
-Variants are mainly used in the RTE when an image of a different size of the original is created and inserted into the Editor.
-For now Variants, can only be resized in the Image Editor but it is in the pipeline to also be able to crop it
-and apply all sort of filters. There are settings in the Storage to automatically create Variants upon upload which
-is a handy for having standardized size of images across the website.
-
-
-Use the Variant Service for creating a Variant out of a File::
-
-	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-	$objectManager;
-
-	/** @var \TYPO3\CMS\Media\Service\VariantService $variantService */
-	$variantService = $objectManager->get('TYPO3\CMS\Media\Service\VariantService');
-
-	$configuration = array(
-		'width' => 200, // corresponds to maxH, respectively maxW
-		'height' => 200,
-	);
-	$variant = $variantService->create($file, $configuration);
-
-	print $variant->getOriginalResource()->getUid();
-	print $variant->getUid();
-	print $variant->getVariation();
-
-Retrieving all Variants from an Asset::
-
-	/** @var $asset \TYPO3\CMS\Media\Domain\Model\Asset */
-	$variants = $asset->getVariants();
-
-Retrieving all Variants of an original file using the Variant Repository::
-
-	$variants = $variantRepository->findByOriginalFile($file);
 
 Permission Management
 =====================

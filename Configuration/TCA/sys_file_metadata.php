@@ -3,7 +3,7 @@ if (!defined('TYPO3_MODE')) die ('Access denied.');
 
 $tca = array(
 	'ctrl' => array(
-		'default_sortby' => 'ORDER BY is_variant ASC, uid DESC',
+		'default_sortby' => 'ORDER BY uid DESC',
 		'searchFields' => 'uid,extension,name', // sys_file_metadata.title,sys_file_metadata.keywords,
 	),
 	'columns' => array(

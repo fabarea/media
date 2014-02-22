@@ -50,7 +50,6 @@ if (TYPO3_MODE == 'BE') {
 			'ImageEditor' => 'show',
 			'Storage' => 'list',
 			'LinkCreator' => 'show',
-			'Variant' => 'upload',
 		),
 		array(
 			'access' => 'user,group',
@@ -128,18 +127,14 @@ if (TYPO3_MODE == 'BE') {
 	);
 }
 
-// Add sprite icon for type Variant
-//\TYPO3\CMS\Backend\Sprite\SpriteManager::addIconSprite()
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
 	array(
-		'variant' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image.png',
-		'variants' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/images.png',
-		'variant-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
-		'variant-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
+		'image-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
+		'image-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
 		'image-export' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_export.png',
 		'storage-change' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/folder_go.png',
 	),
-	$_EXTKEY
+	'media'
 );
 
 // Add Media folder type and icon

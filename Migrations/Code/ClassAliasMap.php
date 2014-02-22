@@ -5,6 +5,5 @@ return array(
 	'Tx_Media_Controller_LinkCreatorController' => 'TYPO3\\CMS\\Media\\Controller\\Backend\\LinkCreatorController',
 	'Tx_Media_Controller_StorageController' => 'TYPO3\\CMS\\Media\\Controller\\Backend\\StorageController',
 	'Tx_Media_Controller_ToolController' => 'TYPO3\\CMS\\Media\\Controller\\Backend\\ToolController',
-	'Tx_Media_Controller_VariantController' => 'TYPO3\\CMS\\Media\\Controller\\Backend\\VariantController',
 );
 ?>

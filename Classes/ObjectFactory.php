@@ -187,7 +187,7 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
-	 * Return a folder object containing variant files.
+	 * Return a folder object configured in the storage.
 	 *
 	 * @param ResourceStorage $storage
 	 * @param Asset $asset
@@ -198,7 +198,7 @@ class ObjectFactory implements SingletonInterface {
 		// default is the root level
 		$folderObject = $storage->getRootLevelFolder();
 
-		// Get a possible mount point for variant coming from the storage record.
+		// Retrieve storage record and a possible configured mount point.
 		$storageRecord = $storage->getStorageRecord();
 		$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $asset->getType()];
 
@@ -208,34 +208,6 @@ class ObjectFactory implements SingletonInterface {
 			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
 			if (!empty($record['path'])) {
 				$folderObject = $storage->getFolder($record['path']);
-			}
-		}
-		return $folderObject;
-	}
-
-	/**
-	 * Return a folder object containing variant files.
-	 *
-	 * @param int|NULL $storageIdentifier
-	 * @return \TYPO3\CMS\Core\Resource\Folder
-	 */
-	public function getVariantTargetFolder($storageIdentifier = NULL) {
-
-		$storageObject = $this->getStorage($storageIdentifier);
-
-		// default is the root level
-		$folderObject = $storageObject->getRootLevelFolder();
-
-		// Get a possible mount point for variant coming from the storage record.
-		$storageRecord = $storageObject->getStorageRecord();
-		$mountPointIdentifier = $storageRecord['mount_point_variant'];
-
-		if ($mountPointIdentifier > 0) {
-
-			// We don't have a Mount Point repository in FAL, so query the database directly.
-			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
-			if (!empty($record['path'])) {
-				$folderObject = $storageObject->getFolder($record['path']);
 			}
 		}
 		return $folderObject;

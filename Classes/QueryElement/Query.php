@@ -99,13 +99,6 @@ class Query {
 	protected $ignoreEnableFields = FALSE;
 
 	/**
-	 * Tell whether the variant should be filtered by default
-	 *
-	 * @var bool
-	 */
-	protected $filterVariant = TRUE;
-
-	/**
 	 * @var \TYPO3\CMS\Media\Tca\FieldService
 	 */
 	protected $tcaFieldService;
@@ -157,9 +150,6 @@ class Query {
 	public function renderClause() {
 
 		$clause = '1=1';
-		if ($this->filterVariant) {
-			$clause .= ' AND is_variant = 0';
-		}
 
 		if (TYPO3_MODE === 'BE' && $this->ignoreEnableFields) {
 			$clause .= \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields($this->tableName);
@@ -481,19 +471,4 @@ EOF;
 		return $this;
 	}
 
-	/**
-	 * @return boolean
-	 */
-	public function getFilterVariant() {
-		return $this->filterVariant;
-	}
-
-	/**
-	 * @param boolean $filterVariant
-	 * @return \TYPO3\CMS\Media\QueryElement\Query
-	 */
-	public function setFilterVariant($filterVariant) {
-		$this->filterVariant = $filterVariant;
-		return $this;
-	}
 }

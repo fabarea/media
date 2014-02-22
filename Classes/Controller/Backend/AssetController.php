@@ -48,18 +48,6 @@ class AssetController extends ActionController {
 	protected $assetRepository;
 
 	/**
-	 * @var \TYPO3\CMS\Media\Domain\Repository\VariantRepository
-	 * @inject
-	 */
-	protected $variantRepository;
-
-	/**
-	 * @var \TYPO3\CMS\Media\Service\VariantService
-	 * @inject
-	 */
-	protected $variantService;
-
-	/**
 	 * @var \TYPO3\CMS\Core\Page\PageRenderer
 	 * @inject
 	 */

@@ -83,19 +83,13 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 	 * @return array
 	 */
 	protected function hasNotSoftImageReferences($asset) {
-		$softReferences = array();
 
-		foreach ($asset->getVariants() as $variant) {
-
-			// Get the file references of the asset.
-			$_softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-				'recuid, tablename',
-				'sys_refindex',
-				'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $variant->getUid()
-			);
-
-			$softReferences = array_merge($softReferences, $_softReferences);
-		}
+		// Get the file references of the asset.
+		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'recuid, tablename',
+			'sys_refindex',
+			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
+		);
 		return empty($softReferences);
 	}
 

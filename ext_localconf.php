@@ -28,12 +28,4 @@ if (TYPO3_MODE == 'BE') {
 		'className' => 'TYPO3\CMS\Media\Override\Backend\Form\FormEngine'
 	);
 }
-
-// Delete possible variants as soon as a file is deleted.
-\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher')->connect(
-	'TYPO3\\CMS\\Core\\Resource\\ResourceStorage',
-	\TYPO3\CMS\Core\Resource\ResourceStorage::SIGNAL_PostFileDelete,
-	'TYPO3\\CMS\\Media\\SignalSlot\\VariantDeletionAspect',
-	'removeFromRepository'
-);
 ?>

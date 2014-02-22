@@ -67,7 +67,6 @@ class ContentController {
 			}
 
 			$matcherObject->equals('storage', $identifier);
-			$matcherObject->equals('is_variant', 0);
 		}
 	}
 }

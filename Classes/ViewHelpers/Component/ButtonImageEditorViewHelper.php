@@ -54,7 +54,7 @@ class ButtonImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
 				$object->getUid(),
 				$object->getUid(),
 				LocalizationUtility::translate('edit_image', 'media'),
-				IconUtility::getSpriteIcon('extensions-media-variant-edit')
+				IconUtility::getSpriteIcon('extensions-media-image-edit')
 			);
 		}
 		return $result;

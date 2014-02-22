@@ -45,12 +45,6 @@ class ImageEditorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	protected $assetRepository;
 
 	/**
-	 * @var \TYPO3\CMS\Media\Domain\Repository\VariantRepository
-	 * @inject
-	 */
-	protected $variantRepository;
-
-	/**
 	 * @var \TYPO3\CMS\Core\Page\PageRenderer
 	 * @inject
 	 */

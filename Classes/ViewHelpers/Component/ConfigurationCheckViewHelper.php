@@ -97,8 +97,6 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 			'extension_allowed_file_type_3',
 			'extension_allowed_file_type_4',
 			'extension_allowed_file_type_5',
-			'default_variations',
-			'mount_point_variant',
 			'mount_point_file_type_1',
 			'mount_point_file_type_2',
 			'mount_point_file_type_3',
@@ -198,7 +196,6 @@ EOF;
 				'mount_point_file_type_3',
 				'mount_point_file_type_4',
 				'mount_point_file_type_5',
-				'mount_point_file_type_variant',
 			);
 			foreach ($fieldNames as $fileName) {
 				$fileMountIdentifier = (int) $storageRecord[$fileName];

@@ -18,9 +18,6 @@ Feature: Media Backend Module
     And I press ok
     Then I should see a new File in the Grid
 
-  @javascript @upload-create-variant
-  Scenario: Create Variant upon upload
-
   @javascript @upload-create-category
   Scenario: Add Category upon upload
 
