@@ -29,6 +29,7 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\UploadException;
 use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\ConfigurationUtility;
@@ -36,26 +37,13 @@ use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 /**
  * Controller which handles actions related to Link Creator.
  */
-class LinkCreatorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class LinkCreatorController extends ActionController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
 	 * @inject
 	 */
 	protected $assetRepository;
-
-//	/**
-//	 * @var \TYPO3\CMS\Core\Page\PageRenderer
-//	 * @inject
-//	 */
-//	protected $pageRenderer;
-//
-//	/**
-//	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
-//	 */
-//	public function initializeAction() {
-//		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
-//	}
 
 	/**
 	 * Handle GUI for creating a link in the RTE.

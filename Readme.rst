@@ -105,10 +105,10 @@ A thumbnail can be generated from the Asset object as a first place, like::
 If the default thumbnail through the object is not enough, which will likely be the case in the real world, the Thumbnail View Helper can offer more flexibility::
 
 	# The minimum required:
-	<m:thumbnail object="{asset}"/>
+	<m:thumbnail file="{asset}"/>
 
 	# Give more settings to the thumbnail:
-	<m:thumbnail object="{asset}"
+	<m:thumbnail file="{asset}"
 		configuration="{width: 800, height: 800}"
 		attributes="{class: 'file-thumbnail'}"
 		output="image"/>
@@ -116,7 +116,7 @@ If the default thumbnail through the object is not enough, which will likely be 
 	# Required attributes:
 	# --------------------
 	#
-	# object="{asset}"
+	# file="{asset}"
 
 	# Default values:
 	# ---------------
@@ -132,7 +132,7 @@ If the default thumbnail through the object is not enough, which will likely be 
 	# - image_small => '320x320'
 	# - image_medium => '760x760'
 	# - image_large => '1200x1200'
-	<m:thumbnail object="{asset}" preset="image_medium"/>
+	<m:thumbnail file="{asset}" preset="image_medium"/>
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
@@ -142,7 +142,7 @@ If the default thumbnail through the object is not enough, which will likely be 
 		xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
 
 		<section>
-			<m:thumbnail object="{asset}" preset="image_medium"/>
+			<m:thumbnail file="{asset}" preset="image_medium"/>
 		</section>
     </html>
 

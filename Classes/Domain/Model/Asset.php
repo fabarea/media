@@ -27,6 +27,8 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Media\Service\ThumbnailInterface;
+use TYPO3\CMS\Media\Service\ThumbnailService;
 
 /**
  * Media representation in the file abstraction layer.
@@ -779,13 +781,13 @@ class Asset extends File {
 	/**
 	 * Return a thumbnail of the Asset.
 	 *
-	 * @param \TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService
+	 * @param ThumbnailService $thumbnailService
 	 * @return string
 	 */
-	public function getThumbnail(\TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService = NULL) {
+	public function getThumbnail(ThumbnailService $thumbnailService = NULL) {
 
 		if (is_null($thumbnailService)) {
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			/** @var $thumbnailService ThumbnailService */
 			$thumbnailService = $this->getObjectManager()->get('TYPO3\CMS\Media\Service\ThumbnailService');
 		}
 
@@ -796,18 +798,18 @@ class Asset extends File {
 	/**
 	 * Return a thumbnail of the Asset wrapped with a link.
 	 *
-	 * @param \TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService
+	 * @param ThumbnailService $thumbnailService
 	 * @return string
 	 */
-	public function getThumbnailWrapped(\TYPO3\CMS\Media\Service\ThumbnailService $thumbnailService = NULL) {
+	public function getThumbnailWrapped(ThumbnailService $thumbnailService = NULL) {
 
 		if (is_null($thumbnailService)) {
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
+			/** @var $thumbnailService ThumbnailService */
 			$thumbnailService = $this->getObjectManager()->get('TYPO3\CMS\Media\Service\ThumbnailService');
 		}
 
 		return $thumbnailService->setFile($this)
-			->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 			->create();
 	}
 

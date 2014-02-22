@@ -22,11 +22,12 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller which handles tools related to Media.
  */
-class ToolController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class ToolController extends ActionController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Service\AssetIndexerService

@@ -23,6 +23,10 @@ namespace TYPO3\CMS\Media\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Exception\MissingTcaConfigurationException;
+use TYPO3\CMS\Media\Utility\ImagePresetUtility;
 use TYPO3\CMS\Media\Utility\Path;
 
 /**
@@ -66,14 +70,9 @@ class ThumbnailService implements ThumbnailInterface {
 	protected $wrap = FALSE;
 
 	/**
-	 * @var \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset
+	 * @var File|\TYPO3\CMS\Media\Domain\Model\Asset
 	 */
 	protected $file;
-
-	/**
-	 * @var \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset
-	 */
-	protected $overlayFile;
 
 	/**
 	 * @var \TYPO3\CMS\Core\Resource\ProcessedFile
@@ -140,35 +139,34 @@ class ThumbnailService implements ThumbnailInterface {
 	/**
 	 * Render a thumbnail of a media
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException
+	 * @throws MissingTcaConfigurationException
 	 * @return string
 	 */
 	public function create() {
 
 		if (empty($this->file)) {
-			throw new \TYPO3\CMS\Media\Exception\MissingTcaConfigurationException('Missing Media object. Forgotten to set a media?', 1355933144);
+			throw new MissingTcaConfigurationException('Missing Media object. Forgotten to set a media?', 1355933144);
 		}
 
 		// Default class name
 		$className = 'TYPO3\CMS\Media\Service\ThumbnailService\FallBackThumbnail';
-		if (\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE == $this->file->getType()) {
+		if (File::FILETYPE_IMAGE == $this->file->getType()) {
 			$className = 'TYPO3\CMS\Media\Service\ThumbnailService\ImageThumbnail';
-		} elseif (\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO == $this->file->getType()) {
+		} elseif (File::FILETYPE_AUDIO == $this->file->getType()) {
 			$className = 'TYPO3\CMS\Media\Service\ThumbnailService\AudioThumbnail';
-		} elseif (\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO == $this->file->getType()) {
+		} elseif (File::FILETYPE_VIDEO == $this->file->getType()) {
 			$className = 'TYPO3\CMS\Media\Service\ThumbnailService\VideoThumbnail';
-		} elseif (\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION == $this->file->getType() ||
-			\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT == $this->file->getType()) {
+		} elseif (File::FILETYPE_APPLICATION == $this->file->getType() ||
+			File::FILETYPE_TEXT == $this->file->getType()) {
 				$className = 'TYPO3\CMS\Media\Service\ThumbnailService\ApplicationThumbnail';
 		}
 
 		/** @var $serviceInstance \TYPO3\CMS\Media\Service\ThumbnailService */
-		$serviceInstance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
+		$serviceInstance = GeneralUtility::makeInstance($className);
 
 		$thumbnail = '';
 		if ($this->file->exists()) {
 			$thumbnail = $serviceInstance->setFile($this->file)
-				->setOverlayFile($this->overlayFile)
 				->setConfiguration($this->getConfiguration())
 				->setConfigurationWrap($this->getConfigurationWrap())
 				->setAttributes($this->getAttributes())
@@ -210,7 +208,7 @@ class ThumbnailService implements ThumbnailInterface {
 	 * @return boolean
 	 */
 	public function isThumbnailPossible($extension) {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($extension));
+		return GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($extension));
 	}
 
 	/**
@@ -259,7 +257,7 @@ class ThumbnailService implements ThumbnailInterface {
 	 */
 	public function getConfiguration() {
 		if (empty($this->configuration)) {
-			$dimension = \TYPO3\CMS\Media\Utility\ImagePresetUtility::getInstance()->preset('image_thumbnail');
+			$dimension = ImagePresetUtility::getInstance()->preset('image_thumbnail');
 			$this->configuration = array(
 				'width' => $dimension->getWidth(),
 				'height' => $dimension->getHeight(),
@@ -303,44 +301,11 @@ class ThumbnailService implements ThumbnailInterface {
 
 	/**
 	 * @throws \RuntimeException
-	 * @param object $file
+	 * @param File $file
 	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
-	public function setFile($file) {
-
-		if (!is_object($file)) {
-			throw new \RuntimeException('Given parameter "file" should be an object', 1362999411);
-		}
-
-		$this->overlayFile = $file;
-
-		// Retrieve a possible original file if the file is detected as overlay.
-		// The original file is the source of truth when it comes about width / height, ...
-		if ($file->getProperty('sys_language_uid') > 0) {
-
-			/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-			$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
-			$file = $fileRepository->findByUid($file->getProperty('l18n_parent'));
-		}
-
+	public function setFile(File $file) {
 		$this->file = $file;
-
-		return $this;
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset
-	 */
-	public function getOverlayFile() {
-		return $this->overlayFile;
-	}
-
-	/**
-	 * @param \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\Domain\Model\Asset $overlayFile
-	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
-	 */
-	public function setOverlayFile($overlayFile) {
-		$this->overlayFile = $overlayFile;
 		return $this;
 	}
 

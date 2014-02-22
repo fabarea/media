@@ -22,12 +22,13 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
 /**
  * Controller which handles actions related to Storage.
  */
-class StorageController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class StorageController extends ActionController {
 
 	/**
 	 * @var string

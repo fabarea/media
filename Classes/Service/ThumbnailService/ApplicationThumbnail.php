@@ -102,9 +102,9 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	protected function getTitle() {
-		$result = $this->overlayFile->getProperty('title');
+		$result = $this->file->getProperty('title');
 		if (empty($result)) {
-			$result = $this->overlayFile->getName();
+			$result = $this->file->getName();
 		}
 		return htmlspecialchars($result);
 	}

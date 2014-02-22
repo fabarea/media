@@ -24,11 +24,12 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Media\Service\ThumbnailRenderableInterface;
+use TYPO3\CMS\Media\Service\ThumbnailService;
 
 /**
  */
-class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
-	implements \TYPO3\CMS\Media\Service\ThumbnailRenderableInterface {
+class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInterface {
 
 	/**
 	 * @var array
@@ -104,9 +105,9 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 * @return string
 	 */
 	protected function getTitle() {
-		$result = $this->overlayFile->getProperty('title');
+		$result = $this->file->getProperty('title');
 		if (empty($result)) {
-			$result = $this->overlayFile->getName();
+			$result = $this->file->getName();
 		}
 		return htmlspecialchars($result);
 	}

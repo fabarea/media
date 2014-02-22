@@ -10,9 +10,6 @@
 <!-- identifier for the *top* part for identification in the global view -->
 <div id="content-header">
 
-	<m:js name="CamanJs-4.1.1/caman.full.min.js"/>
-	<m:js name="CamanJs-4.1.1/adapters/jquery.js"/>
-
 	<style type="text/css">
 		#slider {
 			float: left;
@@ -75,21 +72,28 @@
 
 </div>
 
+
 <!-- identifier for the *middle* part for identification in the global view -->
 <div id="content-body">
 	<div class="container">
 		<f:flashMessages/>
 
-
-		<ul class="nav nav-pills">
+		<ul class="nav nav-tabs">
 			<li class="active">
-				<a href="#" id="resize">
+				<a href="#" id="resized">
 					<f:translate key="resize"/>
 				</a>
 			</li>
-			<!--<li><a href="#" id="crop"><f:translate key="crop" /></a></li>-->
-			<!--<li><a href="#" id="crop">Effects</a></li>-->
-			<!--<li><a href="#" id="crop">Preset effects</a></li>-->
+			<li>
+				<a href="#" id="crop">
+					<f:translate key="crop"/>
+				</a>
+			</li>
+			<li>
+				<a href="#" id="effects">
+					<f:translate key="effects"/>
+				</a>
+			</li>
 		</ul>
 
 		<div class="tool">
@@ -113,9 +117,9 @@
 
 				<div class="container-height"></div>
 				<div class="control-group">
-					<m:thumbnail object="{asset}"
+					<m:thumbnail file="{asset}"
 					             preset="image_medium"
-					             attributes="{class: 'file-variant'}"/>
+					             attributes="{class: 'processed-file'}"/>
 				</div>
 				<div class="container-width"></div>
 
@@ -144,25 +148,21 @@
 
 	<script type="text/javascript">
 
-		$(function () {
+		$(function() {
 
-			var fileExtension = '{asset.extension}';
-			var originalFileUid = '{asset.uid}' - 0; // cast value to int
+			var fileUid = '{asset.uid}' - 0; // cast value to int
 			var originalImageWidth = '{asset.width}' - 0;
 			var originalImageHeight = '{asset.height}' - 0;
 			var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}' - 0;
 			var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}' - 0;
-			var variations = "{f:if(condition: variant, then: '{variant.variation}')}";
-			var variantUid = "{f:if(condition: variant, then: '{variant.variant.uid}')}" - 0;
 			var ratio = originalImageWidth / originalImageHeight;
-
 			var imageWidth, imageHeight, _imageWidth, _imageHeight;
 
-			// compute appropriate width / height given an image can be smaller than "maximalImageWidth"
+			// Compute appropriate width / height given an image can be smaller than "maximalImageWidth".
 			_imageWidth = originalImageWidth > maximalImageWidth ? maximalImageWidth : originalImageWidth;
 			_imageHeight = originalImageHeight > maximalImageHeight ? maximalImageHeight : originalImageHeight;
 
-			// true for landscape image
+			// true for landscape image.
 			if (originalImageWidth >= originalImageHeight) {
 				imageWidth = _imageWidth;
 				imageHeight = Math.ceil(_imageHeight / ratio);
@@ -174,34 +174,32 @@
 			/**
 			 * @see https://github.com/logicmd/jquery-bootstrap-slider
 			 */
-			$("#slider").slider({
+			$('#slider').slider({
 				orientation: "horizontal",
 				range: "min",
 				min: 50,
 				max: imageWidth,
 				value: imageWidth,
-				slide: function (event, ui) {
+				slide: function(event, ui) {
 					var height;
 					$('#width').val(ui.value);
 					height = Math.ceil(ui.value / ratio);
 					$('#height').val(height);
 				},
-				change: function (event, ui) {
-					$('.file-variant').caman(function () {
-						this.reset();
-						this.resize({
-							width: ui.value
-						}).render();
-					});
+				change: function(event, ui) {
+					$('.processed-file').attr({
+						width: $('#width').val(),
+						height: $('#height').val()
+					})
 				}
 			});
 
 			/**
-			 * Make the input smarter by adding interaction with the slider
+			 * Make the height / width input box smarter by connecting them with the slider.
 			 */
 			$('#width')
 					.val(imageWidth)
-					.change(function () {
+					.change(function() {
 						// Value can not be bigger than maximalImageWidth
 						if ($(this).val() > imageWidth) {
 							$(this).val(imageWidth);
@@ -209,7 +207,7 @@
 						$('#slider').slider("value", $(this).val());
 						$('#height').val(Math.ceil($(this).val() / ratio));
 					})
-					.bind('keypress', function (e) {
+					.bind('keypress', function(e) {
 						if (e.keyCode == 13) {
 							$('#width').change();
 						}
@@ -217,7 +215,7 @@
 
 			$('#height')
 					.val(imageHeight)
-					.change(function () {
+					.change(function() {
 						// Value can not be bigger than maximalImageWidth
 						if ($(this).val() > imageHeight) {
 							$(this).val(imageHeight);
@@ -227,46 +225,36 @@
 						$('#slider').slider("value", width);
 						$('#width').val(width);
 					})
-					.bind('keypress', function (e) {
+					.bind('keypress', function(e) {
 						if (e.keyCode == 13) {
 							$('#height').change();
 						}
 					});
 
-			$('.btn-create-image').click(function () {
+			/**
+			 * Handler when the "create image" button is clicked.
+			 */
+			$('.btn-create-image').click(function() {
+				var processingConfiguration;
 
-				$(".file-variant").caman(function () {
-					var variation;
-					variation = '';
+				processingConfiguration = {
+					width: $('#width').val(),
+					height: $('#height').val()
+				};
 
-					// Get the resize info
-					if (this.resized) {
-						variation += 'resize({width: ' + this.width + ', height: ' + this.height + '}) ';
+				// ajax call to create a new Processed File.
+				$.ajax({
+					type: 'POST',
+					url: 'mod.php?M=user_MediaM1',
+					data: {
+						'tx_media_user_mediam1[action]': 'create',
+						'tx_media_user_mediam1[controller]': 'ProcessedFile',
+						'tx_media_user_mediam1[file]': fileUid,
+						'tx_media_user_mediam1[processingConfiguration]': processingConfiguration
+					},
+					success: function(data) {
+						Media.Rte.Popup.createImage(data);
 					}
-
-					// Get the crop info
-					//if (this.cropped) {
-					//	variation += 'crop() ';
-					//}
-					// Get the filter applied: this.renderer.renderQueue or this.canvasQueue ?
-
-					// ajax call to submit image uploadVariant
-					$.ajax({
-						type: 'POST',
-						url: 'mod.php?M=user_MediaM1',
-						data: {
-							'tx_media_user_mediam1[action]': 'upload',
-							'tx_media_user_mediam1[controller]': 'Variant',
-							'tx_media_user_mediam1[variant][role]': 1,
-							'tx_media_user_mediam1[variant][original]': originalFileUid,
-							'tx_media_user_mediam1[variant][variant]': variantUid,
-							'tx_media_user_mediam1[variant][variation]': variation,
-							'qqfile': this.toBase64(fileExtension == 'png' ? 'png' : 'jpeg')
-						},
-						success: function (data) {
-							Media.Rte.Popup.createImage(data);
-						}
-					});
 				});
 			});
 
@@ -274,37 +262,11 @@
 			 * Prevent the form to be submitted as such.
 			 * Fire a click on ".btn-create-image".
 			 */
-			$('#form-action-imageEditor').submit(function (e) {
+			$('#form-action-imageEditor').submit(function(e) {
 				$('.btn-create-image').click();
 				e.preventDefault();
 			});
 
-			/**
-			 * Transform the image tag into canvas thanks to CamanJS.
-			 */
-			$('.file-variant').caman(function () {
-				var camanObject = this;
-				// apply filter to the image
-				$.each(variations.split(")"), function (index, variation) {
-					var regExp, width, matches;
-
-					if ($.trim(variation).length > 0) {
-						variation = $.trim(variation) + ")"; // add closing bracket which was removed by the split
-
-						// special case for resize
-						if (matches = variation.match(/resize.+width\: *([0-9]+)/i)) {
-							width = matches[1];
-							// apply width value to input and fire event change.
-							$('#width').val(width).change();
-
-						} else {
-							eval("camanObject." + variation); // apply filter
-						}
-					}
-				});
-
-				this.render();
-			});
 		});
 	</script>
 </div>

@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\File;
 
 /**
  * Thumbnail Interface
@@ -84,10 +85,10 @@ interface ThumbnailInterface {
 	public function getFile();
 
 	/**
-	 * @param object $file
+	 * @param File $file
 	 * @return \TYPO3\CMS\Media\Service\ThumbnailInterface
 	 */
-	public function setFile($file);
+	public function setFile(File $file);
 
 	/**
 	 * @return array

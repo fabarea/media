@@ -50,6 +50,7 @@ if (TYPO3_MODE == 'BE') {
 			'ImageEditor' => 'show',
 			'Storage' => 'list',
 			'LinkCreator' => 'show',
+			'ProcessedFile' => 'create',
 		),
 		array(
 			'access' => 'user,group',

@@ -8,7 +8,7 @@
 	$(function () {
 
 		/**
-		 * Bind handler against RTE image editor buttons in the grid.
+		 * Handler related to the "editor image" buttons in the grid.
 		 */
 		$(document).on('click', '.dataTable tbody .btn-imageEditor', function (e) {
 			Media.handleForm($(this).attr('href'));
@@ -16,7 +16,7 @@
 		});
 
 		/**
-		 * Bind handler against image preview buttons in the grid.
+		 * Handler related to the "preview image" anchor in the grid.
 		 */
 		$(document).on('click', '.dataTable tbody .preview a', function (e) {
 			Media.handleForm($(this).attr('href'));
@@ -25,42 +25,36 @@
 
 		/**
 		 * Handler against Variant icon.
+		 * @todo check how to deal with that - 6.2 migration
 		 */
-		$(document).on('click', '.dataTable tbody .btn-variant-link', function (e) {
-			e.preventDefault();
-			var data = {
-				uid: $(this).data('file-uid'),
-				original: $(this).data('original-uid'),
-				publicUrl: $(this).data('public-url'),
-				timeStamp: $(this).data('time-stamp')
-			};
-			Media.Rte.Popup.createImage(data);
-		});
+//		$(document).on('click', '.dataTable tbody .btn-variant-link', function (e) {
+//			e.preventDefault();
+//			var data = {
+//				uid: $(this).data('file-uid'),
+//				original: $(this).data('original-uid'),
+//				publicUrl: $(this).data('public-url'),
+//				timeStamp: $(this).data('time-stamp')
+//			};
+//			Media.Rte.Popup.createImage(data);
+//		});
 
-		// True means a link already exist in the RTE and must be updated.
+		/**
+		 * True means an image has been selected in in the RTE and image editor must be loaded
+		 */
 		if (window.opener && window.opener.Media.ImageEditor.elementNode) {
-			var $element, titleAttribute, matches,
-				uri, classAttribute, targetAttribute,
-				variantUid, originalUid;
+			var $element, titleAttribute, matches, uriTarget,
+				uri, classAttribute, targetAttribute, fileUid;
 
 			$element = $(window.opener.Media.ImageEditor.elementNode);
+			fileUid = $($element).data('htmlarea-file-uid');
 
-			variantUid = $($element).data('htmlarea-file-uid');
-			originalUid = $($element).data('htmlarea-original-uid');
+			// Makes sure the file uid exists
+			if (fileUid > 0 && $($element).data('htmlarea-file-table') == 'sys_file') {
 
-			// Makes sure the variant uid exists
-			if (variantUid > 0 && $($element).data('htmlarea-file-table') == 'sys_file') {
+				uriTarget = new Uri($('#btn-imageEditor-current').attr('href'));
+				uriTarget.addQueryParam('tx_media_user_mediam1[asset]', fileUid);
 
-				var uriTarget = new Uri($('#btn-imageEditor-current').attr('href'));
-				if (originalUid > 0) {
-					uriTarget.addQueryParam('tx_media_user_mediam1[asset]', originalUid);
-					uriTarget.addQueryParam('tx_media_user_mediam1[variant]', variantUid);
-				} else {
-					// In case we can not find a
-					uriTarget.addQueryParam('tx_media_user_mediam1[asset]', variantUid);
-				}
-
-				// Resetting a hidden URL with new attributes (an image was selected in the RTE)
+				// Setting a hidden URL with new attributes (an image was selected in the RTE)
 				// and then fire click event to load Image Editor.
 				$('#btn-imageEditor-current')
 					.attr('href', uriTarget.query())
@@ -80,6 +74,10 @@
 								$('#file-title').val($($element).attr('title'));
 								$('#file-class').val($($element).attr('class'));
 								$('#file-target').val($($element).attr('target'));
+								$('#height').val($($element).attr('height'));
+								$('#width')
+									.val($($element).attr('width'))
+									.change() // Fire up change event to adjust the GUI.
 							}
 						});
 					})
@@ -99,28 +97,30 @@ Media.Rte = {
 	Popup: {
 
 		/**
-		 * Create image link.
+		 * Create image link in the RTE.
 		 *
 		 * @private
-		 * @param {object} element
+		 * @param {object} data
 		 * @return void
 		 */
 		createImage: function (data) {
 
 			var params = {};
 			var hostAndProtocol = location.protocol + '//' + location.host + '/';
-			params.tag = '<img src="' + hostAndProtocol + data.publicUrl + '?' + data.timeStamp +
-				'" data-htmlarea-original-uid="' + data.original +
-				'" data-htmlarea-file-uid="' + data.uid +
+			params.tag = '<img src="' + hostAndProtocol + data.publicUrl +
+				'" title="' + data.title +
+				'" height="' + data.height +
+				'" width="' + data.width +
+				'" data-htmlarea-file-uid="' + data.original +
 				'" data-htmlarea-file-table="sys_file" ';
 
 			if (window.opener) {
-				// apply previous classes
+				// Reset previous class names applied against the image tag.
 				if (window.opener.Media.ImageEditor.elementNode.className != null) {
 					params.tag += 'class="' + window.opener.Media.ImageEditor.elementNode.className + '" '
 				}
 
-				// apply previous styles
+				// Reset previous style applied against the image tag.
 				if (window.opener.Media.ImageEditor.elementNode.style != null &&
 					window.opener.Media.ImageEditor.elementNode.style.cssText != null) {
 					params.tag += 'style="' + window.opener.Media.ImageEditor.elementNode.style.cssText + '" '
@@ -131,7 +131,6 @@ Media.Rte = {
 				window.opener.Media.ImageEditor.insertImage(params);
 				window.close();
 			}
-
 		}
 	}
 };

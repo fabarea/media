@@ -29,6 +29,7 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\UploadException;
 use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\ConfigurationUtility;
@@ -36,7 +37,7 @@ use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 /**
  * Controller which handles actions related to Image Editor.
  */
-class ImageEditorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class ImageEditorController extends ActionController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
@@ -61,18 +62,10 @@ class ImageEditorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 * Handle GUI for inserting an image in the RTE.
 	 *
 	 * @param int $asset
-	 * @param int $variant a possible variant can be given.
 	 * @return void
 	 */
-	public function showAction($asset, $variant = 0) {
-		$assetObject = $this->assetRepository->findByUid($asset);
-
-		$variantObject = NULL;
-		if ($variant > 0) {
-			$variantObject = $this->variantRepository->findOneByVariant($variant);
-		}
-
-		$this->view->assign('asset', $assetObject);
-		$this->view->assign('variant', $variantObject);
+	public function showAction($asset) {
+		$asset = $this->assetRepository->findByUid($asset);
+		$this->view->assign('asset', $asset);
 	}
 }
