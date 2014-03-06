@@ -26,10 +26,8 @@ namespace TYPO3\CMS\Media\SignalSlot;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Exception\StorageNotOnlineException;
-use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\StorageUtility;
+use TYPO3\CMS\Vidi\Persistence\Matcher;
 
 /**
  * Class which handle signal slot for Vidi Content controller
@@ -37,25 +35,13 @@ use TYPO3\CMS\Media\Utility\StorageUtility;
 class ContentController {
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 * @inject
-	 */
-	protected $objectManager;
-
-	/**
-	 * @var \TYPO3\CMS\Vidi\ModuleLoader
-	 * @inject
-	 */
-	protected $moduleLoader;
-
-	/**
 	 * Post process the matcher object.
 	 *
-	 * @param \TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject
+	 * @param Matcher $matcher
 	 * @param string $dataType
 	 * @return void
 	 */
-	public function postProcessMatcherObject(\TYPO3\CMS\Vidi\Persistence\Matcher $matcherObject, $dataType) {
+	public function postProcessMatcherObject(Matcher $matcher, $dataType) {
 		if ($dataType === 'sys_file') {
 
 			$storage = StorageUtility::getInstance()->getCurrentStorage();
@@ -66,7 +52,7 @@ class ContentController {
 				$identifier = $storage->getUid();
 			}
 
-			$matcherObject->equals('storage', $identifier);
+			$matcher->equals('storage', $identifier);
 		}
 	}
 }
