@@ -64,14 +64,13 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 					// Check if filter against file is required "&tx_vidi_user_vidisysfilem1[matches][type]=2"
 					var url = "mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=" + params;
 
-					var name = "File Picker";
 					var dimensions = {
 						top: 0,
 						left: 0,
 						width: 1280,
 						height: 800
 					};
-					browserWin = window.open(url, name, "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
+					browserWin = window.open(url, "Typo3WinBrowser", "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
 					browserWin.focus();
 				} else {
 

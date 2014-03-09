@@ -148,7 +148,7 @@ $(document).ready(function () {
 
 		// Display modal box with default loading icon.
 		var template = '<div style="text-align: center">' +
-			'<img src="' + Vidi.module.publicPath + 'Resources/Public/Images/loading.gif" width="" height="" alt="" />' +
+			'<img src="' + Vidi.module.publicPath + 'Resources/Public/Images/loading.gif" alt="" />' +
 			'</div>';
 
 		bootbox.dialog(template, [
