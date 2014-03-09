@@ -25,7 +25,7 @@ define('TYPO3/CMS/Media/FormEngine', ['jquery'], function ($) {
 		// An additional filter could be applied if required "&tx_vidi_user_vidisysfilem1[matches][type]=2"
 		var url = FormEngine.backPath + 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=' + params;
 
-		var name = "File Picker";
+		//var name = "File Picker"; // Commented since IE compatibility issue. Weird!
 		var dimensions = {
 			top: 0,
 			left: 0,
@@ -33,7 +33,7 @@ define('TYPO3/CMS/Media/FormEngine', ['jquery'], function ($) {
 			height: 800
 		};
 
-		FormEngine.openedPopupWindow = window.open(url, name, "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
+		FormEngine.openedPopupWindow = window.open(url, "Typo3WinBrowser", "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
 		FormEngine.openedPopupWindow.focus();
 	};
 
