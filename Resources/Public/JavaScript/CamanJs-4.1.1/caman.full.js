@@ -1255,7 +1255,7 @@
 
     function IO() {}
 
-    IO.domainRegex = /(?:(?:http|https):\/\/)((?:\w+)\.(?:(?:\w|\.)+))/;
+    IO.domainRegex = /(?:(?:http|https):\/\/)((?:[\w\.\-]+)\.(?:(?:\w|\.)+))/;
 
     IO.isRemote = function(img) {
       if (img == null) {
