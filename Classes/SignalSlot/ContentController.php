@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\SignalSlot;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Utility\StorageUtility;
 use TYPO3\CMS\Vidi\Persistence\Matcher;
 
@@ -43,16 +44,75 @@ class ContentController {
 	 */
 	public function postProcessMatcherObject(Matcher $matcher, $dataType) {
 		if ($dataType === 'sys_file') {
+			$this->respectStorage($matcher);
 
-			$storage = StorageUtility::getInstance()->getCurrentStorage();
-
-			// Set the storage identifier only if the storage is on-line.
-			$identifier = -1;
-			if ($storage->isOnline()) {
-				$identifier = $storage->getUid();
+			if ($this->isBackendMode()) {
+				$this->respectFilemounts($matcher);
 			}
-
-			$matcher->equals('storage', $identifier);
 		}
 	}
+
+	/**
+	 * @param Matcher $matcher
+	 * @return void
+	 */
+	protected function respectStorage(Matcher $matcher) {
+		$storage = StorageUtility::getInstance()->getCurrentStorage();
+
+		// Set the storage identifier only if the storage is on-line.
+		$identifier = -1;
+		if ($storage->isOnline()) {
+			$identifier = $storage->getUid();
+		}
+
+		$matcher->equals('storage', $identifier);
+	}
+
+	/**
+	 * @param Matcher $matcher
+	 * @return void
+	 */
+	protected function respectFileMounts(Matcher $matcher) {
+		if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
+			$matcher->setLogicalSeparatorForLike(Matcher::LOGICAL_OR);
+
+
+			$fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
+			$fileMountUids = implode(',', array_filter($fileMounts));
+
+			$fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
+				'path',
+				'sys_filemounts',
+				'uid IN (' . $fileMountUids . ')'
+			);
+
+			foreach ($fileMountRecords as $fileMountRecord) {
+				if ($fileMountRecord['path']) {
+					$matcher->likes('identifier', $fileMountRecord['path'] . '%');
+				}
+			}
+		}
+	}
+
+	/**
+	 * @return boolean
+	 */
+	protected function isBackendMode() {
+		return TYPO3_MODE === 'BE';
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getCurrentBackendUser() {
+		return $GLOBALS['BE_USER'];
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
 }
