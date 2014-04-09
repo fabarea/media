@@ -181,7 +181,7 @@ class ImageThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	/**
 	 * Get the adequate task type according to TYPO3 mode (Frontend vs Backend).
 	 *
-	 * Frontend: ProcessedFile::CONTEXT_IMAGECROPSCALEMASK which does not work in BE mode and has a better thumbnail quality.
+	 * Frontend: ProcessedFile::CONTEXT_IMAGECROPSCALEMASK better thumbnail quality.
 	 * Backend: ProcessedFile::CONTEXT_IMAGEPREVIEW more suitable for BE.
 	 *
 	 * @return string
