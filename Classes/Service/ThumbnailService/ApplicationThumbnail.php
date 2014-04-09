@@ -54,7 +54,7 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
 	public function renderUri() {
 		if ($this->isThumbnailPossible($this->file->getExtension())) {
-			$this->processedFile = $this->file->process(\TYPO3\CMS\Core\Resource\ProcessedFile::CONTEXT_IMAGEPREVIEW, $this->getConfiguration());
+			$this->processedFile = $this->file->process($this->getProcessingType(), $this->getConfiguration());
 			$result = $this->processedFile->getPublicUrl(TRUE);
 
 			// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
@@ -130,5 +130,15 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			$this->file->getUid(),
 			$result
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProcessingType() {
+		if ($this->processingType === NULL) {
+			return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
+		}
+		return $this->processingType;
 	}
 }
