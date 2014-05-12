@@ -9,7 +9,7 @@ $tca = array(
 			mount_point_file_type_1, mount_point_file_type_2, mount_point_file_type_3, mount_point_file_type_4, mount_point_file_type_5,
 
 			--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tab.upload_settings,
-			maximum_dimension_original_image, default_variations, extension_allowed_file_type_1, extension_allowed_file_type_2, extension_allowed_file_type_3, extension_allowed_file_type_4, extension_allowed_file_type_5,
+			maximum_dimension_original_image, extension_allowed_file_type_1, extension_allowed_file_type_2, extension_allowed_file_type_3, extension_allowed_file_type_4, extension_allowed_file_type_5,
 				',
 
 		),
@@ -171,15 +171,6 @@ $tca = array(
 				'type' => 'input',
 				'size' => 255,
 				'default' => 'pdf, zip, doc, docx, dotx, ppt, pptx, pps, ppsx, odt, xls, xlsx, xltx, rtf, xlt',
-				'eval' => 'trim',
-			),
-		),
-		'default_variations' => array(
-			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.default_variations',
-			'config' => array(
-				'type' => 'input',
-				'size' => 255,
-				'default' => '250x250, 320x320',
 				'eval' => 'trim',
 			),
 		),
