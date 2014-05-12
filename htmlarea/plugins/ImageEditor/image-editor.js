@@ -36,7 +36,8 @@ HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 	 * This function gets called by the class constructor
 	 */
 	configurePlugin: function (editor) {
-
+		this.pageTSConfiguration = this.editorConfiguration.buttons.imageeditor;
+		this.modulePath = this.pageTSConfiguration.pathLinkModule;
 		/*
 		 * Registering plugin "About" information
 		 */
@@ -76,7 +77,7 @@ HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=imageEditor&tx_vidi_user_vidisysfilem1[matches][type]=2';
+		var url = this.modulePath + '&tx_vidi_user_vidisysfilem1[plugins][]=imageEditor&tx_vidi_user_vidisysfilem1[matches][type]=2';
 		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('img');

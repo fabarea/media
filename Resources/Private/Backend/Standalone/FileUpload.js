@@ -6,7 +6,7 @@ $(document).ready(function () {
 		multiple: true,
 		debug: true,
 		request: {
-			endpoint: 'mod.php',
+			endpoint: '%s',
 			// backward compatibility for fine upload to have parameters as GET params.
 			// Otherwise use "setEndpoint" over "setParam" in submit event
 			forceMultipart: true, // when IE9 will be support octet stream upload change me to true
@@ -51,7 +51,6 @@ $(document).ready(function () {
 			params[parameterPrefix + '[action]'] = 'create';
 			params[parameterPrefix + '[controller]'] = 'Asset';
 			params[parameterPrefix + '[storageIdentifier]'] = '%s';
-			params['M'] = 'user_MediaM1';
 			$(this).fineUploader('setParams', params);
 		})
 		.on('cancel', function (event, id, fileName) {

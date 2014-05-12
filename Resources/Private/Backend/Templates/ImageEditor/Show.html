@@ -245,7 +245,7 @@
 				// ajax call to create a new Processed File.
 				$.ajax({
 					type: 'POST',
-					url: 'mod.php?M=user_MediaM1',
+					url: '{moduleUrl}',
 					data: {
 						'tx_media_user_mediam1[action]': 'create',
 						'tx_media_user_mediam1[controller]': 'ProcessedFile',

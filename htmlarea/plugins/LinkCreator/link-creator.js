@@ -37,7 +37,8 @@ HTMLArea.LinkCreator = Ext.extend(HTMLArea.Plugin, {
 	 * @param {Object} editor
 	 */
 	configurePlugin: function (editor) {
-
+		this.pageTSConfiguration = this.editorConfiguration.buttons.linkcreator;
+		this.modulePath = this.pageTSConfiguration.pathLinkModule;
 		/*
 		 * Registering plugin "About" information
 		 */
@@ -77,7 +78,7 @@ HTMLArea.LinkCreator = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean    false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=linkCreator';
+		var url = this.modulePath + '&tx_vidi_user_vidisysfilem1[plugins][]=linkCreator';
 		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('a');

@@ -3,6 +3,10 @@
  *
  * Override default JavaScript file located at typo3/sysext/backend/Resources/Public/JavaScript/FormEngine.js
  */
+
+// add legacy functions to be accessible in the global scope
+var setFormValueOpenBrowser;
+
 define('TYPO3/CMS/Media/FormEngine', ['jquery'], function ($) {
 
 	// main options
@@ -23,7 +27,7 @@ define('TYPO3/CMS/Media/FormEngine', ['jquery'], function ($) {
 
 		// It was changed below from original implementation - Fabien - 11.11.2013
 		// An additional filter could be applied if required "&tx_vidi_user_vidisysfilem1[matches][type]=2"
-		var url = FormEngine.backPath + 'mod.php?M=user_VidiSysFileM1&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=' + params;
+		var url = FormEngine.backPath + vidiModuleUrl + '&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=' + params;
 
 		//var name = "File Picker"; // Commented since IE compatibility issue. Weird!
 		var dimensions = {

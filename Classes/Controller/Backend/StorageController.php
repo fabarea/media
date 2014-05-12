@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
@@ -41,5 +42,6 @@ class StorageController extends ActionController {
 	public function listAction() {
 		$this->view->assign('storages', \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages());
 		$this->view->assign('storageTitle', TcaService::table($this->tableName)->getTitle());
+		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl('user_MediaM1'));
 	}
 }

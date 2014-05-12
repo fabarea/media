@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\Override\Backend\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * 'TCEforms' - Class for creating the backend editing forms.
@@ -34,6 +35,16 @@ namespace TYPO3\CMS\Media\Override\Backend\Form;
  * @coauthor René Fritz <r.fritz@colorcube.de>
  */
 class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
+
+	public function JStop() {
+		$result = parent::JStop();
+		$result .= '
+<script>
+	var vidiModuleUrl = \'' . BackendUtility::getModuleUrl('user_VidiSysFileM1') . '\';
+</script>
+		';
+		return $result;
+	}
 
 	/**
 	 * JavaScript code used for input-field evaluation.
@@ -50,9 +61,8 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 		$result = parent::JSbottom($formname, $update);
 
-		$enableMediaFilePicker = (bool) $GLOBALS['BE_USER']->getTSConfigVal('options.vidi.enableMediaFilePicker');
+		$enableMediaFilePicker = (bool)$GLOBALS['BE_USER']->getTSConfigVal('options.vidi.enableMediaFilePicker');
 		if (!$update && $enableMediaFilePicker) {
-
 			/** @var $pageRenderer \TYPO3\CMS\Core\Page\PageRenderer */
 			$pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
 

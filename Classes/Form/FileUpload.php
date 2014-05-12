@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Form;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -124,6 +125,7 @@ EOF;
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->elementId,
+			BackendUtility::getModuleUrl('user_MediaM1'),
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),

@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
@@ -49,8 +50,8 @@ class MenuItemMassDeleteViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 	 */
 	public function renderMassDeleteUri() {
 
-		return sprintf('mod.php?M=%s&%s[format]=json&%s[action]=massDelete&%s[controller]=Asset',
-			ModuleUtility::getModuleSignature(),
+		return sprintf('%s&%s[format]=json&%s[action]=massDelete&%s[controller]=Asset',
+			BackendUtility::getModuleUrl(ModuleUtility::getModuleSignature()),
 			ModuleUtility::getParameterPrefix(),
 			ModuleUtility::getParameterPrefix(),
 			ModuleUtility::getParameterPrefix()

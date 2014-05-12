@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
@@ -48,12 +49,8 @@ class MenuItemChangeStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 	 * @return string
 	 */
 	public function renderChangeStorageUri() {
-
-		return sprintf('mod.php?M=%s&%s[format]=json&%s[action]=changeStorage&%s[controller]=Asset',
-			ModuleUtility::getModuleSignature(),
-			ModuleUtility::getParameterPrefix(),
-			ModuleUtility::getParameterPrefix(),
-			ModuleUtility::getParameterPrefix()
+		return sprintf('%s',
+			BackendUtility::getModuleUrl(ModuleUtility::getModuleSignature())
 		);
 	}
 }

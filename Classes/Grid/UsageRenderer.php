@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\Grid;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Media\ObjectFactory;
@@ -98,6 +99,7 @@ class UsageRenderer extends GridRendererAbstract {
 			$result .= sprintf($this->getReferenceTemplate(),
 				$reference[$mapping['referenceIdentifier']],
 				$this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
+				rawurlencode(BackendUtility::getModuleUrl('user_VidiSysFileM1')),
 				$reference[$mapping['tableName']],
 				$reference[$mapping['referenceIdentifier']],
 				IconUtility::getSpriteIcon('actions-document-open'),
@@ -201,7 +203,7 @@ class UsageRenderer extends GridRendererAbstract {
 	 * @return string
 	 */
 	protected function getReferenceTemplate() {
-		return '<li title="%s - %s"><a href="/typo3/alt_doc.php?returnUrl=mod.php?M=user_VidiSysFileM1&edit[%s][%s]=edit" class="btn-edit-reference">%s</a> %s</li>';
+		return '<li title="%s - %s"><a href="/typo3/alt_doc.php?returnUrl=%s&edit[%s][%s]=edit" class="btn-edit-reference">%s</a> %s</li>';
 	}
 
 	/**

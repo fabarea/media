@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * A utility class for module
@@ -55,8 +56,8 @@ class ModuleUtility {
 	 * @return string
 	 */
 	static public function getUri($action, $controller) {
-		return sprintf('mod.php?M=%s&%s[action]=%s&%s[controller]=%s',
-			self::getModuleSignature(),
+		return sprintf('%s&%s[action]=%s&%s[controller]=%s',
+			BackendUtility::getModuleUrl(self::getModuleSignature()),
 			self::getParameterPrefix(),
 			$action,
 			self::getParameterPrefix(),

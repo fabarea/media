@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
 use TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -67,5 +68,6 @@ class ImageEditorController extends ActionController {
 	public function showAction($asset) {
 		$asset = $this->assetRepository->findByUid($asset);
 		$this->view->assign('asset', $asset);
+		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl('user_MediaM1'));
 	}
 }

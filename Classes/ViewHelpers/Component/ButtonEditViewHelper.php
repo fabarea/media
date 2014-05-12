@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -59,11 +60,10 @@ class ButtonEditViewHelper extends AbstractViewHelper {
 	 */
 	public function getUri(Asset $asset){
 		$metadataProperties = $asset->_getMetaData();
-
-		return sprintf('alt_doc.php?returnUrl=mod.php?M=%s&edit[%s][%s]=edit',
-			GeneralUtility::_GP('M'),
+		$returnUrl = rawurlencode(BackendUtility::getModuleUrl(GeneralUtility::_GP('M')));
+		return sprintf('alt_doc.php?edit[%s][%s]=edit',
 			'sys_file_metadata',
 			$metadataProperties['uid']
-		);
+		) . '&returnUrl=' . $returnUrl;
 	}
 }

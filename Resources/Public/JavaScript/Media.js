@@ -77,9 +77,8 @@ $(document).ready(function () {
 		$.ajax(
 			{
 				type: 'get',
-				url: 'mod.php',
+				url: $(e.target).attr('href'),
 				data: {
-					M: 'user_MediaM1',
 					'tx_media_user_mediam1[controller]': 'Storage',
 					'tx_media_user_mediam1[action]': 'list',
 					'tx_vidi_user_vidisysfilem1[storage]': storage
