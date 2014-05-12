@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
