@@ -7,7 +7,7 @@
 			debug: true,
 			multiple: false, // no multiple upload in a regular form
 			request: {
-				endpoint: 'mod.php',
+				endpoint: '%s',
 				// backward compatibility for fine upload to have parameters as GET params.
 				// Otherwise use "setEndpoint" over "setParam" in submit event
 				paramsInBody: false
@@ -29,7 +29,6 @@
 				params[parameterPrefix + '[action]'] = 'update';
 				params[parameterPrefix + '[controller]'] = 'Asset';
 				params[parameterPrefix + '[fileIdentifier]'] = '%s';
-				params['M'] = 'user_MediaM1';
 				$(this).fineUploader('setParams', params);
 
 				// Hide the size message
