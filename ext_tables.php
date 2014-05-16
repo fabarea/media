@@ -66,6 +66,7 @@ if (TYPO3_MODE == 'BE') {
 		->addJavaScriptFiles(
 			array(
 				'EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
+				'EXT:media/Resources/Public/JavaScript/Initialize.js',
 				'EXT:media/Resources/Public/JavaScript/Media.js',
 			)
 		)
