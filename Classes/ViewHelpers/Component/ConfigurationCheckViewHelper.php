@@ -126,13 +126,12 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 
 		$result = <<< EOF
 			<div class="typo3-message message-warning">
-					<div class="message-header">
+				<div class="message-header">
 						Storage is not configured
 				</div>
-					<div class="message-body">
-						The storage "{$storage->getName()}" looks currently not configured. Open the storage record "{$storage->getName()}"
-						and assign some value in tab "Upload Settings" or "Default mount points.
-					</div>
+				<div class="message-body">
+					The storage "{$storage->getName()}" looks currently not configured. Open the storage record "{$storage->getName()}"
+					and assign some value in tab "Upload Settings" or "Default mount points.
 				</div>
 			</div>
 EOF;
