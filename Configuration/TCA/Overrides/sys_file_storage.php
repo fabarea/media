@@ -177,5 +177,4 @@ $tca = array(
 	),
 );
 
-return \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule($GLOBALS['TCA']['sys_file_storage'], $tca);
-?>
+\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_storage'], $tca);
