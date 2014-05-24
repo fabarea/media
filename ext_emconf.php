@@ -41,6 +41,7 @@ $EM_CONF[$_EXTKEY] = array (
     'suggests' =>
     array (
       'metadata' => '',
+      'filemetadata' => '',
     ),
   ),
   'user' => 'fab1en',
