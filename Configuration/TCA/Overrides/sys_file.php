@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) die ('Access denied.');
 $tca = array(
 	'ctrl' => array(
 		'default_sortby' => 'uid DESC',
-		'searchFields' => 'uid, extension, name', // sys_file_metadata.title,sys_file_metadata.keywords,
+		'searchFields' => 'uid, extension, name, metadata.title, metadata.description',
 	),
 	'columns' => array(
 		'extension' => array(
@@ -101,7 +101,11 @@ $tca = array(
 
 // Add more info to the Grid if EXT:filemetadata is loaded. Notice that the extension is not required but suggested.
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')) {
+
 	$additionalTca = array(
+		'ctrl' => array(
+			'searchFields' => $tca['ctrl']['searchFields'] . ', metadata.keywords',
+		),
 		'grid' => array(
 			'columns' => array(
 				'keywords' => array(
