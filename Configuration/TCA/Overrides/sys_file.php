@@ -6,6 +6,15 @@ $tca = array(
 		'default_sortby' => 'uid DESC',
 		'searchFields' => 'uid, extension, name', // sys_file_metadata.title,sys_file_metadata.keywords,
 	),
+	'columns' => array(
+		'extension' => array(
+			'config' => array(
+				'type' => 'input',
+				'size' => 255,
+				'eval' => 'trim',
+			),
+		),
+	),
 	'grid' => array(
 		'facets' => array(
 			'uid',
