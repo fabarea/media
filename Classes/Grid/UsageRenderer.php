@@ -212,6 +212,6 @@ class UsageRenderer extends GridRendererAbstract {
 	 * @return string
 	 */
 	protected function getWrappingTemplate() {
-		return '<span style="text-decoration: underline; ">%s (%s)</span><ul style="margin: 0 0 10px 0">%s</ul>';
+		return '<span style="font-weight: bold; ">%s (%s)</span><ul class="usage-list">%s</ul>';
 	}
 }

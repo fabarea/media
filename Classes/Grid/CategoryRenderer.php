@@ -45,9 +45,9 @@ class CategoryRenderer extends GridRendererAbstract {
 
 			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
 			foreach ($categories as $category) {
-				$result .= sprintf('<li style="list-style: disc">%s</li>', $category->getTitle());
+				$result .= sprintf('<li>%s</li>', $category->getTitle());
 			}
-			$result = sprintf('<ul>%s</ul>', $result);
+			$result = sprintf('<ul class="category-list">%s</ul>', $result);
 		}
 		return $result;
 	}

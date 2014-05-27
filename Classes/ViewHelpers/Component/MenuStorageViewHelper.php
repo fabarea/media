@@ -74,7 +74,7 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 
 		$template = '<form action="mod.php" id="form-menu-storage" method="get">
 						%s
-						<select name="%s[storage]" id="menu-storage" class="btn btn-mini" onchange="$(\'#form-menu-storage\').submit()">%s</select>
+						<select name="%s[storage]" class="btn btn-min" id="menu-storage" onchange="$(\'#form-menu-storage\').submit()">%s</select>
 					</form>';
 
 		return sprintf($template,
