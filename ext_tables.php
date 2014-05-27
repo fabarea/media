@@ -151,5 +151,3 @@ $TCA['pages']['columns']['module']['config']['items'][] = array(
 	'media',
 	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
 );
-
-?>

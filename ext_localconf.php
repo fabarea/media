@@ -28,4 +28,3 @@ if (TYPO3_MODE == 'BE') {
 		'className' => 'TYPO3\CMS\Media\Override\Backend\Form\FormEngine'
 	);
 }
-?>
