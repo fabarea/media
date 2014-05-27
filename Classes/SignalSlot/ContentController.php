@@ -26,6 +26,7 @@ namespace TYPO3\CMS\Media\SignalSlot;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Utility\StorageUtility;
 use TYPO3\CMS\Vidi\Persistence\Matcher;
@@ -76,14 +77,24 @@ class ContentController {
 		if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
 			$matcher->setLogicalSeparatorForLike(Matcher::LOGICAL_OR);
 
+			$tableName = 'sys_filemounts';
 
+			// Get the file mount identifiers for the current Backend User.
 			$fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
 			$fileMountUids = implode(',', array_filter($fileMounts));
 
+			// Compute the clause.
+			$clause = sprintf('uid IN (%s) %s %s',
+				$fileMountUids,
+				BackendUtility::BEenableFields($tableName),
+				BackendUtility::deleteClause($tableName)
+			);
+
+			// Fetch the records
 			$fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
 				'path',
-				'sys_filemounts',
-				'uid IN (' . $fileMountUids . ')'
+				$tableName,
+				$clause
 			);
 
 			foreach ($fileMountRecords as $fileMountRecord) {
