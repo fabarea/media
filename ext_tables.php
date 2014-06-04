@@ -123,8 +123,8 @@ if (TYPO3_MODE == 'BE') {
 	$signalSlotDispatcher->connect(
 		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
 		'postProcessMatcherObject',
-		'TYPO3\CMS\Media\SignalSlot\ContentController',
-		'postProcessMatcherObject',
+		'TYPO3\CMS\Media\Security\FilePermissionsAspect',
+		'addFilePermissions',
 		TRUE
 	);
 }

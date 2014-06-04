@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\SignalSlot;
+namespace TYPO3\CMS\Media\Security;
 
 /***************************************************************
  *  Copyright notice
@@ -34,7 +34,7 @@ use TYPO3\CMS\Vidi\Persistence\Matcher;
 /**
  * Class which handle signal slot for Vidi Content controller
  */
-class ContentController {
+class FilePermissionsAspect {
 
 	/**
 	 * Post process the matcher object.
@@ -43,11 +43,11 @@ class ContentController {
 	 * @param string $dataType
 	 * @return void
 	 */
-	public function postProcessMatcherObject(Matcher $matcher, $dataType) {
+	public function addFilePermissions(Matcher $matcher, $dataType) {
 		if ($dataType === 'sys_file') {
 			$this->respectStorage($matcher);
 
-			if ($this->isBackendMode()) {
+			if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
 				$this->respectFilemounts($matcher);
 			}
 		}
@@ -74,42 +74,33 @@ class ContentController {
 	 * @return void
 	 */
 	protected function respectFileMounts(Matcher $matcher) {
-		if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
-			$matcher->setLogicalSeparatorForLike(Matcher::LOGICAL_OR);
+		$matcher->setLogicalSeparatorForLike(Matcher::LOGICAL_OR);
 
-			$tableName = 'sys_filemounts';
+		$tableName = 'sys_filemounts';
 
-			// Get the file mount identifiers for the current Backend User.
-			$fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
-			$fileMountUids = implode(',', array_filter($fileMounts));
+		// Get the file mount identifiers for the current Backend User.
+		$fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
+		$fileMountUids = implode(',', array_filter($fileMounts));
 
-			// Compute the clause.
-			$clause = sprintf('uid IN (%s) %s %s',
-				$fileMountUids,
-				BackendUtility::BEenableFields($tableName),
-				BackendUtility::deleteClause($tableName)
-			);
+		// Compute the clause.
+		$clause = sprintf('uid IN (%s) %s %s',
+			$fileMountUids,
+			BackendUtility::BEenableFields($tableName),
+			BackendUtility::deleteClause($tableName)
+		);
 
-			// Fetch the records
-			$fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
-				'path',
-				$tableName,
-				$clause
-			);
+		// Fetch the records
+		$fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
+			'path',
+			$tableName,
+			$clause
+		);
 
-			foreach ($fileMountRecords as $fileMountRecord) {
-				if ($fileMountRecord['path']) {
-					$matcher->likes('identifier', $fileMountRecord['path'] . '%');
-				}
+		foreach ($fileMountRecords as $fileMountRecord) {
+			if ($fileMountRecord['path']) {
+				$matcher->likes('identifier', $fileMountRecord['path'] . '%');
 			}
 		}
-	}
-
-	/**
-	 * @return boolean
-	 */
-	protected function isBackendMode() {
-		return TYPO3_MODE === 'BE';
 	}
 
 	/**
