@@ -76,13 +76,13 @@ if (TYPO3_MODE == 'BE') {
 				'EXT:media/Resources/Public/StyleSheets/FileUploader/fineuploader.css'
 			)
 		)
-		->setNavigationTopLeftComponents(
+		->setDocHeaderTopLeftComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
 		)
-		->setNavigationTopRightComponents(
+		->setDocHeaderTopRightComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonToolViewHelper')
 		)
-		->setNavigationBottomLeftComponents(
+		->setDocHeaderBottomLeftComponents(
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadViewHelper')
 		)
 		->setGridTopComponents(
@@ -104,8 +104,27 @@ if (TYPO3_MODE == 'BE') {
 				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonDeleteViewHelper',
 			)
 		)
-		->setGridMenuComponents(
+		->setMenuSelectedRowsComponents(
 			array(
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXlsViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXmlViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportCsvViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemDividerViewHelper',
+
+				// Media custom View Helper
+				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemFilePickerViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemChangeStorageViewHelper',
+				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemMassDeleteViewHelper',
+			)
+		)
+		->setMenuAllRowsComponents(
+			array(
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXlsViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXmlViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportCsvViewHelper',
+				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemDividerViewHelper',
+
+				// Media custom View Helper
 				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemFilePickerViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemChangeStorageViewHelper',
 				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemMassDeleteViewHelper',
