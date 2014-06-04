@@ -29,6 +29,7 @@ $tca = array(
 //			),
 			'extension',
 			'name',
+			'identifier',
 			#'categories',
 			#'fe_groups',
 		),
