@@ -45,23 +45,26 @@ class FrontendUserGroupRepository extends \TYPO3\CMS\Extbase\Domain\Repository\F
 	 */
 	public function findRelated(File $file) {
 
-		$frontendGroupList = implode(',', $this->getFrontendGroupIdentifiers($file));
-
-		$clause = sprintf('uid IN (%s)', $frontendGroupList);
-		$clause .= $this->getWhereClauseForEnabledFields();
-
-		$rows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', $this->tableName, $clause);
-
 		$objectStorage = new ObjectStorage();
-		foreach ($rows as $row) {
-			/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup $frontendUserGroup */
-			$frontendUserGroup = $this->objectManager->get('TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup');
 
-			foreach ($row as $fieldName => $value) {
-				$propertyName = GeneralUtility::underscoredToLowerCamelCase($fieldName);
-				$frontendUserGroup->_setProperty($propertyName, $value);
+		$frontendGroupList = implode(',', $this->getFrontendGroupIdentifiers($file));
+		if (!empty($frontendGroupList)) {
+
+			$clause = sprintf('uid IN (%s)', $frontendGroupList);
+			$clause .= $this->getWhereClauseForEnabledFields();
+
+			$rows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', $this->tableName, $clause);
+
+			foreach ($rows as $row) {
+				/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup $frontendUserGroup */
+				$frontendUserGroup = $this->objectManager->get('TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup');
+
+				foreach ($row as $fieldName => $value) {
+					$propertyName = GeneralUtility::underscoredToLowerCamelCase($fieldName);
+					$frontendUserGroup->_setProperty($propertyName, $value);
+				}
+				$objectStorage->attach($frontendUserGroup);
 			}
-			$objectStorage->attach($frontendUserGroup);
 		}
 
 		return $objectStorage;
