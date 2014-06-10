@@ -76,7 +76,7 @@ $tca = array(
 			),
 			'categories' => array(
 				'renderers' => array(
-					new \TYPO3\CMS\Media\Grid\RelationCreateRendererComponent(),
+					new \TYPO3\CMS\Media\Grid\RelationEditRendererComponent(),
 					new \TYPO3\CMS\Media\Grid\CategoryRendererComponent(),
 				),
 				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_category.categories',
@@ -118,7 +118,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 				),
 				'fe_groups' => array(
 					'renderers' => array(
-						new \TYPO3\CMS\Media\Grid\RelationCreateRendererComponent(),
+						new \TYPO3\CMS\Media\Grid\RelationEditRendererComponent(),
 						new \TYPO3\CMS\Media\Grid\FrontendPermissionRendererComponent(),
 					),
 					'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',

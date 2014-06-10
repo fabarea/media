@@ -22,15 +22,17 @@ namespace TYPO3\CMS\Media\Grid;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
-use TYPO3\CMS\Vidi\Tca\TcaService;
+use TYPO3\CMS\Vidi\Converter\PropertyConverter;
 
 /**
  * Class rendering relation.
  */
-class RelationCreateRenderer extends GridRendererAbstract {
+class RelationEditRenderer extends GridRendererAbstract {
 
 	/**
 	 * Render a representation of the relation on the GUI.
@@ -41,20 +43,35 @@ class RelationCreateRenderer extends GridRendererAbstract {
 
 		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
 		$metadataProperties = $asset->_getMetaData();
-		$dataType = 'sys_file_metadata';
-		$foreignTable = TcaService::table($dataType)->field($this->getFieldName())->getForeignTable();
 
-		$template = '<div style="text-align: right" class="pull-right invisible">
-			<a href="#" data-uid="%s" data-type="%s" data-relation-property="%s" data-related-type="%s" class="btn-create-relation btn-relation">%s</a>
-			</div>';
+		// Initialize url parameters array.
+		$urlParameters = array(
+			$this->getModuleLoader()->getParameterPrefix() => array(
+				'controller' => 'Content',
+				'action' => 'edit',
+				'contentIdentifier' => $metadataProperties['uid'],
+				'fieldName' => $this->getFieldName(),
+				'dataType' => 'sys_file_metadata',
+			),
+		);
+
+		$template = '<div style="text-align: right" class="pull-right invisible"><a href="%s" data-uid="%s" class="btn-edit-relation">%s</a></div>';
+
 		$result = sprintf($template,
+			BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $urlParameters),
 			$metadataProperties['uid'],
-			$dataType,
-			$this->getFieldName(),
-			$foreignTable,
 			IconUtility::getSpriteIcon('actions-edit-add')
 		);
 
 		return $result;
+	}
+
+	/**
+	 * Get the Vidi Module Loader.
+	 *
+	 * @return \TYPO3\CMS\Vidi\ModuleLoader
+	 */
+	protected function getModuleLoader() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader');
 	}
 }

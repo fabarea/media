@@ -27,13 +27,13 @@ use TYPO3\CMS\Vidi\Grid\GenericRendererComponent;
 /**
  * Class for configuring a "Create Relation" Grid Renderer in the Grid TCA.
  */
-class RelationCreateRendererComponent extends GenericRendererComponent {
+class RelationEditRendererComponent extends GenericRendererComponent {
 
 	/**
 	 * Constructor for a "Create Relation" Grid Renderer Component.
 	 */
 	public function __construct() {
-		$className = 'TYPO3\CMS\Media\Grid\RelationCreateRenderer';
+		$className = 'TYPO3\CMS\Media\Grid\RelationEditRenderer';
 		parent::__construct($className, array());
 	}
 }
