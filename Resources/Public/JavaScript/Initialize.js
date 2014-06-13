@@ -89,7 +89,7 @@
 								$('.checkbox-row-top').removeAttr('checked'); // un-check the top checkbox.
 
 								// Reload data table.
-								Vidi.table.fnDraw();
+								Vidi.grid.fnDraw();
 							}
 						})
 					});
@@ -175,7 +175,7 @@
 								$('.checkbox-row-top').removeAttr('checked'); // un-check the top checkbox.
 
 								// Reload data table
-								Vidi.table.fnDraw();
+								Vidi.grid.fnDraw();
 							}
 						);
 					}

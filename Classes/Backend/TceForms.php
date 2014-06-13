@@ -46,8 +46,12 @@ class TceForms {
 		$cssFile = ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/FileUploader/fineuploader.tceforms.css';
 		$this->pageRenderer->addCssFile($cssFile);
 
+		// language labels for JavaScript files
+		$this->pageRenderer->addInlineLanguageLabelFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
+
 		// js files to be loaded
 		$jsFiles = array(
+			ExtensionManagementUtility::extRelPath('lang') . 'Resources/Public/JavaScript/Typo3Lang.js',
 			'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js',
 			'Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
 			'Resources/Public/JavaScript/Encoder.js',

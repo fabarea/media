@@ -182,6 +182,61 @@
 			<trans-unit id="offline">
 				<source>offline</source>
 			</trans-unit>
+
+			<trans-unit id="media_file_upload.uploadFile">
+				<source>Upload file</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.replaceFile">
+				<source>Replace file</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.cancel">
+				<source>Cancel</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.retry">
+				<source>Retry</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.delete">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.uploadFailed">
+				<source>Upload failed</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.dragZone">
+				<source>Drop files here to upload</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.dropProcessing">
+				<source>Processing dropped files...</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.formatProgress">
+				<source>{percent}% of {total_size}</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.waitingForResponse">
+				<source>Processing...</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.typeError">
+				<source>{file} has an invalid extension. Valid extension(s): {extensions}.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.sizeError">
+				<source>{file} is too large, maximum file size is {sizeLimit}.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.minSizeError">
+				<source>{file} is too small, minimum file size is {minSizeLimit}.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.emptyError">
+				<source>{file} is empty, please select files again without it.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.noFilesError">
+				<source>No files to upload.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.tooManyItemsError">
+				<source>Too many items ({netItems}) would be uploaded.  Item limit is {itemLimit}.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.retryFailTooManyItems">
+				<source>Retry failed - you have reached your file limit.</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.onLeave">
+				<source>The files are being uploaded, if you leave now the upload will be cancelled.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

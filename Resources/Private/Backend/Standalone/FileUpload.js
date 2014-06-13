@@ -16,11 +16,29 @@ $(document).ready(function () {
 			allowedExtensions: ['%s'],
 			sizeLimit: '%s' // bytes
 		},
+		text: {
+			uploadButton: '<span title="' + TYPO3.l10n.localize('media_file_upload.uploadFile') + '" class="t3-icon t3-icon-actions t3-icon-actions-edit t3-icon-edit-upload">&nbsp;</span>',
+			cancelButton: TYPO3.l10n.localize('media_file_upload.cancel'),
+			retryButton: TYPO3.l10n.localize('media_file_upload.retry'),
+			deleteButton: TYPO3.l10n.localize('media_file_upload.delete'),
+			failUpload: TYPO3.l10n.localize('media_file_upload.uploadFailed'),
+			dragZone: TYPO3.l10n.localize('media_file_upload.dragZone'),
+			dropProcessing: TYPO3.l10n.localize('media_file_upload.dropProcessing'),
+			formatProgress:TYPO3.l10n.localize('media_file_upload.formatProgress'),
+			waitingForResponse: TYPO3.l10n.localize('media_file_upload.waitingForResponse')
+		},
+		messages: {
+			typeError: TYPO3.l10n.localize('media_file_upload.typeError'),
+			sizeError: TYPO3.l10n.localize('media_file_upload.sizeError'),
+			minSizeError: TYPO3.l10n.localize('media_file_upload.minSizeError'),
+			emptyError: TYPO3.l10n.localize('media_file_upload.emptyError'),
+			noFilesError: TYPO3.l10n.localize('media_file_upload.noFilesError'),
+			tooManyItemsError: TYPO3.l10n.localize('media_file_upload.tooManyItemsError'),
+			retryFailTooManyItems: TYPO3.l10n.localize('media_file_upload.retryFailTooManyItems'),
+			onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
+		},
 		showMessage: function (message) {
 			bootbox.alert(message);
-		},
-		text: {
-			uploadButton: '<span class="t3-icon t3-icon-actions t3-icon-actions-edit t3-icon-edit-upload">&nbsp;</span>'//Media.translate('upload_files')
 		},
 		// Note: main template adapted for Twitter Bootstrap
 		template: '<div class="qq-uploader span8">' +
@@ -65,7 +83,7 @@ $(document).ready(function () {
 
 				// Reset table only if all files have been uploaded
 				if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
-					Vidi.table.fnResetDisplay();
+					Vidi.grid.fnResetDisplay();
 				}
 			}
 		});

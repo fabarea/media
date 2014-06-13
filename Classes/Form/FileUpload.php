@@ -48,12 +48,21 @@ class FileUpload extends \TYPO3\CMS\Media\Form\AbstractFormField  {
 	protected $file;
 
 	/**
+	 * @var \TYPO3\CMS\Core\Page\PageRenderer
+	 */
+	protected $pageRenderer;
+
+	/**
 	 * @return \TYPO3\CMS\Media\Form\FileUpload
 	 */
 	public function __construct() {
 		// Example:
 		// <input multiple = "false" name = "tx_media_user_mediam1[media][name]" type ="file" >
 		// <input name = "file[upload][1][target]" value = "1:/user_upload/images/persons/" type = "hidden" >
+
+		// language labels for JavaScript files
+		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
+		$this->pageRenderer->addInlineLanguageLabelFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 
 		$this->elementId = 'jquery-wrapped-fine-uploader-' . uniqid();
 

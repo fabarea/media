@@ -16,6 +16,28 @@
 				allowedExtensions: ['%s'],
 				sizeLimit: '%s' // bytes
 			},
+			text: {
+				uploadButton: TYPO3.l10n.localize('media_file_upload.replaceFile'),
+				cancelButton: TYPO3.l10n.localize('media_file_upload.cancel'),
+				retryButton: TYPO3.l10n.localize('media_file_upload.retry'),
+				deleteButton: TYPO3.l10n.localize('media_file_upload.delete'),
+				failUpload: TYPO3.l10n.localize('media_file_upload.uploadFailed'),
+				dragZone: TYPO3.l10n.localize('media_file_upload.dragZone'),
+				dropProcessing: TYPO3.l10n.localize('media_file_upload.dropProcessing'),
+				formatProgress: "{percent}%% " + TYPO3.l10n.localize('media_file_upload.formatProgressOf') + " {total_size}",
+				waitingForResponse: TYPO3.l10n.localize('media_file_upload.waitingForResponse')
+			},
+			messages: {
+				tooManyFilesError: TYPO3.l10n.localize('media_file_upload.tooManyFilesError'),
+				typeError: TYPO3.l10n.localize('media_file_upload.typeError'),
+				sizeError: TYPO3.l10n.localize('media_file_upload.sizeError'),
+				minSizeError: TYPO3.l10n.localize('media_file_upload.minSizeError'),
+				emptyError: TYPO3.l10n.localize('media_file_upload.emptyError'),
+				noFilesError: TYPO3.l10n.localize('media_file_upload.noFilesError'),
+				tooManyItemsError: TYPO3.l10n.localize('media_file_upload.tooManyItemsError'),
+				retryFailTooManyItems: TYPO3.l10n.localize('media_file_upload.retryFailTooManyItems'),
+				onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
+			},
 			// Override override main template
 			template: '<div class="qq-uploader">' +
 				'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
