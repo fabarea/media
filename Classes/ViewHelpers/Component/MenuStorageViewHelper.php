@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
@@ -44,7 +45,7 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 */
 	public function render() {
 
-		$storages = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages();
+		$storages = ObjectFactory::getInstance()->getStorages();
 
 		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
 
