@@ -4,11 +4,6 @@
 	display: none;
 }
 
-#menu-storage {
-	height: 18px;
-	text-align: left;
-}
-
 #form-menu-storage {
 	height: 18px;
 	margin-bottom: 0;
@@ -30,10 +25,9 @@ select#menu-storage {
     margin: 0;
     border: 1px solid rgb(169, 169, 169);
     border-radius: 0;
-    -webkit-border-radius: 0;
     color: #000;
-    background-color: white;
-    font-family: Verdana,Arial,Helvetica,sans-serif !important;
     padding: 0;
     font-size: 12px;
+	height: 18px;
+	text-align: left;
 }
