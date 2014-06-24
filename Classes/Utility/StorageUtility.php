@@ -82,10 +82,10 @@ class StorageUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Return the module loader.
 	 *
-	 * @return \TYPO3\CMS\Vidi\ModuleLoader
+	 * @return \TYPO3\CMS\Vidi\Module\ModuleLoader
 	 */
 	public function getModuleLoader() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Module\ModuleLoader');
 	}
 
 }

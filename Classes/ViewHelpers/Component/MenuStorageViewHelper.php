@@ -33,7 +33,7 @@ use TYPO3\CMS\Media\Utility\StorageUtility;
 class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @var \TYPO3\CMS\Vidi\ModuleLoader
+	 * @var \TYPO3\CMS\Vidi\Module\ModuleLoader
 	 * @inject
 	 */
 	protected $moduleLoader;

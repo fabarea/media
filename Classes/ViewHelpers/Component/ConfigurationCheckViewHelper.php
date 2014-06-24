@@ -48,7 +48,7 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 	protected $extensionName = 'media';
 
 	/**
-	 * @var \TYPO3\CMS\Vidi\ModuleLoader
+	 * @var \TYPO3\CMS\Vidi\Module\ModuleLoader
 	 * @inject
 	 */
 	protected $moduleLoader;

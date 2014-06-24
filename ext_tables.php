@@ -59,8 +59,8 @@ if (TYPO3_MODE == 'BE') {
 		)
 	);
 
-	/** @var \TYPO3\CMS\Vidi\ModuleLoader $moduleLoader */
-	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\ModuleLoader', 'sys_file');
+	/** @var \TYPO3\CMS\Vidi\Module\ModuleLoader $moduleLoader */
+	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Module\ModuleLoader', 'sys_file');
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
 		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
 		->addJavaScriptFiles(
