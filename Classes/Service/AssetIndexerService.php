@@ -97,10 +97,10 @@ class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 	public function getDuplicates() {
 
 		// Detect duplicate records
-		$resource = $this->databaseHandler->sql_query('SELECT identifier FROM sys_file WHERE deleted = 0 AND sys_language_uid = 0 GROUP BY identifier, storage Having COUNT(*) > 1');
+		$resource = $this->databaseHandler->sql_query('SELECT identifier FROM sys_file GROUP BY identifier, storage Having COUNT(*) > 1');
 		$duplicates = array();
 		while ($row = $this->databaseHandler->sql_fetch_assoc($resource)) {
-			$records = $this->databaseHandler->exec_SELECTgetRows('uid', 'sys_file', sprintf('deleted = 0 AND identifier = "%s"', $row['identifier']));
+			$records = $this->databaseHandler->exec_SELECTgetRows('uid', 'sys_file', sprintf('identifier = "%s"', $row['identifier']));
 			$duplicates[$row['identifier']] = $records;
 		}
 		return $duplicates;
