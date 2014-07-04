@@ -39,12 +39,6 @@ class ProcessedFileController extends ActionController {
 	 * @return string
 	 */
 	public function createAction($file, array $processingConfiguration = array()) {
-
-		$processingConfiguration = array(
-			'additionalParameters' => '-crop 300x300+400+400 -resize 100x100 -modulate 120,90',
-//			'additionalParameters' => '-rotate 90 -negate -crop 100x100+100+100'
-		);
-
 		$file = ResourceFactory::getInstance()->getFileObject($file);
 		$processedFile = $file->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingConfiguration);
 
