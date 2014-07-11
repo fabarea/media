@@ -1,0 +1,145 @@
+<?php
+namespace TYPO3\CMS\Media\Index;
+
+/**
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
+use TYPO3\CMS\Core\Resource\Index\FileIndexRepository;
+use TYPO3\CMS\Core\Resource\Index\MetaDataRepository;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Utility\ConfigurationUtility;
+
+/**
+ * Service dealing with Indexing in the context of Media.
+ */
+class Indexer {
+
+	/**
+	 * @var ResourceStorage
+	 */
+	protected $storage = NULL;
+
+	/**
+	 * @param ResourceStorage $storage
+	 */
+	public function __construct(ResourceStorage $storage) {
+		$this->storage = $storage;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @return $this
+	 */
+	public function extractMetadata(File $file){
+
+		$extractionServices = $this->getExtractorRegistry()->getExtractorsWithDriverSupport($this->storage->getDriverType());
+
+		$newMetaData = array(
+			0 => $file->_getMetaData()
+		);
+		foreach ($extractionServices as $service) {
+			if ($service->canProcess($file)) {
+				$newMetaData[$service->getPriority()] = $service->extractMetaData($file, $newMetaData);
+			}
+		}
+
+		ksort($newMetaData);
+		$metaData = array();
+		foreach ($newMetaData as $data) {
+			$metaData = array_merge($metaData, $data);
+		}
+		$file->_updateMetaDataProperties($metaData);
+		$this->getMetaDataRepository()->update($file->getUid(), $metaData);
+		$this->getFileIndexRepository()->updateIndexingTime($file->getUid());
+
+		return $this;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @return $this
+	 */
+	public function applyDefaultCategories(File $file){
+
+		$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
+		$categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
+
+		foreach ($categories as $category) {
+			$values = array(
+				'uid_local' => $category,
+				'uid_foreign' => $this->getFileMetadataIdentifier($file),
+				'tablenames' => 'sys_file_metadata',
+				'fieldname' => 'categories',
+			);
+			$this->getDatabaseConnection()->exec_INSERTquery('sys_category_record_mm', $values);
+		}
+
+		$metaData['categories'] = count($categories);
+		$file->_updateMetaDataProperties($metaData);
+		$this->getMetaDataRepository()->update($file->getUid(), $metaData);
+		$this->getFileIndexRepository()->updateIndexingTime($file->getUid());
+		return $this;
+	}
+
+	/**
+	 * Retrieve the file metadata uid which is different from the file uid.
+	 *
+	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @return int
+	 */
+	protected function getFileMetadataIdentifier(File $file) {
+		$metadataProperties = $file->_getMetaData();
+		return isset($metadataProperties['_ORIG_uid']) ? (int)$metadataProperties['_ORIG_uid'] : (int)$metadataProperties['uid'];
+	}
+
+
+	/**
+	 * Returns an instance of the FileIndexRepository
+	 *
+	 * @return FileIndexRepository
+	 */
+	protected function getFileIndexRepository() {
+		return FileIndexRepository::getInstance();
+	}
+
+	/**
+	 * Returns an instance of the FileIndexRepository
+	 *
+	 * @return MetaDataRepository
+	 */
+	protected function getMetaDataRepository() {
+		return MetaDataRepository::getInstance();
+	}
+
+	/**
+	 * Returns an instance of the FileIndexRepository
+	 *
+	 * @return ExtractorRegistry
+	 */
+	protected function getExtractorRegistry() {
+		return ExtractorRegistry::getInstance();
+	}
+
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
+}

@@ -283,7 +283,7 @@ class AssetRepository extends FileRepository {
 	}
 
 	/**
-	 * Return the file type according to the object name
+	 * Return the file type according to the object name.
 	 *
 	 * @param string $objectType
 	 * @return int
@@ -291,33 +291,5 @@ class AssetRepository extends FileRepository {
 	protected function getFileType($objectType) {
 		$key = array_search($objectType, $this->objectTypes);
 		return $key === FALSE ? 0 : $key;
-	}
-
-	/**
-	 * Update an asset with new information
-	 * This method is tight to the BE for now
-	 * @todo write a patch to persist File relations in FAL
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return void
-	 */
-	public function update($asset) {
-
-		$this->getFileIndexRepository()->update($asset);
-		$assetData = $asset->toArray();
-		$values = array();
-
-		// Required by the Data Handler.
-		if (is_array($assetData['categories'])) {
-			$values['categories'] = implode(',', $assetData['categories']);
-
-			$metadataProperties = $asset->_getMetaData();
-			$data['sys_file_metadata'][$metadataProperties['uid']] = $values;
-
-			/** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
-			$tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-			$tce->start($data, array());
-			$tce->process_datamap();
-		}
 	}
 }

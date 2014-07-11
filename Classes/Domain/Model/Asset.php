@@ -783,6 +783,7 @@ class Asset extends File {
 	 *
 	 * @param ThumbnailService $thumbnailService
 	 * @return string
+	 * @deprecated as of Media 3.0, will be removed two version later. Use Thumbnail service instead.
 	 */
 	public function getThumbnail(ThumbnailService $thumbnailService = NULL) {
 
@@ -800,6 +801,7 @@ class Asset extends File {
 	 *
 	 * @param ThumbnailService $thumbnailService
 	 * @return string
+	 * @deprecated as of Media 3.0, will be removed two version later. Use Thumbnail service instead.
 	 */
 	public function getThumbnailWrapped(ThumbnailService $thumbnailService = NULL) {
 

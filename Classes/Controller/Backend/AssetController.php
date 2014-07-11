@@ -28,13 +28,16 @@ use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsExceptio
 use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\Exception\UploadException;
 use TYPO3\CMS\Core\Resource\Exception\UploadSizeException;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Utility\ConfigurationUtility;
+use TYPO3\CMS\Media\Service\ThumbnailInterface;
+use TYPO3\CMS\Media\Service\ThumbnailService;
 
 /**
  * Controller which handles actions related to Asset.
@@ -194,28 +197,16 @@ class AssetController extends ActionController {
 			$fileName = $uploadedFile->getName();
 			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
-			// Call the indexer service for updating the metadata of the file.
-			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
-			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-			$indexerService->indexFile($file);
-
-			/** @var $asset Asset */
-			$asset = $this->assetRepository->findByUid($file->getUid());
-
-			$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
-			$categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
-			foreach ($categories as $category) {
-				$asset->addCategory($category);
-			}
-
-			// Persist the asset
-			$this->assetRepository->update($asset);
+			// Run the indexer for extracting metadata.
+			$this->getIndexer($file->getStorage())
+				->extractMetadata($file)
+				->applyDefaultCategories($file);
 
 			$response = array(
 				'success' => TRUE,
 				'uid' => $file->getUid(),
 				'name' => $file->getName(),
-				'thumbnail' => $asset->getThumbnailWrapped($this->getThumbnailService()),
+				'thumbnail' => $this->getThumbnailService($file)->create(),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -236,6 +227,16 @@ class AssetController extends ActionController {
 		// to pass data through iframe you will need to encode all html tags
 		header("Content-Type: text/plain");
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
+	}
+
+	/**
+	 * Instantiate the indexer service to update the metadata of the file.
+	 *
+	 * @param int|ResourceStorage $storage
+	 * @return \TYPO3\CMS\Media\Index\Indexer
+	 */
+	protected function getIndexer($storage) {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\Indexer', $storage);
 	}
 
 	/**
@@ -262,23 +263,18 @@ class AssetController extends ActionController {
 			$fileName = $fileObject->getName();
 			$file = $targetFolderObject->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
-			// Call the indexer service for updating the metadata of the file.
-			/** @var $indexerService \TYPO3\CMS\Core\Resource\Service\IndexerService */
-			$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-			$indexerService->indexFile($file, TRUE);
+			// Run the indexer for extracting metadata.
+			$this->getIndexer($file->getStorage())->extractMetadata($file);
 
 			// Clear cache on pages holding a reference to this file.
 			$this->getCacheService()->clearCache($file);
-
-			/** @var $asset Asset */
-			$asset = $this->assetRepository->findByUid($file->getUid());
 
 			$response = array(
 				'success' => TRUE,
 				'uid' => $file->getUid(),
 				'name' => $file->getName(),
-				'thumbnail' => $asset->getThumbnailWrapped($this->getThumbnailService()),
-				'fileInfo' => $this->getMetadataViewHelper()->render($asset),
+				'thumbnail' => $this->getThumbnailService($file)->create(),
+				'fileInfo' => $this->getMetadataViewHelper()->render($file),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -329,13 +325,15 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
+	 * @param File $file
+	 * @return ThumbnailService
 	 */
-	protected function getThumbnailService() {
+	protected function getThumbnailService(File $file) {
 
-		/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-		$thumbnailService->setAppendTimeStamp(TRUE);
+		/** @var $thumbnailService ThumbnailService */
+		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService', $file);
+		$thumbnailService->setAppendTimeStamp(TRUE)
+			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED);
 		return $thumbnailService;
 	}
 

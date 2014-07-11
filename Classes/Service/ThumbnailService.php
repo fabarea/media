@@ -137,6 +137,15 @@ class ThumbnailService implements ThumbnailInterface {
 	protected $processingType;
 
 	/**
+	 * Constructor
+	 *
+	 * @param File $file
+	 */
+	public function __construct(File $file = NULL){
+		$this->file = $file;
+	}
+
+	/**
 	 * Render a thumbnail of a media
 	 *
 	 * @throws MissingTcaConfigurationException
@@ -145,7 +154,7 @@ class ThumbnailService implements ThumbnailInterface {
 	public function create() {
 
 		if (empty($this->file)) {
-			throw new MissingTcaConfigurationException('Missing Media object. Forgotten to set a media?', 1355933144);
+			throw new MissingTcaConfigurationException('Missing File object. Forgotten to set a file?', 1355933144);
 		}
 
 		// Default class name
@@ -303,6 +312,7 @@ class ThumbnailService implements ThumbnailInterface {
 	 * @throws \RuntimeException
 	 * @param File $file
 	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
+	 * @deprecated as of Media 3.0, will be removed two version later. Pass $file in constructor instead.
 	 */
 	public function setFile(File $file) {
 		$this->file = $file;

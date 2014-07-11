@@ -88,27 +88,19 @@ Please note that PHP setups with the suhosin patch activated will have a default
 Thumbnail API
 =============
 
-The thumbnail API is meant to render a preview of a file independently of its type.
-The main object to be instantiated is the ``ThumbnailService`` which delegates the rendering
-of the thumbnail to the right sub-service according to the file type. In case no appropriate thumbnail service is found,
-a fallback service is called. For now, only thumbnails for "image" and "application" are well implemented. Video
-and audio service are still on the todo list.
+The thumbnail API is meant to render a preview of a file independently of its type (image, document, video, ...).
+Notice, only thumbnail service for "image" and "document" is well implemented. Video
+and audio are still on the todo list. In case no appropriate thumbnail service is found,
+a fallback service is called generating a dummy thumbnail.
 
-A thumbnail can be generated from the Asset object as a first place, like::
+The Thumbnail View Helper can be used as follow::
 
-	# Get a thumbnail of the file.
-	{asset.thumbnail}
-
-	# Get a thumbnail of the file wrapped within a link pointing to the original file.
-	{asset.thumbnailWrapped}
-
-If the default thumbnail through the object is not enough, which will likely be the case in the real world, the Thumbnail View Helper can offer more flexibility::
 
 	# The minimum required:
-	<m:thumbnail file="{asset}"/>
+	<m:thumbnail file="{file}"/>
 
 	# Give more settings to the thumbnail:
-	<m:thumbnail file="{asset}"
+	<m:thumbnail file="{file}"
 		configuration="{width: 800, height: 800}"
 		attributes="{class: 'file-thumbnail'}"
 		output="image"/>
@@ -116,7 +108,7 @@ If the default thumbnail through the object is not enough, which will likely be 
 	# Required attributes:
 	# --------------------
 	#
-	# file="{asset}"
+	# file="{file}"
 
 	# Default values:
 	# ---------------
@@ -132,7 +124,7 @@ If the default thumbnail through the object is not enough, which will likely be 
 	# - image_small => '320x320'
 	# - image_medium => '760x760'
 	# - image_large => '1200x1200'
-	<m:thumbnail file="{asset}" preset="image_medium"/>
+	<m:thumbnail file="{file}" preset="image_medium"/>
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
@@ -142,13 +134,13 @@ If the default thumbnail through the object is not enough, which will likely be 
 		xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
 
 		<section>
-			<m:thumbnail file="{asset}" preset="image_medium"/>
+			<m:thumbnail file="{file}" preset="image_medium"/>
 		</section>
     </html>
 
 
-Let examine also how a thumbnail can be generated in a programming way. The example illustrates some possibilities but
-does not show every combination. Refer to the class itself::
+Besides the View Helper, a thumbnail can be generated in a programming way. The example illustrates some possibilities.
+For more insight, refer to the class itself. Here we go::
 
 	/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
 	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
@@ -159,7 +151,7 @@ does not show every combination. Refer to the class itself::
 		->setAppendTimeStamp(TRUE)
 		->create();
 
-	print $thumbnail;
+	print $thumbnail
 	<a href="..." target="_blank">
 		<img src="..." alt="..." title="..." />
 	</a>
@@ -219,7 +211,7 @@ a File to a Frontend Group.
 Notice the following:
 
 * Frontend: Media **delegates file permission to third party extensions**. Media provides integration with extension naw_securedl_. The Hook is enabled by default in ``ext_localconf.php``. Once the extension is installed all URL pointing to a file will be rewritten.
-* Whenever Apache is used as webserver, a htaccess file is required for restricting direct access.
+* Whenever Apache is used as web server, a htaccess file is required for restricting direct access.
 
 .. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
 
@@ -251,6 +243,13 @@ Refer to the `documentation`_ of extension HtmlArea for more details.
 
 .. _documentation: http://docs.typo3.org/typo3cms/extensions/rtehtmlarea/Configuration/PageTsconfig/interfaceConfiguration/Index.html
 
+
+Basic Metadata Extractor
+========================
+
+As a basic metadata extractor, Media will set a title when a file is uploaded or whenever the files get indexed
+through the Scheduler task. The title is basically derived from the file name e.g. ``my_report.pdf`` will
+results as ``My report``. Notice, title will only be "injected" if no title exists for the file of course.
 
 How to customize the Grid in Media module
 =========================================
