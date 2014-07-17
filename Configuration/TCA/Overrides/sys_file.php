@@ -54,17 +54,15 @@ $tca = array(
 				'width' => '150px',
 				'sortable' => FALSE,
 			),
-			'title' => array(
+			'metadata.title' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'title')),
 				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_file.title',
-				'dataType' => 'sys_file_metadata',
 				'width' => '400px',
 				'editable' => TRUE,
 				'sortable' => FALSE,
 			),
-			'description' => array(
+			'metadata.description' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'description')),
-				'dataType' => 'sys_file_metadata',
 				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_file.description',
 				'visible' => FALSE,
 				'sortable' => FALSE,
@@ -74,13 +72,13 @@ $tca = array(
 				'format' => 'date',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
 			),
-			'categories' => array(
+			'metadata.categories' => array(
 				'renderers' => array(
-					new \TYPO3\CMS\Media\Grid\RelationEditRendererComponent(),
+					new \TYPO3\CMS\Vidi\Grid\RelationEditRendererComponent(),
 					new \TYPO3\CMS\Media\Grid\CategoryRendererComponent(),
 				),
 				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_category.categories',
-				'dataType' => 'sys_file_metadata',
+				'editable' => TRUE,
 				'visible' => TRUE,
 				'sortable' => FALSE,
 			),
@@ -93,7 +91,7 @@ $tca = array(
 			'metadata' => array(
 				'label' => 'Metadata File Identifier',
 				'visible' => FALSE,
-				'force' => TRUE,
+				'force' => TRUE, // perhaps it is not required after all
 				'sortable' => FALSE,
 			),
 		)
@@ -109,27 +107,24 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 		),
 		'grid' => array(
 			'columns' => array(
-				'keywords' => array(
+				'metadata.keywords' => array(
 					'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'keywords')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.keywords',
-					'dataType' => 'sys_file_metadata',
 					'visible' => FALSE,
 					'sortable' => FALSE,
 				),
-				'fe_groups' => array(
+				'metadata.fe_groups' => array(
 					'renderers' => array(
-						new \TYPO3\CMS\Media\Grid\RelationEditRendererComponent(),
+						new \TYPO3\CMS\Vidi\Grid\RelationEditRendererComponent(),
 						new \TYPO3\CMS\Media\Grid\FrontendPermissionRendererComponent(),
 					),
 					'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
-					'dataType' => 'sys_file_metadata',
 					'visible' => FALSE,
 					'sortable' => FALSE,
 				),
-				'status' => array(
+				'metadata.status' => array(
 					'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'status')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.status',
-					'dataType' => 'sys_file_metadata',
 					'visible' => FALSE,
 					'width' => '5%',
 					'sortable' => FALSE,
@@ -140,25 +135,22 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 				#	'label' => 'LLL:EXT:vidi/Resources/Private/Language/locallang.xlf:visibility_abbreviation',
 				#	'width' => '3%',
 				#),
-				'creator_tool' => array(
+				'metadata.creator_tool' => array(
 					'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'creator_tool')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.creator_tool',
-					'dataType' => 'sys_file_metadata',
 					'visible' => FALSE,
 					'sortable' => FALSE,
 				),
-				'content_creation_date' => array(
+				'metadata.content_creation_date' => array(
 					'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'content_creation_date')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.content_creation_date',
-					'dataType' => 'sys_file_metadata',
 					'visible' => FALSE,
 					'format' => 'datetime',
 					'sortable' => FALSE,
 				),
-				'content_modification_date' => array(
+				'metadata.content_modification_date' => array(
 					'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'content_modification_date')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.content_modification_date',
-					'dataType' => 'sys_file_metadata',
 					'visible' => FALSE,
 					'format' => 'datetime',
 					'sortable' => FALSE,
