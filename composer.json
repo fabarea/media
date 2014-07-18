@@ -1,0 +1,7 @@
+{
+	"name": "fab/media",
+	"type": "typo3-cms-extension",
+	"description": "Media management system for TYPO3 CMS.",
+	"homepage": "https://forge.typo3.org/projects/extension-media",
+	"license": ["GPL-2.0+"]
+}
