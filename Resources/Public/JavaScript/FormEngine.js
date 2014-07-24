@@ -7,7 +7,7 @@
 // add legacy functions to be accessible in the global scope
 var setFormValueOpenBrowser;
 
-define('TYPO3/CMS/Media/FormEngine', ['jquery'], function ($) {
+define('TYPO3/CMS/Media/FormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngine'], function ($) {
 
 	// main options
 	var FormEngine = {
