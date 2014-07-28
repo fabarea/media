@@ -3,5 +3,10 @@
 	"type": "typo3-cms-extension",
 	"description": "Media management system for TYPO3 CMS.",
 	"homepage": "https://forge.typo3.org/projects/extension-media",
-	"license": ["GPL-2.0+"]
+	"license": ["GPL-2.0+"],
+	"keywords": ["TYPO3 CMS", "Media management"],
+	"support": {
+		"issues": "https://forge.typo3.org/projects/extension-media"
+	},
+	"version": "3.0.0-dev"
 }
