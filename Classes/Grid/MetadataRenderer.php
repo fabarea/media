@@ -48,7 +48,7 @@ class MetadataRenderer extends GridRendererAbstract {
 		$result = $asset->getProperty($propertyName);
 
 		// Avoid bad surprise, converts characters to HTML.
-		$fieldType = TcaService::table('sys_file_metadata')->field($propertyName)->getFieldType();
+		$fieldType = TcaService::table('sys_file_metadata')->field($propertyName)->getType();
 		if ($fieldType !== TcaService::TEXTAREA) {
 			$result = htmlentities($result);
 		} elseif ($fieldType === TcaService::TEXTAREA && !$this->isClean($result)) {

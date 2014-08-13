@@ -24,6 +24,7 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
@@ -46,7 +47,7 @@ class UsageRenderer extends GridRendererAbstract {
 		$result = '';
 
 		// Render File usage
-		$fileReferences = $this->getFileReferences($asset);
+		$fileReferences = $this->getFileReferenceService()->getFileReferences($asset);
 		if (!empty($fileReferences)) {
 
 			// Finalize file references assembling.
@@ -58,7 +59,7 @@ class UsageRenderer extends GridRendererAbstract {
 		}
 
 		// Render link usage in RTE
-		$linkSoftReferences = $this->getSoftLinkReferences($asset);
+		$linkSoftReferences = $this->getFileReferenceService()->getSoftLinkReferences($asset);
 		if (!empty($linkSoftReferences)) {
 
 			// Finalize link references assembling.
@@ -70,7 +71,7 @@ class UsageRenderer extends GridRendererAbstract {
 		}
 
 		// Render image usage in RTE
-		$imageSoftReferences = $this->getSoftImageReferences($asset);
+		$imageSoftReferences = $this->getFileReferenceService()->getSoftImageReferences($asset);
 		if (!empty($imageSoftReferences)) {
 
 			// Finalize image references assembling.
@@ -116,7 +117,7 @@ class UsageRenderer extends GridRendererAbstract {
 	 * @param string $identifier
 	 * @return string
 	 */
-	public function getRecordTitle($tableName, $identifier) {
+	protected function getRecordTitle($tableName, $identifier) {
 
 		$result = '';
 		if ($tableName && (int)$identifier > 0) {
@@ -134,58 +135,6 @@ class UsageRenderer extends GridRendererAbstract {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Return all references found in sys_file_reference.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return array
-	 */
-	public function getFileReferences($asset) {
-
-		// Get the file references of the asset.
-		return $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'*',
-			'sys_file_reference',
-			'deleted = 0 AND uid_local = ' . $asset->getUid()
-		);
-	}
-
-	/**
-	 * Return soft image references.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return array
-	 */
-	public function getSoftImageReferences($asset) {
-
-		// Get the file references of the asset in the RTE.
-		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'recuid, tablename',
-			'sys_refindex',
-			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
-		);
-
-		return $softReferences;
-	}
-
-	/**
-	 * Return link image references.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return array
-	 */
-	public function getSoftLinkReferences($asset) {
-
-		// Get the link references of the asset.
-		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'recuid, tablename',
-			'sys_refindex',
-			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
-		);
-
-		return $softReferences;
 	}
 
 	/**
@@ -213,5 +162,12 @@ class UsageRenderer extends GridRendererAbstract {
 	 */
 	protected function getWrappingTemplate() {
 		return '<span style="font-weight: bold; ">%s (%s)</span><ul class="usage-list">%s</ul>';
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\FileReference\FileReferenceService
+	 */
+	protected function getFileReferenceService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\FileReference\FileReferenceService');
 	}
 }

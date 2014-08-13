@@ -146,6 +146,15 @@ if (TYPO3_MODE == 'BE') {
 		'addFilePermissions',
 		TRUE
 	);
+
+	// Connect "afterFindContentObject" signal slot with the "ContentObjectProcessor".
+	$signalSlotDispatcher->connect(
+		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
+		'afterFindContentObjects',
+		'TYPO3\CMS\Media\Filter\UsageFilter',
+		'filter',
+		TRUE
+	);
 }
 
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(

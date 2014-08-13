@@ -4,7 +4,8 @@ if (!defined('TYPO3_MODE')) die ('Access denied.');
 $tca = array(
 	'ctrl' => array(
 		'default_sortby' => 'uid DESC',
-		'searchFields' => 'uid, extension, name, metadata.title, metadata.description',
+		// Beware that "metadata.categories" is quite expansive performance wise.
+		'searchFields' => 'uid, extension, name, metadata.title, metadata.description, metadata.categories',
 	),
 	'columns' => array(
 		'extension' => array(
@@ -18,20 +19,15 @@ $tca = array(
 	'grid' => array(
 		'facets' => array(
 			'uid',
-			// @todo fix me!
-			#'title' => array(
-			#	'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:title',
-			#),
-			#new GenericFacetComponent($label)
-			#new FacetComponent($label, $filterObject)
-//			'usage' => array(
-//				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:title',
-//			),
-			'extension',
+			new \TYPO3\CMS\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
 			'name',
 			'identifier',
-			#'categories',
-			#'fe_groups',
+			'metadata.categories',
+			new \TYPO3\CMS\Vidi\Facet\WithSignalFacet(
+				'usage',
+				'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
+				array('0', '1', '2', '3', 'etc...') // auto-suggestions
+			),
 		),
 		'columns' => array(
 			'__checkbox' => array(
@@ -56,14 +52,12 @@ $tca = array(
 			),
 			'metadata.title' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'title')),
-				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_file.title',
 				'width' => '400px',
 				'editable' => TRUE,
 				'sortable' => FALSE,
 			),
 			'metadata.description' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'description')),
-				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_file.description',
 				'visible' => FALSE,
 				'sortable' => FALSE,
 			),
@@ -77,7 +71,6 @@ $tca = array(
 					new \TYPO3\CMS\Vidi\Grid\RelationEditRendererComponent(),
 					new \TYPO3\CMS\Media\Grid\CategoryRendererComponent(),
 				),
-				'label' => 'LLL:EXT:lang/locallang_tca.xlf:sys_category.categories',
 				'editable' => TRUE,
 				'visible' => TRUE,
 				'sortable' => FALSE,

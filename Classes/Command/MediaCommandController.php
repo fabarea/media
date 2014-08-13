@@ -23,10 +23,12 @@ namespace TYPO3\CMS\Media\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
+
 /**
  * Command Controller which handles actions related to Media.
  */
-class MediaCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\CommandController {
+class MediaCommandController extends CommandController {
 
 	/**
 	 * Index (or re-index) all files of the Media storage.

@@ -38,6 +38,12 @@
 			<trans-unit id="sys_file.tstamp">
 				<source>Updated</source>
 			</trans-unit>
+			<trans-unit id="sys_file.extension">
+				<source>Extension</source>
+			</trans-unit>
+			<trans-unit id="usage">
+				<source>Usage</source>
+			</trans-unit>
 			<trans-unit id="metadata">
 				<source>Metadata</source>
 			</trans-unit>
