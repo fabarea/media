@@ -157,8 +157,19 @@ For more insight, refer to the class itself. Here we go::
 	</a>
 
 
+Anaylsing Index
+---------------
+
+Scheduler task!
+
 Tutorial
 --------
+
+As of Media 6.2 was removed
+-> your own query
+-> alternatively you can use a content repository. The impact is minimum.
+
+Migration step
 
 Display a list of files "png" coming from storage "1" and belonging to category "1". The listing is done by a Vidi View Helper.
 

@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 /**
@@ -31,79 +32,181 @@ use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 class MediaCommandController extends CommandController {
 
 	/**
-	 * Index (or re-index) all files of the Media storage.
-	 *
-	 * @return void
+	 * @var array
 	 */
-	public function indexCommand() {
+	protected $message = array();
 
-		$this->outputLine('Scanning Media Storages...');
+	/**
+	 * @var array
+	 */
+	protected $missingFiles = array();
 
-		/** @var \TYPO3\CMS\Media\Service\AssetIndexerService $indexerService */
-		$indexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
-		$result = $indexerService->indexStorage();
+	/**
+	 * @var array
+	 */
+	protected $duplicateFiles = array();
 
-		// Format the message to output.
-		$message = sprintf('* Storage "%s" contains %s file%s (variants included).',
-			$result['storageName'],
-			$result['fileNumber'],
-			$result['fileNumber'] > 1 ? 's' : ''
-		);
-
-		$this->outputLine($message);
-	}
+	/**
+	 * @var \TYPO3\CMS\Core\Mail\MailMessage
+	 */
+	protected $mailMessage;
 
 	/**
 	 * Check whether the Index is Ok. In case not, display some message.
 	 *
 	 * @return void
 	 */
-	public function checkIndexCommand() {
+	public function analyseIndexCommand() {
 
-		$this->outputLine('Checking index of storage...');
+		foreach ($this->getStorageService()->findAll() as $storage) {
 
-		/** @var \TYPO3\CMS\Media\Service\AssetIndexerService $assetIndexerService */
-		$assetIndexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
-		$missingResources = $assetIndexerService->searchForMissingFiles();
-		$duplicates = $assetIndexerService->getDuplicates();
+			$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
-		// Missing files case
-		if (!empty($missingResources)) {
-			$this->outputLine('');
-			$this->outputLine('Missing resources:');
-			/** @var \TYPO3\CMS\Core\Resource\File $missingFile */
-			foreach ($missingResources as $missingFile) {
-				$message = sprintf('* Missing resource for uid "%s" with identifier "%s".',
-					$missingFile->getUid(),
-					$missingFile->getIdentifier()
-				);
-				$this->outputLine($message);
-			}
-		}
+			$this->printOut();
+			$this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
+			$this->printOut('--------------------------------------------');
+			if (empty($missingFiles)) {
+				$this->printOut();
+				$this->printOut('Looks good, no missing files!');
+			} else {
+				// Missing files...
+				$this->printOut();
+				$this->printOut('Missing resources:');
+				$this->missingFiles[$storage->getUid()] = $missingFiles; // Store missing files.
 
-		// Duplicate file object
-		if (!empty($duplicates)) {
-			$this->outputLine('');
-			$this->outputLine('Duplicated identifiers detected:');
-			foreach ($duplicates as $identifier => $duplicate) {
-
-				// build temporary array
-				$uids = array();
-				foreach ($duplicate as $value) {
-					$uids[] = $value['uid'];
+				/** @var \TYPO3\CMS\Core\Resource\File $missingFile */
+				foreach ($missingFiles as $missingFile) {
+					$message = sprintf('* Missing file "%s" with identifier "%s".',
+						$missingFile->getUid(),
+						$missingFile->getIdentifier()
+					);
+					$this->printOut($message);
 				}
+			}
 
-				$message = sprintf('* uids "%s" having same identifier %s',
-					implode(',', $uids),
-					$identifier
-				);
-				$this->outputLine($message);
+			$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
 
+			// Duplicate file object
+			if (empty($duplicateFiles)) {
+				$this->printOut();
+				$this->printOut('Looks good, no duplicate files!');
+			} else {
+				$this->printOut();
+				$this->printOut('Duplicated identifiers detected:');
+				$this->duplicateFiles[$storage->getUid()] = $duplicateFiles; // Store duplicate files.
+
+				foreach ($duplicateFiles as $identifier => $duplicate) {
+
+					// build temporary array
+					$uids = array();
+					foreach ($duplicate as $value) {
+						$uids[] = $value['uid'];
+					}
+
+					$message = sprintf('* uids "%s" having same identifier %s',
+						implode(',', $uids),
+						$identifier
+					);
+					$this->printOut($message);
+
+				}
 			}
 		}
 
-		if (empty($missingResources) && empty($duplicates)) {
-			$this->outputLine('Index is OK');
+		$this->sendReport();
+	}
+
+	/**
+	 * Print a message and store its content in a variable for the email report.
+	 *
+	 * @param string $message
+	 * @return void
+	 */
+	protected function printOut($message = '') {
+		$this->message[] = $message;
+		$this->outputLine($message);
+	}
+
+	/**
+	 * Send a possible report to an admin.
+	 *
+	 * @throws \Exception
+	 * @return void
+	 */
+	protected function sendReport() {
+		if ($this->hasReport()) {
+
+			// Prepare email.
+			$this->getMailMessage()->setTo($this->getTo())
+				->setFrom($this->getFrom())
+				->setSubject('Missing files detected!')
+				->setBody(implode("\n", $this->message));
+
+			$isSent = $this->getMailMessage()->send();
+
+			if (!$isSent) {
+				throw new \Exception('I could not send a message', 1408343882);
+			}
+
+			$to = $this->getTo();
+			$this->outputLine();
+			$message = sprintf('Report was sent to %s', key($to));
+			$this->outputLine($message);
 		}
+	}
+
+	/**
+	 * Send a report
+	 *
+	 * @return bool
+	 */
+	protected function hasReport() {
+		return !empty($this->missingFiles) || !empty($this->duplicateFiles);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getTo() {
+		$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+		$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
+		$to[$emailAddress] = $name;
+		return $to;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getFrom() {
+		$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+		$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
+		$from[$emailAddress] = $name;
+		return $from;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Mail\MailMessage
+	 */
+	public function getMailMessage() {
+		if (is_null($this->mailMessage)) {
+			$this->mailMessage = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
+		}
+		return $this->mailMessage;
+	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Media\Index\IndexAnalyser
+	 */
+	protected function getIndexAnalyser() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\IndexAnalyser');
 	}
 }

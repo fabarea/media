@@ -23,12 +23,13 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
  */
-class ButtonCheckIndexViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonAnalyseIndexViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @var string
@@ -45,8 +46,8 @@ class ButtonCheckIndexViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 		$result = '';
 		if ($this->getBackendUser()->isAdmin()) {
 
-			$result = sprintf('<a href="%s&returnUrl=%s" class="btn">Check index</a>',
-				ModuleUtility::getUri('checkIndex', 'Tool'),
+			$result = sprintf('<a href="%s&returnUrl=%s" class="btn">Analyse index</a>',
+				ModuleUtility::getUri('analyseIndex', 'Tool'),
 				urlencode($GLOBALS['_SERVER']['REQUEST_URI'])
 			);
 		}

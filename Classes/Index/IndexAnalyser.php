@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service;
+namespace TYPO3\CMS\Media\Index;
 
 /***************************************************************
  *  Copyright notice
@@ -23,29 +23,16 @@ namespace TYPO3\CMS\Media\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * A class providing indexing service for Media/
  */
-class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected $databaseHandler;
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->databaseHandler = $GLOBALS['TYPO3_DB'];
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-	}
+class IndexAnalyser implements SingletonInterface {
 
 	/**
 	 * Index all files from the Media Storage. The method returns
@@ -56,11 +43,11 @@ class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function indexStorage(){
 
-		$storage = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorage();
+		$storage = ObjectFactory::getInstance()->getStorage();
 		$folder = $storage->getRootLevelFolder();
 
 		/** @var \TYPO3\CMS\Core\Resource\Service\IndexerService $indexerService */
-		$indexerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
+		$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
 		$numberOfFiles = $indexerService->indexFilesInFolder($folder);
 
 		$result = array(
@@ -71,19 +58,19 @@ class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * Return missing file in the storage
+	 * Return missing file for a given storage.
 	 *
+	 * @param ResourceStorage $storage
 	 * @return array
 	 */
-	public function getMissingResources() {
-		/** @var $assetRepository \TYPO3\CMS\Media\Domain\Repository\AssetRepository */
-		$assetRepository = $this->objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
+	public function searchForMissingFiles(ResourceStorage $storage) {
+		$fileRecords = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file', 'storage = ' . $storage->getUid());
 
 		$missingFiles = array();
-		foreach ($assetRepository->findAll() as $asset) {
-			/** @var \TYPO3\CMS\Media\Domain\Model\Asset $asset */
-			if (!$asset->exists()) {
-				$missingFiles[] = $asset;
+		foreach ($fileRecords as $fileRecord) {
+			$file = ResourceFactory::getInstance()->getFileObject($fileRecord['uid'], $fileRecord);
+			if (!$file->exists()) {
+				$missingFiles[] = $file;
 			}
 		}
 		return $missingFiles;
@@ -92,17 +79,28 @@ class AssetIndexerService implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Return duplicates file records
 	 *
+	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
 	 * @return array
 	 */
-	public function getDuplicates() {
+	public function searchForDuplicatesFiles(ResourceStorage $storage) {
 
-		// Detect duplicate records
-		$resource = $this->databaseHandler->sql_query('SELECT identifier FROM sys_file GROUP BY identifier, storage Having COUNT(*) > 1');
+		// Detect duplicate records.
+		$query = "SELECT identifier FROM sys_file WHERE storage = {$storage->getUid()} GROUP BY identifier, storage Having COUNT(*) > 1";
+		$resource = $this->getDatabaseConnection()->sql_query($query);
 		$duplicates = array();
-		while ($row = $this->databaseHandler->sql_fetch_assoc($resource)) {
-			$records = $this->databaseHandler->exec_SELECTgetRows('uid', 'sys_file', sprintf('identifier = "%s"', $row['identifier']));
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
+			$records = $this->getDatabaseConnection()->exec_SELECTgetRows('uid', 'sys_file', sprintf('identifier = "%s"', $row['identifier']));
 			$duplicates[$row['identifier']] = $records;
 		}
 		return $duplicates;
+	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

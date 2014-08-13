@@ -125,6 +125,7 @@ class ObjectFactory implements SingletonInterface {
 	 *
 	 * @throws \RuntimeException
 	 * @return ResourceStorage[]
+	 * @todo move me into StorageService
 	 */
 	public function getStorages() {
 

@@ -39,33 +39,20 @@
 				<div class="thumbnail">
 
 					<div class="caption">
-						<h3>Check Media storage index</h3>
+						<h3>Analyse File index</h3>
 
-						<p>Detect whether a file is existing in the database but missing in the storage. The tool can also
-							detect duplicate file objects in the database. <br/>
-							<m:component.buttonCheckIndex />
+						<p>
+							Detect whether a file is missing in the storage as example or whether they are duplicate records in the database.
 						</p>
+						<m:component.buttonAnalyseIndex />
 
-						<p>The same can be achieved with a CLI command:</p>
+						<p>The same can be performed by a CLI command:</p>
 						<pre style="font-size: 9pt">
 cd {sitePath};
-./typo3/cli_dispatch.phpsh extbase media:checkIndex
+./typo3/cli_dispatch.phpsh extbase media:analyseIndex
 						</pre>
-					</div>
-				</div>
-			</li>
-			<li class="span5">
-				<div class="thumbnail">
 
-					<div class="caption">
-						<h3>Index Media storage</h3>
-
-						<p>Indexing of all files within the Media storage can be done by a scheduler task or
-							by a CLI command:</p>
-						<pre style="font-size: 9pt">
-cd {sitePath};
-./typo3/cli_dispatch.phpsh extbase media:index
-						</pre>
+						Tip! You can also configure a <strong>Scheduler Task which will send a report by email to a webmaster</strong> if anything looks wrong.
 					</div>
 				</div>
 			</li>

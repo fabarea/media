@@ -94,7 +94,7 @@ There are basically two commands that are explained below::
 
 	# Detect whether a file is existing in the database but missing in the storage.
 	# The tool can also detect duplicate file objects from the database::
-	./typo3/cli_dispatch.phpsh extbase media:checkIndex
+	./typo3/cli_dispatch.phpsh extbase media:analyseIndex
 
 
 Metadata View Helper

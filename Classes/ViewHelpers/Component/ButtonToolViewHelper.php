@@ -22,13 +22,13 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
  */
-class ButtonToolViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonToolViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @var string
@@ -46,7 +46,7 @@ class ButtonToolViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		if ($this->getBackendUser()->isAdmin()) {
 
 			$result = sprintf('<div class="pull-right"><a href="%s&returnUrl=%s" class="btn btn-mini btn-doc-header"><span class="icon-cog"></span></a></div>',
-				ModuleUtility::getUri('index', 'Tool'),
+				ModuleUtility::getUri('welcome', 'Tool'),
 				urlencode($GLOBALS['_SERVER']['REQUEST_URI'])
 			);
 		}

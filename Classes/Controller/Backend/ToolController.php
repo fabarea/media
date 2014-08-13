@@ -22,21 +22,15 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Controller which handles tools related to Media.
  */
 class ToolController extends ActionController {
-
-	/**
-	 * @var \TYPO3\CMS\Media\Service\AssetIndexerService
-	 * @inject
-	 */
-	protected $assetIndexerService;
 
 	/**
 	 * Initialize actions. These actions are meant to be called by an admin.
@@ -53,33 +47,37 @@ class ToolController extends ActionController {
 	/**
 	 * @return void
 	 */
-	public function indexAction() {
+	public function welcomeAction() {
 		$this->view->assign('sitePath', PATH_site);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function checkIndexAction() {
+	public function analyseIndexAction() {
 
-		$tableName = 'sys_file_storage';
-		$clause = '1 = 1';
-		$clause .= BackendUtility::BEenableFields($tableName);
-		$clause .= BackendUtility::deleteClause($tableName);
+		$missingReports = array();
+		$duplicateReports = array();
+		foreach ($this->getStorageService()->findAll() as $storage) {
+			$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
-		$storages = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file_storage', $clause);
-		foreach ($storages as $storage) {
-			$storage = ResourceFactory::getInstance()->getStorageObject($storage['uid']);
-			$missingResources = $this->assetIndexerService->searchForMissingFiles($storage);
+			$missingReports[] = array(
+				'storage' => $storage,
+				'missingFiles' => $missingFiles,
+				'numberOfMissingFiles' => count($missingFiles),
+			);
+
+			// @todo check me!
+			$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
+			$duplicateReports[] = array(
+				'storage' => $storage,
+				'duplicateFiles' => $duplicateFiles,
+				'numberOfDuplicateFiles' => count($duplicateFiles),
+			);
 		}
 
-		var_dump(123);
-		exit();
-		$duplicates = $this->assetIndexerService->getDuplicates();
-
-		$this->view->assign('missingResources', $missingResources);
-		$this->view->assign('duplicates', $duplicates);
-		$this->view->assign('everythingOk', empty($missingResources) && empty($duplicates));
+		$this->view->assign('missingReports', $missingReports);
+		$this->view->assign('duplicateReports', $duplicateReports);
 	}
 
 	/**
@@ -91,16 +89,13 @@ class ToolController extends ActionController {
 	 * @param array $files
 	 * @return void
 	 */
-	public function deleteFilesAction(array $files = array()) {
-
-		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-		$fileRepository = $this->objectManager->get('TYPO3\CMS\Core\Resource\FileRepository');
+	public function deleteMissingFilesAction(array $files = array()) {
 
 		foreach ($files as $file) {
 
 			/** @var \TYPO3\CMS\Core\Resource\File $fileObject */
 			try {
-				$fileObject = $fileRepository->findByUid($file);
+				$fileObject = ResourceFactory::getInstance()->getFileObject($file);
 				if ($fileObject) {
 					// The case is special as we have a missing file in the file system
 					// As a result, we can't use $fileObject->delete(); which will
@@ -112,7 +107,7 @@ class ToolController extends ActionController {
 				continue;
 			}
 		}
-		$this->redirect('checkIndex');
+		$this->redirect('analyseIndex');
 	}
 
 	/**
@@ -132,4 +127,21 @@ class ToolController extends ActionController {
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Media\Index\IndexAnalyser
+	 */
+	protected function getIndexAnalyser() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\IndexAnalyser');
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+	}
+
 }

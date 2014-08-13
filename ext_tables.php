@@ -45,7 +45,7 @@ if (TYPO3_MODE == 'BE') {
 		'm1',
 		'bottom', // Position
 		array(
-			'Tool' => 'index, checkIndex, deleteFiles',
+			'Tool' => 'welcome, analyseIndex, deleteMissingFiles',
 			'Asset' => 'show, create, update, move , delete, massDelete',
 			'ImageEditor' => 'show',
 			'Storage' => 'list',
