@@ -23,6 +23,7 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Utility\ImagePresetUtility;
 
@@ -32,18 +33,44 @@ use TYPO3\CMS\Media\Utility\ImagePresetUtility;
 class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
+	 * @return void
+	 */
+	public function initializeArguments() {
+		$this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File', 'The source file', FALSE, NULL);
+		$this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
+		$this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
+		$this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');
+		$this->registerArgument('output', 'string', 'Can be: uri, image, imageWrapped', FALSE, 'image');
+		$this->registerArgument('configurationWrap', 'array', 'The configuration given to the wrap.', FALSE, '');
+		$this->registerArgument('fileIdentifier', 'string', 'File identifier to retrieve a file.', FALSE, '');
+		$this->registerArgument('storage', 'int', 'The storage where the to find the file identifier.', FALSE, 0);
+	}
+
+	/**
 	 * Returns a configurable thumbnail of an asset
 	 *
-	 * @param File $file
-	 * @param array $configuration
-	 * @param array $attributes DOM attributes to add to the thumbnail image
-	 * @param string $preset an image dimension preset
-	 * @param string $output an image dimension preset. Can be: uri, image, imageWrapped
-	 * @param array $configurationWrap the configuration given to the wrap
+	 * @throws \Exception
 	 * @return string
 	 */
-	public function render(File $file, $configuration = array(), $attributes = array(), $preset = NULL,
-	                       $output = 'image', $configurationWrap = array()) {
+	public function render() {
+
+		$preset = $this->arguments['preset'];
+		$configuration = $this->arguments['configuration'];
+		$configurationWrap = $this->arguments['configurationWrap'];
+		$attributes = $this->arguments['attributes'];
+		$output = $this->arguments['output'];
+
+		$fileIdentifier = $this->arguments['fileIdentifier'];
+		if ($fileIdentifier) {
+			$storage = $this->arguments['storage'];
+			if ($storage < 1) {
+				throw new \Exception('Missing storage argument', 1407166892);
+			}
+			$storageObject = ResourceFactory::getInstance()->getStorageObject($storage);
+			if ($storageObject->hasFile($fileIdentifier)) {
+				$file = $storageObject->getFile($fileIdentifier);
+			}
+		}
 
 		/** @var $file \TYPO3\CMS\Media\Domain\Model\Asset */
 		if ($preset) {
@@ -53,12 +80,16 @@ class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 		}
 
 		/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
-		return $thumbnailService->setFile($file)
-			->setConfiguration($configuration)
-			->setConfigurationWrap($configurationWrap)
-			->setAttributes($attributes)
-			->setOutputType($output)
-			->create();
+		$thumbnail = '';
+		if ($file) {
+			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService', $file);
+			$thumbnail = $thumbnailService->setConfiguration($configuration)
+				->setConfigurationWrap($configurationWrap)
+				->setAttributes($attributes)
+				->setOutputType($output)
+				->create();
+		}
+
+		return $thumbnail;
 	}
 }

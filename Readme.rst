@@ -80,7 +80,7 @@ Following option can be set::
 Suhosin
 -------
 
-Please note that PHP setups with the suhosin patch activated will have a default limit of 100 maximum number of variables that are allowed to be passed in the URL. This limit must be increased to 140::
+Please note that PHP setups with the Suhosin patch activated will have a default limit of 100 maximum number of variables that are allowed to be passed in the URL. This limit must be increased to 140::
 
 	suhosin.get.max_vars = 140
 
@@ -155,6 +155,37 @@ For more insight, refer to the class itself. Here we go::
 	<a href="..." target="_blank">
 		<img src="..." alt="..." title="..." />
 	</a>
+
+
+Tutorial
+--------
+
+Display a list of files "png" coming from storage "1" and belonging to category "1". The listing is done by a Vidi View Helper.
+
+::
+
+	<strong>Number of files: {v:content.count(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', dataType: 'sys_file')}</strong>
+
+	<f:if condition="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}">
+		<ul>
+			<f:for each="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}"
+			       as="file">
+				<li>
+					{file.uid}:{file.identifier} - <strong>{file.metadata.title}</strong>
+
+					<m:thumbnail fileIdentifier="{file.identifier}" storage="1"/>
+
+					<f:if condition="{file.metadata.categories}}">
+						<ul>
+							<f:for each="{file.metadata.categories}" as="category">
+								<li>{category.title}</li>
+							</f:for>
+						</ul>
+					</f:if>
+				</li>
+			</f:for>
+		</ul>
+	</f:if>
 
 File Upload API
 ===============
@@ -247,9 +278,10 @@ Refer to the `documentation`_ of extension HtmlArea for more details.
 Basic Metadata Extractor
 ========================
 
-As a basic metadata extractor, Media will set a title when a file is uploaded or whenever the files get indexed
-through the Scheduler task. The title is basically derived from the file name e.g. ``my_report.pdf`` will
-results as ``My report``. Notice, title will only be "injected" if no title exists for the file of course.
+As a basic metadata extractor service, Media will set a title when a file is uploaded **or** whenever the files get indexed
+through the Scheduler task. The metadata title is basically derived from the file name e.g. ``my_report.pdf`` will
+results as ``My report``. This should help your Editors coping with this metadata and save them some typing.
+Of course, the title will only be set, if no value exists beforehand.
 
 How to customize the Grid in Media module
 =========================================
