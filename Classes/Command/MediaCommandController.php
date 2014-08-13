@@ -64,7 +64,7 @@ class MediaCommandController extends CommandController {
 
 		/** @var \TYPO3\CMS\Media\Service\AssetIndexerService $assetIndexerService */
 		$assetIndexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
-		$missingResources = $assetIndexerService->getMissingResources();
+		$missingResources = $assetIndexerService->searchForMissingFiles();
 		$duplicates = $assetIndexerService->getDuplicates();
 
 		// Missing files case

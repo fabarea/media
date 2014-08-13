@@ -22,6 +22,9 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -31,6 +34,7 @@ class ToolController extends ActionController {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Service\AssetIndexerService
+	 * @inject
 	 */
 	protected $assetIndexerService;
 
@@ -42,9 +46,8 @@ class ToolController extends ActionController {
 		// This action is only allowed by Admin
 		if (! $this->getBackendUser()->isAdmin()) {
 			$message = 'Admin permission required.';
-			throw new \TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException($message, 1375952765);
+			throw new InsufficientUserPermissionsException($message, 1375952765);
 		}
-		$this->assetIndexerService = $this->objectManager->get('TYPO3\CMS\Media\Service\AssetIndexerService');
 	}
 
 	/**
@@ -59,7 +62,19 @@ class ToolController extends ActionController {
 	 */
 	public function checkIndexAction() {
 
-		$missingResources = $this->assetIndexerService->getMissingResources();
+		$tableName = 'sys_file_storage';
+		$clause = '1 = 1';
+		$clause .= BackendUtility::BEenableFields($tableName);
+		$clause .= BackendUtility::deleteClause($tableName);
+
+		$storages = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file_storage', $clause);
+		foreach ($storages as $storage) {
+			$storage = ResourceFactory::getInstance()->getStorageObject($storage['uid']);
+			$missingResources = $this->assetIndexerService->searchForMissingFiles($storage);
+		}
+
+		var_dump(123);
+		exit();
 		$duplicates = $this->assetIndexerService->getDuplicates();
 
 		$this->view->assign('missingResources', $missingResources);

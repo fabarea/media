@@ -23,14 +23,16 @@ namespace TYPO3\CMS\Media\Domain\Validator;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
  * Validate whether "fileIdentifier" exists.
  */
-class FileValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator {
+class FileValidator extends AbstractValidator {
 
 	/**
-	 * Check whether $fileIdentifier exists. If it is not valid, throw an exception.
+	 * Check whether $fileIdentifier exists. If not, trigger an error.
 	 *
 	 * @param int $fileIdentifier
 	 * @return void
@@ -39,15 +41,10 @@ class FileValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractVali
 
 		if ((int) $fileIdentifier > 0) {
 
-			/** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
-			$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+			$file = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 
-			/** @var $assetRepository \TYPO3\CMS\Media\Domain\Repository\AssetRepository */
-			$assetRepository = $objectManager->get('TYPO3\CMS\Media\Domain\Repository\AssetRepository');
-			$asset = $assetRepository->findByIdentifier($fileIdentifier);
-
-			if (!$asset) {
-				$message = sprintf('Asset with identifier "%s" could not be found.', $fileIdentifier);
+			if (!$file) {
+				$message = sprintf('File with identifier "%s" could not be found.', $fileIdentifier);
 				$this->addError($message , 1380813504);
 			}
 

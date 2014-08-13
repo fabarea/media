@@ -1,27 +1,19 @@
 <?php
 namespace TYPO3\CMS\Media\Controller\Backend;
-/***************************************************************
- *  Copyright notice
+
+/**
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2012-2013 Fabien Udriot <fabien.udriot@typo3.org>
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * The TYPO3 project - inspiring people to share!
+ */
+
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
 use TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -33,7 +25,6 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
@@ -43,12 +34,6 @@ use TYPO3\CMS\Media\Service\ThumbnailService;
  * Controller which handles actions related to Asset.
  */
 class AssetController extends ActionController {
-
-	/**
-	 * @var \TYPO3\CMS\Media\Domain\Repository\AssetRepository
-	 * @inject
-	 */
-	protected $assetRepository;
 
 	/**
 	 * @var \TYPO3\CMS\Core\Page\PageRenderer
@@ -71,14 +56,14 @@ class AssetController extends ActionController {
 	 * @return string
 	 */
 	public function deleteAction($asset) {
-		$asset = $this->assetRepository->findByUid($asset);
+		$file = ResourceFactory::getInstance()->getFileObject($asset);
 		$assetData = array(
-			'uid' => $asset->getUid(),
-			'title' => $asset->getTitle(),
-			'name' => $asset->getTitle(), // "name" is the label of sys_file used in the flash message.
+			'uid' => $file->getUid(),
+			'title' => $file->getProperty('title'),
+			'name' => $file->getProperty('title'), // "name" is the label of sys_file used in the flash message.
 		);
 
-		$result['status'] = $asset->delete();
+		$result['status'] = $file->delete();
 		$result['action'] = 'delete';
 		if ($result['status']) {
 			$result['object'] = $assetData;
@@ -103,16 +88,16 @@ class AssetController extends ActionController {
 
 		if ($storage) {
 
-			foreach ($assets as $assetIdentifier) {
+			foreach ($assets as $fileIdentifier) {
 
-				$asset = $this->assetRepository->findByIdentifier($assetIdentifier);
+				$file = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 
-				/** @var Asset $asset */
-				if ($asset->getStorage()->getUid() !== $storage->getUid()) {
+				/** @var File $file */
+				if ($file->getStorage()->getUid() !== $storage->getUid()) {
 
 					// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-					$targetFolder = ObjectFactory::getInstance()->getTargetFolder($storage, $asset);
-					$asset->moveTo($targetFolder, $asset->getName(), 'renameNewFile');
+					$targetFolder = ObjectFactory::getInstance()->getTargetFolder($storage, $file);
+					$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
 				}
 			}
 		}
@@ -149,10 +134,9 @@ class AssetController extends ActionController {
 	 * @return string|boolean
 	 */
 	public function showAction($asset) {
-		$assetIdentifier = $asset;
 
-		/** @var $asset Asset */
-		$asset = $this->assetRepository->findByUid($assetIdentifier);
+		/** @var $asset File */
+		$asset = ResourceFactory::getInstance()->getFileObject($asset);
 
 		// Consider also adding check "$asset->checkActionPermission('read')" <- should be handled in the Grid as well
 		if (is_object($asset) && $asset->exists()) {

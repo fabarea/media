@@ -24,10 +24,6 @@ namespace TYPO3\CMS\Media\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Resource\ResourceStorage;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Media\Service\ThumbnailInterface;
 use TYPO3\CMS\Media\Service\ThumbnailService;
 
 /**
@@ -191,16 +187,6 @@ class Asset extends File {
 	 * @var int
 	 */
 	protected $width;
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup>
-	 */
-	protected $frontendUserGroups;
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
-	 */
-	protected $categories;
 
 	/**
 	 * Returns the alternative
@@ -776,120 +762,6 @@ class Asset extends File {
 	 */
 	public function setProperty($property, $value) {
 		$this->updateProperties(array($property => $value));
-	}
-
-	/**
-	 * Return a thumbnail of the Asset.
-	 *
-	 * @param ThumbnailService $thumbnailService
-	 * @return string
-	 * @deprecated as of Media 3.0, will be removed two version later. Use Thumbnail service instead.
-	 */
-	public function getThumbnail(ThumbnailService $thumbnailService = NULL) {
-
-		if (is_null($thumbnailService)) {
-			/** @var $thumbnailService ThumbnailService */
-			$thumbnailService = $this->getObjectManager()->get('TYPO3\CMS\Media\Service\ThumbnailService');
-		}
-
-		return $thumbnailService->setFile($this)
-			->create();
-	}
-
-	/**
-	 * Return a thumbnail of the Asset wrapped with a link.
-	 *
-	 * @param ThumbnailService $thumbnailService
-	 * @return string
-	 * @deprecated as of Media 3.0, will be removed two version later. Use Thumbnail service instead.
-	 */
-	public function getThumbnailWrapped(ThumbnailService $thumbnailService = NULL) {
-
-		if (is_null($thumbnailService)) {
-			/** @var $thumbnailService ThumbnailService */
-			$thumbnailService = $this->getObjectManager()->get('TYPO3\CMS\Media\Service\ThumbnailService');
-		}
-
-		return $thumbnailService->setFile($this)
-			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
-			->create();
-	}
-
-	/**
-	 * @return ObjectStorage<TYPO3\CMS\Extbase\Domain\Model\Category>
-	 */
-	public function getCategories() {
-		if (is_null($this->categories)) {
-			/** @var $categoryRepository \TYPO3\CMS\Media\Domain\Repository\CategoryRepository */
-			$categoryRepository = $this->getObjectManager()->get('TYPO3\CMS\Media\Domain\Repository\CategoryRepository');
-			$this->categories = $categoryRepository->findRelated($this);
-		};
-		return $this->categories;
-	}
-
-	/**
-	 * @param array $categories
-	 * @return void
-	 */
-	public function setCategories($categories) {
-		$this->categories = $categories;
-	}
-
-	/**
-	 * Add a Category Object or Uid to this.
-	 *
-	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category|int $category
-	 * @return void
-	 */
-	public function addCategory($category) {
-		$this->categories[] = $category;
-	}
-
-	/**
-	 * Convert the object to an array
-	 *
-	 * @return array
-	 */
-	public function toArray() {
-		$values = parent::toArray();
-		if (! empty($this->categories)) {
-			$values['categories'] = array();
-			foreach ($this->categories as $category) {
-				if (is_object($category)) {
-					$values['categories'][] = $category->getUid();
-				} elseif ((int) $category > 0) {
-					$values['categories'][] = $category;
-				}
-			}
-		}
-		return $values;
-	}
-
-	/**
-	 * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroups[]>
-	 */
-	public function getFrontendUserGroups() {
-		if (is_null($this->frontendUserGroups)) {
-
-			/** @var $frontendUserGroupRepository \TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository */
-			$frontendUserGroupRepository = $this->getObjectManager()->get('TYPO3\CMS\Media\Domain\Repository\FrontendUserGroupRepository');
-			$this->frontendUserGroups = $frontendUserGroupRepository->findRelated($this);
-		}
-		return $this->frontendUserGroups;
-	}
-
-	/**
-	 * @param array $frontendUserGroups
-	 */
-	public function setFrontendUserGroups($frontendUserGroups) {
-		$this->frontendUserGroups = $frontendUserGroups;
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected function getObjectManager() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 }
