@@ -100,14 +100,14 @@ class UsageFilter {
 					$fieldNameAndPath = key($term);
 
 					if ($fieldNameAndPath === 'usage') {
-						$numberOfUsage = current($term);
+						$numberOfUsage = (int)current($term);
 						break;
 					}
 				}
 			}
 		}
 
-		return (int)$numberOfUsage;
+		return $numberOfUsage;
 	}
 
 	/**
@@ -167,16 +167,5 @@ class UsageFilter {
 	protected function getFileReferenceService() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\FileReference\FileReferenceService');
 	}
-
-	/**
-	 * Returns the validation configuration
-	 *
-	 * @return string
-	 */
-	protected function getSettings() {
-
-		return $configuration['plugin.']['tx_quickform.']['settings.'];
-	}
-
 
 }
