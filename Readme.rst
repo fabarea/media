@@ -174,6 +174,69 @@ a email as report if anything is wrong.::
 
 Tip! Configure a Scheduler Task (under Extbase task) for regularly checking the index and detecting problem early enough.
 
+Tutorials
+=========
+
+Display list of files of category X
+-----------------------------------
+
+As of Media 6.2 the asset API part has been removed along with the Asset Repository.
+To give a short reason, it did not survive the table split between ``sys_file`` and ``sys_file_metadata``
+and if any re-implementation should be undertaken, it should be at the Core level.
+
+It means you should migrate the findBy* method to your own repository **or** you can also take advantage of Vidi which provides flexible
+Custom Repository. Basically you can retrieve a the content like.
+some View Helper for retrieving any kind of content::
+
+	// Get the Content Repository for sys_file.
+	$contentRepository = \TYPO3\CMS\Vidi\Domain\Repository\ContentRepositoryFactory::getInstance('sys_file');
+
+	// Initialize a Matcher object.
+	/** @var \TYPO3\CMS\Vidi\Persistence\Matcher $matcher */
+	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Persistence\Matcher');
+
+	// Add some criteria.
+	$matcher->equals('storage', '1');
+	$matcher->equals('metadata.categories', '1'); // "metadata" correspond to the join defined in the TCA of "sys_file".
+
+	// etc... you can add more criteria as instance a "like"
+	$matcher->like('metadata.title', 'foo');
+
+	// Fetch the objects.
+	$files = $contentRepository->findBy($matcher);
+
+
+The same can be performed form the View Helper perspective.
+Display a list of files "png" coming from storage "1" and belonging to category "1". The listing is done by a Vidi View Helper.
+
+::
+
+	<strong>Number of files: {v:content.count(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', dataType: 'sys_file')}</strong>
+
+	<f:if condition="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}">
+		<ul>
+			<f:for each="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}"
+			       as="file">
+				<li>
+					{file.uid}:{file.identifier} - <strong>{file.metadata.title}</strong>
+
+					<m:thumbnail fileIdentifier="{file.identifier}" storage="1"/>
+
+					<f:if condition="{file.metadata.categories}}">
+						<ul>
+							<f:for each="{file.metadata.categories}" as="category">
+								<li>{category.title}</li>
+							</f:for>
+						</ul>
+					</f:if>
+				</li>
+			</f:for>
+		</ul>
+	</f:if>
+
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+	{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
+
 File Upload API
 ===============
 
