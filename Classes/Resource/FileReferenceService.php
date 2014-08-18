@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileReference;
+namespace TYPO3\CMS\Media\Resource;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -27,7 +27,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return array
 	 */
-	public function getFileReferences($file) {
+	public function findFileReferences(File $file) {
 
 		// Get the file references of the file.
 		return $this->getDatabaseConnection()->exec_SELECTgetRows(
@@ -43,7 +43,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return array
 	 */
-	public function getSoftImageReferences($file) {
+	public function findSoftImageReferences(File $file) {
 
 		// Get the file references of the file in the RTE.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
@@ -61,7 +61,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return array
 	 */
-	public function getSoftLinkReferences($file) {
+	public function findSoftLinkReferences(File $file) {
 
 		// Get the link references of the file.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
@@ -79,7 +79,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return int
 	 */
-	public function countFileReferences($file) {
+	public function countFileReferences(File $file) {
 
 		// Count the file references of the file.
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
@@ -97,7 +97,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return int
 	 */
-	public function countSoftImageReferences($file) {
+	public function countSoftImageReferences(File $file) {
 
 		// Count the file references of the file in the RTE.
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
@@ -115,7 +115,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return int
 	 */
-	public function countSoftLinkReferences($file) {
+	public function countSoftLinkReferences(File $file) {
 
 		// Count the link references of the file.
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
@@ -133,7 +133,7 @@ class FileReferenceService {
 	 * @param File $file
 	 * @return int
 	 */
-	public function countTotalReferences($file) {
+	public function countTotalReferences(File $file) {
 		$numberOfReferences = $this->countFileReferences($file);
 		$numberOfReferences +=  $this->countSoftImageReferences($file);
 		$numberOfReferences +=  $this->countSoftLinkReferences($file);

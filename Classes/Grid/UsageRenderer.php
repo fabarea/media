@@ -47,7 +47,7 @@ class UsageRenderer extends GridRendererAbstract {
 		$result = '';
 
 		// Render File usage
-		$fileReferences = $this->getFileReferenceService()->getFileReferences($asset);
+		$fileReferences = $this->getFileReferenceService()->findFileReferences($asset);
 		if (!empty($fileReferences)) {
 
 			// Finalize file references assembling.
@@ -59,7 +59,7 @@ class UsageRenderer extends GridRendererAbstract {
 		}
 
 		// Render link usage in RTE
-		$linkSoftReferences = $this->getFileReferenceService()->getSoftLinkReferences($asset);
+		$linkSoftReferences = $this->getFileReferenceService()->findSoftLinkReferences($asset);
 		if (!empty($linkSoftReferences)) {
 
 			// Finalize link references assembling.
@@ -71,7 +71,7 @@ class UsageRenderer extends GridRendererAbstract {
 		}
 
 		// Render image usage in RTE
-		$imageSoftReferences = $this->getFileReferenceService()->getSoftImageReferences($asset);
+		$imageSoftReferences = $this->getFileReferenceService()->findSoftImageReferences($asset);
 		if (!empty($imageSoftReferences)) {
 
 			// Finalize image references assembling.
@@ -165,9 +165,9 @@ class UsageRenderer extends GridRendererAbstract {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileReference\FileReferenceService
+	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\FileReference\FileReferenceService');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
 	}
 }

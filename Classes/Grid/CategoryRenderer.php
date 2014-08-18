@@ -22,6 +22,7 @@ namespace TYPO3\CMS\Media\Grid;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 
@@ -39,16 +40,23 @@ class CategoryRenderer extends GridRendererAbstract {
 		$result = '';
 
 		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
-		$categories = $asset->getCategories();
+		$categories = $this->getFileService()->findCategories($asset);
 
 		if (!empty($categories)) {
 
 			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
 			foreach ($categories as $category) {
-				$result .= sprintf('<li>%s</li>', $category->getTitle());
+				$result .= sprintf('<li>%s</li>', $category['title']);
 			}
 			$result = sprintf('<ul class="category-list">%s</ul>', $result);
 		}
 		return $result;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\FileService
+	 */
+	protected function getFileService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileService');
 	}
 }

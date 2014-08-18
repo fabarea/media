@@ -162,10 +162,10 @@ class UsageFilter {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileReference\FileReferenceService
+	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\FileReference\FileReferenceService');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
 	}
 
 }
