@@ -157,46 +157,22 @@ For more insight, refer to the class itself. Here we go::
 	</a>
 
 
-Anaylsing Index
----------------
+Index Analyser Tool
+===================
 
-Scheduler task!
+Admin Users have access to a BE module allowing to analyse the index of files.
+The tool will search for missing files as well as duplicate entries in the database.
 
-Tutorial
---------
+The module can be accessed by clicking on the top right icon
+of the main module. Notice, the same actions can also be performed by CLI and will send
+a email as report if anything is wrong.::
 
-As of Media 6.2 was removed
--> your own query
--> alternatively you can use a content repository. The impact is minimum.
+	# Detect whether a file is existing in the database but missing in the storage.
+	# It will also detect duplicate identifiers in the database::
+	./typo3/cli_dispatch.phpsh extbase media:analyseIndex
 
-Migration step
 
-Display a list of files "png" coming from storage "1" and belonging to category "1". The listing is done by a Vidi View Helper.
-
-::
-
-	<strong>Number of files: {v:content.count(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', dataType: 'sys_file')}</strong>
-
-	<f:if condition="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}">
-		<ul>
-			<f:for each="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}"
-			       as="file">
-				<li>
-					{file.uid}:{file.identifier} - <strong>{file.metadata.title}</strong>
-
-					<m:thumbnail fileIdentifier="{file.identifier}" storage="1"/>
-
-					<f:if condition="{file.metadata.categories}}">
-						<ul>
-							<f:for each="{file.metadata.categories}" as="category">
-								<li>{category.title}</li>
-							</f:for>
-						</ul>
-					</f:if>
-				</li>
-			</f:for>
-		</ul>
-	</f:if>
+Tip! Configure a Scheduler Task (under Extbase task) for regularly checking the index and detecting problem early enough.
 
 File Upload API
 ===============

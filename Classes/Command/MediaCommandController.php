@@ -52,7 +52,7 @@ class MediaCommandController extends CommandController {
 	protected $mailMessage;
 
 	/**
-	 * Check whether the Index is Ok. In case not, display some message.
+	 * Check whether the Index is Ok. In case not, display a message.
 	 *
 	 * @return void
 	 */
