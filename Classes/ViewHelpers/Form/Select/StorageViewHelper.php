@@ -13,9 +13,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\Select;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * View helper dealing with file upload widget.
@@ -31,7 +29,7 @@ class StorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	public function render($objects = array()) {
 
 		// Check if a storages is selected
-		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
+		$currentStorage = $this->getStorageService()->findCurrentStorage();
 
 		$template = '<select name="tx_media_user_mediam1[storageIdentifier]">%s</select>';
 		$options = array();
@@ -47,4 +45,12 @@ class StorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		}
 		return sprintf($template, implode("\n", $options));
 	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+	}
+
 }

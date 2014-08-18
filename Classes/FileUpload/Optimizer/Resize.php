@@ -16,7 +16,6 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface;
-use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * Class that optimize an image according to some settings.
@@ -62,7 +61,7 @@ class Resize implements ImageOptimizerInterface {
 			$storageRecord = $this->storage->getStorageRecord();
 		} else {
 			// Will only work in the BE for now.
-			$storage = StorageUtility::getInstance()->getCurrentStorage();
+			$storage = $this->getStorageService()->findCurrentStorage();
 			$storageRecord = $storage->getStorageRecord();
 		}
 
@@ -123,5 +122,12 @@ class Resize implements ImageOptimizerInterface {
 			setlocale(LC_CTYPE, $currentLocale);
 		}
 		return $escapedInputName;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 }

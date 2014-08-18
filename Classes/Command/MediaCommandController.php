@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Media\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
@@ -49,7 +50,7 @@ class MediaCommandController extends CommandController {
 	 */
 	public function analyseIndexCommand() {
 
-		foreach ($this->getStorageService()->findAll() as $storage) {
+		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
 			$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
@@ -176,10 +177,10 @@ class MediaCommandController extends CommandController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return StorageRepository
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+	protected function getStorageRepository() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
 	}
 
 	/**

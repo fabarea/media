@@ -16,7 +16,6 @@ namespace TYPO3\CMS\Media\Security;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\StorageUtility;
 use TYPO3\CMS\Vidi\Persistence\Matcher;
 
 /**
@@ -46,7 +45,7 @@ class FilePermissionsAspect {
 	 * @return void
 	 */
 	protected function respectStorage(Matcher $matcher) {
-		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		$storage = $this->getStorageService()->findCurrentStorage();
 
 		// Set the storage identifier only if the storage is on-line.
 		$identifier = -1;
@@ -105,4 +104,10 @@ class FilePermissionsAspect {
 		return $GLOBALS['TYPO3_DB'];
 	}
 
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+	}
 }

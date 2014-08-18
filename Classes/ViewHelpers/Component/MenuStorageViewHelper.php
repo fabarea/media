@@ -16,8 +16,6 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
@@ -37,13 +35,11 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 */
 	public function render() {
 
-		$storages = ObjectFactory::getInstance()->getStorages();
-
-		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
+		$currentStorage = $this->getStorageService()->findCurrentStorage();
 
 		/** @var $storage \TYPO3\CMS\Core\Resource\ResourceStorage */
 		$options = '';
-		foreach ($storages as $storage) {
+		foreach ($this->getStorageService()->findByBackendUser() as $storage) {
 			$selected = '';
 			if ($currentStorage->getUid() == $storage->getUid()) {
 				$selected = 'selected';
@@ -95,5 +91,12 @@ class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 			$result = $this->computeParameterAndValue($parameter, $value);
 		}
 		return $result;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 }

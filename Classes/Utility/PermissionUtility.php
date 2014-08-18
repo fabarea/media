@@ -14,13 +14,14 @@ namespace TYPO3\CMS\Media\Utility;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * A class for handling permission
  */
-class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
+class PermissionUtility implements SingletonInterface {
 
 	/**
 	 * Returns a class instance.
@@ -37,7 +38,7 @@ class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param int $storageIdentifier
 	 * @return array
 	 */
-	public function getAllowedExtensions($storageIdentifier = 0) {
+	public function getAllowedExtensions() {
 
 		$fieldNames = array(
 			'extension_allowed_file_type_1',
@@ -47,11 +48,7 @@ class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 			'extension_allowed_file_type_5',
 		);
 
-		if ($storageIdentifier > 0) {
-			$storage = ObjectFactory::getInstance()->getStorage($storageIdentifier);
-		} else {
-			$storage = StorageUtility::getInstance()->getCurrentStorage();
-		}
+		$storage = $this->getStorageService()->findCurrentStorage();
 
 		$storageRecord = $storage->getStorageRecord();
 		$allowedExtensions = array();
@@ -71,6 +68,13 @@ class PermissionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getAllowedExtensionList() {
 		return implode(',', $this->getAllowedExtensions());
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 
 }

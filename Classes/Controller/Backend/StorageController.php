@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
@@ -32,8 +33,15 @@ class StorageController extends ActionController {
 	 * @return void
 	 */
 	public function listAction() {
-		$this->view->assign('storages', \TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages());
+		$this->view->assign('storages', $this->getStorageService()->findByBackendUser());
 		$this->view->assign('storageTitle', TcaService::table($this->tableName)->getTitle());
 		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl('user_MediaM1'));
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 }

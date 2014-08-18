@@ -88,43 +88,6 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
-	 * Return a storage object. If no identifier is given, return the default storage from the Media configuration.
-	 * The returned storage object must be valid and on-line.
-	 *
-	 * @param int $identifier
-	 * @throws \RuntimeException
-	 * @throws Exception\StorageNotOnlineException
-	 * @return ResourceStorage
-	 */
-	public function getStorage($identifier = NULL) {
-
-		if ($identifier == NULL) {
-			$storages = $this->getStorages();
-			$storage = current($storages);
-		} else {
-			$storage = ResourceFactory::getInstance()->getStorageObject($identifier);
-		}
-		return $storage;
-	}
-
-	/**
-	 * Return all storage objects under the control of Media. This option is configurable in the Extension Manager.
-	 * The method also check storages are on-line.
-	 *
-	 * @throws \RuntimeException
-	 * @return ResourceStorage[]
-	 * @todo move me into StorageService
-	 */
-	public function getStorages() {
-
-		$storages = $this->getBackendUser()->getFileStorages();
-		if (empty($storages)) {
-			throw new \RuntimeException('No storage is accessible for the current BE User. Forgotten to define a mount point for this BE User?', 1380801970);
-		}
-		return $storages;
-	}
-
-	/**
 	 * Returns an instance of the current Backend User.
 	 *
 	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
@@ -134,41 +97,29 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
-	 * Return the current storage
-	 *
-	 * @return ResourceStorage
-	 * @deprecated will be removed in media 1.2
-	 */
-	public function getCurrentStorage() {
-		return $this->getStorage();
-	}
-
-	/**
 	 * Return a folder object which contains an existing file or a file that has just been uploaded.
 	 *
 	 * @param \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\FileUpload\UploadedFileInterface  $fileObject
-	 * @param int|NULL $storageIdentifier
+	 * @param ResourceStorage $storage
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
-	public function getContainingFolder($fileObject = NULL, $storageIdentifier = NULL) {
-
-		$storageObject = $this->getStorage($storageIdentifier);
+	public function getContainingFolder($fileObject = NULL, ResourceStorage $storage) {
 
 		// default is the root level
-		$folderObject = $storageObject->getRootLevelFolder(); // get the root folder by default
+		$folderObject = $storage->getRootLevelFolder(); // get the root folder by default
 		if ($fileObject instanceof \TYPO3\CMS\Core\Resource\File) {
-			$folderObject = $storageObject->getFolder(dirname($fileObject->getIdentifier()));
+			$folderObject = $storage->getFolder(dirname($fileObject->getIdentifier()));
 		} elseif ($fileObject instanceof \TYPO3\CMS\Media\FileUpload\UploadedFileInterface) {
 
 			// Get a possible mount point coming from the storage record.
-			$storageRecord = $storageObject->getStorageRecord();
+			$storageRecord = $storage->getStorageRecord();
 			$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $fileObject->getType()];
 			if ($mountPointIdentifier > 0) {
 
 				// We don't have a Mount Point repository in FAL, so query the database directly.
 				$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
 				if (!empty($record['path'])) {
-					$folderObject = $storageObject->getFolder($record['path']);
+					$folderObject = $storage->getFolder($record['path']);
 				}
 			}
 		}

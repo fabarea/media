@@ -16,13 +16,12 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Utility\StorageUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which renders a button for uploading assets.
  */
-class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ConfigurationCheckViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @var array
@@ -78,7 +77,7 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 	 * @return boolean
 	 */
 	protected function checkStorageNotConfigured() {
-		$currentStorage = StorageUtility::getInstance()->getCurrentStorage();
+		$currentStorage = $this->getStorageService()->findCurrentStorage();
 		$storageRecord = $currentStorage->getStorageRecord();
 
 		// Take the storage fields and check whether some data was initialized.
@@ -114,7 +113,7 @@ class ConfigurationCheckViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abst
 	 */
 	protected function formatMessageStorageNotConfigured() {
 
-		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		$storage = $this->getStorageService()->findCurrentStorage();
 
 		$result = <<< EOF
 			<div class="typo3-message message-warning">
@@ -137,7 +136,7 @@ EOF;
 	 * @return boolean
 	 */
 	protected function checkStorageOffline() {
-		return !StorageUtility::getInstance()->getCurrentStorage()->isOnline();
+		return !$this->getStorageService()->findCurrentStorage()->isOnline();
 	}
 
 	/**
@@ -147,7 +146,7 @@ EOF;
 	 */
 	protected function formatMessageStorageOffline() {
 
-		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		$storage = $this->getStorageService()->findCurrentStorage();
 
 		$result = <<< EOF
 			<div class="typo3-message message-warning">
@@ -179,7 +178,7 @@ EOF;
 				$fileMountIdentifiers[] = $fileMount['uid'];
 			}
 
-			$storage = StorageUtility::getInstance()->getCurrentStorage();
+			$storage = $this->getStorageService()->findCurrentStorage();
 			$storageRecord = $storage->getStorageRecord();
 			$fieldNames = array(
 				'mount_point_file_type_1',
@@ -218,7 +217,7 @@ EOF;
 	 */
 	protected function formatMessageMountPoints() {
 
-		$storage = StorageUtility::getInstance()->getCurrentStorage();
+		$storage = $this->getStorageService()->findCurrentStorage();
 		$backendUser = $this->getBackendUser();
 
 		foreach ($this->notAllowedMountPoints as $notAllowedMountPoints) {
@@ -263,5 +262,12 @@ EOF;
 	 */
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 }

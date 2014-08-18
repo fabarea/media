@@ -13,6 +13,7 @@ namespace TYPO3\CMS\Media\Domain\Validator;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Validate whether "storageIdentifier" is allowed.
@@ -29,7 +30,7 @@ class StorageValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractV
 
 		if ((int) $storageIdentifier > 0) {
 			$storageIdentifiers = array();
-			foreach (\TYPO3\CMS\Media\ObjectFactory::getInstance()->getStorages() as $storage) {
+			foreach ($this->getStorageService()->findByBackendUser() as $storage) {
 				$storageIdentifiers[] = $storage->getUid();
 			}
 
@@ -37,7 +38,13 @@ class StorageValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractV
 				$message = sprintf('Storage identifier "%s" is not allowed or is currently off-line.', $storageIdentifier);
 				$this->addError($message , 1380813503);
 			}
-
 		}
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 }

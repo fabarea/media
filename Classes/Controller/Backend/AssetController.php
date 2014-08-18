@@ -84,7 +84,7 @@ class AssetController extends ActionController {
 	 */
 	public function moveAction($storageIdentifier, $assets = array()) {
 
-		$storage = ObjectFactory::getInstance()->getStorage($storageIdentifier);
+		$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
 
 		if ($storage) {
 
@@ -174,7 +174,8 @@ class AssetController extends ActionController {
 		}
 
 		// Get the target folder
-		$targetFolder = ObjectFactory::getInstance()->getContainingFolder($uploadedFile, $storageIdentifier);
+		$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
+		$targetFolder = ObjectFactory::getInstance()->getContainingFolder($uploadedFile, $storage);
 
 		try {
 			$conflictMode = 'changeName';
@@ -240,7 +241,7 @@ class AssetController extends ActionController {
 		/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
 		$fileObject = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 		$fileObject->getType();
-		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($fileObject, $fileObject->getStorage()->getUid());
+		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($fileObject, $fileObject->getStorage());
 
 		try {
 			$conflictMode = 'replace';

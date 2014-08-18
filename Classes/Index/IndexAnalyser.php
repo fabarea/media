@@ -26,29 +26,6 @@ use TYPO3\CMS\Media\ObjectFactory;
 class IndexAnalyser implements SingletonInterface {
 
 	/**
-	 * Index all files from the Media Storage. The method returns
-	 * an array containing the name of the storage and the number
-	 * of files found (including the new indexed files) in the media storage.
-	 *
-	 * @return array
-	 */
-	public function indexStorage(){
-
-		$storage = ObjectFactory::getInstance()->getStorage();
-		$folder = $storage->getRootLevelFolder();
-
-		/** @var \TYPO3\CMS\Core\Resource\Service\IndexerService $indexerService */
-		$indexerService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Service\IndexerService');
-		$numberOfFiles = $indexerService->indexFilesInFolder($folder);
-
-		$result = array(
-			'storageName' => $storage->getName(),
-			'fileNumber' => $numberOfFiles,
-		);
-		return $result;
-	}
-
-	/**
 	 * Return missing file for a given storage.
 	 *
 	 * @param ResourceStorage $storage

@@ -16,6 +16,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
 
 use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -50,7 +51,7 @@ class ToolController extends ActionController {
 
 		$missingReports = array();
 		$duplicateReports = array();
-		foreach ($this->getStorageService()->findAll() as $storage) {
+		foreach ($this->getStorageRepository()->findAll() as $storage) {
 			$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
 			$missingReports[] = array(
@@ -130,10 +131,10 @@ class ToolController extends ActionController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return StorageRepository
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+	protected function getStorageRepository() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
 	}
 
 }

@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
 use TYPO3\CMS\Media\Utility\PermissionUtility;
-use TYPO3\CMS\Media\Utility\StorageUtility;
 
 /**
  * A class to render a file upload widget.
@@ -129,7 +128,7 @@ EOF;
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMaximumUploadLabel(),
-			StorageUtility::getInstance()->getCurrentStorage()->getUid()
+			$this->getStorageService()->findCurrentStorage()->getUid()
 		);
 	}
 
@@ -172,6 +171,13 @@ EOF;
 	 */
 	protected function getFileInfo() {
 		return ''; // empty return here but check out Tceforms/FileUpload
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 
 }
