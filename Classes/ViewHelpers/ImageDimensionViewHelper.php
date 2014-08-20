@@ -13,11 +13,12 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which returns default preset values related to an image dimension
  */
-class ImageDimensionViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ImageDimensionViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Returns preset values related to an image dimension

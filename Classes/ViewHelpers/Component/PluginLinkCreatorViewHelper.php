@@ -14,15 +14,15 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Media\Utility\Path;
-use TYPO3\CMS\Vidi\ModulePlugin;
+use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
  * View helper which renders content for link creator plugin.
  */
-class PluginLinkCreatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class PluginLinkCreatorViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Renders a hidden link for link creator.

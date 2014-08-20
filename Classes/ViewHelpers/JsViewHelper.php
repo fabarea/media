@@ -13,11 +13,12 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which allows you to include a JS File.
  */
-class JsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class JsViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Compute a JS tag and render it

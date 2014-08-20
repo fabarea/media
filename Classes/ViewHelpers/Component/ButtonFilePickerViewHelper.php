@@ -16,14 +16,15 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
-use TYPO3\CMS\Vidi\ModulePlugin;
+use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
  * View helper which renders a "file-picker" button to be placed in the grid.
  */
-class ButtonFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonFilePickerViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper

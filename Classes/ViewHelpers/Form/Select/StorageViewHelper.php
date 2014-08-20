@@ -14,11 +14,12 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\Select;
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper dealing with file upload widget.
  */
-class StorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class StorageViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Render a file upload field

@@ -14,15 +14,15 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Media\Utility\Path;
-use TYPO3\CMS\Vidi\ModulePlugin;
+use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
  * View helper which renders content for image editor plugin.
  */
-class PluginImageEditorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class PluginImageEditorViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Renders a hidden link for image editor.

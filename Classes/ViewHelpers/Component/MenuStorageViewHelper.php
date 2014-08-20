@@ -16,11 +16,12 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which renders a dropdown menu for storage.
  */
-class MenuStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MenuStorageViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\Module\ModuleLoader

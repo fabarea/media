@@ -16,12 +16,13 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a "move" menu item to be placed in the grid menu for Media.
  */
-class MenuItemChangeStorageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MenuItemChangeStorageViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Renders a "move" menu item to be placed in the grid menu for Media.

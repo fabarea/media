@@ -14,13 +14,12 @@ namespace TYPO3\CMS\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
-use TYPO3\CMS\Vidi\ModulePlugin;
+use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
  * Class rendering the preview of a media in the Grid.

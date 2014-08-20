@@ -17,12 +17,13 @@ namespace TYPO3\CMS\Media\ViewHelpers;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ImagePresetUtility;
 
 /**
  * View helper which returns a configurable thumbnail of an Asset
  */
-class ThumbnailViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ThumbnailViewHelper extends AbstractViewHelper {
 
 	/**
 	 * @return void

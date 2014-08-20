@@ -14,14 +14,14 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a button for uploading assets.
  */
-class ButtonUploadViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ButtonUploadViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Renders a button for uploading assets.

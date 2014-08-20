@@ -16,13 +16,14 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
-use TYPO3\CMS\Vidi\ModulePlugin;
+use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
  * View helper which renders a "file picker" menu item to be placed in the grid menu for Media.
  */
-class MenuItemFilePickerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MenuItemFilePickerViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Renders a "file picker" menu item to be placed in the grid menu for Media.

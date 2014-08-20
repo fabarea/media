@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  */
 
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which can output metadata of an asset in a flexible way.
@@ -23,7 +24,7 @@ use TYPO3\CMS\Core\Resource\File;
  * $template = '%width x %height';
  * $fileProperties = array('width', 'height');
  */
-class MetadataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class MetadataViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Returns metadata according to a template.
