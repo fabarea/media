@@ -160,6 +160,8 @@ class MediaCommandController extends CommandController {
 	 * @return string
 	 */
 	protected function getTo() {
+
+		// @todo make me more flexible!
 		$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
 		$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
 		$to[$emailAddress] = $name;
@@ -170,6 +172,8 @@ class MediaCommandController extends CommandController {
 	 * @return array
 	 */
 	protected function getFrom() {
+
+		// @todo make me more flexible!
 		$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
 		$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
 		$from[$emailAddress] = $name;

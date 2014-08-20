@@ -60,7 +60,6 @@ class ToolController extends ActionController {
 				'numberOfMissingFiles' => count($missingFiles),
 			);
 
-			// @todo check me!
 			$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
 			$duplicateReports[] = array(
 				'storage' => $storage,

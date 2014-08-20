@@ -17,8 +17,6 @@ namespace TYPO3\CMS\Media\Index;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\ObjectFactory;
 
 /**
  * A class providing indexing service for Media/
@@ -32,11 +30,16 @@ class IndexAnalyser implements SingletonInterface {
 	 * @return array
 	 */
 	public function searchForMissingFiles(ResourceStorage $storage) {
-		$fileRecords = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file', 'storage = ' . $storage->getUid());
+
+		$query = $this->getDatabaseConnection()->SELECTquery('*', 'sys_file', 'storage = ' . $storage->getUid());
+		$resource = $this->getDatabaseConnection()->sql_query($query);
 
 		$missingFiles = array();
-		foreach ($fileRecords as $fileRecord) {
-			$file = ResourceFactory::getInstance()->getFileObject($fileRecord['uid'], $fileRecord);
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
+
+			// This task is very memory consuming on large data set e.g > 20'000 records.
+			// We must think of having a pagination if there is the need for such thing.
+			$file = ResourceFactory::getInstance()->getFileObject($row['uid'], $row);
 			if (!$file->exists()) {
 				$missingFiles[] = $file;
 			}
