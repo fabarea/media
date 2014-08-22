@@ -77,57 +77,57 @@ if (TYPO3_MODE == 'BE') {
 			)
 		)
 		->setDocHeaderTopLeftComponents(
-			array('TYPO3\CMS\Media\ViewHelpers\Component\MenuStorageViewHelper')
+			array('TYPO3\CMS\Media\View\Menu\StorageMenu')
 		)
 		->setDocHeaderTopRightComponents(
-			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonToolViewHelper')
+			array('TYPO3\CMS\Media\View\Button\ToolButton')
 		)
 		->setDocHeaderBottomLeftComponents(
-			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadViewHelper')
+			array('TYPO3\CMS\Media\View\Button\UploadButton')
 		)
 		->setGridTopComponents(
-			array('TYPO3\CMS\Media\View\ConfigurationCheck')
+			array('TYPO3\CMS\Media\View\Check\ConfigurationCheck')
 		)
 		->setGridBottomComponents(
 			array(
-				'TYPO3\CMS\Media\ViewHelpers\Component\PluginLinkCreatorViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\PluginImageEditorViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\PluginFilePickerViewHelper',
+				'TYPO3\CMS\Media\View\Plugin\LinkCreatorPlugin',
+				'TYPO3\CMS\Media\View\Plugin\ImageEditorPlugin',
+				'TYPO3\CMS\Media\View\Plugin\FilePickerPlugin',
 			)
 		)
 		->setGridButtonsComponents(
 			array(
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonLinkCreatorViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonImageEditorViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonFilePickerViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonEditViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\ButtonDeleteViewHelper',
+				'TYPO3\CMS\Media\View\Button\LinkCreatorButton',
+				'TYPO3\CMS\Media\View\Button\ImageEditorButton',
+				'TYPO3\CMS\Media\View\Button\FilePickerButton',
+				'TYPO3\CMS\Media\View\Button\EditButton',
+				'TYPO3\CMS\Media\View\Button\DeleteButton',
 			)
 		)
 		->setMenuSelectedRowsComponents(
 			array(
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXlsViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXmlViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportCsvViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemDividerViewHelper',
+				'TYPO3\CMS\Vidi\View\MenuItem\ExportXlsMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\ExportXmlMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\ExportCsvMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\DividerMenuItem',
 
 				// Media custom View Helper
-				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemFilePickerViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemChangeStorageViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemMassDeleteViewHelper',
+				'TYPO3\CMS\Media\View\MenuItem\FilePickerMenuItem',
+				'TYPO3\CMS\Media\View\MenuItem\ChangeStorageMenuItem',
+				'TYPO3\CMS\Media\View\MenuItem\MassDeleteMenuItem',
 			)
 		)
 		->setMenuAllRowsComponents(
 			array(
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXlsViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportXmlViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemExportCsvViewHelper',
-				'TYPO3\CMS\Vidi\ViewHelpers\Component\MenuItemDividerViewHelper',
+				'TYPO3\CMS\Vidi\View\MenuItem\ExportXlsMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\ExportXmlMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\ExportCsvMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\DividerMenuItem',
 
 				// Media custom View Helper
-				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemFilePickerViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemChangeStorageViewHelper',
-				'TYPO3\CMS\Media\ViewHelpers\Component\MenuItemMassDeleteViewHelper',
+				'TYPO3\CMS\Media\View\MenuItem\FilePickerMenuItem',
+				'TYPO3\CMS\Media\View\MenuItem\ChangeStorageMenuItem',
+				'TYPO3\CMS\Media\View\MenuItem\MassDeleteMenuItem',
 			)
 		)
 		->register();

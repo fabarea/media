@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 use TYPO3\CMS\Media\ObjectFactory;
@@ -24,7 +24,7 @@ use TYPO3\CMS\Media\ObjectFactory;
 /**
  * View helper which renders a "delete" button to be placed in the grid.
  */
-class ButtonDeleteViewHelper extends AbstractViewHelper {
+class DeleteButton extends AbstractComponentView {
 
 	/**
 	 * Renders a "delete" button to be placed in the grid.

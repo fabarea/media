@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Form;
+namespace TYPO3\CMS\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,16 +15,16 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper dealing with file upload widget.
+ * View helper which renders a button for uploading assets.
  */
-class FileUploadViewHelper extends AbstractViewHelper {
+class UploadButton extends AbstractComponentView {
 
 	/**
-	 * Render a file upload field
+	 * Renders a button for uploading assets.
 	 *
 	 * @return string
 	 */
@@ -32,7 +32,6 @@ class FileUploadViewHelper extends AbstractViewHelper {
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		$fileUpload->setPrefix(ModuleUtility::getParameterPrefix());
-		return $fileUpload->render();
+		return $fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->render();
 	}
 }

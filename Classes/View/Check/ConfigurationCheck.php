@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\View;
+namespace TYPO3\CMS\Media\View\Check;
 
 /**
  * This file is part of the TYPO3 CMS project.

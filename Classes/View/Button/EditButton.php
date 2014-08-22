@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -19,7 +19,7 @@ use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
@@ -27,7 +27,7 @@ use TYPO3\CMS\Vidi\Domain\Model\Content;
 /**
  * View helper which renders a "edit" button to be placed in the grid.
  */
-class ButtonEditViewHelper extends AbstractViewHelper {
+class EditButton extends AbstractComponentView {
 
 	/**
 	 * Renders a "edit" button to be placed in the grid.

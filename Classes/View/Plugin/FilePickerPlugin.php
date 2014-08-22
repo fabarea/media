@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Plugin;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,14 +14,14 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
  * View helper which renders content for file picker plugin.
  */
-class PluginFilePickerViewHelper extends AbstractViewHelper {
+class FilePickerPlugin extends AbstractComponentView {
 
 	/**
 	 * Renders a hidden link for file picker.

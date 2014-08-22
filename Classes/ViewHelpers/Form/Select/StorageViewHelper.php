@@ -17,7 +17,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View helper dealing with file upload widget.
+ * View helper dealing with the storage menu
+ * displayed in the top right corner of the Media module.
  */
 class StorageViewHelper extends AbstractViewHelper {
 

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Menu;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,12 +16,12 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
  * View helper which renders a dropdown menu for storage.
  */
-class MenuStorageViewHelper extends AbstractViewHelper {
+class StorageMenu extends AbstractComponentView {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\Module\ModuleLoader

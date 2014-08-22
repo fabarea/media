@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,15 +16,15 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders a "link-creator" button to be placed in the grid.
+ * View helper which renders a "image-editor" button to be placed in the grid.
  */
-class ButtonLinkCreatorViewHelper extends AbstractViewHelper {
+class ImageEditorButton extends AbstractComponentView {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper
@@ -33,21 +33,21 @@ class ButtonLinkCreatorViewHelper extends AbstractViewHelper {
 	protected $uriEditViewHelper;
 
 	/**
-	 * Renders a "link-creator" button to be placed in the grid.
+	 * Renders a "image-editor" button to be placed in the grid.
 	 *
 	 * @param Content $object
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s" title="%s">%s</a>',
-				ModuleUtility::getUri('show', 'LinkCreator'),
+		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-imageEditor" data-uid="%s" title="%s">%s</a>',
+				ModuleUtility::getUri('show', 'ImageEditor'),
 				ModuleUtility::getParameterPrefix(),
 				$object->getUid(),
 				$object->getUid(),
-				LocalizationUtility::translate('create_link', 'media'),
-				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
+				LocalizationUtility::translate('edit_image', 'media'),
+				IconUtility::getSpriteIcon('extensions-media-image-edit')
 			);
 		}
 		return $result;

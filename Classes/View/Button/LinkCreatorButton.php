@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,15 +16,15 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders a "file-picker" button to be placed in the grid.
+ * View helper which renders a "link-creator" button to be placed in the grid.
  */
-class ButtonFilePickerViewHelper extends AbstractViewHelper {
+class LinkCreatorButton extends AbstractComponentView {
 
 	/**
 	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper
@@ -33,21 +33,21 @@ class ButtonFilePickerViewHelper extends AbstractViewHelper {
 	protected $uriEditViewHelper;
 
 	/**
-	 * Renders a "file-picker" button to be placed in the grid.
+	 * Renders a "link-creator" button to be placed in the grid.
 	 *
 	 * @param Content $object
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-filePicker" data-uid="%s" title="%s">%s</a>',
-				ModuleUtility::getUri('show', 'Asset'),
+		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
+			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s" title="%s">%s</a>',
+				ModuleUtility::getUri('show', 'LinkCreator'),
 				ModuleUtility::getParameterPrefix(),
 				$object->getUid(),
 				$object->getUid(),
-				LocalizationUtility::translate('edit_image', 'media'),
-				IconUtility::getSpriteIcon('extensions-media-image-export')
+				LocalizationUtility::translate('create_link', 'media'),
+				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
 			);
 		}
 		return $result;

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Plugin;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,28 +14,30 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders content for link creator plugin.
+ * View helper which renders content for image editor plugin.
  */
-class PluginLinkCreatorViewHelper extends AbstractViewHelper {
+class ImageEditorPlugin extends AbstractComponentView {
 
 	/**
-	 * Renders a hidden link for link creator.
+	 * Renders a hidden link for image editor.
 	 *
 	 * @return string
 	 */
 	public function render() {
+
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
+		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
-			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Plugin.LinkCreator.js'),
-				ModuleUtility::getUri('show', 'LinkCreator')
+				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
+				Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
+				ModuleUtility::getUri('show', 'ImageEditor')
 			);
 		};
 		return $result;

@@ -18,8 +18,8 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View helper which can output metadata of an asset in a flexible way.
- * Give a input a template + set of metadata properties to render, example:
+ * View helper which can output metadata of a file.
+ * Give as input a template containing the metadata properties to render, example:
  *
  * $template = '%width x %height';
  * $fileProperties = array('width', 'height');

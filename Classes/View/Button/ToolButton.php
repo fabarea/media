@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,13 +14,13 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a dropdown menu for storage.
  */
-class ButtonToolViewHelper extends AbstractViewHelper {
+class ToolButton extends AbstractComponentView {
 
 	/**
 	 * @var string

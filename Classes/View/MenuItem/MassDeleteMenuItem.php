@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View\MenuItem;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,13 +16,13 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
  * View helper which renders a "mass delete" menu item to be placed in the grid menu for Media.
  */
-class MenuItemMassDeleteViewHelper extends AbstractViewHelper {
+class MassDeleteMenuItem extends AbstractComponentView {
 
 	/**
 	 * Renders a "mass delete" menu item to be placed in the grid menu for Media.
