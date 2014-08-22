@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\ViewHelpers\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -19,17 +19,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a dropdown menu for storage.
+ * View helper which renders a button "AnalyseIndex".
  */
-class ButtonAnalyseIndexViewHelper extends AbstractViewHelper {
+class AnalyseIndexViewHelper extends AbstractViewHelper {
 
 	/**
-	 * @var string
-	 */
-	protected $extensionName = 'media';
-
-	/**
-	 * Renders a dropdown menu for storage.
+	 * Renders a button for "AnalyseIndex".
 	 *
 	 * @return string
 	 */

@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Media;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -25,11 +26,6 @@ use TYPO3\CMS\Vidi\Domain\Model\Content;
  * Factory class for Media objects.
  */
 class ObjectFactory implements SingletonInterface {
-
-	/**
-	 * @var array
-	 */
-	protected $assetInstances = array();
 
 	/**
 	 * Gets a singleton instance of this class.
@@ -60,31 +56,23 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
-	 * Convert a content object into an asset and keep the instance for later use.
-	 * Convenience method
+	 * Convert a content object into a file object.
 	 *
 	 * @param Content $object
-	 * @return Asset
+	 * @return File
 	 * @throws \RuntimeException
 	 */
-	public function convertContentObjectToAsset(Content $object) {
+	public function convertContentObjectToFile(Content $object) {
 
-		if (empty($this->assetInstances[$object->getUid()])) {
+		$fileData = $object->toArray();
 
-			$assetData = $object->toArray();
-
-			if (!isset($assetData['storage']) && $assetData['storage'] === NULL) {
-				throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
-			}
-
-			$storage = ResourceFactory::getInstance()->getStorageObject($assetData['storage']);
-
-			/** @var Asset $asset */
-			$asset = GeneralUtility::makeInstance('TYPO3\CMS\Media\Domain\Model\Asset', $assetData, $storage);
-			$this->assetInstances[$asset->getUid()] = $asset;
+		if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
+			throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
 		}
 
-		return $this->assetInstances[$object->getUid()];
+		$file = ResourceFactory::getInstance()->getFileObject($fileData['uid'], $fileData);
+
+		return $file;
 	}
 
 	/**
@@ -99,7 +87,7 @@ class ObjectFactory implements SingletonInterface {
 	/**
 	 * Return a folder object which contains an existing file or a file that has just been uploaded.
 	 *
-	 * @param \TYPO3\CMS\Core\Resource\File|\TYPO3\CMS\Media\FileUpload\UploadedFileInterface  $fileObject
+	 * @param File|FileUpload\UploadedFileInterface $fileObject
 	 * @param ResourceStorage $storage
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
@@ -107,9 +95,9 @@ class ObjectFactory implements SingletonInterface {
 
 		// default is the root level
 		$folderObject = $storage->getRootLevelFolder(); // get the root folder by default
-		if ($fileObject instanceof \TYPO3\CMS\Core\Resource\File) {
+		if ($fileObject instanceof File) {
 			$folderObject = $storage->getFolder(dirname($fileObject->getIdentifier()));
-		} elseif ($fileObject instanceof \TYPO3\CMS\Media\FileUpload\UploadedFileInterface) {
+		} elseif ($fileObject instanceof FileUpload\UploadedFileInterface) {
 
 			// Get a possible mount point coming from the storage record.
 			$storageRecord = $storage->getStorageRecord();

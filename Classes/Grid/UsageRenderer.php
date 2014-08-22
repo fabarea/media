@@ -34,42 +34,49 @@ class UsageRenderer extends GridRendererAbstract {
 	 */
 	public function render() {
 
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
+		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
 
 		$result = '';
 
+
+		// Add number of references on the top!
+		if ($this->object['number_of_references'] > 1) {
+			$result .= sprintf('<div><strong>%s (%s)</strong></div>',
+				LocalizationUtility::translate('references', 'media'),
+				$this->object['number_of_references']
+			);
+		}
+
+
 		// Render File usage
-		$fileReferences = $this->getFileReferenceService()->findFileReferences($asset);
+		$fileReferences = $this->getFileReferenceService()->findFileReferences($file);
 		if (!empty($fileReferences)) {
 
 			// Finalize file references assembling.
 			$result .= sprintf($this->getWrappingTemplate(),
-				LocalizationUtility::translate('references', 'media'),
-				count($fileReferences),
+				LocalizationUtility::translate('file_reference', 'media'),
 				$this->assembleOutput($fileReferences, array('referenceIdentifier' => 'uid_foreign', 'tableName' => 'tablenames'))
 			);
 		}
 
 		// Render link usage in RTE
-		$linkSoftReferences = $this->getFileReferenceService()->findSoftLinkReferences($asset);
+		$linkSoftReferences = $this->getFileReferenceService()->findSoftLinkReferences($file);
 		if (!empty($linkSoftReferences)) {
 
 			// Finalize link references assembling.
 			$result .= sprintf($this->getWrappingTemplate(),
 				LocalizationUtility::translate('link_references_in_rte', 'media'),
-				count($linkSoftReferences),
 				$this->assembleOutput($linkSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
 			);
 		}
 
 		// Render image usage in RTE
-		$imageSoftReferences = $this->getFileReferenceService()->findSoftImageReferences($asset);
+		$imageSoftReferences = $this->getFileReferenceService()->findSoftImageReferences($file);
 		if (!empty($imageSoftReferences)) {
 
 			// Finalize image references assembling.
 			$result .= sprintf($this->getWrappingTemplate(),
 				LocalizationUtility::translate('image_references_in_rte', 'media'),
-				count($imageSoftReferences),
 				$this->assembleOutput($imageSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
 			);
 		}
@@ -153,7 +160,7 @@ class UsageRenderer extends GridRendererAbstract {
 	 * @return string
 	 */
 	protected function getWrappingTemplate() {
-		return '<span style="font-weight: bold; ">%s (%s)</span><ul class="usage-list">%s</ul>';
+		return '<div style="text-decoration: underline; margin-top: 10px">%s</div><ul class="usage-list">%s</ul>';
 	}
 
 	/**

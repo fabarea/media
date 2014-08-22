@@ -47,6 +47,14 @@ class ToolController extends ActionController {
 	/**
 	 * @return void
 	 */
+	public function warmUpCacheAction() {
+		$numberOfEntries = $this->getCacheService()->warmUp();
+		$this->view->assign('numberOfEntries', $numberOfEntries);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function analyseIndexAction() {
 
 		$missingReports = array();
@@ -134,6 +142,13 @@ class ToolController extends ActionController {
 	 */
 	protected function getStorageRepository() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Cache\CacheService
+	 */
+	protected function getCacheService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
 	}
 
 }

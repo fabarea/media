@@ -17,3 +17,11 @@ CREATE TABLE sys_file_storage (
 	extension_allowed_file_type_4 varchar(255) DEFAULT '' NOT NULL,
 	extension_allowed_file_type_5 varchar(255) DEFAULT '' NOT NULL,
 );
+
+#
+# Table structure for table 'sys_file'
+#
+CREATE TABLE sys_file (
+	# Total of references including sys_file_reference + sys_refindex (soft reference).
+	number_of_references int(11) unsigned DEFAULT '0' NOT NULL,
+);

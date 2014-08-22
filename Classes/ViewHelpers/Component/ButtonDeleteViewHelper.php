@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  */
 
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
@@ -34,9 +35,9 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 	public function render(Content $object = NULL) {
 		$result = '';
 
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($object);
+		$file = ObjectFactory::getInstance()->convertContentObjectToFile($object);
 
-		if ($this->hasFileNoReferences($object) && $this->hasNotSoftImageReferences($asset) && $this->hasNotSoftLinkReferences($asset)) {
+		if ($this->hasFileNoReferences($object) && $this->hasNotSoftImageReferences($file) && $this->hasNotSoftLinkReferences($file)) {
 
 			// check if the file has a reference
 			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-delete" data-uid="%s">%s</a>',
@@ -71,16 +72,16 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 	/**
 	 * Return whether the asset has no soft image references.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @param File $file
 	 * @return array
 	 */
-	protected function hasNotSoftImageReferences($asset) {
+	protected function hasNotSoftImageReferences(File $file) {
 
 		// Get the file references of the asset.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'recuid, tablename',
 			'sys_refindex',
-			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
+			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
 		);
 		return empty($softReferences);
 	}
@@ -88,16 +89,16 @@ class ButtonDeleteViewHelper extends AbstractViewHelper {
 	/**
 	 * Return whether the asset has no soft link references.
 	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
+	 * @param File $file
 	 * @return array
 	 */
-	protected function hasNotSoftLinkReferences($asset) {
+	protected function hasNotSoftLinkReferences(File $file) {
 
 		// Get the link references of the asset.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'recuid, tablename',
 			'sys_refindex',
-			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
+			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
 		);
 
 		return empty($softReferences);

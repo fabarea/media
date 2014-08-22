@@ -1,12 +1,12 @@
-# cat=basic//; type=string; label= Comma list of Categories applied upon upload (uid): Apply default categories when a file get uploaded. There is not check whether the Category exists, make sure to enter valid uid.
+# cat=basic//; type=string; label= Comma list of categories applied upon file upload: Apply default categories when a file is uploaded. There is not check whether the Category exists, make sure to enter valid uid.
 default_categories =
 
-# cat=basic//; type=boolean; label= Load RTE configuration: Media provides integration with the RTE by adding additionnal buttons like a "link creator" and an "image editor". Activate this option if you would like to have the RTE configuration loaded. Notice, it will also override the order of button in the RTE. If you don't want this, add your own Page / User TSConfig. Refer to the documentation.
+# cat=basic//; type=boolean; label= Load RTE configuration: Media provides an integration with the RTE by adding additionnal buttons like a "link creator" and an "image editor". Activate this option if you would like to have the RTE configuration loaded. Notice, it will also override the order of button in the RTE. If you don't want this, add the "link creator" and "image editor" buttons in your own Page / User TSConfig. Refer to the documentation.
 load_rte_configuration = 0
 
 ###################### Image preset ######################
 
-# cat=image preset//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the list view.
+# cat=image preset//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the Grid in the BE.
 image_thumbnail = 100x100
 
 # cat=image preset//; type=string; label= Maximum size of mini image: Define the max width and height of a mini image.

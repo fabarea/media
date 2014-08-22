@@ -170,11 +170,14 @@
 			<trans-unit id="references">
 				<source>References</source>
 			</trans-unit>
+			<trans-unit id="file_reference">
+				<source>File Reference</source>
+			</trans-unit>
 			<trans-unit id="link_references_in_rte">
-				<source>Link references in RTE</source>
+				<source>Link in RTE</source>
 			</trans-unit>
 			<trans-unit id="image_references_in_rte">
-				<source>Image references in RTE</source>
+				<source>Image in RTE</source>
 			</trans-unit>
 			<trans-unit id="search">
 				<source>Search...</source>

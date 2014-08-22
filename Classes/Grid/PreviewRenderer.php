@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
@@ -33,7 +34,7 @@ class PreviewRenderer extends GridRendererAbstract {
 	 */
 	public function render() {
 
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
+		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
 
 		$uri = FALSE;
 		$appendTime = TRUE;
@@ -55,7 +56,7 @@ class PreviewRenderer extends GridRendererAbstract {
 			);
 		}
 
-		$result = $this->getThumbnailService()->setFile($asset)
+		$result = $this->getThumbnailService($file)
 			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 			->setAppendTimeStamp($appendTime)
 			->setTarget(ThumbnailInterface::TARGET_BLANK)
@@ -64,16 +65,17 @@ class PreviewRenderer extends GridRendererAbstract {
 
 		// Add file info
 		$result .= sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
-			$this->getMetadataViewHelper()->render($asset)
+			$this->getMetadataViewHelper()->render($file)
 		);
 		return $result;
 	}
 
 	/**
+	 * @param File $file
 	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
 	 */
-	protected function getThumbnailService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+	protected function getThumbnailService(File $file) {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService', $file);
 	}
 
 	/**

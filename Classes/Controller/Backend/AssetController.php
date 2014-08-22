@@ -323,9 +323,9 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Service\CacheService
+	 * @return \TYPO3\CMS\Media\Cache\CacheService
 	 */
 	protected function getCacheService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\CacheService');
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
 	}
 }

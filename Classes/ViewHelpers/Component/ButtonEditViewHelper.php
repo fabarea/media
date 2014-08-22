@@ -16,6 +16,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -35,11 +36,11 @@ class ButtonEditViewHelper extends AbstractViewHelper {
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($object);
-		$metadataProperties = $asset->_getMetaData();
+		$file = ObjectFactory::getInstance()->convertContentObjectToFile($object);
+		$metadataProperties = $file->_getMetaData();
 
 		return sprintf('<a href="%s" data-uid="%s" class="btn-edit" title="%s">%s</a>',
-			$this->getUri($asset),
+			$this->getUri($file),
 			$metadataProperties['uid'],
 			LocalizationUtility::translate('edit_metadata', 'media'),
 			IconUtility::getSpriteIcon('actions-document-open')
@@ -47,11 +48,11 @@ class ButtonEditViewHelper extends AbstractViewHelper {
 	}
 
 	/**
-	 * @param Asset $asset
+	 * @param File $file
 	 * @return string
 	 */
-	public function getUri(Asset $asset){
-		$metadataProperties = $asset->_getMetaData();
+	protected function getUri(File $file){
+		$metadataProperties = $file->_getMetaData();
 		$returnUrl = rawurlencode(BackendUtility::getModuleUrl(GeneralUtility::_GP('M')));
 		return sprintf('alt_doc.php?edit[%s][%s]=edit',
 			'sys_file_metadata',

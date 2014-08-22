@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Component;
+namespace TYPO3\CMS\Media\View;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,35 +14,18 @@ namespace TYPO3\CMS\Media\ViewHelpers\Component;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
  * View helper which renders a button for uploading assets.
  */
-class ConfigurationCheckViewHelper extends AbstractViewHelper {
+class ConfigurationCheck extends AbstractComponentView {
 
 	/**
 	 * @var array
 	 */
 	public $notAllowedMountPoints = array();
-
-	/**
-	 * @var ResourceStorage
-	 */
-	public $storage;
-
-	/**
-	 * @var string
-	 */
-	protected $extensionName = 'media';
-
-	/**
-	 * @var \TYPO3\CMS\Vidi\Module\ModuleLoader
-	 * @inject
-	 */
-	protected $moduleLoader;
 
 	/**
 	 * Renders a button for uploading assets.
@@ -55,17 +38,22 @@ class ConfigurationCheckViewHelper extends AbstractViewHelper {
 
 		// Check whether storage is configured or not.
 		if ($this->checkStorageNotConfigured()) {
-			$result .= $this->formatMessageStorageNotConfigured();
+			$result .= $this->formatMessageForStorageNotConfigured();
 		}
 
 		// Check whether storage is online or not.
 		if ($this->checkStorageOffline()) {
-			$result .= $this->formatMessageStorageOffline();
+			$result .= $this->formatMessageForStorageOffline();
 		}
 
 		// Check all mount points of the storage are available
 		if (!$this->checkMountPoints()) {
-			$result .= $this->formatMessageMountPoints();
+			$result .= $this->formatMessageForMountPoints();
+		}
+
+		// Check all mount points of the storage are available
+		if (!$this->checkColumnNumberOfReferences()) {
+			$result .= $this->formatMessageForColumnNumberOfReferences();
 		}
 
 		return $result;
@@ -111,7 +99,7 @@ class ConfigurationCheckViewHelper extends AbstractViewHelper {
 	 *
 	 * @return string
 	 */
-	protected function formatMessageStorageNotConfigured() {
+	protected function formatMessageForStorageNotConfigured() {
 
 		$storage = $this->getStorageService()->findCurrentStorage();
 
@@ -144,7 +132,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	protected function formatMessageStorageOffline() {
+	protected function formatMessageForStorageOffline() {
 
 		$storage = $this->getStorageService()->findCurrentStorage();
 
@@ -215,7 +203,7 @@ EOF;
 	 *
 	 * @return string
 	 */
-	protected function formatMessageMountPoints() {
+	protected function formatMessageForMountPoints() {
 
 		$storage = $this->getStorageService()->findCurrentStorage();
 		$backendUser = $this->getBackendUser();
@@ -239,6 +227,41 @@ EOF;
 						{$list}
 						</ul>
 					</div>
+				</div>
+			</div>
+EOF;
+
+		return $result;
+	}
+
+	/**
+	 * Check whether the column "total_of_references" has been already processed once.
+	 *
+	 * @return boolean
+	 */
+	protected function checkColumnNumberOfReferences() {
+		$file = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'sys_file', 'number_of_references > 0');
+		return !empty($file);
+	}
+
+	/**
+	 * Format a message if columns "total_of_references" looks wrong.
+	 *
+	 * @return string
+	 */
+	protected function formatMessageForColumnNumberOfReferences() {
+
+		$result = <<< EOF
+			<div class="typo3-message message-warning">
+				<div class="message-header">
+						Column "number_of_references" requires to be initialized.
+				</div>
+				<div class="message-body">
+					The column "number_of_references" in "sys_file" is used as a caching column for storing the total number of usage of a file.
+					It is required for performance reason to search by "usage", example for retrieving all files with 0 usage.
+					The column can be easily initialized <strong>by opening a tool in in the upper right button of this module</strong> or by a scheduler task.
+					The number of usage is then updated by a Hook each time a record is edited which contains file references coming from "sys_file_reference" or from "sys_refindex" if soft
+					reference.
 				</div>
 			</div>
 EOF;

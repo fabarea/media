@@ -45,7 +45,7 @@ if (TYPO3_MODE == 'BE') {
 		'm1',
 		'bottom', // Position
 		array(
-			'Tool' => 'welcome, analyseIndex, deleteMissingFiles',
+			'Tool' => 'welcome, analyseIndex, warmUpCache, deleteMissingFiles',
 			'Asset' => 'show, create, update, move , delete, massDelete',
 			'ImageEditor' => 'show',
 			'Storage' => 'list',
@@ -86,7 +86,7 @@ if (TYPO3_MODE == 'BE') {
 			array('TYPO3\CMS\Media\ViewHelpers\Component\ButtonUploadViewHelper')
 		)
 		->setGridTopComponents(
-			array('TYPO3\CMS\Media\ViewHelpers\Component\ConfigurationCheckViewHelper')
+			array('TYPO3\CMS\Media\View\ConfigurationCheck')
 		)
 		->setGridBottomComponents(
 			array(
@@ -144,15 +144,6 @@ if (TYPO3_MODE == 'BE') {
 		'postProcessMatcherObject',
 		'TYPO3\CMS\Media\Security\FilePermissionsAspect',
 		'addFilePermissions',
-		TRUE
-	);
-
-	// Connect "afterFindContentObject" signal slot with the "ContentObjectProcessor".
-	$signalSlotDispatcher->connect(
-		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
-		'afterFindContentObjects',
-		'TYPO3\CMS\Media\Filter\UsageFilter',
-		'filter',
 		TRUE
 	);
 }

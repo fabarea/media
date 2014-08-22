@@ -44,7 +44,18 @@ class MediaCommandController extends CommandController {
 	protected $mailMessage;
 
 	/**
-	 * Check whether the Index is Ok. In case not, display a message.
+	 * Warm up the cache. Update some caching columns such as "number_of_references" to speed up the search.
+	 *
+	 * @return void
+	 */
+	public function warmUpCacheCommand() {
+		$numberOfEntries = $this->getCacheService()->warmUp();
+		$message = sprintf('Done! Processed %s entries', $numberOfEntries);
+		$this->outputLine($message);
+	}
+
+	/**
+	 * Check whether the Index is Ok. In case not, display a message on the console.
 	 *
 	 * @return void
 	 */
@@ -205,4 +216,12 @@ class MediaCommandController extends CommandController {
 	protected function getIndexAnalyser() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\IndexAnalyser');
 	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Cache\CacheService
+	 */
+	protected function getCacheService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
+	}
+
 }

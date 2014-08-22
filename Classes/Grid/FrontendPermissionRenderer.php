@@ -30,8 +30,8 @@ class FrontendPermissionRenderer extends GridRendererAbstract {
 	public function render() {
 		$result = '';
 
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
-		$frontendUserGroups = $asset->getFrontendUserGroups();
+		$asset = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
+		$frontendUserGroups = $asset->getFrontendUserGroups(); // @todo fix me!
 
 		if (!empty($frontendUserGroups)) {
 

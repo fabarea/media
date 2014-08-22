@@ -24,32 +24,36 @@ class FileReferenceService {
 	/**
 	 * Return all references found in sys_file_reference.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return array
 	 */
-	public function findFileReferences(File $file) {
+	public function findFileReferences($file) {
+
+		$fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
 		// Get the file references of the file.
 		return $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'*',
 			'sys_file_reference',
-			'deleted = 0 AND uid_local = ' . $file->getUid()
+			'deleted = 0 AND uid_local = ' . $fileIdentifier
 		);
 	}
 
 	/**
 	 * Return soft image references.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return array
 	 */
-	public function findSoftImageReferences(File $file) {
+	public function findSoftImageReferences($file) {
+
+		$fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
 		// Get the file references of the file in the RTE.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'recuid, tablename',
 			'sys_refindex',
-			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
+			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
 		);
 
 		return $softReferences;
@@ -58,16 +62,18 @@ class FileReferenceService {
 	/**
 	 * Return link image references.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return array
 	 */
-	public function findSoftLinkReferences(File $file) {
+	public function findSoftLinkReferences($file) {
+
+		$fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
 		// Get the link references of the file.
 		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'recuid, tablename',
 			'sys_refindex',
-			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
+			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
 		);
 
 		return $softReferences;
@@ -76,16 +82,18 @@ class FileReferenceService {
 	/**
 	 * Count all references found in sys_file_reference.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return int
 	 */
-	public function countFileReferences(File $file) {
+	public function countFileReferences($file) {
+
+		$fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
 		// Count the file references of the file.
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
 			'count(*) AS count',
 			'sys_file_reference',
-			'deleted = 0 AND uid_local = ' . $file->getUid()
+			'deleted = 0 AND uid_local = ' . $fileIdentifier
 		);
 
 		return (int)$record['count'];
@@ -94,16 +102,18 @@ class FileReferenceService {
 	/**
 	 * Count soft image references.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return int
 	 */
-	public function countSoftImageReferences(File $file) {
+	public function countSoftImageReferences($file) {
+
+		$fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
 		// Count the file references of the file in the RTE.
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
 			'count(*) AS count',
 			'sys_refindex',
-			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
+			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
 		);
 
 		return (int)$record['count'];
@@ -112,16 +122,18 @@ class FileReferenceService {
 	/**
 	 * Count link image references.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return int
 	 */
-	public function countSoftLinkReferences(File $file) {
+	public function countSoftLinkReferences($file) {
+
+		$fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
 		// Count the link references of the file.
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
 			'count(*) AS count',
 			'sys_refindex',
-			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
+			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
 		);
 
 		return (int)$record['count'];
@@ -130,10 +142,10 @@ class FileReferenceService {
 	/**
 	 * Count total reference.
 	 *
-	 * @param File $file
+	 * @param File|int $file
 	 * @return int
 	 */
-	public function countTotalReferences(File $file) {
+	public function countTotalReferences($file) {
 		$numberOfReferences = $this->countFileReferences($file);
 		$numberOfReferences +=  $this->countSoftImageReferences($file);
 		$numberOfReferences +=  $this->countSoftLinkReferences($file);

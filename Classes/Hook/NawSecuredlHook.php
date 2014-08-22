@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Hooks;
+namespace TYPO3\CMS\Media\Hook;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -18,8 +18,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class providing a Hook for naw_securedl.
+ * @todo better implementation through a local "secure" driver.
  */
-class NawSecuredl {
+class NawSecuredlHook {
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager

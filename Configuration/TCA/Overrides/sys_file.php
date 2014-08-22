@@ -15,6 +15,13 @@ $tca = array(
 				'eval' => 'trim',
 			),
 		),
+		'number_of_references' => array(
+			'config' => array(
+				'type' => 'input',
+				'size' => 255,
+				'readOnly' => TRUE,
+			),
+		),
 	),
 	'grid' => array(
 		'facets' => array(
@@ -23,8 +30,8 @@ $tca = array(
 			'name',
 			'identifier',
 			'metadata.categories',
-			new \TYPO3\CMS\Vidi\Facet\WithSignalFacet(
-				'usage',
+			new \TYPO3\CMS\Vidi\Facet\StandardFacet(
+				'number_of_references',
 				'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 				array('0', '1', '2', '3', 'etc...') // auto-suggestions
 			),

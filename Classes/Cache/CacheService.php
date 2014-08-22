@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service;
+namespace TYPO3\CMS\Media\Cache;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -22,6 +22,33 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Service dealing with cache related to a File.
  */
 class CacheService {
+
+	/**
+	 * Traverse all files and initialize cache values.
+	 *
+	 * @return int
+	 */
+	public function warmUp() {
+
+		$query = $this->getDatabaseConnection()->SELECTquery('*', 'sys_file', 'storage > 0');
+		$resource = $this->getDatabaseConnection()->sql_query($query);
+
+		$counter = 0;
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
+
+			$fileIdentifier = $row['uid'];
+			$totalNumberOfReferences = $this->getFileReferenceService()->countTotalReferences($fileIdentifier);
+
+			$values = array(
+				'number_of_references' => $totalNumberOfReferences
+			);
+
+			$this->getDatabaseConnection()->exec_UPDATEquery('sys_file', 'uid = ' . $fileIdentifier, $values);
+			$counter++;
+		}
+
+		return $counter;
+	}
 
 	/**
 	 * Clear all possible cache related to a file.
@@ -204,4 +231,10 @@ class CacheService {
 		return $GLOBALS['TYPO3_DB'];
 	}
 
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 */
+	protected function getFileReferenceService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+	}
 }

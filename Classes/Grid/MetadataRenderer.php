@@ -36,8 +36,8 @@ class MetadataRenderer extends GridRendererAbstract {
 		}
 
 		$propertyName = $this->gridRendererConfiguration['property'];
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
-		$result = $asset->getProperty($propertyName);
+		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
+		$result = $file->getProperty($propertyName);
 
 		// Avoid bad surprise, converts characters to HTML.
 		$fieldType = TcaService::table('sys_file_metadata')->field($propertyName)->getType();

@@ -44,7 +44,7 @@
 						<p>
 							Detect whether a file is missing in the storage as example or whether they are duplicate records in the database.
 						</p>
-						<m:component.buttonAnalyseIndex />
+						<m:button.analyseIndex />
 
 						<p>The same can be performed by a CLI command:</p>
 						<pre style="font-size: 9pt">
@@ -56,7 +56,28 @@ cd {sitePath};
 					</div>
 				</div>
 			</li>
+
+			<li class="span5">
+				<div class="thumbnail">
+
+					<div class="caption">
+						<h3>Warm up cache</h3>
+
+						<p>
+							Update some caching columns such as "number_of_references" to speed up the search.
+						</p>
+						<m:button.warmUpCache />
+
+						<p>The same can be performed by a CLI command:</p>
+						<pre style="font-size: 9pt">
+cd {sitePath};
+./typo3/cli_dispatch.phpsh extbase media:warmUpCache
+						</pre>
+					</div>
+				</div>
+			</li>
 		</ul>
+
 	</div>
 
 </f:section>

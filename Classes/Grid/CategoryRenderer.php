@@ -31,8 +31,8 @@ class CategoryRenderer extends GridRendererAbstract {
 	public function render() {
 		$result = '';
 
-		$asset = ObjectFactory::getInstance()->convertContentObjectToAsset($this->object);
-		$categories = $this->getFileService()->findCategories($asset);
+		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
+		$categories = $this->getFileService()->findCategories($file);
 
 		if (!empty($categories)) {
 

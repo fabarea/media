@@ -5,16 +5,19 @@ if (!defined('TYPO3_MODE')) {
 
 # Hook for secure download in Frontend
 # Hook is not enabled by default for now and must be commented out. More info in Documentation.
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/naw_securedl/class.tx_nawsecuredl_output.php']['preOutput'][] = 'EXT:media/Classes/Hooks/NawSecuredl.php:TYPO3\CMS\Media\Hooks\NawSecuredl->preOutput';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/naw_securedl/class.tx_nawsecuredl_output.php']['preOutput'][] = 'EXT:media/Classes/Hook/NawSecuredl.php:TYPO3\CMS\Media\Hook\NawSecuredlHook->preOutput';
 
 // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
 \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('TYPO3\CMS\Media\Index\TitleMetadataExtractor');
 
 // Hook for traditional file upload, trigger metadata indexing as well.
 // Could be done at the Core level in the future...
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_extfilefunc.php']['processData'][] = 'TYPO3\CMS\Media\Hooks\FileUploadHook';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_extfilefunc.php']['processData'][] = 'TYPO3\CMS\Media\Hook\FileUploadHook';
 
 if (TYPO3_MODE == 'BE') {
+
+	// Special process to fill column "usage" which indicates the total number of file reference including soft references.
+	$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'TYPO3\CMS\Media\Hook\DataHandlerHook';
 
 	# Configuration for RTE
 	$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator'] = array();
