@@ -31,9 +31,7 @@ class CategoryRenderer extends GridRendererAbstract {
 	public function render() {
 		$result = '';
 
-		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
-		$categories = $this->getFileService()->findCategories($file);
-
+		$categories = $this->object['metadata']['categories'];
 		if (!empty($categories)) {
 
 			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
@@ -43,12 +41,5 @@ class CategoryRenderer extends GridRendererAbstract {
 			$result = sprintf('<ul class="category-list">%s</ul>', $result);
 		}
 		return $result;
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileService
-	 */
-	protected function getFileService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileService');
 	}
 }

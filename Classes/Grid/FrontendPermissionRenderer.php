@@ -30,14 +30,12 @@ class FrontendPermissionRenderer extends GridRendererAbstract {
 	public function render() {
 		$result = '';
 
-		$asset = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
-		$frontendUserGroups = $asset->getFrontendUserGroups(); // @todo fix me!
-
+		$frontendUserGroups = $this->object['metadata']['fe_groups'];
 		if (!empty($frontendUserGroups)) {
 
 			/** @var $frontendUserGroup \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup */
 			foreach ($frontendUserGroups as $frontendUserGroup) {
-				$result .= sprintf('<li style="list-style: disc">%s</li>', $frontendUserGroup->getTitle());
+				$result .= sprintf('<li style="list-style: disc">%s</li>', $frontendUserGroup['title']);
 			}
 			$result = sprintf('<ul>%s</ul>', $result);
 		}
