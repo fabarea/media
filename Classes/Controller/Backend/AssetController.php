@@ -46,6 +46,16 @@ class AssetController extends ActionController {
 	 */
 	public function initializeAction() {
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
+
+		// Configure property mapping to retrieve the file object.
+		if ($this->arguments->hasArgument('file')) {
+
+			/** @var \TYPO3\CMS\Media\TypeConverter\FileConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\FileConverter');
+
+			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
+			$propertyMappingConfiguration->setTypeConverter($typeConverter);
+		}
 	}
 
 	/**
@@ -127,34 +137,27 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * Read and output file to the browser.
+	 * Force download of the file.
 	 *
-	 * @todo secure download should be implemented somewhere else (Core?). Put it here for the time being for pragmatic reasons...
-	 * @param int $asset
-	 * @return string|boolean
+	 * @param File $file
+	 * @throws \Exception
+	 * @return bool|string
 	 */
-	public function showAction($asset) {
+	public function downloadAction(File $file) {
 
-		/** @var $asset File */
-		$asset = ResourceFactory::getInstance()->getFileObject($asset);
+		if ($file->exists() && $file->getStorage()->isWithinFileMountBoundaries($file->getParentFolder())) {
 
-		// Consider also adding check "$asset->checkActionPermission('read')" <- should be handled in the Grid as well
-		if (is_object($asset) && $asset->exists()) {
-			header('Content-Description: File Transfer');
-			header('Content-Type: ' . $asset->getMimeType());
-			header('Content-Disposition: inline; filename="' . $asset->getName() . '"');
-			header('Content-Transfer-Encoding: binary');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-			header('Content-Length: ' . $asset->getSize());
-			flush();
-			readfile(PATH_site .  $asset->getPublicUrl());
-			return TRUE;
+			// Emit signal before downloading the file.
+			$this->emitBeforeDownloadSignal($file);
+
+			// Read the file and dump it with flag "forceDownload".
+			$file->getStorage()->dumpFileContents($file, TRUE);
+
+			$result = TRUE;
+		} else {
+			$result = 'Access denied!';
 		}
-		else {
-			$result = "Access denied!";
-		}
+
 		return $result;
 	}
 
@@ -238,7 +241,7 @@ class AssetController extends ActionController {
 			return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
 		}
 
-		/** @var $fileObject \TYPO3\CMS\Core\Resource\File */
+		/** @var $fileObject File */
 		$fileObject = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 		$fileObject->getType();
 		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($fileObject, $fileObject->getStorage());
@@ -327,5 +330,25 @@ class AssetController extends ActionController {
 	 */
 	protected function getCacheService() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
+	}
+
+	/**
+	 * Signal that is emitted before a file is downloaded.
+	 *
+	 * @param File $file
+	 * @return void
+	 * @signal
+	 */
+	protected function emitBeforeDownloadSignal(File $file) {
+		$this->getSignalSlotDispatcher()->dispatch('TYPO3\CMS\Media\Controller\Backend\AssetController', 'beforeDownload', array($file));
+	}
+
+	/**
+	 * Get the SignalSlot dispatcher.
+	 *
+	 * @return \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+	 */
+	protected function getSignalSlotDispatcher() {
+		return $this->objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
 	}
 }

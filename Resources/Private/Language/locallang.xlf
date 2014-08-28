@@ -152,6 +152,9 @@
 			<trans-unit id="upload_files">
 				<source>Upload files</source>
 			</trans-unit>
+			<trans-unit id="download">
+				<source>Download</source>
+			</trans-unit>
 			<trans-unit id="max_upload_file">
 				<source>Max %s Mo</source>
 			</trans-unit>

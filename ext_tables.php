@@ -46,7 +46,7 @@ if (TYPO3_MODE == 'BE') {
 		'bottom', // Position
 		array(
 			'Tool' => 'welcome, analyseIndex, warmUpCache, deleteMissingFiles',
-			'Asset' => 'show, create, update, move , delete, massDelete',
+			'Asset' => 'show, create, update, move , delete, massDelete, download',
 			'ImageEditor' => 'show',
 			'Storage' => 'list',
 			'LinkCreator' => 'show',
@@ -101,6 +101,7 @@ if (TYPO3_MODE == 'BE') {
 				'TYPO3\CMS\Media\View\Button\ImageEditorButton',
 				'TYPO3\CMS\Media\View\Button\FilePickerButton',
 				'TYPO3\CMS\Media\View\Button\EditButton',
+				'TYPO3\CMS\Media\View\Button\DownloadButton',
 				'TYPO3\CMS\Media\View\Button\DeleteButton',
 			)
 		)
