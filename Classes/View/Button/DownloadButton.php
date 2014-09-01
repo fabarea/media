@@ -16,15 +16,13 @@ namespace TYPO3\CMS\Media\View\Button;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a "download" button to be placed in the grid.
+ * View which renders a "download" button to be placed in the grid.
  */
 class DownloadButton extends AbstractComponentView {
 
@@ -35,17 +33,31 @@ class DownloadButton extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
+
 		$result = sprintf(
-			'<a href="%s&%s[file]=%s" data-uid="%s" class="btn-download" title="%s">%s</a>',
-			ModuleUtility::getUri('download', 'Asset'),
-			ModuleUtility::getParameterPrefix(),
-			$object->getUid(),
+			'<a href="%s" data-uid="%s" class="btn-download" title="%s">%s</a>',
+			$this->getDownloadUri($object),
 			$object->getUid(),
 			LocalizationUtility::translate('download', 'media'),
 			IconUtility::getSpriteIcon('actions-system-extension-download')
 		);
 
 		return $result;
+	}
+
+	/**
+	 * @param Content $object
+	 * @return string
+	 */
+	protected function getDownloadUri(Content $object) {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'Asset',
+				'action' => 'download',
+				'file' => $object->getUid(),
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 }

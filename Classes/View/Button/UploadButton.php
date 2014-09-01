@@ -15,11 +15,11 @@ namespace TYPO3\CMS\Media\View\Button;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a button for uploading assets.
+ * View which renders a button for uploading assets.
  */
 class UploadButton extends AbstractComponentView {
 
@@ -32,6 +32,6 @@ class UploadButton extends AbstractComponentView {
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		return $fileUpload->setPrefix(ModuleUtility::getParameterPrefix())->render();
+		return $fileUpload->setPrefix(Parameter::PREFIX)->render();
 	}
 }

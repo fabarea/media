@@ -14,13 +14,14 @@ namespace TYPO3\CMS\Media\View\Plugin;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders content for image editor plugin.
+ * View which renders content for image editor plugin.
  */
 class ImageEditorPlugin extends AbstractComponentView {
 
@@ -37,9 +38,22 @@ class ImageEditorPlugin extends AbstractComponentView {
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
 				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
 				Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
-				ModuleUtility::getUri('show', 'ImageEditor')
+				$this->getImageEditorUri()
 			);
 		};
 		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getImageEditorUri() {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'ImageEditor',
+				'action' => 'show',
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

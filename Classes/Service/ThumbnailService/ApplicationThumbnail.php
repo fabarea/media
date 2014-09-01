@@ -14,13 +14,15 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
+use TYPO3\CMS\Media\Service\ThumbnailRenderableInterface;
+use TYPO3\CMS\Media\Service\ThumbnailService;
+use TYPO3\CMS\Media\Module\Parameter;
 
 /**
  */
-class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
-	implements \TYPO3\CMS\Media\Service\ThumbnailRenderableInterface {
+class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderableInterface {
 
 	/**
 	 * Render a thumbnail of a resource of type application.
@@ -110,11 +112,7 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 	public function renderTagAnchor($result) {
 		$uri = $this->getAnchorUri();
 		if (! $uri) {
-			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('show', 'Asset'),
-				ModuleUtility::getParameterPrefix(),
-				$this->file->getUid()
-			);
+			$uri = $this->getUri();
 		}
 
 		return sprintf('<a href="%s" target="_blank" data-uid="%s">%s</a>',
@@ -122,6 +120,21 @@ class ApplicationThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService
 			$this->file->getUid(),
 			$result
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getUri() {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'Asset',
+				'action' => 'download',
+				# @todo add flag not force download!
+				'file' => $this->file->getUid(),
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 	/**

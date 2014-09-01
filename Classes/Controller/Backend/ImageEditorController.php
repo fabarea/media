@@ -30,20 +30,29 @@ class ImageEditorController extends ActionController {
 	protected $pageRenderer;
 
 	/**
-	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
+	 * Initializes the controller before invoking an action method.
 	 */
 	public function initializeAction() {
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
+
+		// Configure property mapping to retrieve the file object.
+		if ($this->arguments->hasArgument('file')) {
+
+			/** @var \TYPO3\CMS\Media\TypeConverter\FileConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\FileConverter');
+
+			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
+			$propertyMappingConfiguration->setTypeConverter($typeConverter);
+		}
 	}
 
 	/**
 	 * Handle GUI for inserting an image in the RTE.
 	 *
-	 * @param int $asset
+	 * @param int $file
 	 * @return void
 	 */
-	public function showAction($asset) {
-		$file = ResourceFactory::getInstance()->getFileObject($asset);
+	public function showAction($file) {
 		$this->view->assign('asset', $file);
 		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl('user_MediaM1'));
 	}

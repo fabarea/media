@@ -16,11 +16,11 @@ namespace TYPO3\CMS\Media\View\MenuItem;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a "move" menu item to be placed in the grid menu for Media.
+ * View which renders a "move" menu item to be placed in the "change storage" menu.
  */
 class ChangeStorageMenuItem extends AbstractComponentView {
 
@@ -31,19 +31,8 @@ class ChangeStorageMenuItem extends AbstractComponentView {
 	 */
 	public function render() {
 		return sprintf('<li><a href="%s" class="change-storage" >%s Change Storage</a>',
-			$this->renderChangeStorageUri(),
+			BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE),
 			IconUtility::getSpriteIcon('extensions-media-storage-change')
-		);
-	}
-
-	/**
-	 * Render a mass delete URI.
-	 *
-	 * @return string
-	 */
-	public function renderChangeStorageUri() {
-		return sprintf('%s',
-			BackendUtility::getModuleUrl(ModuleUtility::getModuleSignature())
 		);
 	}
 }

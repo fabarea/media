@@ -205,24 +205,6 @@ class CacheService {
 	}
 
 	/**
-	 * Return whether the asset has no soft link references.
-	 *
-	 * @param \TYPO3\CMS\Media\Domain\Model\Asset $asset
-	 * @return array
-	 */
-	protected function hasNotSoftLinkReferences($asset) {
-
-		// Get the link references of the asset.
-		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'recuid, tablename',
-			'sys_refindex',
-			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $asset->getUid()
-		);
-
-		return empty($softReferences);
-	}
-
-	/**
 	 * Returns a pointer to the database.
 	 *
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection

@@ -14,13 +14,14 @@ namespace TYPO3\CMS\Media\View\Plugin;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders content for link creator plugin.
+ * View which renders content for link creator plugin.
  */
 class LinkCreatorPlugin extends AbstractComponentView {
 
@@ -35,9 +36,22 @@ class LinkCreatorPlugin extends AbstractComponentView {
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
 			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
 				Path::getRelativePath('JavaScript/Media.Plugin.LinkCreator.js'),
-				ModuleUtility::getUri('show', 'LinkCreator')
+				$this->getLinkCreatorUri()
 			);
 		};
 		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getLinkCreatorUri() {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'LinkCreator',
+				'action' => 'show',
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

@@ -14,18 +14,14 @@ namespace TYPO3\CMS\Media\View\Button;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a dropdown menu for storage.
+ * View which renders a dropdown menu for storage.
  */
 class ToolButton extends AbstractComponentView {
-
-	/**
-	 * @var string
-	 */
-	protected $extensionName = 'media';
 
 	/**
 	 * Renders a dropdown menu for storage.
@@ -36,13 +32,27 @@ class ToolButton extends AbstractComponentView {
 
 		$result = '';
 		if ($this->getBackendUser()->isAdmin()) {
-
 			$result = sprintf('<div class="pull-right"><a href="%s&returnUrl=%s" class="btn btn-mini btn-doc-header"><span class="icon-cog"></span></a></div>',
-				ModuleUtility::getUri('welcome', 'Tool'),
+				$this->getToolUri(),
 				urlencode($GLOBALS['_SERVER']['REQUEST_URI'])
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * Compute the tool URI.
+	 *
+	 * @return string
+	 */
+	protected function getToolUri() {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'Tool',
+				'action' => 'welcome',
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 	/**

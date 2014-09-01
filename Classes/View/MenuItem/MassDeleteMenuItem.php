@@ -16,11 +16,11 @@ namespace TYPO3\CMS\Media\View\MenuItem;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 
 /**
- * View helper which renders a "mass delete" menu item to be placed in the grid menu for Media.
+ * View which renders a "mass delete" menu item to be placed in the grid menu for Media.
  */
 class MassDeleteMenuItem extends AbstractComponentView {
 
@@ -31,23 +31,23 @@ class MassDeleteMenuItem extends AbstractComponentView {
 	 */
 	public function render() {
 		return sprintf('<li><a href="%s" class="mass-delete-assets" data-argument="assets">%s Delete</a>',
-			$this->renderMassDeleteUri(),
+			$this->getMassDeleteUri(),
 			IconUtility::getSpriteIcon('actions-edit-delete')
 		);
 	}
 
 	/**
-	 * Render a mass delete URI.
-	 *
 	 * @return string
 	 */
-	public function renderMassDeleteUri() {
-
-		return sprintf('%s&%s[format]=json&%s[action]=massDelete&%s[controller]=Asset',
-			BackendUtility::getModuleUrl(ModuleUtility::getModuleSignature()),
-			ModuleUtility::getParameterPrefix(),
-			ModuleUtility::getParameterPrefix(),
-			ModuleUtility::getParameterPrefix()
+	protected function getMassDeleteUri() {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'Asset',
+				'action' => 'massDelete',
+				'format' => 'json'
+			),
 		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
+
 }

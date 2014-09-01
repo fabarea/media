@@ -19,7 +19,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
- * View helper which renders a dropdown menu for storage.
+ * View which renders a dropdown menu for storage.
  */
 class StorageMenu extends AbstractComponentView {
 

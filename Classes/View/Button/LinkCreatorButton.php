@@ -14,23 +14,18 @@ namespace TYPO3\CMS\Media\View\Button;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders a "link-creator" button to be placed in the grid.
+ * View which renders a "link-creator" button to be placed in the grid.
  */
 class LinkCreatorButton extends AbstractComponentView {
-
-	/**
-	 * @var \TYPO3\CMS\Vidi\ViewHelpers\Uri\EditViewHelper
-	 * @inject
-	 */
-	protected $uriEditViewHelper;
 
 	/**
 	 * Renders a "link-creator" button to be placed in the grid.
@@ -41,15 +36,28 @@ class LinkCreatorButton extends AbstractComponentView {
 	public function render(Content $object = NULL) {
 		$result = '';
 		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-linkCreator" data-uid="%s" title="%s">%s</a>',
-				ModuleUtility::getUri('show', 'LinkCreator'),
-				ModuleUtility::getParameterPrefix(),
-				$object->getUid(),
+			$result = sprintf('<a href="%s" class="btn-linkCreator" data-uid="%s" title="%s">%s</a>',
+				$this->getLinkCreatorUri($object),
 				$object->getUid(),
 				LocalizationUtility::translate('create_link', 'media'),
 				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * @param Content $object
+	 * @return string
+	 */
+	protected function getLinkCreatorUri(Content $object) {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'LinkCreator',
+				'action' => 'show',
+				'file' => $object->getUid(),
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

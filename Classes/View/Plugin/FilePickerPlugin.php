@@ -19,7 +19,7 @@ use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders content for file picker plugin.
+ * View which renders content for file picker plugin.
  */
 class FilePickerPlugin extends AbstractComponentView {
 

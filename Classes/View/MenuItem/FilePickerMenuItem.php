@@ -16,12 +16,12 @@ namespace TYPO3\CMS\Media\View\MenuItem;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
 /**
- * View helper which renders a "file picker" menu item to be placed in the grid menu for Media.
+ * View which renders a "file picker" menu item to be placed in the grid menu for Media.
  */
 class FilePickerMenuItem extends AbstractComponentView {
 
@@ -34,7 +34,7 @@ class FilePickerMenuItem extends AbstractComponentView {
 		$result = '';
 		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
 			$result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
-				$this->renderMassDeleteUri(),
+				$this->getMassDeleteUri(),
 				IconUtility::getSpriteIcon('extensions-media-image-export')
 			);
 		}
@@ -46,13 +46,15 @@ class FilePickerMenuItem extends AbstractComponentView {
 	 *
 	 * @return string
 	 */
-	public function renderMassDeleteUri() {
-
-		return sprintf('%s&%s[format]=json&%s[action]=massDelete&%s[controller]=Asset',
-			BackendUtility::getModuleUrl(ModuleUtility::getModuleSignature()),
-			ModuleUtility::getParameterPrefix(),
-			ModuleUtility::getParameterPrefix(),
-			ModuleUtility::getParameterPrefix()
+	protected function getMassDeleteUri() {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'Asset',
+				'action' => 'massDelete',
+				'format' => 'json',
+			),
 		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
+
 }

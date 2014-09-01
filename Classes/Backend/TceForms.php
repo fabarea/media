@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\Backend;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 
 /**
  * Custom fields for Media
@@ -39,7 +39,7 @@ class TceForms {
 		$this->pageRenderer->addCssFile($cssFile);
 
 		// language labels for JavaScript files
-		$this->pageRenderer->addInlineLanguageLabelFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
+		$this->pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 
 		// js files to be loaded
 		$jsFiles = array(
@@ -73,7 +73,7 @@ class TceForms {
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUploadTceForms */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUploadTceForms');
-		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(ModuleUtility::getParameterPrefix());
+		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(Parameter::PREFIX);
 		return $fileUpload->render();
 	}
 }

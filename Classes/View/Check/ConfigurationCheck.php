@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
- * View helper which renders a button for uploading assets.
+ * View which renders a button for uploading assets.
  */
 class ConfigurationCheck extends AbstractComponentView {
 

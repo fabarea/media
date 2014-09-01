@@ -14,11 +14,12 @@ namespace TYPO3\CMS\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
@@ -42,18 +43,10 @@ class PreviewRenderer extends GridRendererAbstract {
 		// Compute image-editor or link-creator URL.
 		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
 			$appendTime = FALSE;
-			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('show', 'ImageEditor'),
-				ModuleUtility::getParameterPrefix(),
-				$this->object->getUid()
-			);
+			$uri = $this->getPluginUri('ImageEditor');
 		} elseif (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
 			$appendTime = FALSE;
-			$uri = sprintf('%s&%s[asset]=%s',
-				ModuleUtility::getUri('show', 'LinkCreator'),
-				ModuleUtility::getParameterPrefix(),
-				$this->object->getUid()
-			);
+			$uri = $this->getPluginUri('ImageEditor');
 		}
 
 		$result = $this->getThumbnailService($file)
@@ -83,5 +76,20 @@ class PreviewRenderer extends GridRendererAbstract {
 	 */
 	protected function getMetadataViewHelper() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+	}
+
+	/**
+	 * @param string $controllerName
+	 * @return string
+	 */
+	protected function getPluginUri($controllerName) {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => $controllerName,
+				'action' => 'delete',
+				'file' => $this->object->getUid(),
+			),
+		);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

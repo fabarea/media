@@ -23,13 +23,28 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class LinkCreatorController extends ActionController {
 
 	/**
+	 * Initializes the controller before invoking an action method.
+	 */
+	public function initializeAction() {
+
+		// Configure property mapping to retrieve the file object.
+		if ($this->arguments->hasArgument('file')) {
+
+			/** @var \TYPO3\CMS\Media\TypeConverter\FileConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\FileConverter');
+
+			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
+			$propertyMappingConfiguration->setTypeConverter($typeConverter);
+		}
+	}
+
+	/**
 	 * Handle GUI for creating a link in the RTE.
 	 *
-	 * @param int $asset
+	 * @param int $file
 	 * @return void
 	 */
-	public function showAction($asset) {
-		$file = ResourceFactory::getInstance()->getFileObject($asset);
+	public function showAction($file) {
 		$this->view->assign('asset', $file);
 	}
 }

@@ -25,7 +25,7 @@ use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
- * View helper which renders a "edit" button to be placed in the grid.
+ * View which renders a "edit" button to be placed in the grid.
  */
 class EditButton extends AbstractComponentView {
 

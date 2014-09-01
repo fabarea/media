@@ -14,15 +14,15 @@ namespace TYPO3\CMS\Media\View\Button;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Utility\ModuleUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
-use TYPO3\CMS\Media\ObjectFactory;
 
 /**
- * View helper which renders a "delete" button to be placed in the grid.
+ * View which renders a "delete" button to be placed in the grid.
  */
 class DeleteButton extends AbstractComponentView {
 
@@ -35,15 +35,11 @@ class DeleteButton extends AbstractComponentView {
 	public function render(Content $object = NULL) {
 		$result = '';
 
-		$file = ObjectFactory::getInstance()->convertContentObjectToFile($object);
+		// Only display the delete icon if the file has no reference.
+		if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0) {
 
-		if ($this->hasFileNoReferences($object) && $this->hasNotSoftImageReferences($file) && $this->hasNotSoftLinkReferences($file)) {
-
-			// check if the file has a reference
-			$result = sprintf('<a href="%s&%s[asset]=%s" class="btn-delete" data-uid="%s">%s</a>',
-				ModuleUtility::getUri('delete', 'Asset'),
-				ModuleUtility::getParameterPrefix(),
-				$object->getUid(),
+			$result = sprintf('<a href="%s" class="btn-delete" data-uid="%s">%s</a>',
+				$this->getDeleteUri($object),
 				$object->getUid(),
 				IconUtility::getSpriteIcon('actions-edit-delete')
 			);
@@ -52,64 +48,25 @@ class DeleteButton extends AbstractComponentView {
 	}
 
 	/**
-	 * Tell whether the file has references.
-	 *
+	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 */
+	protected function getFileReferenceService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+	}
+
+	/**
 	 * @param Content $object
-	 * @return boolean
+	 * @return string
 	 */
-	protected function hasFileNoReferences($object) {
-
-		// Get the file references of the asset
-		$references = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'*',
-			'sys_file_reference',
-			'deleted = 0 AND uid_local = ' . $object->getUid()
+	protected function getDeleteUri(Content $object) {
+		$urlParameters = array(
+			Parameter::PREFIX => array(
+				'controller' => 'Asset',
+				'action' => 'delete',
+				'file' => $object->getUid(),
+			),
 		);
-
-		return empty($references);
+		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
-	/**
-	 * Return whether the asset has no soft image references.
-	 *
-	 * @param File $file
-	 * @return array
-	 */
-	protected function hasNotSoftImageReferences(File $file) {
-
-		// Get the file references of the asset.
-		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'recuid, tablename',
-			'sys_refindex',
-			'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
-		);
-		return empty($softReferences);
-	}
-
-	/**
-	 * Return whether the asset has no soft link references.
-	 *
-	 * @param File $file
-	 * @return array
-	 */
-	protected function hasNotSoftLinkReferences(File $file) {
-
-		// Get the link references of the asset.
-		$softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'recuid, tablename',
-			'sys_refindex',
-			'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $file->getUid()
-		);
-
-		return empty($softReferences);
-	}
-
-	/**
-	 * Return a pointer to the database.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
 }

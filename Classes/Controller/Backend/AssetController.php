@@ -59,15 +59,14 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * Delete a row given a media uid.
+	 * Delete a row given a file.
 	 * This action is expected to have a parameter format = json
 	 *
-	 * @param int $asset
+	 * @param File $file
 	 * @return string
 	 */
-	public function deleteAction($asset) {
-		$file = ResourceFactory::getInstance()->getFileObject($asset);
-		$assetData = array(
+	public function deleteAction(File $file) {
+		$fileData = array(
 			'uid' => $file->getUid(),
 			'title' => $file->getProperty('title'),
 			'name' => $file->getProperty('title'), // "name" is the label of sys_file used in the flash message.
@@ -76,16 +75,17 @@ class AssetController extends ActionController {
 		$result['status'] = $file->delete();
 		$result['action'] = 'delete';
 		if ($result['status']) {
-			$result['object'] = $assetData;
+			$result['object'] = $fileData;
 		}
 
-		# Json header is not automatically respected in the BE... so send one the hard way.
-		header('Content-type: application/json');
+		# Json header is not automatically sent in the BE...
+		$this->response->setHeader('Content-Type', 'application/json');
+		$this->response->sendHeaders();
 		return json_encode($result);
 	}
 
 	/**
-	 * Mass delete a media
+	 * Mass delete a file.
 	 * This action is expected to have a parameter format = json
 	 *
 	 * @param int $storageIdentifier
@@ -112,8 +112,9 @@ class AssetController extends ActionController {
 			}
 		}
 
-		# Json header is not automatically respected in the BE... so send one the hard way.
-		header('Content-type: application/json');
+		# Json header is not automatically sent in the BE...
+		$this->response->setHeader('Content-Type', 'application/json');
+		$this->response->sendHeaders();
 		return json_encode(TRUE);
 	}
 
@@ -131,8 +132,9 @@ class AssetController extends ActionController {
 			$result = $this->deleteAction($asset);
 		}
 
-		# Json header is not automatically respected in the BE... so send one the hard way.
-		header('Content-type: application/json');
+		# Json header is not automatically sent in the BE...
+		$this->response->setHeader('Content-Type', 'application/json');
+		$this->response->sendHeaders();
 		return json_encode($result);
 	}
 
@@ -215,16 +217,6 @@ class AssetController extends ActionController {
 		// to pass data through iframe you will need to encode all html tags
 		header("Content-Type: text/plain");
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
-	}
-
-	/**
-	 * Instantiate the indexer service to update the metadata of the file.
-	 *
-	 * @param int|ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Index\Indexer
-	 */
-	protected function getIndexer($storage) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\Indexer', $storage);
 	}
 
 	/**
@@ -323,6 +315,16 @@ class AssetController extends ActionController {
 		$thumbnailService->setAppendTimeStamp(TRUE)
 			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED);
 		return $thumbnailService;
+	}
+
+	/**
+	 * Instantiate the indexer service to update the metadata of the file.
+	 *
+	 * @param int|ResourceStorage $storage
+	 * @return \TYPO3\CMS\Media\Index\Indexer
+	 */
+	protected function getIndexer($storage) {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\Indexer', $storage);
 	}
 
 	/**
