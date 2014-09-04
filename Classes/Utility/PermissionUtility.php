@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\Utility;
  */
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -35,10 +36,10 @@ class PermissionUtility implements SingletonInterface {
 	/**
 	 * Returns allowed extensions given a possible storage.
 	 *
-	 * @param int $storageIdentifier
+	 * @param null|int|ResourceStorage $storage
 	 * @return array
 	 */
-	public function getAllowedExtensions() {
+	public function getAllowedExtensions($storage = NULL) {
 
 		$fieldNames = array(
 			'extension_allowed_file_type_1',
@@ -48,7 +49,13 @@ class PermissionUtility implements SingletonInterface {
 			'extension_allowed_file_type_5',
 		);
 
-		$storage = $this->getStorageService()->findCurrentStorage();
+		if (!is_null($storage)) {
+			if (! $storage instanceof ResourceStorage) {
+				$storage = ResourceFactory::getInstance()->getStorageObject((int)$storage);
+			}
+		} else {
+			$storage = $this->getStorageService()->findCurrentStorage();
+		}
 
 		$storageRecord = $storage->getStorageRecord();
 		$allowedExtensions = array();
