@@ -29,6 +29,10 @@ class ReportToViewHelper extends AbstractViewHelper {
 	 */
 	public function render() {
 		// @todo will be made more flexible at one point!
-		return $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+		$reportTo = 'NULL "defaultMailFromAddress"';
+		if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+			$reportTo = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+		}
+		return $reportTo;
 	}
 }
