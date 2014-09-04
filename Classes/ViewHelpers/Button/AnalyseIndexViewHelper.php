@@ -34,7 +34,7 @@ class AnalyseIndexViewHelper extends AbstractViewHelper {
 		if ($this->getBackendUser()->isAdmin()) {
 
 			$result = sprintf('<a href="%s&returnUrl=%s" class="btn">Analyse index</a>',
-				$this->getAnaylseIndexUri(),
+				$this->getAnalyseIndexUri(),
 				urlencode($GLOBALS['_SERVER']['REQUEST_URI'])
 			);
 		}
