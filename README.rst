@@ -289,10 +289,8 @@ a File to a Frontend Group.
 
 .. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-05.png
 
-Notice the following:
-
-* Frontend: Media **delegates file permission to third party extensions**. Media provides integration with extension naw_securedl_. The Hook is enabled by default in ``ext_localconf.php``. Once the extension is installed all URL pointing to a file will be rewritten.
-* Whenever Apache is used as web server, a htaccess file is required for restricting direct access.
+Notice Media **delegates file permission to third party extensions**, such as extension naw_securedl_.
+On the long term it should be considered to be used a secure local driver, however.
 
 .. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
 

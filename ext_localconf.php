@@ -3,10 +3,6 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-# Hook for secure download in Frontend
-# Hook is not enabled by default for now and must be commented out. More info in Documentation.
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/naw_securedl/class.tx_nawsecuredl_output.php']['preOutput'][] = 'EXT:media/Classes/Hook/NawSecuredl.php:TYPO3\CMS\Media\Hook\NawSecuredlHook->preOutput';
-
 // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
 \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('TYPO3\CMS\Media\Index\TitleMetadataExtractor');
 
