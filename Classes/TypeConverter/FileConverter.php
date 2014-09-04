@@ -32,7 +32,7 @@ class FileConverter extends AbstractTypeConverter {
 	/**
 	 * @var string
 	 */
-	protected $targetType = 'boolean';
+	protected $targetType = 'TYPO3\CMS\Core\Resource\File';
 
 	/**
 	 * @var integer
