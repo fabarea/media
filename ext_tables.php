@@ -158,16 +158,3 @@ if (TYPO3_MODE == 'BE') {
 	),
 	'media'
 );
-
-// Add Media folder type and icon
-\TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon(
-	'pages',
-	'contains-media', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
-);
-
-// Add module icon for Folder
-$TCA['pages']['columns']['module']['config']['items'][] = array(
-	'Media',
-	'media',
-	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/media_folder.png'
-);
