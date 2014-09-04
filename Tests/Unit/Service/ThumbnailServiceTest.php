@@ -88,14 +88,6 @@ class ThumbnailServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function testGetterAndSetterForPropertyMedia() {
-		$this->fixture->setFile($this->getMockMedia());
-		$this->assertTrue($this->fixture->getFile() instanceof \TYPO3\CMS\Media\Domain\Model\Asset);
-	}
-
-	/**
-	 * @test
-	 */
 	public function setterForPropertyMediaReturnsInstanceOfSelfObject() {
 		$this->assertTrue($this->fixture->setFile($this->getMockMedia()) instanceof \TYPO3\CMS\Media\Service\ThumbnailService);
 	}
@@ -106,17 +98,6 @@ class ThumbnailServiceTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 */
 	public function callingMethodCreateWithoutMediaRaisesAnException() {
 		$this->fixture->create();
-	}
-
-	/**
-	 * @return TYPO3\CMS\Media\Domain\Model\Asset
-	 */
-	private function getMockMedia() {
-		$data = array(
-			'uid' => rand(10000, 100000),
-			'identifier' => uniqid('/foo'),
-		);
-		return new \TYPO3\CMS\Media\Domain\Model\Asset($data);
 	}
 
 	/**

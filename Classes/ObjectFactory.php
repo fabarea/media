@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
@@ -34,25 +33,6 @@ class ObjectFactory implements SingletonInterface {
 	 */
 	static public function getInstance() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ObjectFactory');
-	}
-
-	/**
-	 * Creates a media object from an array of file data. Requires a database
-	 * row to be fetched.
-	 *
-	 * @param array $assetData
-	 * @param string $objectType
-	 * @throws \RuntimeException
-	 * @return Asset
-	 */
-	public function createObject(array $assetData, $objectType = 'TYPO3\CMS\Media\Domain\Model\Asset') {
-
-		if (!isset($assetData['storage']) && $assetData['storage'] === NULL) {
-			throw new \RuntimeException('Storage identifier can not be null.', 1379947982);
-		}
-
-		$storage = ResourceFactory::getInstance()->getStorageObject($assetData['storage']);
-		return GeneralUtility::makeInstance($objectType, $assetData, $storage);
 	}
 
 	/**
@@ -118,17 +98,17 @@ class ObjectFactory implements SingletonInterface {
 	 * Return a folder object configured in the storage.
 	 *
 	 * @param ResourceStorage $storage
-	 * @param Asset $asset
+	 * @param File $file
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
-	public function getTargetFolder($storage, $asset) {
+	public function getTargetFolder(ResourceStorage $storage, File $file) {
 
 		// default is the root level
 		$folderObject = $storage->getRootLevelFolder();
 
 		// Retrieve storage record and a possible configured mount point.
 		$storageRecord = $storage->getStorageRecord();
-		$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $asset->getType()];
+		$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $file->getType()];
 
 		if ($mountPointIdentifier > 0) {
 

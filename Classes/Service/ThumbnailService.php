@@ -61,7 +61,7 @@ class ThumbnailService implements ThumbnailInterface {
 	protected $wrap = FALSE;
 
 	/**
-	 * @var File|\TYPO3\CMS\Media\Domain\Model\Asset
+	 * @var File
 	 */
 	protected $file;
 

@@ -50,14 +50,5 @@ class FallBackThumbnailTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$expected = '<img src="../typo3conf/ext/media/Resources/Public/Icons/UnknownMimeType.png" hspace="2" class="" alt="" />';
 		$this->assertEquals($expected, $this->fixture->create());
 	}
-
-
-	public function getMockMedia() {
-		$data = array(
-			'uid' => rand(10000, 100000),
-			'identifier' => uniqid('/foo'),
-		);
-		return new \TYPO3\CMS\Media\Domain\Model\Asset($data);
-	}
 }
 ?>

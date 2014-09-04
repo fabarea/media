@@ -65,7 +65,6 @@ class ThumbnailViewHelper extends AbstractViewHelper {
 			}
 		}
 
-		/** @var $file \TYPO3\CMS\Media\Domain\Model\Asset */
 		if ($preset) {
 			$imageDimension = ImagePresetUtility::getInstance()->preset($preset);
 			$configuration['width'] = $imageDimension->getWidth();

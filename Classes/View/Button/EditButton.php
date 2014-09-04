@@ -20,7 +20,6 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\Domain\Model\Asset;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
