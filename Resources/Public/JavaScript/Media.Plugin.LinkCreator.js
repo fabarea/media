@@ -36,7 +36,7 @@
 				fileUid = matches[1];
 
 				var uriTarget = new Uri($('#btn-linkCreator-current').attr('href'));
-				uriTarget.addQueryParam('tx_media_user_mediam1[asset]', fileUid);
+				uriTarget.addQueryParam('tx_media_user_mediam1[file]', fileUid);
 
 				// Reset the URL with the new attribute
 				$('#btn-linkCreator-current').attr('href', uriTarget.query());

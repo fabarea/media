@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service\ThumbnailService;
+namespace TYPO3\CMS\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,15 +14,15 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Utility\Path;
 
 /**
+ * Video Thumbnail Processor
  */
-class AudioThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
+class VideoThumbnailProcessor extends AbstractThumbnailProcessor {
 
 	/**
-	 * Render a thumbnail of a resource of type audio.
+	 * Render a thumbnail of a resource of type video.
 	 *
 	 * @return string
 	 */
@@ -44,7 +44,7 @@ class AudioThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 	 */
 	public function renderUri() {
 
-		$relativePath = sprintf('Icons/MimeType/%s.png', $this->file->getProperty('extension'));
+		$relativePath = sprintf('Icons/MimeType/%s.png', $this->getFile()->getProperty('extension'));
 		$fileNameAndPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:media/Resources/Public/' . $relativePath);
 		if (!file_exists($fileNameAndPath)) {
 			$relativePath = 'Icons/UnknownMimeType.png';
@@ -62,7 +62,7 @@ class AudioThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 	public function renderTagImage($result) {
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
-			$this->getAppendTimeStamp() ? '?' . $this->file->getProperty('tstamp') : '',
+			$this->thumbnailService->getAppendTimeStamp() ? '?' . $this->getFile()->getProperty('tstamp') : '',
 			$this->getTitle(),
 			$this->getTitle(),
 			$this->renderAttributes()
@@ -75,9 +75,9 @@ class AudioThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 	 * @return string
 	 */
 	protected function getTitle() {
-		$result = $this->file->getProperty('title');
+		$result = $this->getFile()->getProperty('title');
 		if (empty($result)) {
-			$result = $this->file->getName();
+			$result = $this->getFile()->getName();
 		}
 		return htmlspecialchars($result);
 	}
@@ -90,12 +90,12 @@ class AudioThumbnail extends \TYPO3\CMS\Media\Service\ThumbnailService {
 	 */
 	public function renderTagAnchor($result) {
 
-		$file = $this->file;
+		$file = $this->getFile();
 
 		return sprintf('<a href="%s%s" target="%s">%s</a>',
-			$this->getAnchorUri() ? $this->getAnchorUri() : $file->getPublicUrl(TRUE),
-			$this->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
-			$this->getTarget(),
+			$this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE),
+			$this->thumbnailService->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
+			$this->thumbnailService->getTarget(),
 			$result
 		);
 	}

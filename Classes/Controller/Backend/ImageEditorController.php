@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -49,11 +50,11 @@ class ImageEditorController extends ActionController {
 	/**
 	 * Handle GUI for inserting an image in the RTE.
 	 *
-	 * @param int $file
+	 * @param File $file
 	 * @return void
 	 */
-	public function showAction($file) {
-		$this->view->assign('asset', $file);
-		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl('user_MediaM1'));
+	public function showAction(File $file) {
+		$this->view->assign('file', $file);
+		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl('user_MediaM1')); // ?
 	}
 }

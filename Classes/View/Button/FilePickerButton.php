@@ -55,7 +55,6 @@ class FilePickerButton extends AbstractComponentView {
 			ModuleParameter::PREFIX => array(
 				'controller' => 'Asset',
 				'action' => 'download',
-				# @todo add flag not force download! Before was action show.
 				'file' => $object->getUid(),
 			),
 		);

@@ -25,7 +25,7 @@ $tca = array(
 	),
 	'vidi' => array(
 		// For actions such as update, remove, copy, move, the DataHandler of the Core is configured to be used by default.
-		// It will work fine in most cases. However, there is the chance to set your own Data Handler if there is special needs (e.g. FileDataHandler in EXT:media)
+		// It will work fine in most cases. However, there is the chance to set your own Data Handler if there are special needs (@see FileDataHandler in EXT:media)
 		// Another reasons, would be for speed. You will notice a performance cost when mass editing data using the Core DataHandler.
 		// Using your own DataHandler would make the mass processing much faster.
 		'data_handler' => array(

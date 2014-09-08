@@ -14,7 +14,7 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -41,10 +41,10 @@ class LinkCreatorController extends ActionController {
 	/**
 	 * Handle GUI for creating a link in the RTE.
 	 *
-	 * @param int $file
+	 * @param File $file
 	 * @return void
 	 */
-	public function showAction($file) {
-		$this->view->assign('asset', $file);
+	public function showAction(File $file) {
+		$this->view->assign('file', $file);
 	}
 }

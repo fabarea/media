@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Media\Service\ThumbnailInterface;
+use TYPO3\CMS\Media\Thumbnail\ThumbnailInterface;
 use TYPO3\CMS\Media\Utility\PermissionUtility;
 
 /**
@@ -100,8 +100,8 @@ EOF;
 		$thumbnail = '';
 		if ($this->file) {
 
-			/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+			/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
+			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService');
 			$thumbnail = $thumbnailService
 				->setFile($this->file)
 				->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)

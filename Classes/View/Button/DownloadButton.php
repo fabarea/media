@@ -54,6 +54,7 @@ class DownloadButton extends AbstractComponentView {
 			ModuleParameter::PREFIX => array(
 				'controller' => 'Asset',
 				'action' => 'download',
+				'forceDownload' => TRUE,
 				'file' => $object->getUid(),
 			),
 		);

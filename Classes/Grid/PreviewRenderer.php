@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Service\ThumbnailInterface;
+use TYPO3\CMS\Media\Thumbnail\ThumbnailInterface;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
@@ -35,7 +35,7 @@ class PreviewRenderer extends GridRendererAbstract {
 	 */
 	public function render() {
 
-		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
+		$file = $this->getFileConverter()->convert($this->object);
 
 		$uri = FALSE;
 		$appendTime = TRUE;
@@ -46,7 +46,7 @@ class PreviewRenderer extends GridRendererAbstract {
 			$uri = $this->getPluginUri('ImageEditor');
 		} elseif (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
 			$appendTime = FALSE;
-			$uri = $this->getPluginUri('ImageEditor');
+			$uri = $this->getPluginUri('LinkCreator');
 		}
 
 		$result = $this->getThumbnailService($file)
@@ -65,10 +65,10 @@ class PreviewRenderer extends GridRendererAbstract {
 
 	/**
 	 * @param File $file
-	 * @return \TYPO3\CMS\Media\Service\ThumbnailService
+	 * @return \TYPO3\CMS\Media\Thumbnail\ThumbnailService
 	 */
 	protected function getThumbnailService(File $file) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService', $file);
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
 	}
 
 	/**
@@ -86,10 +86,17 @@ class PreviewRenderer extends GridRendererAbstract {
 		$urlParameters = array(
 			ModuleParameter::PREFIX => array(
 				'controller' => $controllerName,
-				'action' => 'delete',
+				'action' => 'show',
 				'file' => $this->object->getUid(),
 			),
 		);
 		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 */
+	protected function getFileConverter() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
 	}
 }

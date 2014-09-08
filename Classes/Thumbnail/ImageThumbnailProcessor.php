@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service\ThumbnailService;
+namespace TYPO3\CMS\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,12 +15,11 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
  */
 
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Media\Service\ThumbnailRenderableInterface;
-use TYPO3\CMS\Media\Service\ThumbnailService;
 
 /**
+ * Image Thumbnail Processor.
  */
-class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInterface {
+class ImageThumbnailProcessor extends AbstractThumbnailProcessor {
 
 	/**
 	 * @var array
@@ -55,20 +54,20 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 
 		// Makes sure the width and the height of the thumbnail is not bigger than the actual file
 		$configuration = $this->getConfiguration();
-		if (!empty($configuration['width']) && $configuration['width'] > $this->file->getProperty('width')) {
-			$configuration['width'] = $this->file->getProperty('width');
+		if (!empty($configuration['width']) && $configuration['width'] > $this->getFile()->getProperty('width')) {
+			$configuration['width'] = $this->getFile()->getProperty('width');
 		}
-		if (!empty($configuration['height']) && $configuration['height'] > $this->file->getProperty('height')) {
-			$configuration['height'] = $this->file->getProperty('height');
+		if (!empty($configuration['height']) && $configuration['height'] > $this->getFile()->getProperty('height')) {
+			$configuration['height'] = $this->getFile()->getProperty('height');
 		}
 
 		$configuration = $this->computeFinalImageDimension($configuration);
-		$this->processedFile = $this->file->process($this->getProcessingType(), $configuration);
+		$this->processedFile = $this->getFile()->process($this->getProcessingType(), $configuration);
 		$result = $this->processedFile->getPublicUrl(TRUE);
 
 		// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
-		if ($this->processedFile->getProperty('originalfilesha1') != $this->file->getProperty('sha1')) {
-			$this->processedFile->updateProperties(array('tstamp' => $this->file->getProperty('tstamp')));
+		if ($this->processedFile->getProperty('originalfilesha1') != $this->getFile()->getProperty('sha1')) {
+			$this->processedFile->updateProperties(array('tstamp' => $this->getFile()->getProperty('tstamp')));
 		}
 
 		return $result;
@@ -83,7 +82,7 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 	public function renderTagImage($result) {
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
-			$this->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
+			$this->thumbnailService->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
 			$this->getTitle(),
 			$this->getTitle(),
 			$this->renderAttributes()
@@ -96,9 +95,9 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 	 * @return string
 	 */
 	protected function getTitle() {
-		$result = $this->file->getProperty('title');
+		$result = $this->getFile()->getProperty('title');
 		if (empty($result)) {
-			$result = $this->file->getName();
+			$result = $this->getFile()->getName();
 		}
 		return htmlspecialchars($result);
 	}
@@ -111,10 +110,10 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 	 */
 	public function renderTagAnchor($result) {
 
-		$file = $this->file;
+		$file = $this->getFile();
 
 		// Perhaps the wrapping file must be processed
-		$configurationWrap = $this->getConfigurationWrap();
+		$configurationWrap = $this->thumbnailService->getConfigurationWrap();
 
 		// Make sure we have configurationWrap initialized correctly
 		if (!empty($configurationWrap['width']) || !empty($configurationWrap['height'])) {
@@ -122,18 +121,18 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 
 			// It looks maxW or maxH does not work as expected with CONTEXT_IMAGEPREVIEW...
 			// ... uses "width" and "height" instead.
-			if ($configurationWrap['width'] < $this->file->getProperty('width')
-				|| $configurationWrap['height'] < $this->file->getProperty('height')
+			if ($configurationWrap['width'] < $this->getFile()->getProperty('width')
+				|| $configurationWrap['height'] < $this->getFile()->getProperty('height')
 			) {
 				$configurationWrap = $this->computeFinalImageDimension($configurationWrap);
-				$file = $this->file->process($this->getProcessingType(), $configurationWrap);
+				$file = $this->getFile()->process($this->getProcessingType(), $configurationWrap);
 			}
 		}
 
 		return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
-			$this->getAnchorUri() ? $this->getAnchorUri() : $file->getPublicUrl(TRUE),
-			$this->getAppendTimeStamp() && !$this->getAnchorUri() ? '?' . $file->getProperty('tstamp') : '',
-			$this->getTarget(),
+			$this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE),
+			$this->thumbnailService->getAppendTimeStamp() && !$this->thumbnailService->getAnchorUri() ? '?' . $file->getProperty('tstamp') : '',
+			$this->thumbnailService->getTarget(),
 			$file->getUid(),
 			$result
 		);
@@ -164,8 +163,8 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 	 */
 	protected function computeImageRatio() {
 		$ratio = NULL;
-		if ($this->file->getProperty('width') > 0 && $this->file->getProperty('height') > 0) {
-			$ratio = $this->file->getProperty('width') / $this->file->getProperty('height');
+		if ($this->getFile()->getProperty('width') > 0 && $this->getFile()->getProperty('height') > 0) {
+			$ratio = $this->getFile()->getProperty('width') / $this->getFile()->getProperty('height');
 		}
 		return $ratio;
 	}
@@ -174,9 +173,9 @@ class ImageThumbnail extends ThumbnailService implements ThumbnailRenderableInte
 	 * @return string
 	 */
 	public function getProcessingType() {
-		if ($this->processingType === NULL) {
+		if ($this->thumbnailService->getProcessingType() === NULL) {
 			return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
 		}
-		return $this->processingType;
+		return $this->thumbnailService->getProcessingType();
 	}
 }

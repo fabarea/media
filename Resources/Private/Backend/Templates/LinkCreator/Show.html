@@ -45,12 +45,11 @@
 			<div class="container">
 				<f:flashMessages/>
 
-
 				<f:form method="post" name="asset"
-				        object="{asset}" arguments="{format: 'json'}" id="form-action-linkCreator">
+				        object="{file}" arguments="{format: 'json'}" id="form-action-linkCreator">
 
 					<div class="control-group">
-						{asset.thumbnailWrapped -> f:format.html()}
+						<m:thumbnail file="{file}" output="imageWrapped"/>
 					</div>
 
 					<div class="control-group">
@@ -59,7 +58,7 @@
 						</label>
 
 						<div class="controls">
-							<f:form.textfield property="title" id="file-title" class="span6"/>
+							<f:form.textfield property="title" id="file-title" class="span6" value="{m:file.property(name: 'title')}"/>
 						</div>
 					</div>
 
@@ -87,7 +86,7 @@
 						</div>
 					</div>
 
-					<f:form.hidden id="file-uid" property="uid"/>
+					<f:form.hidden id="file-uid" property="uid" value="{m:file.property(name: 'uid')}"/>
 					<div style="visibility: hidden">
 						<f:form.submit value="submit"/>
 					</div>
@@ -103,7 +102,7 @@
 			<div class="footer">
 				<div class="container">
 					<p class="footer-container pull-right">
-						<m:form.footer object="{asset}"/>
+						<m:form.footer />
 					</p>
 				</div>
 			</div>

@@ -112,19 +112,19 @@
 
 		<div class="container-imageEditor">
 
-			<f:form method="post" name="asset"
-			        object="{asset}" id="form-action-imageEditor">
+			<f:form method="post" name="file"
+			        object="{file}" id="form-action-imageEditor">
 
 				<div class="container-height"></div>
 				<div class="control-group">
-					<m:thumbnail file="{asset}"
+					<m:thumbnail file="{file}"
 					             preset="image_medium"
 					             attributes="{class: 'processed-file'}"/>
 				</div>
 				<div class="container-width"></div>
 
 
-				<f:form.hidden id="file-uid" property="uid"/>
+				<f:form.hidden id="file-uid" property="uid" value="{m:file.property(name: 'uid')}"/>
 				<div style="visibility: hidden">
 					<f:form.submit value="submit"/>
 				</div>
@@ -140,7 +140,7 @@
 	<div class="footer">
 		<div class="container">
 			<p class="footer-container pull-right">
-				<m:form.footer object="{asset}"/>
+				<m:form.footer/>
 			</p>
 		</div>
 	</div>
@@ -150,9 +150,9 @@
 
 		$(function() {
 
-			var fileUid = '{asset.uid}' - 0; // cast value to int
-			var originalImageWidth = '{asset.width}' - 0;
-			var originalImageHeight = '{asset.height}' - 0;
+			var fileUid = "{m:file.property(name: 'uid')}" - 0; // cast value to int
+			var originalImageWidth = "{m:file.property(name: 'width')}" - 0;
+			var originalImageHeight = "{m:file.property(name: 'height')}" - 0;
 			var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}' - 0;
 			var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}' - 0;
 			var ratio = originalImageWidth / originalImageHeight;

@@ -27,9 +27,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Service\ThumbnailInterface;
-use TYPO3\CMS\Media\Service\ThumbnailService;
-use TYPO3\CMS\Vidi\Domain\Repository\ContentRepositoryFactory;
+use TYPO3\CMS\Media\Thumbnail\ThumbnailInterface;
+use TYPO3\CMS\Media\Thumbnail\ThumbnailService;
 use TYPO3\CMS\Vidi\Persistence\MatcherObjectFactory;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
@@ -79,18 +78,18 @@ class AssetController extends ActionController {
 	 * Force download of the file.
 	 *
 	 * @param File $file
-	 * @throws \Exception
+	 * @param bool $forceDownload
 	 * @return bool|string
 	 */
-	public function downloadAction(File $file) {
+	public function downloadAction(File $file, $forceDownload = FALSE) {
 
 		if ($file->exists() && $file->getStorage()->isWithinFileMountBoundaries($file->getParentFolder())) {
 
 			// Emit signal before downloading the file.
 			$this->emitBeforeDownloadSignal($file);
 
-			// Read the file and dump it with flag "forceDownload".
-			$file->getStorage()->dumpFileContents($file, TRUE);
+			// Read the file and dump it with the flag "forceDownload" set to TRUE or FALSE.
+			$file->getStorage()->dumpFileContents($file, $forceDownload);
 
 			$result = TRUE;
 		} else {
@@ -215,7 +214,7 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * Returns an editing form for move the file between storage.
+	 * Returns an editing form for moving Files between storage.
 	 *
 	 * @param array $matches
 	 * @throws \Exception
@@ -277,7 +276,7 @@ class AssetController extends ActionController {
 	protected function getThumbnailService(File $file) {
 
 		/** @var $thumbnailService ThumbnailService */
-		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService', $file);
+		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
 		$thumbnailService->setAppendTimeStamp(TRUE)
 			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED);
 		return $thumbnailService;

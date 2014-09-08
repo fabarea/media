@@ -24,21 +24,6 @@
 		});
 
 		/**
-		 * Handler against Variant icon.
-		 * @todo check how to deal with that - 6.2 migration
-		 */
-//		$(document).on('click', '.dataTable tbody .btn-variant-link', function (e) {
-//			e.preventDefault();
-//			var data = {
-//				uid: $(this).data('file-uid'),
-//				original: $(this).data('original-uid'),
-//				publicUrl: $(this).data('public-url'),
-//				timeStamp: $(this).data('time-stamp')
-//			};
-//			Media.Rte.Popup.createImage(data);
-//		});
-
-		/**
 		 * True means an image has been selected in in the RTE and image editor must be loaded
 		 */
 		if (window.opener && window.opener.Media.ImageEditor.elementNode) {
@@ -52,7 +37,7 @@
 			if (fileUid > 0 && $($element).data('htmlarea-file-table') == 'sys_file') {
 
 				uriTarget = new Uri($('#btn-imageEditor-current').attr('href'));
-				uriTarget.addQueryParam('tx_media_user_mediam1[asset]', fileUid);
+				uriTarget.addQueryParam('tx_media_user_mediam1[file]', fileUid);
 
 				// Setting a hidden URL with new attributes (an image was selected in the RTE)
 				// and then fire click event to load Image Editor.

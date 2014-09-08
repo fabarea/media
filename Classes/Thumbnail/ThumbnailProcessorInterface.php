@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service;
+namespace TYPO3\CMS\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,8 +15,22 @@ namespace TYPO3\CMS\Media\Service;
  */
 
 /**
+ * Tell how a thumbnail of a file can be rendered.
  */
-interface ThumbnailRenderableInterface {
+interface ThumbnailProcessorInterface {
+
+	/**
+	 * @param ThumbnailService $thumbnailService
+	 * @return $this
+	 */
+	public function setThumbnailService(ThumbnailService $thumbnailService);
+
+	/**
+	 * Render a thumbnail.
+	 *
+	 * @return string
+	 */
+	public function create();
 
 	/**
 	 * Render the URI of the thumbnail.

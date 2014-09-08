@@ -35,7 +35,7 @@ class EditButton extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
-		$file = ObjectFactory::getInstance()->convertContentObjectToFile($object);
+		$file = $this->getFileConverter()->convert($object);
 		$metadataProperties = $file->_getMetaData();
 
 		return sprintf('<a href="%s" data-uid="%s" class="btn-edit" title="%s">%s</a>',
@@ -57,5 +57,12 @@ class EditButton extends AbstractComponentView {
 			'sys_file_metadata',
 			$metadataProperties['uid']
 		) . '&returnUrl=' . $returnUrl;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 */
+	protected function getFileConverter() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
 	}
 }

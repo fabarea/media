@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\Tca\TcaService;
@@ -36,7 +37,7 @@ class MetadataRenderer extends GridRendererAbstract {
 		}
 
 		$propertyName = $this->gridRendererConfiguration['property'];
-		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
+		$file = $this->getFileConverter()->convert($this->object);
 		$result = $file->getProperty($propertyName);
 
 		// Avoid bad surprise, converts characters to HTML.
@@ -79,5 +80,12 @@ class MetadataRenderer extends GridRendererAbstract {
 		// @todo implement me!
 		$result = TRUE;
 		return $result;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 */
+	protected function getFileConverter() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
 	}
 }

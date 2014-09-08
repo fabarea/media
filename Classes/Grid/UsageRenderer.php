@@ -34,7 +34,7 @@ class UsageRenderer extends GridRendererAbstract {
 	 */
 	public function render() {
 
-		$file = ObjectFactory::getInstance()->convertContentObjectToFile($this->object);
+		$file = $this->getFileConverter()->convert($this->object);
 
 		$result = '';
 
@@ -168,5 +168,12 @@ class UsageRenderer extends GridRendererAbstract {
 	 */
 	protected function getFileReferenceService() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 */
+	protected function getFileConverter() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
 	}
 }

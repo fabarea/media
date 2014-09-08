@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service\ThumbnailService;
+namespace TYPO3\CMS\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,13 +16,12 @@ namespace TYPO3\CMS\Media\Service\ThumbnailService;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Media\Service\ThumbnailRenderableInterface;
-use TYPO3\CMS\Media\Service\ThumbnailService;
 use TYPO3\CMS\Media\Module\ModuleParameter;
 
 /**
+ * Application Thumbnail Processor
  */
-class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderableInterface {
+class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor {
 
 	/**
 	 * Render a thumbnail of a resource of type application.
@@ -47,16 +46,16 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	 * @return string
 	 */
 	public function renderUri() {
-		if ($this->isThumbnailPossible($this->file->getExtension())) {
-			$this->processedFile = $this->file->process($this->getProcessingType(), $this->getConfiguration());
+		if ($this->isThumbnailPossible($this->getFile()->getExtension())) {
+			$this->processedFile = $this->getFile()->process($this->getProcessingType(), $this->getConfiguration());
 			$result = $this->processedFile->getPublicUrl(TRUE);
 
 			// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
-			if ($this->processedFile->getProperty('originalfilesha1') != $this->file->getProperty('sha1')) {
-				$this->processedFile->updateProperties(array('tstamp' => $this->file->getProperty('tstamp')));
+			if ($this->processedFile->getProperty('originalfilesha1') != $this->getFile()->getProperty('sha1')) {
+				$this->processedFile->updateProperties(array('tstamp' => $this->getFile()->getProperty('tstamp')));
 			}
 		} else {
-			$result = $this->getIcon($this->file->getExtension());
+			$result = $this->getIcon($this->getFile()->getExtension());
 		}
 		return $result;
 	}
@@ -70,7 +69,7 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	public function renderTagImage($result) {
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
-			$this->getAppendTimeStamp() ? '?' . $this->getTimeStamp() : '',
+			$this->thumbnailService->getAppendTimeStamp() ? '?' . $this->getTimeStamp() : '',
 			$this->getTitle(),
 			$this->getTitle(),
 			$this->renderAttributes()
@@ -83,7 +82,7 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	 * @return int
 	 */
 	protected function getTimeStamp(){
-		$result = $this->file->getProperty('tstamp');
+		$result = $this->getFile()->getProperty('tstamp');
 		if ($this->processedFile) {
 			$result = $this->processedFile->getProperty('tstamp');
 		}
@@ -96,9 +95,9 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	 * @return string
 	 */
 	protected function getTitle() {
-		$result = $this->file->getProperty('title');
+		$result = $this->getFile()->getProperty('title');
 		if (empty($result)) {
-			$result = $this->file->getName();
+			$result = $this->getFile()->getName();
 		}
 		return htmlspecialchars($result);
 	}
@@ -110,14 +109,14 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	 * @return string
 	 */
 	public function renderTagAnchor($result) {
-		$uri = $this->getAnchorUri();
+		$uri = $this->thumbnailService->getAnchorUri();
 		if (! $uri) {
 			$uri = $this->getUri();
 		}
 
 		return sprintf('<a href="%s" target="_blank" data-uid="%s">%s</a>',
 			$uri,
-			$this->file->getUid(),
+			$this->getFile()->getUid(),
 			$result
 		);
 	}
@@ -130,8 +129,7 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 			ModuleParameter::PREFIX => array(
 				'controller' => 'Asset',
 				'action' => 'download',
-				# @todo add flag not force download!
-				'file' => $this->file->getUid(),
+				'file' => $this->getFile()->getUid(),
 			),
 		);
 		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
@@ -141,9 +139,9 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	 * @return string
 	 */
 	public function getProcessingType() {
-		if ($this->processingType === NULL) {
+		if ($this->thumbnailService->getProcessingType() === NULL) {
 			return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
 		}
-		return $this->processingType;
+		return $this->thumbnailService->getProcessingType();
 	}
 }

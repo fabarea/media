@@ -12,7 +12,6 @@ window.Media = {
 	/**
 	 * Fetch the form and handle its action
 	 *
-	 * @private
 	 * @param {string} url where to send the form data
 	 * @return void
 	 */
@@ -29,7 +28,6 @@ window.Media = {
 	/**
 	 * Update the content on the GUI.
 	 *
-	 * @private
 	 * @param {string} data
 	 * @return void
 	 */

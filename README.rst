@@ -97,10 +97,10 @@ The Thumbnail View Helper can be used as follow::
 
 
 	# The minimum required:
-	<m:thumbnail file="{file}"/>
+	<m:file.thumbnail file="{file}"/>
 
 	# Give more settings to the thumbnail:
-	<m:thumbnail file="{file}"
+	<m:file.thumbnail file="{file}"
 		configuration="{width: 800, height: 800}"
 		attributes="{class: 'file-thumbnail'}"
 		output="image"/>
@@ -124,7 +124,7 @@ The Thumbnail View Helper can be used as follow::
 	# - image_small => '320x320'
 	# - image_medium => '760x760'
 	# - image_large => '1200x1200'
-	<m:thumbnail file="{file}" preset="image_medium"/>
+	<m:file.thumbnail file="{file}" preset="image_medium"/>
 
 	{namespace m=TYPO3\CMS\Media\ViewHelpers}
 
@@ -134,7 +134,7 @@ The Thumbnail View Helper can be used as follow::
 		xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
 
 		<section>
-			<m:thumbnail file="{file}" preset="image_medium"/>
+			<m:file.thumbnail file="{file}" preset="image_medium"/>
 		</section>
     </html>
 
@@ -142,12 +142,12 @@ The Thumbnail View Helper can be used as follow::
 Besides the View Helper, a thumbnail can be generated in a programming way. The example illustrates some possibilities.
 For more insight, refer to the class itself. Here we go::
 
-	/** @var $thumbnailService \TYPO3\CMS\Media\Service\ThumbnailService */
-	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Service\ThumbnailService');
+	/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
+	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService');
 	$thumbnail = $thumbnailService
 		->setFile($file)
 		->setConfiguration($configuration)
-		->setOutputType(\TYPO3\CMS\Media\Service\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+		->setOutputType(\TYPO3\CMS\Media\Thumbnail\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 		->setAppendTimeStamp(TRUE)
 		->create();
 
@@ -220,7 +220,8 @@ Display a list of files "png" coming from storage "1" and belonging to category 
 				<li>
 					{file.uid}:{file.identifier} - <strong>{file.metadata.title}</strong>
 
-					<m:thumbnail fileIdentifier="{file.identifier}" storage="1"/>
+					<m:file.uri file="{file}"/>
+					<m:file.thumbnail file="{file}"/>
 
 					<f:if condition="{file.metadata.categories}}">
 						<ul>

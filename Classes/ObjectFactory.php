@@ -36,27 +36,6 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
-	 * Convert a content object into a file object.
-	 * @todo move me to an other class such as ConverterService
-	 *
-	 * @param Content $object
-	 * @return File
-	 * @throws \RuntimeException
-	 */
-	public function convertContentObjectToFile(Content $object) {
-
-		$fileData = $object->toArray();
-
-		if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
-			throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
-		}
-
-		$file = ResourceFactory::getInstance()->getFileObject($fileData['uid'], $fileData);
-
-		return $file;
-	}
-
-	/**
 	 * Return a folder object which contains an existing file or a file that has just been uploaded.
 	 * @todo move me to an other class such as FolderService
 	 *
