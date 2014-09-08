@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\Backend;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 
 /**
  * Custom fields for Media
@@ -73,7 +73,7 @@ class TceForms {
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUploadTceForms */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUploadTceForms');
-		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(Parameter::PREFIX);
+		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(ModuleParameter::PREFIX);
 		return $fileUpload->render();
 	}
 }

@@ -16,7 +16,8 @@ namespace TYPO3\CMS\Media\View\MenuItem;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
@@ -30,9 +31,25 @@ class ChangeStorageMenuItem extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render() {
-		return sprintf('<li><a href="%s" class="change-storage" >%s Change Storage</a>',
-			BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE),
-			IconUtility::getSpriteIcon('extensions-media-storage-change')
+		return sprintf('<li><a href="%s" class="change-storage" >%s %s</a>',
+			$this->getChangeStorageUri(),
+			IconUtility::getSpriteIcon('extensions-media-storage-change'),
+			LocalizationUtility::translate('change_storage', 'media')
 		);
 	}
+
+	/**
+	 * @return string
+	 */
+	protected function getChangeStorageUri() {
+		$urlParameters = array(
+			ModuleParameter::PREFIX => array(
+				'controller' => 'Asset',
+				'action' => 'editStorage',
+			),
+		);
+
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+	}
+
 }

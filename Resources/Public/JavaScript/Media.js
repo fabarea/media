@@ -3,9 +3,11 @@
 /**
  * Object for handling event and their actions
  *
- * @type {Object} Event
+ * @type {Object} Media
  */
 window.Media = {
+
+	parameterPrefix: 'tx_media_user_mediam1',
 
 	/**
 	 * Fetch the form and handle its action

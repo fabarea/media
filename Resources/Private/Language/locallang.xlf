@@ -194,6 +194,18 @@
 			<trans-unit id="offline">
 				<source>offline</source>
 			</trans-unit>
+			<trans-unit id="change_storage">
+				<source>Change Storage</source>
+			</trans-unit>
+			<trans-unit id="move_all">
+				<source>Move all files (%s)</source>
+			</trans-unit>
+			<trans-unit id="move_selected_files">
+				<source>Move selected files (%s)</source>
+			</trans-unit>
+			<trans-unit id="move_selected_file">
+				<source>Move the current file</source>
+			</trans-unit>
 
 			<trans-unit id="media_file_upload.uploadFile">
 				<source>Upload file</source>

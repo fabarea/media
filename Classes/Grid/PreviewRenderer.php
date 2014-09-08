@@ -17,7 +17,7 @@ namespace TYPO3\CMS\Media\Grid;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
@@ -84,12 +84,12 @@ class PreviewRenderer extends GridRendererAbstract {
 	 */
 	protected function getPluginUri($controllerName) {
 		$urlParameters = array(
-			Parameter::PREFIX => array(
+			ModuleParameter::PREFIX => array(
 				'controller' => $controllerName,
 				'action' => 'delete',
 				'file' => $this->object->getUid(),
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

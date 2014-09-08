@@ -13,6 +13,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Form\Select;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -33,7 +34,7 @@ class StorageViewHelper extends AbstractViewHelper {
 		// Check if a storages is selected
 		$currentStorage = $this->getStorageService()->findCurrentStorage();
 
-		$template = '<select name="tx_media_user_mediam1[storageIdentifier]">%s</select>';
+		$template = '<select name="tx_vidi_user_vidisysfilem1[target]">%s</select>';
 		$options = array();
 		foreach ($objects as $storage) {
 

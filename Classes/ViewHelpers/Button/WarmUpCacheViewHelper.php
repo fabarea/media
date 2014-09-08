@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\Button;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 
 /**
  * View helper which renders a button "WarmUpCache".
@@ -47,12 +47,12 @@ class WarmUpCacheViewHelper extends AbstractViewHelper {
 	 */
 	protected function getWarmUpUri() {
 		$urlParameters =  array(
-			Parameter::PREFIX => array(
+			ModuleParameter::PREFIX => array(
 				'controller' => 'Tool',
 				'action' => 'warmUpCache'
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 	/**

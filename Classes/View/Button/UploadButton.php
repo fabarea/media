@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Media\View\Button;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
@@ -32,6 +32,6 @@ class UploadButton extends AbstractComponentView {
 
 		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
 		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
-		return $fileUpload->setPrefix(Parameter::PREFIX)->render();
+		return $fileUpload->setPrefix(ModuleParameter::PREFIX)->render();
 	}
 }

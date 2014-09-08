@@ -46,9 +46,8 @@ if (TYPO3_MODE == 'BE') {
 		'bottom', // Position
 		array(
 			'Tool' => 'welcome, analyseIndex, warmUpCache, deleteMissingFiles',
-			'Asset' => 'show, create, update, move , delete, massDelete, download',
+			'Asset' => 'create, update, download, editStorage',
 			'ImageEditor' => 'show',
-			'Storage' => 'list',
 			'LinkCreator' => 'show',
 			'ProcessedFile' => 'create',
 		),
@@ -68,6 +67,7 @@ if (TYPO3_MODE == 'BE') {
 				'EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
 				'EXT:media/Resources/Public/JavaScript/Initialize.js',
 				'EXT:media/Resources/Public/JavaScript/Media.js',
+				'EXT:media/Resources/Public/JavaScript/Media.EditStorage.js',
 			)
 		)
 		->addStyleSheetFiles(
@@ -105,7 +105,7 @@ if (TYPO3_MODE == 'BE') {
 				'TYPO3\CMS\Media\View\Button\DeleteButton',
 			)
 		)
-		->setMenuSelectedRowsComponents(
+		->setMenuMassActionComponents(
 			array(
 				'TYPO3\CMS\Vidi\View\MenuItem\ExportXlsMenuItem',
 				'TYPO3\CMS\Vidi\View\MenuItem\ExportXmlMenuItem',
@@ -115,20 +115,7 @@ if (TYPO3_MODE == 'BE') {
 				// Media custom View Helper
 				'TYPO3\CMS\Media\View\MenuItem\FilePickerMenuItem',
 				'TYPO3\CMS\Media\View\MenuItem\ChangeStorageMenuItem',
-				'TYPO3\CMS\Media\View\MenuItem\MassDeleteMenuItem',
-			)
-		)
-		->setMenuAllRowsComponents(
-			array(
-				'TYPO3\CMS\Vidi\View\MenuItem\ExportXlsMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\ExportXmlMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\ExportCsvMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\DividerMenuItem',
-
-				// Media custom View Helper
-				'TYPO3\CMS\Media\View\MenuItem\FilePickerMenuItem',
-				'TYPO3\CMS\Media\View\MenuItem\ChangeStorageMenuItem',
-				'TYPO3\CMS\Media\View\MenuItem\MassDeleteMenuItem',
+				'TYPO3\CMS\Vidi\View\MenuItem\MassDeleteMenuItem',
 			)
 		)
 		->register();

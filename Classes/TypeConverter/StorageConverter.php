@@ -16,13 +16,14 @@ namespace TYPO3\CMS\Media\TypeConverter;
 
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
 
 /**
- * Convert a file uid into a File object.
+ * Convert a storage uid into a Storage object.
  */
-class FileConverter extends AbstractTypeConverter {
+class StorageConverter extends AbstractTypeConverter {
 
 	/**
 	 * @var array<string>
@@ -32,7 +33,7 @@ class FileConverter extends AbstractTypeConverter {
 	/**
 	 * @var string
 	 */
-	protected $targetType = 'TYPO3\CMS\Core\Resource\File';
+	protected $targetType = 'TYPO3\CMS\Core\Resource\ResourceStorage';
 
 	/**
 	 * @var integer
@@ -46,13 +47,11 @@ class FileConverter extends AbstractTypeConverter {
 	 * @param string $targetType
 	 * @param array $convertedChildProperties
 	 * @param PropertyMappingConfigurationInterface $configuration
-	 * @return File
+	 * @return ResourceStorage
 	 * @api
 	 */
 	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL) {
-
-		/** @var $file File */
-		$file = ResourceFactory::getInstance()->getFileObject((int)$source);
-		return $file;
+		$storage = ResourceFactory::getInstance()->getStorageObject((int)$source);
+		return $storage;
 	}
 }

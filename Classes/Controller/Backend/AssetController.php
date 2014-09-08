@@ -29,6 +29,9 @@ use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Media\ObjectFactory;
 use TYPO3\CMS\Media\Service\ThumbnailInterface;
 use TYPO3\CMS\Media\Service\ThumbnailService;
+use TYPO3\CMS\Vidi\Domain\Repository\ContentRepositoryFactory;
+use TYPO3\CMS\Vidi\Persistence\MatcherObjectFactory;
+use TYPO3\CMS\Vidi\Tca\TcaService;
 
 /**
  * Controller which handles actions related to Asset.
@@ -40,6 +43,11 @@ class AssetController extends ActionController {
 	 * @inject
 	 */
 	protected $pageRenderer;
+
+	/**
+	 * @var string
+	 */
+	protected $dataType = 'sys_file';
 
 	/**
 	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
@@ -56,86 +64,15 @@ class AssetController extends ActionController {
 			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
 			$propertyMappingConfiguration->setTypeConverter($typeConverter);
 		}
-	}
 
-	/**
-	 * Delete a row given a file.
-	 * This action is expected to have a parameter format = json
-	 *
-	 * @param File $file
-	 * @return string
-	 */
-	public function deleteAction(File $file) {
-		$fileData = array(
-			'uid' => $file->getUid(),
-			'title' => $file->getProperty('title'),
-			'name' => $file->getProperty('title'), // "name" is the label of sys_file used in the flash message.
-		);
+		if ($this->arguments->hasArgument('storage')) {
 
-		$result['status'] = $file->delete();
-		$result['action'] = 'delete';
-		if ($result['status']) {
-			$result['object'] = $fileData;
+			/** @var \TYPO3\CMS\Media\TypeConverter\StorageConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\StorageConverter');
+
+			$propertyMappingConfiguration = $this->arguments->getArgument('storage')->getPropertyMappingConfiguration();
+			$propertyMappingConfiguration->setTypeConverter($typeConverter);
 		}
-
-		# Json header is not automatically sent in the BE...
-		$this->response->setHeader('Content-Type', 'application/json');
-		$this->response->sendHeaders();
-		return json_encode($result);
-	}
-
-	/**
-	 * Mass delete a file.
-	 * This action is expected to have a parameter format = json
-	 *
-	 * @param int $storageIdentifier
-	 * @param array $assets
-	 * @return string
-	 */
-	public function moveAction($storageIdentifier, $assets = array()) {
-
-		$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
-
-		if ($storage) {
-
-			foreach ($assets as $fileIdentifier) {
-
-				$file = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
-
-				/** @var File $file */
-				if ($file->getStorage()->getUid() !== $storage->getUid()) {
-
-					// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-					$targetFolder = ObjectFactory::getInstance()->getTargetFolder($storage, $file);
-					$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
-				}
-			}
-		}
-
-		# Json header is not automatically sent in the BE...
-		$this->response->setHeader('Content-Type', 'application/json');
-		$this->response->sendHeaders();
-		return json_encode(TRUE);
-	}
-
-	/**
-	 * Mass delete a media
-	 * This action is expected to have a parameter format = json
-	 *
-	 * @param array $assets
-	 * @return string
-	 */
-	public function massDeleteAction($assets) {
-
-		$result = array();
-		foreach ($assets as $asset) {
-			$result = $this->deleteAction($asset);
-		}
-
-		# Json header is not automatically sent in the BE...
-		$this->response->setHeader('Content-Type', 'application/json');
-		$this->response->sendHeaders();
-		return json_encode($result);
 	}
 
 	/**
@@ -278,6 +215,35 @@ class AssetController extends ActionController {
 	}
 
 	/**
+	 * Returns an editing form for move the file between storage.
+	 *
+	 * @param array $matches
+	 * @throws \Exception
+	 */
+	public function editStorageAction(array $matches = array()) {
+
+		$this->view->assign('storages', $this->getStorageService()->findByBackendUser());
+		$this->view->assign('storageTitle', TcaService::table('sys_file_storage')->getTitle());
+
+		$fieldName = 'storage';
+
+		// Instantiate the Matcher object according different rules.
+		$matcher = MatcherObjectFactory::getInstance()->getMatcher($matches, $this->dataType);
+
+		// Fetch objects via the Content Service.
+		$contentService = $this->getContentService()->findBy($matcher);
+
+		$fieldType = TcaService::table($this->dataType)->field($fieldName)->getType();
+
+		$this->view->assign('fieldType', ucfirst($fieldType));
+		$this->view->assign('dataType', $this->dataType);
+		$this->view->assign('matches', $matches);
+		$this->view->assign('fieldNameAndPath', $fieldName);
+		$this->view->assign('numberOfObjects', $contentService->getNumberOfObjects());
+		$this->view->assign('editWholeSelection', empty($matches['uid'])); // necessary??
+	}
+
+	/**
 	 * Handle file upload.
 	 *
 	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface|array
@@ -352,5 +318,21 @@ class AssetController extends ActionController {
 	 */
 	protected function getSignalSlotDispatcher() {
 		return $this->objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+	}
+
+	/**
+	 * Get the Vidi Module Loader.
+	 *
+	 * @return \TYPO3\CMS\Vidi\Service\ContentService
+	 */
+	protected function getContentService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Service\ContentService', $this->dataType);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
 }

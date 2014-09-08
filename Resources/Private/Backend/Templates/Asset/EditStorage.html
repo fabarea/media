@@ -1,0 +1,43 @@
+<f:form actionUri="{m:uri.move()}" extensionName="vidi" pluginName="user_VidiSysFileM1" id="form-change-storage" method="post"
+        additionalAttributes="{onkeyup: 'if (event.keyCode === 13) jQuery(\'.btn-change-storage\').click()'}">
+
+	<!-- additional parameters -->
+	<f:form.hidden name="dataType" value="{dataType}"/>
+	<input type="hidden" name="iSortCol_0" value="{v:gp(argument: 'iSortCol_0')}"/>
+	<input type="hidden" name="sSortDir_0" value="{v:gp(argument: 'sSortDir_0')}"/>
+	<input type="hidden" name="sSearch" value="{v:gp(argument: 'sSearch')}"/>
+
+	<h5 class="modal-title">
+		<f:if condition="{editWholeSelection}">
+			<f:then>
+				<f:translate key="move_all" arguments="{0: '{numberOfObjects}'}"/>
+			</f:then>
+			<f:else>
+				<f:if condition="{numberOfObjects} > 1">
+					<f:then>
+						<f:translate key="move_selected_files" arguments="{0: '{numberOfObjects}'}"/>
+					</f:then>
+					<f:else>
+						<f:translate key="move_selected_file"/>
+					</f:else>
+				</f:if>
+			</f:else>
+		</f:if>
+	</h5>
+
+	<hr/>
+
+	<label class="control-label">
+		<v:sprite name="apps-filetree-root"/>
+		{storageTitle}
+	</label>
+
+	<div class="controls">
+		<m:form.select.storage objects="{storages}" />
+	</div>
+
+	<!-- HIDDEN SUBMIT BUTTON -->
+	<input type="submit" style="visibility: hidden; height: 1px"/>
+</f:form>
+{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
+{namespace m=TYPO3\CMS\Media\ViewHelpers}

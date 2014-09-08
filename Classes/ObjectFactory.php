@@ -37,6 +37,7 @@ class ObjectFactory implements SingletonInterface {
 
 	/**
 	 * Convert a content object into a file object.
+	 * @todo move me to an other class such as ConverterService
 	 *
 	 * @param Content $object
 	 * @return File
@@ -56,16 +57,8 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
-	 * Returns an instance of the current Backend User.
-	 *
-	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-	 */
-	protected function getBackendUser() {
-		return $GLOBALS['BE_USER'];
-	}
-
-	/**
 	 * Return a folder object which contains an existing file or a file that has just been uploaded.
+	 * @todo move me to an other class such as FolderService
 	 *
 	 * @param File|FileUpload\UploadedFileInterface $fileObject
 	 * @param ResourceStorage $storage
@@ -96,6 +89,7 @@ class ObjectFactory implements SingletonInterface {
 
 	/**
 	 * Return a folder object configured in the storage.
+	 * @todo move me to an other class such as FolderService
 	 *
 	 * @param ResourceStorage $storage
 	 * @param File $file
@@ -129,4 +123,14 @@ class ObjectFactory implements SingletonInterface {
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
+
+	/**
+	 * Returns an instance of the current Backend User.
+	 *
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getBackendUser() {
+		return $GLOBALS['BE_USER'];
+	}
+
 }

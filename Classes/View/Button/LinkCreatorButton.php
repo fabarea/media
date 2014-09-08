@@ -17,7 +17,7 @@ namespace TYPO3\CMS\Media\View\Button;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
@@ -52,12 +52,12 @@ class LinkCreatorButton extends AbstractComponentView {
 	 */
 	protected function getLinkCreatorUri(Content $object) {
 		$urlParameters = array(
-			Parameter::PREFIX => array(
+			ModuleParameter::PREFIX => array(
 				'controller' => 'LinkCreator',
 				'action' => 'show',
 				'file' => $object->getUid(),
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

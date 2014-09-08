@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Type\Enumeration;
 /**
  * Enumeration object for parameter module.
  */
-class Parameter extends Enumeration {
+class ModuleParameter extends Enumeration {
 
 	const MODULE_SIGNATURE = 'user_MediaM1';
 

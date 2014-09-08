@@ -14,10 +14,8 @@ namespace TYPO3\CMS\Media\View\Button;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\Parameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
@@ -48,25 +46,28 @@ class DeleteButton extends AbstractComponentView {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
-	 */
-	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
-	}
-
-	/**
 	 * @param Content $object
 	 * @return string
 	 */
 	protected function getDeleteUri(Content $object) {
-		$urlParameters = array(
-			Parameter::PREFIX => array(
-				'controller' => 'Asset',
+		$additionalParameters = array(
+			$this->getModuleLoader()->getParameterPrefix() => array(
+				'controller' => 'Content',
 				'action' => 'delete',
-				'file' => $object->getUid(),
+				'format' => 'json',
+				'matches' => array(
+					'uid' => $object->getUid(),
+				),
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return $this->getModuleLoader()->getModuleUrl($additionalParameters);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 */
+	protected function getFileReferenceService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
 	}
 
 }

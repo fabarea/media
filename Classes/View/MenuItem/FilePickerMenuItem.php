@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\View\MenuItem;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
@@ -48,13 +48,13 @@ class FilePickerMenuItem extends AbstractComponentView {
 	 */
 	protected function getMassDeleteUri() {
 		$urlParameters = array(
-			Parameter::PREFIX => array(
+			ModuleParameter::PREFIX => array(
 				'controller' => 'Asset',
-				'action' => 'massDelete',
+				'action' => '',
 				'format' => 'json',
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 }

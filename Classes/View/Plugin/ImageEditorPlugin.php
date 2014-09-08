@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Media\View\Plugin;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 use TYPO3\CMS\Media\Utility\Path;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
@@ -49,11 +49,11 @@ class ImageEditorPlugin extends AbstractComponentView {
 	 */
 	protected function getImageEditorUri() {
 		$urlParameters = array(
-			Parameter::PREFIX => array(
+			ModuleParameter::PREFIX => array(
 				'controller' => 'ImageEditor',
 				'action' => 'show',
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 }

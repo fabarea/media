@@ -18,7 +18,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Media\Service\ThumbnailRenderableInterface;
 use TYPO3\CMS\Media\Service\ThumbnailService;
-use TYPO3\CMS\Media\Module\Parameter;
+use TYPO3\CMS\Media\Module\ModuleParameter;
 
 /**
  */
@@ -127,14 +127,14 @@ class ApplicationThumbnail extends ThumbnailService implements ThumbnailRenderab
 	 */
 	protected function getUri() {
 		$urlParameters = array(
-			Parameter::PREFIX => array(
+			ModuleParameter::PREFIX => array(
 				'controller' => 'Asset',
 				'action' => 'download',
 				# @todo add flag not force download!
 				'file' => $this->file->getUid(),
 			),
 		);
-		return BackendUtility::getModuleUrl(Parameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
 	}
 
 	/**
