@@ -21,7 +21,7 @@ use TYPO3\CMS\Vidi\DataHandler\AbstractDataHandler;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
- * Special Data Handler for file
+ * Special Data Handler for File.
  */
 class FileDataHandler extends AbstractDataHandler {
 
