@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers;
+namespace TYPO3\CMS\Media\ViewHelpers\File;
 
 /**
  * This file is part of the TYPO3 CMS project.
