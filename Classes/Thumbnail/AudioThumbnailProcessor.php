@@ -59,9 +59,14 @@ class Processor extends AbstractThumbnailProcessor {
 	 * @return string
 	 */
 	public function renderTagImage($result) {
+
+		// Variable $result corresponds to an URL in this case.
+		// Analyse the URL and compute the adequate separator between arguments.
+		$parameterSeparator = strpos($result, '?') === FALSE ? '?' : '&';
+
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
-			$this->thumbnailService->getAppendTimeStamp() ? '?' . $this->getFile()->getProperty('tstamp') : '',
+			$this->thumbnailService->getAppendTimeStamp() ? $parameterSeparator . $this->getFile()->getProperty('tstamp') : '',
 			$this->getTitle(),
 			$this->getTitle(),
 			$this->renderAttributes()

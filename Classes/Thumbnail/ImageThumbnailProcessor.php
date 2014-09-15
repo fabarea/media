@@ -80,9 +80,14 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor {
 	 * @return string
 	 */
 	public function renderTagImage($result) {
+
+		// Variable $result corresponds to an URL in this case.
+		// Analyse the URL and compute the adequate separator between arguments.
+		$parameterSeparator = strpos($result, '?') === FALSE ? '?' : '&';
+
 		return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
 			$result,
-			$this->thumbnailService->getAppendTimeStamp() ? '?' . $this->processedFile->getProperty('tstamp') : '',
+			$this->thumbnailService->getAppendTimeStamp() ? $parameterSeparator . $this->processedFile->getProperty('tstamp') : '',
 			$this->getTitle(),
 			$this->getTitle(),
 			$this->renderAttributes()
@@ -129,9 +134,13 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor {
 			}
 		}
 
+		// Analyse the current $url and compute the adequate separator between arguments.
+		$url = $this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE);
+		$parameterSeparator = strpos($url, '?') === false ? '?' : '&';
+
 		return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
-			$this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE),
-			$this->thumbnailService->getAppendTimeStamp() && !$this->thumbnailService->getAnchorUri() ? '?' . $file->getProperty('tstamp') : '',
+			$url,
+			$this->thumbnailService->getAppendTimeStamp() && !$this->thumbnailService->getAnchorUri() ? $parameterSeparator . $file->getProperty('tstamp') : '',
 			$this->thumbnailService->getTarget(),
 			$file->getUid(),
 			$result
