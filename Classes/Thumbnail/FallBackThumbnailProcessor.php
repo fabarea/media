@@ -18,7 +18,7 @@ use TYPO3\CMS\Media\Utility\Path;
 /**
  * Fallback thumbnail processor.
  */
-class FallBackThumbnail extends AbstractThumbnailProcessor {
+class FallBackThumbnailProcessor extends AbstractThumbnailProcessor {
 
 	/**
 	 * Render a fallback thumbnail if no type was found for the given resource.

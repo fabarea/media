@@ -18,7 +18,7 @@ use TYPO3\CMS\Media\Utility\Path;
 
 /**
  */
-class Processor extends AbstractThumbnailProcessor {
+class AudioThumbnailProcessor extends AbstractThumbnailProcessor {
 
 	/**
 	 * Render a thumbnail of a resource of type audio.
