@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Vidi\Tool\AbstractTool;
 
 /**
- * Relation Analyser for a Vidi module.
+ * Index analyser tool for the Media module.
  */
 class IndexAnalyserTool extends AbstractTool {
 

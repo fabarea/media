@@ -157,8 +157,16 @@ For more insight, refer to the class itself. Here we go::
 	</a>
 
 
-Index Analyser Tool
-===================
+Media Tools
+===========
+
+Tools are registered through the Tool API provided by Vidi in ``ext_tables.php`` and can be accessed by clicking the upper right icon in the BE
+module. Those tools are visible for Admin only::
+
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\IndexAnalyserTool');
+
+Analyse File index
+------------------
 
 Admin Users have access to a BE module allowing to analyse the index of files.
 The tool will search for missing files as well as duplicate entries in the database.
@@ -167,12 +175,18 @@ The module can be accessed by clicking on the top right icon
 of the main module. Notice, the same actions can also be performed by CLI and will send
 a email as report if anything is wrong.::
 
-	# Detect whether a file is existing in the database but missing in the storage.
-	# It will also detect duplicate identifiers in the database::
-	./typo3/cli_dispatch.phpsh extbase media:analyseIndex
+	./typo3/cli_dispatch.phpsh extbase fileIndex:analyse
 
 
 Tip! Configure a Scheduler Task (under Extbase task) for regularly checking the index and detecting problem early enough.
+
+Generate thumbnails
+-------------------
+
+Generate a bunch of thumbnails in advance to speed up the output of the Media BE module.
+This process can take a lot of time. Prefer to run the CLI command::
+
+	./typo3/cli_dispatch.phpsh extbase thumbnail:generate
 
 Tutorials
 =========

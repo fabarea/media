@@ -1,0 +1,18 @@
+<p>
+	Generate a bunch of thumbnails in advance to speed up the output of the Media BE module.
+</p>
+
+<v:button.toolWork tool="TYPO3\CMS\Media\Tool\ThumbnailGeneratorTool" label="Generate thumbnails"/>
+
+<p>This process can take a lot of time. For the first time, prefer to run the CLI command:</p>
+<pre style="font-size: 9pt">
+cd {sitePath};
+./typo3/cli_dispatch.phpsh extbase thumbnail:generate
+
+# Available options:
+--limit --offset --configuration --verbose
+</pre>
+
+Tip! You can also configure a Scheduler Task for that.
+
+{namespace v=TYPO3\CMS\Vidi\ViewHelpers}

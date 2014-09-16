@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Vidi\Tool\AbstractTool;
 
 /**
- * Relation Analyser for a Vidi module.
+ * Cache warm up tool for the Media module.
  */
 class CacheWarmUpTool extends AbstractTool {
 

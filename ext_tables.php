@@ -11,7 +11,7 @@ if (TYPO3_MODE == 'BE') {
 
 	/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
 	$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-	$configuration = $configurationUtility->getCurrentConfiguration($_EXTKEY);
+	$configuration = $configurationUtility->getCurrentConfiguration('media');
 
 	// Default User TSConfig to be added in any case.
 	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
@@ -40,7 +40,7 @@ if (TYPO3_MODE == 'BE') {
 	}
 
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-		$_EXTKEY,
+		'media',
 		'user', // Make media module a submodule of 'user'
 		'm1',
 		'bottom', // Position
@@ -125,6 +125,7 @@ if (TYPO3_MODE == 'BE') {
 	# Register some tool for Media
 	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\IndexAnalyserTool');
 	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\CacheWarmUpTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\ThumbnailGeneratorTool');
 
 	// Connect "postFileIndex" signal slot with the metadata service.
 	$signalSlotDispatcher->connect(
@@ -138,10 +139,10 @@ if (TYPO3_MODE == 'BE') {
 
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
 	array(
-		'image-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_edit.png',
-		'image-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_link.png',
-		'image-export' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/image_export.png',
-		'storage-change' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/folder_go.png',
+		'image-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/image_edit.png',
+		'image-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/image_link.png',
+		'image-export' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/image_export.png',
+		'storage-change' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/folder_go.png',
 	),
 	'media'
 );
