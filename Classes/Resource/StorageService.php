@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\Resource;
  */
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Utility\SessionUtility;
@@ -52,32 +53,57 @@ class StorageService implements SingletonInterface {
 	public function findCurrentStorage() {
 		if (is_null($this->currentStorage)) {
 
-			$parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
-			$parameters = GeneralUtility::_GET($parameterPrefix);
+			$storageIdentifier = $this->getStorageIdentifierFromSessionOrArguments();
 
-			// Default value
-			$identifierParameter = NULL;
-
-			// Get last selected storage from User settings
-			if (SessionUtility::getInstance()->get('lastSelectedStorage') > 0) {
-				$identifierParameter = SessionUtility::getInstance()->get('lastSelectedStorage');
-			}
-
-			// Override selected storage if get parameter is seen.
-			if (!empty($parameters['storage']) && (int) $parameters['storage'] > 0) {
-				$identifierParameter = (int) $parameters['storage'];
-
-				// Save state
-				SessionUtility::getInstance()->set('lastSelectedStorage', $identifierParameter);
-			}
-
-			if ($identifierParameter > 0) {
-				$this->currentStorage = ResourceFactory::getInstance()->getStorageObject($identifierParameter);
+			if ($storageIdentifier > 0) {
+				$currentStorage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
 			} else {
-				$this->currentStorage = ResourceFactory::getInstance()->getDefaultStorage();
+				$currentStorage = ResourceFactory::getInstance()->getDefaultStorage();
+
+				// Not default storage has been flagged in "sys_file_storage".
+				// Fallback approach: take the first storage as the current.
+				if (!$currentStorage) {
+
+					/** @var $storageRepository StorageRepository */
+					$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+
+					$storages = $storageRepository->findAll();
+					$currentStorage = current($storages);
+				}
 			}
+
+			$this->currentStorage = $currentStorage;
 		}
 		return $this->currentStorage;
+	}
+
+	/**
+	 * Retrieve a possible storage identifier from the session or from the arguments.
+	 *
+	 * @return int
+	 */
+	public function getStorageIdentifierFromSessionOrArguments() {
+
+		// Default value
+		$storageIdentifier = 0;
+
+		// Get last selected storage from User settings
+		if (SessionUtility::getInstance()->get('lastSelectedStorage') > 0) {
+			$storageIdentifier = SessionUtility::getInstance()->get('lastSelectedStorage');
+		}
+
+		$argumentPrefix = $this->getModuleLoader()->getParameterPrefix();
+		$arguments = GeneralUtility::_GET($argumentPrefix);
+
+		// Override selected storage from the session if GET argument "storage" is detected.
+		if (!empty($arguments['storage']) && (int) $arguments['storage'] > 0) {
+			$storageIdentifier = (int) $arguments['storage'];
+
+			// Save state
+			SessionUtility::getInstance()->set('lastSelectedStorage', $storageIdentifier);
+		}
+
+		return (int)$storageIdentifier;
 	}
 
 	/**
