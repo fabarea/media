@@ -1,0 +1,13 @@
+<p>
+	Update some caching columns such as "number_of_references" to speed up the search.
+</p>
+
+<v:button.toolWork tool="TYPO3\CMS\Media\Tool\CacheWarmUpTool" label="Warm up cache"/>
+
+<p>The same can be performed by a CLI command:</p>
+<pre style="font-size: 9pt">
+cd {sitePath};
+./typo3/cli_dispatch.phpsh extbase fileCache:warmUp
+</pre>
+
+{namespace v=TYPO3\CMS\Vidi\ViewHelpers}

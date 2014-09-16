@@ -45,7 +45,6 @@ if (TYPO3_MODE == 'BE') {
 		'm1',
 		'bottom', // Position
 		array(
-			'Tool' => 'welcome, analyseIndex, warmUpCache, deleteMissingFiles',
 			'Asset' => 'create, update, download, editStorage',
 			'ImageEditor' => 'show',
 			'LinkCreator' => 'show',
@@ -78,9 +77,6 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setDocHeaderTopLeftComponents(
 			array('TYPO3\CMS\Media\View\Menu\StorageMenu')
-		)
-		->setDocHeaderTopRightComponents(
-			array('TYPO3\CMS\Media\View\Button\ToolButton')
 		)
 		->setDocHeaderBottomLeftComponents(
 			array('TYPO3\CMS\Media\View\Button\UploadButton')
@@ -125,6 +121,10 @@ if (TYPO3_MODE == 'BE') {
 
 	/** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
 	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+
+	# Register some tool for Media
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\IndexAnalyserTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\CacheWarmUpTool');
 
 	// Connect "postFileIndex" signal slot with the metadata service.
 	$signalSlotDispatcher->connect(

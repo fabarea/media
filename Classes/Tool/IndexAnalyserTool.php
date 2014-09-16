@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Controller\Backend;
+namespace TYPO3\CMS\Media\Tool;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -13,49 +13,52 @@ namespace TYPO3\CMS\Media\Controller\Backend;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
-use TYPO3\CMS\Core\Resource\Exception\InsufficientUserPermissionsException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Vidi\Tool\AbstractTool;
 
 /**
- * Controller which handles tools related to Media.
+ * Relation Analyser for a Vidi module.
  */
-class ToolController extends ActionController {
+class IndexAnalyserTool extends AbstractTool {
 
 	/**
-	 * Initialize actions. These actions are meant to be called by an admin.
+	 * Display the title of the tool on the welcome screen.
+	 *
+	 * @return string
 	 */
-	public function initializeAction() {
+	public function getTitle() {
+		return 'Analyse File index';
+	}
 
-		// This action is only allowed by Admin
-		if (! $this->getBackendUser()->isAdmin()) {
-			$message = 'Admin permission required.';
-			throw new InsufficientUserPermissionsException($message, 1375952765);
+	/**
+	 * Display the description of the tool in the welcome screen.
+	 *
+	 * @return string
+	 */
+	public function getDescription() {
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/IndexAnalyser/Launcher.html';
+		$view = $this->initializeStandaloneView($templateNameAndPath);
+		$view->assign('sitePath', PATH_site);
+		return $view->render();
+	}
+
+	/**
+	 * Do the job: analyse Index.
+	 *
+	 * @param array $arguments
+	 * @return string
+	 */
+	public function work(array $arguments = array()) {
+
+		// Possible clean up of missing files if the User has clicked so.
+		if (!empty($arguments['deleteMissingFiles'])) {
+			$this->deleteMissingFilesAction($arguments['files']);
 		}
-	}
 
-	/**
-	 * @return void
-	 */
-	public function welcomeAction() {
-		$this->view->assign('sitePath', PATH_site);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function warmUpCacheAction() {
-		$numberOfEntries = $this->getCacheService()->warmUp();
-		$this->view->assign('numberOfEntries', $numberOfEntries);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function analyseIndexAction() {
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/IndexAnalyser/WorkResult.html';
+		$view = $this->initializeStandaloneView($templateNameAndPath);
 
 		$missingReports = array();
 		$duplicateReports = array();
@@ -76,8 +79,10 @@ class ToolController extends ActionController {
 			);
 		}
 
-		$this->view->assign('missingReports', $missingReports);
-		$this->view->assign('duplicateReports', $duplicateReports);
+		$view->assign('missingReports', $missingReports);
+		$view->assign('duplicateReports', $duplicateReports);
+
+		return $view->render();
 	}
 
 	/**
@@ -89,7 +94,7 @@ class ToolController extends ActionController {
 	 * @param array $files
 	 * @return void
 	 */
-	public function deleteMissingFilesAction(array $files = array()) {
+	protected function deleteMissingFilesAction(array $files = array()) {
 
 		foreach ($files as $file) {
 
@@ -107,25 +112,6 @@ class ToolController extends ActionController {
 				continue;
 			}
 		}
-		$this->redirect('analyseIndex');
-	}
-
-	/**
-	 * Returns an instance of the current Backend User.
-	 *
-	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-	 */
-	protected function getBackendUser() {
-		return $GLOBALS['BE_USER'];
-	}
-
-	/**
-	 * Return a pointer to the database.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
 	}
 
 	/**
@@ -145,10 +131,22 @@ class ToolController extends ActionController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Cache\CacheService
+	 * Tell whether the tools should be displayed according to the context.
+	 *
+	 * @return bool
 	 */
-	protected function getCacheService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
+	public function isShown() {
+		return $this->getBackendUser()->isAdmin();
+	}
+
+	/**
+	 * Return a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 
 }
+

@@ -19,9 +19,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 /**
- * Command Controller which handles actions related to Media.
+ * Command Controller which handles actions related to File Index.
  */
-class MediaCommandController extends CommandController {
+class FileIndexCommandController extends CommandController {
 
 	/**
 	 * @var array
@@ -44,22 +44,11 @@ class MediaCommandController extends CommandController {
 	protected $mailMessage;
 
 	/**
-	 * Warm up the cache. Update some caching columns such as "number_of_references" to speed up the search.
-	 *
-	 * @return void
-	 */
-	public function warmUpCacheCommand() {
-		$numberOfEntries = $this->getCacheService()->warmUp();
-		$message = sprintf('Done! Processed %s entries', $numberOfEntries);
-		$this->outputLine($message);
-	}
-
-	/**
 	 * Check whether the Index is Ok. In case not, display a message on the console.
 	 *
 	 * @return void
 	 */
-	public function analyseIndexCommand() {
+	public function analyseCommand() {
 
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
@@ -116,7 +105,10 @@ class MediaCommandController extends CommandController {
 			}
 		}
 
-		$this->sendReport();
+		$to = $this->getTo();
+		if (!empty($to)) {
+			$this->sendReport();
+		}
 	}
 
 	/**
@@ -168,14 +160,19 @@ class MediaCommandController extends CommandController {
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	protected function getTo() {
 
+		$to = array();
+
 		// @todo make me more flexible!
-		$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
-		$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
-		$to[$emailAddress] = $name;
+		if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+			$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+			$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
+			$to[$emailAddress] = $name;
+
+		}
 		return $to;
 	}
 
@@ -184,10 +181,14 @@ class MediaCommandController extends CommandController {
 	 */
 	protected function getFrom() {
 
+		$from = array();
+
 		// @todo make me more flexible!
-		$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
-		$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
-		$from[$emailAddress] = $name;
+		if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+			$emailAddress = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+			$name = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'];
+			$from[$emailAddress] = $name;
+		}
 		return $from;
 	}
 
@@ -215,13 +216,6 @@ class MediaCommandController extends CommandController {
 	 */
 	protected function getIndexAnalyser() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\IndexAnalyser');
-	}
-
-	/**
-	 * @return \TYPO3\CMS\Media\Cache\CacheService
-	 */
-	protected function getCacheService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
 	}
 
 }
