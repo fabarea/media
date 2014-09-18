@@ -56,33 +56,43 @@ class ThumbnailGeneratorTool extends AbstractTool {
 
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
-			// @todo fine a way to define that from the GUI.
-			$limit = $offset = 0;
-			$thumbnailGenerator = $this->getThumbnailGenerator();
-			$thumbnailGenerator
-				->setStorage($storage)
-				->generate($limit, $offset);
+			if ($storage->isOnline()) {
 
-			$formattedResultSet = array();
-			$resultSet = $thumbnailGenerator->getResultSet();
-			$processedFileIdentifiers = $thumbnailGenerator->getNewProcessedFileIdentifiers();
+				// @todo fine a way to define that from the GUI.
+				$limit = $offset = 0;
+				$thumbnailGenerator = $this->getThumbnailGenerator();
+				$thumbnailGenerator
+					->setStorage($storage)
+					->generate($limit, $offset);
 
-			foreach ($processedFileIdentifiers as $fileIdentifier => $processedFileIdentifier) {
-				$result = $resultSet[$fileIdentifier];
-				$formattedResultSet[] = sprintf('* File "%s": %s %s',
-					$result['fileUid'],
-					$result['fileIdentifier'],
-					empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
+				$formattedResultSet = array();
+				$resultSet = $thumbnailGenerator->getResultSet();
+				$processedFileIdentifiers = $thumbnailGenerator->getNewProcessedFileIdentifiers();
+
+				foreach ($processedFileIdentifiers as $fileIdentifier => $processedFileIdentifier) {
+					$result = $resultSet[$fileIdentifier];
+					$formattedResultSet[] = sprintf('* File "%s": %s %s',
+						$result['fileUid'],
+						$result['fileIdentifier'],
+						empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
+					);
+				}
+
+				$reports[] = array(
+					'storage' => $storage,
+					'isStorageOnline' => TRUE,
+					'resultSet' => $formattedResultSet,
+					'numberOfProcessedFiles' => $thumbnailGenerator->getNumberOfProcessedFiles(),
+					'numberOfTraversedFiles' => $thumbnailGenerator->getNumberOfTraversedFiles(),
+					'numberOfMissingFiles' => $thumbnailGenerator->getNumberOfMissingFiles(),
+					'totalNumberOfFiles' => $thumbnailGenerator->getTotalNumberOfFiles(),
+				);
+			} else {
+				$reports[] = array(
+					'storage' => $storage,
+					'isStorageOnline' => FALSE,
 				);
 			}
-
-			$reports[] = array(
-				'storage' => $storage,
-				'resultSet' => $formattedResultSet,
-				'numberOfProcessedFiles' => $thumbnailGenerator->getNumberOfProcessedFiles(),
-				'numberOfTraversedFiles' => $thumbnailGenerator->getNumberOfTraversedFiles(),
-				'totalNumberOfFiles' => $thumbnailGenerator->getTotalNumberOfFiles(),
-			);
 		}
 
 

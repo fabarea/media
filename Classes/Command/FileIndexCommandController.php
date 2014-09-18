@@ -50,58 +50,66 @@ class FileIndexCommandController extends CommandController {
 	 */
 	public function analyseCommand() {
 
+		$this->checkEnvironment();
+
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
-			$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
 			$this->printOut();
 			$this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
 			$this->printOut('--------------------------------------------');
-			if (empty($missingFiles)) {
-				$this->printOut();
-				$this->printOut('Looks good, no missing files!');
-			} else {
-				// Missing files...
-				$this->printOut();
-				$this->printOut('Missing resources:');
-				$this->missingFiles[$storage->getUid()] = $missingFiles; // Store missing files.
 
-				/** @var \TYPO3\CMS\Core\Resource\File $missingFile */
-				foreach ($missingFiles as $missingFile) {
-					$message = sprintf('* Missing file "%s" with identifier "%s".',
-						$missingFile->getUid(),
-						$missingFile->getIdentifier()
-					);
-					$this->printOut($message);
-				}
-			}
+			if ($storage->isOnline()) {
 
-			$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
+				$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
+				if (empty($missingFiles)) {
+					$this->printOut();
+					$this->printOut('Looks good, no missing files!');
+				} else {
+					// Missing files...
+					$this->printOut();
+					$this->printOut('Missing resources:');
+					$this->missingFiles[$storage->getUid()] = $missingFiles; // Store missing files.
 
-			// Duplicate file object
-			if (empty($duplicateFiles)) {
-				$this->printOut();
-				$this->printOut('Looks good, no duplicate files!');
-			} else {
-				$this->printOut();
-				$this->printOut('Duplicated identifiers detected:');
-				$this->duplicateFiles[$storage->getUid()] = $duplicateFiles; // Store duplicate files.
-
-				foreach ($duplicateFiles as $identifier => $duplicate) {
-
-					// build temporary array
-					$uids = array();
-					foreach ($duplicate as $value) {
-						$uids[] = $value['uid'];
+					/** @var \TYPO3\CMS\Core\Resource\File $missingFile */
+					foreach ($missingFiles as $missingFile) {
+						$message = sprintf('* Missing file "%s" with identifier "%s".',
+							$missingFile->getUid(),
+							$missingFile->getIdentifier()
+						);
+						$this->printOut($message);
 					}
-
-					$message = sprintf('* uids "%s" having same identifier %s',
-						implode(',', $uids),
-						$identifier
-					);
-					$this->printOut($message);
-
 				}
+
+				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
+
+				// Duplicate file object
+				if (empty($duplicateFiles)) {
+					$this->printOut();
+					$this->printOut('Looks good, no duplicate files!');
+				} else {
+					$this->printOut();
+					$this->printOut('Duplicated identifiers detected:');
+					$this->duplicateFiles[$storage->getUid()] = $duplicateFiles; // Store duplicate files.
+
+					foreach ($duplicateFiles as $identifier => $duplicate) {
+
+						// build temporary array
+						$uids = array();
+						foreach ($duplicate as $value) {
+							$uids[] = $value['uid'];
+						}
+
+						$message = sprintf('* uids "%s" having same identifier %s',
+							implode(',', $uids),
+							$identifier
+						);
+						$this->printOut($message);
+
+					}
+				}
+			} else {
+				$this->outputLine('Storage is offline!');
 			}
 		}
 
@@ -190,6 +198,33 @@ class FileIndexCommandController extends CommandController {
 			$from[$emailAddress] = $name;
 		}
 		return $from;
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function checkEnvironment() {
+		$user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_lowlevel" AND password != ""');
+
+		if (empty($user)) {
+			$this->outputLine('Missing User "_cli_lowlevel" and / or its password.');
+			$this->sendAndExit(1);
+		}
+		$user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_scheduler" AND password != ""');
+
+		if (empty($user)) {
+			$this->outputLine('Missing User "_cli_scheduler" and / or its password.');
+			$this->sendAndExit(1);
+		}
+	}
+
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 
 	/**

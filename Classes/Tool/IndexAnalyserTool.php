@@ -63,20 +63,23 @@ class IndexAnalyserTool extends AbstractTool {
 		$missingReports = array();
 		$duplicateReports = array();
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
-			$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
-			$missingReports[] = array(
-				'storage' => $storage,
-				'missingFiles' => $missingFiles,
-				'numberOfMissingFiles' => count($missingFiles),
-			);
+			if ($storage->isOnline()) {
+				$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
-			$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
-			$duplicateReports[] = array(
-				'storage' => $storage,
-				'duplicateFiles' => $duplicateFiles,
-				'numberOfDuplicateFiles' => count($duplicateFiles),
-			);
+				$missingReports[] = array(
+					'storage' => $storage,
+					'missingFiles' => $missingFiles,
+					'numberOfMissingFiles' => count($missingFiles),
+				);
+
+				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
+				$duplicateReports[] = array(
+					'storage' => $storage,
+					'duplicateFiles' => $duplicateFiles,
+					'numberOfDuplicateFiles' => count($duplicateFiles),
+				);
+			}
 		}
 
 		$view->assign('missingReports', $missingReports);

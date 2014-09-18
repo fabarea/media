@@ -34,6 +34,8 @@ class ThumbnailCommandController extends CommandController {
 	 */
 	public function generateCommand($limit = 0, $offset = 0, $configuration = array(), $verbose = FALSE) {
 
+		$this->checkEnvironment();
+
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
 			// TODO: Make me more flexible by passing thumbnail configuration. For now it will only generate thumbnails for the BE module.
@@ -43,32 +45,73 @@ class ThumbnailCommandController extends CommandController {
 			$this->outputLine('--------------------------------------------');
 			$this->outputLine();
 
-			$thumbnailGenerator = $this->getThumbnailGenerator();
-			$thumbnailGenerator
-				->setStorage($storage)
-				->setConfiguration($configuration)
-				->generate($limit, $offset);
+			if ($storage->isOnline()) {
 
-			if ($verbose) {
-				$resultSet = $thumbnailGenerator->getResultSet();
-				foreach ($resultSet as $result) {
-					$message = sprintf('* File "%s": %s %s',
-						$result['fileUid'],
-						$result['fileIdentifier'],
-						empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
+				$thumbnailGenerator = $this->getThumbnailGenerator();
+				$thumbnailGenerator
+					->setStorage($storage)
+					->setConfiguration($configuration)
+					->generate($limit, $offset);
+
+				if ($verbose) {
+					$resultSet = $thumbnailGenerator->getResultSet();
+					foreach ($resultSet as $result) {
+						$message = sprintf('* File "%s": %s %s',
+							$result['fileUid'],
+							$result['fileIdentifier'],
+							empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
+						);
+						$this->outputLine($message);
+					}
+					$this->outputLine();
+				}
+
+				$message = sprintf('Done! New generated %s thumbnail(s) from %s traversed file(s) of a total of %s files.',
+					$thumbnailGenerator->getNumberOfProcessedFiles(),
+					$thumbnailGenerator->getNumberOfTraversedFiles(),
+					$thumbnailGenerator->getTotalNumberOfFiles()
+				);
+				$this->outputLine($message);
+
+				// Add warning message if missing files were found along the way.
+				if ($thumbnailGenerator->getNumberOfMissingFiles() > 0) {
+
+					$message = sprintf('ATTENTION! %s missing file(s) detected.',
+						$thumbnailGenerator->getNumberOfMissingFiles()
 					);
 					$this->outputLine($message);
 				}
-				$this->outputLine();
+			} else {
+				$this->outputLine('Storage is offline!');
 			}
-
-			$message = sprintf('Done! New generated %s thumbnail(s) from %s traversed file(s) of a total of %s files.',
-				$thumbnailGenerator->getNumberOfProcessedFiles(),
-				$thumbnailGenerator->getNumberOfTraversedFiles(),
-				$thumbnailGenerator->getTotalNumberOfFiles()
-			);
-			$this->outputLine($message);
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function checkEnvironment() {
+		$user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_lowlevel" AND password != ""');
+
+		if (empty($user)) {
+			$this->outputLine('Missing User "_cli_lowlevel" and / or its password.');
+			$this->sendAndExit(1);
+		}
+		$user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_scheduler" AND password != ""');
+
+		if (empty($user)) {
+			$this->outputLine('Missing User "_cli_scheduler" and / or its password.');
+			$this->sendAndExit(1);
+		}
+	}
+
+	/**
+	 * Returns a pointer to the database.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 
 	/**

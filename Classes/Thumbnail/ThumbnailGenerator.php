@@ -35,6 +35,11 @@ class ThumbnailGenerator {
 	protected $numberOfProcessedFiles = 0;
 
 	/**
+	 * @var int
+	 */
+	protected $numberOfMissingFiles = 0;
+
+	/**
 	 * @var array
 	 */
 	protected $configuration = array();
@@ -71,7 +76,7 @@ class ThumbnailGenerator {
 	 *
 	 * @param int $limit
 	 * @param int $offset
-	 * @return int
+	 * @return void
 	 */
 	public function generate($limit = 0, $offset = 0) {
 
@@ -82,7 +87,7 @@ class ThumbnailGenerator {
 		}
 
 		// Retrieve file records.
-		$clause = 'storage = > 0';
+		$clause = 'storage > 0';
 		if ($this->storage) {
 			$clause = 'storage = ' . $this->storage->getUid();
 		}
@@ -94,23 +99,28 @@ class ThumbnailGenerator {
 
 			$file = ResourceFactory::getInstance()->getFileObject($row['uid'], $row);
 
-			$thumbnailUri = $this->getThumbnailService($file)
-				->setOutputType(ThumbnailInterface::OUTPUT_URI)
-				->setConfiguration($this->configuration)
-				->create();
+			if ($file->exists()) {
 
-			$this->resultSet[$file->getUid()] = array(
-				'fileUid' => $file->getUid(),
-				'fileIdentifier' => $file->getIdentifier(),
-				'thumbnailUri' => strpos($thumbnailUri, '_processed_') > 0 ? $thumbnailUri : '', // only returns the thumbnail uri if a processed file has been created.
-			);
+				$thumbnailUri = $this->getThumbnailService($file)
+					->setOutputType(ThumbnailInterface::OUTPUT_URI)
+					->setConfiguration($this->configuration)
+					->create();
 
-			if ($this->isNewProcessedFile()) {
-				$this->incrementNumberOfProcessedFiles();
-				$this->newProcessedFileIdentifiers[$file->getUid()] = $this->lastInsertedProcessedFile;
+				$this->resultSet[$file->getUid()] = array(
+					'fileUid' => $file->getUid(),
+					'fileIdentifier' => $file->getIdentifier(),
+					'thumbnailUri' => strpos($thumbnailUri, '_processed_') > 0 ? $thumbnailUri : '', // only returns the thumbnail uri if a processed file has been created.
+				);
+
+				if ($this->isNewProcessedFile()) {
+					$this->incrementNumberOfProcessedFiles();
+					$this->newProcessedFileIdentifiers[$file->getUid()] = $this->lastInsertedProcessedFile;
+				}
+
+				$this->incrementNumberOfTraversedFiles();
+			} else {
+				$this->incrementNumberOfMissingFiles();
 			}
-
-			$this->incrementNumberOfTraversedFiles();
 		}
 
 	}
@@ -146,7 +156,11 @@ class ThumbnailGenerator {
 	 * @return int
 	 */
 	public function getTotalNumberOfFiles() {
-		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS totalNumberOfFiles', 'sys_file', 'storage > 0');
+		$clause = 'storage > 0';
+		if ($this->storage) {
+			$clause = 'storage = ' . $this->storage->getUid();
+		}
+		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS totalNumberOfFiles', 'sys_file', $clause);
 		return (int)$record['totalNumberOfFiles'];
 	}
 
@@ -162,6 +176,13 @@ class ThumbnailGenerator {
 	 */
 	public function getNewProcessedFileIdentifiers() {
 		return $this->newProcessedFileIdentifiers;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getNumberOfMissingFiles() {
+		return $this->numberOfMissingFiles;
 	}
 
 	/**
@@ -206,6 +227,12 @@ class ThumbnailGenerator {
 		$this->numberOfTraversedFiles++;
 	}
 
+	/**
+	 * @return void
+	 */
+	protected function incrementNumberOfMissingFiles() {
+		$this->numberOfMissingFiles++;
+	}
 
 	/**
 	 * @return void
@@ -222,6 +249,5 @@ class ThumbnailGenerator {
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
-
 
 }

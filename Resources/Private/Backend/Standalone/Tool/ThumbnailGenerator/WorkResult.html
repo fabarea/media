@@ -43,16 +43,33 @@
 
 		<div style="font-weight: bold; margin-bottom: 10px">{report.storage.name} ({report.storage.uid})</div>
 
-				<div class="alert alert-success">
-					New generated {report.numberOfProcessedFiles} thumbnail(s) from {report.numberOfTraversedFiles} traversed file(s) of a total of {report.totalNumberOfFiles} files.
-				</div>
-<f:if condition="{report.resultSet}">
+			<f:if condition="{report.isStorageOnline}">
+				<f:then>
+					<div class="alert alert-success">
+						New generated {report.numberOfProcessedFiles} thumbnail(s) from {report.numberOfTraversedFiles} traversed file(s) of a total of {report.totalNumberOfFiles} files.
+					</div>
+					<f:if condition="{report.numberOfMissingFiles} > 0">
+						<div class="alert alert-warning">
+							Attention! {report.numberOfMissingFiles} missing files detected.
+						</div>
+					</f:if>
+					<f:if condition="{report.resultSet}">
 <pre>
 <f:for each="{report.resultSet}" as="result">
 {result}
 </f:for>
 </pre>
-</f:if>
+					</f:if>
+
+				</f:then>
+				<f:else>
+					<div class="alert alert-error">
+						Storage is offline!
+					</div>
+				</f:else>
+			</f:if>
+
+
 
 				<hr/>
 
