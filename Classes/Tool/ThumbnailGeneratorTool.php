@@ -38,7 +38,7 @@ class ThumbnailGeneratorTool extends AbstractTool {
 	 * @return string
 	 */
 	public function getDescription() {
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/ThumbnailGenerator/Launcher.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/ThumbnailGenerator/Launcher.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 		$view->assign('sitePath', PATH_site);
 		return $view->render();
@@ -86,7 +86,7 @@ class ThumbnailGeneratorTool extends AbstractTool {
 		}
 
 
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/ThumbnailGenerator/WorkResult.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/ThumbnailGenerator/WorkResult.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
 		$view->assign('reports', $reports);

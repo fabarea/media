@@ -38,7 +38,7 @@ class IndexAnalyserTool extends AbstractTool {
 	 * @return string
 	 */
 	public function getDescription() {
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/IndexAnalyser/Launcher.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/IndexAnalyser/Launcher.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 		$view->assign('sitePath', PATH_site);
 		return $view->render();
@@ -57,7 +57,7 @@ class IndexAnalyserTool extends AbstractTool {
 			$this->deleteMissingFilesAction($arguments['files']);
 		}
 
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/IndexAnalyser/WorkResult.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/IndexAnalyser/WorkResult.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
 		$missingReports = array();

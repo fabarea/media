@@ -36,7 +36,7 @@ class CacheWarmUpTool extends AbstractTool {
 	 * @return string
 	 */
 	public function getDescription() {
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/CacheWarmUp/Launcher.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/Launcher.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 		$view->assign('sitePath', PATH_site);
 		return $view->render();
@@ -50,7 +50,7 @@ class CacheWarmUpTool extends AbstractTool {
 	 */
 	public function work(array $arguments = array()) {
 
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/StandAlone/Tool/CacheWarmUp/WorkResult.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/WorkResult.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
 
