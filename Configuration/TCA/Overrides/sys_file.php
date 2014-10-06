@@ -48,9 +48,7 @@ $tca = array(
 		),
 		'columns' => array(
 			'__checkbox' => array(
-				'width' => '5px',
-				'sortable' => FALSE,
-				'html' => '<input type="checkbox" class="checkbox-row-top" autocomplete="off"/>',
+				'renderer' => new TYPO3\CMS\Vidi\Grid\CheckBoxComponent(),
 			),
 			'uid' => array(
 				'visible' => FALSE,
@@ -101,7 +99,6 @@ $tca = array(
 			'metadata' => array(
 				'label' => 'Metadata File Identifier',
 				'visible' => FALSE,
-				'force' => TRUE, // perhaps it is not required after all
 				'sortable' => FALSE,
 			),
 		)
@@ -173,8 +170,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 
 // Control buttons such as edit, delete, etc... must be set at the end in any case.
 $tca['grid']['columns']['__buttons'] = array(
-	'sortable' => FALSE,
-	'width' => '70px',
+	'renderer' => new TYPO3\CMS\Vidi\Grid\ButtonGroupComponent(),
 );
 
 \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file'], $tca);
