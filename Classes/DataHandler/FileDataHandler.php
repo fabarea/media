@@ -101,4 +101,16 @@ class FileDataHandler extends AbstractDataHandler {
 	protected function getFileReferenceService() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
 	}
+
+	/**
+	 * Process Content with action "localize".
+	 *
+	 * @param Content $content
+	 * @param int $language
+	 * @throws \Exception
+	 * @return bool
+	 */
+	public function processLocalize(Content $content, $language) {
+		throw new \Exception('Nothing to implement here. Localization is done by the Core DataHandler', 1412760788);
+	}
 }
