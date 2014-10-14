@@ -151,7 +151,7 @@ class UsageRenderer extends GridRendererAbstract {
 	 * @return string
 	 */
 	protected function getReferenceTemplate() {
-		return '<li title="%s - %s"><a href="/typo3/alt_doc.php?returnUrl=%s&edit[%s][%s]=edit" class="btn-edit-reference">%s</a> %s</li>';
+		return '<li title="%s - %s"><a href="alt_doc.php?returnUrl=%s&edit[%s][%s]=edit" class="btn-edit-reference">%s</a> %s</li>';
 	}
 
 	/**
