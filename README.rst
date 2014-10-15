@@ -7,7 +7,6 @@ is a the File Abstraction Layer introduced in TYPO3 6.0 which enables it to hand
 The basic idea of FAL is that every file has an entry in the database to leverage its use as an asset. Basically, Media provides the following set of features:
 
 * Advanced metadata handling of Assets
-* API for querying Image, Text, Audio, Video, Application from their repository
 * A user friendly BE module
 * Mass upload of files and post processing of files
 * Multi language handling of metadata
@@ -84,9 +83,99 @@ Please note that PHP setups with the Suhosin patch activated will have a default
 
 	suhosin.get.max_vars = 140
 
+How to customize the Grid in Media module
+=========================================
 
-Thumbnail API
-=============
+Important to notice the Media BE module is powered by `Vidi`_ which is a List Component for TYPO3 CMS. To know more about Vidi
+and how to configure the Grid, refer to the `Grid chapter`_.
+
+.. _Vidi: https://forge.typo3.org/projects/extension-vidi
+.. _Grid chapter: https://github.com/TYPO3-Extensions/vidi#grid-tca
+
+View Helpers
+============
+
+Display list of files of category X
+-----------------------------------
+
+You can make use of a View Helper to retrieve a bunch of files. Let say we want
+to display a list of files "png" images coming from the storage "1" along with the associated categories.
+The code could look like this in your Fluid template::
+
+	<strong>Number of files: {v:content.count(matches: {storage: 1}, type: 'sys_file')}</strong>
+
+	<f:if condition="{v:content.find(matches: {storage: 1}, type: 'sys_file')}">
+		<ul>
+			<f:for each="{v:content.find(matches: '{storage: 1}', type: 'sys_file')}" as="file">
+				<li>
+					{file.uid} -
+					{file.metadata.title} -
+					<m:file.thumbnail file="{file}" output="imageWrapped"/>
+
+					<f:if condition="{file.metadata.categories}}">
+						<ul>
+							<f:for each="{file.metadata.categories}" as="category">
+								<li>{category.title}</li>
+							</f:for>
+						</ul>
+					</f:if>
+				</li>
+			</f:for>
+		</ul>
+	</f:if>
+
+	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+	{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
+
+
+A more complex example here, we want to retrieve the same as before but all files belonging to categories 1,2 sorted by title as addition.
+We must provide "aliases" as workaround since Fluid would not parse the expression ``matches: {metadata.categories: '1,2'}`` and will return an exception.
+
+::
+
+	<f:for each="{v:content.find(
+						matches: {storage: 1, extension: 'png', categories: '1,2'},
+						orderings: {title: 'ASC'},
+						type: 'sys_file',
+						aliases: {categories: 'metadata.categories', title: 'metadata.title'}
+					)}"
+	       as="file">
+
+		<li>..</li>
+	</f:for>
+
+TODO: long term the aim would be to save a selection in the BE and retrieve on the Frontend as well. However, this is not yet implemented. Looking for some opportunities... ;)
+
+::
+
+	<f:for each="{v:content.find(selection: 'my-selection')}" as="file">
+
+		<li>..</li>
+	</f:for>
+
+
+The same can be achieved in a programming way::
+
+	// Get the Content Repository for sys_file.
+	$contentRepository = \TYPO3\CMS\Vidi\Domain\Repository\ContentRepositoryFactory::getInstance('sys_file');
+
+	// Initialize a Matcher object.
+	/** @var \TYPO3\CMS\Vidi\Persistence\Matcher $matcher */
+	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Persistence\Matcher');
+
+	// Add some criteria.
+	$matcher->equals('storage', '1');
+	$matcher->equals('metadata.categories', '1'); // "metadata" correspond to the join defined in the TCA of "sys_file".
+
+	// etc... you can add more criteria as instance a "like"
+	$matcher->like('metadata.title', 'foo');
+
+	// Fetch the objects.
+	$files = $contentRepository->findBy($matcher);
+
+
+Thumbnail View Helper
+---------------------
 
 The thumbnail API is meant to render a preview of a file independently of its type (image, document, video, ...).
 Notice, only thumbnail service for "image" and "document" is well implemented. Video
@@ -187,69 +276,6 @@ This process can take a lot of time. Prefer to run the CLI command::
 
 	./typo3/cli_dispatch.phpsh extbase thumbnail:generate
 
-Tutorials
-=========
-
-Display list of files of category X
------------------------------------
-
-As of Media 6.2 the asset API part has been removed along with the Asset Repository.
-To give a short reason, it did not survive the table split between ``sys_file`` and ``sys_file_metadata``
-and if any re-implementation should be undertaken, it should be at the Core level.
-
-It means you should migrate the findBy* method to your own repository **or** you can also take advantage of Vidi which provides flexible
-Custom Repository. Basically you can retrieve a the content like.
-some View Helper for retrieving any kind of content::
-
-	// Get the Content Repository for sys_file.
-	$contentRepository = \TYPO3\CMS\Vidi\Domain\Repository\ContentRepositoryFactory::getInstance('sys_file');
-
-	// Initialize a Matcher object.
-	/** @var \TYPO3\CMS\Vidi\Persistence\Matcher $matcher */
-	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Persistence\Matcher');
-
-	// Add some criteria.
-	$matcher->equals('storage', '1');
-	$matcher->equals('metadata.categories', '1'); // "metadata" correspond to the join defined in the TCA of "sys_file".
-
-	// etc... you can add more criteria as instance a "like"
-	$matcher->like('metadata.title', 'foo');
-
-	// Fetch the objects.
-	$files = $contentRepository->findBy($matcher);
-
-
-The same can be performed form the View Helper perspective.
-Display a list of files "png" coming from storage "1" and belonging to category "1". The listing is done by a Vidi View Helper.
-
-::
-
-	<strong>Number of files: {v:content.count(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', dataType: 'sys_file')}</strong>
-
-	<f:if condition="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}">
-		<ul>
-			<f:for each="{v:content.find(matches: '{storage: 1, extension: \'png\', metadata.categories: \'1\'}', orderings: '{uid: \'ASC\'}', dataType: 'sys_file')}"
-			       as="file">
-				<li>
-					{file.uid}:{file.identifier} - <strong>{file.metadata.title}</strong>
-
-					<m:file.uri file="{file}"/>
-					<m:file.thumbnail file="{file}"/>
-
-					<f:if condition="{file.metadata.categories}}">
-						<ul>
-							<f:for each="{file.metadata.categories}" as="category">
-								<li>{category.title}</li>
-							</f:for>
-						</ul>
-					</f:if>
-				</li>
-			</f:for>
-		</ul>
-	</f:if>
-
-	{namespace m=TYPO3\CMS\Media\ViewHelpers}
-	{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
 
 File Upload API
 ===============
@@ -345,12 +371,15 @@ through the Scheduler task. The metadata title is basically derived from the fil
 results as ``My report``. This should help your Editors coping with this metadata and save them some typing.
 Of course, the title will only be set, if no value exists beforehand.
 
-How to customize the Grid in Media module
-=========================================
 
-The grid is powered by `Vidi`_. Refer to the `Grid chapter`_ for more insight.
+Migration
+=========
 
-.. _Vidi: https://forge.typo3.org/projects/extension-vidi
-.. _Grid chapter: https://github.com/TYPO3-Extensions/vidi#grid-tca
+Consideration for people migrating from CMS 6.1 to CMS 6.2.
 
+As of Media 3 the asset API part has been removed along with the Asset Repository.
+To give a short reason, it did not survive the table split between ``sys_file`` and ``sys_file_metadata``
+and if any re-implementation should be undertaken, it should be at the Core level.
 
+It means you should migrate the findBy* method to your own repository **or** you can also take advantage of Vidi which provides flexible
+Custom Repository. See chapter "Display list of files of category X" above.

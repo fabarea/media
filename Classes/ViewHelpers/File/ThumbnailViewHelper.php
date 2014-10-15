@@ -28,7 +28,7 @@ class ThumbnailViewHelper extends AbstractViewHelper {
 	 * @return void
 	 */
 	public function initializeArguments() {
-		$this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File', 'The source file', FALSE, NULL);
+		$this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|TYPO3\CMS\Vidi\Domain\Model\Content', 'The source file', FALSE, NULL);
 		$this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
 		$this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
 		$this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');
@@ -78,4 +78,5 @@ class ThumbnailViewHelper extends AbstractViewHelper {
 	protected function getFileConverter() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
 	}
+
 }
