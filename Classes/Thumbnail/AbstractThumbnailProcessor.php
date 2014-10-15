@@ -75,8 +75,9 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 	 */
 	protected function renderAttributes() {
 		$result = '';
-		if (!empty($this->attributes)) {
-			foreach ($this->attributes as $attribute => $value) {
+		$attributes = $this->thumbnailService->getAttributes();
+		if (!empty($attributes)) {
+			foreach ($attributes as $attribute => $value) {
 				$result .= sprintf('%s="%s" ',
 					htmlspecialchars($attribute),
 					htmlspecialchars($value)
@@ -90,29 +91,15 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 	 * @return array
 	 */
 	protected function getConfiguration() {
-		if (empty($this->configuration)) {
+		$configuration = $this->thumbnailService->getConfiguration();
+		if (empty($configuration)) {
 			$dimension = ImagePresetUtility::getInstance()->preset('image_thumbnail');
-			$this->configuration = array(
+			$configuration = array(
 				'width' => $dimension->getWidth(),
 				'height' => $dimension->getHeight(),
 			);
 		}
-		return $this->configuration;
-	}
-
-	/**
-	 * Tell whether to wrap the thumbnail or not with an anchor. This will make the thumbnail clickable.
-	 *
-	 * @param bool $wrap
-	 * @return $this
-	 * @deprecated will be removed in Media 1.2
-	 */
-	protected function doWrap($wrap = TRUE) {
-		if ($wrap) {
-			$this->wrap = $wrap;
-			$this->outputType = ThumbnailInterface::OUTPUT_IMAGE_WRAPPED;
-		}
-		return $this;
+		return $configuration;
 	}
 
 	/**
@@ -148,4 +135,5 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 	protected function getFile() {
 		return $this->thumbnailService->getFile();
 	}
+
 }

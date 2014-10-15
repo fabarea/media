@@ -101,9 +101,8 @@ EOF;
 		if ($this->file) {
 
 			/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
-			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService');
+			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $this->file);
 			$thumbnail = $thumbnailService
-				->setFile($this->file)
 				->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 				->setAppendTimeStamp(TRUE)
 				->create();

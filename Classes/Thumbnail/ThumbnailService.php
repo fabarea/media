@@ -43,14 +43,6 @@ class ThumbnailService {
 	protected $outputType = ThumbnailInterface::OUTPUT_IMAGE;
 
 	/**
-	 * Whether the thumbnail should be wrapped with an anchor.
-	 *
-	 * @var bool
-	 * @deprecated will be removed in Media 1.2
-	 */
-	protected $wrap = FALSE;
-
-	/**
 	 * @var File
 	 */
 	protected $file;
@@ -183,14 +175,10 @@ class ThumbnailService {
 	}
 
 	/**
-	 * @throws \RuntimeException
-	 * @param File $file
-	 * @return $this
-	 * @deprecated as of Media 3.0, will be removed two version later. Pass $file in constructor instead.
+	 * @return array
 	 */
-	public function setFile(File $file) {
-		$this->file = $file;
-		return $this;
+	public function getConfiguration() {
+		return $this->configuration;
 	}
 
 	/**
@@ -304,4 +292,5 @@ class ThumbnailService {
 		$this->processingType = $processingType;
 		return $this;
 	}
+
 }

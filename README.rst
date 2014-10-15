@@ -143,9 +143,8 @@ Besides the View Helper, a thumbnail can be generated in a programming way. The 
 For more insight, refer to the class itself. Here we go::
 
 	/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
-	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService');
+	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
 	$thumbnail = $thumbnailService
-		->setFile($file)
 		->setConfiguration($configuration)
 		->setOutputType(\TYPO3\CMS\Media\Thumbnail\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 		->setAppendTimeStamp(TRUE)
