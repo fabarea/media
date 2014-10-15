@@ -124,7 +124,7 @@ class AssetController extends ActionController {
 			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName , $conflictMode);
 
 			// Run the indexer for extracting metadata.
-			$this->getIndexer($file->getStorage())
+			$this->getMediaIndexer($file->getStorage())
 				->extractMetadata($file)
 				->applyDefaultCategories($file);
 
@@ -180,7 +180,9 @@ class AssetController extends ActionController {
 			$file = $targetFolderObject->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
 			// Run the indexer for extracting metadata.
-			$this->getIndexer($file->getStorage())->extractMetadata($file);
+			$this->getMediaIndexer($file->getStorage())
+				->updateIndex($file)
+				->extractMetadata($file);
 
 			// Clear cache on pages holding a reference to this file.
 			$this->getCacheService()->clearCache($file);
@@ -283,13 +285,13 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * Instantiate the indexer service to update the metadata of the file.
+	 * Get the instance of the Indexer service to update the metadata of the file.
 	 *
 	 * @param int|ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Index\Indexer
+	 * @return \TYPO3\CMS\Media\Index\MediaIndexer
 	 */
-	protected function getIndexer($storage) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\Indexer', $storage);
+	protected function getMediaIndexer($storage) {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\MediaIndexer', $storage);
 	}
 
 	/**
@@ -334,4 +336,5 @@ class AssetController extends ActionController {
 	protected function getStorageService() {
 		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
 	}
+
 }

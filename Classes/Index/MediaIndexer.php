@@ -25,7 +25,7 @@ use TYPO3\CMS\Media\Utility\ConfigurationUtility;
 /**
  * Service dealing with Indexing in the context of Media.
  */
-class Indexer {
+class MediaIndexer {
 
 	/**
 	 * @var ResourceStorage
@@ -37,6 +37,15 @@ class Indexer {
 	 */
 	public function __construct(ResourceStorage $storage) {
 		$this->storage = $storage;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @return $this
+	 */
+	public function updateIndex(File $file){
+		$this->getCoreIndexer()->updateIndexEntry($file);
+		return $this;
 	}
 
 	/**
@@ -140,6 +149,13 @@ class Indexer {
 	 */
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Resource\Index\Indexer
+	 */
+	protected function getCoreIndexer() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Index\Indexer', $this->storage);
 	}
 
 }

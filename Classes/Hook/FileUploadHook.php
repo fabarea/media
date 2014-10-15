@@ -41,7 +41,7 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface {
 
 			foreach ($files as $file) {
 				// Run the indexer for extracting metadata.
-				$this->getIndexer($file->getStorage())
+				$this->getMediaIndexer($file->getStorage())
 					->extractMetadata($file)
 					->applyDefaultCategories($file);
 			}
@@ -49,12 +49,13 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface {
 	}
 
 	/**
+	 * Get the instance of the Indexer service to update the metadata of the file.
+	 *
 	 * @param ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Index\Indexer
+	 * @return \TYPO3\CMS\Media\Index\MediaIndexer
 	 */
-	protected function getIndexer($storage) {
-		// Call the indexer service for updating the metadata of the file.
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\Indexer', $storage);
+	protected function getMediaIndexer($storage) {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\MediaIndexer', $storage);
 	}
 
 }
