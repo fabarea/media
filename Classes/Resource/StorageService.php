@@ -58,17 +58,25 @@ class StorageService implements SingletonInterface {
 			if ($storageIdentifier > 0) {
 				$currentStorage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
 			} else {
-				$currentStorage = ResourceFactory::getInstance()->getDefaultStorage();
 
-				// Not default storage has been flagged in "sys_file_storage".
-				// Fallback approach: take the first storage as the current.
-				if (!$currentStorage) {
+				// We differentiate the cases whether the User is admin or not.
+				if ($this->getBackendUser()->isAdmin()) {
 
-					/** @var $storageRepository StorageRepository */
-					$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+					$currentStorage = ResourceFactory::getInstance()->getDefaultStorage();
 
-					$storages = $storageRepository->findAll();
-					$currentStorage = current($storages);
+					// Not default storage has been flagged in "sys_file_storage".
+					// Fallback approach: take the first storage as the current.
+					if (!$currentStorage) {
+						/** @var $storageRepository StorageRepository */
+						$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+
+						$storages = $storageRepository->findAll();
+						$currentStorage = current($storages);
+					}
+				} else {
+					$fileMounts = $this->getBackendUser()->getFileMountRecords();
+					$firstFileMount = current($fileMounts);
+					$currentStorage = ResourceFactory::getInstance()->getStorageObject($firstFileMount['base']);
 				}
 			}
 
@@ -96,8 +104,8 @@ class StorageService implements SingletonInterface {
 		$arguments = GeneralUtility::_GET($argumentPrefix);
 
 		// Override selected storage from the session if GET argument "storage" is detected.
-		if (!empty($arguments['storage']) && (int) $arguments['storage'] > 0) {
-			$storageIdentifier = (int) $arguments['storage'];
+		if (!empty($arguments['storage']) && (int)$arguments['storage'] > 0) {
+			$storageIdentifier = (int)$arguments['storage'];
 
 			// Save state
 			SessionUtility::getInstance()->set('lastSelectedStorage', $storageIdentifier);
@@ -123,7 +131,6 @@ class StorageService implements SingletonInterface {
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
-
 
 	/**
 	 * Returns an instance of the current Backend User.
