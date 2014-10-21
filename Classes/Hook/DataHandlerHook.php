@@ -249,7 +249,7 @@ class DataHandlerHook {
 	protected function findFileByFileReference($fileReferenceIdentifier) {
 		$tableName = 'sys_file_reference';
 		$clause = 'uid = ' . $fileReferenceIdentifier;
-		$clause .= BackendUtility::BEenableFields($tableName);
+		#$clause .= BackendUtility::BEenableFields($tableName); // was removed following https://forge.typo3.org/issues/62370
 		$clause .= BackendUtility::deleteClause($tableName);
 		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'sys_file_reference', $clause);
 
