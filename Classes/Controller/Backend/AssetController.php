@@ -107,7 +107,6 @@ class AssetController extends ActionController {
 	 * @return string
 	 */
 	public function createAction($storageIdentifier) {
-
 		/** @var UploadedFileInterface $uploadedFile */
 		$uploadedFile = $this->handleUpload();
 		if (!is_object($uploadedFile)) {
@@ -163,7 +162,6 @@ class AssetController extends ActionController {
 	 * @return string
 	 */
 	public function updateAction($fileIdentifier) {
-
 		$uploadedFile = $this->handleUpload();
 		if (!is_object($uploadedFile)) {
 			return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);

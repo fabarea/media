@@ -25,13 +25,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class FileUploadTceForms extends FileUpload {
 
 	/**
+	 * @var string
+	 */
+	protected $templateFile = 'Resources/Private/Backend/Standalone/FileUploadTceFormsTemplate.html';
+
+	/**
 	 * Fetch the JavaScript to be rendered and replace the markers with "live" variables.
 	 *
 	 * @return string
 	 */
 	protected function getJavaScript() {
 
-		// Get the base prefix
+		// Get the base prefix.
 		$basePrefix = $this->getBasePrefix($this->getPrefix());
 		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
 
@@ -41,7 +46,6 @@ class FileUploadTceForms extends FileUpload {
 			BackendUtility::getModuleUrl('user_MediaM1'),
 			$this->getAllowedExtension(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
-			$this->getMaximumUploadLabel(),
 			$this->getValue()
 		);
 	}

@@ -1,5 +1,3 @@
-"use strict";
-
 /** @namespace Media */
 
 /**
@@ -84,6 +82,6 @@ Media.Session = {
 	 * @return bool
 	 */
 	has: function (key) {
-		return this.get(key) != null && this.get(key) != '';
+		return this.get(key) !== null && this.get(key) !== '';
 	}
 };

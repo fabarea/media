@@ -1,13 +1,14 @@
+/*jshint -W030 */
 /**
  * Released under the GPL v2+, part of TYPO3
  *
- * Override default JavaScript file located at typo3/sysext/backend/Resources/Public/JavaScript/FormEngine.js
+ * Override default JavaScript file located at typo3/sysext/backend/Resources/Public/Source/JavaScript/FormEngine.js
  */
 
 // add legacy functions to be accessible in the global scope
 var setFormValueOpenBrowser;
 
-define('TYPO3/CMS/Media/FormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngine'], function ($) {
+define('TYPO3/CMS/Media/FormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngine'], function($) {
 
 	// main options
 	var FormEngine = {
@@ -46,7 +47,7 @@ define('TYPO3/CMS/Media/FormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngine'],
 		} else {
 			// Default record picker as we know it...
 			url = FormEngine.backPath + 'browser.php?mode=' + mode + '&bparams=' + params;
-			FormEngine.openedPopupWindow = window.open(url, 'Typo3WinBrowser', 'height=650,width=' + (mode == 'db' ? 650 : 600) + ',status=0,menubar=0,resizable=1,scrollbars=1');
+			FormEngine.openedPopupWindow = window.open(url, 'Typo3WinBrowser', 'height=650,width=' + (mode === 'db' ? 650 : 600) + ',status=0,menubar=0,resizable=1,scrollbars=1');
 			FormEngine.openedPopupWindow.focus();
 		}
 	};

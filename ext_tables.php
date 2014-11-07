@@ -63,16 +63,12 @@ if (TYPO3_MODE == 'BE') {
 		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
 		->addJavaScriptFiles(
 			array(
-				'EXT:media/Resources/Public/JavaScript/JQuery/jquery.fineuploader-3.4.1.js',
-				'EXT:media/Resources/Public/JavaScript/Initialize.js',
-				'EXT:media/Resources/Public/JavaScript/Media.js',
-				'EXT:media/Resources/Public/JavaScript/Media.EditStorage.js',
+				'EXT:media/Resources/Public/Build/media.min.js',
 			)
 		)
 		->addStyleSheetFiles(
 			array(
-				'EXT:media/Resources/Public/StyleSheets/media.css',
-				'EXT:media/Resources/Public/StyleSheets/FileUploader/fineuploader.css'
+				'EXT:media/Resources/Public/Build/media.min.css',
 			)
 		)
 		->setDocHeaderTopLeftComponents(

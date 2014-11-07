@@ -1,1 +1,5 @@
 .idea
+.tmp
+.sass-cache/*
+node_modules/*
+Resources/Public/WebComponents/*

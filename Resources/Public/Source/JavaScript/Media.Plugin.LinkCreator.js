@@ -30,7 +30,7 @@
 
 			$element = $(window.opener.Media.LinkCreator.elementNode);
 
-			uri = new Uri($($element).attr('href'))
+			uri = new Uri($($element).attr('href'));
 			matches = uri.query().match(/file:([0-9]+)/i);
 			if (matches.length > 0) {
 				fileUid = matches[1];
@@ -48,7 +48,7 @@
 
 					var url = $.ajax({
 						url: $(this).attr('href'),
-						success: function (data) {
+						success: function(data) {
 
 							Media.setContent(data);
 
@@ -58,7 +58,7 @@
 							$('#file-target').val($($element).attr('target'));
 						}
 					});
-				})
+				});
 
 				// Fire a click
 				$('#btn-linkCreator-current').click();

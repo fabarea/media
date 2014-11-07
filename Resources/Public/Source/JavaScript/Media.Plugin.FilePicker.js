@@ -94,9 +94,9 @@
 			var uri = new Uri(window.location.href);
 			if (uri.getQueryParamValue('params')) {
 
-				var params = uri.getQueryParamValue('params')
+				var params = uri.getQueryParamValue('params');
 
-				paramsParts = params.split('|');
+				var paramsParts = params.split('|');
 				$.each(paramsParts, function (index, paramsPart) {
 
 					var regularExpression = new RegExp(/^data-/g);

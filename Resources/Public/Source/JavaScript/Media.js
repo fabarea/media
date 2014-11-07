@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Object for handling event and their actions
  *

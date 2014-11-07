@@ -17,13 +17,7 @@
 				sizeLimit: '%s' // bytes
 			},
 			text: {
-				uploadButton: TYPO3.l10n.localize('media_file_upload.replaceFile'),
-				cancelButton: TYPO3.l10n.localize('media_file_upload.cancel'),
-				retryButton: TYPO3.l10n.localize('media_file_upload.retry'),
-				deleteButton: TYPO3.l10n.localize('media_file_upload.delete'),
 				failUpload: TYPO3.l10n.localize('media_file_upload.uploadFailed'),
-				dragZone: TYPO3.l10n.localize('media_file_upload.dragZone'),
-				dropProcessing: TYPO3.l10n.localize('media_file_upload.dropProcessing'),
 				formatProgress: "{percent}%% " + TYPO3.l10n.localize('media_file_upload.formatProgressOf') + " {total_size}",
 				waitingForResponse: TYPO3.l10n.localize('media_file_upload.waitingForResponse')
 			},
@@ -38,14 +32,11 @@
 				retryFailTooManyItems: TYPO3.l10n.localize('media_file_upload.retryFailTooManyItems'),
 				onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
 			},
-			// Override override main template
-			template: '<div class="qq-uploader">' +
-				'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
-				'<div class="qq-upload-button" style="width: 105px;">{uploadButtonText}</div>' +
-				'<span class="qq-max-size qq-vertical-align">%s</span>' +
-				'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-				'<ul class="qq-upload-list"></ul>' +
-				'</div>'
+			template: 'file-upload-template',
+			classes: {
+				success: 'alert alert-success',
+				fail: 'alert alert-error'
+			}
 		}).on('submit', function (event, id, fileName) {
 				var params = {};
 				params[parameterPrefix + '[action]'] = 'update';
@@ -62,11 +53,11 @@
 			})
 			.on('complete', function (event, id, fileName, responseJSON) {
 
-				$('.qq-max-size').toggle();
-				$('.qq-upload-list').hide();
-				$('.qq-upload-list', this).html(''); // remove progress bar
-
 				if (responseJSON.thumbnail) {
+
+					$('.qq-max-size').toggle();
+					$('.qq-upload-list').hide();
+					$('.qq-upload-list', this).html(''); // remove progress bar
 
 					// Replace thumbnail by new one.
 					var decoded = $("<div/>").html(responseJSON.thumbnail).text();

@@ -1,90 +1,67 @@
-$(document).ready(function () {
+(function($) {
+	$(function() {
 
-	var parameterPrefix = '%s';
+		var parameterPrefix = '%s';
 
-	$('#%s').fineUploader({
-		multiple: true,
-		debug: true,
-		request: {
-			endpoint: '%s',
-			// backward compatibility for fine upload to have parameters as GET params.
-			// Otherwise use "setEndpoint" over "setParam" in submit event
-			forceMultipart: true, // when IE9 will be support octet stream upload change me to true
-			paramsInBody: false
-		},
-		validation: {
-			allowedExtensions: ['%s'],
-			sizeLimit: '%s' // bytes
-		},
-		text: {
-			uploadButton: '<span title="' + TYPO3.l10n.localize('media_file_upload.uploadFile') + '" class="t3-icon t3-icon-actions t3-icon-actions-edit t3-icon-edit-upload">&nbsp;</span>',
-			cancelButton: TYPO3.l10n.localize('media_file_upload.cancel'),
-			retryButton: TYPO3.l10n.localize('media_file_upload.retry'),
-			deleteButton: TYPO3.l10n.localize('media_file_upload.delete'),
-			failUpload: TYPO3.l10n.localize('media_file_upload.uploadFailed'),
-			dragZone: TYPO3.l10n.localize('media_file_upload.dragZone'),
-			dropProcessing: TYPO3.l10n.localize('media_file_upload.dropProcessing'),
-			formatProgress:TYPO3.l10n.localize('media_file_upload.formatProgress'),
-			waitingForResponse: TYPO3.l10n.localize('media_file_upload.waitingForResponse')
-		},
-		messages: {
-			typeError: TYPO3.l10n.localize('media_file_upload.typeError'),
-			sizeError: TYPO3.l10n.localize('media_file_upload.sizeError'),
-			minSizeError: TYPO3.l10n.localize('media_file_upload.minSizeError'),
-			emptyError: TYPO3.l10n.localize('media_file_upload.emptyError'),
-			noFilesError: TYPO3.l10n.localize('media_file_upload.noFilesError'),
-			tooManyItemsError: TYPO3.l10n.localize('media_file_upload.tooManyItemsError'),
-			retryFailTooManyItems: TYPO3.l10n.localize('media_file_upload.retryFailTooManyItems'),
-			onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
-		},
-		showMessage: function (message) {
-			bootbox.alert(message);
-		},
-		// Note: main template adapted for Twitter Bootstrap
-		template: '<div class="qq-uploader span8">' +
-			'<pre class="qq-upload-drop-area span8"><span>{dragZoneText}</span></pre>' +
-			'<div class="qq-upload-button" style="display: inline-block;">{uploadButtonText}</div>' +
-			'<div class="qq-upload-button" style="display: inline-block; bottom: 3px; position: relative"><span class="qq-max-size qq-vertical-align">%s</span></div>' +
-			'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-			'<ul class="qq-upload-list"></ul>' +
-			'</div>',
-		// Note: fileTemplate content is put under list .qq-upload-list
-		fileTemplate: '<li class="alert">' +
-			'<div class="qq-progress-bar"></div>' +
-			'<span class="qq-upload-spinner"></span>' +
-			'<span class="qq-upload-finished"></span>' +
-			'<span class="qq-upload-file"></span>' +
-			'<span class="qq-upload-size"></span>' +
-			'<a class="qq-upload-cancel" href="#">{cancelButtonText}</a>' +
-			'<a class="qq-upload-retry" href="#">{retryButtonText}</a>' +
-			'<a class="qq-upload-delete hide" href="#">{deleteButtonText}</a>' +
-			'<span class="qq-upload-status-text">{statusText}</span>' +
-			'</li>',
-		classes: {
-			success: 'alert alert-success',
-			fail: 'alert alert-error'
-		}
-	}).on('submit', function (event, id, fileName) {
+		$('#%s').fineUploader({
+			multiple: true,
+			debug: true,
+			request: {
+				endpoint: '%s',
+				// backward compatibility for fine upload to have parameters as GET params.
+				// Otherwise use "setEndpoint" over "setParam" in submit event
+				forceMultipart: true, // when IE9 will be support octet stream upload change me to true
+				paramsInBody: false
+			},
+			validation: {
+				allowedExtensions: ['%s'],
+				sizeLimit: '%s' // bytes
+			},
+			text: {
+				failUpload: TYPO3.l10n.localize('media_file_upload.uploadFailed'),
+				formatProgress: TYPO3.l10n.localize('media_file_upload.formatProgress'),
+				waitingForResponse: TYPO3.l10n.localize('media_file_upload.waitingForResponse')
+			},
+			messages: {
+				typeError: TYPO3.l10n.localize('media_file_upload.typeError'),
+				sizeError: TYPO3.l10n.localize('media_file_upload.sizeError'),
+				minSizeError: TYPO3.l10n.localize('media_file_upload.minSizeError'),
+				emptyError: TYPO3.l10n.localize('media_file_upload.emptyError'),
+				noFilesError: TYPO3.l10n.localize('media_file_upload.noFilesError'),
+				tooManyItemsError: TYPO3.l10n.localize('media_file_upload.tooManyItemsError'),
+				retryFailTooManyItems: TYPO3.l10n.localize('media_file_upload.retryFailTooManyItems'),
+				onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
+			},
+			showMessage: function(message) {
+				bootbox.alert(message);
+			},
+			template: 'file-upload-template',
+			classes: {
+				success: 'alert alert-success',
+				fail: 'alert alert-error'
+			}
+		}).on('submit', function(event, id, fileName) {
 			var params = {};
 			params[parameterPrefix + '[action]'] = 'create';
 			params[parameterPrefix + '[controller]'] = 'Asset';
 			params[parameterPrefix + '[storageIdentifier]'] = '%s';
 			$(this).fineUploader('setParams', params);
 		})
-		.on('cancel', function (event, id, fileName) {
-		})
-		.on('complete', function (event, id, fileName, responseJSON) {
+			.on('cancel', function(event, id, fileName) {
+			})
+			.on('complete', function(event, id, fileName, responseJSON) {
 
-			// Callback action after file upload
-			if (responseJSON.uid) {
+				// Callback action after file upload
+				if (responseJSON.uid) {
 
-				// Hide message for file upload
-				$('.qq-upload-list', this).find('li:eq(' + id + ')').fadeOut(500);
+					// Hide message for file upload
+					$('.qq-upload-list', this).find('li:eq(' + id + ')').fadeOut(500);
 
-				// Reset table only if all files have been uploaded
-				if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
-					Vidi.grid.fnResetDisplay();
+					// Reset table only if all files have been uploaded
+					if ($('.qq-upload-list', this).find('li').not('.alert-success').length == 0) {
+						Vidi.grid.fnResetDisplay();
+					}
 				}
-			}
-		});
-});
+			});
+	});
+})(jQuery);

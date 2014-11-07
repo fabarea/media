@@ -15,11 +15,13 @@ namespace TYPO3\CMS\Media\Form;
  */
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Media\Exception\InvalidStringException;
+use TYPO3\CMS\Media\Utility\DomElement;
 
 /**
  * A class to render a field.
  */
-abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInterface {
+abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @var string
@@ -115,7 +117,7 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 	/**
 	 * Add an additional (DOM) attribute to be added to this template.
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\InvalidStringException
+	 * @throws InvalidStringException
 	 * @param array $attribute associative array that contains attribute => value
 	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
 	 */
@@ -124,7 +126,7 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 			reset($attribute);
 			$key = key($attribute);
 			if (!is_string($key)) {
-				throw new \TYPO3\CMS\Media\Exception\InvalidStringException('Not an associative array. Is not a key: ' . $key, 1356478742);
+				throw new InvalidStringException('Not an associative array. Is not a key: ' . $key, 1356478742);
 			}
 
 			$this->attributes[$key] = $attribute[$key];
@@ -161,27 +163,6 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 	public function setLabel($label) {
 		$this->label = $label;
 		return $this;
-	}
-
-	/**
-	 * ViewHelper Variable Container
-	 *
-	 * @var \TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperVariableContainer
-	 * @api
-	 */
-	protected $viewHelperVariableContainer;
-
-	/**
-	 * @param \TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface $renderingContext
-	 * @return void
-	 */
-	public function setRenderingContext(\TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface $renderingContext) {
-		$this->renderingContext = $renderingContext;
-		$this->templateVariableContainer = $renderingContext->getTemplateVariableContainer();
-		if ($renderingContext->getControllerContext() !== NULL) {
-			$this->controllerContext = $renderingContext->getControllerContext();
-		}
-		$this->viewHelperVariableContainer = $renderingContext->getViewHelperVariableContainer();
 	}
 
 	/**
@@ -255,7 +236,7 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 	 */
 	public function getId() {
 		if ($this->id === '') {
-			$this->id = \TYPO3\CMS\Media\Utility\DomElement::getInstance()->formatId($this->getName());
+			$this->id = DomElement::getInstance()->formatId($this->getName());
 		}
 		return $this->id;
 	}
@@ -284,4 +265,5 @@ abstract class AbstractFormField implements \TYPO3\CMS\Media\Form\FormFieldInter
 		$this->attributes = $attributes;
 		return $this;
 	}
+
 }

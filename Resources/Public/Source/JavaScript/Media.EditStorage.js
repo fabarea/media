@@ -1,5 +1,3 @@
-"use strict"; // jshint ;_;
-
 /** @namespace Media */
 
 /**
@@ -122,7 +120,7 @@ Media.EditStorage = {
 
 							Vidi.Response.processResponse(response, 'update');
 						}
-					})
+					});
 				});
 
 			})

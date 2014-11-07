@@ -222,6 +222,15 @@
 			<trans-unit id="media_file_upload.delete">
 				<source>Delete</source>
 			</trans-unit>
+			<trans-unit id="media_file_upload.pause">
+				<source>Pause</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.continue">
+				<source>Continue</source>
+			</trans-unit>
+			<trans-unit id="media_file_upload.view">
+				<source>View</source>
+			</trans-unit>
 			<trans-unit id="media_file_upload.uploadFailed">
 				<source>Upload failed</source>
 			</trans-unit>

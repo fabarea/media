@@ -94,7 +94,7 @@ class UploadManager {
 		}
 
 		if (!$uploadedFile) {
-			$this->throwException('Couldn\'t instantiate an upload object... No file was uploaded?');
+			$this->throwException('Could not instantiate an upload object... No file was uploaded?');
 		}
 
 		$fileName = $this->getFileName($uploadedFile);

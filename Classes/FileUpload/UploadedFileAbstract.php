@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\FileUpload;
  */
 
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Media\Exception\MissingFileException;
 
 /**
@@ -79,7 +80,11 @@ abstract class UploadedFileAbstract implements UploadedFileInterface {
 	 * @return string
 	 */
 	public function getFileWithAbsolutePath() {
-		return $this->uploadFolder . DIRECTORY_SEPARATOR . $this->name;
+		$fileIdentifier = GeneralUtility::_POST('qquuid');
+		if (!empty($fileIdentifier)) {
+			$fileIdentifier .= '-';
+		}
+		return $this->uploadFolder . DIRECTORY_SEPARATOR . $fileIdentifier . $this->name;
 	}
 
 	/**

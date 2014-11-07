@@ -34,7 +34,7 @@
 			fileUid = $($element).data('htmlarea-file-uid');
 
 			// Makes sure the file uid exists
-			if (fileUid > 0 && $($element).data('htmlarea-file-table') == 'sys_file') {
+			if (fileUid > 0 && $($element).data('htmlarea-file-table') === 'sys_file') {
 
 				uriTarget = new Uri($('#btn-imageEditor-current').attr('href'));
 				uriTarget.addQueryParam('tx_media_user_mediam1[file]', fileUid);
@@ -62,7 +62,7 @@
 								$('#height').val($($element).attr('height'));
 								$('#width')
 									.val($($element).attr('width'))
-									.change() // Fire up change event to adjust the GUI.
+									.change(); // Fire up change event to adjust the GUI.
 							}
 						});
 					})
@@ -102,13 +102,13 @@ Media.Rte = {
 			if (window.opener) {
 				// Reset previous class names applied against the image tag.
 				if (window.opener.Media.ImageEditor.elementNode.className != null) {
-					params.tag += 'class="' + window.opener.Media.ImageEditor.elementNode.className + '" '
+					params.tag += 'class="' + window.opener.Media.ImageEditor.elementNode.className + '" ';
 				}
 
 				// Reset previous style applied against the image tag.
 				if (window.opener.Media.ImageEditor.elementNode.style != null &&
 					window.opener.Media.ImageEditor.elementNode.style.cssText != null) {
-					params.tag += 'style="' + window.opener.Media.ImageEditor.elementNode.style.cssText + '" '
+					params.tag += 'style="' + window.opener.Media.ImageEditor.elementNode.style.cssText + '" ';
 				}
 				params.tag += '/>';
 
