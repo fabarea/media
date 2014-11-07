@@ -14,28 +14,22 @@ $EM_CONF[$_EXTKEY] = array (
   'category' => 'misc',
   'author' => 'Fabien Udriot',
   'author_email' => 'fabien.udriot@typo3.org',
-  'shy' => '',
-  'priority' => '',
   'module' => '',
   'state' => 'beta',
-  'internal' => '',
   'uploadfolder' => '0',
-  'createDirs' => '',
-  'modify_tables' => '',
   'clearCacheOnLoad' => 0,
-  'lockType' => '',
   'version' => '3.3.0-dev',
-  'constraints' => 
+  'constraints' =>
   array (
-    'depends' => 
+    'depends' =>
     array (
       'typo3' => '6.2.0-6.2.99',
       'vidi' => '',
     ),
-    'conflicts' => 
+    'conflicts' =>
     array (
     ),
-    'suggests' => 
+    'suggests' =>
     array (
       'metadata' => '',
       'filemetadata' => '',
@@ -44,5 +38,3 @@ $EM_CONF[$_EXTKEY] = array (
   'user' => 'fab1en',
   'comment' => 'Change log http://forge.typo3.org/versions/2886 - localization in the BE and multi-search for relations in the Visual Search bar.',
 );
-
-?>

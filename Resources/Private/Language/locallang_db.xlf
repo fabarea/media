@@ -13,9 +13,6 @@
 			</trans-unit>
 
 			<!-- File Storage -->
-			<trans-unit id="tab.media_mount_point">
-				<source>Default mount points</source>
-			</trans-unit>
 			<trans-unit id="sys_file_storage.mount_point_file_type_1">
 				<source>Default mount point for "text" files, example: txt, html, ...</source>
 			</trans-unit>
@@ -34,7 +31,6 @@
 			<trans-unit id="sys_file_storage.maximum_dimension_original_image">
 				<source>Maximum dimension of original image (will be resized if bigger)</source>
 			</trans-unit>
-
 			<trans-unit id="sys_file_storage.extension_allowed_file_type_1">
 				<source>Allowed extensions for "text" upload.</source>
 			</trans-unit>
@@ -51,6 +47,18 @@
 				<source>Allowed extensions for "document" upload.</source>
 			</trans-unit>
 
+			<!-- File Metadata -->
+			<trans-unit id="sys_file_metadata.relations">
+				<source>Relations</source>
+			</trans-unit>
+
+			<!--Tabs -->
+			<trans-unit id="tab.media_mount_point">
+				<source>Default mount points</source>
+			</trans-unit>
+			<trans-unit id="tab.relations">
+				<source>Relations</source>
+			</trans-unit>
 			<trans-unit id="tab.upload_settings">
 				<source>Upload settings</source>
 			</trans-unit>
