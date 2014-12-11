@@ -78,7 +78,7 @@ $tca = array(
 			),
 			'tstamp' => array(
 				'visible' => FALSE,
-				'format' => 'date',
+				'format' => '\\TYPO3\\CMS\\Media\\Formatter\\Date',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
 			),
 			'metadata.categories' => array(
