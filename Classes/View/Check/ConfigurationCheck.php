@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Media\View\Check;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Vidi\Tca\Tca;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
@@ -37,8 +38,9 @@ class ConfigurationCheck extends AbstractComponentView {
 		$result = '';
 
 		// Check whether storage is configured or not.
-		if ($this->checkStorageNotConfigured()) {
-			$result .= $this->formatMessageForStorageNotConfigured();
+		if (!$this->checkStorageNotConfigured()) {
+			$this->configureStorage();
+			$result .= $this->formatMessageForStorageConfigured();
 		}
 
 		// Check whether storage is online or not.
@@ -60,6 +62,29 @@ class ConfigurationCheck extends AbstractComponentView {
 	}
 
 	/**
+	 * @return boolean
+	 */
+	protected function configureStorage() {
+		$tableName = 'sys_file_storage';
+		$fields = array(
+			'maximum_dimension_original_image',
+			'extension_allowed_file_type_1',
+			'extension_allowed_file_type_2',
+			'extension_allowed_file_type_3',
+			'extension_allowed_file_type_4',
+			'extension_allowed_file_type_5',
+		);
+
+		$values = array();
+		foreach ($fields as $field) {
+			$values[$field] = Tca::table($tableName)->field($field)->getDefaultValue();
+		}
+
+		$storage = $this->getStorageService()->findCurrentStorage();
+		$this->getDatabaseConnection()->exec_UPDATEquery($tableName, 'uid = ' . $storage->getUid(), $values);
+	}
+
+	/**
 	 * Check whether the storage is correctly configured.
 	 *
 	 * @return boolean
@@ -70,17 +95,17 @@ class ConfigurationCheck extends AbstractComponentView {
 
 		// Take the storage fields and check whether some data was initialized.
 		$fields = array(
+			'mount_point_file_type_1',
+			'mount_point_file_type_2',
+			'mount_point_file_type_3',
+			'mount_point_file_type_4',
+			'mount_point_file_type_5',
 			'maximum_dimension_original_image',
 			'extension_allowed_file_type_1',
 			'extension_allowed_file_type_2',
 			'extension_allowed_file_type_3',
 			'extension_allowed_file_type_4',
 			'extension_allowed_file_type_5',
-			'mount_point_file_type_1',
-			'mount_point_file_type_2',
-			'mount_point_file_type_3',
-			'mount_point_file_type_4',
-			'mount_point_file_type_5',
 		);
 
 		$result = TRUE;
@@ -99,18 +124,19 @@ class ConfigurationCheck extends AbstractComponentView {
 	 *
 	 * @return string
 	 */
-	protected function formatMessageForStorageNotConfigured() {
+	protected function formatMessageForStorageConfigured() {
 
 		$storage = $this->getStorageService()->findCurrentStorage();
 
 		$result = <<< EOF
-			<div class="typo3-message message-warning">
+			<div class="typo3-message message-information">
 				<div class="message-header">
-						Storage is not configured
+						Storage has been configured,
 				</div>
 				<div class="message-body">
-					The storage "{$storage->getName()}" looks currently not configured. Open the storage record "{$storage->getName()}"
-					and assign some value in tab "Upload Settings" or "Default mount points.
+					The storage "{$storage->getName()}" was not configured for Media. Some default values have automatically been added.
+					To see those values, open the storage record "{$storage->getName()}" ({$storage->getUid()})
+					and check under tab "Upload Settings" or "Default mount points".
 				</div>
 			</div>
 EOF;
