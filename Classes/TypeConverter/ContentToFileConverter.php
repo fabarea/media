@@ -25,21 +25,27 @@ use TYPO3\CMS\Vidi\Domain\Model\Content;
 class ContentToFileConverter implements SingletonInterface {
 
 	/**
-	 * Convert a Content object to File
+	 * Convert a file representation to File Resource.
 	 *
-	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
+	 * @param Content|int $fileRepresentation
 	 * @throws \RuntimeException
 	 * @return File
 	 */
-	public function convert(Content $object) {
+	public function convert($fileRepresentation) {
 
-		$fileData = $object->toArray();
+		if ($fileRepresentation instanceof Content) {
 
-		if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
-			throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
+			$fileData = $fileRepresentation->toArray();
+
+			if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
+				throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
+			}
+
+			$fileUid = $fileData['uid'];
+		} else {
+			$fileData = array();
+			$fileUid = (int)$fileRepresentation;
 		}
-
-		$file = ResourceFactory::getInstance()->getFileObject($fileData['uid'], $fileData);
-		return $file;
+		return ResourceFactory::getInstance()->getFileObject($fileUid, $fileData);
 	}
 }

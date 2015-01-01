@@ -1,13 +1,13 @@
 <p>
-	Detect whether a file is missing in the storage or whether they are duplicate records in the database.
+	Search for duplicate records by storage based on their identifier.
 </p>
 
-<v:button.toolWork tool="TYPO3\CMS\Media\Tool\IndexAnalyserTool" label="Analyse index"/>
+<v:button.toolWork tool="TYPO3\CMS\Media\Tool\DuplicateRecordsFinderTool" label="Find duplicate records"/>
 
 <p>The same can be performed by a CLI command:</p>
 <pre style="font-size: 9pt">
 cd {sitePath};
-./typo3/cli_dispatch.phpsh extbase fileIndex:analyse
+./typo3/cli_dispatch.phpsh extbase duplicateRecords:analyse
 </pre>
 
 Tip! You can also configure a <strong>Scheduler Task which will send a report by email to <m:reportTo /></strong> if anything looks wrong.

@@ -251,7 +251,7 @@ Media Tools
 Tools are registered through the Tool API provided by Vidi in ``ext_tables.php`` and can be accessed by clicking the upper right icon in the BE
 module. Those tools are visible for Admin only::
 
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\IndexAnalyserTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\MissingFilesFinderTool');
 
 Analyse File index
 ------------------

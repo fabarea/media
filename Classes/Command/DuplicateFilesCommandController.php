@@ -19,19 +19,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 /**
- * Command Controller which handles actions related to File Index.
+ * Command Controller which handles actions related to duplicate Files.
  */
-class FileIndexCommandController extends CommandController {
+class DuplicateFilesCommandController extends CommandController {
 
 	/**
 	 * @var array
 	 */
 	protected $message = array();
-
-	/**
-	 * @var array
-	 */
-	protected $missingFiles = array();
 
 	/**
 	 * @var array
@@ -50,10 +45,10 @@ class FileIndexCommandController extends CommandController {
 	 */
 	public function analyseCommand() {
 
-		$this->checkEnvironment();
-
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
+			// For the CLI cause.
+			$storage->setEvaluatePermissions(FALSE);
 
 			$this->printOut();
 			$this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
@@ -61,27 +56,7 @@ class FileIndexCommandController extends CommandController {
 
 			if ($storage->isOnline()) {
 
-				$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
-				if (empty($missingFiles)) {
-					$this->printOut();
-					$this->printOut('Looks good, no missing files!');
-				} else {
-					// Missing files...
-					$this->printOut();
-					$this->printOut('Missing resources:');
-					$this->missingFiles[$storage->getUid()] = $missingFiles; // Store missing files.
-
-					/** @var \TYPO3\CMS\Core\Resource\File $missingFile */
-					foreach ($missingFiles as $missingFile) {
-						$message = sprintf('* Missing file "%s" with identifier "%s".',
-							$missingFile->getUid(),
-							$missingFile->getIdentifier()
-						);
-						$this->printOut($message);
-					}
-				}
-
-				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
+				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateSha1($storage);
 
 				// Duplicate file object
 				if (empty($duplicateFiles)) {
@@ -100,7 +75,7 @@ class FileIndexCommandController extends CommandController {
 							$uids[] = $value['uid'];
 						}
 
-						$message = sprintf('* uids "%s" having same identifier %s',
+						$message = sprintf('* uids "%s" having same sha1 %s',
 							implode(',', $uids),
 							$identifier
 						);
@@ -142,7 +117,7 @@ class FileIndexCommandController extends CommandController {
 			// Prepare email.
 			$this->getMailMessage()->setTo($this->getTo())
 				->setFrom($this->getFrom())
-				->setSubject('Missing files detected!')
+				->setSubject('Duplicate records detected!')
 				->setBody(implode("\n", $this->message));
 
 			$isSent = $this->getMailMessage()->send();
@@ -164,7 +139,7 @@ class FileIndexCommandController extends CommandController {
 	 * @return bool
 	 */
 	protected function hasReport() {
-		return !empty($this->missingFiles) || !empty($this->duplicateFiles);
+		return !empty($this->duplicateFiles);
 	}
 
 	/**
@@ -198,24 +173,6 @@ class FileIndexCommandController extends CommandController {
 			$from[$emailAddress] = $name;
 		}
 		return $from;
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function checkEnvironment() {
-		$user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_lowlevel" AND password != ""');
-
-		if (empty($user)) {
-			$this->outputLine('Missing User "_cli_lowlevel" and / or its password.');
-			$this->sendAndExit(1);
-		}
-		$user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_scheduler" AND password != ""');
-
-		if (empty($user)) {
-			$this->outputLine('Missing User "_cli_scheduler" and / or its password.');
-			$this->sendAndExit(1);
-		}
 	}
 
 	/**

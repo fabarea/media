@@ -20,22 +20,23 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
- * View helper which returns the File Uri.
+ * View helper which tell whether a file exists.
  */
-class UriViewHelper extends AbstractViewHelper {
+class ExistsViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Returns a property value of a file given by the context.
 	 *
 	 * @param File|Content|int $file
-	 * @param bool $relative
-	 * @return string
+	 * @return bool
 	 */
-	public function render($file, $relative = FALSE) {
+	public function render($file) {
+
 		if (! $file instanceof File) {
 			$file = $this->getFileConverter()->convert($file);
 		}
-		return $file->getPublicUrl($relative);
+
+		return $file->exists();
 	}
 
 	/**

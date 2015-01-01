@@ -19,9 +19,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Vidi\Tool\AbstractTool;
 
 /**
- * Index analyser tool for the Media module.
+ * Search for duplicate files having the same "sha1" and process them.
  */
-class IndexAnalyserTool extends AbstractTool {
+class DuplicateFilesFinderTool extends AbstractTool {
 
 	/**
 	 * Display the title of the tool on the welcome screen.
@@ -29,7 +29,7 @@ class IndexAnalyserTool extends AbstractTool {
 	 * @return string
 	 */
 	public function getTitle() {
-		return 'Analyse File index';
+		return 'Find duplicate Files';
 	}
 
 	/**
@@ -38,7 +38,7 @@ class IndexAnalyserTool extends AbstractTool {
 	 * @return string
 	 */
 	public function getDescription() {
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/IndexAnalyser/Launcher.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateFilesFinder/Launcher.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 		$view->assign('sitePath', PATH_site);
 		return $view->render();
@@ -53,28 +53,19 @@ class IndexAnalyserTool extends AbstractTool {
 	public function work(array $arguments = array()) {
 
 		// Possible clean up of missing files if the User has clicked so.
-		if (!empty($arguments['deleteMissingFiles'])) {
+		if (!empty($arguments['deleteDuplicateFiles'])) {
 			$this->deleteMissingFilesAction($arguments['files']);
 		}
 
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/IndexAnalyser/WorkResult.html';
+		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateFilesFinder/WorkResult.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
-		$missingReports = array();
-		$duplicateReports = array();
+		$duplicateFilesReports = array();
 		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
 			if ($storage->isOnline()) {
-				$missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
-
-				$missingReports[] = array(
-					'storage' => $storage,
-					'missingFiles' => $missingFiles,
-					'numberOfMissingFiles' => count($missingFiles),
-				);
-
-				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicatesFiles($storage);
-				$duplicateReports[] = array(
+				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateSha1($storage);
+				$duplicateFilesReports[] = array(
 					'storage' => $storage,
 					'duplicateFiles' => $duplicateFiles,
 					'numberOfDuplicateFiles' => count($duplicateFiles),
@@ -82,8 +73,7 @@ class IndexAnalyserTool extends AbstractTool {
 			}
 		}
 
-		$view->assign('missingReports', $missingReports);
-		$view->assign('duplicateReports', $duplicateReports);
+		$view->assign('duplicateFilesReports', $duplicateFilesReports);
 
 		return $view->render();
 	}
@@ -99,16 +89,19 @@ class IndexAnalyserTool extends AbstractTool {
 	 */
 	protected function deleteMissingFilesAction(array $files = array()) {
 
-		foreach ($files as $file) {
+		foreach ($files as $fileUid) {
 
-			/** @var \TYPO3\CMS\Core\Resource\File $fileObject */
+			/** @var \TYPO3\CMS\Core\Resource\File $file */
 			try {
-				$fileObject = ResourceFactory::getInstance()->getFileObject($file);
-				if ($fileObject) {
-					// The case is special as we have a missing file in the file system
-					// As a result, we can't use $fileObject->delete(); which will
-					// raise exception "Error while fetching permissions"
-					$this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $fileObject->getUid());
+				$file = ResourceFactory::getInstance()->getFileObject($fileUid);
+				if ($file->exists()) {
+
+					$numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
+					if ($numberOfReferences === 0) {
+						$file->delete();
+					}
+				} else {
+					$this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $file->getUid());
 				}
 			}
 			catch(\Exception $e) {
@@ -127,6 +120,13 @@ class IndexAnalyserTool extends AbstractTool {
 	}
 
 	/**
+	 * @return \TYPO3\CMS\Media\Thumbnail\ThumbnailGenerator
+	 */
+	protected function getThumbnailGenerator() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailGenerator');
+	}
+
+	/**
 	 * @return StorageRepository
 	 */
 	protected function getStorageRepository() {
@@ -140,6 +140,13 @@ class IndexAnalyserTool extends AbstractTool {
 	 */
 	public function isShown() {
 		return $this->getBackendUser()->isAdmin();
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 */
+	protected function getFileReferenceService() {
+		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
 	}
 
 	/**
