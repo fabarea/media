@@ -38,7 +38,7 @@ class ConfigurationCheck extends AbstractComponentView {
 		$result = '';
 
 		// Check whether storage is configured or not.
-		if (!$this->checkStorageNotConfigured()) {
+		if ($this->checkStorageNotConfigured()) {
 			$this->configureStorage();
 			$result .= $this->formatMessageForStorageConfigured();
 		}
@@ -131,7 +131,7 @@ class ConfigurationCheck extends AbstractComponentView {
 		$result = <<< EOF
 			<div class="typo3-message message-information">
 				<div class="message-header">
-						Storage has been configured,
+						Storage has been configured.
 				</div>
 				<div class="message-body">
 					The storage "{$storage->getName()}" was not configured for Media. Some default values have automatically been added.
