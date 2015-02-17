@@ -17,6 +17,8 @@ namespace TYPO3\CMS\Media\Security;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Vidi\Persistence\Matcher;
+use TYPO3\CMS\Vidi\Persistence\Query;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 
 /**
  * Class which handle signal slot for Vidi Content controller
@@ -24,18 +26,30 @@ use TYPO3\CMS\Vidi\Persistence\Matcher;
 class FilePermissionsAspect {
 
 	/**
-	 * Post process the matcher object.
+	 * Post-process the matcher object to respect the file storages.
 	 *
 	 * @param Matcher $matcher
 	 * @param string $dataType
 	 * @return void
 	 */
-	public function addFilePermissions(Matcher $matcher, $dataType) {
+	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
 		if ($dataType === 'sys_file') {
 			$this->respectStorage($matcher);
+		}
+	}
 
+	/**
+	 * Post-process the constraints object to respect the file mounts.
+	 *
+	 * @param Query $query
+	 * @param ConstraintInterface|NULL $constraints
+	 * @param string $dataType
+	 * @return void
+	 */
+	public function addFilePermissionsForFileMounts(Query $query, $constraints, $dataType) {
+		if ($dataType === 'sys_file') {
 			if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
-				$this->respectFilemounts($matcher);
+				$this->respectFileMounts($query, $constraints);
 			}
 		}
 	}
@@ -57,11 +71,11 @@ class FilePermissionsAspect {
 	}
 
 	/**
-	 * @param Matcher $matcher
+	 * @param Query $query
+	 * @param ConstraintInterface|NULL $constraints
 	 * @return void
 	 */
-	protected function respectFileMounts(Matcher $matcher) {
-		$matcher->setLogicalSeparatorForLike(Matcher::LOGICAL_OR);
+	protected function respectFileMounts(Query $query, $constraints) {
 
 		$tableName = 'sys_filemounts';
 
@@ -76,18 +90,28 @@ class FilePermissionsAspect {
 			BackendUtility::deleteClause($tableName)
 		);
 
-		// Fetch the records
+		// Fetch the records.
 		$fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'path',
 			$tableName,
 			$clause
 		);
 
+		$constraintsRespectingFileMounts = array();
 		foreach ($fileMountRecords as $fileMountRecord) {
 			if ($fileMountRecord['path']) {
-				$matcher->likes('identifier', $fileMountRecord['path'] . '%');
+				$constraintsRespectingFileMounts[] = $query->like(
+					'identifier',
+					$fileMountRecord['path'] . '%'
+				);
 			}
 		}
+		$constraintsRespectingFileMounts = $query->logicalOr($constraintsRespectingFileMounts);
+
+		$constraints = $query->logicalAnd(
+			$constraints,
+			$constraintsRespectingFileMounts
+		);
 	}
 
 	/**

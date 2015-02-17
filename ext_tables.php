@@ -125,14 +125,22 @@ if (TYPO3_MODE == 'BE') {
 	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\DuplicateRecordsFinderTool');
 	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\DuplicateFilesFinderTool');
 
-	// Connect "postFileIndex" signal slot with the metadata service.
+	// Connect some signals with slots
 	$signalSlotDispatcher->connect(
 		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
 		'postProcessMatcherObject',
 		'TYPO3\CMS\Media\Security\FilePermissionsAspect',
-		'addFilePermissions',
+		'addFilePermissionsForFileStorages',
 		TRUE
 	);
+	$signalSlotDispatcher->connect(
+		'TYPO3\CMS\Vidi\Domain\Repository\ContentRepository',
+		'postProcessConstraintsObject',
+		'TYPO3\CMS\Media\Security\FilePermissionsAspect',
+		'addFilePermissionsForFileMounts',
+		TRUE
+	);
+
 }
 
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
