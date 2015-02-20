@@ -106,7 +106,7 @@ class TitleMetadataExtractor implements ExtractorInterface {
 	 * @param string $fileName
 	 * @return string
 	 */
-	public function guessTitle($fileName){
+	protected function guessTitle($fileName){
 		$fileNameWithoutExtension = $this->removeExtension($fileName);
 
 		$title = $fileNameWithoutExtension;
