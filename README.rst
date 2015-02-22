@@ -20,31 +20,25 @@ The basic idea of FAL is that every file has an entry in the database to leverag
 Project info and releases
 =============================
 
-The home page of the project: http://forge.typo3.org/projects/extension-media/
+Home page of the project: https://github.com/fabarea/media
 
 Stable version released on TER: http://typo3.org/extensions/repository/view/media
 
-Development version on Git: https://git.typo3.org/TYPO3CMS/Extensions/media.git
+Development version from Git:
 
 ::
 
 	cd typ3conf/ext
-	git clone git://git.typo3.org/TYPO3CMS/Extensions/media.git
+	git clone https://github.com/fabarea/media.git
 
-
-Github mirror:
-https://github.com/TYPO3-extensions/media
-
-Live website with pre-configured extension: http://get.typo3.org/bootstrap
-
-Flash news about latest development are also announced on: http://twitter.com/fudriot
+Flash news about latest development are also announced on http://twitter.com/fudriot
 
 Installation
 ============
 
 Download the source code either from the `Git repository`_ or from the TER for the stable versions. Install the extension as normal in the Extension Manager.
 
-.. _Git repository: https://git.typo3.org/TYPO3CMS/Extensions/media.git
+.. _Git repository: https://github.com/fabarea/media.git
 
 Configuration
 =============
