@@ -18,25 +18,21 @@ $EM_CONF[$_EXTKEY] = array (
   'state' => 'beta',
   'uploadfolder' => '0',
   'clearCacheOnLoad' => 0,
-  'version' => '3.4.0-dev',
-  'constraints' => 
+  'version' => '3.4.0',
+  'constraints' =>
   array (
-    'depends' => 
+    'depends' =>
     array (
       'typo3' => '6.2.0-6.2.99',
       'vidi' => '',
     ),
-    'conflicts' => 
+    'conflicts' =>
     array (
     ),
-    'suggests' => 
+    'suggests' =>
     array (
       'metadata' => '',
       'filemetadata' => '',
     ),
-  ),
-  'user' => 'fab1en',
-  'comment' => 'Change log http://forge.typo3.org/versions/2963 - feature: relation between files',
+  )
 );
-
-?>
