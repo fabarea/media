@@ -43,11 +43,10 @@ class FilePermissionsAspect {
 	 *
 	 * @param Query $query
 	 * @param ConstraintInterface|NULL $constraints
-	 * @param string $dataType
 	 * @return void
 	 */
-	public function addFilePermissionsForFileMounts(Query $query, $constraints, $dataType) {
-		if ($dataType === 'sys_file') {
+	public function addFilePermissionsForFileMounts(Query $query, $constraints) {
+		if ($query->getType() === 'sys_file') {
 			if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
 				$this->respectFileMounts($query, $constraints);
 			}
@@ -73,7 +72,7 @@ class FilePermissionsAspect {
 	/**
 	 * @param Query $query
 	 * @param ConstraintInterface|NULL $constraints
-	 * @return void
+	 * @return array
 	 */
 	protected function respectFileMounts(Query $query, $constraints) {
 
@@ -112,6 +111,8 @@ class FilePermissionsAspect {
 			$constraints,
 			$constraintsRespectingFileMounts
 		);
+
+		return array($query, $constraints);
 	}
 
 	/**
