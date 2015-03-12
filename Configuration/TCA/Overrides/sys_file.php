@@ -39,6 +39,8 @@ $tca = array(
 			new \TYPO3\CMS\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
 			'name',
 			'identifier',
+			'metadata.title',
+			'metadata.description',
 			'metadata.categories',
 			new \TYPO3\CMS\Vidi\Facet\StandardFacet(
 				'number_of_references',
