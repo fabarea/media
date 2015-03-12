@@ -69,7 +69,7 @@ $tca = array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'title')),
 				'width' => '400px',
 				'editable' => TRUE,
-				'sortable' => FALSE,
+				'sortable' => TRUE,
 			),
 			'metadata.description' => array(
 				'renderer' => new TYPO3\CMS\Media\Grid\MetadataRendererComponent(array('property' => 'description')),
