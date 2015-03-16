@@ -15,7 +15,7 @@ The basic idea of FAL is that every file has an entry in the database to leverag
 * Integration with the text editor (RTE)
 * ...
 
-.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-01.png
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Manual-01.png
 
 Project info and releases
 =============================
@@ -51,15 +51,15 @@ However, for existing storage, they will be no value.
 
 Edit the settings of a Storage:
 
-.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-02.png
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Manual-02.png
 
 Apply different upload settings:
 
-.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-03.png
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Manual-03.png
 
 Configured target folder for each file type:
 
- .. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-04.png
+ .. image:: https://raw.github.com/fabarea/media/master/Documentation/Manual-04.png
 
 User TSConfig
 -------------
@@ -83,8 +83,8 @@ How to customize the Grid in Media module
 Important to notice the Media BE module is powered by `Vidi`_ which is a List Component for TYPO3 CMS. To know more about Vidi
 and how to configure the Grid, refer to the `Grid chapter`_.
 
-.. _Vidi: https://forge.typo3.org/projects/extension-vidi
-.. _Grid chapter: https://github.com/TYPO3-Extensions/vidi#grid-tca
+.. _Vidi: https://github.com/fabarea/vidi
+.. _Grid chapter: https://github.com/fabarea/vidi#tca-grid
 
 View Helpers
 ============
@@ -321,7 +321,7 @@ Permission Management
 Permissions management is about controlling accessibility of a file. Permissions can be defined on each file under tab "Access" where to connect
 a File to a Frontend Group.
 
-.. image:: https://raw.github.com/TYPO3-extensions/media/master/Documentation/Manual-05.png
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Manual-05.png
 
 Notice Media **delegates file permission to third party extensions**, such as extension naw_securedl_.
 On the long term it should be considered to be used a secure local driver, however.
