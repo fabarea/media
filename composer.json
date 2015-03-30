@@ -7,6 +7,5 @@
 	"keywords": ["TYPO3 CMS", "Media management"],
 	"support": {
 		"issues": "https://github.com/fabarea/media/issues"
-	},
-	"version": "3.6.0-dev"
+	}
 }
