@@ -71,6 +71,11 @@ class DataHandlerHook {
 			}
 			$indexes = $refIndexObj->updateRefIndexTable($tableName, $id);
 
+			// Make sure $index is an array.
+			if (!is_array($indexes)) {
+				$indexes = array();
+			}
+
 			$fileIdentifiers = $this->lookForFiles($indexes);
 			$this->addBeforeDataHandlerProcessFileIdentifiers($fileIdentifiers);
 		}
@@ -97,6 +102,11 @@ class DataHandlerHook {
 				$refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
 			}
 			$indexes = $refIndexObj->updateRefIndexTable($tableName, $id);
+
+			// Make sure $index is an array.
+			if (!is_array($indexes)) {
+				$indexes = array();
+			}
 
 			$fileIdentifiers = $this->lookForFiles($indexes);
 			$this->addAfterDataHandlerProcessFileIdentifiers($fileIdentifiers);
