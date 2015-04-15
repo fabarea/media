@@ -36,6 +36,7 @@ class DateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $fixture;
 
 	public function setUp() {
+		date_default_timezone_set('GMT');
 		$this->fixture = new \TYPO3\CMS\Media\Formatter\Date();
 	}
 
