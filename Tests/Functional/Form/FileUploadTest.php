@@ -25,10 +25,12 @@ namespace TYPO3\CMS\Media\Form;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
+
 /**
  * Test case for class \TYPO3\CMS\Media\Form\FileUpload.
  */
-class FileUploadTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class FileUploadTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctionalTestCase {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Form\FileUpload
@@ -46,7 +48,9 @@ class FileUploadTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $fakePrefix = '';
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Form\FileUpload();
+		parent::setUp();
+
+        $this->fixture = $this->getMock('TYPO3\\CMS\\Media\\Form\\FileUpload', array('addLanguage'));
 		$this->fakeName = uniqid('name');
 		$this->fakePrefix= uniqid('prefix');
 	}

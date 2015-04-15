@@ -51,10 +51,7 @@ class FileUpload extends AbstractFormField {
 	 * @return \TYPO3\CMS\Media\Form\FileUpload
 	 */
 	public function __construct() {
-		// language labels for JavaScript files
-		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$this->pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
-
+		$this->addLanguage();
 		$this->elementId = 'jquery-wrapped-fine-uploader-' . uniqid();
 
 		$this->template = <<<EOF
@@ -69,6 +66,14 @@ class FileUpload extends AbstractFormField {
 </div>
 
 EOF;
+	}
+
+	/**
+	 * Add language labels for JavaScript files
+	 */
+	protected function addLanguage() {
+		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
+		$this->pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 	}
 
 	/**

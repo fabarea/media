@@ -1,0 +1,18 @@
+<phpunit
+    bootstrap="../../../../../typo3/sysext/core/Build/FunctionalTestsBootstrap.php"
+    colors="true"
+    processIsolation="true"
+>
+    <testsuites>
+        <testsuite name="EXT:media functional tests">
+            <directory>../Functional/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <!-- Include only our own code for code coverage statistics -->
+            <directory>../../Classes</directory>
+        </whitelist>
+    </filter>
+</phpunit>
