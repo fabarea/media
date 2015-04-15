@@ -25,10 +25,12 @@ namespace TYPO3\CMS\Media\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
+
 /**
  * Test case for class \TYPO3\CMS\Media\Utility\Configuration.
  */
-class ConfigurationUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class ConfigurationUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctionalTestCase {
 
 	/**
 	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
@@ -36,6 +38,7 @@ class ConfigurationUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $fixture;
 
 	public function setUp() {
+		parent::setUp();
 		$this->fixture = new \TYPO3\CMS\Media\Utility\ConfigurationUtility();
 	}
 
