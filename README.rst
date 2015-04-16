@@ -1,9 +1,15 @@
-==================================
-Media for TYPO3 CMS |badge_travis|
-==================================
+=======================================================================
+Media for TYPO3 CMS |badge_travis| |badge_scrutinizer| |badge_coverage|
+=======================================================================
 
 .. |badge_travis| image:: https://travis-ci.org/fabarea/media.svg?branch=master
     :target: https://travis-ci.org/fabarea/media
+
+.. |badge_scrutinizer| image:: https://scrutinizer-ci.com/g/fabarea/media/badges/quality-score.png?b=master
+   :target: https://scrutinizer-ci.com/g/fabarea/media
+
+.. |badge_coverage| image:: https://scrutinizer-ci.com/g/fabarea/media/badges/coverage.png?b=master
+   :target: https://scrutinizer-ci.com/g/fabarea/media
 
 Media is a tool for managing Assets for TYPO3 CMS 6.1 and is logically built on the top of FAL. FAL, for those who are unfamiliar,
 is a the File Abstraction Layer introduced in TYPO3 6.0 which enables it to handle files in centralised way across the CMS.
