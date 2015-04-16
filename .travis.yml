@@ -6,7 +6,6 @@ php:
 
 env:
   - TYPO3_BRANCH=TYPO3_6-2
-  - TYPO3_BRANCH=TYPO3_7-0
   - TYPO3_BRANCH=TYPO3_7-1-0
   - TYPO3_BRANCH=master
 
@@ -17,7 +16,6 @@ matrix:
     - php: 5.4
       env: TYPO3_BRANCH=TYPO3_6-2
   allow_failures:
-    - env: TYPO3_BRANCH=TYPO3_7-0
     - env: TYPO3_BRANCH=TYPO3_7-1-0
     - env: TYPO3_BRANCH=master
   fast_finish: true
@@ -39,5 +37,12 @@ before_script:
 
 script:
   - cd typo3conf/ext/media && grunt build && cd ../../../
-  - ./bin/phpunit -c typo3conf/ext/media/Tests/Build/UnitTests.xml
-  - ./bin/phpunit -c typo3conf/ext/media/Tests/Build/FunctionalTests.xml
+  - ./bin/phpunit --coverage-clover=unit-tests-coverage.clover -c typo3conf/ext/media/Tests/Build/UnitTests.xml
+  - ./bin/phpunit --coverage-clover=functional-tests-coverage.clover -c typo3conf/ext/media/Tests/Build/FunctionalTests.xml
+
+after_script:
+  - echo "Uploading code coverage results";
+  - cp -R typo3conf/ext/media/.git .
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover unit-tests-coverage.clover
+  - php ocular.phar code-coverage:upload --format=php-clover functional-tests-coverage.clover
