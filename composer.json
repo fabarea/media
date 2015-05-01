@@ -1,11 +1,15 @@
 {
-	"name": "fab/media",
-	"type": "typo3-cms-extension",
-	"description": "Media management system for TYPO3 CMS.",
-	"homepage": "https://github.com/fabarea/media",
-	"license": ["GPL-2.0+"],
-	"keywords": ["TYPO3 CMS", "Media management"],
-	"support": {
-		"issues": "https://github.com/fabarea/media/issues"
-	}
+  "name": "fab/media",
+  "type": "typo3-cms-extension",
+  "description": "Media management system for TYPO3 CMS.",
+  "homepage": "https://github.com/fabarea/media",
+  "license": ["GPL-2.0+"],
+  "keywords": [
+    "TYPO3 CMS",
+    "Media management"
+  ],
+  "support": {
+    "issues": "https://github.com/fabarea/media/issues"
+  },
+  "version": "3.6.0-dev"
 }
