@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -26,17 +26,17 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\DomElement.
+ * Test case for class \Fab\Media\Utility\DomElement.
  */
 class DomElementTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\DomElement
+	 * @var \Fab\Media\Utility\DomElement
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\DomElement();
+		$this->fixture = new \Fab\Media\Utility\DomElement();
 	}
 
 	public function tearDown() {

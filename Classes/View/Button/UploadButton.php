@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\View\Button;
+namespace Fab\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Media\View\Button;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\ModuleParameter;
+use Fab\Media\Module\ModuleParameter;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
 
 /**
@@ -30,8 +30,8 @@ class UploadButton extends AbstractComponentView {
 	 */
 	public function render() {
 
-		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUpload */
-		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUpload');
+		/** @var $fileUpload \Fab\Media\Form\FileUpload */
+		$fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUpload');
 		return $fileUpload->setPrefix(ModuleParameter::PREFIX)->render();
 	}
 }

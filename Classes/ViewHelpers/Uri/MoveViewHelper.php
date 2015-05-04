@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Uri;
+namespace Fab\Media\ViewHelpers\Uri;
 
 /**
  * This file is part of the TYPO3 CMS project.

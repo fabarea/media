@@ -4,16 +4,16 @@ if (!defined('TYPO3_MODE')) {
 }
 
 // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
-\TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('TYPO3\CMS\Media\Index\TitleMetadataExtractor');
+\TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('Fab\Media\Index\TitleMetadataExtractor');
 
 // Hook for traditional file upload, trigger metadata indexing as well.
 // Could be done at the Core level in the future...
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_extfilefunc.php']['processData'][] = 'TYPO3\CMS\Media\Hook\FileUploadHook';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_extfilefunc.php']['processData'][] = 'Fab\Media\Hook\FileUploadHook';
 
 if (TYPO3_MODE == 'BE') {
 
 	// Special process to fill column "usage" which indicates the total number of file reference including soft references.
-	$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'TYPO3\CMS\Media\Hook\DataHandlerHook';
+	$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'Fab\Media\Hook\DataHandlerHook';
 
 	# Configuration for RTE
 	$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator'] = array();
@@ -27,14 +27,14 @@ if (TYPO3_MODE == 'BE') {
 	$TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['disableInFE'] = 1;
 
 	// Setting up scripts that can be run from the cli_dispatch.phpsh script.
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'TYPO3\CMS\Media\Command\FileCacheCommandController';
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'TYPO3\CMS\Media\Command\MissingFilesCommandController';
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'TYPO3\CMS\Media\Command\DuplicateFilesCommandController';
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'TYPO3\CMS\Media\Command\DuplicateRecordsCommandController';
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'TYPO3\CMS\Media\Command\ThumbnailCommandController';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\FileCacheCommandController';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\MissingFilesCommandController';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\DuplicateFilesCommandController';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\DuplicateRecordsCommandController';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\ThumbnailCommandController';
 
 	// Override classes for the Object Manager
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Backend\Form\FormEngine'] = array(
-		'className' => 'TYPO3\CMS\Media\Override\Backend\Form\FormEngine'
+		'className' => 'Fab\Media\Override\Backend\Form\FormEngine'
 	);
 }

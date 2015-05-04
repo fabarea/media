@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Handle a posted file encoded in base 64.
  */
-class Base64File extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
+class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract {
 
 	/**
 	 * @var string
@@ -47,7 +47,7 @@ class Base64File extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 	protected $extension;
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileUpload\Base64File
+	 * @return \Fab\Media\FileUpload\Base64File
 	 */
 	public function __construct() {
 
@@ -75,17 +75,17 @@ class Base64File extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
 	/**
 	 * Save the file to the specified path
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\EmptyPropertyException
+	 * @throws \Fab\Media\Exception\EmptyPropertyException
 	 * @return boolean TRUE on success
 	 */
 	public function save() {
 
 		if (is_null($this->uploadFolder)) {
-			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('Upload folder is not defined', 1362587741);
+			throw new \Fab\Media\Exception\EmptyPropertyException('Upload folder is not defined', 1362587741);
 		}
 
 		if (is_null($this->name)) {
-			throw new \TYPO3\CMS\Media\Exception\EmptyPropertyException('File name is not defined', 1362587742);
+			throw new \Fab\Media\Exception\EmptyPropertyException('File name is not defined', 1362587742);
 		}
 
 		return file_put_contents($this->getFileWithAbsolutePath(), $this->image) > 0;

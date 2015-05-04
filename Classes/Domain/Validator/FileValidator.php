@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Domain\Validator;
+namespace Fab\Media\Domain\Validator;
 
 /**
  * This file is part of the TYPO3 CMS project.

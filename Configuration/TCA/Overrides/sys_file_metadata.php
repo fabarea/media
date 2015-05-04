@@ -17,7 +17,7 @@ $tca = array(
 			'l10n_mode' => 'exclude',
 			'config' => array(
 				'type' => 'user',
-				'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:TYPO3\CMS\Media\Backend\TceForms->renderFileUpload',
+				'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:Fab\Media\Backend\TceForms->renderFileUpload',
 			),
 		),
 		'related_files' => array(

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -26,7 +26,7 @@ class MetadataRendererComponent extends GenericRendererComponent {
 	 * @param array $configuration
 	 */
 	public function __construct($configuration = array()) {
-		$className = 'TYPO3\CMS\Media\Grid\MetadataRenderer';
+		$className = 'Fab\Media\Grid\MetadataRenderer';
 		parent::__construct($className, $configuration);
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Exception;
+namespace Fab\Media\Exception;
 
 /**
  * This file is part of the TYPO3 CMS project.

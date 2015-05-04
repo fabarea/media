@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload\Optimizer;
+namespace Fab\Media\FileUpload\Optimizer;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface;
+use Fab\Media\FileUpload\ImageOptimizerInterface;
 
 /**
  * Class that optimize an image according to some settings.
@@ -46,8 +46,8 @@ class Resize implements ImageOptimizerInterface {
 	/**
 	 * Optimize the given uploaded image.
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface
 	 */
 	public function optimize($uploadedFile) {
 
@@ -67,8 +67,8 @@ class Resize implements ImageOptimizerInterface {
 
 		if (strlen($storageRecord['maximum_dimension_original_image']) > 0) {
 
-			/** @var \TYPO3\CMS\Media\Dimension $imageDimension */
-			$imageDimension = GeneralUtility::makeInstance('TYPO3\CMS\Media\Dimension', $storageRecord['maximum_dimension_original_image']);
+			/** @var \Fab\Media\Dimension $imageDimension */
+			$imageDimension = GeneralUtility::makeInstance('Fab\Media\Dimension', $storageRecord['maximum_dimension_original_image']);
 			if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
 
 				// resize taking the width as reference
@@ -125,9 +125,9 @@ class Resize implements ImageOptimizerInterface {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 }

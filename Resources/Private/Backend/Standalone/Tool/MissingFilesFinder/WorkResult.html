@@ -85,7 +85,7 @@
 					<f:form action="work" controller="Tool" extensionName="vidi" pluginName="user_VidiSysFileM1"
 					        additionalParams="{returnUrl: '{v:gp(argument: \'returnUrl\', encode: false)}'}">
 						<f:form.hidden name="arguments[deleteMissingFiles]" value="1"/>
-						<f:form.hidden name="tool" value="TYPO3\CMS\Media\Tool\MissingFilesFinderTool"/>
+						<f:form.hidden name="tool" value="Fab\Media\Tool\MissingFilesFinderTool"/>
 
 						<ul class="list-files">
 							<f:for each="{report.missingFiles}" as="missingFile">

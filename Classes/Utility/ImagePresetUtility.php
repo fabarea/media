@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -34,24 +34,24 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\ImagePresetUtility
+	 * @return \Fab\Media\Utility\ImagePresetUtility
 	 */
 	static public function getInstance() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ImagePresetUtility');
+		return GeneralUtility::makeInstance('Fab\Media\Utility\ImagePresetUtility');
 	}
 
 	/**
 	 * Set the current preset value. Preset values come from the settings and can be:
 	 * image_thumbnail, image_mini, image_small, image_medium, image_large
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\EmptyValueException
+	 * @throws \Fab\Media\Exception\EmptyValueException
 	 * @param string $preset image_thumbnail, image_mini, ...
-	 * @return \TYPO3\CMS\Media\Utility\ImagePresetUtility
+	 * @return \Fab\Media\Utility\ImagePresetUtility
 	 */
 	public function preset($preset){
 		$size = ConfigurationUtility::getInstance()->get($preset);
 		if (is_null($size)) {
-			throw new \TYPO3\CMS\Media\Exception\EmptyValueException('No value for preset: ' . $preset, 1362501066);
+			throw new \Fab\Media\Exception\EmptyValueException('No value for preset: ' . $preset, 1362501066);
 		}
 
 		$this->currentPreset = $preset;
@@ -81,12 +81,12 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns width of the current preset.
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException
+	 * @throws \Fab\Media\Exception\InvalidKeyInArrayException
 	 * @return int
 	 */
 	public function getWidth(){
 		if (empty($this->store[$this->currentPreset])) {
-			throw new \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException('No existing values for current preset. Have you set a preset?', 1362501853);
+			throw new \Fab\Media\Exception\InvalidKeyInArrayException('No existing values for current preset. Have you set a preset?', 1362501853);
 		}
 		return (int) $this->store[$this->currentPreset]['width'];
 	}
@@ -94,12 +94,12 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns height of the current preset.
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException
+	 * @throws \Fab\Media\Exception\InvalidKeyInArrayException
 	 * @return int
 	 */
 	public function getHeight() {
 		if (empty($this->store[$this->currentPreset])) {
-			throw new \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException('No existing values for current preset. Have you set a preset?', 1362501853);
+			throw new \Fab\Media\Exception\InvalidKeyInArrayException('No existing values for current preset. Have you set a preset?', 1362501853);
 		}
 		return (int) $this->store[$this->currentPreset]['height'];
 	}

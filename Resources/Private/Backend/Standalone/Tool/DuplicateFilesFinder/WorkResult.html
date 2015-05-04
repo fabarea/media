@@ -78,7 +78,7 @@
 					<f:form action="work" controller="Tool" extensionName="vidi" pluginName="user_VidiSysFileM1"
 					        additionalParams="{returnUrl: '{v:gp(argument: \'returnUrl\', encode: false)}'}">
 						<f:form.hidden name="arguments[deleteDuplicateFiles]" value="1"/>
-						<f:form.hidden name="tool" value="TYPO3\CMS\Media\Tool\DuplicateFilesFinderTool"/>
+						<f:form.hidden name="tool" value="Fab\Media\Tool\DuplicateFilesFinderTool"/>
 
 
 						<f:for each="{report.duplicateFiles}" key="sha1" as="records">
@@ -133,4 +133,4 @@
 </div>
 
 {namespace v=TYPO3\CMS\Vidi\ViewHelpers}
-{namespace m=TYPO3\CMS\Media\ViewHelpers}
+{namespace m=Fab\Media\ViewHelpers}

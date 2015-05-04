@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Domain\Validator;
+namespace Fab\Media\Domain\Validator;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -42,9 +42,9 @@ class StorageValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractV
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 }

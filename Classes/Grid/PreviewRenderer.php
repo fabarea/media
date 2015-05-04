@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -17,9 +17,9 @@ namespace TYPO3\CMS\Media\Grid;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\ModuleParameter;
-use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Thumbnail\ThumbnailInterface;
+use Fab\Media\Module\ModuleParameter;
+use Fab\Media\ObjectFactory;
+use Fab\Media\Thumbnail\ThumbnailInterface;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\Module\ModulePlugin;
 
@@ -65,17 +65,17 @@ class PreviewRenderer extends GridRendererAbstract {
 
 	/**
 	 * @param File $file
-	 * @return \TYPO3\CMS\Media\Thumbnail\ThumbnailService
+	 * @return \Fab\Media\Thumbnail\ThumbnailService
 	 */
 	protected function getThumbnailService(File $file) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
+		return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper
+	 * @return \Fab\Media\ViewHelpers\MetadataViewHelper
 	 */
 	protected function getMetadataViewHelper() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+		return GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
 	}
 
 	/**
@@ -94,9 +94,9 @@ class PreviewRenderer extends GridRendererAbstract {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
 	 */
 	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
+		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
 }

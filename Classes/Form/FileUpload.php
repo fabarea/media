@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form;
+namespace Fab\Media\Form;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -19,8 +19,8 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Media\Thumbnail\ThumbnailInterface;
-use TYPO3\CMS\Media\Utility\PermissionUtility;
+use Fab\Media\Thumbnail\ThumbnailInterface;
+use Fab\Media\Utility\PermissionUtility;
 
 /**
  * A class to render a file upload widget.
@@ -48,7 +48,7 @@ class FileUpload extends AbstractFormField {
 	protected $templateFile = 'Resources/Private/Backend/Standalone/FileUploadTemplate.html';
 
 	/**
-	 * @return \TYPO3\CMS\Media\Form\FileUpload
+	 * @return \Fab\Media\Form\FileUpload
 	 */
 	public function __construct() {
 		$this->addLanguage();
@@ -79,7 +79,7 @@ EOF;
 	/**
 	 * Render a file upload field.
 	 *
-	 * @throws \TYPO3\CMS\Media\Exception\EmptyPropertyException
+	 * @throws \Fab\Media\Exception\EmptyPropertyException
 	 * @return string
 	 */
 	public function render() {
@@ -108,8 +108,8 @@ EOF;
 		$thumbnail = '';
 		if ($this->file) {
 
-			/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
-			$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $this->file);
+			/** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
+			$thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $this->file);
 			$thumbnail = $thumbnailService
 				->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 				->setAppendTimeStamp(TRUE)
@@ -212,10 +212,10 @@ EOF;
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
 }

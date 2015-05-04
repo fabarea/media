@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form;
+namespace Fab\Media\Form;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,8 +15,8 @@ namespace TYPO3\CMS\Media\Form;
  */
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Media\Exception\InvalidStringException;
-use TYPO3\CMS\Media\Utility\DomElement;
+use Fab\Media\Exception\InvalidStringException;
+use Fab\Media\Utility\DomElement;
 
 /**
  * A class to render a field.
@@ -119,7 +119,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 	 *
 	 * @throws InvalidStringException
 	 * @param array $attribute associative array that contains attribute => value
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function addAttribute(array $attribute) {
 		if (!empty($attribute)) {
@@ -143,7 +143,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param string $template
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setTemplate($template) {
 		$this->template = $template;
@@ -158,7 +158,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param string $label
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setLabel($label) {
 		$this->label = $label;
@@ -174,7 +174,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param string $prefix
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setPrefix($prefix) {
 		$this->prefix = $prefix;
@@ -204,7 +204,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param string $value
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setValue($value) {
 		$this->value = $value;
@@ -224,7 +224,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param string $name
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setName($name) {
 		$this->name = $name;
@@ -243,7 +243,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param string $id
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setId($id) {
 		$this->id = $id;
@@ -259,7 +259,7 @@ abstract class AbstractFormField implements FormFieldInterface {
 
 	/**
 	 * @param array $attributes
-	 * @return \TYPO3\CMS\Media\Form\AbstractFormField
+	 * @return \Fab\Media\Form\AbstractFormField
 	 */
 	public function setAttributes($attributes) {
 		$this->attributes = $attributes;

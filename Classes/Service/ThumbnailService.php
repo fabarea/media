@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Service;
+namespace Fab\Media\Service;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -19,5 +19,5 @@ namespace TYPO3\CMS\Media\Service;
  *
  * @deprecated will be remove in Media 3.0 + 2 version.
  */
-class ThumbnailService extends \TYPO3\CMS\Media\Thumbnail\ThumbnailService {
+class ThumbnailService extends \Fab\Media\Thumbnail\ThumbnailService {
 }

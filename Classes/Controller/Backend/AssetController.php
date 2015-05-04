@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Controller\Backend;
+namespace Fab\Media\Controller\Backend;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -25,10 +25,10 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Media\FileUpload\UploadedFileInterface;
-use TYPO3\CMS\Media\ObjectFactory;
-use TYPO3\CMS\Media\Thumbnail\ThumbnailInterface;
-use TYPO3\CMS\Media\Thumbnail\ThumbnailService;
+use Fab\Media\FileUpload\UploadedFileInterface;
+use Fab\Media\ObjectFactory;
+use Fab\Media\Thumbnail\ThumbnailInterface;
+use Fab\Media\Thumbnail\ThumbnailService;
 use TYPO3\CMS\Vidi\Persistence\MatcherObjectFactory;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
@@ -49,7 +49,7 @@ class AssetController extends ActionController {
 	protected $dataType = 'sys_file';
 
 	/**
-	 * @throws \TYPO3\CMS\Media\Exception\StorageNotOnlineException
+	 * @throws \Fab\Media\Exception\StorageNotOnlineException
 	 */
 	public function initializeAction() {
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
@@ -57,8 +57,8 @@ class AssetController extends ActionController {
 		// Configure property mapping to retrieve the file object.
 		if ($this->arguments->hasArgument('file')) {
 
-			/** @var \TYPO3\CMS\Media\TypeConverter\FileConverter $typeConverter */
-			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\FileConverter');
+			/** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
 
 			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
 			$propertyMappingConfiguration->setTypeConverter($typeConverter);
@@ -66,8 +66,8 @@ class AssetController extends ActionController {
 
 		if ($this->arguments->hasArgument('storage')) {
 
-			/** @var \TYPO3\CMS\Media\TypeConverter\StorageConverter $typeConverter */
-			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\StorageConverter');
+			/** @var \Fab\Media\TypeConverter\StorageConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\StorageConverter');
 
 			$propertyMappingConfiguration = $this->arguments->getArgument('storage')->getPropertyMappingConfiguration();
 			$propertyMappingConfiguration->setTypeConverter($typeConverter);
@@ -103,7 +103,7 @@ class AssetController extends ActionController {
 	 * Handle file upload for a new file.
 	 *
 	 * @param int $storageIdentifier
-	 * @validate $storageIdentifier \TYPO3\CMS\Media\Domain\Validator\StorageValidator
+	 * @validate $storageIdentifier \Fab\Media\Domain\Validator\StorageValidator
 	 * @return string
 	 */
 	public function createAction($storageIdentifier) {
@@ -158,7 +158,7 @@ class AssetController extends ActionController {
 	 * Handle file upload for an existing file.
 	 *
 	 * @param int $fileIdentifier
-	 * @validate $fileIdentifier \TYPO3\CMS\Media\Domain\Validator\FileValidator
+	 * @validate $fileIdentifier \Fab\Media\Domain\Validator\FileValidator
 	 * @return string
 	 */
 	public function updateAction($fileIdentifier) {
@@ -245,15 +245,15 @@ class AssetController extends ActionController {
 	/**
 	 * Handle file upload.
 	 *
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface|array
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface|array
 	 */
 	protected function handleUpload() {
 
-		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
-		$uploadManager = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
+		/** @var $uploadManager \Fab\Media\FileUpload\UploadManager */
+		$uploadManager = GeneralUtility::makeInstance('Fab\Media\FileUpload\UploadManager');
 
 		try {
-			/** @var $result \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+			/** @var $result \Fab\Media\FileUpload\UploadedFileInterface */
 			$result = $uploadManager->handleUpload();
 		} catch (\Exception $e) {
 			$result = array('error' => $e->getMessage());
@@ -263,10 +263,10 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper
+	 * @return \Fab\Media\ViewHelpers\MetadataViewHelper
 	 */
 	protected function getMetadataViewHelper() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+		return GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
 	}
 
 	/**
@@ -276,7 +276,7 @@ class AssetController extends ActionController {
 	protected function getThumbnailService(File $file) {
 
 		/** @var $thumbnailService ThumbnailService */
-		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
+		$thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
 		$thumbnailService->setAppendTimeStamp(TRUE)
 			->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED);
 		return $thumbnailService;
@@ -286,17 +286,17 @@ class AssetController extends ActionController {
 	 * Get the instance of the Indexer service to update the metadata of the file.
 	 *
 	 * @param int|ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Index\MediaIndexer
+	 * @return \Fab\Media\Index\MediaIndexer
 	 */
 	protected function getMediaIndexer($storage) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\MediaIndexer', $storage);
+		return GeneralUtility::makeInstance('Fab\Media\Index\MediaIndexer', $storage);
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Cache\CacheService
+	 * @return \Fab\Media\Cache\CacheService
 	 */
 	protected function getCacheService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
+		return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
 	}
 
 	/**
@@ -307,7 +307,7 @@ class AssetController extends ActionController {
 	 * @signal
 	 */
 	protected function emitBeforeDownloadSignal(File $file) {
-		$this->getSignalSlotDispatcher()->dispatch('TYPO3\CMS\Media\Controller\Backend\AssetController', 'beforeDownload', array($file));
+		$this->getSignalSlotDispatcher()->dispatch('Fab\Media\Controller\Backend\AssetController', 'beforeDownload', array($file));
 	}
 
 	/**
@@ -329,10 +329,10 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
 }

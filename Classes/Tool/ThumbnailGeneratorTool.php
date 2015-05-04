@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Tool;
+namespace Fab\Media\Tool;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -104,10 +104,10 @@ class ThumbnailGeneratorTool extends AbstractTool {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Thumbnail\ThumbnailGenerator
+	 * @return \Fab\Media\Thumbnail\ThumbnailGenerator
 	 */
 	protected function getThumbnailGenerator() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailGenerator');
+		return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailGenerator');
 	}
 
 	/**

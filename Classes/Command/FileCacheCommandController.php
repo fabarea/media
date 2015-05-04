@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Command;
+namespace Fab\Media\Command;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -82,10 +82,10 @@ class FileCacheCommandController extends CommandController {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Cache\CacheService
+	 * @return \Fab\Media\Cache\CacheService
 	 */
 	protected function getCacheService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Cache\CacheService');
+		return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
 	}
 
 	/**

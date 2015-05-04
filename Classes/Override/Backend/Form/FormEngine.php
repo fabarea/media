@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Override\Backend\Form;
+namespace Fab\Media\Override\Backend\Form;
 
 /**
  * This file is part of the TYPO3 CMS project.

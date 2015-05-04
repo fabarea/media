@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -27,10 +27,10 @@ class PermissionUtility implements SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\PermissionUtility
+	 * @return \Fab\Media\Utility\PermissionUtility
 	 */
 	static public function getInstance() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\PermissionUtility');
+		return GeneralUtility::makeInstance('Fab\Media\Utility\PermissionUtility');
 	}
 
 	/**
@@ -78,10 +78,10 @@ class PermissionUtility implements SingletonInterface {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
 }

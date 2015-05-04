@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -35,16 +35,16 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\ConfigurationUtility
+	 * @return \Fab\Media\Utility\ConfigurationUtility
 	 */
 	static public function getInstance() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ConfigurationUtility');
+		return GeneralUtility::makeInstance('Fab\Media\Utility\ConfigurationUtility');
 	}
 
 	/**
 	 * Constructor
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\ConfigurationUtility
+	 * @return \Fab\Media\Utility\ConfigurationUtility
 	 */
 	public function __construct() {
 

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Tool;
+namespace Fab\Media\Tool;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -76,10 +76,10 @@ class DuplicateRecordsFinderTool extends AbstractTool {
 	/**
 	 * Return a pointer to the database.
 	 *
-	 * @return \TYPO3\CMS\Media\Index\IndexAnalyser
+	 * @return \Fab\Media\Index\IndexAnalyser
 	 */
 	protected function getIndexAnalyser() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\IndexAnalyser');
+		return GeneralUtility::makeInstance('Fab\Media\Index\IndexAnalyser');
 	}
 
 	/**

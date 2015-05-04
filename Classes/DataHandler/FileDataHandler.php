@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\DataHandler;
+namespace Fab\Media\DataHandler;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\DataHandler;
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\ObjectFactory;
+use Fab\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\DataHandler\AbstractDataHandler;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
@@ -96,10 +96,10 @@ class FileDataHandler extends AbstractDataHandler {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 * @return \Fab\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
 	}
 
 	/**

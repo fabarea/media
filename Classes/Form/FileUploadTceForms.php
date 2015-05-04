@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form;
+namespace Fab\Media\Form;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -65,8 +65,8 @@ class FileUploadTceForms extends FileUpload {
 	 * @return string
 	 */
 	protected function getFileInfo() {
-		/** @var \TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
-		$metadataViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Media\ViewHelpers\MetadataViewHelper');
+		/** @var \Fab\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
+		$metadataViewHelper = GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
 
 		return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
 			$metadataViewHelper->render($this->file)

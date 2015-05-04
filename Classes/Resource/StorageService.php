@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Resource;
+namespace Fab\Media\Resource;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\SessionUtility;
+use Fab\Media\Utility\SessionUtility;
 
 /**
  * Service for a Resource Storage.

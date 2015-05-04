@@ -72,29 +72,29 @@ if (TYPO3_MODE == 'BE') {
 			)
 		)
 		->setDocHeaderTopLeftComponents(
-			array('TYPO3\CMS\Media\View\Menu\StorageMenu')
+			array('Fab\Media\View\Menu\StorageMenu')
 		)
 		->setDocHeaderBottomLeftComponents(
-			array('TYPO3\CMS\Media\View\Button\UploadButton')
+			array('Fab\Media\View\Button\UploadButton')
 		)
 		->setGridTopComponents(
-			array('TYPO3\CMS\Media\View\Check\ConfigurationCheck')
+			array('Fab\Media\View\Check\ConfigurationCheck')
 		)
 		->setGridBottomComponents(
 			array(
-				'TYPO3\CMS\Media\View\Plugin\LinkCreatorPlugin',
-				'TYPO3\CMS\Media\View\Plugin\ImageEditorPlugin',
-				'TYPO3\CMS\Media\View\Plugin\FilePickerPlugin',
+				'Fab\Media\View\Plugin\LinkCreatorPlugin',
+				'Fab\Media\View\Plugin\ImageEditorPlugin',
+				'Fab\Media\View\Plugin\FilePickerPlugin',
 			)
 		)
 		->setGridButtonsComponents(
 			array(
-				'TYPO3\CMS\Media\View\Button\LinkCreatorButton',
-				'TYPO3\CMS\Media\View\Button\ImageEditorButton',
-				'TYPO3\CMS\Media\View\Button\FilePickerButton',
-				'TYPO3\CMS\Media\View\Button\EditButton',
-				'TYPO3\CMS\Media\View\Button\DownloadButton',
-				'TYPO3\CMS\Media\View\Button\DeleteButton',
+				'Fab\Media\View\Button\LinkCreatorButton',
+				'Fab\Media\View\Button\ImageEditorButton',
+				'Fab\Media\View\Button\FilePickerButton',
+				'Fab\Media\View\Button\EditButton',
+				'Fab\Media\View\Button\DownloadButton',
+				'Fab\Media\View\Button\DeleteButton',
 			)
 		)
 		->setMenuMassActionComponents(
@@ -105,8 +105,8 @@ if (TYPO3_MODE == 'BE') {
 				'TYPO3\CMS\Vidi\View\MenuItem\DividerMenuItem',
 
 				// Media custom View Helper
-				'TYPO3\CMS\Media\View\MenuItem\FilePickerMenuItem',
-				'TYPO3\CMS\Media\View\MenuItem\ChangeStorageMenuItem',
+				'Fab\Media\View\MenuItem\FilePickerMenuItem',
+				'Fab\Media\View\MenuItem\ChangeStorageMenuItem',
 				'TYPO3\CMS\Vidi\View\MenuItem\MassDeleteMenuItem',
 			)
 		)
@@ -119,24 +119,24 @@ if (TYPO3_MODE == 'BE') {
 	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
 
 	# Register some tool for Media
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\ThumbnailGeneratorTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\CacheWarmUpTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\MissingFilesFinderTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\DuplicateRecordsFinderTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\DuplicateFilesFinderTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\ThumbnailGeneratorTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\CacheWarmUpTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateRecordsFinderTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateFilesFinderTool');
 
 	// Connect some signals with slots
 	$signalSlotDispatcher->connect(
 		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
 		'postProcessMatcherObject',
-		'TYPO3\CMS\Media\Security\FilePermissionsAspect',
+		'Fab\Media\Security\FilePermissionsAspect',
 		'addFilePermissionsForFileStorages',
 		TRUE
 	);
 	$signalSlotDispatcher->connect(
 		'TYPO3\CMS\Vidi\Domain\Repository\ContentRepository',
 		'postProcessConstraintsObject',
-		'TYPO3\CMS\Media\Security\FilePermissionsAspect',
+		'Fab\Media\Security\FilePermissionsAspect',
 		'addFilePermissionsForFileMounts',
 		TRUE
 	);

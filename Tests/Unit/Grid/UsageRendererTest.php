@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 
 /***************************************************************
  *  Copyright notice
@@ -26,17 +26,17 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\UsageRenderer.
+ * Test case for class \Fab\Media\Grid\UsageRenderer.
  */
 class UsageRendererTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\UsageRenderer
+	 * @var \Fab\Media\Grid\UsageRenderer
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\UsageRenderer();
+		$this->fixture = new \Fab\Media\Grid\UsageRenderer();
 	}
 
 	public function tearDown() {
@@ -47,7 +47,7 @@ class UsageRendererTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function fixtureIsOfTypeGridRendererUsageRenderer() {
-		$this->assertInstanceOf('TYPO3\CMS\Media\Grid\UsageRenderer', $this->fixture);
+		$this->assertInstanceOf('Fab\Media\Grid\UsageRenderer', $this->fixture);
 	}
 }
 ?>

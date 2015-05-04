@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Thumbnail;
+namespace Fab\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Tool;
+namespace Fab\Media\Tool;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -113,17 +113,17 @@ class DuplicateFilesFinderTool extends AbstractTool {
 	/**
 	 * Return a pointer to the database.
 	 *
-	 * @return \TYPO3\CMS\Media\Index\IndexAnalyser
+	 * @return \Fab\Media\Index\IndexAnalyser
 	 */
 	protected function getIndexAnalyser() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\IndexAnalyser');
+		return GeneralUtility::makeInstance('Fab\Media\Index\IndexAnalyser');
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Thumbnail\ThumbnailGenerator
+	 * @return \Fab\Media\Thumbnail\ThumbnailGenerator
 	 */
 	protected function getThumbnailGenerator() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailGenerator');
+		return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailGenerator');
 	}
 
 	/**
@@ -143,10 +143,10 @@ class DuplicateFilesFinderTool extends AbstractTool {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 * @return \Fab\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload\Optimizer;
+namespace Fab\Media\FileUpload\Optimizer;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +14,7 @@ namespace TYPO3\CMS\Media\FileUpload\Optimizer;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface;
+use Fab\Media\FileUpload\ImageOptimizerInterface;
 
 /**
  * Class that optimize an image according to some settings.
@@ -27,7 +27,7 @@ class Rotate implements ImageOptimizerInterface {
 	protected $gifCreator;
 
 	/**
-	 * @return \TYPO3\CMS\Media\FileUpload\Optimizer\Rotate
+	 * @return \Fab\Media\FileUpload\Optimizer\Rotate
 	 */
 	public function __construct() {
 		$this->gifCreator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
@@ -37,8 +37,8 @@ class Rotate implements ImageOptimizerInterface {
 	/**
 	 * Optimize the given uploaded image
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface
 	 */
 	public function optimize($uploadedFile) {
 

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /***************************************************************
  *  Copyright notice
@@ -26,17 +26,17 @@ namespace TYPO3\CMS\Media\FileUpload;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\FileUpload\ImageOptimizer.
+ * Test case for class \Fab\Media\FileUpload\ImageOptimizer.
  */
 class ImageOptimizerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\FileUpload\ImageOptimizer
+	 * @var \Fab\Media\FileUpload\ImageOptimizer
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\FileUpload\ImageOptimizer();
+		$this->fixture = new \Fab\Media\FileUpload\ImageOptimizer();
 	}
 
 	public function tearDown() {
@@ -47,8 +47,8 @@ class ImageOptimizerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function checkOptimizersPropertyContainsDefaultValues() {
-		$this->assertAttributeContains('TYPO3\CMS\Media\FileUpload\Optimizer\Resize', 'optimizers', $this->fixture);
-		$this->assertAttributeContains('TYPO3\CMS\Media\FileUpload\Optimizer\Rotate', 'optimizers', $this->fixture);
+		$this->assertAttributeContains('Fab\Media\FileUpload\Optimizer\Resize', 'optimizers', $this->fixture);
+		$this->assertAttributeContains('Fab\Media\FileUpload\Optimizer\Rotate', 'optimizers', $this->fixture);
 	}
 
 	/**

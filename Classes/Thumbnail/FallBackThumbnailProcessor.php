@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Thumbnail;
+namespace Fab\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -13,7 +13,7 @@ namespace TYPO3\CMS\Media\Thumbnail;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use TYPO3\CMS\Media\Utility\Path;
+use Fab\Media\Utility\Path;
 
 /**
  * Fallback thumbnail processor.

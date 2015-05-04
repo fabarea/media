@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers;
+namespace Fab\Media\ViewHelpers;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Media\ViewHelpers;
  */
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Media\Utility\ImagePresetUtility;
+use Fab\Media\Utility\ImagePresetUtility;
 
 /**
  * View helper which returns default preset values related to an image dimension

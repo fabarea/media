@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Formatter;
+namespace Fab\Media\Formatter;
 
 /***************************************************************
  *  Copyright notice
@@ -26,18 +26,18 @@ namespace TYPO3\CMS\Media\Formatter;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Formatter\Date.
+ * Test case for class \Fab\Media\Formatter\Date.
  */
 class DateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Formatter\Date
+	 * @var \Fab\Media\Formatter\Date
 	 */
 	private $fixture;
 
 	public function setUp() {
 		date_default_timezone_set('GMT');
-		$this->fixture = new \TYPO3\CMS\Media\Formatter\Date();
+		$this->fixture = new \Fab\Media\Formatter\Date();
 	}
 
 	public function tearDown() {

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Module;
+namespace Fab\Media\Module;
 
 /**
  * This file is part of the TYPO3 CMS project.

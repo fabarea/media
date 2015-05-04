@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -24,7 +24,7 @@ class CategoryRendererComponent extends GenericRendererComponent {
 	 * Constructor for a "Category" Grid Renderer Component.
 	 */
 	public function __construct() {
-		$className = 'TYPO3\CMS\Media\Grid\CategoryRenderer';
+		$className = 'Fab\Media\Grid\CategoryRenderer';
 		parent::__construct($className, array());
 	}
 }
