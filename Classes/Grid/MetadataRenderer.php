@@ -14,6 +14,7 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Vidi\Tca\FieldType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
@@ -42,11 +43,11 @@ class MetadataRenderer extends GridRendererAbstract {
 
 		// Avoid bad surprise, converts characters to HTML.
 		$fieldType = TcaService::table('sys_file_metadata')->field($propertyName)->getType();
-		if ($fieldType !== TcaService::TEXTAREA) {
+		if ($fieldType !== FieldType::TEXTAREA) {
 			$result = htmlentities($result);
-		} elseif ($fieldType === TcaService::TEXTAREA && !$this->isClean($result)) {
+		} elseif ($fieldType === FieldType::TEXTAREA && !$this->isClean($result)) {
 			$result = htmlentities($result);
-		} elseif ($fieldType === TcaService::TEXTAREA && !$this->hasHtml($result)) {
+		} elseif ($fieldType === FieldType::TEXTAREA && !$this->hasHtml($result)) {
 			$result = nl2br($result);
 		}
 
