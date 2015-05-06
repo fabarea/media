@@ -16,7 +16,7 @@ namespace Fab\Media\Grid;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\ObjectFactory;
-use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
+use Fab\Vidi\Grid\GridRendererAbstract;
 
 /**
  * Class rendering category list of an asset in the grid.

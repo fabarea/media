@@ -19,9 +19,9 @@ use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
+use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\ObjectFactory;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
+use Fab\Vidi\Domain\Model\Content;
 
 /**
  * View which renders a "edit" button to be placed in the grid.

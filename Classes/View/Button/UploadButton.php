@@ -16,7 +16,7 @@ namespace Fab\Media\View\Button;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Module\ModuleParameter;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
+use Fab\Vidi\View\AbstractComponentView;
 
 /**
  * View which renders a button for uploading assets.

@@ -20,8 +20,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Module\ModuleParameter;
 use Fab\Media\ObjectFactory;
 use Fab\Media\Thumbnail\ThumbnailInterface;
-use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
-use TYPO3\CMS\Vidi\Module\ModulePlugin;
+use Fab\Vidi\Grid\GridRendererAbstract;
+use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * Class rendering the preview of a media in the Grid.

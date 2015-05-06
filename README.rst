@@ -128,7 +128,7 @@ The code could look like this in your Fluid template::
 	</f:if>
 
 	{namespace m=Fab\Media\ViewHelpers}
-	{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
+	{namespace v=Fab\Vidi\ViewHelpers}
 
 
 A more complex example here, we want to retrieve the same as before but all files belonging to categories 1,2 sorted by title as addition.
@@ -160,11 +160,11 @@ TODO: long term the aim would be to save a selection in the BE and retrieve on t
 The same can be achieved in a programming way::
 
 	// Get the Content Repository for sys_file.
-	$contentRepository = \TYPO3\CMS\Vidi\Domain\Repository\ContentRepositoryFactory::getInstance('sys_file');
+	$contentRepository = \Fab\Vidi\Domain\Repository\ContentRepositoryFactory::getInstance('sys_file');
 
 	// Initialize a Matcher object.
-	/** @var \TYPO3\CMS\Vidi\Persistence\Matcher $matcher */
-	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Persistence\Matcher');
+	/** @var \Fab\Vidi\Persistence\Matcher $matcher */
+	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Persistence\Matcher');
 
 	// Add some criteria.
 	$matcher->equals('storage', '1');
@@ -254,7 +254,7 @@ Media Tools
 Tools are registered through the Tool API provided by Vidi in ``ext_tables.php`` and can be accessed by clicking the upper right icon in the BE
 module. Those tools are visible for Admin only::
 
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
+	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
 
 Analyse File index
 ------------------

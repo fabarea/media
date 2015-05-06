@@ -14,7 +14,7 @@ namespace Fab\Media\Tool;
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Tool\AbstractTool;
+use Fab\Vidi\Tool\AbstractTool;
 
 /**
  * Cache warm up tool for the Media module.

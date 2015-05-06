@@ -15,7 +15,7 @@ namespace Fab\Media\Grid;
  */
 
 use Fab\Media\ObjectFactory;
-use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
+use Fab\Vidi\Grid\GridRendererAbstract;
 
 /**
  * Class rendering permission in the grid.

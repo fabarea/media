@@ -13,7 +13,7 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Vidi\Grid\GenericRendererComponent;
+use Fab\Vidi\Grid\GenericRendererComponent;
 
 /**
  * Class for configuring a "Category" Grid Renderer in the Grid TCA.

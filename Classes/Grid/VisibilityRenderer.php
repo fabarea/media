@@ -17,7 +17,7 @@ namespace Fab\Media\Grid;
 /**
  * Class rendering visibility for the Grid.
  */
-class VisibilityRenderer extends \TYPO3\CMS\Vidi\Grid\GridRendererAbstract {
+class VisibilityRenderer extends \Fab\Vidi\Grid\GridRendererAbstract {
 
 	/**
 	 * Render visibility for the Grid.

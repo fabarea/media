@@ -17,7 +17,7 @@ namespace Fab\Media\ViewHelpers\File;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
+use Fab\Vidi\Domain\Model\Content;
 
 /**
  * View helper which returns the File Uri.

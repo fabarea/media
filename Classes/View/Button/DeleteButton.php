@@ -16,8 +16,8 @@ namespace Fab\Media\View\Button;
 
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
+use Fab\Vidi\View\AbstractComponentView;
+use Fab\Vidi\Domain\Model\Content;
 
 /**
  * View which renders a "delete" button to be placed in the grid.
@@ -27,7 +27,7 @@ class DeleteButton extends AbstractComponentView {
 	/**
 	 * Renders a "delete" button to be placed in the grid.
 	 *
-	 * @param \TYPO3\CMS\Vidi\Domain\Model\Content $object
+	 * @param \Fab\Vidi\Domain\Model\Content $object
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {

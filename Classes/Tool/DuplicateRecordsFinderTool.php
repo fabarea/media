@@ -16,7 +16,7 @@ namespace Fab\Media\Tool;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Tool\AbstractTool;
+use Fab\Vidi\Tool\AbstractTool;
 
 /**
  * Search for duplicate files having the same "sha1" and process them.

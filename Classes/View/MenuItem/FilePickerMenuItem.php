@@ -17,8 +17,8 @@ namespace Fab\Media\View\MenuItem;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use Fab\Media\Module\ModuleParameter;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Vidi\Module\ModulePlugin;
+use Fab\Vidi\View\AbstractComponentView;
+use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders a "file picker" menu item to be placed in the grid menu for Media.

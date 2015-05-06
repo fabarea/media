@@ -14,9 +14,9 @@ namespace Fab\Media\View\Plugin;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
+use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
-use TYPO3\CMS\Vidi\Module\ModulePlugin;
+use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders content for file picker plugin.

@@ -16,9 +16,9 @@ namespace Fab\Media\View\Plugin;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Fab\Media\Module\ModuleParameter;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
+use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
-use TYPO3\CMS\Vidi\Module\ModulePlugin;
+use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders content for image editor plugin.

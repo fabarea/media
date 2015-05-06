@@ -117,10 +117,10 @@ class StorageService implements SingletonInterface {
 	/**
 	 * Return the module loader.
 	 *
-	 * @return \TYPO3\CMS\Vidi\Module\ModuleLoader
+	 * @return \Fab\Vidi\Module\ModuleLoader
 	 */
 	public function getModuleLoader() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Module\ModuleLoader');
+		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
 	}
 
 	/**

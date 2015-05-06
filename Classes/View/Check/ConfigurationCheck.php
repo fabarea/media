@@ -15,8 +15,8 @@ namespace Fab\Media\View\Check;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Tca\Tca;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
+use Fab\Vidi\Tca\Tca;
+use Fab\Vidi\View\AbstractComponentView;
 
 /**
  * View which renders a button for uploading assets.

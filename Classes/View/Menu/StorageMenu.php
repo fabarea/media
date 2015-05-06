@@ -16,7 +16,7 @@ namespace Fab\Media\View\Menu;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
+use Fab\Vidi\View\AbstractComponentView;
 
 /**
  * View which renders a dropdown menu for storage.
@@ -24,7 +24,7 @@ use TYPO3\CMS\Vidi\View\AbstractComponentView;
 class StorageMenu extends AbstractComponentView {
 
 	/**
-	 * @var \TYPO3\CMS\Vidi\Module\ModuleLoader
+	 * @var \Fab\Vidi\Module\ModuleLoader
 	 * @inject
 	 */
 	protected $moduleLoader;

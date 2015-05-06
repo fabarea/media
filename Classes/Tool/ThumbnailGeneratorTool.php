@@ -16,7 +16,7 @@ namespace Fab\Media\Tool;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Tool\AbstractTool;
+use Fab\Vidi\Tool\AbstractTool;
 
 /**
  * Thumbnail generator tool for the Media module.

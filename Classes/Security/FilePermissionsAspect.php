@@ -16,8 +16,8 @@ namespace Fab\Media\Security;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Persistence\Matcher;
-use TYPO3\CMS\Vidi\Persistence\Query;
+use Fab\Vidi\Persistence\Matcher;
+use Fab\Vidi\Persistence\Query;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 
 /**

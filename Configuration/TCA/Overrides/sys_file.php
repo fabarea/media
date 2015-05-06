@@ -36,13 +36,13 @@ $tca = array(
 	'grid' => array(
 		'facets' => array(
 			'uid',
-			new \TYPO3\CMS\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
+			new \Fab\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
 			'name',
 			'identifier',
 			'metadata.title',
 			'metadata.description',
 			'metadata.categories',
-			new \TYPO3\CMS\Vidi\Facet\StandardFacet(
+			new \Fab\Vidi\Facet\StandardFacet(
 				'number_of_references',
 				'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 				array('0', '1', '2', '3', 'etc...') // auto-suggestions
@@ -50,7 +50,7 @@ $tca = array(
 		),
 		'columns' => array(
 			'__checkbox' => array(
-				'renderer' => new TYPO3\CMS\Vidi\Grid\CheckBoxComponent(),
+				'renderer' => new Fab\Vidi\Grid\CheckBoxComponent(),
 			),
 			'uid' => array(
 				'visible' => FALSE,
@@ -85,7 +85,7 @@ $tca = array(
 			),
 			'metadata.categories' => array(
 				'renderers' => array(
-					new \TYPO3\CMS\Vidi\Grid\RelationEditRendererComponent(),
+					new \Fab\Vidi\Grid\RelationEditRendererComponent(),
 					new \Fab\Media\Grid\CategoryRendererComponent(),
 				),
 				'editable' => TRUE,
@@ -124,7 +124,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 				),
 				'metadata.fe_groups' => array(
 					'renderers' => array(
-						new \TYPO3\CMS\Vidi\Grid\RelationEditRendererComponent(),
+						new \Fab\Vidi\Grid\RelationEditRendererComponent(),
 						new \Fab\Media\Grid\FrontendPermissionRendererComponent(),
 					),
 					'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
@@ -172,7 +172,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 
 // Control buttons such as edit, delete, etc... must be set at the end in any case.
 $tca['grid']['columns']['__buttons'] = array(
-	'renderer' => new TYPO3\CMS\Vidi\Grid\ButtonGroupComponent(),
+	'renderer' => new Fab\Vidi\Grid\ButtonGroupComponent(),
 );
 
 \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file'], $tca);

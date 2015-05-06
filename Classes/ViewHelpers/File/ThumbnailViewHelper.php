@@ -17,7 +17,7 @@ namespace Fab\Media\ViewHelpers\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Fab\Media\Utility\ImagePresetUtility;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
+use Fab\Vidi\Domain\Model\Content;
 
 /**
  * View helper which returns a configurable thumbnail for a File.
@@ -28,7 +28,7 @@ class ThumbnailViewHelper extends AbstractViewHelper {
 	 * @return void
 	 */
 	public function initializeArguments() {
-		$this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|TYPO3\CMS\Vidi\Domain\Model\Content', 'The source file', FALSE, NULL);
+		$this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content', 'The source file', FALSE, NULL);
 		$this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
 		$this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
 		$this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');

@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Domain\Model\Selection;
+use Fab\Vidi\Domain\Model\Selection;
 
 /**
  * Thumbnail Generator for generating thumbnails in batch.
@@ -195,7 +195,7 @@ class ThumbnailGenerator {
 	}
 
 	/**
-	 * @param \TYPO3\CMS\Vidi\Domain\Model\Selection $selection
+	 * @param \Fab\Vidi\Domain\Model\Selection $selection
 	 * @return $this
 	 */
 	public function setSelection($selection) {

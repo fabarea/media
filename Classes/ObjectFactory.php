@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
+use Fab\Vidi\Domain\Model\Content;
 
 /**
  * Factory class for Media objects.

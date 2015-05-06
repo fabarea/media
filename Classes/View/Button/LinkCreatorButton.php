@@ -18,9 +18,9 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Media\Module\ModuleParameter;
-use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
-use TYPO3\CMS\Vidi\Module\ModulePlugin;
+use Fab\Vidi\View\AbstractComponentView;
+use Fab\Vidi\Domain\Model\Content;
+use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders a "link-creator" button to be placed in the grid.

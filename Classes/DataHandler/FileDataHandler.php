@@ -17,8 +17,8 @@ namespace Fab\Media\DataHandler;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\ObjectFactory;
-use TYPO3\CMS\Vidi\DataHandler\AbstractDataHandler;
-use TYPO3\CMS\Vidi\Domain\Model\Content;
+use Fab\Vidi\DataHandler\AbstractDataHandler;
+use Fab\Vidi\Domain\Model\Content;
 
 /**
  * Special Data Handler for File.

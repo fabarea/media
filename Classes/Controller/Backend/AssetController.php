@@ -29,7 +29,7 @@ use Fab\Media\FileUpload\UploadedFileInterface;
 use Fab\Media\ObjectFactory;
 use Fab\Media\Thumbnail\ThumbnailInterface;
 use Fab\Media\Thumbnail\ThumbnailService;
-use TYPO3\CMS\Vidi\Persistence\MatcherObjectFactory;
+use Fab\Vidi\Persistence\MatcherObjectFactory;
 use Fab\Vidi\Tca\Tca;
 
 /**
@@ -322,10 +322,10 @@ class AssetController extends ActionController {
 	/**
 	 * Get the Vidi Module Loader.
 	 *
-	 * @return \TYPO3\CMS\Vidi\Service\ContentService
+	 * @return \Fab\Vidi\Service\ContentService
 	 */
 	protected function getContentService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Service\ContentService', $this->dataType);
+		return GeneralUtility::makeInstance('Fab\Vidi\Service\ContentService', $this->dataType);
 	}
 
 	/**

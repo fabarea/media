@@ -57,8 +57,8 @@ if (TYPO3_MODE == 'BE') {
 		)
 	);
 
-	/** @var \TYPO3\CMS\Vidi\Module\ModuleLoader $moduleLoader */
-	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Vidi\Module\ModuleLoader', 'sys_file');
+	/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
+	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader', 'sys_file');
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
 		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
 		->addJavaScriptFiles(
@@ -99,15 +99,15 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setMenuMassActionComponents(
 			array(
-				'TYPO3\CMS\Vidi\View\MenuItem\ExportXlsMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\ExportXmlMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\ExportCsvMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\DividerMenuItem',
+				'Fab\Vidi\View\MenuItem\ExportXlsMenuItem',
+				'Fab\Vidi\View\MenuItem\ExportXmlMenuItem',
+				'Fab\Vidi\View\MenuItem\ExportCsvMenuItem',
+				'Fab\Vidi\View\MenuItem\DividerMenuItem',
 
 				// Media custom View Helper
 				'Fab\Media\View\MenuItem\FilePickerMenuItem',
 				'Fab\Media\View\MenuItem\ChangeStorageMenuItem',
-				'TYPO3\CMS\Vidi\View\MenuItem\MassDeleteMenuItem',
+				'Fab\Vidi\View\MenuItem\MassDeleteMenuItem',
 			)
 		)
 		->register();
@@ -119,22 +119,22 @@ if (TYPO3_MODE == 'BE') {
 	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
 
 	# Register some tool for Media
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\ThumbnailGeneratorTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\CacheWarmUpTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateRecordsFinderTool');
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateFilesFinderTool');
+	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\ThumbnailGeneratorTool');
+	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\CacheWarmUpTool');
+	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
+	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateRecordsFinderTool');
+	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateFilesFinderTool');
 
 	// Connect some signals with slots
 	$signalSlotDispatcher->connect(
-		'TYPO3\CMS\Vidi\Controller\Backend\ContentController',
+		'Fab\Vidi\Controller\Backend\ContentController',
 		'postProcessMatcherObject',
 		'Fab\Media\Security\FilePermissionsAspect',
 		'addFilePermissionsForFileStorages',
 		TRUE
 	);
 	$signalSlotDispatcher->connect(
-		'TYPO3\CMS\Vidi\Domain\Repository\ContentRepository',
+		'Fab\Vidi\Domain\Repository\ContentRepository',
 		'postProcessConstraintsObject',
 		'Fab\Media\Security\FilePermissionsAspect',
 		'addFilePermissionsForFileMounts',
