@@ -1,30 +1,49 @@
 <style>
+	.file-identifier {
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
 	ul {
 		list-style-type: none;
+		margin: 0 0 0 1px;
+		padding: 0;
+	}
+	ul.list-files li {
+		margin: 0;
+		line-height: 15px;
+	}
+	ul.list-files li label {
+		margin-bottom: 0;
+		line-height: 15px;
+		min-height: 15px;
+	}
+	.checkbox-placeholder {
+		display: inline-block;
+		width: 15px;
+	}
+	.checkbox-file {
+		margin-bottom: 5px !important;
+	}
+	.deleting-disabled-notice {
+		margin-bottom: 8px;
+		line-height: 15px;
 	}
 </style>
 
-<script type="text/javascript">
+<script>
 
 	(function($) {
 		$(function() {
 
 			/**
-			 * Check or un check all check box
+			 * Check or un check all check boxes
 			 */
-
-			$('.checkbox-file').click(function() {
-				var currentId = $(this).attr('id');
-
-				$(this).closest('.list-files')
-						.find('.checkbox-file')
-						.each(function() {
-							// check un-check box except current one.
-							if (!$(this).is(':checked') && $(this).attr('id') !== currentId) {
-								$(this).prop('checked', true);
-							}
-						});
+			$('.toggleSelection').click (function () {
+				var target = $(this).attr('data-target');
+				var checkboxes = $(target + ' :checkbox');
+				checkboxes.prop("checked", !checkboxes.prop("checked"));
 			});
+
 		});
 	})(jQuery);
 </script>
@@ -65,7 +84,7 @@
 
 	<f:for each="{duplicateFilesReports}" as="report">
 
-		<div style="font-weight: bold; margin-bottom: 10px">{report.storage.name} ({report.storage.uid})</div>
+		<div style="font-weight: bold; margin-bottom: 10px">Storage "{report.storage.name}" (UID {report.storage.uid})</div>
 
 		<f:if condition="{report.duplicateFiles}">
 			<f:then>
@@ -73,39 +92,55 @@
 					{report.numberOfDuplicateFiles} case<f:if condition="{report.numberOfDuplicateFiles} > 1">s</f:if> of duplicated files!
 				</div>
 
-				<div>
+				<p>
+					<button class="toggleSelection" data-target="#report-storage-{report.storage.uid}">
+						<span title="Toggle selection" class="t3-icon t3-icon-actions t3-icon-actions-document t3-icon-document-select"></span>
+						Check/uncheck all
+					</button>
+				</p>
 
-					<f:form action="work" controller="Tool" extensionName="vidi" pluginName="user_VidiSysFileM1"
+				<div id="report-storage-{report.storage.uid}">
+					<f:form action="work" class="" controller="Tool" extensionName="vidi" pluginName="user_VidiSysFileM1"
 					        additionalParams="{returnUrl: '{v:gp(argument: \'returnUrl\', encode: false)}'}">
 						<f:form.hidden name="arguments[deleteDuplicateFiles]" value="1"/>
 						<f:form.hidden name="tool" value="TYPO3\CMS\Media\Tool\DuplicateFilesFinderTool"/>
 
 
 						<f:for each="{report.duplicateFiles}" key="sha1" as="records">
+							<div class="file-identifier">File with hash <strong>{sha1}</strong>:</div>
 							<ul class="list-files">
 								<f:for each="{records}" as="record" iteration="iterator">
 									<li>
 										<label>
-											<f:form.checkbox name="arguments[files][]" value="{record.uid}"
-											                 id="checkbox-{record.uid}"
-											                 class="checkbox-file"
-											                 checked="{iterator.index}"/>
-											Uid file "{record.uid}" with identifier "<a href="/{m:file.uri(file: '{record.uid}')}" target="_blank">{record.identifier}</a>".
-											<f:if condition="{record.number_of_references} > 0">
-												<strong>
-													File has {record.number_of_references}
-													reference<f:if condition="{record.number_of_references} > 1">s</f:if> and can not be deleted!
-												</strong>
-											</f:if>
-											<f:if condition="{m:file.exists(file: '{record.uid}')} == 0">
-												<strong style="color: red">
-													File is missing!
-												</strong>
-											</f:if>
+											<div class="checkbox-placeholder">
+												<f:if condition="{record.number_of_references} == 0">
+													<f:form.checkbox name="arguments[files][]" value="{record.uid}"
+														 id="checkbox-{record.uid}"
+														 class="checkbox-file"
+														 checked="1"/>
+												</f:if>
+											</div>
+											<a href="/{m:file.uri(file: '{record.uid}')}" target="_blank">{record.identifier}</a> (UID {record.uid})
 										</label>
+										<f:if condition="{record.number_of_references} > 0">
+											<div class="deleting-disabled-notice">
+												<div class="checkbox-placeholder"></div>
+												<div style="display: inline-block;">
+													File has {record.number_of_references}
+													reference<f:if condition="{record.number_of_references} > 1">s</f:if> and cannot be deleted!
+												</div>
+											</div>
+										</f:if>
+										<f:if condition="{m:file.exists(file: '{record.uid}')} == 0">
+											<div class="deleting-disabled-notice">
+												<div class="checkbox-placeholder"></div>
+												<div style="display: inline-block; color: red;">
+													File is missing!
+												</div>
+											</div>
+										</f:if>
 									</li>
 								</f:for>
-								<li>having same identifier <strong>{sha1}</strong>.</li>
 							</ul>
 
 							<hr/>
@@ -117,9 +152,6 @@
 						</div>
 					</f:form>
 				</div>
-
-
-				<hr/>
 			</f:then>
 			<f:else>
 				<div class="alert alert-success">
