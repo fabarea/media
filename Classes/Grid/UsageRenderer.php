@@ -20,7 +20,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
-use TYPO3\CMS\Vidi\Tca\TcaService;
+use Fab\Vidi\Tca\Tca;
 
 /**
  * Class rendering usage of an asset in the grid.
@@ -103,7 +103,7 @@ class UsageRenderer extends GridRendererAbstract {
 				$reference[$mapping['tableName']],
 				$reference[$mapping['referenceIdentifier']],
 				IconUtility::getSpriteIcon('actions-document-open'),
-				TcaService::table($reference[$mapping['tableName']])->getTitle()
+				Tca::table($reference[$mapping['tableName']])->getTitle()
 			);
 		}
 		return $result;
@@ -121,7 +121,7 @@ class UsageRenderer extends GridRendererAbstract {
 		$result = '';
 		if ($tableName && (int)$identifier > 0) {
 
-			$labelField = TcaService::table($tableName)->getLabelField();
+			$labelField = Tca::table($tableName)->getLabelField();
 
 			// Get the title of the record.
 			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(

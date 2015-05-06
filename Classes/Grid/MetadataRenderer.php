@@ -18,7 +18,7 @@ use Fab\Vidi\Tca\FieldType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
-use TYPO3\CMS\Vidi\Tca\TcaService;
+use Fab\Vidi\Tca\Tca;
 
 /**
  * Class for rendering a configurable metadata property of a file in the Grid.
@@ -42,7 +42,7 @@ class MetadataRenderer extends GridRendererAbstract {
 		$result = $file->getProperty($propertyName);
 
 		// Avoid bad surprise, converts characters to HTML.
-		$fieldType = TcaService::table('sys_file_metadata')->field($propertyName)->getType();
+		$fieldType = Tca::table('sys_file_metadata')->field($propertyName)->getType();
 		if ($fieldType !== FieldType::TEXTAREA) {
 			$result = htmlentities($result);
 		} elseif ($fieldType === FieldType::TEXTAREA && !$this->isClean($result)) {

@@ -30,7 +30,7 @@ use Fab\Media\ObjectFactory;
 use Fab\Media\Thumbnail\ThumbnailInterface;
 use Fab\Media\Thumbnail\ThumbnailService;
 use TYPO3\CMS\Vidi\Persistence\MatcherObjectFactory;
-use TYPO3\CMS\Vidi\Tca\TcaService;
+use Fab\Vidi\Tca\Tca;
 
 /**
  * Controller which handles actions related to Asset.
@@ -222,7 +222,7 @@ class AssetController extends ActionController {
 	public function editStorageAction(array $matches = array()) {
 
 		$this->view->assign('storages', $this->getStorageService()->findByBackendUser());
-		$this->view->assign('storageTitle', TcaService::table('sys_file_storage')->getTitle());
+		$this->view->assign('storageTitle', Tca::table('sys_file_storage')->getTitle());
 
 		$fieldName = 'storage';
 
@@ -232,7 +232,7 @@ class AssetController extends ActionController {
 		// Fetch objects via the Content Service.
 		$contentService = $this->getContentService()->findBy($matcher);
 
-		$fieldType = TcaService::table($this->dataType)->field($fieldName)->getType();
+		$fieldType = Tca::table($this->dataType)->field($fieldName)->getType();
 
 		$this->view->assign('fieldType', ucfirst($fieldType));
 		$this->view->assign('dataType', $this->dataType);
