@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -28,18 +28,18 @@ namespace TYPO3\CMS\Media\Utility;
 require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\Configuration.
+ * Test case for class \Fab\Media\Utility\Configuration.
  */
-class ConfigurationUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctionalTestCase {
+class ConfigurationUtilityTest extends \Fab\Media\Tests\Functional\AbstractFunctionalTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\ConfigurationUtility
+	 * @var \Fab\Media\Utility\ConfigurationUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
 		parent::setUp();
-		$this->fixture = new \TYPO3\CMS\Media\Utility\ConfigurationUtility();
+		$this->fixture = new \Fab\Media\Utility\ConfigurationUtility();
 	}
 
 	public function tearDown() {

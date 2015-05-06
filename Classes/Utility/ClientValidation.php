@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -22,10 +22,10 @@ class ClientValidation implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\ClientValidation
+	 * @return \Fab\Media\Utility\ClientValidation
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\ClientValidation');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Utility\ClientValidation');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class ClientValidation implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function get($fieldName){
 		$result = '';
-		if (\TYPO3\CMS\Media\Utility\TcaField::getService()->isRequired($fieldName)) {
+		if (\Fab\Media\Utility\TcaField::getService()->isRequired($fieldName)) {
 			$result = ' validate[required]';
 		}
 		return $result;

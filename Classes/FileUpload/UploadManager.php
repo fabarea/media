@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,8 +15,8 @@ namespace TYPO3\CMS\Media\FileUpload;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Exception\FailedFileUploadException;
-use TYPO3\CMS\Media\Utility\PermissionUtility;
+use Fab\Media\Exception\FailedFileUploadException;
+use Fab\Media\Utility\PermissionUtility;
 
 /**
  * Class that encapsulates the file-upload internals
@@ -82,15 +82,15 @@ class UploadManager {
 		if ($this->formUtility->isMultiparted()) {
 
 			// Default case
-			$uploadedFile = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\MultipartedFile');
+			$uploadedFile = GeneralUtility::makeInstance('Fab\Media\FileUpload\MultipartedFile');
 		} elseif ($this->formUtility->isOctetStreamed()) {
 
 			// Fine Upload plugin would use it if forceEncoded = false and paramsInBody = false
-			$uploadedFile = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\StreamedFile');
+			$uploadedFile = GeneralUtility::makeInstance('Fab\Media\FileUpload\StreamedFile');
 		} elseif ($this->formUtility->isUrlEncoded()) {
 
 			// Used for image resizing in BE
-			$uploadedFile = GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\Base64File');
+			$uploadedFile = GeneralUtility::makeInstance('Fab\Media\FileUpload\Base64File');
 		}
 
 		if (!$uploadedFile) {

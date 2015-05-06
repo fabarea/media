@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Thumbnail;
+namespace Fab\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -214,10 +214,10 @@ class ThumbnailGenerator {
 
 	/**
 	 * @param File $file
-	 * @return \TYPO3\CMS\Media\Thumbnail\ThumbnailService
+	 * @return \Fab\Media\Thumbnail\ThumbnailService
 	 */
 	protected function getThumbnailService(File $file) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
+		return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
 	}
 
 	/**

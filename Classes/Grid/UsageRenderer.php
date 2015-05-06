@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -18,7 +18,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Media\ObjectFactory;
+use Fab\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Grid\GridRendererAbstract;
 use TYPO3\CMS\Vidi\Tca\TcaService;
 
@@ -164,16 +164,16 @@ class UsageRenderer extends GridRendererAbstract {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 * @return \Fab\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
 	 */
 	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
+		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
 }

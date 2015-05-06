@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -29,18 +29,18 @@ require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\ImagePresetUtility.
+ * Test case for class \Fab\Media\Utility\ImagePresetUtility.
  */
-class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctionalTestCase {
+class ImagePresetUtilityTest extends \Fab\Media\Tests\Functional\AbstractFunctionalTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\ImagePresetUtility
+	 * @var \Fab\Media\Utility\ImagePresetUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
 		parent::setUp();
-		$this->fixture = new \TYPO3\CMS\Media\Utility\ImagePresetUtility();
+		$this->fixture = new \Fab\Media\Utility\ImagePresetUtility();
 	}
 
 	public function tearDown() {
@@ -50,7 +50,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 
 	/**
 	 * @test
-	 * @expectedException \TYPO3\CMS\Media\Exception\EmptyValueException
+	 * @expectedException \Fab\Media\Exception\EmptyValueException
 	 */
 	public function randomPresetShouldReturnException() {
 		$this->fixture->preset(uniqid());
@@ -62,7 +62,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 	public function methodPresetReturnInstanceOfImagePresetUtility() {
 		$actual = 'image_thumbnail';
 		$object = $this->fixture->preset($actual);
-		$this->assertTrue($object instanceof \TYPO3\CMS\Media\Utility\ImagePresetUtility);
+		$this->assertTrue($object instanceof \Fab\Media\Utility\ImagePresetUtility);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 	 * @dataProvider presetProvider
 	 */
 	public function testProperty($preset, $setting, $width, $height) {
-		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set($preset, $setting);
+		\Fab\Media\Utility\ConfigurationUtility::getInstance()->set($preset, $setting);
 		$this->assertSame($width, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($height, $this->fixture->preset($preset)->getHeight());
 	}
@@ -107,7 +107,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 
 	/**
 	 * @test
-	 * @expectedException \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException
+	 * @expectedException \Fab\Media\Exception\InvalidKeyInArrayException
 	 */
 	public function getWidthWithoutPresetRaisesAnException() {
 		$this->fixture->getWidth();
@@ -115,7 +115,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 
 	/**
 	 * @test
-	 * @expectedException \TYPO3\CMS\Media\Exception\InvalidKeyInArrayException
+	 * @expectedException \Fab\Media\Exception\InvalidKeyInArrayException
 	 */
 	public function getHeightWithoutPresetRaisesAnException() {
 		$this->fixture->getHeight();
@@ -126,7 +126,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 	 */
 	public function setOriginalImageAsPresetWithValue0AndCheckWidthEquals0() {
 		$actual = 'image_large';
-		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', 0);
+		\Fab\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', 0);
 		$this->assertSame(0, $this->fixture->preset($actual)->getWidth());
 	}
 
@@ -137,7 +137,7 @@ class ImagePresetUtilityTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractF
 		$preset = 'image_large';
 		$actualWidth = rand(10, 100);
 		$actualHeight = rand(10, 100);
-		\TYPO3\CMS\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', $actualWidth . 'x' . $actualHeight);
+		\Fab\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', $actualWidth . 'x' . $actualHeight);
 		$this->assertSame($actualWidth, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($actualHeight, $this->fixture->preset($preset)->getHeight());
 	}

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Controller\Backend;
+namespace Fab\Media\Controller\Backend;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -30,8 +30,8 @@ class LinkCreatorController extends ActionController {
 		// Configure property mapping to retrieve the file object.
 		if ($this->arguments->hasArgument('file')) {
 
-			/** @var \TYPO3\CMS\Media\TypeConverter\FileConverter $typeConverter */
-			$typeConverter = $this->objectManager->get('TYPO3\CMS\Media\TypeConverter\FileConverter');
+			/** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
 
 			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
 			$propertyMappingConfiguration->setTypeConverter($typeConverter);

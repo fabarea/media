@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 
 /***************************************************************
  *  Copyright notice
@@ -26,17 +26,17 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\CategoryRenderer.
+ * Test case for class \Fab\Media\Grid\CategoryRenderer.
  */
 class CategoryRendererTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\CategoryRenderer
+	 * @var \Fab\Media\Grid\CategoryRenderer
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\CategoryRenderer();
+		$this->fixture = new \Fab\Media\Grid\CategoryRenderer();
 	}
 
 	public function tearDown() {
@@ -47,7 +47,7 @@ class CategoryRendererTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function fixtureIsOfTypeGridRendererCategoryRenderer() {
-		$this->assertInstanceOf('TYPO3\CMS\Media\Grid\CategoryRenderer', $this->fixture);
+		$this->assertInstanceOf('Fab\Media\Grid\CategoryRenderer', $this->fixture);
 	}
 }
 ?>

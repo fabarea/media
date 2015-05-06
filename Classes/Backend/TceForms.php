@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Backend;
+namespace Fab\Media\Backend;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\Backend;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Module\ModuleParameter;
+use Fab\Media\Module\ModuleParameter;
 
 /**
  * Custom fields for Media
@@ -62,8 +62,8 @@ class TceForms {
 			throw new \Exception('I could not find a valid file identifier', 1392926871);
 		}
 
-		/** @var $fileUpload \TYPO3\CMS\Media\Form\FileUploadTceForms */
-		$fileUpload = GeneralUtility::makeInstance('TYPO3\CMS\Media\Form\FileUploadTceForms');
+		/** @var $fileUpload \Fab\Media\Form\FileUploadTceForms */
+		$fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUploadTceForms');
 		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(ModuleParameter::PREFIX);
 		return $fileUpload->render();
 	}

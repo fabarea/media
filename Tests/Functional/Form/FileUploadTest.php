@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form;
+namespace Fab\Media\Form;
 
 /***************************************************************
  *  Copyright notice
@@ -28,12 +28,12 @@ namespace TYPO3\CMS\Media\Form;
 require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 
 /**
- * Test case for class \TYPO3\CMS\Media\Form\FileUpload.
+ * Test case for class \Fab\Media\Form\FileUpload.
  */
-class FileUploadTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctionalTestCase {
+class FileUploadTest extends \Fab\Media\Tests\Functional\AbstractFunctionalTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Form\FileUpload
+	 * @var \Fab\Media\Form\FileUpload
 	 */
 	private $fixture;
 
@@ -50,7 +50,7 @@ class FileUploadTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctiona
 	public function setUp() {
 		parent::setUp();
 
-        $this->fixture = $this->getMock('TYPO3\\CMS\\Media\\Form\\FileUpload', array('addLanguage'));
+        $this->fixture = $this->getMock('Fab\Media\Form\FileUpload', array('addLanguage'));
 		$this->fakeName = uniqid('name');
 		$this->fakePrefix= uniqid('prefix');
 	}
@@ -64,7 +64,7 @@ class FileUploadTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctiona
 	 */
 	public function getJavaScriptMethodReturnNotEmptyContent() {
 		$method = new \ReflectionMethod(
-			'TYPO3\CMS\Media\Form\FileUpload', 'getJavaScript'
+			'Fab\Media\Form\FileUpload', 'getJavaScript'
 		);
 
 		$method->setAccessible(TRUE);
@@ -86,7 +86,7 @@ class FileUploadTest extends \TYPO3\CMS\Media\Tests\Functional\AbstractFunctiona
 	 */
 	public function getBasePrefixStripsTheSquareBraquets() {
 		$method = new \ReflectionMethod(
-			'TYPO3\CMS\Media\Form\FileUpload', 'getBasePrefix'
+			'Fab\Media\Form\FileUpload', 'getBasePrefix'
 		);
 
 		$method->setAccessible(TRUE);

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -26,17 +26,17 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\PermissionUtility.
+ * Test case for class \Fab\Media\Utility\PermissionUtility.
  */
 class PermissionUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Utility\PermissionUtility
+	 * @var \Fab\Media\Utility\PermissionUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Utility\PermissionUtility();
+		$this->fixture = new \Fab\Media\Utility\PermissionUtility();
 	}
 
 	public function tearDown() {
@@ -47,7 +47,7 @@ class PermissionUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function checkWhetherPermissionUtilityIsCorrect() {
-		$this->assertInstanceOf('\TYPO3\CMS\Media\Utility\PermissionUtility', $this->fixture);
+		$this->assertInstanceOf('\Fab\Media\Utility\PermissionUtility', $this->fixture);
 	}
 }
 ?>

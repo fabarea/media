@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\File;
+namespace Fab\Media\ViewHelpers\File;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -40,9 +40,9 @@ class ExistsViewHelper extends AbstractViewHelper {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
 	 */
 	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
+		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
 }

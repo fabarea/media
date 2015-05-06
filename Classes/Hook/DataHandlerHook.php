@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Hook;
+namespace Fab\Media\Hook;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -272,10 +272,10 @@ class DataHandlerHook {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 * @return \Fab\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
 	}
 
 	/**

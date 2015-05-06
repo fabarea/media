@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\FileUpload;
 
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Exception\MissingFileException;
+use Fab\Media\Exception\MissingFileException;
 
 /**
  * An abstract class for uploaded file.

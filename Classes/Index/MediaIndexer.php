@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Index;
+namespace Fab\Media\Index;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -20,7 +20,7 @@ use TYPO3\CMS\Core\Resource\Index\FileIndexRepository;
 use TYPO3\CMS\Core\Resource\Index\MetaDataRepository;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Utility\ConfigurationUtility;
+use Fab\Media\Utility\ConfigurationUtility;
 
 /**
  * Service dealing with Indexing in the context of Media.

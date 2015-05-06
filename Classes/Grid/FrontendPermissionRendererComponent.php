@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -24,7 +24,7 @@ class FrontendPermissionRendererComponent extends GenericRendererComponent {
 	 * Constructor for a "Create Relation" Grid Renderer Component.
 	 */
 	public function __construct() {
-		$className = 'TYPO3\CMS\Media\Grid\FrontendPermissionRenderer';
+		$className = 'Fab\Media\Grid\FrontendPermissionRenderer';
 		parent::__construct($className, array());
 	}
 }

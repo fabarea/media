@@ -127,7 +127,7 @@ The code could look like this in your Fluid template::
 		</ul>
 	</f:if>
 
-	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+	{namespace m=Fab\Media\ViewHelpers}
 	{namespace v=TYPO3\CMS\Vidi\ViewHelpers}
 
 
@@ -218,7 +218,7 @@ The Thumbnail View Helper can be used as follow::
 	# - image_large => '1200x1200'
 	<m:file.thumbnail file="{file}" preset="image_medium"/>
 
-	{namespace m=TYPO3\CMS\Media\ViewHelpers}
+	{namespace m=Fab\Media\ViewHelpers}
 
 	# Or if your template contains ``<section />``,
 	# namespace declaration can be done with xmlns attribute as of TYPO3 6.1:
@@ -234,11 +234,11 @@ The Thumbnail View Helper can be used as follow::
 Besides the View Helper, a thumbnail can be generated in a programming way. The example illustrates some possibilities.
 For more insight, refer to the class itself. Here we go::
 
-	/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
-	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
+	/** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
+	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
 	$thumbnail = $thumbnailService
 		->setConfiguration($configuration)
-		->setOutputType(\TYPO3\CMS\Media\Thumbnail\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
+		->setOutputType(\Fab\Media\Thumbnail\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
 		->setAppendTimeStamp(TRUE)
 		->create();
 
@@ -254,7 +254,7 @@ Media Tools
 Tools are registered through the Tool API provided by Vidi in ``ext_tables.php`` and can be accessed by clicking the upper right icon in the BE
 module. Those tools are visible for Admin only::
 
-	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'TYPO3\CMS\Media\Tool\MissingFilesFinderTool');
+	\TYPO3\CMS\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
 
 Analyse File index
 ------------------
@@ -293,16 +293,16 @@ On the server side, there is an API which transparently handles whether the file
 		# Code below is simplified for the documentation sake.
 		# Check out for more insight EXT:media/Classes/Controller/AssetController.php @ uploadAction
 
-		/** @var $uploadManager \TYPO3\CMS\Media\FileUpload\UploadManager */
-		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\UploadManager');
+		/** @var $uploadManager \Fab\Media\FileUpload\UploadManager */
+		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\FileUpload\UploadManager');
 		try {
-			/** @var $uploadedFileObject \TYPO3\CMS\Media\FileUpload\UploadedFileInterface */
+			/** @var $uploadedFileObject \Fab\Media\FileUpload\UploadedFileInterface */
 			$uploadedFileObject = $uploadManager->handleUpload();
 		} catch (\Exception $e) {
 			$response = array('error' => $e->getMessage());
 		}
 
-		$targetFolderObject = \TYPO3\CMS\Media\ObjectFactory::getInstance()->getContainingFolder();
+		$targetFolderObject = \Fab\Media\ObjectFactory::getInstance()->getContainingFolder();
 		$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $uploadedFileObject->getName());
 
 .. _Fine Uploader: http://fineuploader.com/
@@ -317,9 +317,9 @@ reduce the size of an image in case it exceeds a certain dimension. The maximum 
 The **rotate** optimizer read the `exif`_ metadata and automatically rotates the image. For the auto-rotation features, credits go to
 Xavier Perseguers where great inspiration was found in one of his `extension`_.
 
-If needed, it is possible to add additional custom optimizers. Notice that the class must implement an interface ``\TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface`` and can be added with following code::
+If needed, it is possible to add additional custom optimizers. Notice that the class must implement an interface ``\Fab\Media\FileUpload\ImageOptimizerInterface`` and can be added with following code::
 
-	\TYPO3\CMS\Media\FileUpload\ImageOptimizer::getInstance()->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
+	\Fab\Media\FileUpload\ImageOptimizer::getInstance()->add('Fab\Media\FileUpload\Optimizer\Resize');
 
 .. _exif: http://en.wikipedia.org/wiki/Exchangeable_image_file_format
 .. _extension: https://forge.typo3.org/projects/extension-image_autoresize/

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -22,8 +22,8 @@ interface ImageOptimizerInterface {
 	/**
 	 * Optimize the given uploaded image
 	 *
-	 * @param \TYPO3\CMS\Media\FileUpload\UploadedFileInterface $uploadedFile
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface
 	 */
 	public function optimize($uploadedFile);
 }

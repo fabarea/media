@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Cache;
+namespace Fab\Media\Cache;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -214,9 +214,9 @@ class CacheService {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\FileReferenceService
+	 * @return \Fab\Media\Resource\FileReferenceService
 	 */
 	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\FileReferenceService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
 	}
 }

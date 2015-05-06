@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Form;
+namespace Fab\Media\ViewHelpers\Form;
 
 /**
  * This file is part of the TYPO3 CMS project.

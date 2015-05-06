@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\File;
+namespace Fab\Media\ViewHelpers\File;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Media\ViewHelpers\File;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Media\Utility\ImagePresetUtility;
+use Fab\Media\Utility\ImagePresetUtility;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
@@ -61,8 +61,8 @@ class ThumbnailViewHelper extends AbstractViewHelper {
 			$configuration['height'] = $imageDimension->getHeight();
 		}
 
-		/** @var $thumbnailService \TYPO3\CMS\Media\Thumbnail\ThumbnailService */
-		$thumbnailService = GeneralUtility::makeInstance('TYPO3\CMS\Media\Thumbnail\ThumbnailService', $file);
+		/** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
+		$thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
 		$thumbnail = $thumbnailService->setConfiguration($configuration)
 			->setConfigurationWrap($configurationWrap)
 			->setAttributes($attributes)
@@ -73,10 +73,10 @@ class ThumbnailViewHelper extends AbstractViewHelper {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
 	 */
 	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
+		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
 
 }

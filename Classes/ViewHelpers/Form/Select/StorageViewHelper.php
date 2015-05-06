@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\ViewHelpers\Form\Select;
+namespace Fab\Media\ViewHelpers\Form\Select;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -50,10 +50,10 @@ class StorageViewHelper extends AbstractViewHelper {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
 }

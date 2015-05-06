@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\View\Button;
+namespace Fab\Media\View\Button;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -20,7 +20,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Vidi\View\AbstractComponentView;
-use TYPO3\CMS\Media\ObjectFactory;
+use Fab\Media\ObjectFactory;
 use TYPO3\CMS\Vidi\Domain\Model\Content;
 
 /**
@@ -60,9 +60,9 @@ class EditButton extends AbstractComponentView {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\TypeConverter\ContentToFileConverter
+	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
 	 */
 	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\TypeConverter\ContentToFileConverter');
+		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
 }

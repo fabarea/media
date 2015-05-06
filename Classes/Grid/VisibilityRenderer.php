@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 /**
  * This file is part of the TYPO3 CMS project.
  *

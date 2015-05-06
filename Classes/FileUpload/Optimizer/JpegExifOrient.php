@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload\Optimizer;
+namespace Fab\Media\FileUpload\Optimizer;
 
 /**
  * This file is part of the TYPO3 CMS project.

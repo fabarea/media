@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Grid;
+namespace Fab\Media\Grid;
 
 /***************************************************************
  *  Copyright notice
@@ -26,17 +26,17 @@ namespace TYPO3\CMS\Media\Grid;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Grid\Permission.
+ * Test case for class \Fab\Media\Grid\Permission.
  */
 class FrontendPermissionRendererTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\Grid\FrontendPermissionRenderer
+	 * @var \Fab\Media\Grid\FrontendPermissionRenderer
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\Grid\FrontendPermissionRenderer();
+		$this->fixture = new \Fab\Media\Grid\FrontendPermissionRenderer();
 	}
 
 	public function tearDown() {
@@ -47,7 +47,7 @@ class FrontendPermissionRendererTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 	 * @test
 	 */
 	public function fixtureIsOfTypeGridRendererFrontendPermissionRenderer() {
-		$this->assertInstanceOf('TYPO3\CMS\Media\Grid\FrontendPermissionRenderer', $this->fixture);
+		$this->assertInstanceOf('Fab\Media\Grid\FrontendPermissionRenderer', $this->fixture);
 	}
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media;
+namespace Fab\Media;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -29,10 +29,10 @@ class ObjectFactory implements SingletonInterface {
 	/**
 	 * Gets a singleton instance of this class.
 	 *
-	 * @return \TYPO3\CMS\Media\ObjectFactory
+	 * @return \Fab\Media\ObjectFactory
 	 */
 	static public function getInstance() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\ObjectFactory');
+		return GeneralUtility::makeInstance('Fab\Media\ObjectFactory');
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -22,10 +22,10 @@ class DomElement implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\DomElement
+	 * @return \Fab\Media\Utility\DomElement
 	 */
 	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\DomElement');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Utility\DomElement');
 	}
 
 	/**

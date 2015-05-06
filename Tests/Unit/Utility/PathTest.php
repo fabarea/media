@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -26,7 +26,7 @@ namespace TYPO3\CMS\Media\Utility;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\Utility\Path.
+ * Test case for class \Fab\Media\Utility\Path.
  */
 class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
@@ -42,7 +42,7 @@ class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	public function canResolvesAPath() {
 		$resourceName = uniqid('resource');
 		$expected = 'media/Resources/Public/' . $resourceName;
-		$actual = \TYPO3\CMS\Media\Utility\Path::resolvePath($resourceName);
+		$actual = \Fab\Media\Utility\Path::resolvePath($resourceName);
 
 		$this->assertTrue(strpos($actual, $expected) > 0);
 		$this->assertEquals(0, strpos(PATH_site, $expected));
@@ -55,7 +55,7 @@ class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 		$resourceName = uniqid('resource');
 		$expected = 'media/Resources/Public/' . $resourceName;
-		$actual = \TYPO3\CMS\Media\Utility\Path::getRelativePath($resourceName);
+		$actual = \Fab\Media\Utility\Path::getRelativePath($resourceName);
 
 		$this->assertTrue(strpos($actual, $expected) > 0);
 		$this->assertFalse(strpos(PATH_site, $expected));
@@ -65,14 +65,14 @@ class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function methodExistsReturnTrueForFileExistingInExtensionMedia() {
-		$this->assertTrue(\TYPO3\CMS\Media\Utility\Path::exists('Icons/MissingMimeTypeIcon.png'));
+		$this->assertTrue(\Fab\Media\Utility\Path::exists('Icons/MissingMimeTypeIcon.png'));
 	}
 
 	/**
 	 * @test
 	 */
 	public function methodNotExistsReturnFalseForFileExistingInExtensionMedia() {
-		$this->assertFalse(\TYPO3\CMS\Media\Utility\Path::notExists('Icons/MissingMimeTypeIcon.png'));
+		$this->assertFalse(\Fab\Media\Utility\Path::notExists('Icons/MissingMimeTypeIcon.png'));
 	}
 
 	/**

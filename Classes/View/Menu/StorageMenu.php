@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\View\Menu;
+namespace Fab\Media\View\Menu;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -95,9 +95,9 @@ class StorageMenu extends AbstractComponentView {
 	}
 
 	/**
-	 * @return \TYPO3\CMS\Media\Resource\StorageService
+	 * @return \Fab\Media\Resource\StorageService
 	 */
 	protected function getStorageService() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Resource\StorageService');
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 }

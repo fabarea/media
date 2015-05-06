@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /***************************************************************
  *  Copyright notice
@@ -26,12 +26,12 @@ namespace TYPO3\CMS\Media\FileUpload;
  ***************************************************************/
 
 /**
- * Test case for class \TYPO3\CMS\Media\FileUpload\UploadManager.
+ * Test case for class \Fab\Media\FileUpload\UploadManager.
  */
 class UploadManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \TYPO3\CMS\Media\FileUpload\UploadManager
+	 * @var \Fab\Media\FileUpload\UploadManager
 	 */
 	private $fixture;
 
@@ -46,7 +46,7 @@ class UploadManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $fakePrefix = '';
 
 	public function setUp() {
-		$this->fixture = new \TYPO3\CMS\Media\FileUpload\UploadManager();
+		$this->fixture = new \Fab\Media\FileUpload\UploadManager();
 		$this->fakeName = uniqid('name');
 		$this->fakePrefix= uniqid('prefix');
 	}

@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Thumbnail;
+namespace Fab\Media\Thumbnail;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -16,9 +16,9 @@ namespace TYPO3\CMS\Media\Thumbnail;
 
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Media\Exception\InvalidKeyInArrayException;
-use TYPO3\CMS\Media\Exception\MissingTcaConfigurationException;
-use TYPO3\CMS\Media\Utility\Logger;
+use Fab\Media\Exception\InvalidKeyInArrayException;
+use Fab\Media\Exception\MissingTcaConfigurationException;
+use Fab\Media\Utility\Logger;
 
 /**
  * Thumbnail Service
@@ -126,18 +126,18 @@ class ThumbnailService {
 		}
 
 		// Default class name
-		$className = 'TYPO3\CMS\Media\Thumbnail\FallBackThumbnailProcessor';
+		$className = 'Fab\Media\Thumbnail\FallBackThumbnailProcessor';
 		if (File::FILETYPE_IMAGE == $this->file->getType()) {
-			$className = 'TYPO3\CMS\Media\Thumbnail\ImageThumbnailProcessor';
+			$className = 'Fab\Media\Thumbnail\ImageThumbnailProcessor';
 		} elseif (File::FILETYPE_AUDIO == $this->file->getType()) {
-			$className = 'TYPO3\CMS\Media\Thumbnail\AudioThumbnailProcessor';
+			$className = 'Fab\Media\Thumbnail\AudioThumbnailProcessor';
 		} elseif (File::FILETYPE_VIDEO == $this->file->getType()) {
-			$className = 'TYPO3\CMS\Media\Thumbnail\VideoThumbnailProcessor';
+			$className = 'Fab\Media\Thumbnail\VideoThumbnailProcessor';
 		} elseif (File::FILETYPE_APPLICATION == $this->file->getType() || File::FILETYPE_TEXT == $this->file->getType()) {
-				$className = 'TYPO3\CMS\Media\Thumbnail\ApplicationThumbnailProcessor';
+				$className = 'Fab\Media\Thumbnail\ApplicationThumbnailProcessor';
 		}
 
-		/** @var $processorInstance \TYPO3\CMS\Media\Thumbnail\ThumbnailProcessorInterface */
+		/** @var $processorInstance \Fab\Media\Thumbnail\ThumbnailProcessorInterface */
 		$processorInstance = GeneralUtility::makeInstance($className);
 
 		$thumbnail = '';

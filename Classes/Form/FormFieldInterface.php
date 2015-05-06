@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Form;
+namespace Fab\Media\Form;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -26,7 +26,7 @@ interface FormFieldInterface {
 
 	/**
 	 * @param string $template
-	 * @return \TYPO3\CMS\Media\Form\FormFieldInterface
+	 * @return \Fab\Media\Form\FormFieldInterface
 	 */
 	public function setTemplate($template);
 }

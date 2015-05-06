@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,14 +14,14 @@ namespace TYPO3\CMS\Media\FileUpload;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Media\Exception\EmptyPropertyException;
+use Fab\Media\Exception\EmptyPropertyException;
 
 /**
  * Handle file uploads via XMLHttpRequest.
  *
  * @see original implementation: https://github.com/valums/file-uploader/blob/master/server/php.php
  */
-class StreamedFile extends \TYPO3\CMS\Media\FileUpload\UploadedFileAbstract {
+class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract {
 
 	/**
 	 * @var string

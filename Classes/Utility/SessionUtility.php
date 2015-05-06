@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Utility;
+namespace Fab\Media\Utility;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -29,10 +29,10 @@ class SessionUtility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\Utility\SessionUtility
+	 * @return \Fab\Media\Utility\SessionUtility
 	 */
 	static public function getInstance() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Utility\SessionUtility');
+		return GeneralUtility::makeInstance('Fab\Media\Utility\SessionUtility');
 	}
 
 	public function __construct() {

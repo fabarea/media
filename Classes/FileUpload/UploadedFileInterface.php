@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -79,7 +79,7 @@ interface UploadedFileInterface {
 	 * Set the file input name from the DOM.
 	 *
 	 * @param string $inputName
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface
 	 */
 	public function setInputName($inputName);
 
@@ -87,7 +87,7 @@ interface UploadedFileInterface {
 	 * Set the upload folder
 	 *
 	 * @param string $uploadFolder
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface
 	 */
 	public function setUploadFolder($uploadFolder);
 
@@ -95,7 +95,7 @@ interface UploadedFileInterface {
 	 * Set the file name to be saved
 	 *
 	 * @param string $name
-	 * @return \TYPO3\CMS\Media\FileUpload\UploadedFileInterface
+	 * @return \Fab\Media\FileUpload\UploadedFileInterface
 	 */
 	public function setName($name);
 }

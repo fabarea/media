@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\FileUpload;
+namespace Fab\Media\FileUpload;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -35,23 +35,23 @@ class ImageOptimizer implements SingletonInterface {
 	/**
 	 * Returns a class instance.
 	 *
-	 * @return \TYPO3\CMS\Media\FileUpload\ImageOptimizer
+	 * @return \Fab\Media\FileUpload\ImageOptimizer
 	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
 	 */
 	static public function getInstance($storage = NULL) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\FileUpload\ImageOptimizer', $storage);
+		return GeneralUtility::makeInstance('Fab\Media\FileUpload\ImageOptimizer', $storage);
 	}
 
 	/**
 	 * Constructor
 	 *
-	 * @return \TYPO3\CMS\Media\FileUpload\ImageOptimizer
+	 * @return \Fab\Media\FileUpload\ImageOptimizer
 	 * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
 	 */
 	public function __construct($storage = NULL) {
 		$this->storage = $storage;
-		$this->add('TYPO3\CMS\Media\FileUpload\Optimizer\Resize');
-		$this->add('TYPO3\CMS\Media\FileUpload\Optimizer\Rotate');
+		$this->add('Fab\Media\FileUpload\Optimizer\Resize');
+		$this->add('Fab\Media\FileUpload\Optimizer\Rotate');
 	}
 
 	/**
@@ -87,7 +87,7 @@ class ImageOptimizer implements SingletonInterface {
 
 		foreach ($this->optimizers as $optimizer) {
 
-			/** @var $optimizer \TYPO3\CMS\Media\FileUpload\ImageOptimizerInterface */
+			/** @var $optimizer \Fab\Media\FileUpload\ImageOptimizerInterface */
 			$optimizer = GeneralUtility::makeInstance($optimizer, $this->storage);
 			$uploadedFile = $optimizer->optimize($uploadedFile);
 		}

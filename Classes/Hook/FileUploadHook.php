@@ -1,5 +1,5 @@
 <?php
-namespace TYPO3\CMS\Media\Hook;
+namespace Fab\Media\Hook;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -52,10 +52,10 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface {
 	 * Get the instance of the Indexer service to update the metadata of the file.
 	 *
 	 * @param ResourceStorage $storage
-	 * @return \TYPO3\CMS\Media\Index\MediaIndexer
+	 * @return \Fab\Media\Index\MediaIndexer
 	 */
 	protected function getMediaIndexer($storage) {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Media\Index\MediaIndexer', $storage);
+		return GeneralUtility::makeInstance('Fab\Media\Index\MediaIndexer', $storage);
 	}
 
 }
