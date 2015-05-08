@@ -15,6 +15,7 @@ namespace Fab\Media\Security;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Persistence\Matcher;
 use Fab\Vidi\Persistence\Query;
@@ -35,6 +36,36 @@ class FilePermissionsAspect {
 	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
 		if ($dataType === 'sys_file') {
 			$this->respectStorage($matcher);
+
+			$configuration = $this->getModuleConfiguration();
+
+			if ((bool)$configuration['activate_experimental_features']['value']) {
+				$combinedIdentifier = GeneralUtility::_GP('id');
+				if ($combinedIdentifier) {
+					$combinedIdentifier = urldecode($combinedIdentifier);
+
+					// Code taken from FileListController.php
+					$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+					$identifier = substr($combinedIdentifier, strpos($combinedIdentifier, ':') + 1);
+					if (!$storage->hasFolder($identifier)) {
+						$identifier = $storage->getFolderIdentifierFromFileIdentifier($identifier);
+					}
+					$folderObject = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($storage->getUid() . ':' . $identifier);
+					// Disallow the rendering of the processing folder (e.g. could be called manually)
+					// and all folders without any defined storage
+					if ($folderObject && ($folderObject->getStorage()->getUid() == 0 || trim($folderObject->getStorage()->getProcessingFolder()->getIdentifier(), '/') === trim($folderObject->getIdentifier(), '/'))) {
+						$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+						$folderObject = $storage->getRootLevelFolder();
+					}
+
+					$files = array();
+					foreach ($folderObject->getFiles() as $file) {
+						$files[] = $file->getUid();
+					}
+
+					$matcher->in('uid', $files);
+				}
+			}
 		}
 	}
 
@@ -47,10 +78,23 @@ class FilePermissionsAspect {
 	 */
 	public function addFilePermissionsForFileMounts(Query $query, $constraints) {
 		if ($query->getType() === 'sys_file') {
-			if (FALSE === $this->getCurrentBackendUser()->isAdmin()) {
+			if (!$this->getCurrentBackendUser()->isAdmin()) {
 				$this->respectFileMounts($query, $constraints);
 			}
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getModuleConfiguration() {
+
+		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
+		/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
+		$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
+		return $configurationUtility->getCurrentConfiguration('media');
 	}
 
 	/**
@@ -135,4 +179,5 @@ class FilePermissionsAspect {
 	protected function getStorageService() {
 		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
+
 }

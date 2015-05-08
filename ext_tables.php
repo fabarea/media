@@ -57,10 +57,16 @@ if (TYPO3_MODE == 'BE') {
 		)
 	);
 
+	$defaultMainModule = 'user';
+	if ((bool)$configuration['activate_experimental_features']['value']) {
+		$defaultMainModule = 'file';
+	}
+
 	/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
 	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader', 'sys_file');
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
 		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
+		->setMainModule($defaultMainModule)
 		->addJavaScriptFiles(
 			array(
 				'EXT:media/Resources/Public/Build/media.min.js',
