@@ -211,13 +211,14 @@ class DataHandlerHook {
 		if (isset($indexes['relations'])) {
 
 			foreach ($indexes['relations'] as $index) {
-
-				if ($this->isSoftReferenceImage($index)) {
-					$fileIdentifiers[] = $index['ref_uid'];
-				} elseif ($this->isSoftReferenceLink($index)) {
-					$fileIdentifiers[] = $index['ref_uid'];
-				} elseif ($this->isFileReference($index)) {
-					$fileIdentifiers[] = $this->findFileByFileReference($index['ref_uid']);
+				if (is_array($index)) {
+					if ($this->isSoftReferenceImage($index)) {
+						$fileIdentifiers[] = $index['ref_uid'];
+					} elseif ($this->isSoftReferenceLink($index)) {
+						$fileIdentifiers[] = $index['ref_uid'];
+					} elseif ($this->isFileReference($index)) {
+						$fileIdentifiers[] = $this->findFileByFileReference($index['ref_uid']);
+					}
 				}
 			}
 		}
