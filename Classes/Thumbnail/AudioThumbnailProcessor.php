@@ -96,10 +96,11 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor {
 
 		$file = $this->getFile();
 
-		return sprintf('<a href="%s%s" target="%s">%s</a>',
+		return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
 			$this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE),
 			$this->thumbnailService->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
 			$this->thumbnailService->getTarget(),
+			$file->getUid(),
 			$result
 		);
 	}
