@@ -50,13 +50,12 @@ class RecursiveCheckbox extends AbstractComponentView {
 	 */
 	protected function renderRecursiveCheckbox() {
 
-		$template = '<form action="mod.php" id="form-checkbox-isRecursive" method="get">
+		$template = '<form action="mod.php" id="form-checkbox-hasRecursiveBrowsing" method="get">
 						<label>
 							<input type="checkbox"
-									name="%s[isRecursive]"
+									name="%s[hasRecursiveBrowsing]"
 									class="btn btn-min"
-									id="checkbox-isRecursive"
-									onchange="$(\'#form-checkbox-isRecursive\').submit()" />
+									id="checkbox-hasRecursiveBrowsing"/>
 							<span style="position: relative; top: 3px">%s</span>
 						</label>
 					</form>';

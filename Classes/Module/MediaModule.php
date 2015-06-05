@@ -76,11 +76,28 @@ class MediaModule implements SingletonInterface {
 	 *
 	 * @return bool
 	 */
-	public function hasFolderTree(){
+	public function hasFolderTree() {
 		$configuration = $this->getModuleConfiguration();
 		return !(bool)$configuration['hide_folder_tree']['value'];
 	}
 
+	/**
+	 * Tell whether the sub-folders must be included when browsing.
+	 *
+	 * @return bool
+	 */
+	public function hasRecursiveBrowsing() {
+
+		$parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
+		$parameters = GeneralUtility::_GET($parameterPrefix);
+
+		$hasRecursiveBrowsing = FALSE;
+		if (isset($parameters['hasRecursiveBrowsing']) && $parameters['hasRecursiveBrowsing'] === 'true') {
+			$hasRecursiveBrowsing = TRUE;
+		}
+
+		return $hasRecursiveBrowsing;
+	}
 
 	/**
 	 * Return a folder object which contains an existing file or a file that has just been uploaded.
@@ -182,6 +199,15 @@ class MediaModule implements SingletonInterface {
 	 */
 	protected function getMediaModule() {
 		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+	}
+
+	/**
+	 * Return the module loader.
+	 *
+	 * @return \Fab\Vidi\Module\ModuleLoader
+	 */
+	public function getModuleLoader() {
+		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
 	}
 
 }

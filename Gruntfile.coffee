@@ -10,6 +10,7 @@ module.exports = (grunt) ->
 				"<%= directory.source %>/JavaScript/Initialize.js"
 				"<%= directory.source %>/JavaScript/Media.js"
 				"<%= directory.source %>/JavaScript/Media.EditStorage.js"
+				"<%= directory.source %>/JavaScript/Media.BrowseRecursively.js"
 			]
 		js_tce:
 			sources: [

@@ -17,7 +17,6 @@ namespace Fab\Media\Security;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Folder;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Persistence\Matcher;
 use Fab\Vidi\Persistence\Query;
@@ -42,8 +41,22 @@ class FilePermissionsAspect {
 			if ($combinedIdentifier && $this->getMediaModule()->hasFolderTree()) {
 
 				$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
-				$files = $this->getFileUids($folder);
-				$matcher->in('uid', $files);
+
+				if ($this->getMediaModule()->hasRecursiveBrowsing()) {
+
+					// Only add like condition if needed.
+					if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
+						$matcher->like('identifier', $folder->getIdentifier() . '%');
+					}
+
+				} else {
+
+					// Browse only currently
+					$files = $this->getFileUids($folder);
+					$matcher->in('uid', $files);
+
+				}
+
 				$matcher->equals('storage', $folder->getStorage()->getUid());
 			} else {
 				$storage = $this->getStorageService()->findCurrentStorage();
