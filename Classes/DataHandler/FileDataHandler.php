@@ -14,9 +14,9 @@ namespace Fab\Media\DataHandler;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Media\ObjectFactory;
 use Fab\Vidi\DataHandler\AbstractDataHandler;
 use Fab\Vidi\Domain\Model\Content;
 
@@ -84,7 +84,7 @@ class FileDataHandler extends AbstractDataHandler {
 			$targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
 
 			// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-			$targetFolder = ObjectFactory::getInstance()->getTargetFolder($targetStorage, $file);
+			$targetFolder = $this->getMediaModule()->getTargetFolder($targetStorage, $file);
 
 			try {
 				// Move file
@@ -113,4 +113,12 @@ class FileDataHandler extends AbstractDataHandler {
 	public function processLocalize(Content $content, $language) {
 		throw new \Exception('Nothing to implement here. Localization is done by the Core DataHandler', 1412760788);
 	}
+
+	/**
+	 * @return MediaModule
+	 */
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+	}
+
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Media\View\Check;
+namespace Fab\Media\View\Warning;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -21,12 +21,12 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a button for uploading assets.
  */
-class ConfigurationCheck extends AbstractComponentView {
+class ConfigurationWarning extends AbstractComponentView {
 
 	/**
 	 * @var array
 	 */
-	public $notAllowedMountPoints = array();
+	protected $notAllowedMountPoints = array();
 
 	/**
 	 * Renders a button for uploading assets.

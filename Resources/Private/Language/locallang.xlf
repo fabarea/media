@@ -270,6 +270,9 @@
 			<trans-unit id="media_file_upload.onLeave">
 				<source>The files are being uploaded, if you leave now the upload will be cancelled.</source>
 			</trans-unit>
+			<trans-unit id="browse_sub_folders">
+				<source>Browse sub-folders</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

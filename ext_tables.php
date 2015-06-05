@@ -57,9 +57,9 @@ if (TYPO3_MODE == 'BE') {
 		)
 	);
 
-	$defaultMainModule = 'user';
-	if ((bool)$configuration['activate_experimental_features']['value']) {
-		$defaultMainModule = 'file';
+	$defaultMainModule = 'file';
+	if ((bool)$configuration['hide_folder_tree']['value']) {
+		$defaultMainModule = 'user';
 	}
 
 	/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
@@ -78,13 +78,19 @@ if (TYPO3_MODE == 'BE') {
 			)
 		)
 		->setDocHeaderTopLeftComponents(
-			array('Fab\Media\View\Menu\StorageMenu')
+			array(
+				'Fab\Media\View\Menu\StorageMenu',
+				'Fab\Media\View\Checkbox\RecursiveCheckbox'
+			)
 		)
 		->setDocHeaderBottomLeftComponents(
 			array('Fab\Media\View\Button\UploadButton')
 		)
 		->setGridTopComponents(
-			array('Fab\Media\View\Check\ConfigurationCheck')
+			array(
+				'Fab\Media\View\Warning\ConfigurationWarning',
+				'Fab\Media\View\Info\SelectedFolderInfo',
+			)
 		)
 		->setGridBottomComponents(
 			array(

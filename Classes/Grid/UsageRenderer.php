@@ -18,7 +18,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use Fab\Media\ObjectFactory;
 use Fab\Vidi\Grid\GridRendererAbstract;
 use Fab\Vidi\Tca\Tca;
 

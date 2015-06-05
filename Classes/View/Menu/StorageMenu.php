@@ -14,6 +14,7 @@ namespace Fab\Media\View\Menu;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
@@ -35,6 +36,19 @@ class StorageMenu extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render() {
+
+		$output = '';
+		if (!$this->getMediaModule()->hasFolderTree()) {
+			$output = $this->renderStorageMenu();
+		}
+
+		return $output;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function renderStorageMenu() {
 
 		$currentStorage = $this->getStorageService()->findCurrentStorage();
 
@@ -81,17 +95,24 @@ class StorageMenu extends AbstractComponentView {
 	 * @param mixed $value
 	 * @return array
 	 */
-	public function computeParameterAndValue($parameter, $value){
+	protected function computeParameterAndValue($parameter, $value) {
 
 		if (is_string($value)) {
 			$result = array($parameter, $value);
 		} else {
 			$key = key($value);
 			$value = current($value);
-			$parameter =  sprintf('%s[%s]', $parameter, $key);
+			$parameter = sprintf('%s[%s]', $parameter, $key);
 			$result = $this->computeParameterAndValue($parameter, $value);
 		}
 		return $result;
+	}
+
+	/**
+	 * @return MediaModule
+	 */
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
 	/**

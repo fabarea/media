@@ -18,7 +18,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Module\ModuleParameter;
-use Fab\Media\ObjectFactory;
 use Fab\Media\Thumbnail\ThumbnailInterface;
 use Fab\Vidi\Grid\GridRendererAbstract;
 use Fab\Vidi\Module\ModulePlugin;

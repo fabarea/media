@@ -14,8 +14,6 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Media\ObjectFactory;
 use Fab\Vidi\Grid\GridRendererAbstract;
 
 /**

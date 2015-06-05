@@ -4,8 +4,8 @@ default_categories =
 # cat=basic//; type=boolean; label= Load RTE configuration: Media provides an integration with the RTE by adding additionnal buttons like a "link creator" and an "image editor". Activate this option if you would like to have the RTE configuration loaded. Notice, it will also override the order of button in the RTE. If you don't want this, add the "link creator" and "image editor" buttons in your own Page / User TSConfig. Refer to the documentation.
 load_rte_configuration = 0
 
-# cat=basic//; type=boolean; label= Activate "experimental" features: If checked, Media will be loaded within the module File taking into account the folder tree. Reload CMS Backend after enabling this option.
-activate_experimental_features = 0
+# cat=basic//; type=boolean; label= Hide the folder tree: If checked, Media will be loaded without the folder tree. Reload the Backend after enabling this option.
+hide_folder_tree = 0
 
 ###################### Image preset ######################
 

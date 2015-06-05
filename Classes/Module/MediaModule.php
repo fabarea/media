@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Media;
+namespace Fab\Media\Module;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,32 +14,78 @@ namespace Fab\Media;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\FileUpload\UploadedFileInterface;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Vidi\Domain\Model\Content;
 
 /**
- * Factory class for Media objects.
+ * Class for retrieving information about the Media module.
  */
-class ObjectFactory implements SingletonInterface {
+class MediaModule implements SingletonInterface {
 
 	/**
-	 * Gets a singleton instance of this class.
+	 * Return the combined parameter from the URL.
 	 *
-	 * @return \Fab\Media\ObjectFactory
+	 * @return string
 	 */
-	static public function getInstance() {
-		return GeneralUtility::makeInstance('Fab\Media\ObjectFactory');
+	public function getCombinedParameter() {
+
+		// Fetch possible combined identifier.
+		$combinedIdentifier = GeneralUtility::_GP('id');
+
+		// Retrieve the default storage
+		if (is_null($combinedIdentifier)) {
+			$storage = $this->getStorageService()->findCurrentStorage();
+			$combinedIdentifier = $storage->getUid() . ':/';
+		}
+		return urldecode($combinedIdentifier);
 	}
 
 	/**
-	 * Return a folder object which contains an existing file or a file that has just been uploaded.
-	 * @todo move me to an other class such as FolderService
+	 * @param $combinedIdentifier
+	 * @return Folder
+	 */
+	public function getFolderForCombinedIdentifier($combinedIdentifier) {
+
+		// Code taken from FileListController.php
+		$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+		$identifier = substr($combinedIdentifier, strpos($combinedIdentifier, ':') + 1);
+		if (!$storage->hasFolder($identifier)) {
+			$identifier = $storage->getFolderIdentifierFromFileIdentifier($identifier);
+		}
+
+		// Retrieve the folder object.
+		$folder = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($storage->getUid() . ':' . $identifier);
+
+		// Disallow the rendering of the processing folder (e.g. could be called manually)
+		// and all folders without any defined storage
+		if ($folder && ($folder->getStorage()->getUid() == 0 || trim($folder->getStorage()->getProcessingFolder()->getIdentifier(), '/') === trim($folder->getIdentifier(), '/'))) {
+			$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+			$folder = $storage->getRootLevelFolder();
+		}
+
+		return $folder;
+	}
+
+	/**
+	 * Tell whether the Folder Tree is display or not.
 	 *
-	 * @param File|FileUpload\UploadedFileInterface $fileObject
+	 * @return bool
+	 */
+	public function hasFolderTree(){
+		$configuration = $this->getModuleConfiguration();
+		return !(bool)$configuration['hide_folder_tree']['value'];
+	}
+
+
+	/**
+	 * Return a folder object which contains an existing file or a file that has just been uploaded.
+	 *
+	 * @param File|UploadedFileInterface $fileObject
 	 * @param ResourceStorage $storage
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
@@ -49,7 +95,7 @@ class ObjectFactory implements SingletonInterface {
 		$folderObject = $storage->getRootLevelFolder(); // get the root folder by default
 		if ($fileObject instanceof File) {
 			$folderObject = $storage->getFolder(dirname($fileObject->getIdentifier()));
-		} elseif ($fileObject instanceof FileUpload\UploadedFileInterface) {
+		} elseif ($fileObject instanceof UploadedFileInterface) {
 
 			// Get a possible mount point coming from the storage record.
 			$storageRecord = $storage->getStorageRecord();
@@ -68,7 +114,6 @@ class ObjectFactory implements SingletonInterface {
 
 	/**
 	 * Return a folder object configured in the storage.
-	 * @todo move me to an other class such as FolderService
 	 *
 	 * @param ResourceStorage $storage
 	 * @param File $file
@@ -95,6 +140,19 @@ class ObjectFactory implements SingletonInterface {
 	}
 
 	/**
+	 * @return array
+	 */
+	protected function getModuleConfiguration() {
+
+		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+		$objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
+		/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
+		$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
+		return $configurationUtility->getCurrentConfiguration('media');
+	}
+
+	/**
 	 * Return a pointer to the database.
 	 *
 	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
@@ -110,6 +168,20 @@ class ObjectFactory implements SingletonInterface {
 	 */
 	protected function getBackendUser() {
 		return $GLOBALS['BE_USER'];
+	}
+
+	/**
+	 * @return \Fab\Media\Resource\StorageService
+	 */
+	protected function getStorageService() {
+		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	}
+
+	/**
+	 * @return MediaModule
+	 */
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
 }

@@ -302,8 +302,7 @@ On the server side, there is an API which transparently handles whether the file
 			$response = array('error' => $e->getMessage());
 		}
 
-		$targetFolderObject = \Fab\Media\ObjectFactory::getInstance()->getContainingFolder();
-		$newFileObject = $targetFolderObject->addFile($uploadedFileObject->getFileWithAbsolutePath(), $uploadedFileObject->getName());
+		$newFileObject = $targetFolder->addFile($uploadedFileObject->getFileWithAbsolutePath(), $uploadedFileObject->getName());
 
 .. _Fine Uploader: http://fineuploader.com/
 

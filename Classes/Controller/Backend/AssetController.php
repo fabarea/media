@@ -14,6 +14,7 @@ namespace Fab\Media\Controller\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
 use TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -26,7 +27,6 @@ use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Fab\Media\FileUpload\UploadedFileInterface;
-use Fab\Media\ObjectFactory;
 use Fab\Media\Thumbnail\ThumbnailInterface;
 use Fab\Media\Thumbnail\ThumbnailService;
 use Fab\Vidi\Persistence\MatcherObjectFactory;
@@ -115,7 +115,7 @@ class AssetController extends ActionController {
 
 		// Get the target folder
 		$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
-		$targetFolder = ObjectFactory::getInstance()->getContainingFolder($uploadedFile, $storage);
+		$targetFolder = $this->getMediaModule()->getContainingFolder($uploadedFile, $storage);
 
 		try {
 			$conflictMode = 'changeName';
@@ -170,12 +170,12 @@ class AssetController extends ActionController {
 		/** @var $fileObject File */
 		$fileObject = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
 		$fileObject->getType();
-		$targetFolderObject = ObjectFactory::getInstance()->getContainingFolder($fileObject, $fileObject->getStorage());
+		$targetFolder = $this->getMediaModule()->getContainingFolder($fileObject, $fileObject->getStorage());
 
 		try {
 			$conflictMode = 'replace';
 			$fileName = $fileObject->getName();
-			$file = $targetFolderObject->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
+			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
 			// Run the indexer for extracting metadata.
 			$this->getMediaIndexer($file->getStorage())
@@ -199,13 +199,13 @@ class AssetController extends ActionController {
 		} catch (UploadSizeException $e) {
 			$response = array('error' => vsprintf('The uploaded file "%s" exceeds the size-limit', array($uploadedFile->getName())));
 		} catch (InsufficientFolderWritePermissionsException $e) {
-			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Destination path "%s" was not within your mount points!', array($targetFolder->getIdentifier())));
 		} catch (IllegalFileExtensionException $e) {
-			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFile->getName(), $targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Extension of file name "%s" is not allowed in "%s"!', array($uploadedFile->getName(), $targetFolder->getIdentifier())));
 		} catch (ExistingTargetFileNameException $e) {
-			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('No unique filename available in "%s"!', array($targetFolder->getIdentifier())));
 		} catch (\RuntimeException $e) {
-			$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolderObject->getIdentifier())));
+			$response = array('error' => vsprintf('Uploaded file could not be moved! Write-permission problem in "%s"?', array($targetFolder->getIdentifier())));
 		}
 
 		// to pass data through iframe you will need to encode all html tags
@@ -335,4 +335,10 @@ class AssetController extends ActionController {
 		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
+	/**
+	 * @return MediaModule
+	 */
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+	}
 }

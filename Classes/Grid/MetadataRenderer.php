@@ -16,7 +16,6 @@ namespace Fab\Media\Grid;
 
 use Fab\Vidi\Tca\FieldType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Media\ObjectFactory;
 use Fab\Vidi\Grid\GridRendererAbstract;
 use Fab\Vidi\Tca\Tca;
 
