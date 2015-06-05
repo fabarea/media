@@ -14,6 +14,7 @@ namespace Fab\Media\Override\Backend\Form;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
@@ -28,7 +29,8 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 		$result = parent::JStop();
 		$result .= '
 <script>
-	var vidiModuleUrl = \'' . BackendUtility::getModuleUrl('user_VidiSysFileM1') . '\';
+	var vidiModuleUrl = \'' . BackendUtility::getModuleUrl(VidiModule::getSignature()) . '\';
+	var vidiModulePrefix = \'' . VidiModule::getParameterPrefix() . '\';
 </script>
 		';
 		return $result;
@@ -36,10 +38,6 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 	/**
 	 * JavaScript code used for input-field evaluation.
-	 * Example use:
-	 * $msg .= 'Distribution time (hh:mm dd-mm-yy):<br /><input type="text" name="send_mail_datetime_hr" onchange="typo3form.fieldGet(\'send_mail_datetime\', \'datetime\', \'\', 0,0);"' . $GLOBALS['TBE_TEMPLATE']->formWidth(20) . ' /><input type="hidden" value="' . $GLOBALS['EXEC_TIME'] . '" name="send_mail_datetime" /><br />';
-	 * $this->extJSCODE.='typo3form.fieldSet("send_mail_datetime", "datetime", "", 0,0);';
-	 * ... and then include the result of this function after the form
 	 *
 	 * @param string $formname The identification of the form on the page.
 	 * @param boolean $update Just extend/update existing settings, e.g. for AJAX call
@@ -49,7 +47,7 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 		$result = parent::JSbottom($formname, $update);
 
-		$enableMediaFilePicker = (bool)$GLOBALS['BE_USER']->getTSConfigVal('options.vidi.enableMediaFilePicker');
+		$enableMediaFilePicker = (bool)$this->getBackendUser()->getTSConfigVal('options.vidi.enableMediaFilePicker');
 		if (!$update && $enableMediaFilePicker) {
 			/** @var $pageRenderer \TYPO3\CMS\Core\Page\PageRenderer */
 			$pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
@@ -59,5 +57,14 @@ class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns an instance of the current Backend User.
+	 *
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getBackendUser() {
+		return $GLOBALS['BE_USER'];
 	}
 }

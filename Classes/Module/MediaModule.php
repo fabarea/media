@@ -29,6 +29,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MediaModule implements SingletonInterface {
 
+	const SIGNATURE = 'user_MediaM1';
+	const PARAMETER_PREFIX = 'tx_media_user_mediam1';
+
+	/**
+	 * @return string
+	 */
+	static public function getSignature(){
+		return self::SIGNATURE;
+	}
+
+	/**
+	 * @return string
+	 */
+	static public function getParameterPrefix(){
+		return self::PARAMETER_PREFIX;
+	}
 	/**
 	 * Return all storage allowed for the Backend User.
 	 *
@@ -170,7 +186,17 @@ class MediaModule implements SingletonInterface {
 	 */
 	public function hasFolderTree() {
 		$configuration = $this->getModuleConfiguration();
-		return !(bool)$configuration['hide_folder_tree']['value'];
+		return (bool)$configuration['has_folder_tree']['value'];
+	}
+
+	/**
+	 * Tell whether the file picker will be used or not.
+	 *
+	 * @return bool
+	 */
+	public function hasMediaFilePicker() {
+		$configuration = $this->getModuleConfiguration();
+		return !(bool)$configuration['has_media_file_picker']['value'];
 	}
 
 	/**
@@ -276,18 +302,11 @@ class MediaModule implements SingletonInterface {
 	}
 
 	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
-
-	/**
 	 * Return the module loader.
 	 *
 	 * @return \Fab\Vidi\Module\ModuleLoader
 	 */
-	public function getModuleLoader() {
+	protected function getModuleLoader() {
 		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
 	}
 

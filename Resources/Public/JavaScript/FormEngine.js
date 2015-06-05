@@ -30,8 +30,8 @@ define('TYPO3/CMS/Media/FormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngine'],
 		// Open the Media Picker if we encounter an inline segment in the params -> file to be selected.
 		if (params.search(/inline\./) > -1) {
 
-			// An additional filter could be applied if required "&tx_vidi_user_vidisysfilem1[matches][type]=2"
-			url = FormEngine.backPath + vidiModuleUrl + '&tx_vidi_user_vidisysfilem1[plugins][]=filePicker&params=' + params;
+			// An additional filter could be applied if required "&prefix[matches][type]=2"
+			url = FormEngine.backPath + vidiModuleUrl + '&' + vidiModulePrefix + '[plugins][]=filePicker&params=' + params;
 
 			//var name = "File Picker"; // Commented since IE compatibility issue. Weird!
 			var dimensions = {

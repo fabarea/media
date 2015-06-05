@@ -21,6 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -57,9 +58,16 @@ class tx_rtehtmlarea_linkcreator extends \TYPO3\CMS\Rtehtmlarea\RteHtmlAreaApi {
 			RTEarea[' . $RTEcounter . '].buttons.' . $button . ' = new Object();';
 			}
 			$registerRTEinJavascriptString .= '
-			RTEarea[' . $RTEcounter . '].buttons.' . $button . '.pathLinkModule = ' . GeneralUtility::quoteJSvalue(BackendUtility::getModuleUrl('user_VidiSysFileM1'));
+			RTEarea[' . $RTEcounter . '].buttons.' . $button . '.pathLinkModule = ' . GeneralUtility::quoteJSvalue($this->getModuleUrl());
 		}
 		return $registerRTEinJavascriptString;
 	}
+
+	/**
+	 * @return string
+	 */
+	protected function getModuleUrl() {
+		$moduleSignature = VidiModule::getSignature();
+		return BackendUtility::getModuleUrl($moduleSignature);
+	}
 }
-?>

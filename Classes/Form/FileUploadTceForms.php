@@ -14,6 +14,7 @@ namespace Fab\Media\Form;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -43,11 +44,19 @@ class FileUploadTceForms extends FileUpload {
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->elementId,
-			BackendUtility::getModuleUrl('user_MediaM1'),
+			$this->getModuleUrl(),
 			$this->getAllowedExtension(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getValue()
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getModuleUrl() {
+		$moduleSignature = MediaModule::getSignature();
+		return BackendUtility::getModuleUrl($moduleSignature);
 	}
 
 	/**

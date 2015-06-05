@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Media\View\Button;
+namespace Fab\Media\View;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -15,13 +15,13 @@ namespace Fab\Media\View\Button;
  */
 
 use Fab\Media\Module\MediaModule;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
 /**
  * View which renders a button for uploading assets.
  */
-class UploadButton extends AbstractComponentView {
+class InlineJavaScript extends AbstractComponentView {
+
 
 	/**
 	 * Renders a button for uploading assets.
@@ -29,9 +29,16 @@ class UploadButton extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render() {
+		$parameterPrefix = MediaModule::getParameterPrefix();
+		$output = "
+<script>
 
-		/** @var $fileUpload \Fab\Media\Form\FileUpload */
-		$fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUpload');
-		return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();
+Media.parameterPrefix = '${parameterPrefix}';
+
+</script>";
+
+		return $output;
 	}
+
+
 }

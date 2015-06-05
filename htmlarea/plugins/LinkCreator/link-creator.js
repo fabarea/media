@@ -78,7 +78,7 @@ HTMLArea.LinkCreator = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean    false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = this.modulePath + '&tx_vidi_user_vidisysfilem1[plugins][]=linkCreator';
+		var url = this.modulePath + '&' + Vidi.module.prefixParameter + '[plugins][]=linkCreator';
 		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('a');

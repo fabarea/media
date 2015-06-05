@@ -82,7 +82,7 @@
 						</li>
 					</ul>
 
-					<f:form action="work" controller="Tool" extensionName="vidi" pluginName="user_VidiSysFileM1"
+					<f:form action="work" controller="Tool" extensionName="vidi" pluginName="{m:moduleSignature()}"
 					        additionalParams="{returnUrl: '{v:gp(argument: \'returnUrl\', encode: false)}'}">
 						<f:form.hidden name="arguments[deleteMissingFiles]" value="1"/>
 						<f:form.hidden name="tool" value="Fab\Media\Tool\MissingFilesFinderTool"/>
@@ -119,3 +119,4 @@
 </div>
 
 {namespace v=Fab\Vidi\ViewHelpers}
+{namespace m=Fab\Media\ViewHelpers}

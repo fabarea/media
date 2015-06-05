@@ -57,10 +57,7 @@ if (TYPO3_MODE == 'BE') {
 		)
 	);
 
-	$defaultMainModule = 'file';
-	if ((bool)$configuration['hide_folder_tree']['value']) {
-		$defaultMainModule = 'user';
-	}
+	$defaultMainModule = (bool)$configuration['has_folder_tree']['value'] ? 'file' : 'content';
 
 	/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
 	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader', 'sys_file');
@@ -88,6 +85,7 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setGridTopComponents(
 			array(
+				'Fab\Media\View\InlineJavaScript',
 				'Fab\Media\View\Warning\ConfigurationWarning',
 				'Fab\Media\View\Info\SelectedFolderInfo',
 			)

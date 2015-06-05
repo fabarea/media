@@ -77,7 +77,7 @@ HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = this.modulePath + '&tx_vidi_user_vidisysfilem1[plugins][]=imageEditor&tx_vidi_user_vidisysfilem1[matches][type]=2';
+		var url = this.modulePath + '&' + Vidi.module.prefixParameter + '[plugins][]=imageEditor&' + Vidi.module.prefixParameter + '[matches][type]=2';
 		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('img');

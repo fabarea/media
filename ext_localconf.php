@@ -33,8 +33,18 @@ if (TYPO3_MODE == 'BE') {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\DuplicateRecordsCommandController';
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\ThumbnailCommandController';
 
-	// Override classes for the Object Manager
-	$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Backend\Form\FormEngine'] = array(
-		'className' => 'Fab\Media\Override\Backend\Form\FormEngine'
-	);
+	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
+	/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
+	$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
+	$configuration = $configurationUtility->getCurrentConfiguration('media');
+	if ($configuration['has_media_file_picker']['value']) {
+
+		// Override classes for the Object Manager.
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Backend\Form\FormEngine'] = array(
+			'className' => 'Fab\Media\Override\Backend\Form\FormEngine'
+		);
+	}
+
 }

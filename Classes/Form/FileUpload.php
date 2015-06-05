@@ -164,11 +164,19 @@ EOF;
 		return sprintf(file_get_contents($filePath),
 			$basePrefix,
 			$this->elementId,
-			BackendUtility::getModuleUrl('user_MediaM1'),
+			$this->getModuleUrl(),
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
 			$this->getMediaModule()->getCombinedIdentifier()
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getModuleUrl() {
+		$moduleSignature = MediaModule::getSignature();
+		return BackendUtility::getModuleUrl($moduleSignature);
 	}
 
 	/**

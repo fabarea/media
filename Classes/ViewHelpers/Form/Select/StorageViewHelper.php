@@ -35,7 +35,7 @@ class StorageViewHelper extends AbstractViewHelper {
 		// Check if a storages is selected
 		$currentStorage = $this->getMediaModule()->getCurrentStorage();
 
-		$template = '<select name="tx_vidi_user_vidisysfilem1[target]">%s</select>';
+		$template = '<select name="%s[target]">%s</select>';
 		$options = array();
 		foreach ($objects as $storage) {
 
@@ -47,7 +47,10 @@ class StorageViewHelper extends AbstractViewHelper {
 				!$storage->isOnline() ? '(offline)' : ''
 			);
 		}
-		return sprintf($template, implode("\n", $options));
+		return sprintf($template,
+			VidiModule::getParameterPrefix(),
+			implode("\n", $options)
+		);
 	}
 
 	/**

@@ -14,6 +14,7 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -98,7 +99,7 @@ class UsageRenderer extends GridRendererAbstract {
 			$result .= sprintf($this->getReferenceTemplate(),
 				$reference[$mapping['referenceIdentifier']],
 				$this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
-				rawurlencode(BackendUtility::getModuleUrl('user_VidiSysFileM1')),
+				$this->getModuleUrl(),
 				$reference[$mapping['tableName']],
 				$reference[$mapping['referenceIdentifier']],
 				IconUtility::getSpriteIcon('actions-document-open'),
@@ -106,6 +107,14 @@ class UsageRenderer extends GridRendererAbstract {
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getModuleUrl() {
+		$moduleSignature = VidiModule::getSignature();
+		return rawurlencode(BackendUtility::getModuleUrl($moduleSignature));
 	}
 
 	/**

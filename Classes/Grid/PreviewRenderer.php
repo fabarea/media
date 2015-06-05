@@ -14,10 +14,10 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Media\Module\ModuleParameter;
 use Fab\Media\Thumbnail\ThumbnailInterface;
 use Fab\Vidi\Grid\GridRendererAbstract;
 use Fab\Vidi\Module\ModulePlugin;
@@ -83,13 +83,13 @@ class PreviewRenderer extends GridRendererAbstract {
 	 */
 	protected function getPluginUri($controllerName) {
 		$urlParameters = array(
-			ModuleParameter::PREFIX => array(
+			MediaModule::getParameterPrefix() => array(
 				'controller' => $controllerName,
 				'action' => 'show',
 				'file' => $this->object->getUid(),
 			),
 		);
-		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
 	}
 
 	/**

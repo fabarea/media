@@ -14,6 +14,7 @@ namespace Fab\Media\ViewHelpers\Uri;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -30,7 +31,7 @@ class MoveViewHelper extends AbstractViewHelper {
 	public function render() {
 
 		$urlParameters = array(
-			'tx_vidi_user_vidisysfilem1' => array(
+			VidiModule::getParameterPrefix() => array(
 				'controller' => 'Content',
 				'action' => 'move',
 				'fieldNameAndPath' => $this->templateVariableContainer->get('fieldNameAndPath'),
@@ -38,12 +39,15 @@ class MoveViewHelper extends AbstractViewHelper {
 			),
 		);
 
-		$moduleUrl = BackendUtility::getModuleUrl('user_VidiSysFileM1', $urlParameters);
+		$moduleUrl = BackendUtility::getModuleUrl(
+			VidiModule::getSignature(),
+			$urlParameters
+		);
 
 		// Work around a bug in BackendUtility::getModuleUrl if matches is empty getModuleUrl() will not return the parameter.
 		$matches = $this->templateVariableContainer->get('matches');
 		if (empty($matches)) {
-			$moduleUrl .= '&' . urlencode('tx_vidi_user_vidisysfilem1[matches]=');
+			$moduleUrl .= '&' . urlencode(VidiModule::getParameterPrefix() . '[matches]=');
 		}
 
 		return $moduleUrl;

@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Media\Module;
+namespace Fab\Media\ViewHelpers;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,15 +14,20 @@ namespace Fab\Media\Module;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Type\Enumeration;
+use Fab\Media\Module\VidiModule;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Enumeration object for parameter module.
+ * View helper which outputs the BE module signature.
  */
-class ModuleParameter extends Enumeration {
+class ModuleSignatureViewHelper extends AbstractViewHelper {
 
-	const MODULE_SIGNATURE = 'user_MediaM1';
-
-	const PREFIX = 'tx_media_user_mediam1';
-
+	/**
+	 * Returns the BE module signature.
+	 *
+	 * @return string
+	 */
+	public function render() {
+		return VidiModule::getSignature();
+	}
 }

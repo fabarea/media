@@ -14,9 +14,9 @@ namespace Fab\Media\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Media\Module\ModuleParameter;
 
 /**
  * Custom fields for Media
@@ -64,7 +64,7 @@ class TceForms {
 
 		/** @var $fileUpload \Fab\Media\Form\FileUploadTceForms */
 		$fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUploadTceForms');
-		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(ModuleParameter::PREFIX);
+		$fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(MediaModule::getParameterPrefix());
 		return $fileUpload->render();
 	}
 }

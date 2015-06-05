@@ -14,8 +14,8 @@ namespace Fab\Media\View\Plugin;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use Fab\Media\Module\ModuleParameter;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
 use Fab\Vidi\Module\ModulePlugin;
@@ -49,11 +49,11 @@ class ImageEditorPlugin extends AbstractComponentView {
 	 */
 	protected function getImageEditorUri() {
 		$urlParameters = array(
-			ModuleParameter::PREFIX => array(
+			MediaModule::getParameterPrefix() => array(
 				'controller' => 'ImageEditor',
 				'action' => 'show',
 			),
 		);
-		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
 	}
 }

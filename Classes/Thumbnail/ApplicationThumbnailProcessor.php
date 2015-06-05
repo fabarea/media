@@ -14,9 +14,9 @@ namespace Fab\Media\Thumbnail;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use Fab\Media\Module\ModuleParameter;
 
 /**
  * Application Thumbnail Processor
@@ -131,13 +131,13 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor {
 	 */
 	protected function getUri() {
 		$urlParameters = array(
-			ModuleParameter::PREFIX => array(
+			MediaModule::getParameterPrefix() => array(
 				'controller' => 'Asset',
 				'action' => 'download',
 				'file' => $this->getFile()->getUid(),
 			),
 		);
-		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
 	}
 
 	/**

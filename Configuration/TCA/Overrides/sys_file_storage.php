@@ -77,7 +77,7 @@ $tca = array(
 );
 
 $tcaForHiddenFolderTree = array();
-if ($configuration['hide_folder_tree']['value']) {
+if (!$configuration['has_folder_tree']['value']) {
 	$tcaForHiddenFolderTree = array(
 
 		'types' => array(

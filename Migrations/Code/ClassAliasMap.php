@@ -63,7 +63,6 @@ return array(
 	'TYPO3\CMS\Media\Index\IndexAnalyser' => 'Fab\Media\Index\IndexAnalyser',
 	'TYPO3\CMS\Media\Index\MediaIndexer' => 'Fab\Media\Index\MediaIndexer',
 	'TYPO3\CMS\Media\Index\TitleMetadataExtractor' => 'Fab\Media\Index\TitleMetadataExtractor',
-	'TYPO3\CMS\Media\Module\ModuleParameter' => 'Fab\Media\Module\ModuleParameter',
 	'TYPO3\CMS\Media\Override\Backend\Form\FormEngine' => 'Fab\Media\Override\Backend\Form\FormEngine',
 	'TYPO3\CMS\Media\Resource\FileReferenceService' => 'Fab\Media\Resource\FileReferenceService',
 	'TYPO3\CMS\Media\Resource\StorageService' => 'Fab\Media\Resource\StorageService',

@@ -38,7 +38,7 @@ class StorageMenu extends AbstractComponentView {
 	public function render() {
 
 		$output = '';
-		if (!$this->getMediaModule()->hasFolderTree()) {
+		if (!$this->getMediaModule()->hasFolderTree() && $this->getMediaModule()->hasMediaFilePicker()) {
 			$output = $this->renderStorageMenu();
 		}
 

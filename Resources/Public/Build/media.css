@@ -4,10 +4,12 @@
 	display: none;
 }
 
+#form-checkbox-hasRecursiveBrowsing,
 #form-menu-storage {
 	height: 18px;
 	margin-bottom: 0;
 }
+
 
 ul.usage-list {
     list-style: none;

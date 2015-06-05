@@ -14,10 +14,10 @@ namespace Fab\Media\View\Button;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use Fab\Media\Module\ModuleParameter;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
 use Fab\Vidi\Module\ModulePlugin;
@@ -52,12 +52,12 @@ class FilePickerButton extends AbstractComponentView {
 	 */
 	protected function getFilePickerUri(Content $object) {
 		$urlParameters = array(
-			ModuleParameter::PREFIX => array(
+			MediaModule::getParameterPrefix() => array(
 				'controller' => 'Asset',
 				'action' => 'download',
 				'file' => $object->getUid(),
 			),
 		);
-		return BackendUtility::getModuleUrl(ModuleParameter::MODULE_SIGNATURE, $urlParameters);
+		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
 	}
 }

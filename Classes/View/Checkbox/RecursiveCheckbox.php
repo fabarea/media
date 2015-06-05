@@ -20,7 +20,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
 /**
- * View which renders a dropdown menu for storage.
+ * View which renders a checkbox for recursive file browsing.
  */
 class RecursiveCheckbox extends AbstractComponentView {
 
@@ -31,7 +31,7 @@ class RecursiveCheckbox extends AbstractComponentView {
 	protected $moduleLoader;
 
 	/**
-	 * Renders a dropdown menu for storage.
+	 * Renders a checkbox for recursive file browsing.
 	 *
 	 * @return string
 	 */

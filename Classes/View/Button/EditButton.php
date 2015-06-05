@@ -49,13 +49,28 @@ class EditButton extends AbstractComponentView {
 	 * @param File $file
 	 * @return string
 	 */
-	protected function getUri(File $file){
+	protected function getUri(File $file) {
 		$metadataProperties = $file->_getMetaData();
-		$returnUrl = rawurlencode(BackendUtility::getModuleUrl(GeneralUtility::_GP('M')));
+
+		$returnUrl = rawurlencode(BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $this->getAdditionalParameters()));
 		return sprintf('alt_doc.php?edit[%s][%s]=edit',
 			'sys_file_metadata',
 			$metadataProperties['uid']
 		) . '&returnUrl=' . $returnUrl;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getAdditionalParameters() {
+
+		$additionalParameters = array();
+		if (GeneralUtility::_GP('id')) {
+			$additionalParameters = array(
+				'id' => urldecode(GeneralUtility::_GP('id')),
+			);
+		}
+		return $additionalParameters;
 	}
 
 	/**
@@ -64,4 +79,5 @@ class EditButton extends AbstractComponentView {
 	protected function getFileConverter() {
 		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
+
 }
