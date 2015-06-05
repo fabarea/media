@@ -42,7 +42,7 @@ class SelectedFolderInfo extends AbstractComponentView {
 		if ($this->getMediaModule()->hasFolderTree()) {
 
 			// Fetch possible combined identifier.
-			$combinedIdentifier = $this->getMediaModule()->getCombinedParameter();
+			$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
 			$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
 
 			$result = sprintf('<h1>%s</h1>', $this->getFolderName($folder));

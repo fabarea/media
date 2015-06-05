@@ -44,7 +44,8 @@
 			var params = {};
 			params[parameterPrefix + '[action]'] = 'create';
 			params[parameterPrefix + '[controller]'] = 'Asset';
-			params[parameterPrefix + '[storageIdentifier]'] = '%s';
+			params[parameterPrefix + '[combinedIdentifier]'] = '%s';
+
 			$(this).fineUploader('setParams', params);
 		})
 			.on('cancel', function(event, id, fileName) {

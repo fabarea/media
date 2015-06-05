@@ -50,11 +50,11 @@ class StorageMenu extends AbstractComponentView {
 	 */
 	protected function renderStorageMenu() {
 
-		$currentStorage = $this->getStorageService()->findCurrentStorage();
+		$currentStorage = $this->getMediaModule()->getCurrentStorage();
 
 		/** @var $storage \TYPO3\CMS\Core\Resource\ResourceStorage */
 		$options = '';
-		foreach ($this->getStorageService()->findByBackendUser() as $storage) {
+		foreach ($this->getMediaModule()->getAllowedStorages() as $storage) {
 			$selected = '';
 			if ($currentStorage->getUid() == $storage->getUid()) {
 				$selected = 'selected';
@@ -115,10 +115,4 @@ class StorageMenu extends AbstractComponentView {
 		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
-	/**
-	 * @return \Fab\Media\Resource\StorageService
-	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
-	}
 }

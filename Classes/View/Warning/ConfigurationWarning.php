@@ -14,6 +14,7 @@ namespace Fab\Media\View\Warning;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tca\Tca;
 use Fab\Vidi\View\AbstractComponentView;
@@ -80,7 +81,7 @@ class ConfigurationWarning extends AbstractComponentView {
 			$values[$field] = Tca::table($tableName)->field($field)->getDefaultValue();
 		}
 
-		$storage = $this->getStorageService()->findCurrentStorage();
+		$storage = $this->getMediaModule()->getCurrentStorage();
 		$this->getDatabaseConnection()->exec_UPDATEquery($tableName, 'uid = ' . $storage->getUid(), $values);
 	}
 
@@ -90,7 +91,7 @@ class ConfigurationWarning extends AbstractComponentView {
 	 * @return boolean
 	 */
 	protected function checkStorageNotConfigured() {
-		$currentStorage = $this->getStorageService()->findCurrentStorage();
+		$currentStorage = $this->getMediaModule()->getCurrentStorage();
 		$storageRecord = $currentStorage->getStorageRecord();
 
 		// Take the storage fields and check whether some data was initialized.
@@ -126,7 +127,7 @@ class ConfigurationWarning extends AbstractComponentView {
 	 */
 	protected function formatMessageForStorageConfigured() {
 
-		$storage = $this->getStorageService()->findCurrentStorage();
+		$storage = $this->getMediaModule()->getCurrentStorage();
 
 		$result = <<< EOF
 			<div class="typo3-message message-information">
@@ -150,7 +151,7 @@ EOF;
 	 * @return boolean
 	 */
 	protected function checkStorageOffline() {
-		return !$this->getStorageService()->findCurrentStorage()->isOnline();
+		return !$this->getMediaModule()->getCurrentStorage()->isOnline();
 	}
 
 	/**
@@ -160,7 +161,7 @@ EOF;
 	 */
 	protected function formatMessageForStorageOffline() {
 
-		$storage = $this->getStorageService()->findCurrentStorage();
+		$storage = $this->getMediaModule()->getCurrentStorage();
 
 		$result = <<< EOF
 			<div class="typo3-message message-warning">
@@ -183,7 +184,7 @@ EOF;
 	 * @return boolean
 	 */
 	protected function checkMountPoints() {
-		if (! $this->getBackendUser()->isAdmin()) {
+		if (!$this->getBackendUser()->isAdmin()) {
 
 			$fileMounts = $this->getBackendUser()->getFileMountRecords();
 
@@ -192,7 +193,7 @@ EOF;
 				$fileMountIdentifiers[] = $fileMount['uid'];
 			}
 
-			$storage = $this->getStorageService()->findCurrentStorage();
+			$storage = $this->getMediaModule()->getCurrentStorage();
 			$storageRecord = $storage->getStorageRecord();
 			$fieldNames = array(
 				'mount_point_file_type_1',
@@ -202,8 +203,8 @@ EOF;
 				'mount_point_file_type_5',
 			);
 			foreach ($fieldNames as $fileName) {
-				$fileMountIdentifier = (int) $storageRecord[$fileName];
-				if ($fileMountIdentifier > 0 && ! in_array($fileMountIdentifier, $fileMountIdentifiers)) {
+				$fileMountIdentifier = (int)$storageRecord[$fileName];
+				if ($fileMountIdentifier > 0 && !in_array($fileMountIdentifier, $fileMountIdentifiers)) {
 					$this->notAllowedMountPoints[] = $this->fetchMountPoint($fileMountIdentifier);
 				} else {
 					# $fileMountIdentifier
@@ -231,7 +232,7 @@ EOF;
 	 */
 	protected function formatMessageForMountPoints() {
 
-		$storage = $this->getStorageService()->findCurrentStorage();
+		$storage = $this->getMediaModule()->getCurrentStorage();
 		$backendUser = $this->getBackendUser();
 
 		foreach ($this->notAllowedMountPoints as $notAllowedMountPoints) {
@@ -314,9 +315,10 @@ EOF;
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
+	 * @return MediaModule
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
+
 }

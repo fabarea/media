@@ -37,7 +37,7 @@ class FilePermissionsAspect {
 	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
 		if ($dataType === 'sys_file') {
 
-			$combinedIdentifier = $this->getMediaModule()->getCombinedParameter();
+			$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
 			if ($combinedIdentifier && $this->getMediaModule()->hasFolderTree()) {
 
 				$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
@@ -59,7 +59,7 @@ class FilePermissionsAspect {
 
 				$matcher->equals('storage', $folder->getStorage()->getUid());
 			} else {
-				$storage = $this->getStorageService()->findCurrentStorage();
+				$storage = $this->getMediaModule()->getCurrentStorage();
 
 				// Set the storage identifier only if the storage is on-line.
 				$identifier = -1;
@@ -157,13 +157,6 @@ class FilePermissionsAspect {
 	 */
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
-	}
-
-	/**
-	 * @return \Fab\Media\Resource\StorageService
-	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
 	/**

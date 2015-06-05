@@ -53,6 +53,13 @@ class FileConverter extends AbstractTypeConverter {
 
 		/** @var $file File */
 		$file = ResourceFactory::getInstance()->getFileObject((int)$source);
+
+		if (!$file) {
+			$message = sprintf('File with identifier "%s" could not be found.', $file);
+			throw new \Exception($message, 1433529796);
+		}
+
+		$file->getType(); // force to internally know its mime-type.
 		return $file;
 	}
 }

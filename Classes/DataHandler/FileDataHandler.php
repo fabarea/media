@@ -84,12 +84,12 @@ class FileDataHandler extends AbstractDataHandler {
 			$targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
 
 			// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-			$targetFolder = $this->getMediaModule()->getTargetFolder($targetStorage, $file);
+			$targetFolder = $this->getMediaModule()->getDefaultFolderInStorage($targetStorage, $file);
 
 			try {
 				// Move file
 				$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
-			} catch(\Exception $e) {
+			} catch (\Exception $e) {
 				$this->errorMessages = $e->getMessage();
 			}
 		}

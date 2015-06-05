@@ -67,36 +67,10 @@ class RecursiveCheckbox extends AbstractComponentView {
 	}
 
 	/**
-	 * Compute parameter and value to be correctly encoded by the browser.
-	 *
-	 * @param string $parameter
-	 * @param mixed $value
-	 * @return array
-	 */
-//	protected function computeParameterAndValue($parameter, $value) {
-//
-//		if (is_string($value)) {
-//			$result = array($parameter, $value);
-//		} else {
-//			$key = key($value);
-//			$value = current($value);
-//			$parameter = sprintf('%s[%s]', $parameter, $key);
-//			$result = $this->computeParameterAndValue($parameter, $value);
-//		}
-//		return $result;
-//	}
-
-	/**
 	 * @return MediaModule
 	 */
 	protected function getMediaModule() {
 		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
-	/**
-	 * @return \Fab\Media\Resource\StorageService
-	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
-	}
 }

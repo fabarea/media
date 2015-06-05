@@ -64,14 +64,14 @@ class AssetController extends ActionController {
 			$propertyMappingConfiguration->setTypeConverter($typeConverter);
 		}
 
-		if ($this->arguments->hasArgument('storage')) {
-
-			/** @var \Fab\Media\TypeConverter\StorageConverter $typeConverter */
-			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\StorageConverter');
-
-			$propertyMappingConfiguration = $this->arguments->getArgument('storage')->getPropertyMappingConfiguration();
-			$propertyMappingConfiguration->setTypeConverter($typeConverter);
-		}
+//		if ($this->arguments->hasArgument('storage')) {
+//
+//			/** @var \Fab\Media\TypeConverter\StorageConverter $typeConverter */
+//			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\StorageConverter');
+//
+//			$propertyMappingConfiguration = $this->arguments->getArgument('storage')->getPropertyMappingConfiguration();
+//			$propertyMappingConfiguration->setTypeConverter($typeConverter);
+//		}
 	}
 
 	/**
@@ -102,25 +102,29 @@ class AssetController extends ActionController {
 	/**
 	 * Handle file upload for a new file.
 	 *
-	 * @param int $storageIdentifier
-	 * @validate $storageIdentifier \Fab\Media\Domain\Validator\StorageValidator
+	 * @param string $combinedIdentifier
+	 * @validate $combinedIdentifier \Fab\Media\Domain\Validator\StorageValidator
 	 * @return string
 	 */
-	public function createAction($storageIdentifier) {
+	public function createAction($combinedIdentifier) {
 		/** @var UploadedFileInterface $uploadedFile */
 		$uploadedFile = $this->handleUpload();
 		if (!is_object($uploadedFile)) {
 			return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
 		}
 
-		// Get the target folder
-		$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
-		$targetFolder = $this->getMediaModule()->getContainingFolder($uploadedFile, $storage);
+		// Get the target folder.
+		if ($this->getMediaModule()->hasFolderTree()) {
+			$targetFolder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
+		} else {
+			$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+			$targetFolder = $this->getMediaModule()->getTargetFolderForUploadedFile($uploadedFile, $storage);
+		}
 
 		try {
 			$conflictMode = 'changeName';
 			$fileName = $uploadedFile->getName();
-			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName , $conflictMode);
+			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
 			// Run the indexer for extracting metadata.
 			$this->getMediaIndexer($file->getStorage())
@@ -157,40 +161,37 @@ class AssetController extends ActionController {
 	/**
 	 * Handle file upload for an existing file.
 	 *
-	 * @param int $fileIdentifier
-	 * @validate $fileIdentifier \Fab\Media\Domain\Validator\FileValidator
+	 * @param File $file
 	 * @return string
 	 */
-	public function updateAction($fileIdentifier) {
+	public function updateAction(File $file) {
 		$uploadedFile = $this->handleUpload();
 		if (!is_object($uploadedFile)) {
 			return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
 		}
 
-		/** @var $fileObject File */
-		$fileObject = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
-		$fileObject->getType();
-		$targetFolder = $this->getMediaModule()->getContainingFolder($fileObject, $fileObject->getStorage());
+		/** @var $file File */
+		$targetFolder = $file->getStorage()->getFolder(dirname($file->getIdentifier()));
 
 		try {
 			$conflictMode = 'replace';
-			$fileName = $fileObject->getName();
-			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
+			$fileName = $file->getName();
+			$updatedFile = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
 			// Run the indexer for extracting metadata.
-			$this->getMediaIndexer($file->getStorage())
-				->updateIndex($file)
-				->extractMetadata($file);
+			$this->getMediaIndexer($updatedFile->getStorage())
+				->updateIndex($updatedFile)
+				->extractMetadata($updatedFile);
 
 			// Clear cache on pages holding a reference to this file.
-			$this->getCacheService()->clearCache($file);
+			$this->getCacheService()->clearCache($updatedFile);
 
 			$response = array(
 				'success' => TRUE,
-				'uid' => $file->getUid(),
-				'name' => $file->getName(),
-				'thumbnail' => $this->getThumbnailService($file)->create(),
-				'fileInfo' => $this->getMetadataViewHelper()->render($file),
+				'uid' => $updatedFile->getUid(),
+				'name' => $updatedFile->getName(),
+				'thumbnail' => $this->getThumbnailService($updatedFile)->create(),
+				'fileInfo' => $this->getMetadataViewHelper()->render($updatedFile),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -221,7 +222,7 @@ class AssetController extends ActionController {
 	 */
 	public function editStorageAction(array $matches = array()) {
 
-		$this->view->assign('storages', $this->getStorageService()->findByBackendUser());
+		$this->view->assign('storages', $this->getMediaModule()->getAllowedStorages());
 		$this->view->assign('storageTitle', Tca::table('sys_file_storage')->getTitle());
 
 		$fieldName = 'storage';
@@ -329,16 +330,10 @@ class AssetController extends ActionController {
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
-	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
-	}
-
-	/**
 	 * @return MediaModule
 	 */
 	protected function getMediaModule() {
 		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
+
 }

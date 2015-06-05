@@ -13,38 +13,41 @@ namespace Fab\Media\Domain\Validator;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
  * Validate whether "storageIdentifier" is allowed.
  */
-class StorageValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator {
+class StorageValidator extends AbstractValidator {
 
 	/**
 	 * Check if $storageIdentifier is allowed. If it is not valid, throw an exception.
 	 *
-	 * @param int $storageIdentifier
+	 * @param int $combinedIdentifier
 	 * @return void
 	 */
-	public function isValid($storageIdentifier) {
+	public function isValid($combinedIdentifier) {
 
-		if ((int) $storageIdentifier > 0) {
-			$storageIdentifiers = array();
-			foreach ($this->getStorageService()->findByBackendUser() as $storage) {
-				$storageIdentifiers[] = $storage->getUid();
-			}
+		$allowedStorageIdentifiers = array();
+		foreach ($this->getMediaModule()->getAllowedStorages() as $allowedStorage) {
+			$allowedStorageIdentifiers[] = $allowedStorage->getUid();
+		}
 
-			if (!in_array($storageIdentifier, $storageIdentifiers)) {
-				$message = sprintf('Storage identifier "%s" is not allowed or is currently off-line.', $storageIdentifier);
-				$this->addError($message , 1380813503);
-			}
+		$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+		if (!in_array($storage->getUid(), $allowedStorageIdentifiers)) {
+			$message = sprintf('Storage identifier "%s" is not allowed or is currently off-line.', $combinedIdentifier);
+			$this->addError($message, 1380813503);
 		}
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
+	 * @return MediaModule
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 }

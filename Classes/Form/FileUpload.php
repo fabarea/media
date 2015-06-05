@@ -14,6 +14,7 @@ namespace Fab\Media\Form;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -166,7 +167,7 @@ EOF;
 			BackendUtility::getModuleUrl('user_MediaM1'),
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
-			$this->getStorageService()->findCurrentStorage()->getUid()
+			$this->getMediaModule()->getCombinedIdentifier()
 		);
 	}
 
@@ -212,10 +213,10 @@ EOF;
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
+	 * @return MediaModule
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
 }

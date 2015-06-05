@@ -14,6 +14,7 @@ namespace Fab\Media\FileUpload\Optimizer;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\FileUpload\ImageOptimizerInterface;
 
@@ -61,7 +62,7 @@ class Resize implements ImageOptimizerInterface {
 			$storageRecord = $this->storage->getStorageRecord();
 		} else {
 			// Will only work in the BE for now.
-			$storage = $this->getStorageService()->findCurrentStorage();
+			$storage = $this->getMediaModule()->getCurrentStorage();
 			$storageRecord = $storage->getStorageRecord();
 		}
 
@@ -125,9 +126,10 @@ class Resize implements ImageOptimizerInterface {
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
+	 * @return MediaModule
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
+
 }

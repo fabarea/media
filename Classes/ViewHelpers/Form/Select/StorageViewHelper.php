@@ -14,6 +14,7 @@ namespace Fab\Media\ViewHelpers\Form\Select;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -32,7 +33,7 @@ class StorageViewHelper extends AbstractViewHelper {
 	public function render($objects = array()) {
 
 		// Check if a storages is selected
-		$currentStorage = $this->getStorageService()->findCurrentStorage();
+		$currentStorage = $this->getMediaModule()->getCurrentStorage();
 
 		$template = '<select name="tx_vidi_user_vidisysfilem1[target]">%s</select>';
 		$options = array();
@@ -50,10 +51,10 @@ class StorageViewHelper extends AbstractViewHelper {
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
+	 * @return MediaModule
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
 }

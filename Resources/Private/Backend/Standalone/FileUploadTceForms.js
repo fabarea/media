@@ -41,7 +41,7 @@
 				var params = {};
 				params[parameterPrefix + '[action]'] = 'update';
 				params[parameterPrefix + '[controller]'] = 'Asset';
-				params[parameterPrefix + '[fileIdentifier]'] = '%s';
+				params[parameterPrefix + '[file]'] = '%s';
 				$(this).fineUploader('setParams', params);
 
 				// Hide the size message

@@ -15,10 +15,12 @@ namespace Fab\Media\Module;
  */
 
 use Fab\Media\FileUpload\UploadedFileInterface;
+use Fab\Media\Utility\SessionUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -28,18 +30,108 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class MediaModule implements SingletonInterface {
 
 	/**
+	 * Return all storage allowed for the Backend User.
+	 *
+	 * @throws \RuntimeException
+	 * @return ResourceStorage[]
+	 */
+	public function getAllowedStorages() {
+
+		$storages = $this->getBackendUser()->getFileStorages();
+		if (empty($storages)) {
+			throw new \RuntimeException('No storage is accessible for the current BE User. Forgotten to define a mount point for this BE User?', 1380801970);
+		}
+		return $storages;
+	}
+
+	/**
+	 * @var ResourceStorage
+	 */
+	protected $currentStorage;
+
+
+	/**
+	 * Returns the current file storage in use.
+	 *
+	 * @return ResourceStorage
+	 */
+	public function getCurrentStorage() {
+		if (is_null($this->currentStorage)) {
+
+			$storageIdentifier = $this->getStorageIdentifierFromSessionOrArguments();
+
+			if ($storageIdentifier > 0) {
+				$currentStorage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
+			} else {
+
+				// We differentiate the cases whether the User is admin or not.
+				if ($this->getBackendUser()->isAdmin()) {
+
+					$currentStorage = ResourceFactory::getInstance()->getDefaultStorage();
+
+					// Not default storage has been flagged in "sys_file_storage".
+					// Fallback approach: take the first storage as the current.
+					if (!$currentStorage) {
+						/** @var $storageRepository StorageRepository */
+						$storageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+
+						$storages = $storageRepository->findAll();
+						$currentStorage = current($storages);
+					}
+				} else {
+					$fileMounts = $this->getBackendUser()->getFileMountRecords();
+					$firstFileMount = current($fileMounts);
+					$currentStorage = ResourceFactory::getInstance()->getStorageObject($firstFileMount['base']);
+				}
+			}
+
+			$this->currentStorage = $currentStorage;
+		}
+		return $this->currentStorage;
+	}
+
+	/**
+	 * Retrieve a possible storage identifier from the session or from the arguments.
+	 *
+	 * @return int
+	 */
+	protected function getStorageIdentifierFromSessionOrArguments() {
+
+		// Default value
+		$storageIdentifier = 0;
+
+		// Get last selected storage from User settings
+		if (SessionUtility::getInstance()->get('lastSelectedStorage') > 0) {
+			$storageIdentifier = SessionUtility::getInstance()->get('lastSelectedStorage');
+		}
+
+		$argumentPrefix = $this->getModuleLoader()->getParameterPrefix();
+		$arguments = GeneralUtility::_GET($argumentPrefix);
+
+		// Override selected storage from the session if GET argument "storage" is detected.
+		if (!empty($arguments['storage']) && (int)$arguments['storage'] > 0) {
+			$storageIdentifier = (int)$arguments['storage'];
+
+			// Save state
+			SessionUtility::getInstance()->set('lastSelectedStorage', $storageIdentifier);
+		}
+
+		return (int)$storageIdentifier;
+	}
+
+	/**
 	 * Return the combined parameter from the URL.
 	 *
 	 * @return string
 	 */
-	public function getCombinedParameter() {
+	public function getCombinedIdentifier() {
 
 		// Fetch possible combined identifier.
 		$combinedIdentifier = GeneralUtility::_GP('id');
 
 		// Retrieve the default storage
 		if (is_null($combinedIdentifier)) {
-			$storage = $this->getStorageService()->findCurrentStorage();
+			$storage = $this->getCurrentStorage();
 			$combinedIdentifier = $storage->getUid() . ':/';
 		}
 		return urldecode($combinedIdentifier);
@@ -100,46 +192,42 @@ class MediaModule implements SingletonInterface {
 	}
 
 	/**
-	 * Return a folder object which contains an existing file or a file that has just been uploaded.
+	 * Return the target folder for the uploaded file.
 	 *
-	 * @param File|UploadedFileInterface $fileObject
+	 * @param UploadedFileInterface $uploadedFile
 	 * @param ResourceStorage $storage
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
-	public function getContainingFolder($fileObject = NULL, ResourceStorage $storage) {
+	public function getTargetFolderForUploadedFile(UploadedFileInterface $uploadedFile, ResourceStorage $storage) {
 
 		// default is the root level
-		$folderObject = $storage->getRootLevelFolder(); // get the root folder by default
-		if ($fileObject instanceof File) {
-			$folderObject = $storage->getFolder(dirname($fileObject->getIdentifier()));
-		} elseif ($fileObject instanceof UploadedFileInterface) {
+		$folder = $storage->getRootLevelFolder(); // get the root folder by default
 
-			// Get a possible mount point coming from the storage record.
-			$storageRecord = $storage->getStorageRecord();
-			$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $fileObject->getType()];
-			if ($mountPointIdentifier > 0) {
+		// Get a possible mount point coming from the storage record.
+		$storageRecord = $storage->getStorageRecord();
+		$mountPointIdentifier = $storageRecord['mount_point_file_type_' . $uploadedFile->getType()];
+		if ($mountPointIdentifier > 0) {
 
-				// We don't have a Mount Point repository in FAL, so query the database directly.
-				$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
-				if (!empty($record['path'])) {
-					$folderObject = $storage->getFolder($record['path']);
-				}
+			// We don't have a Mount Point repository in FAL, so query the database directly.
+			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
+			if (!empty($record['path'])) {
+				$folder = $storage->getFolder($record['path']);
 			}
 		}
-		return $folderObject;
+		return $folder;
 	}
 
 	/**
-	 * Return a folder object configured in the storage.
+	 * Return a new target folder when moving file from one storage to another.
 	 *
 	 * @param ResourceStorage $storage
 	 * @param File $file
 	 * @return \TYPO3\CMS\Core\Resource\Folder
 	 */
-	public function getTargetFolder(ResourceStorage $storage, File $file) {
+	public function getDefaultFolderInStorage(ResourceStorage $storage, File $file) {
 
 		// default is the root level
-		$folderObject = $storage->getRootLevelFolder();
+		$folder = $storage->getRootLevelFolder();
 
 		// Retrieve storage record and a possible configured mount point.
 		$storageRecord = $storage->getStorageRecord();
@@ -150,10 +238,10 @@ class MediaModule implements SingletonInterface {
 			// We don't have a Mount Point repository in FAL, so query the database directly.
 			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
 			if (!empty($record['path'])) {
-				$folderObject = $storage->getFolder($record['path']);
+				$folder = $storage->getFolder($record['path']);
 			}
 		}
-		return $folderObject;
+		return $folder;
 	}
 
 	/**
@@ -185,13 +273,6 @@ class MediaModule implements SingletonInterface {
 	 */
 	protected function getBackendUser() {
 		return $GLOBALS['BE_USER'];
-	}
-
-	/**
-	 * @return \Fab\Media\Resource\StorageService
-	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
 	}
 
 	/**

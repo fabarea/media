@@ -14,6 +14,7 @@ namespace Fab\Media\Utility;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -54,7 +55,7 @@ class PermissionUtility implements SingletonInterface {
 				$storage = ResourceFactory::getInstance()->getStorageObject((int)$storage);
 			}
 		} else {
-			$storage = $this->getStorageService()->findCurrentStorage();
+			$storage = $this->getMediaModule()->getCurrentStorage();
 		}
 
 		$storageRecord = $storage->getStorageRecord();
@@ -78,10 +79,10 @@ class PermissionUtility implements SingletonInterface {
 	}
 
 	/**
-	 * @return \Fab\Media\Resource\StorageService
+	 * @return MediaModule
 	 */
-	protected function getStorageService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\StorageService');
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
 }
