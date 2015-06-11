@@ -54,7 +54,6 @@ class DuplicateFilesFinderTool extends AbstractTool {
 
 		// Possible clean up of missing files if the User has clicked so.
 		if (!empty($arguments['deleteDuplicateFiles'])) {
-
 			$this->deleteMissingFilesAction($arguments['files']);
 		}
 

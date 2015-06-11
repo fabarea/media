@@ -54,51 +54,62 @@ class ThumbnailGeneratorTool extends AbstractTool {
 
 		$reports = array();
 
-		foreach ($this->getStorageRepository()->findAll() as $storage) {
+		$limit = 500; // default value
+		$newOffset = 0;
 
-			if ($storage->isOnline()) {
+		// Possible clean up of missing files if the User has clicked so.
+		if (isset($arguments['limit']) && isset($arguments['offset'])) {
 
-				// @todo fine a way to define that from the GUI.
-				$limit = $offset = 0;
-				$thumbnailGenerator = $this->getThumbnailGenerator();
-				$thumbnailGenerator
-					->setStorage($storage)
-					->generate($limit, $offset);
+			$limit = (int)$arguments['limit'];
+			$offset = (int)$arguments['offset'];
 
-				$formattedResultSet = array();
-				$resultSet = $thumbnailGenerator->getResultSet();
-				$processedFileIdentifiers = $thumbnailGenerator->getNewProcessedFileIdentifiers();
+			foreach ($this->getStorageRepository()->findAll() as $storage) {
 
-				foreach ($processedFileIdentifiers as $fileIdentifier => $processedFileIdentifier) {
-					$result = $resultSet[$fileIdentifier];
-					$formattedResultSet[] = sprintf('* File "%s": %s %s',
-						$result['fileUid'],
-						$result['fileIdentifier'],
-						empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
+				if ($storage->isOnline()) {
+
+					$thumbnailGenerator = $this->getThumbnailGenerator();
+					$thumbnailGenerator
+						->setStorage($storage)
+						->generate($limit, $offset);
+
+					$formattedResultSet = array();
+					$resultSet = $thumbnailGenerator->getResultSet();
+					$processedFileIdentifiers = $thumbnailGenerator->getNewProcessedFileIdentifiers();
+
+					foreach ($processedFileIdentifiers as $fileIdentifier => $processedFileIdentifier) {
+						$result = $resultSet[$fileIdentifier];
+						$formattedResultSet[] = sprintf('* File "%s": %s %s',
+							$result['fileUid'],
+							$result['fileIdentifier'],
+							empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
+						);
+					}
+
+					$reports[] = array(
+						'storage' => $storage,
+						'isStorageOnline' => TRUE,
+						'resultSet' => $formattedResultSet,
+						'numberOfProcessedFiles' => $thumbnailGenerator->getNumberOfProcessedFiles(),
+						'numberOfTraversedFiles' => $thumbnailGenerator->getNumberOfTraversedFiles(),
+						'numberOfMissingFiles' => $thumbnailGenerator->getNumberOfMissingFiles(),
+						'totalNumberOfFiles' => $thumbnailGenerator->getTotalNumberOfFiles(),
+					);
+				} else {
+					$reports[] = array(
+						'storage' => $storage,
+						'isStorageOnline' => FALSE,
 					);
 				}
-
-				$reports[] = array(
-					'storage' => $storage,
-					'isStorageOnline' => TRUE,
-					'resultSet' => $formattedResultSet,
-					'numberOfProcessedFiles' => $thumbnailGenerator->getNumberOfProcessedFiles(),
-					'numberOfTraversedFiles' => $thumbnailGenerator->getNumberOfTraversedFiles(),
-					'numberOfMissingFiles' => $thumbnailGenerator->getNumberOfMissingFiles(),
-					'totalNumberOfFiles' => $thumbnailGenerator->getTotalNumberOfFiles(),
-				);
-			} else {
-				$reports[] = array(
-					'storage' => $storage,
-					'isStorageOnline' => FALSE,
-				);
 			}
-		}
 
+			$newOffset = $limit + $offset;
+		}
 
 		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/ThumbnailGenerator/WorkResult.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
+		$view->assign('limit', $limit);
+		$view->assign('offset', $newOffset);
 		$view->assign('reports', $reports);
 		return $view->render();
 	}

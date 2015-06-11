@@ -39,6 +39,18 @@
 
 	<h4>Generate thumbnails</h4>
 
+	<f:form action="work" class="form-horizontal" controller="Tool" extensionName="vidi" pluginName="{v:moduleLoader(key:'signature')}"
+	        additionalParams="{returnUrl: '{v:gp(argument: \'returnUrl\', encode: false)}'}">
+		<f:form.hidden name="tool" value="Fab\Media\Tool\ThumbnailGeneratorTool"/>
+
+		<f:translate key="limit" extensionName="media" />
+		<f:form.textfield name="arguments[limit]" value="{limit}" class="input-small"/>
+		<f:translate key="offset" extensionName="media" />
+		<f:form.textfield name="arguments[offset]" value="{offset}" class="input-small"/>
+		<button type="submit"><f:translate key="generate" extensionName="media" /></button>
+	</f:form>
+
+
 	<f:for each="{reports}" as="report">
 
 		<div style="font-weight: bold; margin-bottom: 10px">{report.storage.name} ({report.storage.uid})</div>

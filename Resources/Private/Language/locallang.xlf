@@ -273,6 +273,15 @@
 			<trans-unit id="browse_sub_folders">
 				<source>Browse sub-folders</source>
 			</trans-unit>
+			<trans-unit id="limit">
+				<source>Limit</source>
+			</trans-unit>
+			<trans-unit id="offset">
+				<source>Offset</source>
+			</trans-unit>
+			<trans-unit id="generate">
+				<source>Generate</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

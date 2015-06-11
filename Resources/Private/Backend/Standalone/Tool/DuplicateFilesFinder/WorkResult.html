@@ -100,7 +100,7 @@
 				</p>
 
 				<div id="report-storage-{report.storage.uid}">
-					<f:form action="work" class="" controller="Tool" extensionName="vidi" pluginName="{m:moduleSignature()}"
+					<f:form action="work" class="" controller="Tool" extensionName="vidi" pluginName="{v:moduleLoader(key:'signature')}"
 					        additionalParams="{returnUrl: '{v:gp(argument: \'returnUrl\', encode: false)}'}">
 						<f:form.hidden name="arguments[deleteDuplicateFiles]" value="1"/>
 						<f:form.hidden name="tool" value="Fab\Media\Tool\DuplicateFilesFinderTool"/>
