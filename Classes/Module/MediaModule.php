@@ -29,22 +29,35 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MediaModule implements SingletonInterface {
 
+	/**
+	 * @var string
+	 */
 	const SIGNATURE = 'user_MediaM1';
+
+	/**
+	 * @var string
+	 */
 	const PARAMETER_PREFIX = 'tx_media_user_mediam1';
+
+	/**
+	 * @var ResourceStorage
+	 */
+	protected $currentStorage;
 
 	/**
 	 * @return string
 	 */
-	static public function getSignature(){
+	static public function getSignature() {
 		return self::SIGNATURE;
 	}
 
 	/**
 	 * @return string
 	 */
-	static public function getParameterPrefix(){
+	static public function getParameterPrefix() {
 		return self::PARAMETER_PREFIX;
 	}
+
 	/**
 	 * Return all storage allowed for the Backend User.
 	 *
@@ -59,12 +72,6 @@ class MediaModule implements SingletonInterface {
 		}
 		return $storages;
 	}
-
-	/**
-	 * @var ResourceStorage
-	 */
-	protected $currentStorage;
-
 
 	/**
 	 * Returns the current file storage in use.
@@ -150,7 +157,25 @@ class MediaModule implements SingletonInterface {
 			$storage = $this->getCurrentStorage();
 			$combinedIdentifier = $storage->getUid() . ':/';
 		}
-		return urldecode($combinedIdentifier);
+
+		// Fix a bug at the Core level: the "id" parameter is encoded again when translating file.
+		// Add a loop to decode maximum 999 time!
+		$semaphore = 0;
+		$semaphoreLimit = 999;
+		while(!$this->isWellDecoded($combinedIdentifier) && $semaphore < $semaphoreLimit) {
+			$combinedIdentifier = urldecode($combinedIdentifier);
+			$semaphore++;
+		}
+
+		return $combinedIdentifier;
+	}
+
+	/**
+	 * @param $combinedIdentifier
+	 * @return bool
+	 */
+	protected function isWellDecoded($combinedIdentifier) {
+		return preg_match('/.*:.*/', $combinedIdentifier);
 	}
 
 	/**
