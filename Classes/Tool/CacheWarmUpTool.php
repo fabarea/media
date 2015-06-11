@@ -53,9 +53,9 @@ class CacheWarmUpTool extends AbstractTool {
 		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/WorkResult.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
-
 		$numberOfEntries = $this->getCacheService()->warmUp();
 		$view->assign('numberOfEntries', $numberOfEntries);
+		touch($this->getWarmUpSemaphorFile());
 
 		return $view->render();
 	}
@@ -67,6 +67,13 @@ class CacheWarmUpTool extends AbstractTool {
 	 */
 	public function isShown() {
 		return $this->getBackendUser()->isAdmin();
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getWarmUpSemaphorFile() {
+		return PATH_site . 'typo3temp/.media_cache_warmed_up';
 	}
 
 	/**

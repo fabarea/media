@@ -55,7 +55,7 @@ class ConfigurationWarning extends AbstractComponentView {
 		}
 
 		// Check all mount points of the storage are available
-		if (!$this->checkColumnNumberOfReferences()) {
+		if (!$this->hasBeenWarmedUp() && !$this->checkColumnNumberOfReferences()) {
 			$result .= $this->formatMessageForColumnNumberOfReferences();
 		}
 
@@ -83,6 +83,20 @@ class ConfigurationWarning extends AbstractComponentView {
 
 		$storage = $this->getMediaModule()->getCurrentStorage();
 		$this->getDatabaseConnection()->exec_UPDATEquery($tableName, 'uid = ' . $storage->getUid(), $values);
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function hasBeenWarmedUp() {
+		return is_file(($this->getWarmUpSemaphoreFile()));
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getWarmUpSemaphoreFile() {
+		return PATH_site . 'typo3temp/.media_cache_warmed_up';
 	}
 
 	/**
