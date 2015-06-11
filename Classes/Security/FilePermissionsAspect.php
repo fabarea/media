@@ -35,7 +35,7 @@ class FilePermissionsAspect {
 	 * @return void
 	 */
 	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
-		if ($dataType === 'sys_file') {
+		if ($dataType === 'sys_file' && $GLOBALS['_SERVER']['REQUEST_METHOD'] === 'GET') {
 
 			$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
 			if ($combinedIdentifier && $this->getMediaModule()->hasFolderTree()) {
