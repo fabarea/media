@@ -56,7 +56,7 @@ class FileUpload extends AbstractFormField {
 		$this->elementId = 'jquery-wrapped-fine-uploader-' . uniqid();
 
 		$this->template = <<<EOF
-<div class="control-group control-group-upload">
+<div class="control-group control-group-upload" style="%s">
     <div class="container-thumbnail">%s</div>
     %s
     <div id="%s"></div>
@@ -90,7 +90,9 @@ EOF;
 			$this->file = ResourceFactory::getInstance()->getFileObject($this->getValue());
 		}
 
-		$result = sprintf($this->template,
+		$result = sprintf(
+			$this->template,
+			$this->getInlineStyle(),
 			$this->getThumbnail(),
 			$this->getFileInfo(),
 			$this->elementId,
@@ -98,6 +100,17 @@ EOF;
 			$this->getJavaScript()
 		);
 		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getInlineStyle() {
+		$style = '';
+		if ($this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
+			$style = 'padding-left: 20px';
+		}
+		return $style;
 	}
 
 	/**
@@ -225,6 +238,15 @@ EOF;
 	 */
 	protected function getMediaModule() {
 		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+	}
+
+	/**
+	 * Get the Vidi Module Loader.
+	 *
+	 * @return \Fab\Vidi\Module\ModuleLoader
+	 */
+	protected function getModuleLoader() {
+		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
 	}
 
 }

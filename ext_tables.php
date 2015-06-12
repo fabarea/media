@@ -95,7 +95,10 @@ if (TYPO3_MODE == 'BE') {
 			)
 		)
 		->setDocHeaderBottomLeftComponents(
-			array('Fab\Media\View\Button\UploadButton')
+			array(
+				'Fab\Media\View\Button\NewFolder',
+				'Fab\Media\View\Button\UploadButton',
+			)
 		)
 		->setGridTopComponents(
 			array(
