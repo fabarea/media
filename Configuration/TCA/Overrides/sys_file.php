@@ -9,6 +9,7 @@ $tca = array(
 	),
 	'columns' => array(
 		'extension' => array(
+			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension',
 			'config' => array(
 				'type' => 'input',
 				'size' => 255,
@@ -35,18 +36,18 @@ $tca = array(
 	),
 	'grid' => array(
 		'facets' => array(
-			'uid',
-			new \Fab\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
-			'name',
-			'identifier',
 			'metadata.title',
-			'metadata.description',
 			'metadata.categories',
+			'name',
+			new \Fab\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
+			'metadata.description',
+			'identifier',
 			new \Fab\Vidi\Facet\StandardFacet(
 				'number_of_references',
 				'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 				array('0', '1', '2', '3', 'etc...') // auto-suggestions
 			),
+			'uid',
 		),
 		'columns' => array(
 			'__checkbox' => array(
