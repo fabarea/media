@@ -33,7 +33,7 @@ class ImageEditorPlugin extends AbstractComponentView {
 	public function render() {
 
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+		if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
 
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
 				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',

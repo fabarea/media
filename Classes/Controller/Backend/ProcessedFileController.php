@@ -14,6 +14,7 @@ namespace Fab\Media\Controller\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -24,14 +25,29 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class ProcessedFileController extends ActionController {
 
 	/**
+	 * Initializes the controller before invoking an action method.
+	 */
+	public function initializeAction() {
+
+		// Configure property mapping to retrieve the file object.
+		if ($this->arguments->hasArgument('file')) {
+
+			/** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
+			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
+
+			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
+			$propertyMappingConfiguration->setTypeConverter($typeConverter);
+		}
+	}
+
+	/**
 	 * Create a processed file according to some configuration.
 	 *
-	 * @param int $file
+	 * @param File $file
 	 * @param array $processingConfiguration
 	 * @return string
 	 */
-	public function createAction($file, array $processingConfiguration = array()) {
-		$file = ResourceFactory::getInstance()->getFileObject($file);
+	public function createAction(File $file, array $processingConfiguration = array()) {
 		$processedFile = $file->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingConfiguration);
 
 		$response = array(
@@ -46,4 +62,5 @@ class ProcessedFileController extends ActionController {
 		header("Content-Type: text/json");
 		return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
 	}
+
 }

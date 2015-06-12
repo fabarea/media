@@ -38,7 +38,7 @@ class FilePermissionsAspect {
 		if ($dataType === 'sys_file' && $GLOBALS['_SERVER']['REQUEST_METHOD'] === 'GET') {
 
 			$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
-			if ($combinedIdentifier && $this->getMediaModule()->hasFolderTree()) {
+			if ($combinedIdentifier && $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
 
 				$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
 
@@ -166,4 +166,12 @@ class FilePermissionsAspect {
 		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
+	/**
+	 * Get the Vidi Module Loader.
+	 *
+	 * @return \Fab\Vidi\Module\ModuleLoader
+	 */
+	protected function getModuleLoader() {
+		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
+	}
 }

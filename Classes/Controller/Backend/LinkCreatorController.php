@@ -47,4 +47,5 @@ class LinkCreatorController extends ActionController {
 	public function showAction(File $file) {
 		$this->view->assign('file', $file);
 	}
+
 }

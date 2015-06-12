@@ -32,7 +32,7 @@ class LinkCreatorPlugin extends AbstractComponentView {
 	 */
 	public function render() {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
+		if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
 			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
 				Path::getRelativePath('Source/JavaScript/Media.Plugin.LinkCreator.js'),

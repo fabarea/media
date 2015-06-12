@@ -58,7 +58,10 @@
 						</label>
 
 						<div class="controls">
-							<f:form.textfield property="title" id="file-title" class="span6" value="{m:file.property(name: 'title')}"/>
+							<f:form.textfield property="title"
+							                  id="file-title"
+							                  class="span6"
+							                  value="{m:file.property(name: 'title')}"/>
 						</div>
 					</div>
 
@@ -102,25 +105,25 @@
 			<div class="footer">
 				<div class="container">
 					<p class="footer-container pull-right">
-						<m:form.footer />
+						<m:form.footer/>
 					</p>
 				</div>
 			</div>
 
 			<script type="text/javascript">
 
-				$(function () {
+				$(function() {
 
 					/**
 					 * Prevent the form to be submitted as such.
 					 * Fire a click on ".btn-create-link".
 					 */
-					$('#form-action-linkCreator').submit(function (e) {
+					$('#form-action-linkCreator').submit(function(e) {
 						e.preventDefault();
 						$('.btn-create-link').click();
 					});
 
-					$('.btn-create-link').click(function () {
+					$('.btn-create-link').click(function() {
 						var params = {};
 						params.titleAttribute = $('#file-title').val();
 						params.classAttribute = $('#file-class').val() == 'null' ? '' : $('#file-class').val();

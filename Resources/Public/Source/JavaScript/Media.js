@@ -5,8 +5,6 @@
  */
 window.Media = {
 
-	parameterPrefix: 'tx_media_user_mediam1',
-
 	/**
 	 * Fetch the form and handle its action
 	 *
@@ -45,4 +43,5 @@ window.Media = {
 			}
 		});
 	}
+
 };

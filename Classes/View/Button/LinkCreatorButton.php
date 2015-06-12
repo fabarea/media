@@ -35,7 +35,7 @@ class LinkCreatorButton extends AbstractComponentView {
 	 */
 	public function render(Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
+		if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
 			$result = sprintf('<a href="%s" class="btn-linkCreator" data-uid="%s" title="%s">%s</a>',
 				$this->getLinkCreatorUri($object),
 				$object->getUid(),

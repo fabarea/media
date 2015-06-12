@@ -77,7 +77,6 @@ HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 	 * @return boolean false if action is completed
 	 */
 	onButtonPress: function (editor, id) {
-		var url = this.modulePath + '&' + Vidi.module.prefixParameter + '[plugins][]=imageEditor&' + Vidi.module.prefixParameter + '[matches][type]=2';
 		var params = {};
 
 		this.elementNode = this.editor.getSelection().getFirstAncestorOfType('img');
@@ -98,7 +97,11 @@ HTMLArea.ImageEditor = Ext.extend(HTMLArea.Plugin, {
 			height: 800
 		};
 
-		this.dialogWindow = window.open(url, name, "toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes");
+		this.dialogWindow = window.open(
+			this.modulePath,
+			name,
+			"toolbar=no,location=no,directories=no,menubar=no,resizable=yes,top=" + dimensions.top + ",left=" + dimensions.left + ",dependent=yes,dialog=yes,chrome=no,width=" + dimensions.width + ",height=" + dimensions.height + ",scrollbars=yes"
+		);
 
 		// Transmit this to the parent window (AKA the popup)
 		this.dialogWindow.opener.Media = {};

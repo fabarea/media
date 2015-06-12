@@ -32,7 +32,7 @@ class FilePickerMenuItem extends AbstractComponentView {
 	 */
 	public function render() {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
+		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
 			$result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
 				$this->getMassDeleteUri(),
 				IconUtility::getSpriteIcon('extensions-media-image-export')

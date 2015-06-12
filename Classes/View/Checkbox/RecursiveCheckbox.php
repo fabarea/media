@@ -38,11 +38,22 @@ class RecursiveCheckbox extends AbstractComponentView {
 	public function render() {
 
 		$output = '';
-		if ($this->getMediaModule()->hasFolderTree()) {
+		if ($this->isDisplayed()) {
 			$output = $this->renderRecursiveCheckbox();
 		}
 
 		return $output;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function isDisplayed() {
+		$isDisplayed = $this->getMediaModule()->hasFolderTree();
+		if ($this->getModuleLoader()->hasPlugin()) {
+			$isDisplayed = FALSE;
+		}
+		return $isDisplayed;
 	}
 
 	/**

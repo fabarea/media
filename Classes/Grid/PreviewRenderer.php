@@ -40,10 +40,10 @@ class PreviewRenderer extends GridRendererAbstract {
 		$appendTime = TRUE;
 
 		// Compute image-editor or link-creator URL.
-		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+		if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
 			$appendTime = FALSE;
 			$uri = $this->getPluginUri('ImageEditor');
-		} elseif (ModulePlugin::getInstance()->isPluginRequired('linkCreator')) {
+		} elseif ($this->getModuleLoader()->hasPlugin('linkCreator')) {
 			$appendTime = FALSE;
 			$uri = $this->getPluginUri('LinkCreator');
 		}
@@ -98,4 +98,5 @@ class PreviewRenderer extends GridRendererAbstract {
 	protected function getFileConverter() {
 		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
+
 }

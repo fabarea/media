@@ -14,7 +14,7 @@ namespace Fab\Media\Controller\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Media\Module\VidiModule;
+use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -55,7 +55,8 @@ class ImageEditorController extends ActionController {
 	 */
 	public function showAction(File $file) {
 		$this->view->assign('file', $file);
-		$moduleSignature = VidiModule::getSignature();
+		$moduleSignature = MediaModule::getSignature();
 		$this->view->assign('moduleUrl', BackendUtility::getModuleUrl($moduleSignature));
 	}
+
 }

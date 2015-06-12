@@ -31,7 +31,7 @@ class FilePickerPlugin extends AbstractComponentView {
 	public function render() {
 
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
+		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
 
 			$result = sprintf('<script type="text/javascript" src="%s"></script>',
 				Path::getRelativePath('Source/JavaScript/Media.Plugin.FilePicker.js')

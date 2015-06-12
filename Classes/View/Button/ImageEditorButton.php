@@ -35,7 +35,7 @@ class ImageEditorButton extends AbstractComponentView {
 	 */
 	public function render(Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('imageEditor')) {
+		if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
 			$result = sprintf('<a href="%s" class="btn-imageEditor" data-uid="%s" title="%s">%s</a>',
 				$this->getImageEditorUri($object),
 				$object->getUid(),

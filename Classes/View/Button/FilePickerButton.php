@@ -35,7 +35,7 @@ class FilePickerButton extends AbstractComponentView {
 	 */
 	public function render(Content $object = NULL) {
 		$result = '';
-		if (ModulePlugin::getInstance()->isPluginRequired('filePicker')) {
+		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
 			$result = sprintf('<a href="%s" class="btn-filePicker" data-uid="%s" title="%s">%s</a>',
 				$this->getFilePickerUri($object),
 				$object->getUid(),
