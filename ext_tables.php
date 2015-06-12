@@ -24,6 +24,20 @@ if (TYPO3_MODE == 'BE') {
 
 	');
 
+	$moduleFileLanguage = 'LLL:EXT:media/Resources/Private/Language/locallang.xlf';
+	if ($configuration['hide_file_list']['value'] == 1) {
+
+		$moduleFileLanguage = 'LLL:EXT:media/Resources/Private/Language/locallang_filelist.xlf';
+
+		// Default User TSConfig to be added in any case.
+		TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
+
+			# Hide default File List
+			options.hideModules.file := addToList(list)
+		');
+
+	}
+
 	// Possibly load additional User TSConfig.
 	if ($configuration['load_rte_configuration']['value'] == 1) {
 
@@ -62,7 +76,7 @@ if (TYPO3_MODE == 'BE') {
 	/** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
 	$moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader', 'sys_file');
 	$moduleLoader->setIcon('EXT:media/ext_icon.gif')
-		->setModuleLanguageFile('LLL:EXT:media/Resources/Private/Language/locallang.xlf')
+		->setModuleLanguageFile($moduleFileLanguage)
 		->setMainModule($defaultMainModule)
 		->addJavaScriptFiles(
 			array(

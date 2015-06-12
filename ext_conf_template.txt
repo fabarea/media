@@ -10,6 +10,9 @@ has_folder_tree = 1
 # cat=basic//; type=boolean; label= Use the Media file picker : If checked, default file picker will be replaced by the Media file picker.
 has_media_file_picker = 0
 
+# cat=basic//; type=boolean; label= Hide default file list : If checked, the default file list is hidden which allows to gain some room. Reload the Backend after enabling this option.
+hide_file_list = 0
+
 ###################### Image preset ######################
 
 # cat=image preset//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the Grid in the BE.
