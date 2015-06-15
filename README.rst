@@ -11,23 +11,52 @@ Media for TYPO3 CMS |badge_travis| |badge_scrutinizer| |badge_coverage|
 .. |badge_coverage| image:: https://scrutinizer-ci.com/g/fabarea/media/badges/coverage.png?b=master
    :target: https://scrutinizer-ci.com/g/fabarea/media
 
-Media is a tool for managing Assets for TYPO3 CMS 6.1 and is logically built on the top of FAL. FAL, for those who are unfamiliar,
-is a the File Abstraction Layer introduced in TYPO3 6.0 which enables it to handle files in centralised way across the CMS.
-The basic idea of FAL is that every file has an entry in the database to leverage its use as an asset. Basically, Media provides the following set of features:
+Media is a tool for managing Assets for TYPO3 CMS 6.2 and is logically built on the top of FAL.
+The File Abstraction Layer API was introduced in TYPO3 6.0 and allows to handle files in centralised way across the CMS.
+Basically, Media provides the following set of features:
 
 * Advanced metadata handling of Assets
 * A user friendly BE module
 * Mass upload of files and post processing of files
 * Multi language handling of metadata
-* File permission management
-* Automatic Metadata extraction upon upload provided by EXT:metadata
 * Integration with the text editor (RTE)
-* ...
 
-.. image:: https://raw.github.com/fabarea/media/master/Documentation/Manual-01.png
+General View of the BE module. Latest version of Media makes use of the folder tree. This can be activated / deactivated in the Extension Manager.
+Notice that files can **be browsed recursively** by clicking the checkbox on the top right:
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-01.png
+
+Fields can be displayed / hidden by picking the available columns.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-02.png
+
+Advanced searching of files, by title, by categories, by usage, etc... Criteria can be cumulated.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-03.png
+
+Inline editing is as simple as clicking in the cell.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-04.png
+
+Translation of files can be done inline.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-05.png
+
+**Mass edit** the metadata of the files: editable columns have an editing icon on the top where to edit a bunch of files.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-06.png
+
+Export selected data to various format: CSV, XML, XLS
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-07.png
+
+A bunch of tools for the admin related to files: find duplicate files, thumbnail pre-generation, etc...
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-08.png
+
 
 Project info and releases
-=============================
+=========================
 
 Home page of the project: https://github.com/fabarea/media
 
@@ -40,7 +69,7 @@ Development version from Git:
 	cd typ3conf/ext
 	git clone https://github.com/fabarea/media.git
 
-Flash news about latest development are also announced on http://twitter.com/fudriot
+Flash news are also announced on http://twitter.com/fudriot
 
 Installation
 ============
@@ -221,7 +250,6 @@ The Thumbnail View Helper can be used as follow::
 	{namespace m=Fab\Media\ViewHelpers}
 
 	# Or if your template contains ``<section />``,
-	# namespace declaration can be done with xmlns attribute as of TYPO3 6.1:
 	<html xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
 		xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
 
