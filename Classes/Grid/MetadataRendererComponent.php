@@ -13,12 +13,12 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Vidi\Grid\GenericRendererComponent;
+use Fab\Vidi\Grid\GenericColumn;
 
 /**
  * Class for configuring a "Metadata" Grid Renderer in the Grid TCA.
  */
-class MetadataRendererComponent extends GenericRendererComponent {
+class MetadataRendererComponent extends GenericColumn {
 
 	/**
 	 * Constructor for a "Metadata" Grid Renderer Component.

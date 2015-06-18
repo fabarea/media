@@ -13,12 +13,12 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Vidi\Grid\GenericRendererComponent;
+use Fab\Vidi\Grid\GenericColumn;
 
 /**
  * Class for configuring a "Create Relation" Grid Renderer in the Grid TCA.
  */
-class FrontendPermissionRendererComponent extends GenericRendererComponent {
+class FrontendPermissionRendererComponent extends GenericColumn {
 
 	/**
 	 * Constructor for a "Create Relation" Grid Renderer Component.
