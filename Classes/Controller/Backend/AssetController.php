@@ -174,24 +174,23 @@ class AssetController extends ActionController {
 		$targetFolder = $file->getStorage()->getFolder(dirname($file->getIdentifier()));
 
 		try {
-			$conflictMode = 'replace';
-			$fileName = $file->getName();
-			$updatedFile = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
+			$storage = $file->getStorage();
+			$storage->replaceFile($file, $uploadedFile->getFileWithAbsolutePath());
 
 			// Run the indexer for extracting metadata.
-			$this->getMediaIndexer($updatedFile->getStorage())
-				->updateIndex($updatedFile)
-				->extractMetadata($updatedFile);
+			$this->getMediaIndexer($file->getStorage())
+				->updateIndex($file)
+				->extractMetadata($file);
 
 			// Clear cache on pages holding a reference to this file.
-			$this->getCacheService()->clearCache($updatedFile);
+			$this->getCacheService()->clearCache($file);
 
 			$response = array(
 				'success' => TRUE,
-				'uid' => $updatedFile->getUid(),
-				'name' => $updatedFile->getName(),
-				'thumbnail' => $this->getThumbnailService($updatedFile)->create(),
-				'fileInfo' => $this->getMetadataViewHelper()->render($updatedFile),
+				'uid' => $file->getUid(),
+				'name' => $file->getName(),
+				'thumbnail' => $this->getThumbnailService($file)->create(),
+				'fileInfo' => $this->getMetadataViewHelper()->render($file),
 			);
 		} catch (UploadException $e) {
 			$response = array('error' => 'The upload has failed, no uploaded file found!');
