@@ -35,26 +35,24 @@ class FilePermissionsAspect {
 	 * @return void
 	 */
 	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
-		if ($dataType === 'sys_file' && $GLOBALS['_SERVER']['REQUEST_METHOD'] === 'GET') {
+		if ($dataType === 'sys_file') {
 
-			$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
-			if ($combinedIdentifier && $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
+			if ($this->isFolderConsidered()) {
 
+				$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
 				$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
 
 				if ($this->getMediaModule()->hasRecursiveBrowsing()) {
 
 					// Only add like condition if needed.
 					if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
-						$matcher->like('identifier', $folder->getIdentifier() . '%');
+						$matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = FALSE);
 					}
-
 				} else {
 
 					// Browse only currently
 					$files = $this->getFileUids($folder);
 					$matcher->in('uid', $files);
-
 				}
 
 				$matcher->equals('storage', $folder->getStorage()->getUid());
@@ -70,6 +68,17 @@ class FilePermissionsAspect {
 				$matcher->equals('storage', $identifier);
 			}
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isFolderConsidered() {
+		$isFolderConsidered = $this->getMediaModule()->getCombinedIdentifier()
+			&& $this->getMediaModule()->hasFolderTree()
+			&& !$this->getModuleLoader()->hasPlugin();
+
+		return $isFolderConsidered;
 	}
 
 	/**

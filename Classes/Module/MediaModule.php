@@ -235,8 +235,8 @@ class MediaModule implements SingletonInterface {
 		$parameters = GeneralUtility::_GET($parameterPrefix);
 
 		$hasRecursiveBrowsing = FALSE;
-		if (isset($parameters['hasRecursiveBrowsing']) && $parameters['hasRecursiveBrowsing'] === 'true') {
-			$hasRecursiveBrowsing = TRUE;
+		if (isset($parameters['hasRecursiveBrowsing'])) {
+			$hasRecursiveBrowsing = (bool)$parameters['hasRecursiveBrowsing'];
 		}
 
 		return $hasRecursiveBrowsing;
