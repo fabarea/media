@@ -229,17 +229,17 @@ class MediaModule implements SingletonInterface {
 	 *
 	 * @return bool
 	 */
-	public function hasRecursiveBrowsing() {
+	public function hasRecursiveSelection() {
 
 		$parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
 		$parameters = GeneralUtility::_GET($parameterPrefix);
 
-		$hasRecursiveBrowsing = FALSE;
-		if (isset($parameters['hasRecursiveBrowsing'])) {
-			$hasRecursiveBrowsing = (bool)$parameters['hasRecursiveBrowsing'];
+		$hasRecursiveSelection = FALSE;
+		if (isset($parameters['hasRecursiveSelection'])) {
+			$hasRecursiveSelection = (bool)$parameters['hasRecursiveSelection'];
 		}
 
-		return $hasRecursiveBrowsing;
+		return $hasRecursiveSelection;
 	}
 
 	/**

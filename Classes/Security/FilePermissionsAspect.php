@@ -42,7 +42,7 @@ class FilePermissionsAspect {
 				$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
 				$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
 
-				if ($this->getMediaModule()->hasRecursiveBrowsing()) {
+				if ($this->getMediaModule()->hasRecursiveSelection()) {
 
 					// Only add like condition if needed.
 					if ($folder->getStorage()->getRootLevelFolder() !== $folder) {

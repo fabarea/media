@@ -17,25 +17,25 @@ Media.BrowseRecursively = {
 		/**
 		 * Click in order to mark / un-mark the checkbox before attaching the event.
 		 */
-		if (sessionStorage.getItem('hasRecursiveBrowsing') === 'true') {
-			$('#checkbox-hasRecursiveBrowsing').click();
-			$('#ajax-additional-parameters').val('hasRecursiveBrowsing=1');
+		if (sessionStorage.getItem('hasRecursiveSelection') === 'true') {
+			$('#checkbox-hasRecursiveSelection').click();
+			$('#ajax-additional-parameters').val('hasRecursiveSelection=1');
 		}
 
 		/**
 		 * Create relation action.
 		 */
-		$('#checkbox-hasRecursiveBrowsing').change(function(e) {
+		$('#checkbox-hasRecursiveSelection').change(function(e) {
 			e.preventDefault();
 
 			// Set state in session so that next time the value will be restored.
-			sessionStorage.setItem('hasRecursiveBrowsing', $(this).is(':checked'));
+			sessionStorage.setItem('hasRecursiveSelection', $(this).is(':checked'));
 
 			var value = 0;
 			if ($(this).is(':checked')) {
 				value = 1;
 			}
-			$('#ajax-additional-parameters').val('hasRecursiveBrowsing=' + value);
+			$('#ajax-additional-parameters').val('hasRecursiveSelection=' + value);
 			Vidi.grid.fnDraw();
 		});
 	}

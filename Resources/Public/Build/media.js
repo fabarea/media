@@ -10,7 +10,7 @@
 * Repository: git://github.com/Widen/fine-uploader.git
 *
 * Licensed under GNU GPL v3, see LICENSE
-*/
+*/ 
 
 
 /*globals window, navigator, document, FormData, File, HTMLInputElement, XMLHttpRequest, Blob, Storage, ActiveXObject */
@@ -1201,9 +1201,9 @@ qq.UploadButton = function(o) {
             right: 0,
             top: 0,
             fontFamily: "Arial",
-            // It's especially important to make this an arbitrarily large value
-            // to ensure the rendered input button in IE takes up the entire
-            // space of the container element.  Otherwise, the left side of the
+            // It's especially important to make this an arbitrarily large value 
+            // to ensure the rendered input button in IE takes up the entire 
+            // space of the container element.  Otherwise, the left side of the 
             // button will require a double-click to invoke the file chooser.
             // In other browsers, this might cause other issues, so a large font-size
             // is only used in IE.  There is a bug in IE8 where the opacity style is  ignored
@@ -1215,8 +1215,8 @@ qq.UploadButton = function(o) {
             cursor: "pointer",
             opacity: 0
         });
-
-        // Setting the file input's height to 100% in IE7 causes
+        
+        // Setting the file input's height to 100% in IE7 causes 
         // most of the visible button to be unclickable.
         !qq.ie7() && qq(input).css({height: "100%"});
 
@@ -4643,7 +4643,7 @@ qq.UploadHandlerController = function(o, namespace) {
             if (concurrentChunkingPossible) {
                 handler._getFileState(id).temp.ignoreFailure = false;
             }
-
+            
             // If we are attempting to retry a file that is already consuming a connection, this is likely an auto-retry.
             // Just go ahead and ask the handler to upload again.
             if (connectionManager.isUsingConnection(id)) {
@@ -5073,21 +5073,21 @@ qq.FormUploadHandler = function(spec) {
 
             return form;
         },
-
+        
         /**
          * @param innerHtmlOrMessage JSON message
          * @returns {*} The parsed response, or an empty object if the response could not be parsed
          */
         _parseJsonResponse: function(innerHtmlOrMessage) {
             var response = {};
-
+    
             try {
                 response = qq.parseJson(innerHtmlOrMessage);
             }
             catch(error) {
                 log("Error when attempting to parse iframe upload response (" + error.message + ")", "error");
             }
-
+    
             return response;
         }
     });
@@ -6181,12 +6181,12 @@ qq.WindowReceiveMessage = function(o) {
                     this._templating.disableCancel();
                 }
 
-                // Cancel all existing (previous) files and clear the list if this file is not part of
-                // a scaled file group that has already been accepted, or if this file is not part of
+                // Cancel all existing (previous) files and clear the list if this file is not part of 
+                // a scaled file group that has already been accepted, or if this file is not part of 
                 // a scaled file group at all.
                 if (!this._options.multiple) {
                     var record = this.getUploads({id: id});
-
+                    
                     this._handledProxyGroup = this._handledProxyGroup || record.proxyGroupId;
 
                     if (record.proxyGroupId !== this._handledProxyGroup || !record.proxyGroupId) {
@@ -7452,7 +7452,7 @@ qq.traditional.FormUploadHandler = function(options, proxy) {
                 isCors: options.cors.expected,
                 inputName: options.inputName
             },
-
+        
             proxy: {
                 onCancel: options.onCancel,
                 getName: getName,
@@ -10194,9 +10194,9 @@ qq.extend(qq.Scaler.prototype, {
 
 var ExifRestorer = (function()
 {
-
+   
 	var ExifRestorer = {};
-
+	 
     ExifRestorer.KEY_STR = "ABCDEFGHIJKLMNOP" +
                          "QRSTUVWXYZabcdef" +
                          "ghijklmnopqrstuv" +
@@ -10237,7 +10237,7 @@ var ExifRestorer = (function()
 
         return output;
     };
-
+    
     ExifRestorer.restore = function(origFileBase64, resizedFileBase64)
     {
         var expectedBase64Header = "data:image/jpeg;base64,";
@@ -10245,15 +10245,15 @@ var ExifRestorer = (function()
         if (!origFileBase64.match(expectedBase64Header))
         {
         	return resizedFileBase64;
-        }
-
+        }       
+        
         var rawImage = this.decode64(origFileBase64.replace(expectedBase64Header, ""));
         var segments = this.slice2Segments(rawImage);
-
+                
         var image = this.exifManipulation(resizedFileBase64, segments);
-
+        
         return expectedBase64Header + this.encode64(image);
-
+        
     };
 
 
@@ -10297,7 +10297,7 @@ var ExifRestorer = (function()
     };
 
 
-
+    
     ExifRestorer.slice2Segments = function(rawImageArray)
     {
         var head = 0,
@@ -10325,8 +10325,8 @@ var ExifRestorer = (function()
     };
 
 
-
-    ExifRestorer.decode64 = function(input)
+    
+    ExifRestorer.decode64 = function(input) 
     {
         var output = "",
             chr1, chr2, chr3 = "",
@@ -10369,7 +10369,7 @@ var ExifRestorer = (function()
         return buf;
     };
 
-
+    
     return ExifRestorer;
 })();
 
@@ -11167,7 +11167,7 @@ qq.FilenameEditHandler = function(s, inheritedInternalApi) {
 
 }(jQuery));
 
-/*! 2015-06-04 */
+/*! 2015-06-24 */
 
 
 /**
@@ -11228,6 +11228,7 @@ window.Media = {
 			}
 		});
 	}
+
 };
 
 
@@ -11427,21 +11428,25 @@ Media.BrowseRecursively = {
 		/**
 		 * Click in order to mark / un-mark the checkbox before attaching the event.
 		 */
-		if (sessionStorage.getItem('hasRecursiveBrowsing') === 'true') {
-			$('#checkbox-hasRecursiveBrowsing').click();
-			$('#ajax-additional-parameters').val('hasRecursiveBrowsing=true');
+		if (sessionStorage.getItem('hasRecursiveSelection') === 'true') {
+			$('#checkbox-hasRecursiveSelection').click();
+			$('#ajax-additional-parameters').val('hasRecursiveSelection=1');
 		}
-
 
 		/**
 		 * Create relation action.
 		 */
-		$('#checkbox-hasRecursiveBrowsing').change(function(e) {
+		$('#checkbox-hasRecursiveSelection').change(function(e) {
 			e.preventDefault();
 
-			sessionStorage.setItem('hasRecursiveBrowsing', $(this).is(':checked'));
+			// Set state in session so that next time the value will be restored.
+			sessionStorage.setItem('hasRecursiveSelection', $(this).is(':checked'));
 
-			$('#ajax-additional-parameters').val('hasRecursiveBrowsing=' + $(this).is(':checked'));
+			var value = 0;
+			if ($(this).is(':checked')) {
+				value = 1;
+			}
+			$('#ajax-additional-parameters').val('hasRecursiveSelection=' + value);
 			Vidi.grid.fnDraw();
 		});
 	}
