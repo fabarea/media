@@ -63,15 +63,6 @@ class AssetController extends ActionController {
 			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
 			$propertyMappingConfiguration->setTypeConverter($typeConverter);
 		}
-
-//		if ($this->arguments->hasArgument('storage')) {
-//
-//			/** @var \Fab\Media\TypeConverter\StorageConverter $typeConverter */
-//			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\StorageConverter');
-//
-//			$propertyMappingConfiguration = $this->arguments->getArgument('storage')->getPropertyMappingConfiguration();
-//			$propertyMappingConfiguration->setTypeConverter($typeConverter);
-//		}
 	}
 
 	/**
