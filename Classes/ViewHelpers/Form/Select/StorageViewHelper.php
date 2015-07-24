@@ -15,6 +15,7 @@ namespace Fab\Media\ViewHelpers\Form\Select;
  */
 
 use Fab\Media\Module\MediaModule;
+use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
