@@ -37,7 +37,7 @@ class ImageEditorPlugin extends AbstractComponentView {
 
 			$result = sprintf('<script type="text/javascript" src="%s"></script>
 				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
-				Path::getRelativePath('Source/JavaScript/Media.Plugin.ImageEditor.js'),
+				Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
 				$this->getImageEditorUri()
 			);
 		};

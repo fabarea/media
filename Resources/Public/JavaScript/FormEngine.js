@@ -2,7 +2,7 @@
 /**
  * Released under the GPL v2+, part of TYPO3
  *
- * Override default JavaScript file located at typo3/sysext/backend/Resources/Public/Source/JavaScript/FormEngine.js
+ * Override default JavaScript file located at typo3/sysext/backend/Resources/Public/JavaScript/FormEngine.js
  */
 
 // add legacy functions to be accessible in the global scope

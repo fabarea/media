@@ -35,7 +35,7 @@ class TceForms {
 
 		// Load StyleSheets in the Page Renderer
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$cssFile = ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Build/media_tce.min.css';
+		$cssFile = ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/fineuploader.tce.css';
 		$this->pageRenderer->addCssFile($cssFile);
 
 		// language labels for JavaScript files
@@ -43,7 +43,9 @@ class TceForms {
 
 		// js files to be loaded
 		$this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('lang') . 'Resources/Public/JavaScript/Typo3Lang.js');
-		$this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Build/media_tce.min.js');
+		$this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/Encoder.js');
+		$this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js');
+		$this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js');
 	}
 
 	/**

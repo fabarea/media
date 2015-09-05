@@ -401,7 +401,6 @@ through the Scheduler task. The metadata title is basically derived from the fil
 results as ``My report``. This should help your Editors coping with this metadata and save them some typing.
 Of course, the title will only be set, if no value exists beforehand.
 
-
 Migration
 =========
 
@@ -413,42 +412,3 @@ and if any re-implementation should be undertaken, it should be at the Core leve
 
 It means you should migrate the findBy* method to your own repository **or** you can also take advantage of Vidi which provides flexible
 Custom Repository. See chapter "Display list of files of category X" above.
-
-Building assets in development
-==============================
-
-The extension provides JS / CSS bundles which included all the necessary code. If you need to make a new build for those JS / CSS files,
-consider that `Bower`_ and `Grunt`_ must be installed on your system as prerequisite.
-
-Install the required Web Components::
-
-	cd typo3conf/ext/media
-
-	# This will populate the directory Resources/Public/WebComponents.
-	bower install
-
-	# Install the necessary NodeJS package.
-	npm install
-
-Then you must build Fine Uploader from the source::
-
-	cd Resources/Public/WebComponents/fine-uploader
-
-	# Install the necessary NodeJS package inside "fine-uploader".
-	npm install
-
-	# Do the packaging works. It will create a "_dist" directory containing the build.
-	grunt package
-
-Finally, you can run the Grunt of the extension to generate a build::
-
-	cd typo3conf/ext/media
-	grunt build
-
-While developing, you can use the ``watch`` which will generate the build as you edit files::
-
-	grunt watch
-
-
-.. _Bower: http://bower.io/
-.. _Grunt: http://gruntjs.com/

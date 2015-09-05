@@ -80,12 +80,17 @@ if (TYPO3_MODE == 'BE') {
 		->setMainModule($defaultMainModule)
 		->addJavaScriptFiles(
 			array(
-				'EXT:media/Resources/Public/Build/media.min.js',
+				'EXT:media/Resources/Public/JavaScript/Initialize.js',
+				'EXT:media/Resources/Public/JavaScript/Media.js',
+				'EXT:media/Resources/Public/JavaScript/Media.EditStorage.js',
+				'EXT:media/Resources/Public/JavaScript/Media.BrowseRecursively.js',
+				'EXT:media/Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js',
 			)
 		)
 		->addStyleSheetFiles(
 			array(
-				'EXT:media/Resources/Public/Build/media.min.css',
+				'EXT:media/Resources/Public/StyleSheets/media.css',
+				'EXT:media/Resources/Public/StyleSheets/fineuploader.css',
 			)
 		)
 		->setDocHeaderTopLeftComponents(
