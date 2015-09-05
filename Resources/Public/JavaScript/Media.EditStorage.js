@@ -19,7 +19,7 @@ Media.EditStorage = {
 		$('.change-storage').click(function(e) {
 			e.preventDefault();
 
-			var url = Media.EditStorage.getEditStorageUrl($(this).attr('href'));
+			var url = Media.EditStorage.getEditStorageUrl(this.href);
 
 			// Call the Edit Storage routine which will pop-up the modal window.
 			Media.EditStorage
