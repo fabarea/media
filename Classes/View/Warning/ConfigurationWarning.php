@@ -56,10 +56,23 @@ class ConfigurationWarning extends AbstractComponentView {
 
 		// Check all mount points of the storage are available
 		if (!$this->hasBeenWarmedUp() && !$this->checkColumnNumberOfReferences()) {
-			$result .= $this->formatMessageForColumnNumberOfReferences();
+			if ($this->canBeInitializedSilently() < 2000) {
+				$numberOfFiles = $this->getCacheService()->warmUp();
+				$result .= $this->formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFiles);
+				touch($this->getWarmUpSemaphoreFile());
+			} else {
+				$result .= $this->formatMessageForUpdateRequiredColumnNumberOfReferences();
+			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return \Fab\Media\Cache\CacheService
+	 */
+	protected function getCacheService() {
+		return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
 	}
 
 	/**
@@ -276,6 +289,15 @@ EOF;
 	}
 
 	/**
+	 * @return boolean
+	 */
+	protected function canBeInitializedSilently() {
+		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS number_of_files', 'sys_file', '');
+		return (int)$record['number_of_files'];
+
+	}
+
+	/**
 	 * Check whether the column "total_of_references" has been already processed once.
 	 *
 	 * @return boolean
@@ -288,9 +310,38 @@ EOF;
 	/**
 	 * Format a message if columns "total_of_references" looks wrong.
 	 *
+	 * @param int $numberOfFile
 	 * @return string
 	 */
-	protected function formatMessageForColumnNumberOfReferences() {
+	protected function formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFile) {
+
+		$result = <<< EOF
+			<div class="typo3-message message-ok">
+				<div class="message-header">
+						Initialized column "number_of_references" for ${numberOfFile} files
+				</div>
+				<div class="message-body">
+					The column "sys_file.number_of_references" is used as a caching column for storing the total number of usage of a file.
+					It is required when searching files by "usage" in the visual search bar. For example searching for files with 0 usage,
+					corresponds to file that are not used on the Frontend,
+					The column can be initialized manually  <strong>by opening the tool "Cache warm up" in in the upper right button of this module</strong>
+					or by a scheduler task.
+					The number of usage is then updated by a Hook each time a record is edited which contains file references coming from "sys_file_reference" or from "sys_refindex" if soft
+					reference.
+				</div>
+			</div>
+EOF;
+
+		return $result;
+	}
+
+
+	/**
+	 * Format a message if columns "total_of_references" looks wrong.
+	 *
+	 * @return string
+	 */
+	protected function formatMessageForUpdateRequiredColumnNumberOfReferences() {
 
 		$result = <<< EOF
 			<div class="typo3-message message-warning">
@@ -298,9 +349,13 @@ EOF;
 						Column "number_of_references" requires to be initialized.
 				</div>
 				<div class="message-body">
+				    This action can not be done automatically as there are more than 2000 files. <br/>
+
 					The column "number_of_references" in "sys_file" is used as a caching column for storing the total number of usage of a file.
-					It is required for performance reason to search by "usage", example for retrieving all files with 0 usage.
-					The column can be easily initialized <strong>by opening a tool in in the upper right button of this module</strong> or by a scheduler task.
+					It is required when searching files by "usage" in the visual search bar. For example searching for files with 0 usage,
+					corresponds to file that are not used on the Frontend,
+					The column can be initialized <strong>by opening the tool "Cache warm up" in in the upper right button of this module</strong>
+					or by a scheduler task.
 					The number of usage is then updated by a Hook each time a record is edited which contains file references coming from "sys_file_reference" or from "sys_refindex" if soft
 					reference.
 				</div>
