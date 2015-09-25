@@ -94,6 +94,7 @@ Media.Rte = {
 			var hostAndProtocol = location.protocol + '//' + location.host + '/';
 			params.tag = '<img src="' + hostAndProtocol + data.publicUrl +
 				'" title="' + data.title +
+				'" alt="' + data.title +
 				'" height="' + data.height +
 				'" width="' + data.width +
 				'" data-htmlarea-file-uid="' + data.original +
