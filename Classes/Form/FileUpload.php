@@ -180,7 +180,7 @@ EOF;
 			$this->getModuleUrl(),
 			$this->getAllowedExtensions(),
 			GeneralUtility::getMaxUploadFileSize() * 1024,
-			$this->getMediaModule()->getCombinedIdentifier()
+			$this->getMediaModule()->getCurrentFolder()->getCombinedIdentifier()
 		);
 	}
 

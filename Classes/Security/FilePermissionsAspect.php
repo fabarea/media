@@ -39,8 +39,7 @@ class FilePermissionsAspect {
 
 			if ($this->isFolderConsidered()) {
 
-				$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
-				$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
+				$folder = $this->getMediaModule()->getCurrentFolder();
 
 				if ($this->getMediaModule()->hasRecursiveSelection()) {
 
@@ -74,11 +73,7 @@ class FilePermissionsAspect {
 	 * @return bool
 	 */
 	protected function isFolderConsidered() {
-		$isFolderConsidered = $this->getMediaModule()->getCombinedIdentifier()
-			&& $this->getMediaModule()->hasFolderTree()
-			&& !$this->getModuleLoader()->hasPlugin();
-
-		return $isFolderConsidered;
+		return $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin();
 	}
 
 	/**

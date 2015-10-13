@@ -152,19 +152,17 @@ class MediaModule implements SingletonInterface {
 		// Fetch possible combined identifier.
 		$combinedIdentifier = GeneralUtility::_GP('id');
 
-		// Retrieve the default storage
-		if (is_null($combinedIdentifier)) {
-			$storage = $this->getCurrentStorage();
-			$combinedIdentifier = $storage->getUid() . ':/';
-		}
+		if ($combinedIdentifier) {
 
-		// Fix a bug at the Core level: the "id" parameter is encoded again when translating file.
-		// Add a loop to decode maximum 999 time!
-		$semaphore = 0;
-		$semaphoreLimit = 999;
-		while(!$this->isWellDecoded($combinedIdentifier) && $semaphore < $semaphoreLimit) {
-			$combinedIdentifier = urldecode($combinedIdentifier);
-			$semaphore++;
+			// Fix a bug at the Core level: the "id" parameter is encoded again when translating file.
+			// Add a loop to decode maximum 999 time!
+			$semaphore = 0;
+			$semaphoreLimit = 999;
+			while (!$this->isWellDecoded($combinedIdentifier) && $semaphore < $semaphoreLimit) {
+				$combinedIdentifier = urldecode($combinedIdentifier);
+				$semaphore++;
+			}
+
 		}
 
 		return $combinedIdentifier;
@@ -179,7 +177,39 @@ class MediaModule implements SingletonInterface {
 	}
 
 	/**
-	 * @param $combinedIdentifier
+	 * @return Folder
+	 */
+	public function getFirstAvailableFolder() {
+
+		// Take the first object of the first storage.
+		$storages = $this->getBackendUser()->getFileStorages();
+		$storage = reset($storages);
+		if ($storage) {
+			$folder = $storage->getRootLevelFolder();
+		} else {
+			throw new \RuntimeException('Could not find any folder to be displayed.', 1444665954);
+		}
+		return $folder;
+	}
+
+	/**
+	 * @return Folder
+	 */
+	public function getCurrentFolder() {
+
+		$combinedIdentifier = $this->getCombinedIdentifier();
+
+		if ($combinedIdentifier) {
+			$folder = $this->getFolderForCombinedIdentifier($combinedIdentifier);
+		} else {
+			$folder = $this->getFirstAvailableFolder();
+		}
+
+		return $folder;
+	}
+
+	/**
+	 * @param string $combinedIdentifier
 	 * @return Folder
 	 */
 	public function getFolderForCombinedIdentifier($combinedIdentifier) {

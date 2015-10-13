@@ -22,7 +22,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
 /**
- * View which renders a button for uploading assets.
+ * View which renders a text telling what folder is selected.
  */
 class SelectedFolderInfo extends AbstractComponentView {
 
@@ -41,10 +41,7 @@ class SelectedFolderInfo extends AbstractComponentView {
 		$result = '';
 		if ($this->getMediaModule()->hasFolderTree()) {
 
-			// Fetch possible combined identifier.
-			$combinedIdentifier = $this->getMediaModule()->getCombinedIdentifier();
-			$folder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
-
+			$folder = $this->getMediaModule()->getCurrentFolder();
 			$result = sprintf('<h1>%s</h1>', $this->getFolderName($folder));
 		}
 

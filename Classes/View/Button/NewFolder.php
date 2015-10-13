@@ -58,8 +58,8 @@ class NewFolder extends AbstractComponentView {
 	 * @return string
 	 */
 	protected function getCombineIdentifier() {
-		$combineIdentifier = $this->getMediaModule()->getCombinedIdentifier();
-		return rawurlencode($combineIdentifier);
+		$folder = $this->getMediaModule()->getCurrentFolder();
+		return rawurlencode($folder->getCombinedIdentifier());
 	}
 
 	/**
