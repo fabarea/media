@@ -21,6 +21,8 @@ Basically, Media provides the following set of features:
 * Multi language handling of metadata
 * Integration with the text editor (RTE)
 
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/MediaModule-01.png
+
 General View of the BE module. Latest version of Media makes use of the folder tree. This can be activated / deactivated in the Extension Manager.
 Notice that files can **be browsed recursively** by clicking the checkbox on the top right:
 
@@ -54,6 +56,9 @@ A bunch of tools for the admin related to files: find duplicate files, thumbnail
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-08.png
 
+The configuration options in the Extension Manager.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/ExtensionManager-01.png
 
 Project info and releases
 =========================
@@ -130,7 +135,7 @@ View Helpers
 Display list of files of category X
 -----------------------------------
 
-You can make use of a View Helper to retrieve a bunch of files. Let say we want
+You can make use of a View Helper to retrieve a bunch of files on the Frontend. Let say we want
 to display a list of files "png" images coming from the storage "1" along with the associated categories.
 The code could look like this in your Fluid template::
 
