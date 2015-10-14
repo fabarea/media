@@ -107,9 +107,13 @@ Configured target folder for each file type:
 User TSConfig
 -------------
 
-Following option can be set::
+You can use the option `options.vidi.enableMediaFilePicker` to control the display of the File Picker of Media. Pay attention, this
+option is only taken into consideration **if** the File Picker is activated in the Extension Manager first. The File Picker is the
+popup displayed to connect a File with a content element (like image) or with other kind of records. The Core popup is however used
+by default for the purpose of the folder tree. In the Media popup, the folder tree will not be displayed because of iframe issue.
+As tip, use the recursive browsing in Media to retrieve all your files::
 
-	# Define whether to use default file picker or the one from Media (default = 1)
+	# Define whether to use default file picker or the one from Media (default = 1) but
 	options.vidi.enableMediaFilePicker = 1
 
 
