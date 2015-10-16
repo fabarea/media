@@ -15,6 +15,7 @@ namespace Fab\Media\Security;
  */
 
 use Fab\Media\Module\MediaModule;
+use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,7 +36,8 @@ class FilePermissionsAspect {
 	 * @return void
 	 */
 	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
-		if ($dataType === 'sys_file') {
+
+		if ($dataType === 'sys_file' && $this->isPermissionNecessary()) {
 
 			if ($this->isFolderConsidered()) {
 
@@ -67,6 +69,26 @@ class FilePermissionsAspect {
 				$matcher->equals('storage', $identifier);
 			}
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isPermissionNecessary() {
+
+		$isNecessary = TRUE;
+
+		$parameters = GeneralUtility::_GET(VidiModule::getParameterPrefix());
+
+		if ($parameters['controller'] === 'Clipboard'  && ($parameters['action'] === 'show' || $parameters['action'] === 'flush')) {
+			$isNecessary = FALSE;
+		}
+
+		if ($parameters['controller'] === 'Content' && ($parameters['action'] === 'copyClipboard' || $parameters['action'] === 'moveClipboard')) {
+			$isNecessary = FALSE;
+		}
+
+		return $isNecessary;
 	}
 
 	/**

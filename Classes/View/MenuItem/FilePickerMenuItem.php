@@ -21,12 +21,12 @@ use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Module\ModulePlugin;
 
 /**
- * View which renders a "file picker" menu item to be placed in the grid menu for Media.
+ * View which renders a "file picker" menu item to be placed in the grid menu of Media.
  */
 class FilePickerMenuItem extends AbstractComponentView {
 
 	/**
-	 * Renders a "file picker" menu item to be placed in the grid menu for Media.
+	 * Renders a "file picker" menu item to be placed in the grid menu of Media.
 	 *
 	 * @return string
 	 */

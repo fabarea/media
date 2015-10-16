@@ -150,7 +150,7 @@ class MediaModule implements SingletonInterface {
 	public function getCombinedIdentifier() {
 
 		// Fetch possible combined identifier.
-		$combinedIdentifier = GeneralUtility::_GP('id');
+		$combinedIdentifier = GeneralUtility::_GET('id');
 
 		if ($combinedIdentifier) {
 
@@ -162,7 +162,6 @@ class MediaModule implements SingletonInterface {
 				$combinedIdentifier = urldecode($combinedIdentifier);
 				$semaphore++;
 			}
-
 		}
 
 		return $combinedIdentifier;

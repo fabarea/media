@@ -35,7 +35,6 @@ if (TYPO3_MODE == 'BE') {
 			# Hide default File List
 			options.hideModules.file := addToList(list)
 		');
-
 	}
 
 	// Possibly load additional User TSConfig.
@@ -101,6 +100,7 @@ if (TYPO3_MODE == 'BE') {
 		)
 		->setDocHeaderBottomLeftComponents(
 			array(
+				'Fab\Vidi\View\Button\ClipboardButton',
 				'Fab\Media\View\Button\NewFolder',
 				'Fab\Media\View\Button\UploadButton',
 			)
@@ -137,6 +137,7 @@ if (TYPO3_MODE == 'BE') {
 				'Fab\Vidi\View\MenuItem\DividerMenuItem',
 
 				// Media custom View Helper
+				'Fab\Vidi\View\MenuItem\ClipboardMenuItem',
 				'Fab\Media\View\MenuItem\FilePickerMenuItem',
 				'Fab\Media\View\MenuItem\ChangeStorageMenuItem',
 				'Fab\Vidi\View\MenuItem\MassDeleteMenuItem',

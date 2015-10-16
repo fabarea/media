@@ -63,7 +63,16 @@ class FileDataHandler extends AbstractDataHandler {
 	 * @return bool
 	 */
 	public function processCopy(Content $content, $target) {
-		throw new \Exception('Not yet implemented', 1409988674);
+		$file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+
+		if ($this->getMediaModule()->hasFolderTree()) {
+
+			$targetFolder = $this->getMediaModule()->getCurrentFolder();
+
+			// Move file
+			$file->copyTo($targetFolder, $file->getName(), 'renameNewFile');
+		}
+		return TRUE;
 	}
 
 	/**
@@ -75,24 +84,35 @@ class FileDataHandler extends AbstractDataHandler {
 	 * @return bool
 	 */
 	public function processMove(Content $content, $target) {
-
 		$file = ResourceFactory::getInstance()->getFileObject($content->getUid());
 
-		// Only process if the storage is different.
-		if ((int)$file->getStorage()->getUid() !== (int)$target) {
+		if ($this->getMediaModule()->hasFolderTree()) {
 
-			$targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
+			$targetFolder = $this->getMediaModule()->getCurrentFolder();
+			if ($targetFolder->getIdentifier() !== $file->getParentFolder()->getIdentifier()) {
 
-			// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-			$targetFolder = $this->getMediaModule()->getDefaultFolderInStorage($targetStorage, $file);
-
-			try {
 				// Move file
 				$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
-			} catch (\Exception $e) {
-				$this->errorMessages = $e->getMessage();
+			}
+		} else {
+
+			// Only process if the storage is different.
+			if ((int)$file->getStorage()->getUid() !== (int)$target) {
+
+				$targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
+
+				// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
+				$targetFolder = $this->getMediaModule()->getDefaultFolderInStorage($targetStorage, $file);
+
+				try {
+					// Move file
+					$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
+				} catch (\Exception $e) {
+					$this->errorMessages = $e->getMessage();
+				}
 			}
 		}
+		return TRUE;
 	}
 
 	/**

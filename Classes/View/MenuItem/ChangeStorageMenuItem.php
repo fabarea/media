@@ -17,6 +17,7 @@ namespace Fab\Media\View\MenuItem;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
@@ -26,16 +27,20 @@ use Fab\Vidi\View\AbstractComponentView;
 class ChangeStorageMenuItem extends AbstractComponentView {
 
 	/**
-	 * Renders a "move" menu item to be placed in the grid menu for Media.
+	 * Renders a "change storage" menu item to be placed in the grid menu of Media.
 	 *
 	 * @return string
 	 */
 	public function render() {
-		return sprintf('<li><a href="%s" class="change-storage" >%s %s</a>',
-			$this->getChangeStorageUri(),
-			IconUtility::getSpriteIcon('extensions-media-storage-change'),
-			LocalizationUtility::translate('change_storage', 'media')
-		);
+		$output = '';
+		if (!$this->getMediaModule()->hasFolderTree()) {
+			$output = sprintf('<li><a href="%s" class="change-storage" >%s %s</a>',
+				$this->getChangeStorageUri(),
+				IconUtility::getSpriteIcon('extensions-media-storage-change'),
+				LocalizationUtility::translate('change_storage', 'media')
+			);
+		}
+		return $output;
 	}
 
 	/**
@@ -49,6 +54,13 @@ class ChangeStorageMenuItem extends AbstractComponentView {
 			),
 		);
 		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+	}
+
+	/**
+	 * @return MediaModule
+	 */
+	protected function getMediaModule() {
+		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
 	}
 
 }
