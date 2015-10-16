@@ -15,17 +15,16 @@ namespace Fab\Media\Grid;
  */
 
 use Fab\Media\Module\MediaModule;
+use Fab\Vidi\Grid\ColumnRendererAbstract;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Thumbnail\ThumbnailInterface;
-use Fab\Vidi\Grid\GridRendererAbstract;
-use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * Class rendering the preview of a media in the Grid.
  */
-class PreviewRenderer extends GridRendererAbstract {
+class PreviewRenderer extends ColumnRendererAbstract {
 
 	/**
 	 * Render a preview of a file in the Grid.
@@ -53,6 +52,7 @@ class PreviewRenderer extends GridRendererAbstract {
 			->setAppendTimeStamp($appendTime)
 			->setTarget(ThumbnailInterface::TARGET_BLANK)
 			->setAnchorUri($uri)
+			->setAttributes(array())
 			->create();
 
 		// Add file info

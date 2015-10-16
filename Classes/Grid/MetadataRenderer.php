@@ -14,15 +14,15 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Vidi\Grid\ColumnRendererAbstract;
 use Fab\Vidi\Tca\FieldType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Vidi\Grid\GridRendererAbstract;
 use Fab\Vidi\Tca\Tca;
 
 /**
  * Class for rendering a configurable metadata property of a file in the Grid.
  */
-class MetadataRenderer extends GridRendererAbstract {
+class MetadataRenderer extends ColumnRendererAbstract {
 
 	/**
 	 * Renders a configurable metadata property of a file in the Grid.

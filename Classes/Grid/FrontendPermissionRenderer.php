@@ -14,12 +14,12 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Vidi\Grid\GridRendererAbstract;
+use Fab\Vidi\Grid\ColumnRendererAbstract;
 
 /**
  * Class rendering permission in the grid.
  */
-class FrontendPermissionRenderer extends GridRendererAbstract {
+class FrontendPermissionRenderer extends ColumnRendererAbstract {
 
 	/**
 	 * Render permission in the grid.

@@ -14,12 +14,12 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Vidi\Grid\GridRendererAbstract;
+use Fab\Vidi\Grid\ColumnRendererAbstract;
 
 /**
  * Class rendering category list of an asset in the grid.
  */
-class CategoryRenderer extends GridRendererAbstract {
+class CategoryRenderer extends ColumnRendererAbstract {
 
 	/**
 	 * Renders category list of an asset in the grid.
@@ -40,4 +40,5 @@ class CategoryRenderer extends GridRendererAbstract {
 		}
 		return $result;
 	}
+
 }

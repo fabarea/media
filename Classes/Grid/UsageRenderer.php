@@ -15,17 +15,17 @@ namespace Fab\Media\Grid;
  */
 
 use Fab\Media\Module\VidiModule;
+use Fab\Vidi\Grid\ColumnRendererAbstract;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use Fab\Vidi\Grid\GridRendererAbstract;
 use Fab\Vidi\Tca\Tca;
 
 /**
  * Class rendering usage of an asset in the grid.
  */
-class UsageRenderer extends GridRendererAbstract {
+class UsageRenderer extends ColumnRendererAbstract {
 
 	/**
 	 * Render usage of an asset in the grid.

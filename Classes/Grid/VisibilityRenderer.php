@@ -13,11 +13,12 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Vidi\Grid\ColumnRendererAbstract;
 
 /**
  * Class rendering visibility for the Grid.
  */
-class VisibilityRenderer extends \Fab\Vidi\Grid\GridRendererAbstract {
+class VisibilityRenderer extends ColumnRendererAbstract {
 
 	/**
 	 * Render visibility for the Grid.
