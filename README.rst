@@ -26,39 +26,43 @@ Basically, Media provides the following set of features:
 General View of the BE module. Latest version of Media makes use of the folder tree. This can be activated / deactivated in the Extension Manager.
 Notice that files can **be browsed recursively** by clicking the checkbox on the top right:
 
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-02.png
+
+
+Fields can be displayed / hidden by picking the available columns in the drop down menu.
+
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-01.png
 
-Fields can be displayed / hidden by picking the available columns.
-
-.. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-02.png
 
 Advanced searching of files, by title, by categories, by usage, etc... Criteria can be cumulated.
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-03.png
 
+
 Inline editing is as simple as clicking in the cell.
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-04.png
+
 
 Translation of files can be done inline.
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-05.png
 
-**Mass edit** the metadata of the files: editable columns have an editing icon on the top where to edit a bunch of files.
+
+**Mass edit** the metadata of the files. Editable columns have an editing icon on the top where to edit a bunch of files.
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-06.png
+
 
 Export selected data to various format: CSV, XML, XLS
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-07.png
 
+
 A bunch of tools for the admin related to files: find duplicate files, thumbnail pre-generation, etc...
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-08.png
 
-The configuration options in the Extension Manager.
-
-.. image:: https://raw.github.com/fabarea/media/master/Documentation/ExtensionManager-01.png
 
 Project info and releases
 =========================
@@ -87,6 +91,14 @@ Configuration
 =============
 
 Some settings, such as default categories applied upon upload, are global and must be configured in the settings of Media in the Extension Manager.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/ExtensionManager-01.png
+
+
+Enable for the Editor User the correct permissions in the Backend User Group so that it can access the Media module and be able to upload files.
+
+.. image:: https://raw.github.com/fabarea/media/master/Documentation/BackendUserGroup-01.png
+
 
 Besides, since Media is multi-storage capable, many settings are to be configured per storage. Make sure they are correctly set.
 This will not be a problem for new storage created after Media is installed, they will have default values.
