@@ -63,14 +63,14 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor {
 
 		$configuration = $this->computeFinalImageDimension($configuration);
 		$this->processedFile = $this->getFile()->process($this->getProcessingType(), $configuration);
-		$result = $this->processedFile->getPublicUrl(TRUE);
+		$uri = $this->processedFile->getPublicUrl(TRUE);
 
 		// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
 		if ($this->processedFile->getProperty('originalfilesha1') != $this->getFile()->getProperty('sha1')) {
 			$this->processedFile->updateProperties(array('tstamp' => $this->getFile()->getProperty('tstamp')));
 		}
 
-		return $result;
+		return $this->prefixUri($uri);
 	}
 
 	/**

@@ -48,16 +48,16 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor {
 	public function renderUri() {
 		if ($this->isThumbnailPossible($this->getFile()->getExtension())) {
 			$this->processedFile = $this->getFile()->process($this->getProcessingType(), $this->getConfiguration());
-			$result = $this->processedFile->getPublicUrl(TRUE);
+			$uri = $this->processedFile->getPublicUrl(TRUE);
 
 			// Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
 			if ($this->processedFile->getProperty('originalfilesha1') != $this->getFile()->getProperty('sha1')) {
 				$this->processedFile->updateProperties(array('tstamp' => $this->getFile()->getProperty('tstamp')));
 			}
 		} else {
-			$result = $this->getIcon($this->getFile()->getExtension());
+			$uri = $this->getIcon($this->getFile()->getExtension());
 		}
-		return $result;
+		return $this->prefixUri($uri);
 	}
 
 	/**

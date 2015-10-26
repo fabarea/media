@@ -50,7 +50,8 @@ class VideoThumbnailProcessor extends AbstractThumbnailProcessor {
 			$relativePath = 'Icons/UnknownMimeType.png';
 		}
 
-		return Path::getRelativePath($relativePath);
+		$uri = Path::getRelativePath($relativePath);
+		return $this->prefixUri($uri);
 	}
 
 	/**

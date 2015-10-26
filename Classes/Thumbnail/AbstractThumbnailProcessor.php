@@ -120,6 +120,17 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 	}
 
 	/**
+	 * @param string $uri
+	 * @return string
+	 */
+	public function prefixUri($uri) {
+		if ($this->isFrontendMode() && $this->getFrontendObject()->absRefPrefix) {
+			$uri = $this->getFrontendObject()->absRefPrefix . $uri;
+		}
+		return $uri;
+	}
+
+	/**
 	 * Returns TRUE whether an thumbnail can be generated
 	 *
 	 * @param string $extension File extension
@@ -136,4 +147,21 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 		return $this->thumbnailService->getFile();
 	}
 
+	/**
+	 * Returns whether the current mode is Frontend
+	 *
+	 * @return bool
+	 */
+	protected function isFrontendMode() {
+		return TYPO3_MODE == 'FE';
+	}
+
+	/**
+	 * Returns an instance of the Frontend object.
+	 *
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+	 */
+	protected function getFrontendObject() {
+		return $GLOBALS['TSFE'];
+	}
 }

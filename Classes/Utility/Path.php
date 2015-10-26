@@ -14,6 +14,7 @@ namespace Fab\Media\Utility;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
@@ -51,9 +52,9 @@ class Path {
 	static public function resolvePath($resource) {
 		$resource = self::canonicalPath($resource);
 		if (!is_file(PATH_site . $resource)) {
-			$resource = 'EXT:' . \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored(self::$extensionName) . '/Resources/Public/' . $resource;
+			$resource = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored(self::$extensionName) . '/Resources/Public/' . $resource;
 		}
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($resource);
+		return GeneralUtility::getFileAbsFileName($resource);
 	}
 
 	/**
