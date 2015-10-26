@@ -86,7 +86,7 @@ $tca = array(
 			),
 			'metadata.categories' => array(
 				'renderers' => array(
-					new \Fab\Vidi\Grid\RelationEditRendererComponent(),
+					new \Fab\Vidi\Grid\RelationEditComponent(),
 					new \Fab\Media\Grid\CategoryRendererComponent(),
 				),
 				'editable' => TRUE,
@@ -125,7 +125,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 				),
 				'metadata.fe_groups' => array(
 					'renderers' => array(
-						new \Fab\Vidi\Grid\RelationEditRendererComponent(),
+						new \Fab\Vidi\Grid\RelationEditComponent(),
 						new \Fab\Media\Grid\FrontendPermissionRendererComponent(),
 					),
 					'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
