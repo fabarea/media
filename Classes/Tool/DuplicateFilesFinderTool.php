@@ -40,6 +40,7 @@ class DuplicateFilesFinderTool extends AbstractTool {
 	public function getDescription() {
 		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateFilesFinder/Launcher.html';
 		$view = $this->initializeStandaloneView($templateNameAndPath);
+		$view->assign('isAdmin', $this->getBackendUser()->isAdmin());
 		$view->assign('sitePath', PATH_site);
 		return $view->render();
 	}
@@ -61,15 +62,70 @@ class DuplicateFilesFinderTool extends AbstractTool {
 		$view = $this->initializeStandaloneView($templateNameAndPath);
 
 		$duplicateFilesReports = array();
-		foreach ($this->getStorageRepository()->findAll() as $storage) {
 
-			if ($storage->isOnline()) {
-				$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateSha1($storage);
-				$duplicateFilesReports[] = array(
-					'storage' => $storage,
-					'duplicateFiles' => $duplicateFiles,
-					'numberOfDuplicateFiles' => count($duplicateFiles),
-				);
+		if ($this->getBackendUser()->isAdmin()) {
+			foreach ($this->getStorageRepository()->findAll() as $storage) {
+				if ($storage->isOnline()) {
+					$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateSha1($storage);
+					$duplicateFilesReports[] = array(
+						'storage' => $storage,
+						'duplicateFiles' => $duplicateFiles,
+						'numberOfDuplicateFiles' => count($duplicateFiles),
+					);
+				}
+			}
+		} else {
+
+			$fileMounts = $this->getBackendUser()->getFileMountRecords();
+
+			$allowedStorages = array();
+			foreach ($fileMounts as $fileMount) {
+
+				if (!isset($allowedStorages[$fileMount['base']])) {
+					$allowedStorages[$fileMount['base']] = array();
+				}
+				if (!in_array($fileMount['base'], $allowedStorages)) {
+					$allowedStorages[$fileMount['base']][] = $fileMount['path'];
+				}
+			}
+
+			foreach ($allowedStorages as $storageIdentifier => $allowedMountPoints) {
+				$storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
+
+				if ($storage->isOnline()) {
+
+					$duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateSha1($storage);
+
+					// Filter duplicates files
+					foreach ($duplicateFiles as $key => $files) {
+
+						$filteredFiles = array();
+						foreach ($files as $file) {
+
+							foreach ($allowedMountPoints as $allowedMountPoint) {
+
+								$pattern = '%^' . $allowedMountPoint . '%isU';
+								if (preg_match($pattern, $file['identifier'])) {
+									$filteredFiles[] = $file;
+									break; // no need to further loop around, stop the loop.
+								}
+							}
+						}
+
+						// We need more than 1 files to be shown as duplicate.
+						if (count($filteredFiles) > 1) {
+							$duplicateFiles[$key] = $filteredFiles;
+						} else {
+							unset($duplicateFiles[$key]);
+						}
+					}
+					$duplicateFilesReports[] = array(
+						'storage' => $storage,
+						'duplicateFiles' => $duplicateFiles,
+						'numberOfDuplicateFiles' => count($duplicateFiles),
+					);
+
+				}
 			}
 		}
 
@@ -103,8 +159,7 @@ class DuplicateFilesFinderTool extends AbstractTool {
 				} else {
 					$this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $file->getUid());
 				}
-			}
-			catch(\Exception $e) {
+			} catch (\Exception $e) {
 				continue;
 			}
 		}
@@ -139,7 +194,7 @@ class DuplicateFilesFinderTool extends AbstractTool {
 	 * @return bool
 	 */
 	public function isShown() {
-		return $this->getBackendUser()->isAdmin();
+		return TRUE;
 	}
 
 	/**

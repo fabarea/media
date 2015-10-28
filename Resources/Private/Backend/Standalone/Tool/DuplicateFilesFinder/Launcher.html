@@ -4,13 +4,17 @@
 
 <v:button.toolWork tool="Fab\Media\Tool\DuplicateFilesFinderTool" label="Find duplicate files"/>
 
-<p>The same can be performed by a CLI command:</p>
+<f:if condition="{isAdmin}">
+	<p>The same can be performed by a CLI command:</p>
 <pre style="font-size: 9pt">
 cd {sitePath};
 ./typo3/cli_dispatch.phpsh extbase duplicateFiles:analyse
 </pre>
 
-Tip! You can also configure a <strong>Scheduler Task which will send a report by email to <m:reportTo /></strong> if anything looks wrong.
+	Tip! You can also configure a <strong>Scheduler Task which will send a report by email to
+	<m:reportTo/>
+</strong> if anything looks wrong.
+</f:if>
 
 {namespace v=Fab\Vidi\ViewHelpers}
 {namespace m=Fab\Media\ViewHelpers}
