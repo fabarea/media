@@ -44,6 +44,9 @@
 			<trans-unit id="usage">
 				<source>Usage</source>
 			</trans-unit>
+			<trans-unit id="permission">
+				<source>Permission</source>
+			</trans-unit>
 			<trans-unit id="metadata">
 				<source>Metadata</source>
 			</trans-unit>
@@ -281,6 +284,12 @@
 			</trans-unit>
 			<trans-unit id="generate">
 				<source>Generate</source>
+			</trans-unit>
+			<trans-unit id="facet.read_only">
+				<source>Read only</source>
+			</trans-unit>
+			<trans-unit id="facet.write">
+				<source>Write</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -36,9 +36,15 @@ class MetadataRenderer extends ColumnRendererAbstract {
 			throw new \Exception('Missing property value for Grid Renderer Metadata', 1390391042);
 		}
 
-		$propertyName = $this->gridRendererConfiguration['property'];
 		$file = $this->getFileConverter()->convert($this->object);
-		$result = $file->getProperty($propertyName);
+		$propertyName = $this->gridRendererConfiguration['property'];
+
+		if ($propertyName === 'uid') {
+			$metadata = $file->_getMetaData();
+			$result = $metadata['uid']; // make an exception here to retrieve the uid of the metadata.
+		} else {
+			$result = $file->getProperty($propertyName);
+		}
 
 		// Avoid bad surprise, converts characters to HTML.
 		$fieldType = Tca::table('sys_file_metadata')->field($propertyName)->getType();

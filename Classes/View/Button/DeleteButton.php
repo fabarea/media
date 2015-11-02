@@ -33,8 +33,11 @@ class DeleteButton extends AbstractComponentView {
 	public function render(Content $object = NULL) {
 		$result = '';
 
+		$file = $this->getFileConverter()->convert($object);
+
 		// Only display the delete icon if the file has no reference.
-		if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0) {
+		if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0 && $file->checkActionPermission('write')) {
+
 
 			$result = sprintf('<a href="%s" class="btn-delete" data-uid="%s">%s</a>',
 				$this->getDeleteUri($object),
@@ -68,6 +71,13 @@ class DeleteButton extends AbstractComponentView {
 	 */
 	protected function getFileReferenceService() {
 		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+	}
+
+	/**
+	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
+	 */
+	protected function getFileConverter() {
+		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
 	}
 
 }

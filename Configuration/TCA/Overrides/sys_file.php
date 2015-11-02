@@ -35,6 +35,7 @@ $tca = array(
 		),
 	),
 	'grid' => array(
+		'excluded_fields' => 'number_of_references, missing',
 		'facets' => array(
 			'metadata.title',
 			'metadata.categories',
@@ -47,6 +48,7 @@ $tca = array(
 				'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 				array('0', '1', '2', '3', 'etc...') // auto-suggestions
 			),
+			new \Fab\Media\Facet\ActionPermissionFacet(),
 			'uid',
 		),
 		'columns' => array(
@@ -101,8 +103,15 @@ $tca = array(
 			),
 			'metadata' => array(
 				'label' => 'Metadata File Identifier',
+				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'uid')),
 				'visible' => FALSE,
 				'sortable' => FALSE,
+			),
+			'__action_permission' => array(
+				'renderer' => 'Fab\Media\Grid\ActionPermissionColumn',
+				'visible' => FALSE,
+				'sortable' => FALSE,
+				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permission',
 			),
 		)
 	)
