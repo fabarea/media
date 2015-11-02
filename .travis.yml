@@ -6,23 +6,21 @@ php:
 
 env:
   - TYPO3_BRANCH=TYPO3_6-2
-  - TYPO3_BRANCH=TYPO3_7-1-0
-  - TYPO3_BRANCH=master
+#  - TYPO3_BRANCH=TYPO3_7-1-0
+#  - TYPO3_BRANCH=master
 
 matrix:
   include:
-    - php: 5.3
+    - php: 5.5
       env: TYPO3_BRANCH=TYPO3_6-2
-    - php: 5.4
+    - php: 5.6
       env: TYPO3_BRANCH=TYPO3_6-2
-  allow_failures:
-    - env: TYPO3_BRANCH=TYPO3_7-1-0
-    - env: TYPO3_BRANCH=master
+#  allow_failures:
+#    - env: TYPO3_BRANCH=TYPO3_7-1-0
+#    - env: TYPO3_BRANCH=master
   fast_finish: true
 
 before_script:
-  - npm install -g grunt-cli
-  - npm install
   - cd ..
   - git clone --branch $TYPO3_BRANCH --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
   - mv typo3_core/* .
@@ -36,9 +34,8 @@ before_script:
   - export typo3DatabasePassword="";
 
 script:
-  - cd typo3conf/ext/media && grunt build && cd ../../../
   - ./bin/phpunit --coverage-clover=unit-tests-coverage.clover -c typo3conf/ext/media/Tests/Build/UnitTests.xml
-  - ./bin/phpunit --coverage-clover=functional-tests-coverage.clover -c typo3conf/ext/media/Tests/Build/FunctionalTests.xml
+#  - ./bin/phpunit --coverage-clover=functional-tests-coverage.clover -c typo3conf/ext/media/Tests/Build/FunctionalTests.xml
 
 after_script:
   - echo "Uploading code coverage results";
