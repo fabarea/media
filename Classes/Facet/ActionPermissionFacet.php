@@ -14,13 +14,15 @@ namespace Fab\Media\Facet;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Vidi\Domain\Model\Content;
+use Fab\Vidi\Domain\Repository\ContentRepositoryFactory;
 use Fab\Vidi\Facet\FacetInterface;
 use Fab\Vidi\Persistence\Matcher;
+use Fab\Vidi\Signal\AfterFindContentObjectsSignalArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class for configuring a custom Facet item.
+ * Beware this is a resource consuming facet as we have to interrogate the file system for every file.
  */
 class ActionPermissionFacet implements FacetInterface {
 
@@ -56,11 +58,6 @@ class ActionPermissionFacet implements FacetInterface {
 	 * @var bool
 	 */
 	protected $canModifyMatcher = FALSE;
-
-	/**
-	 * @var bool
-	 */
-	protected $canModifyResult = TRUE;
 
 	/**
 	 * Constructor of a Generic Facet in Vidi.
@@ -132,36 +129,67 @@ class ActionPermissionFacet implements FacetInterface {
 	}
 
 	/**
-	 * @return bool
+	 * @param AfterFindContentObjectsSignalArguments $signalArguments
+	 * @return array
 	 */
-	public function canModifyResult() {
-		return $this->canModifyResult;
-	}
+	public function modifyResultSet(AfterFindContentObjectsSignalArguments $signalArguments) {
 
-	/**
-	 * @param Content[] $objects
-	 * @param array $queryParts
-	 * @return Content[]
-	 */
-	public function modifyResult(array $objects, array $queryParts) {
+		if ($signalArguments->getDataType() === 'sys_file') {
 
-		$filteredObjects = $objects;
+			$queryParts = $this->getQueryParts();
 
-		$permission = $this->getPermissionValue($queryParts);
-		if ($permission) {
+			if (!empty($queryParts)) {
+				$permission = $this->getPermissionValue($queryParts);
 
-			$filteredObjects = array();
-			foreach ($objects as $object) {
+				if ($permission) {
 
-				$file = $this->getFileConverter()->convert($object->getUid());
-				if ($permission === 'read' && !$file->checkActionPermission('write')) {
-					$filteredObjects[] = $object;
-				} elseif ($permission === 'write' && $file->checkActionPermission('write')) {
-					$filteredObjects[] = $object;
+					// We are force to query the content repository again here without limit
+					$matcher = $signalArguments->getMatcher();
+					$order = $signalArguments->getOrder();
+					$objects = ContentRepositoryFactory::getInstance($this->dataType)->findBy($matcher, $order);
+
+					$filteredObjects = array();
+					foreach ($objects as $object) {
+
+						$file = $this->getFileConverter()->convert($object->getUid());
+						if ($permission === 'read' && !$file->checkActionPermission('write')) {
+							$filteredObjects[] = $object;
+						} elseif ($permission === 'write' && $file->checkActionPermission('write')) {
+							$filteredObjects[] = $object;
+						}
+					}
+
+					// Only take part of the array according to offset and limit.
+					$offset = $signalArguments->getOffset();
+					$limit = $signalArguments->getLimit();
+					$signalArguments->setContentObjects(array_slice($filteredObjects, $offset, $limit));
+
+					// Count number of records
+					$signalArguments->setNumberOfObjects(count($filteredObjects));
+					$signalArguments->setHasBeenProcessed(TRUE);
 				}
 			}
 		}
-		return $filteredObjects;
+
+		return array($signalArguments);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getQueryParts() {
+
+		// Transmit recursive selection parameter.
+		$parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
+		$parameters = GeneralUtility::_GP($parameterPrefix);
+
+		$queryParts = array();
+		if (!empty($parameters['searchTerm'])) {
+			$query = rawurldecode($parameters['searchTerm']);
+			$queryParts = json_decode($query, TRUE);
+		}
+
+		return $queryParts;
 	}
 
 	/**
@@ -214,6 +242,15 @@ class ActionPermissionFacet implements FacetInterface {
 	 */
 	protected function getFileConverter() {
 		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+	}
+
+	/**
+	 * Get the Vidi Module Loader.
+	 *
+	 * @return \Fab\Vidi\Module\ModuleLoader
+	 */
+	protected function getModuleLoader() {
+		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
 	}
 
 }

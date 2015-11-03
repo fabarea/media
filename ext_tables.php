@@ -151,14 +151,14 @@ if (TYPO3_MODE == 'BE') {
 	/** @var $signalSlotDispatcher \TYPO3\CMS\Extbase\SignalSlot\Dispatcher */
 	$signalSlotDispatcher = $objectManager->get('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
 
-	# Register some tool for Media
+	# Register some tool for Media.
 	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\ThumbnailGeneratorTool');
 	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\CacheWarmUpTool');
 	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
 	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateRecordsFinderTool');
 	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\DuplicateFilesFinderTool');
 
-	// Connect some signals with slots
+	// Connect some signals with slots.
 	$signalSlotDispatcher->connect(
 		'Fab\Vidi\Controller\Backend\ContentController',
 		'postProcessMatcherObject',
@@ -166,11 +166,20 @@ if (TYPO3_MODE == 'BE') {
 		'addFilePermissionsForFileStorages',
 		TRUE
 	);
+
 	$signalSlotDispatcher->connect(
 		'Fab\Vidi\Domain\Repository\ContentRepository',
 		'postProcessConstraintsObject',
 		'Fab\Media\Security\FilePermissionsAspect',
 		'addFilePermissionsForFileMounts',
+		TRUE
+	);
+
+	$signalSlotDispatcher->connect(
+		'Fab\Vidi\Service\ContentService',
+		'afterFindContentObjects',
+		'Fab\Media\Facet\ActionPermissionFacet',
+		'modifyResultSet',
 		TRUE
 	);
 
