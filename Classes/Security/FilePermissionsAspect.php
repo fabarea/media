@@ -18,6 +18,7 @@ use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Folder;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Persistence\Matcher;
 use Fab\Vidi\Persistence\Query;
@@ -64,6 +65,22 @@ class FilePermissionsAspect {
 				$identifier = -1;
 				if ($storage->isOnline()) {
 					$identifier = $storage->getUid();
+				}
+
+				if ($this->getModuleLoader()->hasPlugin() && !$this->getCurrentBackendUser()->isAdmin()) {
+
+					$fileMounts = $this->getCurrentBackendUser()->getFileMountRecords();
+					$collectedFiles = array();
+					foreach ($fileMounts as $fileMount) {
+
+						$combinedIdentifier = $fileMount['base'] . ':' . $fileMount['path'];
+						$folder = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($combinedIdentifier);
+
+						$files = $this->getFileUids($folder);
+						$collectedFiles = array_merge($collectedFiles, $files);
+					}
+
+					$matcher->in('uid', $collectedFiles);
 				}
 
 				$matcher->equals('storage', $identifier);
