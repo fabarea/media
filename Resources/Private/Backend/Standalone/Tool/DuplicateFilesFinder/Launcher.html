@@ -1,19 +1,17 @@
 <p>
-	Search for duplicate files by storage based on their signature (sha1).
+	<f:translate key="tool.duplicate_file.launcher.title" extensionName="media"/>
 </p>
 
 <v:button.toolWork tool="Fab\Media\Tool\DuplicateFilesFinderTool" label="Find duplicate files"/>
 
-<f:if condition="{isAdmin}">
-	<p>The same can be performed by a CLI command:</p>
+<f:if condition="!{isAdmin}">
+	<p><f:translate key="tool.duplicate_file.launcher.cli" extensionName="media"/>:</p>
 <pre style="font-size: 9pt">
 cd {sitePath};
 ./typo3/cli_dispatch.phpsh extbase duplicateFiles:analyse
 </pre>
 
-	Tip! You can also configure a <strong>Scheduler Task which will send a report by email to
-	<m:reportTo/>
-</strong> if anything looks wrong.
+	<f:translate key="tool.duplicate_file.launcher.tip" extensionName="media" arguments="{0: '{m:reportTo()}'}"/>
 </f:if>
 
 {namespace v=Fab\Vidi\ViewHelpers}

@@ -291,6 +291,42 @@
 			<trans-unit id="facet.write">
 				<source>Write</source>
 			</trans-unit>
+			<trans-unit id="tool.duplicate_file.launcher.title">
+				<source>Search for duplicate files by storage based on their signature (sha1).</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.launcher.cli">
+				<source>The same can be performed by a CLI command</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.launcher.tip">
+				<source>Tip! You can also configure a Scheduler Task which will send a report by email to "%s" if anything looks wrong.</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.title">
+				<source>Duplicate files</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.info">
+				<source>Operation will require to be run multiple time if too many records, depending on your server configuration.</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.ok">
+				<source>Everything seems fine.</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.file_missing">
+				<source>File is missing!</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.file_with_hash">
+				<source>File with hash</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.case">
+				<source>%s case of duplicated files!</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.cases">
+				<source>%s cases of duplicated files!</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.file_has_reference">
+				<source>file has %s reference and cannot be deleted!</source>
+			</trans-unit>
+			<trans-unit id="tool.duplicate_file.work_result.file_has_references">
+				<source>file has %s references and cannot be deleted!</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

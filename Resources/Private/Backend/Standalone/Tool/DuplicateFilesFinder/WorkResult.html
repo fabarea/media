@@ -80,7 +80,7 @@
 
 <div id="container" style="padding-left: 10px;">
 
-	<h4>Duplicate files</h4>
+	<h4><f:translate key="tool.duplicate_file.work_result.title" extensionName="media"/></h4>
 
 	<f:for each="{duplicateFilesReports}" as="report">
 
@@ -89,7 +89,14 @@
 		<f:if condition="{report.duplicateFiles}">
 			<f:then>
 				<div class="alert alert-error">
-					{report.numberOfDuplicateFiles} case<f:if condition="{report.numberOfDuplicateFiles} > 1">s</f:if> of duplicated files!
+					<f:if condition="{report.numberOfDuplicateFiles} > 1">
+						<f:then>
+							<f:translate key="tool.duplicate_file.work_result.cases" extensionName="media" arguments="{0: '{report.numberOfDuplicateFiles}'}"/>
+						</f:then>
+						<f:else>
+							<f:translate key="tool.duplicate_file.work_result.case" extensionName="media" arguments="{0: '{report.numberOfDuplicateFiles}'}"/>
+						</f:else>
+					</f:if>
 				</div>
 
 				<p>
@@ -107,7 +114,7 @@
 
 
 						<f:for each="{report.duplicateFiles}" key="sha1" as="records">
-							<div class="file-identifier">File with hash <strong>{sha1}</strong>:</div>
+							<div class="file-identifier"><f:translate key="tool.duplicate_file.work_result.file_with_hash" extensionName="media"/> <strong>{sha1}</strong>:</div>
 							<ul class="list-files">
 								<f:for each="{records}" as="record" iteration="iterator">
 									<li>
@@ -126,8 +133,15 @@
 											<div class="deleting-disabled-notice">
 												<div class="checkbox-placeholder"></div>
 												<div style="display: inline-block;">
-													File has {record.number_of_references}
-													reference<f:if condition="{record.number_of_references} > 1">s</f:if> and cannot be deleted!
+													<f:if condition="{record.number_of_references} > 1">
+														<f:then>
+															<f:translate key="tool.duplicate_file.work_result.file_has_references" extensionName="media" arguments="{0: '{record.number_of_references}'}"/>
+														</f:then>
+														<f:else>
+															<f:translate key="tool.duplicate_file.work_result.file_has_reference" extensionName="media" arguments="{0: '{record.number_of_references}'}"/>
+														</f:else>
+													</f:if>
+
 												</div>
 											</div>
 										</f:if>
@@ -135,7 +149,7 @@
 											<div class="deleting-disabled-notice">
 												<div class="checkbox-placeholder"></div>
 												<div style="display: inline-block; color: red;">
-													File is missing!
+													<f:translate key="tool.duplicate_file.work_result.file_missing" extensionName="media"/>
 												</div>
 											</div>
 										</f:if>
@@ -148,14 +162,14 @@
 
 						<input type="submit" value="Deleted selected record(s)" class="btn"/>
 						<div>
-							* Operation will require to be run multiple time if too many records, depending on your server configuration.
+							* <f:translate key="tool.duplicate_file.work_result.info" extensionName="media"/>
 						</div>
 					</f:form>
 				</div>
 			</f:then>
 			<f:else>
 				<div class="alert alert-success">
-					Everything seems fine.
+					<f:translate key="tool.duplicate_file.work_result.ok" extensionName="media"/>
 				</div>
 			</f:else>
 		</f:if>
