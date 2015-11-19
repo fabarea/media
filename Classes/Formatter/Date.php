@@ -16,6 +16,7 @@ namespace Fab\Media\Formatter;
 
 /**
  * Format a date that will be displayed in the Grid
+ * @deprecated
  */
 class Date {
 
@@ -26,9 +27,7 @@ class Date {
 	 * @return string
 	 */
 	public function format($value) {
-		/** @var $viewHelper \TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper */
-		$viewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper');
-		return $viewHelper->render('@' . $value, 'd.m.Y');
+		return 'Class is deprecated use Fab\Vidi\Formatter\Date instead of Fab\Media\Formatter\Date';
 	}
 
 }

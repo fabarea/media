@@ -16,7 +16,6 @@ namespace Fab\Media\View\Plugin;
 
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
-use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders content for file picker plugin.

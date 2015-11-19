@@ -16,11 +16,9 @@ namespace Fab\Media\View\Button;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
-use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders a "link-creator" button to be placed in the grid.
@@ -34,16 +32,20 @@ class LinkCreatorButton extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
-		$result = '';
+		$button = '';
 		if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
-			$result = sprintf('<a href="%s" class="btn-linkCreator" data-uid="%s" title="%s">%s</a>',
-				$this->getLinkCreatorUri($object),
-				$object->getUid(),
-				LocalizationUtility::translate('create_link', 'media'),
-				IconUtility::getSpriteIcon('apps-pagetree-page-shortcut-external-root')
-			);
+			$button = $this->makeLinkButton()
+					->setHref($this->getLinkCreatorUri($object))
+					->setDataAttributes([
+							'uid' => $object->getUid(),
+							'toggle' => 'tooltip',
+					])
+					->setClasses('btn-linkCreator')
+					->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:create_link'))
+					->setIcon($this->getIconFactory()->getIcon('apps-pagetree-page-shortcut-external-root', Icon::SIZE_SMALL))
+					->render();
 		}
-		return $result;
+		return $button;
 	}
 
 	/**

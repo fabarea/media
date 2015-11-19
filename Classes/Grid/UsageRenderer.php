@@ -16,8 +16,9 @@ namespace Fab\Media\Grid;
 
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
+use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\Tca\Tca;
@@ -95,18 +96,49 @@ class UsageRenderer extends ColumnRendererAbstract {
 
 		$result = '';
 		foreach ($references as $reference) {
+			$button = $this->makeLinkButton()
+					->setHref($this->getEditUri($reference, $mapping))
+					->setClasses('btn-edit-reference')
+					->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
+					->render();
 
-			$result .= sprintf($this->getReferenceTemplate(),
+			$result .= sprintf(
+				'<li title="%s - %s">%s</li>',
 				$reference[$mapping['referenceIdentifier']],
 				$this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
-				$this->getModuleUrl(),
-				$reference[$mapping['tableName']],
-				$reference[$mapping['referenceIdentifier']],
-				IconUtility::getSpriteIcon('actions-document-open'),
+				$this->getEditUri($reference, $mapping),
+				$button,
 				Tca::table($reference[$mapping['tableName']])->getTitle()
 			);
 		}
+
 		return $result;
+	}
+
+	/**
+	 * @return LinkButton
+	 */
+	protected function makeLinkButton()
+	{
+		return GeneralUtility::makeInstance(LinkButton::class);
+	}
+
+	/**
+	 * @param array $reference
+	 * @param array $mapping
+	 * @return string
+	 */
+	protected function getEditUri(array $reference, array $mapping) {
+
+		$parameterName = sprintf('edit[%s][%s]', $reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]);
+		$uri = BackendUtility::getModuleUrl(
+				'record_edit',
+				array(
+						$parameterName	 => 'edit',
+						'returnUrl' => $this->getModuleUrl()
+				)
+		);
+		return $uri;
 	}
 
 	/**
@@ -114,7 +146,7 @@ class UsageRenderer extends ColumnRendererAbstract {
 	 */
 	protected function getModuleUrl() {
 		$moduleSignature = VidiModule::getSignature();
-		return rawurlencode(BackendUtility::getModuleUrl($moduleSignature));
+		return BackendUtility::getModuleUrl($moduleSignature);
 	}
 
 	/**
@@ -151,15 +183,6 @@ class UsageRenderer extends ColumnRendererAbstract {
 	 */
 	protected function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
-	}
-
-	/**
-	 * Return HTML template for the Reference case.
-	 *
-	 * @return string
-	 */
-	protected function getReferenceTemplate() {
-		return '<li title="%s - %s"><a href="alt_doc.php?returnUrl=%s&edit[%s][%s]=edit" class="btn-edit-reference">%s</a> %s</li>';
 	}
 
 	/**

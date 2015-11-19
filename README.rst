@@ -272,7 +272,7 @@ The Thumbnail View Helper can be used as follow::
 
 	# Or if your template contains ``<section />``,
 	<html xmlns:f="http://typo3.org/ns/typo3/fluid/viewhelpers"
-		xmlns:m="http://typo3.org/ns/TYPO3/CMS/Media/ViewHelpers">
+		xmlns:m="http://typo3.org/ns/Fab/Media/ViewHelpers">
 
 		<section>
 			<m:file.thumbnail file="{file}" preset="image_medium"/>

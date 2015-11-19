@@ -16,7 +16,7 @@ namespace Fab\Media\View\Button;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
@@ -35,13 +35,14 @@ class NewFolder extends AbstractComponentView {
 	public function render(Content $object = NULL) {
 		$output = '';
 		if ($this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
-			$output = sprintf('<div style="float: left;"><a href="%sfile_newfolder.php?target=%s&amp;returnUrl=%s" title="%s">%s</a></div>',
-				$GLOBALS['BACK_PATH'],
-				$this->getCombineIdentifier(),
-				$this->getReturnUrl(),
-				$this->getLabel(),
-				IconUtility::getSpriteIcon('actions-document-new')
-			);
+
+			$button = $this->makeLinkButton()
+					->setHref($this->getNewFolderUri())
+					->setTitle($this->getLabel())
+					->setIcon($this->getIconFactory()->getIcon('actions-document-new', Icon::SIZE_SMALL))
+					->render();
+
+			$output = '<div style="float: left;">' . $button . '</div>';
 		}
 		return $output;
 	}
@@ -57,9 +58,23 @@ class NewFolder extends AbstractComponentView {
 	/**
 	 * @return string
 	 */
+	protected function getNewFolderUri() {
+		return BackendUtility::getModuleUrl(
+				'file_newfolder',
+				array(
+						'target' => $this->getCombineIdentifier(),
+						'returnUrl' => $this->getReturnUrl(),
+				)
+		);
+	}
+
+
+	/**
+	 * @return string
+	 */
 	protected function getCombineIdentifier() {
 		$folder = $this->getMediaModule()->getCurrentFolder();
-		return rawurlencode($folder->getCombinedIdentifier());
+		return $folder->getCombinedIdentifier();
 	}
 
 	/**
@@ -70,7 +85,7 @@ class NewFolder extends AbstractComponentView {
 			GeneralUtility::_GP('M'),
 			$this->getAdditionalParameters()
 		);
-		return rawurlencode($returnUrl);
+		return $returnUrl;
 	}
 
 	/**

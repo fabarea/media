@@ -16,11 +16,9 @@ namespace Fab\Media\View\Button;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
-use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders a "file-picker" button to be placed in the grid.
@@ -34,16 +32,21 @@ class FilePickerButton extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
-		$result = '';
+		$button = '';
 		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
-			$result = sprintf('<a href="%s" class="btn-filePicker" data-uid="%s" title="%s">%s</a>',
-				$this->getFilePickerUri($object),
-				$object->getUid(),
-				LocalizationUtility::translate('edit_image', 'media'),
-				IconUtility::getSpriteIcon('extensions-media-image-export')
-			);
+			$button = $this->makeLinkButton()
+					->setHref($this->getFilePickerUri($object))
+					->setDataAttributes([
+							'uid' => $object->getUid(),
+							'toggle' => 'tooltip',
+					])
+					->setClasses('btn-filePicker')
+					->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_image'))
+					->setIcon($this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL))
+					->render();
+
 		}
-		return $result;
+		return $button;
 	}
 
 	/**

@@ -83,7 +83,7 @@ $tca = array(
 			),
 			'tstamp' => array(
 				'visible' => FALSE,
-				'format' => 'Fab\Media\Formatter\Date',
+				'format' => 'Fab\Vidi\Formatter\Date',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
 			),
 			'metadata.categories' => array(

@@ -16,9 +16,8 @@ namespace Fab\Media\View\MenuItem;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
 /**
@@ -34,11 +33,14 @@ class ChangeStorageMenuItem extends AbstractComponentView {
 	public function render() {
 		$output = '';
 		if (!$this->getMediaModule()->hasFolderTree()) {
-			$output = sprintf('<li><a href="%s" class="change-storage" >%s %s</a>',
-				$this->getChangeStorageUri(),
-				IconUtility::getSpriteIcon('extensions-media-storage-change'),
-				LocalizationUtility::translate('change_storage', 'media')
-			);
+
+			$button = $this->makeLinkButton()
+					->setHref($this->getChangeStorageUri())
+					->setClasses('change-storage')
+					->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:change_storage'))
+					->setIcon($this->getIconFactory()->getIcon('extensions-media-storage-change', Icon::SIZE_SMALL))
+					->render();
+			$output = '<li>' .$button . '</li>';
 		}
 		return $output;
 	}

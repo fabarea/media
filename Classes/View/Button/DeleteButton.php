@@ -14,7 +14,7 @@ namespace Fab\Media\View\Button;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
@@ -31,21 +31,27 @@ class DeleteButton extends AbstractComponentView {
 	 * @return string
 	 */
 	public function render(Content $object = NULL) {
-		$result = '';
 
+		$button = '';
 		$file = $this->getFileConverter()->convert($object);
 
 		// Only display the delete icon if the file has no reference.
 		if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0 && $file->checkActionPermission('write')) {
 
-
-			$result = sprintf('<a href="%s" class="btn-delete" data-uid="%s">%s</a>',
-				$this->getDeleteUri($object),
-				$object->getUid(),
-				IconUtility::getSpriteIcon('actions-edit-delete')
-			);
+			$button = $this->makeLinkButton()
+					->setHref($this->getDeleteUri($object))
+					->setDataAttributes([
+							'uid' => $object->getUid(),
+							'toggle' => 'tooltip',
+							'label' => $file->getProperty('title'),
+					])
+					->setClasses('btn-delete')
+					->setTitle($this->getLanguageService()->sL('LLL:EXT:lang/locallang_mod_web_list.xlf:delete'))
+					->setIcon($this->getIconFactory()->getIcon('actions-edit-delete', Icon::SIZE_SMALL))
+					->render();
 		}
-		return $result;
+
+		return $button;
 	}
 
 	/**

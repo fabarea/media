@@ -15,10 +15,9 @@ namespace Fab\Media\View\Button;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
 
@@ -37,12 +36,18 @@ class EditButton extends AbstractComponentView {
 		$file = $this->getFileConverter()->convert($object);
 		$metadataProperties = $file->_getMetaData();
 
-		return sprintf('<a href="%s" data-uid="%s" class="btn-edit" title="%s">%s</a>',
-			$this->getUri($file),
-			$metadataProperties['uid'],
-			LocalizationUtility::translate('edit_metadata', 'media'),
-			IconUtility::getSpriteIcon('actions-document-open')
-		);
+		$button = $this->makeLinkButton()
+				->setHref($this->getUri($file))
+				->setDataAttributes([
+						'uid' => $metadataProperties['uid'],
+						'toggle' => 'tooltip',
+				])
+				->setClasses('btn-edit')
+				->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_metadata'))
+				->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
+				->render();
+
+		return $button;
 	}
 
 	/**
@@ -52,11 +57,15 @@ class EditButton extends AbstractComponentView {
 	protected function getUri(File $file) {
 		$metadataProperties = $file->_getMetaData();
 
-		$returnUrl = rawurlencode(BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $this->getAdditionalParameters()));
-		return sprintf('alt_doc.php?edit[%s][%s]=edit',
-			'sys_file_metadata',
-			$metadataProperties['uid']
-		) . '&returnUrl=' . $returnUrl;
+		$parameterName = sprintf('edit[sys_file_metadata][%s]', $metadataProperties['uid']);
+		$uri = BackendUtility::getModuleUrl(
+				'record_edit',
+				array(
+                    $parameterName	 => 'edit',
+                    'returnUrl' => BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $this->getAdditionalParameters())
+				)
+		);
+        return $uri;
 	}
 
 	/**

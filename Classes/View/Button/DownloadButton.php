@@ -16,8 +16,7 @@ namespace Fab\Media\View\Button;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\Utility\IconUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
 
@@ -34,15 +33,18 @@ class DownloadButton extends AbstractComponentView {
 	 */
 	public function render(Content $object = NULL) {
 
-		$result = sprintf(
-			'<a href="%s" data-uid="%s" class="btn-download" title="%s">%s</a>',
-			$this->getDownloadUri($object),
-			$object->getUid(),
-			LocalizationUtility::translate('download', 'media'),
-			IconUtility::getSpriteIcon('actions-system-extension-download')
-		);
+		$button = $this->makeLinkButton()
+				->setHref($this->getDownloadUri($object))
+				->setDataAttributes([
+						'uid' => $object->getUid(),
+						'toggle' => 'tooltip',
+				])
+				->setClasses('btn-download')
+				->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:download'))
+				->setIcon($this->getIconFactory()->getIcon('actions-system-extension-download', Icon::SIZE_SMALL))
+				->render();
 
-		return $result;
+		return $button;
 	}
 
 	/**

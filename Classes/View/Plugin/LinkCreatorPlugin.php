@@ -18,7 +18,6 @@ use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
-use Fab\Vidi\Module\ModulePlugin;
 
 /**
  * View which renders content for link creator plugin.

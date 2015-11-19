@@ -16,6 +16,7 @@ namespace Fab\Media\Form;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -37,11 +38,6 @@ class FileUpload extends AbstractFormField {
 	 * @var \TYPO3\CMS\Core\Resource\File
 	 */
 	protected $file;
-
-	/**
-	 * @var \TYPO3\CMS\Core\Page\PageRenderer
-	 */
-	protected $pageRenderer;
 
 	/**
 	 * @var string
@@ -73,8 +69,9 @@ EOF;
 	 * Add language labels for JavaScript files
 	 */
 	protected function addLanguage() {
-		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-		$this->pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
+		/** @var PageRenderer $pageRenderer */
+		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+		$pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 	}
 
 	/**
@@ -84,6 +81,8 @@ EOF;
 	 * @return string
 	 */
 	public function render() {
+
+		return '';
 
 		// Instantiate the file object for the whole class if possible.
 		if ($this->getValue()) {
