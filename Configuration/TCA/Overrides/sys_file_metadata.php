@@ -7,28 +7,28 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_file_metadata',$configuration);
 }
 
-$tca = array(
-	'ctrl' => array(
+$tca = [
+	'ctrl' => [
 		'default_sortby' => 'ORDER BY uid DESC',
 		'searchFields' => 'uid,extension,name', // sys_file_metadata.title,sys_file_metadata.keywords,
-	),
-	'columns' => array(
-		'fileinfo' => array(
+	],
+	'columns' => [
+		'fileinfo' => [
 			'l10n_mode' => 'exclude',
-			'config' => array(
+			'config' => [
 				'type' => 'user',
 				'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:Fab\Media\Backend\TceForms->renderFileUpload',
-			),
-		),
-		'related_files' => array(
+			],
+		],
+		'related_files' => [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_metadata.relations',
 			'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
 				'related_files',
-				array(),
+				[],
 				''
 			),
-		),
-	),
-);
+		],
+	],
+];
 \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_metadata'], $tca);

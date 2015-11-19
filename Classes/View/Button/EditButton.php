@@ -24,69 +24,74 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View which renders a "edit" button to be placed in the grid.
  */
-class EditButton extends AbstractComponentView {
+class EditButton extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "edit" button to be placed in the grid.
-	 *
-	 * @param Content $object
-	 * @return string
-	 */
-	public function render(Content $object = NULL) {
-		$file = $this->getFileConverter()->convert($object);
-		$metadataProperties = $file->_getMetaData();
+    /**
+     * Renders a "edit" button to be placed in the grid.
+     *
+     * @param Content $object
+     * @return string
+     */
+    public function render(Content $object = NULL)
+    {
+        $file = $this->getFileConverter()->convert($object);
+        $metadataProperties = $file->_getMetaData();
 
-		$button = $this->makeLinkButton()
-				->setHref($this->getUri($file))
-				->setDataAttributes([
-						'uid' => $metadataProperties['uid'],
-						'toggle' => 'tooltip',
-				])
-				->setClasses('btn-edit')
-				->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_metadata'))
-				->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
-				->render();
+        $button = $this->makeLinkButton()
+            ->setHref($this->getUri($file))
+            ->setDataAttributes([
+                'uid' => $metadataProperties['uid'],
+                'toggle' => 'tooltip',
+            ])
+            ->setClasses('btn-edit')
+            ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_metadata'))
+            ->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
+            ->render();
 
-		return $button;
-	}
+        return $button;
+    }
 
-	/**
-	 * @param File $file
-	 * @return string
-	 */
-	protected function getUri(File $file) {
-		$metadataProperties = $file->_getMetaData();
+    /**
+     * @param File $file
+     * @return string
+     */
+    protected function getUri(File $file)
+    {
+        $metadataProperties = $file->_getMetaData();
 
-		$parameterName = sprintf('edit[sys_file_metadata][%s]', $metadataProperties['uid']);
-		$uri = BackendUtility::getModuleUrl(
-				'record_edit',
-				array(
-                    $parameterName	 => 'edit',
-                    'returnUrl' => BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $this->getAdditionalParameters())
-				)
-		);
+        $parameterName = sprintf('edit[sys_file_metadata][%s]', $metadataProperties['uid']);
+        $uri = BackendUtility::getModuleUrl(
+            'record_edit',
+            array(
+                $parameterName => 'edit',
+                'returnUrl' => BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $this->getAdditionalParameters())
+            )
+        );
         return $uri;
-	}
+    }
 
-	/**
-	 * @return array
-	 */
-	protected function getAdditionalParameters() {
+    /**
+     * @return array
+     */
+    protected function getAdditionalParameters()
+    {
 
-		$additionalParameters = array();
-		if (GeneralUtility::_GP('id')) {
-			$additionalParameters = array(
-				'id' => urldecode(GeneralUtility::_GP('id')),
-			);
-		}
-		return $additionalParameters;
-	}
+        $additionalParameters = array();
+        if (GeneralUtility::_GP('id')) {
+            $additionalParameters = array(
+                'id' => urldecode(GeneralUtility::_GP('id')),
+            );
+        }
+        return $additionalParameters;
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 
 }

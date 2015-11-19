@@ -23,62 +23,67 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * A class to render a file upload widget.
  * Notice the file is very similar to FileUpload.php but integrates itself into TCEforms.
  */
-class FileUploadTceForms extends FileUpload {
+class FileUploadTceForms extends FileUpload
+{
 
-	/**
-	 * @var string
-	 */
-	protected $templateFile = 'Resources/Private/Backend/Standalone/FileUploadTceFormsTemplate.html';
+    /**
+     * @var string
+     */
+    protected $templateFile = 'Resources/Private/Backend/Standalone/FileUploadTceFormsTemplate.html';
 
-	/**
-	 * Fetch the JavaScript to be rendered and replace the markers with "live" variables.
-	 *
-	 * @return string
-	 */
-	protected function getJavaScript() {
+    /**
+     * Fetch the JavaScript to be rendered and replace the markers with "live" variables.
+     *
+     * @return string
+     */
+    protected function getJavaScript()
+    {
 
-		// Get the base prefix.
-		$basePrefix = $this->getBasePrefix($this->getPrefix());
-		$filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
+        // Get the base prefix.
+        $basePrefix = $this->getBasePrefix($this->getPrefix());
+        $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
 
-		return sprintf(file_get_contents($filePath),
-			$basePrefix,
-			$this->elementId,
-			$this->getModuleUrl(),
-			$this->getAllowedExtension(),
-			GeneralUtility::getMaxUploadFileSize() * 1024,
-			$this->getValue()
-		);
-	}
+        return sprintf(file_get_contents($filePath),
+            $basePrefix,
+            $this->elementId,
+            $this->getModuleUrl(),
+            $this->getAllowedExtension(),
+            GeneralUtility::getMaxUploadFileSize() * 1024,
+            $this->getValue()
+        );
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getModuleUrl() {
-		$moduleSignature = MediaModule::getSignature();
-		return BackendUtility::getModuleUrl($moduleSignature);
-	}
+    /**
+     * @return string
+     */
+    protected function getModuleUrl()
+    {
+        $moduleSignature = MediaModule::getSignature();
+        return BackendUtility::getModuleUrl($moduleSignature);
+    }
 
-	/**
-	 * Get allowed extension.
-	 *
-	 * @return string
-	 */
-	protected function getAllowedExtension() {
-		return $this->file->getExtension();
-	}
+    /**
+     * Get allowed extension.
+     *
+     * @return string
+     */
+    protected function getAllowedExtension()
+    {
+        return $this->file->getExtension();
+    }
 
-	/**
-	 * Returns additional file info.
-	 *
-	 * @return string
-	 */
-	protected function getFileInfo() {
-		/** @var \Fab\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
-		$metadataViewHelper = GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
+    /**
+     * Returns additional file info.
+     *
+     * @return string
+     */
+    protected function getFileInfo()
+    {
+        /** @var \Fab\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
+        $metadataViewHelper = GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
 
-		return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
-			$metadataViewHelper->render($this->file)
-		);
-	}
+        return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
+            $metadataViewHelper->render($this->file)
+        );
+    }
 }

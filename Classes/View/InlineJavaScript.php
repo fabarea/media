@@ -20,25 +20,27 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a button for uploading assets.
  */
-class InlineJavaScript extends AbstractComponentView {
+class InlineJavaScript extends AbstractComponentView
+{
 
 
-	/**
-	 * Renders a button for uploading assets.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$parameterPrefix = MediaModule::getParameterPrefix();
-		$output = "
+    /**
+     * Renders a button for uploading assets.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $parameterPrefix = MediaModule::getParameterPrefix();
+        $output = "
 <script>
 
 Media.parameterPrefix = '${parameterPrefix}';
 
 </script>";
 
-		return $output;
-	}
+        return $output;
+    }
 
 
 }

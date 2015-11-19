@@ -24,50 +24,53 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * $template = '%width x %height';
  * $fileProperties = array('width', 'height');
  */
-class MetadataViewHelper extends AbstractViewHelper {
+class MetadataViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns metadata according to a template.
-	 *
-	 * @param File $file
-	 * @param string $template
-	 * @param array $metadataProperties
-	 * @param array $configuration
-	 * @return string
-	 */
-	public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = array()) {
+    /**
+     * Returns metadata according to a template.
+     *
+     * @param File $file
+     * @param string $template
+     * @param array $metadataProperties
+     * @param array $configuration
+     * @return string
+     */
+    public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = array())
+    {
 
-		if (empty($template)) {
-			$template = $this->getDefaultTemplate($file);
-		}
+        if (empty($template)) {
+            $template = $this->getDefaultTemplate($file);
+        }
 
-		$result = $template;
-		foreach ($metadataProperties as $metadataProperty) {
-			$value = $file->getProperty($metadataProperty);
-			if ($metadataProperty === 'size') {
-				$sizeUnit = empty($configuration['sizeUnit']) ? 1000 : $configuration['sizeUnit'];
-				$value = round($file->getSize() / $sizeUnit);
-			}
-			$result = str_replace('%' . $metadataProperty, $value, $result);
-		}
+        $result = $template;
+        foreach ($metadataProperties as $metadataProperty) {
+            $value = $file->getProperty($metadataProperty);
+            if ($metadataProperty === 'size') {
+                $sizeUnit = empty($configuration['sizeUnit']) ? 1000 : $configuration['sizeUnit'];
+                $value = round($file->getSize() / $sizeUnit);
+            }
+            $result = str_replace('%' . $metadataProperty, $value, $result);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Returns a default template.
-	 *
-	 * @param File $file
-	 * @return string
-	 */
-	protected function getDefaultTemplate(File $file){
+    /**
+     * Returns a default template.
+     *
+     * @param File $file
+     * @return string
+     */
+    protected function getDefaultTemplate(File $file)
+    {
 
-		$template = '%size Ko';
+        $template = '%size Ko';
 
-		if ($file->getType() == File::FILETYPE_IMAGE) {
-			$template = '%width x %height - ' . $template;
-		}
+        if ($file->getType() == File::FILETYPE_IMAGE) {
+            $template = '%width x %height - ' . $template;
+        }
 
-		return $template;
-	}
+        return $template;
+    }
 }

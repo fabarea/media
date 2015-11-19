@@ -24,58 +24,62 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a text telling what folder is selected.
  */
-class SelectedFolderInfo extends AbstractComponentView {
+class SelectedFolderInfo extends AbstractComponentView
+{
 
-	/**
-	 * @var array
-	 */
-	public $notAllowedMountPoints = array();
+    /**
+     * @var array
+     */
+    public $notAllowedMountPoints = array();
 
-	/**
-	 * Renders a button for uploading assets.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a button for uploading assets.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$result = '';
-		if ($this->getMediaModule()->hasFolderTree()) {
+        $result = '';
+        if ($this->getMediaModule()->hasFolderTree()) {
 
-			$folder = $this->getMediaModule()->getCurrentFolder();
-			$result = sprintf('<h1>%s</h1>', $this->getFolderName($folder));
-		}
+            $folder = $this->getMediaModule()->getCurrentFolder();
+            $result = sprintf('<h1>%s</h1>', $this->getFolderName($folder));
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Get main headline based on active folder or storage for backend module
-	 *
-	 * Folder names are resolved to their special names like done in the tree view.
-	 *
-	 * @param Folder $folder
-	 * @return string
-	 */
-	protected function getFolderName(Folder $folder) {
-		$name = $folder->getName();
-		if ($name === '') {
-			// Show storage name on storage root
-			if ($folder->getIdentifier() === '/') {
-				$name = $folder->getStorage()->getName();
-			}
-		} else {
-			$name = key(ListUtility::resolveSpecialFolderNames(
-				array($name => $folder)
-			));
-		}
-		return $name;
-	}
+    /**
+     * Get main headline based on active folder or storage for backend module
+     *
+     * Folder names are resolved to their special names like done in the tree view.
+     *
+     * @param Folder $folder
+     * @return string
+     */
+    protected function getFolderName(Folder $folder)
+    {
+        $name = $folder->getName();
+        if ($name === '') {
+            // Show storage name on storage root
+            if ($folder->getIdentifier() === '/') {
+                $name = $folder->getStorage()->getName();
+            }
+        } else {
+            $name = key(ListUtility::resolveSpecialFolderNames(
+                array($name => $folder)
+            ));
+        }
+        return $name;
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
 }

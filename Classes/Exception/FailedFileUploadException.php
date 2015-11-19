@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for failed file upload.
  */
-class FailedFileUploadException extends \Exception {
+class FailedFileUploadException extends \Exception
+{
 
 }

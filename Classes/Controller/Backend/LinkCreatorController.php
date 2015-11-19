@@ -20,32 +20,35 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Controller which handles actions related to Link Creator.
  */
-class LinkCreatorController extends ActionController {
+class LinkCreatorController extends ActionController
+{
 
-	/**
-	 * Initializes the controller before invoking an action method.
-	 */
-	public function initializeAction() {
+    /**
+     * Initializes the controller before invoking an action method.
+     */
+    public function initializeAction()
+    {
 
-		// Configure property mapping to retrieve the file object.
-		if ($this->arguments->hasArgument('file')) {
+        // Configure property mapping to retrieve the file object.
+        if ($this->arguments->hasArgument('file')) {
 
-			/** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
-			$typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
+            /** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
+            $typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
 
-			$propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
-			$propertyMappingConfiguration->setTypeConverter($typeConverter);
-		}
-	}
+            $propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
+            $propertyMappingConfiguration->setTypeConverter($typeConverter);
+        }
+    }
 
-	/**
-	 * Handle GUI for creating a link in the RTE.
-	 *
-	 * @param File $file
-	 * @return void
-	 */
-	public function showAction(File $file) {
-		$this->view->assign('file', $file);
-	}
+    /**
+     * Handle GUI for creating a link in the RTE.
+     *
+     * @param File $file
+     * @return void
+     */
+    public function showAction(File $file)
+    {
+        $this->view->assign('file', $file);
+    }
 
 }

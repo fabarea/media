@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for missing property
  */
-class MissingKeyInArrayException extends \Exception {
+class MissingKeyInArrayException extends \Exception
+{
 
 }

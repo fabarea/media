@@ -20,34 +20,37 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class for rendering a configurable metadata property of a file in the Grid.
  */
-class ActionPermissionColumn extends ColumnRendererAbstract {
+class ActionPermissionColumn extends ColumnRendererAbstract
+{
 
-	/**
-	 * Renders a configurable metadata property of a file in the Grid.
-	 *
-	 * @throws \Exception
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a configurable metadata property of a file in the Grid.
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function render()
+    {
 
-		$file = $this->getFileConverter()->convert($this->object);
-		$permission = '';
+        $file = $this->getFileConverter()->convert($this->object);
+        $permission = '';
 
-		if ($file->checkActionPermission('read')) {
-			$permission = 'R';
-		}
-		if ($file->checkActionPermission('write')) {
-			$permission .= 'W';
-		}
+        if ($file->checkActionPermission('read')) {
+            $permission = 'R';
+        }
+        if ($file->checkActionPermission('write')) {
+            $permission .= 'W';
+        }
 
-		return '<strong>' .  $permission . '</strong>';
-	}
+        return '<strong>' . $permission . '</strong>';
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 
 }

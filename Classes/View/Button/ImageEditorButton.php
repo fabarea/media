@@ -23,43 +23,46 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View which renders a "image-editor" button to be placed in the grid.
  */
-class ImageEditorButton extends AbstractComponentView {
+class ImageEditorButton extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "image-editor" button to be placed in the grid.
-	 *
-	 * @param Content $object
-	 * @return string
-	 */
-	public function render(Content $object = NULL) {
-		$button = '';
-		if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
-			$button = $this->makeLinkButton()
-					->setHref($this->getImageEditorUri($object))
-					->setDataAttributes([
-							'uid' => $object->getUid(),
-							'toggle' => 'tooltip',
-					])
-					->setClasses('btn-imageEditor')
-					->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_image'))
-					->setIcon($this->getIconFactory()->getIcon('extensions-media-image-edit', Icon::SIZE_SMALL))
-					->render();
-		}
-		return $button;
-	}
+    /**
+     * Renders a "image-editor" button to be placed in the grid.
+     *
+     * @param Content $object
+     * @return string
+     */
+    public function render(Content $object = NULL)
+    {
+        $button = '';
+        if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
+            $button = $this->makeLinkButton()
+                ->setHref($this->getImageEditorUri($object))
+                ->setDataAttributes([
+                    'uid' => $object->getUid(),
+                    'toggle' => 'tooltip',
+                ])
+                ->setClasses('btn-imageEditor')
+                ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_image'))
+                ->setIcon($this->getIconFactory()->getIcon('extensions-media-image-edit', Icon::SIZE_SMALL))
+                ->render();
+        }
+        return $button;
+    }
 
-	/**
-	 * @param Content $object
-	 * @return string
-	 */
-	protected function getImageEditorUri(Content $object) {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'ImageEditor',
-				'action' => 'show',
-				'file' => $object->getUid(),
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * @param Content $object
+     * @return string
+     */
+    protected function getImageEditorUri(Content $object)
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'ImageEditor',
+                'action' => 'show',
+                'file' => $object->getUid(),
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 }

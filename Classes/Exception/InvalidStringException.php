@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for invalid string
  */
-class InvalidStringException extends \Exception {
+class InvalidStringException extends \Exception
+{
 
 }

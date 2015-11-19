@@ -1,5 +1,6 @@
 <?php
 namespace Fab\Media\Grid;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -18,13 +19,15 @@ use Fab\Vidi\Grid\GenericColumn;
 /**
  * Class for configuring a "Category" Grid Renderer in the Grid TCA.
  */
-class CategoryRendererComponent extends GenericColumn {
+class CategoryRendererComponent extends GenericColumn
+{
 
-	/**
-	 * Constructor for a "Category" Grid Renderer Component.
-	 */
-	public function __construct() {
-		$className = 'Fab\Media\Grid\CategoryRenderer';
-		parent::__construct($className, array());
-	}
+    /**
+     * Constructor for a "Category" Grid Renderer Component.
+     */
+    public function __construct()
+    {
+        $className = 'Fab\Media\Grid\CategoryRenderer';
+        parent::__construct($className, array());
+    }
 }

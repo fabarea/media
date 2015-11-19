@@ -25,137 +25,148 @@ use Fab\Media\Utility\ConfigurationUtility;
 /**
  * Service dealing with Indexing in the context of Media.
  */
-class MediaIndexer {
+class MediaIndexer
+{
 
-	/**
-	 * @var ResourceStorage
-	 */
-	protected $storage = NULL;
+    /**
+     * @var ResourceStorage
+     */
+    protected $storage = NULL;
 
-	/**
-	 * @param ResourceStorage $storage
-	 */
-	public function __construct(ResourceStorage $storage) {
-		$this->storage = $storage;
-	}
+    /**
+     * @param ResourceStorage $storage
+     */
+    public function __construct(ResourceStorage $storage)
+    {
+        $this->storage = $storage;
+    }
 
-	/**
-	 * @param \TYPO3\CMS\Core\Resource\File $file
-	 * @return $this
-	 */
-	public function updateIndex(File $file){
-		$this->getCoreIndexer()->updateIndexEntry($file);
-		return $this;
-	}
+    /**
+     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @return $this
+     */
+    public function updateIndex(File $file)
+    {
+        $this->getCoreIndexer()->updateIndexEntry($file);
+        return $this;
+    }
 
-	/**
-	 * @param \TYPO3\CMS\Core\Resource\File $file
-	 * @return $this
-	 */
-	public function extractMetadata(File $file){
+    /**
+     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @return $this
+     */
+    public function extractMetadata(File $file)
+    {
 
-		$extractionServices = $this->getExtractorRegistry()->getExtractorsWithDriverSupport($this->storage->getDriverType());
+        $extractionServices = $this->getExtractorRegistry()->getExtractorsWithDriverSupport($this->storage->getDriverType());
 
-		$newMetaData = array(
-			0 => $file->_getMetaData()
-		);
-		foreach ($extractionServices as $service) {
-			if ($service->canProcess($file)) {
-				$newMetaData[$service->getPriority()] = $service->extractMetaData($file, $newMetaData);
-			}
-		}
+        $newMetaData = array(
+            0 => $file->_getMetaData()
+        );
+        foreach ($extractionServices as $service) {
+            if ($service->canProcess($file)) {
+                $newMetaData[$service->getPriority()] = $service->extractMetaData($file, $newMetaData);
+            }
+        }
 
-		ksort($newMetaData);
-		$metaData = array();
-		foreach ($newMetaData as $data) {
-			$metaData = array_merge($metaData, $data);
-		}
-		$file->_updateMetaDataProperties($metaData);
-		$this->getMetaDataRepository()->update($file->getUid(), $metaData);
-		$this->getFileIndexRepository()->updateIndexingTime($file->getUid());
+        ksort($newMetaData);
+        $metaData = array();
+        foreach ($newMetaData as $data) {
+            $metaData = array_merge($metaData, $data);
+        }
+        $file->_updateMetaDataProperties($metaData);
+        $this->getMetaDataRepository()->update($file->getUid(), $metaData);
+        $this->getFileIndexRepository()->updateIndexingTime($file->getUid());
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param \TYPO3\CMS\Core\Resource\File $file
-	 * @return $this
-	 */
-	public function applyDefaultCategories(File $file){
+    /**
+     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @return $this
+     */
+    public function applyDefaultCategories(File $file)
+    {
 
-		$categoryList = ConfigurationUtility::getInstance()->get('default_categories');
-		$categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
+        $categoryList = ConfigurationUtility::getInstance()->get('default_categories');
+        $categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
 
-		foreach ($categories as $category) {
-			$values = array(
-				'uid_local' => $category,
-				'uid_foreign' => $this->getFileMetadataIdentifier($file),
-				'tablenames' => 'sys_file_metadata',
-				'fieldname' => 'categories',
-			);
-			$this->getDatabaseConnection()->exec_INSERTquery('sys_category_record_mm', $values);
-		}
+        foreach ($categories as $category) {
+            $values = array(
+                'uid_local' => $category,
+                'uid_foreign' => $this->getFileMetadataIdentifier($file),
+                'tablenames' => 'sys_file_metadata',
+                'fieldname' => 'categories',
+            );
+            $this->getDatabaseConnection()->exec_INSERTquery('sys_category_record_mm', $values);
+        }
 
-		$metaData['categories'] = count($categories);
-		$file->_updateMetaDataProperties($metaData);
-		$this->getMetaDataRepository()->update($file->getUid(), $metaData);
-		$this->getFileIndexRepository()->updateIndexingTime($file->getUid());
-		return $this;
-	}
+        $metaData['categories'] = count($categories);
+        $file->_updateMetaDataProperties($metaData);
+        $this->getMetaDataRepository()->update($file->getUid(), $metaData);
+        $this->getFileIndexRepository()->updateIndexingTime($file->getUid());
+        return $this;
+    }
 
-	/**
-	 * Retrieve the file metadata uid which is different from the file uid.
-	 *
-	 * @param \TYPO3\CMS\Core\Resource\File $file
-	 * @return int
-	 */
-	protected function getFileMetadataIdentifier(File $file) {
-		$metadataProperties = $file->_getMetaData();
-		return isset($metadataProperties['_ORIG_uid']) ? (int)$metadataProperties['_ORIG_uid'] : (int)$metadataProperties['uid'];
-	}
+    /**
+     * Retrieve the file metadata uid which is different from the file uid.
+     *
+     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @return int
+     */
+    protected function getFileMetadataIdentifier(File $file)
+    {
+        $metadataProperties = $file->_getMetaData();
+        return isset($metadataProperties['_ORIG_uid']) ? (int)$metadataProperties['_ORIG_uid'] : (int)$metadataProperties['uid'];
+    }
 
 
-	/**
-	 * Returns an instance of the FileIndexRepository
-	 *
-	 * @return FileIndexRepository
-	 */
-	protected function getFileIndexRepository() {
-		return FileIndexRepository::getInstance();
-	}
+    /**
+     * Returns an instance of the FileIndexRepository
+     *
+     * @return FileIndexRepository
+     */
+    protected function getFileIndexRepository()
+    {
+        return FileIndexRepository::getInstance();
+    }
 
-	/**
-	 * Returns an instance of the FileIndexRepository
-	 *
-	 * @return MetaDataRepository
-	 */
-	protected function getMetaDataRepository() {
-		return MetaDataRepository::getInstance();
-	}
+    /**
+     * Returns an instance of the FileIndexRepository
+     *
+     * @return MetaDataRepository
+     */
+    protected function getMetaDataRepository()
+    {
+        return MetaDataRepository::getInstance();
+    }
 
-	/**
-	 * Returns an instance of the FileIndexRepository
-	 *
-	 * @return ExtractorRegistry
-	 */
-	protected function getExtractorRegistry() {
-		return ExtractorRegistry::getInstance();
-	}
+    /**
+     * Returns an instance of the FileIndexRepository
+     *
+     * @return ExtractorRegistry
+     */
+    protected function getExtractorRegistry()
+    {
+        return ExtractorRegistry::getInstance();
+    }
 
-	/**
-	 * Returns a pointer to the database.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+    /**
+     * Returns a pointer to the database.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * @return \TYPO3\CMS\Core\Resource\Index\Indexer
-	 */
-	protected function getCoreIndexer() {
-		return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Index\Indexer', $this->storage);
-	}
+    /**
+     * @return \TYPO3\CMS\Core\Resource\Index\Indexer
+     */
+    protected function getCoreIndexer()
+    {
+        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Index\Indexer', $this->storage);
+    }
 
 }

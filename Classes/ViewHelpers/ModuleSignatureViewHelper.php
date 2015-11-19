@@ -20,14 +20,16 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * View helper which outputs the BE module signature.
  */
-class ModuleSignatureViewHelper extends AbstractViewHelper {
+class ModuleSignatureViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns the BE module signature.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		return VidiModule::getSignature();
-	}
+    /**
+     * Returns the BE module signature.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        return VidiModule::getSignature();
+    }
 }

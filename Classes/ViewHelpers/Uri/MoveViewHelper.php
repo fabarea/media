@@ -21,36 +21,38 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * View helper which renders a move storage URI.
  */
-class MoveViewHelper extends AbstractViewHelper {
+class MoveViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Render a move storage URI.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Render a move storage URI.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$urlParameters = array(
-			VidiModule::getParameterPrefix() => array(
-				'controller' => 'Content',
-				'action' => 'move',
-				'fieldNameAndPath' => $this->templateVariableContainer->get('fieldNameAndPath'),
-				'matches' => $this->templateVariableContainer->get('matches'),
-			),
-		);
+        $urlParameters = array(
+            VidiModule::getParameterPrefix() => array(
+                'controller' => 'Content',
+                'action' => 'move',
+                'fieldNameAndPath' => $this->templateVariableContainer->get('fieldNameAndPath'),
+                'matches' => $this->templateVariableContainer->get('matches'),
+            ),
+        );
 
-		$moduleUrl = BackendUtility::getModuleUrl(
-			VidiModule::getSignature(),
-			$urlParameters
-		);
+        $moduleUrl = BackendUtility::getModuleUrl(
+            VidiModule::getSignature(),
+            $urlParameters
+        );
 
-		// Work around a bug in BackendUtility::getModuleUrl if matches is empty getModuleUrl() will not return the parameter.
-		$matches = $this->templateVariableContainer->get('matches');
-		if (empty($matches)) {
-			$moduleUrl .= '&' . urlencode(VidiModule::getParameterPrefix() . '[matches]=');
-		}
+        // Work around a bug in BackendUtility::getModuleUrl if matches is empty getModuleUrl() will not return the parameter.
+        $matches = $this->templateVariableContainer->get('matches');
+        if (empty($matches)) {
+            $moduleUrl .= '&' . urlencode(VidiModule::getParameterPrefix() . '[matches]=');
+        }
 
-		return $moduleUrl;
-	}
+        return $moduleUrl;
+    }
 
 }

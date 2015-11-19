@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for empty value
  */
-class EmptyValueException extends \Exception {
+class EmptyValueException extends \Exception
+{
 
 }

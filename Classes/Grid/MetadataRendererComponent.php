@@ -1,5 +1,6 @@
 <?php
 namespace Fab\Media\Grid;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -18,15 +19,17 @@ use Fab\Vidi\Grid\GenericColumn;
 /**
  * Class for configuring a "Metadata" Grid Renderer in the Grid TCA.
  */
-class MetadataRendererComponent extends GenericColumn {
+class MetadataRendererComponent extends GenericColumn
+{
 
-	/**
-	 * Constructor for a "Metadata" Grid Renderer Component.
-	 *
-	 * @param array $configuration
-	 */
-	public function __construct($configuration = array()) {
-		$className = 'Fab\Media\Grid\MetadataRenderer';
-		parent::__construct($className, $configuration);
-	}
+    /**
+     * Constructor for a "Metadata" Grid Renderer Component.
+     *
+     * @param array $configuration
+     */
+    public function __construct($configuration = array())
+    {
+        $className = 'Fab\Media\Grid\MetadataRenderer';
+        parent::__construct($className, $configuration);
+    }
 }

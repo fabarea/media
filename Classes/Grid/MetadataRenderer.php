@@ -22,76 +22,81 @@ use Fab\Vidi\Tca\Tca;
 /**
  * Class for rendering a configurable metadata property of a file in the Grid.
  */
-class MetadataRenderer extends ColumnRendererAbstract {
+class MetadataRenderer extends ColumnRendererAbstract
+{
 
-	/**
-	 * Renders a configurable metadata property of a file in the Grid.
-	 *
-	 * @throws \Exception
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a configurable metadata property of a file in the Grid.
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function render()
+    {
 
-		if (empty($this->gridRendererConfiguration['property'])) {
-			throw new \Exception('Missing property value for Grid Renderer Metadata', 1390391042);
-		}
+        if (empty($this->gridRendererConfiguration['property'])) {
+            throw new \Exception('Missing property value for Grid Renderer Metadata', 1390391042);
+        }
 
-		$file = $this->getFileConverter()->convert($this->object);
-		$propertyName = $this->gridRendererConfiguration['property'];
+        $file = $this->getFileConverter()->convert($this->object);
+        $propertyName = $this->gridRendererConfiguration['property'];
 
-		if ($propertyName === 'uid') {
-			$metadata = $file->_getMetaData();
-			$result = $metadata['uid']; // make an exception here to retrieve the uid of the metadata.
-		} else {
-			$result = $file->getProperty($propertyName);
-		}
+        if ($propertyName === 'uid') {
+            $metadata = $file->_getMetaData();
+            $result = $metadata['uid']; // make an exception here to retrieve the uid of the metadata.
+        } else {
+            $result = $file->getProperty($propertyName);
+        }
 
-		// Avoid bad surprise, converts characters to HTML.
-		$fieldType = Tca::table('sys_file_metadata')->field($propertyName)->getType();
-		if ($fieldType !== FieldType::TEXTAREA) {
-			$result = htmlentities($result);
-		} elseif ($fieldType === FieldType::TEXTAREA && !$this->isClean($result)) {
-			$result = htmlentities($result);
-		} elseif ($fieldType === FieldType::TEXTAREA && !$this->hasHtml($result)) {
-			$result = nl2br($result);
-		}
+        // Avoid bad surprise, converts characters to HTML.
+        $fieldType = Tca::table('sys_file_metadata')->field($propertyName)->getType();
+        if ($fieldType !== FieldType::TEXTAREA) {
+            $result = htmlentities($result);
+        } elseif ($fieldType === FieldType::TEXTAREA && !$this->isClean($result)) {
+            $result = htmlentities($result);
+        } elseif ($fieldType === FieldType::TEXTAREA && !$this->hasHtml($result)) {
+            $result = nl2br($result);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Check whether a string contains HTML tags.
-	 *
-	 * @param string $content the content to be analyzed
-	 * @return boolean
-	 */
-	protected function hasHtml($content) {
-		$result = FALSE;
+    /**
+     * Check whether a string contains HTML tags.
+     *
+     * @param string $content the content to be analyzed
+     * @return boolean
+     */
+    protected function hasHtml($content)
+    {
+        $result = FALSE;
 
-		// We compare the length of the string with html tags and without html tags.
-		if (strlen($content) != strlen(strip_tags($content))) {
-			$result = TRUE;
-		}
-		return $result;
-	}
+        // We compare the length of the string with html tags and without html tags.
+        if (strlen($content) != strlen(strip_tags($content))) {
+            $result = TRUE;
+        }
+        return $result;
+    }
 
-	/**
-	 * Check whether a string contains potential XSS
-	 *
-	 * @param string $content the content to be analyzed
-	 * @return boolean
-	 */
-	protected function isClean($content) {
+    /**
+     * Check whether a string contains potential XSS
+     *
+     * @param string $content the content to be analyzed
+     * @return boolean
+     */
+    protected function isClean($content)
+    {
 
-		// @todo implement me!
-		$result = TRUE;
-		return $result;
-	}
+        // @todo implement me!
+        $result = TRUE;
+        return $result;
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 }

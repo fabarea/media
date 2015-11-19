@@ -22,35 +22,38 @@ use Fab\Media\Utility\Path;
 /**
  * View which renders content for link creator plugin.
  */
-class LinkCreatorPlugin extends AbstractComponentView {
+class LinkCreatorPlugin extends AbstractComponentView
+{
 
-	/**
-	 * Renders a hidden link for link creator.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$result = '';
-		if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
-			$result = sprintf('<script type="text/javascript" src="%s"></script>
+    /**
+     * Renders a hidden link for link creator.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $result = '';
+        if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
+            $result = sprintf('<script type="text/javascript" src="%s"></script>
 			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Plugin.LinkCreator.js'),
-				$this->getLinkCreatorUri()
-			);
-		};
-		return $result;
-	}
+                Path::getRelativePath('JavaScript/Media.Plugin.LinkCreator.js'),
+                $this->getLinkCreatorUri()
+            );
+        };
+        return $result;
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getLinkCreatorUri() {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'LinkCreator',
-				'action' => 'show',
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * @return string
+     */
+    protected function getLinkCreatorUri()
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'LinkCreator',
+                'action' => 'show',
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 }

@@ -19,25 +19,27 @@ use Fab\Vidi\Grid\ColumnRendererAbstract;
 /**
  * Class rendering permission in the grid.
  */
-class FrontendPermissionRenderer extends ColumnRendererAbstract {
+class FrontendPermissionRenderer extends ColumnRendererAbstract
+{
 
-	/**
-	 * Render permission in the grid.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$result = '';
+    /**
+     * Render permission in the grid.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $result = '';
 
-		$frontendUserGroups = $this->object['metadata']['fe_groups'];
-		if (!empty($frontendUserGroups)) {
+        $frontendUserGroups = $this->object['metadata']['fe_groups'];
+        if (!empty($frontendUserGroups)) {
 
-			/** @var $frontendUserGroup \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup */
-			foreach ($frontendUserGroups as $frontendUserGroup) {
-				$result .= sprintf('<li style="list-style: disc">%s</li>', $frontendUserGroup['title']);
-			}
-			$result = sprintf('<ul>%s</ul>', $result);
-		}
-		return $result;
-	}
+            /** @var $frontendUserGroup \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup */
+            foreach ($frontendUserGroups as $frontendUserGroup) {
+                $result .= sprintf('<li style="list-style: disc">%s</li>', $frontendUserGroup['title']);
+            }
+            $result = sprintf('<ul>%s</ul>', $result);
+        }
+        return $result;
+    }
 }

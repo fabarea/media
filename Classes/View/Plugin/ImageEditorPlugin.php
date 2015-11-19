@@ -22,37 +22,40 @@ use Fab\Media\Utility\Path;
 /**
  * View which renders content for image editor plugin.
  */
-class ImageEditorPlugin extends AbstractComponentView {
+class ImageEditorPlugin extends AbstractComponentView
+{
 
-	/**
-	 * Renders a hidden link for image editor.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a hidden link for image editor.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$result = '';
-		if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
+        $result = '';
+        if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
 
-			$result = sprintf('<script type="text/javascript" src="%s"></script>
+            $result = sprintf('<script type="text/javascript" src="%s"></script>
 				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
-				Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
-				$this->getImageEditorUri()
-			);
-		};
-		return $result;
-	}
+                Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
+                $this->getImageEditorUri()
+            );
+        };
+        return $result;
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getImageEditorUri() {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'ImageEditor',
-				'action' => 'show',
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * @return string
+     */
+    protected function getImageEditorUri()
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'ImageEditor',
+                'action' => 'show',
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 }

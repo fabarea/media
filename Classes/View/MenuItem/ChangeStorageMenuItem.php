@@ -23,46 +23,50 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a "move" menu item to be placed in the "change storage" menu.
  */
-class ChangeStorageMenuItem extends AbstractComponentView {
+class ChangeStorageMenuItem extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "change storage" menu item to be placed in the grid menu of Media.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$output = '';
-		if (!$this->getMediaModule()->hasFolderTree()) {
+    /**
+     * Renders a "change storage" menu item to be placed in the grid menu of Media.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $output = '';
+        if (!$this->getMediaModule()->hasFolderTree()) {
 
-			$button = $this->makeLinkButton()
-					->setHref($this->getChangeStorageUri())
-					->setClasses('change-storage')
-					->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:change_storage'))
-					->setIcon($this->getIconFactory()->getIcon('extensions-media-storage-change', Icon::SIZE_SMALL))
-					->render();
-			$output = '<li>' .$button . '</li>';
-		}
-		return $output;
-	}
+            $button = $this->makeLinkButton()
+                ->setHref($this->getChangeStorageUri())
+                ->setClasses('change-storage')
+                ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:change_storage'))
+                ->setIcon($this->getIconFactory()->getIcon('extensions-media-storage-change', Icon::SIZE_SMALL))
+                ->render();
+            $output = '<li>' . $button . '</li>';
+        }
+        return $output;
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getChangeStorageUri() {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'Asset',
-				'action' => 'editStorage',
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * @return string
+     */
+    protected function getChangeStorageUri()
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'Asset',
+                'action' => 'editStorage',
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
 }

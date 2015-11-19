@@ -23,44 +23,47 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View which renders a "file-picker" button to be placed in the grid.
  */
-class FilePickerButton extends AbstractComponentView {
+class FilePickerButton extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "file-picker" button to be placed in the grid.
-	 *
-	 * @param Content $object
-	 * @return string
-	 */
-	public function render(Content $object = NULL) {
-		$button = '';
-		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
-			$button = $this->makeLinkButton()
-					->setHref($this->getFilePickerUri($object))
-					->setDataAttributes([
-							'uid' => $object->getUid(),
-							'toggle' => 'tooltip',
-					])
-					->setClasses('btn-filePicker')
-					->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_image'))
-					->setIcon($this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL))
-					->render();
+    /**
+     * Renders a "file-picker" button to be placed in the grid.
+     *
+     * @param Content $object
+     * @return string
+     */
+    public function render(Content $object = NULL)
+    {
+        $button = '';
+        if ($this->getModuleLoader()->hasPlugin('filePicker')) {
+            $button = $this->makeLinkButton()
+                ->setHref($this->getFilePickerUri($object))
+                ->setDataAttributes([
+                    'uid' => $object->getUid(),
+                    'toggle' => 'tooltip',
+                ])
+                ->setClasses('btn-filePicker')
+                ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_image'))
+                ->setIcon($this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL))
+                ->render();
 
-		}
-		return $button;
-	}
+        }
+        return $button;
+    }
 
-	/**
-	 * @param Content $object
-	 * @return string
-	 */
-	protected function getFilePickerUri(Content $object) {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'Asset',
-				'action' => 'download',
-				'file' => $object->getUid(),
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * @param Content $object
+     * @return string
+     */
+    protected function getFilePickerUri(Content $object)
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'Asset',
+                'action' => 'download',
+                'file' => $object->getUid(),
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 }

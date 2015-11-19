@@ -22,38 +22,41 @@ use TYPO3\CMS\Core\Imaging\Icon;
 /**
  * View which renders a "file picker" menu item to be placed in the grid menu of Media.
  */
-class FilePickerMenuItem extends AbstractComponentView {
+class FilePickerMenuItem extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "file picker" menu item to be placed in the grid menu of Media.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$result = '';
-		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
-			$result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
-				$this->getMassDeleteUri(),
-				$this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL)
-			);
-		}
-		return $result;
-	}
+    /**
+     * Renders a "file picker" menu item to be placed in the grid menu of Media.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $result = '';
+        if ($this->getModuleLoader()->hasPlugin('filePicker')) {
+            $result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
+                $this->getMassDeleteUri(),
+                $this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL)
+            );
+        }
+        return $result;
+    }
 
-	/**
-	 * Render a mass delete URI.
-	 *
-	 * @return string
-	 */
-	protected function getMassDeleteUri() {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'Asset',
-				'action' => '',
-				'format' => 'json',
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * Render a mass delete URI.
+     *
+     * @return string
+     */
+    protected function getMassDeleteUri()
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'Asset',
+                'action' => '',
+                'format' => 'json',
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 
 }

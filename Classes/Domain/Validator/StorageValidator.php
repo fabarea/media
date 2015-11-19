@@ -22,32 +22,35 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 /**
  * Validate whether "storageIdentifier" is allowed.
  */
-class StorageValidator extends AbstractValidator {
+class StorageValidator extends AbstractValidator
+{
 
-	/**
-	 * Check if $storageIdentifier is allowed. If it is not valid, throw an exception.
-	 *
-	 * @param int $combinedIdentifier
-	 * @return void
-	 */
-	public function isValid($combinedIdentifier) {
+    /**
+     * Check if $storageIdentifier is allowed. If it is not valid, throw an exception.
+     *
+     * @param int $combinedIdentifier
+     * @return void
+     */
+    public function isValid($combinedIdentifier)
+    {
 
-		$allowedStorageIdentifiers = array();
-		foreach ($this->getMediaModule()->getAllowedStorages() as $allowedStorage) {
-			$allowedStorageIdentifiers[] = $allowedStorage->getUid();
-		}
+        $allowedStorageIdentifiers = array();
+        foreach ($this->getMediaModule()->getAllowedStorages() as $allowedStorage) {
+            $allowedStorageIdentifiers[] = $allowedStorage->getUid();
+        }
 
-		$storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
-		if (!in_array($storage->getUid(), $allowedStorageIdentifiers)) {
-			$message = sprintf('Storage identifier "%s" is not allowed or is currently off-line.', $combinedIdentifier);
-			$this->addError($message, 1380813503);
-		}
-	}
+        $storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+        if (!in_array($storage->getUid(), $allowedStorageIdentifiers)) {
+            $message = sprintf('Storage identifier "%s" is not allowed or is currently off-line.', $combinedIdentifier);
+            $this->addError($message, 1380813503);
+        }
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 }

@@ -23,145 +23,156 @@ use Fab\Media\Utility\Path;
 /**
  * Application Thumbnail Processor
  */
-abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface, SingletonInterface {
+abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface, SingletonInterface
+{
 
-	/**
-	 * @var ThumbnailService
-	 */
-	protected $thumbnailService;
+    /**
+     * @var ThumbnailService
+     */
+    protected $thumbnailService;
 
-	/**
-	 * Store a Processed File along the processing.
-	 *
-	 * @var \TYPO3\CMS\Core\Resource\ProcessedFile
-	 */
-	protected $processedFile;
+    /**
+     * Store a Processed File along the processing.
+     *
+     * @var \TYPO3\CMS\Core\Resource\ProcessedFile
+     */
+    protected $processedFile;
 
-	/**
-	 * Define what are the rendering steps for a thumbnail.
-	 *
-	 * @var array
-	 */
-	protected $renderingSteps = array(
-		ThumbnailInterface::OUTPUT_URI => 'renderUri',
-		ThumbnailInterface::OUTPUT_IMAGE => 'renderTagImage',
-		ThumbnailInterface::OUTPUT_IMAGE_WRAPPED => 'renderTagAnchor',
-	);
+    /**
+     * Define what are the rendering steps for a thumbnail.
+     *
+     * @var array
+     */
+    protected $renderingSteps = array(
+        ThumbnailInterface::OUTPUT_URI => 'renderUri',
+        ThumbnailInterface::OUTPUT_IMAGE => 'renderTagImage',
+        ThumbnailInterface::OUTPUT_IMAGE_WRAPPED => 'renderTagAnchor',
+    );
 
-	/**
-	 * @param ThumbnailService $thumbnailService
-	 * @return $this
-	 */
-	public function setThumbnailService(ThumbnailService $thumbnailService) {
-		$this->thumbnailService = $thumbnailService;
-		return $this;
-	}
+    /**
+     * @param ThumbnailService $thumbnailService
+     * @return $this
+     */
+    public function setThumbnailService(ThumbnailService $thumbnailService)
+    {
+        $this->thumbnailService = $thumbnailService;
+        return $this;
+    }
 
-	/**
-	 * Return what needs to be rendered
-	 *
-	 * @return array
-	 */
-	protected function getRenderingSteps() {
-		$position = array_search($this->thumbnailService->getOutputType(), array_keys($this->renderingSteps));
-		return array_slice($this->renderingSteps, 0, $position + 1);
-	}
+    /**
+     * Return what needs to be rendered
+     *
+     * @return array
+     */
+    protected function getRenderingSteps()
+    {
+        $position = array_search($this->thumbnailService->getOutputType(), array_keys($this->renderingSteps));
+        return array_slice($this->renderingSteps, 0, $position + 1);
+    }
 
 
-	/**
-	 * Render additional attribute for this DOM element.
-	 *
-	 * @return string
-	 */
-	protected function renderAttributes() {
-		$result = '';
-		$attributes = $this->thumbnailService->getAttributes();
-		if (!empty($attributes)) {
-			foreach ($attributes as $attribute => $value) {
-				$result .= sprintf('%s="%s" ',
-					htmlspecialchars($attribute),
-					htmlspecialchars($value)
-				);
-			}
-		}
-		return $result;
-	}
+    /**
+     * Render additional attribute for this DOM element.
+     *
+     * @return string
+     */
+    protected function renderAttributes()
+    {
+        $result = '';
+        $attributes = $this->thumbnailService->getAttributes();
+        if (!empty($attributes)) {
+            foreach ($attributes as $attribute => $value) {
+                $result .= sprintf('%s="%s" ',
+                    htmlspecialchars($attribute),
+                    htmlspecialchars($value)
+                );
+            }
+        }
+        return $result;
+    }
 
-	/**
-	 * @return array
-	 */
-	protected function getConfiguration() {
-		$configuration = $this->thumbnailService->getConfiguration();
-		if (empty($configuration)) {
-			$dimension = ImagePresetUtility::getInstance()->preset('image_thumbnail');
-			$configuration = array(
-				'width' => $dimension->getWidth(),
-				'height' => $dimension->getHeight(),
-			);
-		}
-		return $configuration;
-	}
+    /**
+     * @return array
+     */
+    protected function getConfiguration()
+    {
+        $configuration = $this->thumbnailService->getConfiguration();
+        if (empty($configuration)) {
+            $dimension = ImagePresetUtility::getInstance()->preset('image_thumbnail');
+            $configuration = array(
+                'width' => $dimension->getWidth(),
+                'height' => $dimension->getHeight(),
+            );
+        }
+        return $configuration;
+    }
 
-	/**
-	 * Returns a path to an icon given an extension.
-	 *
-	 * @param string $extension File extension
-	 * @return string
-	 */
-	protected function getIcon($extension) {
-		$resource = Path::getRelativePath(sprintf('Icons/MimeType/%s.png', $extension));
+    /**
+     * Returns a path to an icon given an extension.
+     *
+     * @param string $extension File extension
+     * @return string
+     */
+    protected function getIcon($extension)
+    {
+        $resource = Path::getRelativePath(sprintf('Icons/MimeType/%s.png', $extension));
 
-		// If file is not found, fall back to a default icon
-		if (Path::notExists($resource)) {
-			$resource = Path::getRelativePath('Icons/MissingMimeTypeIcon.png');
-		}
+        // If file is not found, fall back to a default icon
+        if (Path::notExists($resource)) {
+            $resource = Path::getRelativePath('Icons/MissingMimeTypeIcon.png');
+        }
 
-		return $resource;
-	}
+        return $resource;
+    }
 
-	/**
-	 * @param string $uri
-	 * @return string
-	 */
-	public function prefixUri($uri) {
-		if ($this->isFrontendMode() && $this->getFrontendObject()->absRefPrefix) {
-			$uri = $this->getFrontendObject()->absRefPrefix . $uri;
-		}
-		return $uri;
-	}
+    /**
+     * @param string $uri
+     * @return string
+     */
+    public function prefixUri($uri)
+    {
+        if ($this->isFrontendMode() && $this->getFrontendObject()->absRefPrefix) {
+            $uri = $this->getFrontendObject()->absRefPrefix . $uri;
+        }
+        return $uri;
+    }
 
-	/**
-	 * Returns TRUE whether an thumbnail can be generated
-	 *
-	 * @param string $extension File extension
-	 * @return boolean
-	 */
-	protected function isThumbnailPossible($extension) {
-		return GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($extension));
-	}
+    /**
+     * Returns TRUE whether an thumbnail can be generated
+     *
+     * @param string $extension File extension
+     * @return boolean
+     */
+    protected function isThumbnailPossible($extension)
+    {
+        return GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($extension));
+    }
 
-	/**
-	 * @return File
-	 */
-	protected function getFile() {
-		return $this->thumbnailService->getFile();
-	}
+    /**
+     * @return File
+     */
+    protected function getFile()
+    {
+        return $this->thumbnailService->getFile();
+    }
 
-	/**
-	 * Returns whether the current mode is Frontend
-	 *
-	 * @return bool
-	 */
-	protected function isFrontendMode() {
-		return TYPO3_MODE == 'FE';
-	}
+    /**
+     * Returns whether the current mode is Frontend
+     *
+     * @return bool
+     */
+    protected function isFrontendMode()
+    {
+        return TYPO3_MODE == 'FE';
+    }
 
-	/**
-	 * Returns an instance of the Frontend object.
-	 *
-	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-	 */
-	protected function getFrontendObject() {
-		return $GLOBALS['TSFE'];
-	}
+    /**
+     * Returns an instance of the Frontend object.
+     *
+     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     */
+    protected function getFrontendObject()
+    {
+        return $GLOBALS['TSFE'];
+    }
 }

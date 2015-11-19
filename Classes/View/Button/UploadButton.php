@@ -21,17 +21,19 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a button for uploading assets.
  */
-class UploadButton extends AbstractComponentView {
+class UploadButton extends AbstractComponentView
+{
 
-	/**
-	 * Renders a button for uploading assets.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a button for uploading assets.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		/** @var $fileUpload \Fab\Media\Form\FileUpload */
-		$fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUpload');
-		return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();
-	}
+        /** @var $fileUpload \Fab\Media\Form\FileUpload */
+        $fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUpload');
+        return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();
+    }
 }

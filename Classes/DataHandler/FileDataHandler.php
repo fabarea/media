@@ -23,122 +23,130 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * Special Data Handler for File.
  */
-class FileDataHandler extends AbstractDataHandler {
+class FileDataHandler extends AbstractDataHandler
+{
 
-	/**
-	 * Process File with action "update".
-	 *
-	 * @param Content $content
-	 * @throws \Exception
-	 * @return bool
-	 */
-	public function processUpdate(Content $content) {
-		throw new \Exception('Not yet implemented', 1409988673);
-	}
+    /**
+     * Process File with action "update".
+     *
+     * @param Content $content
+     * @throws \Exception
+     * @return bool
+     */
+    public function processUpdate(Content $content)
+    {
+        throw new \Exception('Not yet implemented', 1409988673);
+    }
 
-	/**
-	 * Process File with action "remove".
-	 *
-	 * @param Content $content
-	 * @return bool
-	 */
-	public function processRemove(Content $content) {
-		$file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+    /**
+     * Process File with action "remove".
+     *
+     * @param Content $content
+     * @return bool
+     */
+    public function processRemove(Content $content)
+    {
+        $file = ResourceFactory::getInstance()->getFileObject($content->getUid());
 
-		$numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
-		if ($numberOfReferences === 0) {
-			$file->delete();
-		} else {
-			$message = sprintf('I could not delete file "%s" as it is has %s reference(s).', $file->getUid(), $numberOfReferences);
-			$this->errorMessages = $message;
-		}
-	}
+        $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
+        if ($numberOfReferences === 0) {
+            $file->delete();
+        } else {
+            $message = sprintf('I could not delete file "%s" as it is has %s reference(s).', $file->getUid(), $numberOfReferences);
+            $this->errorMessages = $message;
+        }
+    }
 
-	/**
-	 * Process File with action "copy".
-	 *
-	 * @param Content $content
-	 * @param string $target
-	 * @throws \Exception
-	 * @return bool
-	 */
-	public function processCopy(Content $content, $target) {
-		$file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+    /**
+     * Process File with action "copy".
+     *
+     * @param Content $content
+     * @param string $target
+     * @throws \Exception
+     * @return bool
+     */
+    public function processCopy(Content $content, $target)
+    {
+        $file = ResourceFactory::getInstance()->getFileObject($content->getUid());
 
-		if ($this->getMediaModule()->hasFolderTree()) {
+        if ($this->getMediaModule()->hasFolderTree()) {
 
-			$targetFolder = $this->getMediaModule()->getCurrentFolder();
+            $targetFolder = $this->getMediaModule()->getCurrentFolder();
 
-			// Move file
-			$file->copyTo($targetFolder, $file->getName(), 'renameNewFile');
-		}
-		return TRUE;
-	}
+            // Move file
+            $file->copyTo($targetFolder, $file->getName(), 'renameNewFile');
+        }
+        return TRUE;
+    }
 
-	/**
-	 * Process File with action "move".
-	 *
-	 * @param Content $content
-	 * @param string $target
-	 * @throws \Exception
-	 * @return bool
-	 */
-	public function processMove(Content $content, $target) {
-		$file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+    /**
+     * Process File with action "move".
+     *
+     * @param Content $content
+     * @param string $target
+     * @throws \Exception
+     * @return bool
+     */
+    public function processMove(Content $content, $target)
+    {
+        $file = ResourceFactory::getInstance()->getFileObject($content->getUid());
 
-		if ($this->getMediaModule()->hasFolderTree()) {
+        if ($this->getMediaModule()->hasFolderTree()) {
 
-			$targetFolder = $this->getMediaModule()->getCurrentFolder();
-			if ($targetFolder->getIdentifier() !== $file->getParentFolder()->getIdentifier()) {
+            $targetFolder = $this->getMediaModule()->getCurrentFolder();
+            if ($targetFolder->getIdentifier() !== $file->getParentFolder()->getIdentifier()) {
 
-				// Move file
-				$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
-			}
-		} else {
+                // Move file
+                $file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
+            }
+        } else {
 
-			// Only process if the storage is different.
-			if ((int)$file->getStorage()->getUid() !== (int)$target) {
+            // Only process if the storage is different.
+            if ((int)$file->getStorage()->getUid() !== (int)$target) {
 
-				$targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
+                $targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
 
-				// Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
-				$targetFolder = $this->getMediaModule()->getDefaultFolderInStorage($targetStorage, $file);
+                // Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
+                $targetFolder = $this->getMediaModule()->getDefaultFolderInStorage($targetStorage, $file);
 
-				try {
-					// Move file
-					$file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
-				} catch (\Exception $e) {
-					$this->errorMessages = $e->getMessage();
-				}
-			}
-		}
-		return TRUE;
-	}
+                try {
+                    // Move file
+                    $file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
+                } catch (\Exception $e) {
+                    $this->errorMessages = $e->getMessage();
+                }
+            }
+        }
+        return TRUE;
+    }
 
-	/**
-	 * @return \Fab\Media\Resource\FileReferenceService
-	 */
-	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
-	}
+    /**
+     * @return \Fab\Media\Resource\FileReferenceService
+     */
+    protected function getFileReferenceService()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+    }
 
-	/**
-	 * Process Content with action "localize".
-	 *
-	 * @param Content $content
-	 * @param int $language
-	 * @throws \Exception
-	 * @return bool
-	 */
-	public function processLocalize(Content $content, $language) {
-		throw new \Exception('Nothing to implement here. Localization is done by the Core DataHandler', 1412760788);
-	}
+    /**
+     * Process Content with action "localize".
+     *
+     * @param Content $content
+     * @param int $language
+     * @throws \Exception
+     * @return bool
+     */
+    public function processLocalize(Content $content, $language)
+    {
+        throw new \Exception('Nothing to implement here. Localization is done by the Core DataHandler', 1412760788);
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
 }

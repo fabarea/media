@@ -19,19 +19,21 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * View helper which returns the people who will receive a report.
  */
-class ReportToViewHelper extends AbstractViewHelper {
+class ReportToViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns the people who will receive a report.
-	 *
-	 * @throws \Exception
-	 * @return string
-	 */
-	public function render() {
-		$reportTo = 'NULL (Missing value in $GLOBALS[TYPO3_CONF_VARS][MAIL][defaultMailFromAddress])';
-		if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
-			$reportTo = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
-		}
-		return $reportTo;
-	}
+    /**
+     * Returns the people who will receive a report.
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function render()
+    {
+        $reportTo = 'NULL (Missing value in $GLOBALS[TYPO3_CONF_VARS][MAIL][defaultMailFromAddress])';
+        if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
+            $reportTo = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
+        }
+        return $reportTo;
+    }
 }

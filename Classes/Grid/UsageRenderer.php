@@ -26,185 +26,195 @@ use Fab\Vidi\Tca\Tca;
 /**
  * Class rendering usage of an asset in the grid.
  */
-class UsageRenderer extends ColumnRendererAbstract {
+class UsageRenderer extends ColumnRendererAbstract
+{
 
-	/**
-	 * Render usage of an asset in the grid.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Render usage of an asset in the grid.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$file = $this->getFileConverter()->convert($this->object);
+        $file = $this->getFileConverter()->convert($this->object);
 
-		$result = '';
-
-
-		// Add number of references on the top!
-		if ($this->object['number_of_references'] > 1) {
-			$result .= sprintf('<div><strong>%s (%s)</strong></div>',
-				LocalizationUtility::translate('references', 'media'),
-				$this->object['number_of_references']
-			);
-		}
+        $result = '';
 
 
-		// Render File usage
-		$fileReferences = $this->getFileReferenceService()->findFileReferences($file);
-		if (!empty($fileReferences)) {
+        // Add number of references on the top!
+        if ($this->object['number_of_references'] > 1) {
+            $result .= sprintf('<div><strong>%s (%s)</strong></div>',
+                LocalizationUtility::translate('references', 'media'),
+                $this->object['number_of_references']
+            );
+        }
 
-			// Finalize file references assembling.
-			$result .= sprintf($this->getWrappingTemplate(),
-				LocalizationUtility::translate('file_reference', 'media'),
-				$this->assembleOutput($fileReferences, array('referenceIdentifier' => 'uid_foreign', 'tableName' => 'tablenames'))
-			);
-		}
 
-		// Render link usage in RTE
-		$linkSoftReferences = $this->getFileReferenceService()->findSoftLinkReferences($file);
-		if (!empty($linkSoftReferences)) {
+        // Render File usage
+        $fileReferences = $this->getFileReferenceService()->findFileReferences($file);
+        if (!empty($fileReferences)) {
 
-			// Finalize link references assembling.
-			$result .= sprintf($this->getWrappingTemplate(),
-				LocalizationUtility::translate('link_references_in_rte', 'media'),
-				$this->assembleOutput($linkSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
-			);
-		}
+            // Finalize file references assembling.
+            $result .= sprintf($this->getWrappingTemplate(),
+                LocalizationUtility::translate('file_reference', 'media'),
+                $this->assembleOutput($fileReferences, array('referenceIdentifier' => 'uid_foreign', 'tableName' => 'tablenames'))
+            );
+        }
 
-		// Render image usage in RTE
-		$imageSoftReferences = $this->getFileReferenceService()->findSoftImageReferences($file);
-		if (!empty($imageSoftReferences)) {
+        // Render link usage in RTE
+        $linkSoftReferences = $this->getFileReferenceService()->findSoftLinkReferences($file);
+        if (!empty($linkSoftReferences)) {
 
-			// Finalize image references assembling.
-			$result .= sprintf($this->getWrappingTemplate(),
-				LocalizationUtility::translate('image_references_in_rte', 'media'),
-				$this->assembleOutput($imageSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
-			);
-		}
+            // Finalize link references assembling.
+            $result .= sprintf($this->getWrappingTemplate(),
+                LocalizationUtility::translate('link_references_in_rte', 'media'),
+                $this->assembleOutput($linkSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
+            );
+        }
 
-		return $result;
-	}
+        // Render image usage in RTE
+        $imageSoftReferences = $this->getFileReferenceService()->findSoftImageReferences($file);
+        if (!empty($imageSoftReferences)) {
 
-	/**
-	 * Assemble output reference.
-	 *
-	 * @param array $references
-	 * @param array $mapping
-	 * @return string
-	 */
-	protected function assembleOutput(array $references, array $mapping) {
+            // Finalize image references assembling.
+            $result .= sprintf($this->getWrappingTemplate(),
+                LocalizationUtility::translate('image_references_in_rte', 'media'),
+                $this->assembleOutput($imageSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
+            );
+        }
 
-		$result = '';
-		foreach ($references as $reference) {
-			$button = $this->makeLinkButton()
-					->setHref($this->getEditUri($reference, $mapping))
-					->setClasses('btn-edit-reference')
-					->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
-					->render();
+        return $result;
+    }
 
-			$result .= sprintf(
-				'<li title="%s - %s">%s</li>',
-				$reference[$mapping['referenceIdentifier']],
-				$this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
-				$this->getEditUri($reference, $mapping),
-				$button,
-				Tca::table($reference[$mapping['tableName']])->getTitle()
-			);
-		}
+    /**
+     * Assemble output reference.
+     *
+     * @param array $references
+     * @param array $mapping
+     * @return string
+     */
+    protected function assembleOutput(array $references, array $mapping)
+    {
 
-		return $result;
-	}
+        $result = '';
+        foreach ($references as $reference) {
+            $button = $this->makeLinkButton()
+                ->setHref($this->getEditUri($reference, $mapping))
+                ->setClasses('btn-edit-reference')
+                ->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
+                ->render();
 
-	/**
-	 * @return LinkButton
-	 */
-	protected function makeLinkButton()
-	{
-		return GeneralUtility::makeInstance(LinkButton::class);
-	}
+            $result .= sprintf(
+                '<li title="%s - %s">%s</li>',
+                $reference[$mapping['referenceIdentifier']],
+                $this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
+                $this->getEditUri($reference, $mapping),
+                $button,
+                Tca::table($reference[$mapping['tableName']])->getTitle()
+            );
+        }
 
-	/**
-	 * @param array $reference
-	 * @param array $mapping
-	 * @return string
-	 */
-	protected function getEditUri(array $reference, array $mapping) {
+        return $result;
+    }
 
-		$parameterName = sprintf('edit[%s][%s]', $reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]);
-		$uri = BackendUtility::getModuleUrl(
-				'record_edit',
-				array(
-						$parameterName	 => 'edit',
-						'returnUrl' => $this->getModuleUrl()
-				)
-		);
-		return $uri;
-	}
+    /**
+     * @return LinkButton
+     */
+    protected function makeLinkButton()
+    {
+        return GeneralUtility::makeInstance(LinkButton::class);
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getModuleUrl() {
-		$moduleSignature = VidiModule::getSignature();
-		return BackendUtility::getModuleUrl($moduleSignature);
-	}
+    /**
+     * @param array $reference
+     * @param array $mapping
+     * @return string
+     */
+    protected function getEditUri(array $reference, array $mapping)
+    {
 
-	/**
-	 * Return the title given a table name and an identifier.
-	 *
-	 * @param string $tableName
-	 * @param string $identifier
-	 * @return string
-	 */
-	protected function getRecordTitle($tableName, $identifier) {
+        $parameterName = sprintf('edit[%s][%s]', $reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]);
+        $uri = BackendUtility::getModuleUrl(
+            'record_edit',
+            array(
+                $parameterName => 'edit',
+                'returnUrl' => $this->getModuleUrl()
+            )
+        );
+        return $uri;
+    }
 
-		$result = '';
-		if ($tableName && (int)$identifier > 0) {
+    /**
+     * @return string
+     */
+    protected function getModuleUrl()
+    {
+        $moduleSignature = VidiModule::getSignature();
+        return BackendUtility::getModuleUrl($moduleSignature);
+    }
 
-			$labelField = Tca::table($tableName)->getLabelField();
+    /**
+     * Return the title given a table name and an identifier.
+     *
+     * @param string $tableName
+     * @param string $identifier
+     * @return string
+     */
+    protected function getRecordTitle($tableName, $identifier)
+    {
 
-			// Get the title of the record.
-			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-				$labelField,
-				$tableName,
-				'uid = ' . $identifier
-			);
+        $result = '';
+        if ($tableName && (int)$identifier > 0) {
 
-			$result = $record[$labelField];
-		}
+            $labelField = Tca::table($tableName)->getLabelField();
 
-		return $result;
-	}
+            // Get the title of the record.
+            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
+                $labelField,
+                $tableName,
+                'uid = ' . $identifier
+            );
 
-	/**
-	 * Return a pointer to the database.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+            $result = $record[$labelField];
+        }
 
-	/**
-	 * Return the wrapping HTML template.
-	 *
-	 * @return string
-	 */
-	protected function getWrappingTemplate() {
-		return '<div style="text-decoration: underline; margin-top: 10px">%s</div><ul class="usage-list">%s</ul>';
-	}
+        return $result;
+    }
 
-	/**
-	 * @return \Fab\Media\Resource\FileReferenceService
-	 */
-	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
-	}
+    /**
+     * Return a pointer to the database.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * Return the wrapping HTML template.
+     *
+     * @return string
+     */
+    protected function getWrappingTemplate()
+    {
+        return '<div style="text-decoration: underline; margin-top: 10px">%s</div><ul class="usage-list">%s</ul>';
+    }
+
+    /**
+     * @return \Fab\Media\Resource\FileReferenceService
+     */
+    protected function getFileReferenceService()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+    }
+
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 }

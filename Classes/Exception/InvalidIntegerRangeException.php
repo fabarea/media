@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for invalid integer range.
  */
-class InvalidIntegerRangeException extends \Exception {
+class InvalidIntegerRangeException extends \Exception
+{
 
 }

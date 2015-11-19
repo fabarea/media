@@ -1,42 +1,42 @@
 <?php
 if (!defined('TYPO3_MODE')) die ('Access denied.');
 
-$tca = array(
-	'ctrl' => array(
+$tca = [
+	'ctrl' => [
 		'default_sortby' => 'uid DESC',
 		// Beware that "metadata.categories" is quite expansive performance wise.
 		'searchFields' => 'uid, extension, name, metadata.title, metadata.description, metadata.categories',
-	),
-	'columns' => array(
-		'extension' => array(
+	],
+	'columns' => [
+		'extension' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'eval' => 'trim',
-			),
-		),
-		'number_of_references' => array(
-			'config' => array(
+			],
+		],
+		'number_of_references' => [
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'readOnly' => TRUE,
-			),
-		),
-	),
-	'vidi' => array(
+			],
+		],
+	],
+	'vidi' => [
 		// For actions such as update, remove, copy, move, the DataHandler of the Core is configured to be used by default.
 		// It will work fine in most cases. However, there is the chance to set your own Data Handler if there are special needs (@see FileDataHandler in EXT:media)
 		// Another reasons, would be for speed. You will notice a performance cost when mass editing data using the Core DataHandler.
 		// Using your own DataHandler would make the mass processing much faster.
-		'data_handler' => array(
+		'data_handler' => [
 			// For all actions
 			'*' => 'Fab\Media\DataHandler\FileDataHandler'
-		),
-	),
-	'grid' => array(
+		],
+	],
+	'grid' => [
 		'excluded_fields' => 'number_of_references, missing',
-		'facets' => array(
+		'facets' => [
 			'metadata.title',
 			'metadata.categories',
 			'name',
@@ -46,76 +46,76 @@ $tca = array(
 			new \Fab\Vidi\Facet\StandardFacet(
 				'number_of_references',
 				'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
-				array('0', '1', '2', '3', 'etc...') // auto-suggestions
+				['0', '1', '2', '3', 'etc...'] // auto-suggestions
 			),
 			new \Fab\Media\Facet\ActionPermissionFacet(),
 			'uid',
-		),
-		'columns' => array(
-			'__checkbox' => array(
+		],
+		'columns' => [
+			'__checkbox' => [
 				'renderer' => new Fab\Vidi\Grid\CheckBoxComponent(),
-			),
-			'uid' => array(
+			],
+			'uid' => [
 				'visible' => FALSE,
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:uid',
 				'width' => '5px',
-			),
-			'identifier' => array(
+			],
+			'identifier' => [
 				'visible' => FALSE,
-			),
-			'fileinfo' => array(
+			],
+			'fileinfo' => [
 				'renderer' => 'Fab\Media\Grid\PreviewRenderer',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
 				'wrap' => '<div class="center preview">|</div>',
 				'width' => '150px',
 				'sortable' => FALSE,
-			),
-			'metadata.title' => array(
-				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'title')),
+			],
+			'metadata.title' => [
+				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(['property' => 'title']),
 				'width' => '400px',
 				'editable' => TRUE,
 				'sortable' => TRUE,
-			),
-			'metadata.description' => array(
-				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'description')),
+			],
+			'metadata.description' => [
+				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(['property' => 'description']),
 				'visible' => FALSE,
 				'sortable' => FALSE,
-			),
-			'tstamp' => array(
+			],
+			'tstamp' => [
 				'visible' => FALSE,
 				'format' => 'Fab\Vidi\Formatter\Date',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.tstamp',
-			),
-			'metadata.categories' => array(
-				'renderers' => array(
+			],
+			'metadata.categories' => [
+				'renderers' => [
 					new \Fab\Vidi\Grid\RelationEditComponent(),
 					new \Fab\Media\Grid\CategoryRendererComponent(),
-				),
+				],
 				'editable' => TRUE,
 				'visible' => TRUE,
 				'sortable' => FALSE,
-			),
-			'usage' => array(
+			],
+			'usage' => [
 				'renderer' => 'Fab\Media\Grid\UsageRenderer',
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
 				'visible' => TRUE,
 				'sortable' => FALSE,
-			),
-			'metadata' => array(
+			],
+			'metadata' => [
 				'label' => 'Metadata File Identifier',
-				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'uid')),
+				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(['property' => 'uid']),
 				'visible' => FALSE,
 				'sortable' => FALSE,
-			),
-			'__action_permission' => array(
+			],
+			'__action_permission' => [
 				'renderer' => 'Fab\Media\Grid\ActionPermissionColumn',
 				'visible' => FALSE,
 				'sortable' => FALSE,
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permission',
-			),
-		)
-	)
-);
+			],
+		]
+	]
+];
 
 // Add more info to the Grid if EXT:filemetadata is loaded. Notice that the extension is not required but suggested.
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')) {

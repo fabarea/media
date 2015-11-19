@@ -22,68 +22,73 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View which renders a "delete" button to be placed in the grid.
  */
-class DeleteButton extends AbstractComponentView {
+class DeleteButton extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "delete" button to be placed in the grid.
-	 *
-	 * @param \Fab\Vidi\Domain\Model\Content $object
-	 * @return string
-	 */
-	public function render(Content $object = NULL) {
+    /**
+     * Renders a "delete" button to be placed in the grid.
+     *
+     * @param \Fab\Vidi\Domain\Model\Content $object
+     * @return string
+     */
+    public function render(Content $object = NULL)
+    {
 
-		$button = '';
-		$file = $this->getFileConverter()->convert($object);
+        $button = '';
+        $file = $this->getFileConverter()->convert($object);
 
-		// Only display the delete icon if the file has no reference.
-		if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0 && $file->checkActionPermission('write')) {
+        // Only display the delete icon if the file has no reference.
+        if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0 && $file->checkActionPermission('write')) {
 
-			$button = $this->makeLinkButton()
-					->setHref($this->getDeleteUri($object))
-					->setDataAttributes([
-							'uid' => $object->getUid(),
-							'toggle' => 'tooltip',
-							'label' => $file->getProperty('title'),
-					])
-					->setClasses('btn-delete')
-					->setTitle($this->getLanguageService()->sL('LLL:EXT:lang/locallang_mod_web_list.xlf:delete'))
-					->setIcon($this->getIconFactory()->getIcon('actions-edit-delete', Icon::SIZE_SMALL))
-					->render();
-		}
+            $button = $this->makeLinkButton()
+                ->setHref($this->getDeleteUri($object))
+                ->setDataAttributes([
+                    'uid' => $object->getUid(),
+                    'toggle' => 'tooltip',
+                    'label' => $file->getProperty('title'),
+                ])
+                ->setClasses('btn-delete')
+                ->setTitle($this->getLanguageService()->sL('LLL:EXT:lang/locallang_mod_web_list.xlf:delete'))
+                ->setIcon($this->getIconFactory()->getIcon('actions-edit-delete', Icon::SIZE_SMALL))
+                ->render();
+        }
 
-		return $button;
-	}
+        return $button;
+    }
 
-	/**
-	 * @param Content $object
-	 * @return string
-	 */
-	protected function getDeleteUri(Content $object) {
-		$additionalParameters = array(
-			$this->getModuleLoader()->getParameterPrefix() => array(
-				'controller' => 'Content',
-				'action' => 'delete',
-				'format' => 'json',
-				'matches' => array(
-					'uid' => $object->getUid(),
-				),
-			),
-		);
-		return $this->getModuleLoader()->getModuleUrl($additionalParameters);
-	}
+    /**
+     * @param Content $object
+     * @return string
+     */
+    protected function getDeleteUri(Content $object)
+    {
+        $additionalParameters = array(
+            $this->getModuleLoader()->getParameterPrefix() => array(
+                'controller' => 'Content',
+                'action' => 'delete',
+                'format' => 'json',
+                'matches' => array(
+                    'uid' => $object->getUid(),
+                ),
+            ),
+        );
+        return $this->getModuleLoader()->getModuleUrl($additionalParameters);
+    }
 
-	/**
-	 * @return \Fab\Media\Resource\FileReferenceService
-	 */
-	protected function getFileReferenceService() {
-		return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
-	}
+    /**
+     * @return \Fab\Media\Resource\FileReferenceService
+     */
+    protected function getFileReferenceService()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 
 }

@@ -22,61 +22,65 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View helper which returns a configurable thumbnail for a File.
  */
-class ThumbnailViewHelper extends AbstractViewHelper {
+class ThumbnailViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content', 'The source file', FALSE, NULL);
-		$this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
-		$this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
-		$this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');
-		$this->registerArgument('output', 'string', 'Can be: uri, image, imageWrapped', FALSE, 'image');
-		$this->registerArgument('configurationWrap', 'array', 'The configuration given to the wrap.', FALSE, '');
-	}
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content', 'The source file', FALSE, NULL);
+        $this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
+        $this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
+        $this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');
+        $this->registerArgument('output', 'string', 'Can be: uri, image, imageWrapped', FALSE, 'image');
+        $this->registerArgument('configurationWrap', 'array', 'The configuration given to the wrap.', FALSE, '');
+    }
 
-	/**
-	 * Returns a configurable thumbnail of an asset
-	 *
-	 * @throws \Exception
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Returns a configurable thumbnail of an asset
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function render()
+    {
 
-		$file = $this->arguments['file'];
-		$preset = $this->arguments['preset'];
-		$configuration = $this->arguments['configuration'];
-		$configurationWrap = $this->arguments['configurationWrap'];
-		$attributes = $this->arguments['attributes'];
-		$output = $this->arguments['output'];
+        $file = $this->arguments['file'];
+        $preset = $this->arguments['preset'];
+        $configuration = $this->arguments['configuration'];
+        $configurationWrap = $this->arguments['configurationWrap'];
+        $attributes = $this->arguments['attributes'];
+        $output = $this->arguments['output'];
 
-		if ($file instanceof Content) {
-			$file = $this->getFileConverter()->convert($file);
-		}
+        if ($file instanceof Content) {
+            $file = $this->getFileConverter()->convert($file);
+        }
 
-		if ($preset) {
-			$imageDimension = ImagePresetUtility::getInstance()->preset($preset);
-			$configuration['width'] = $imageDimension->getWidth();
-			$configuration['height'] = $imageDimension->getHeight();
-		}
+        if ($preset) {
+            $imageDimension = ImagePresetUtility::getInstance()->preset($preset);
+            $configuration['width'] = $imageDimension->getWidth();
+            $configuration['height'] = $imageDimension->getHeight();
+        }
 
-		/** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
-		$thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
-		$thumbnail = $thumbnailService->setConfiguration($configuration)
-			->setConfigurationWrap($configurationWrap)
-			->setAttributes($attributes)
-			->setOutputType($output)
-			->create();
+        /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
+        $thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
+        $thumbnail = $thumbnailService->setConfiguration($configuration)
+            ->setConfigurationWrap($configurationWrap)
+            ->setAttributes($attributes)
+            ->setOutputType($output)
+            ->create();
 
-		return $thumbnail;
-	}
+        return $thumbnail;
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 
 }

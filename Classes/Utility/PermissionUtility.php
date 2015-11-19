@@ -23,66 +23,71 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * A class for handling permission
  */
-class PermissionUtility implements SingletonInterface {
+class PermissionUtility implements SingletonInterface
+{
 
-	/**
-	 * Returns a class instance.
-	 *
-	 * @return \Fab\Media\Utility\PermissionUtility
-	 */
-	static public function getInstance() {
-		return GeneralUtility::makeInstance('Fab\Media\Utility\PermissionUtility');
-	}
+    /**
+     * Returns a class instance.
+     *
+     * @return \Fab\Media\Utility\PermissionUtility
+     */
+    static public function getInstance()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Utility\PermissionUtility');
+    }
 
-	/**
-	 * Returns allowed extensions given a possible storage.
-	 *
-	 * @param null|int|ResourceStorage $storage
-	 * @return array
-	 */
-	public function getAllowedExtensions($storage = NULL) {
+    /**
+     * Returns allowed extensions given a possible storage.
+     *
+     * @param null|int|ResourceStorage $storage
+     * @return array
+     */
+    public function getAllowedExtensions($storage = NULL)
+    {
 
-		$fieldNames = array(
-			'extension_allowed_file_type_1',
-			'extension_allowed_file_type_2',
-			'extension_allowed_file_type_3',
-			'extension_allowed_file_type_4',
-			'extension_allowed_file_type_5',
-		);
+        $fieldNames = array(
+            'extension_allowed_file_type_1',
+            'extension_allowed_file_type_2',
+            'extension_allowed_file_type_3',
+            'extension_allowed_file_type_4',
+            'extension_allowed_file_type_5',
+        );
 
-		if (!is_null($storage)) {
-			if (! $storage instanceof ResourceStorage) {
-				$storage = ResourceFactory::getInstance()->getStorageObject((int)$storage);
-			}
-		} else {
-			$storage = $this->getMediaModule()->getCurrentStorage();
-		}
+        if (!is_null($storage)) {
+            if (!$storage instanceof ResourceStorage) {
+                $storage = ResourceFactory::getInstance()->getStorageObject((int)$storage);
+            }
+        } else {
+            $storage = $this->getMediaModule()->getCurrentStorage();
+        }
 
-		$storageRecord = $storage->getStorageRecord();
-		$allowedExtensions = array();
-		foreach ($fieldNames as $fieldName) {
-			$_allowedExtensions = GeneralUtility::trimExplode(',', $storageRecord[$fieldName], TRUE);
-			$allowedExtensions = array_merge($allowedExtensions, $_allowedExtensions);
-		}
+        $storageRecord = $storage->getStorageRecord();
+        $allowedExtensions = array();
+        foreach ($fieldNames as $fieldName) {
+            $_allowedExtensions = GeneralUtility::trimExplode(',', $storageRecord[$fieldName], TRUE);
+            $allowedExtensions = array_merge($allowedExtensions, $_allowedExtensions);
+        }
 
-		$uniqueAllowedExtensions = array_unique($allowedExtensions);
-		return array_filter($uniqueAllowedExtensions, 'strlen');
-	}
+        $uniqueAllowedExtensions = array_unique($allowedExtensions);
+        return array_filter($uniqueAllowedExtensions, 'strlen');
+    }
 
-	/**
-	 * Returns allowed extensions list.
-	 *
-	 * @return string
-	 */
-	public function getAllowedExtensionList() {
-		return implode(',', $this->getAllowedExtensions());
-	}
+    /**
+     * Returns allowed extensions list.
+     *
+     * @return string
+     */
+    public function getAllowedExtensionList()
+    {
+        return implode(',', $this->getAllowedExtensions());
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
 }

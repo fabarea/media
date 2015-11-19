@@ -22,30 +22,32 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * Convert a Content Object to File
  */
-class ContentToFileConverter implements SingletonInterface {
+class ContentToFileConverter implements SingletonInterface
+{
 
-	/**
-	 * Convert a file representation to File Resource.
-	 *
-	 * @param Content|int $fileRepresentation
-	 * @throws \RuntimeException
-	 * @return File
-	 */
-	public function convert($fileRepresentation) {
+    /**
+     * Convert a file representation to File Resource.
+     *
+     * @param Content|int $fileRepresentation
+     * @throws \RuntimeException
+     * @return File
+     */
+    public function convert($fileRepresentation)
+    {
 
-		if ($fileRepresentation instanceof Content) {
+        if ($fileRepresentation instanceof Content) {
 
-			$fileData = $fileRepresentation->toArray();
+            $fileData = $fileRepresentation->toArray();
 
-			if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
-				throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
-			}
+            if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
+                throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
+            }
 
-			$fileUid = $fileData['uid'];
-		} else {
-			$fileData = array();
-			$fileUid = (int)$fileRepresentation;
-		}
-		return ResourceFactory::getInstance()->getFileObject($fileUid, $fileData);
-	}
+            $fileUid = $fileData['uid'];
+        } else {
+            $fileData = array();
+            $fileUid = (int)$fileRepresentation;
+        }
+        return ResourceFactory::getInstance()->getFileObject($fileUid, $fileData);
+    }
 }

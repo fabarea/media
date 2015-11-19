@@ -20,22 +20,24 @@ use Fab\Media\Utility\Path;
 /**
  * View which renders content for file picker plugin.
  */
-class FilePickerPlugin extends AbstractComponentView {
+class FilePickerPlugin extends AbstractComponentView
+{
 
-	/**
-	 * Renders a hidden link for file picker.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a hidden link for file picker.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$result = '';
-		if ($this->getModuleLoader()->hasPlugin('filePicker')) {
+        $result = '';
+        if ($this->getModuleLoader()->hasPlugin('filePicker')) {
 
-			$result = sprintf('<script type="text/javascript" src="%s"></script>',
-				Path::getRelativePath('JavaScript/Media.Plugin.FilePicker.js')
-			);
-		};
-		return $result;
-	}
+            $result = sprintf('<script type="text/javascript" src="%s"></script>',
+                Path::getRelativePath('JavaScript/Media.Plugin.FilePicker.js')
+            );
+        };
+        return $result;
+    }
 }

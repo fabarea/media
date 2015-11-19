@@ -9,72 +9,72 @@ $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS
 $configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
 $configuration = $configurationUtility->getCurrentConfiguration('media');
 
-$tca = array(
-	'types' => array(
-		0 => array('showitem' => $GLOBALS['TCA']['sys_file_storage']['types'][0]['showitem'] . ',
+$tca = [
+	'types' => [
+		0 => ['showitem' => $GLOBALS['TCA']['sys_file_storage']['types'][0]['showitem'] . ',
 
 			--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tab.upload_settings,
 			maximum_dimension_original_image, extension_allowed_file_type_1, extension_allowed_file_type_2, extension_allowed_file_type_3, extension_allowed_file_type_4, extension_allowed_file_type_5,
 				',
-		),
-	),
-	'columns' => array(
-		'maximum_dimension_original_image' => array(
+		],
+	],
+	'columns' => [
+		'maximum_dimension_original_image' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.maximum_dimension_original_image',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 24,
 				'default' => '1920x1920',
 				'eval' => 'trim',
-			),
-		),
-		'extension_allowed_file_type_1' => array(
+			],
+		],
+		'extension_allowed_file_type_1' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.extension_allowed_file_type_1',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'default' => 'txt, html',
 				'eval' => 'trim',
-			),
-		),
-		'extension_allowed_file_type_2' => array(
+			],
+		],
+		'extension_allowed_file_type_2' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.extension_allowed_file_type_2',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'default' => 'jpg, jpeg, bmp, png, tiff, tif, gif, eps',
 				'eval' => 'trim',
-			),
-		),
-		'extension_allowed_file_type_3' => array(
+			],
+		],
+		'extension_allowed_file_type_3' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.extension_allowed_file_type_3',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'default' => 'mp3, mp4, m4a, wma, f4a',
 				'eval' => 'trim',
-			),
-		),
-		'extension_allowed_file_type_4' => array(
+			],
+		],
+		'extension_allowed_file_type_4' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.extension_allowed_file_type_4',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'default' => 'mov, avi, mpeg, mpg, mp4, m4v, flv, f4v, webm, wmv, ogv, 3gp',
 				'eval' => 'trim',
-			),
-		),
-		'extension_allowed_file_type_5' => array(
+			],
+		],
+		'extension_allowed_file_type_5' => [
 			'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.extension_allowed_file_type_5',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => 255,
 				'default' => 'pdf, zip, doc, docx, dotx, ppt, pptx, pps, ppsx, odt, xls, xlsx, xltx, rtf, xlt',
 				'eval' => 'trim',
-			),
-		),
-	),
-);
+			],
+		],
+	],
+];
 
 $tcaForHiddenFolderTree = array();
 if (!$configuration['has_folder_tree']['value']) {

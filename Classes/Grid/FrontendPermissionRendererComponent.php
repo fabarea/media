@@ -1,5 +1,6 @@
 <?php
 namespace Fab\Media\Grid;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -18,13 +19,15 @@ use Fab\Vidi\Grid\GenericColumn;
 /**
  * Class for configuring a "Create Relation" Grid Renderer in the Grid TCA.
  */
-class FrontendPermissionRendererComponent extends GenericColumn {
+class FrontendPermissionRendererComponent extends GenericColumn
+{
 
-	/**
-	 * Constructor for a "Create Relation" Grid Renderer Component.
-	 */
-	public function __construct() {
-		$className = 'Fab\Media\Grid\FrontendPermissionRenderer';
-		parent::__construct($className, array());
-	}
+    /**
+     * Constructor for a "Create Relation" Grid Renderer Component.
+     */
+    public function __construct()
+    {
+        $className = 'Fab\Media\Grid\FrontendPermissionRenderer';
+        parent::__construct($className, array());
+    }
 }

@@ -18,16 +18,18 @@ namespace Fab\Media\Formatter;
  * Format a date that will be displayed in the Grid
  * @deprecated
  */
-class Date {
+class Date
+{
 
-	/**
-	 * Format a date
-	 *
-	 * @param string $value
-	 * @return string
-	 */
-	public function format($value) {
-		return 'Class is deprecated use Fab\Vidi\Formatter\Date instead of Fab\Media\Formatter\Date';
-	}
+    /**
+     * Format a date
+     *
+     * @param string $value
+     * @return string
+     */
+    public function format($value)
+    {
+        return 'Class is deprecated use Fab\Vidi\Formatter\Date instead of Fab\Media\Formatter\Date';
+    }
 
 }

@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for not online storage.
  */
-class StorageNotOnlineException extends \Exception {
+class StorageNotOnlineException extends \Exception
+{
 
 }

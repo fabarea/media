@@ -19,5 +19,6 @@ namespace Fab\Media\Service;
  *
  * @deprecated will be remove in Media 3.0 + 2 version.
  */
-class ThumbnailService extends \Fab\Media\Thumbnail\ThumbnailService {
+class ThumbnailService extends \Fab\Media\Thumbnail\ThumbnailService
+{
 }

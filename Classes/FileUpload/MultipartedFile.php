@@ -19,46 +19,51 @@ namespace Fab\Media\FileUpload;
  *
  * @see original implementation: https://github.com/valums/file-uploader/blob/master/server/php.php
  */
-class MultipartedFile extends UploadedFileAbstract {
+class MultipartedFile extends UploadedFileAbstract
+{
 
-	/**
-	 * @var string
-	 */
-	protected $inputName = 'qqfile';
+    /**
+     * @var string
+     */
+    protected $inputName = 'qqfile';
 
-	/**
-	 * Save the file to the specified path
-	 *
-	 * @return boolean TRUE on success
-	 */
-	public function save() {
-		return move_uploaded_file($_FILES[$this->inputName]['tmp_name'], $this->getFileWithAbsolutePath());
-	}
+    /**
+     * Save the file to the specified path
+     *
+     * @return boolean TRUE on success
+     */
+    public function save()
+    {
+        return move_uploaded_file($_FILES[$this->inputName]['tmp_name'], $this->getFileWithAbsolutePath());
+    }
 
-	/**
-	 * Get the original filename
-	 *
-	 * @return string filename
-	 */
-	public function getOriginalName() {
-		return $_FILES[$this->inputName]['name'];
-	}
+    /**
+     * Get the original filename
+     *
+     * @return string filename
+     */
+    public function getOriginalName()
+    {
+        return $_FILES[$this->inputName]['name'];
+    }
 
-	/**
-	 * Get the file size
-	 *
-	 * @return integer file-size in byte
-	 */
-	public function getSize() {
-		return $_FILES[$this->inputName]['size'];
-	}
+    /**
+     * Get the file size
+     *
+     * @return integer file-size in byte
+     */
+    public function getSize()
+    {
+        return $_FILES[$this->inputName]['size'];
+    }
 
-	/**
-	 * Get the mime type of the file.
-	 *
-	 * @return int
-	 */
-	public function getMimeType() {
-		return $_FILES[$this->inputName]['type'];
-	}
+    /**
+     * Get the mime type of the file.
+     *
+     * @return int
+     */
+    public function getMimeType()
+    {
+        return $_FILES[$this->inputName]['type'];
+    }
 }

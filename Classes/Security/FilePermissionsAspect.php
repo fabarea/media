@@ -27,194 +27,205 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 /**
  * Class which handle signal slot for Vidi Content controller
  */
-class FilePermissionsAspect {
+class FilePermissionsAspect
+{
 
-	/**
-	 * Post-process the matcher object to respect the file storages.
-	 *
-	 * @param Matcher $matcher
-	 * @param string $dataType
-	 * @return void
-	 */
-	public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType) {
+    /**
+     * Post-process the matcher object to respect the file storages.
+     *
+     * @param Matcher $matcher
+     * @param string $dataType
+     * @return void
+     */
+    public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType)
+    {
 
-		if ($dataType === 'sys_file' && $this->isPermissionNecessary()) {
+        if ($dataType === 'sys_file' && $this->isPermissionNecessary()) {
 
-			if ($this->isFolderConsidered()) {
+            if ($this->isFolderConsidered()) {
 
-				$folder = $this->getMediaModule()->getCurrentFolder();
+                $folder = $this->getMediaModule()->getCurrentFolder();
 
-				if ($this->getMediaModule()->hasRecursiveSelection()) {
+                if ($this->getMediaModule()->hasRecursiveSelection()) {
 
-					// Only add like condition if needed.
-					if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
-						$matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = FALSE);
-					}
-				} else {
+                    // Only add like condition if needed.
+                    if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
+                        $matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = FALSE);
+                    }
+                } else {
 
-					// Browse only currently
-					$files = $this->getFileUids($folder);
-					$matcher->in('uid', $files);
-				}
+                    // Browse only currently
+                    $files = $this->getFileUids($folder);
+                    $matcher->in('uid', $files);
+                }
 
-				$matcher->equals('storage', $folder->getStorage()->getUid());
-			} else {
-				$storage = $this->getMediaModule()->getCurrentStorage();
+                $matcher->equals('storage', $folder->getStorage()->getUid());
+            } else {
+                $storage = $this->getMediaModule()->getCurrentStorage();
 
-				// Set the storage identifier only if the storage is on-line.
-				$identifier = -1;
-				if ($storage->isOnline()) {
-					$identifier = $storage->getUid();
-				}
+                // Set the storage identifier only if the storage is on-line.
+                $identifier = -1;
+                if ($storage->isOnline()) {
+                    $identifier = $storage->getUid();
+                }
 
-				if ($this->getModuleLoader()->hasPlugin() && !$this->getCurrentBackendUser()->isAdmin()) {
+                if ($this->getModuleLoader()->hasPlugin() && !$this->getCurrentBackendUser()->isAdmin()) {
 
-					$fileMounts = $this->getCurrentBackendUser()->getFileMountRecords();
-					$collectedFiles = array();
-					foreach ($fileMounts as $fileMount) {
+                    $fileMounts = $this->getCurrentBackendUser()->getFileMountRecords();
+                    $collectedFiles = array();
+                    foreach ($fileMounts as $fileMount) {
 
-						$combinedIdentifier = $fileMount['base'] . ':' . $fileMount['path'];
-						$folder = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($combinedIdentifier);
+                        $combinedIdentifier = $fileMount['base'] . ':' . $fileMount['path'];
+                        $folder = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($combinedIdentifier);
 
-						$files = $this->getFileUids($folder);
-						$collectedFiles = array_merge($collectedFiles, $files);
-					}
+                        $files = $this->getFileUids($folder);
+                        $collectedFiles = array_merge($collectedFiles, $files);
+                    }
 
-					$matcher->in('uid', $collectedFiles);
-				}
+                    $matcher->in('uid', $collectedFiles);
+                }
 
-				$matcher->equals('storage', $identifier);
-			}
-		}
-	}
+                $matcher->equals('storage', $identifier);
+            }
+        }
+    }
 
-	/**
-	 * @return bool
-	 */
-	protected function isPermissionNecessary() {
+    /**
+     * @return bool
+     */
+    protected function isPermissionNecessary()
+    {
 
-		$isNecessary = TRUE;
+        $isNecessary = TRUE;
 
-		$parameters = GeneralUtility::_GET(VidiModule::getParameterPrefix());
+        $parameters = GeneralUtility::_GET(VidiModule::getParameterPrefix());
 
-		if ($parameters['controller'] === 'Clipboard'  && ($parameters['action'] === 'show' || $parameters['action'] === 'flush')) {
-			$isNecessary = FALSE;
-		}
+        if ($parameters['controller'] === 'Clipboard' && ($parameters['action'] === 'show' || $parameters['action'] === 'flush')) {
+            $isNecessary = FALSE;
+        }
 
-		if ($parameters['controller'] === 'Content' && ($parameters['action'] === 'copyClipboard' || $parameters['action'] === 'moveClipboard')) {
-			$isNecessary = FALSE;
-		}
+        if ($parameters['controller'] === 'Content' && ($parameters['action'] === 'copyClipboard' || $parameters['action'] === 'moveClipboard')) {
+            $isNecessary = FALSE;
+        }
 
-		return $isNecessary;
-	}
+        return $isNecessary;
+    }
 
-	/**
-	 * @return bool
-	 */
-	protected function isFolderConsidered() {
-		return $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin();
-	}
+    /**
+     * @return bool
+     */
+    protected function isFolderConsidered()
+    {
+        return $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin();
+    }
 
-	/**
-	 * @param Folder $folder
-	 * @return array
-	 */
-	protected function getFileUids(Folder $folder) {
-		$files = array();
-		foreach ($folder->getFiles() as $file) {
-			$files[] = $file->getUid();
-		}
-		return $files;
-	}
+    /**
+     * @param Folder $folder
+     * @return array
+     */
+    protected function getFileUids(Folder $folder)
+    {
+        $files = array();
+        foreach ($folder->getFiles() as $file) {
+            $files[] = $file->getUid();
+        }
+        return $files;
+    }
 
-	/**
-	 * Post-process the constraints object to respect the file mounts.
-	 *
-	 * @param Query $query
-	 * @param ConstraintInterface|NULL $constraints
-	 * @return void
-	 */
-	public function addFilePermissionsForFileMounts(Query $query, $constraints) {
-		if ($query->getType() === 'sys_file') {
-			if (!$this->getCurrentBackendUser()->isAdmin()) {
-				$this->respectFileMounts($query, $constraints);
-			}
-		}
-	}
+    /**
+     * Post-process the constraints object to respect the file mounts.
+     *
+     * @param Query $query
+     * @param ConstraintInterface|NULL $constraints
+     * @return void
+     */
+    public function addFilePermissionsForFileMounts(Query $query, $constraints)
+    {
+        if ($query->getType() === 'sys_file') {
+            if (!$this->getCurrentBackendUser()->isAdmin()) {
+                $this->respectFileMounts($query, $constraints);
+            }
+        }
+    }
 
-	/**
-	 * @param Query $query
-	 * @param ConstraintInterface|NULL $constraints
-	 * @return array
-	 */
-	protected function respectFileMounts(Query $query, $constraints) {
+    /**
+     * @param Query $query
+     * @param ConstraintInterface|NULL $constraints
+     * @return array
+     */
+    protected function respectFileMounts(Query $query, $constraints)
+    {
 
-		$tableName = 'sys_filemounts';
+        $tableName = 'sys_filemounts';
 
-		// Get the file mount identifiers for the current Backend User.
-		$fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
-		$fileMountUids = implode(',', array_filter($fileMounts));
+        // Get the file mount identifiers for the current Backend User.
+        $fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
+        $fileMountUids = implode(',', array_filter($fileMounts));
 
-		// Compute the clause.
-		$clause = sprintf('uid IN (%s) %s %s',
-			$fileMountUids,
-			BackendUtility::BEenableFields($tableName),
-			BackendUtility::deleteClause($tableName)
-		);
+        // Compute the clause.
+        $clause = sprintf('uid IN (%s) %s %s',
+            $fileMountUids,
+            BackendUtility::BEenableFields($tableName),
+            BackendUtility::deleteClause($tableName)
+        );
 
-		// Fetch the records.
-		$fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'path',
-			$tableName,
-			$clause
-		);
+        // Fetch the records.
+        $fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
+            'path',
+            $tableName,
+            $clause
+        );
 
-		$constraintsRespectingFileMounts = array();
-		foreach ($fileMountRecords as $fileMountRecord) {
-			if ($fileMountRecord['path']) {
-				$constraintsRespectingFileMounts[] = $query->like(
-					'identifier',
-					$fileMountRecord['path'] . '%'
-				);
-			}
-		}
-		$constraintsRespectingFileMounts = $query->logicalOr($constraintsRespectingFileMounts);
+        $constraintsRespectingFileMounts = array();
+        foreach ($fileMountRecords as $fileMountRecord) {
+            if ($fileMountRecord['path']) {
+                $constraintsRespectingFileMounts[] = $query->like(
+                    'identifier',
+                    $fileMountRecord['path'] . '%'
+                );
+            }
+        }
+        $constraintsRespectingFileMounts = $query->logicalOr($constraintsRespectingFileMounts);
 
-		$constraints = $query->logicalAnd(
-			$constraints,
-			$constraintsRespectingFileMounts
-		);
+        $constraints = $query->logicalAnd(
+            $constraints,
+            $constraintsRespectingFileMounts
+        );
 
-		return array($query, $constraints);
-	}
+        return array($query, $constraints);
+    }
 
-	/**
-	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-	 */
-	protected function getCurrentBackendUser() {
-		return $GLOBALS['BE_USER'];
-	}
+    /**
+     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     */
+    protected function getCurrentBackendUser()
+    {
+        return $GLOBALS['BE_USER'];
+    }
 
-	/**
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+    /**
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
-	/**
-	 * Get the Vidi Module Loader.
-	 *
-	 * @return \Fab\Vidi\Module\ModuleLoader
-	 */
-	protected function getModuleLoader() {
-		return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
-	}
+    /**
+     * Get the Vidi Module Loader.
+     *
+     * @return \Fab\Vidi\Module\ModuleLoader
+     */
+    protected function getModuleLoader()
+    {
+        return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
+    }
 }

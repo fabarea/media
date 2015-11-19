@@ -22,141 +22,149 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a button for uploading assets.
  */
-class ConfigurationWarning extends AbstractComponentView {
+class ConfigurationWarning extends AbstractComponentView
+{
 
-	/**
-	 * @var array
-	 */
-	protected $notAllowedMountPoints = array();
+    /**
+     * @var array
+     */
+    protected $notAllowedMountPoints = array();
 
-	/**
-	 * Renders a button for uploading assets.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a button for uploading assets.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$result = '';
+        $result = '';
 
-		// Check whether storage is configured or not.
-		if ($this->checkStorageNotConfigured()) {
-			$this->configureStorage();
-			$result .= $this->formatMessageForStorageConfigured();
-		}
+        // Check whether storage is configured or not.
+        if ($this->checkStorageNotConfigured()) {
+            $this->configureStorage();
+            $result .= $this->formatMessageForStorageConfigured();
+        }
 
-		// Check whether storage is online or not.
-		if ($this->checkStorageOffline()) {
-			$result .= $this->formatMessageForStorageOffline();
-		}
+        // Check whether storage is online or not.
+        if ($this->checkStorageOffline()) {
+            $result .= $this->formatMessageForStorageOffline();
+        }
 
-		// Check all mount points of the storage are available
-		if (!$this->checkMountPoints()) {
-			$result .= $this->formatMessageForMountPoints();
-		}
+        // Check all mount points of the storage are available
+        if (!$this->checkMountPoints()) {
+            $result .= $this->formatMessageForMountPoints();
+        }
 
-		// Check all mount points of the storage are available
-		if (!$this->hasBeenWarmedUp() && !$this->checkColumnNumberOfReferences()) {
-			if ($this->canBeInitializedSilently() < 2000) {
-				$numberOfFiles = $this->getCacheService()->warmUp();
-				$result .= $this->formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFiles);
-				touch($this->getWarmUpSemaphoreFile());
-			} else {
-				$result .= $this->formatMessageForUpdateRequiredColumnNumberOfReferences();
-			}
-		}
+        // Check all mount points of the storage are available
+        if (!$this->hasBeenWarmedUp() && !$this->checkColumnNumberOfReferences()) {
+            if ($this->canBeInitializedSilently() < 2000) {
+                $numberOfFiles = $this->getCacheService()->warmUp();
+                $result .= $this->formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFiles);
+                touch($this->getWarmUpSemaphoreFile());
+            } else {
+                $result .= $this->formatMessageForUpdateRequiredColumnNumberOfReferences();
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @return \Fab\Media\Cache\CacheService
-	 */
-	protected function getCacheService() {
-		return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
-	}
+    /**
+     * @return \Fab\Media\Cache\CacheService
+     */
+    protected function getCacheService()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
+    }
 
-	/**
-	 * @return boolean
-	 */
-	protected function configureStorage() {
-		$tableName = 'sys_file_storage';
-		$fields = array(
-			'maximum_dimension_original_image',
-			'extension_allowed_file_type_1',
-			'extension_allowed_file_type_2',
-			'extension_allowed_file_type_3',
-			'extension_allowed_file_type_4',
-			'extension_allowed_file_type_5',
-		);
+    /**
+     * @return boolean
+     */
+    protected function configureStorage()
+    {
+        $tableName = 'sys_file_storage';
+        $fields = array(
+            'maximum_dimension_original_image',
+            'extension_allowed_file_type_1',
+            'extension_allowed_file_type_2',
+            'extension_allowed_file_type_3',
+            'extension_allowed_file_type_4',
+            'extension_allowed_file_type_5',
+        );
 
-		$values = array();
-		foreach ($fields as $field) {
-			$values[$field] = Tca::table($tableName)->field($field)->getDefaultValue();
-		}
+        $values = array();
+        foreach ($fields as $field) {
+            $values[$field] = Tca::table($tableName)->field($field)->getDefaultValue();
+        }
 
-		$storage = $this->getMediaModule()->getCurrentStorage();
-		$this->getDatabaseConnection()->exec_UPDATEquery($tableName, 'uid = ' . $storage->getUid(), $values);
-	}
+        $storage = $this->getMediaModule()->getCurrentStorage();
+        $this->getDatabaseConnection()->exec_UPDATEquery($tableName, 'uid = ' . $storage->getUid(), $values);
+    }
 
-	/**
-	 * @return bool
-	 */
-	protected function hasBeenWarmedUp() {
-		return is_file(($this->getWarmUpSemaphoreFile()));
-	}
+    /**
+     * @return bool
+     */
+    protected function hasBeenWarmedUp()
+    {
+        return is_file(($this->getWarmUpSemaphoreFile()));
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getWarmUpSemaphoreFile() {
-		return PATH_site . 'typo3temp/.media_cache_warmed_up';
-	}
+    /**
+     * @return string
+     */
+    protected function getWarmUpSemaphoreFile()
+    {
+        return PATH_site . 'typo3temp/.media_cache_warmed_up';
+    }
 
-	/**
-	 * Check whether the storage is correctly configured.
-	 *
-	 * @return boolean
-	 */
-	protected function checkStorageNotConfigured() {
-		$currentStorage = $this->getMediaModule()->getCurrentStorage();
-		$storageRecord = $currentStorage->getStorageRecord();
+    /**
+     * Check whether the storage is correctly configured.
+     *
+     * @return boolean
+     */
+    protected function checkStorageNotConfigured()
+    {
+        $currentStorage = $this->getMediaModule()->getCurrentStorage();
+        $storageRecord = $currentStorage->getStorageRecord();
 
-		// Take the storage fields and check whether some data was initialized.
-		$fields = array(
-			'mount_point_file_type_1',
-			'mount_point_file_type_2',
-			'mount_point_file_type_3',
-			'mount_point_file_type_4',
-			'mount_point_file_type_5',
-			'maximum_dimension_original_image',
-			'extension_allowed_file_type_1',
-			'extension_allowed_file_type_2',
-			'extension_allowed_file_type_3',
-			'extension_allowed_file_type_4',
-			'extension_allowed_file_type_5',
-		);
+        // Take the storage fields and check whether some data was initialized.
+        $fields = array(
+            'mount_point_file_type_1',
+            'mount_point_file_type_2',
+            'mount_point_file_type_3',
+            'mount_point_file_type_4',
+            'mount_point_file_type_5',
+            'maximum_dimension_original_image',
+            'extension_allowed_file_type_1',
+            'extension_allowed_file_type_2',
+            'extension_allowed_file_type_3',
+            'extension_allowed_file_type_4',
+            'extension_allowed_file_type_5',
+        );
 
-		$result = TRUE;
-		foreach ($fields as $fieldName) {
-			// TRUE means the storage has data and thus was configured / saved once.
-			if (!empty($storageRecord[$fieldName])) {
-				$result = FALSE;
-				break;
-			}
-		}
-		return $result;
-	}
+        $result = TRUE;
+        foreach ($fields as $fieldName) {
+            // TRUE means the storage has data and thus was configured / saved once.
+            if (!empty($storageRecord[$fieldName])) {
+                $result = FALSE;
+                break;
+            }
+        }
+        return $result;
+    }
 
-	/**
-	 * Format a message whenever the storage is offline.
-	 *
-	 * @return string
-	 */
-	protected function formatMessageForStorageConfigured() {
+    /**
+     * Format a message whenever the storage is offline.
+     *
+     * @return string
+     */
+    protected function formatMessageForStorageConfigured()
+    {
 
-		$storage = $this->getMediaModule()->getCurrentStorage();
+        $storage = $this->getMediaModule()->getCurrentStorage();
 
-		$result = <<< EOF
+        $result = <<< EOF
 			<div class="typo3-message message-information">
 				<div class="message-header">
 						Storage has been configured.
@@ -169,28 +177,30 @@ class ConfigurationWarning extends AbstractComponentView {
 			</div>
 EOF;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Check whether the storage is online or not.
-	 *
-	 * @return boolean
-	 */
-	protected function checkStorageOffline() {
-		return !$this->getMediaModule()->getCurrentStorage()->isOnline();
-	}
+    /**
+     * Check whether the storage is online or not.
+     *
+     * @return boolean
+     */
+    protected function checkStorageOffline()
+    {
+        return !$this->getMediaModule()->getCurrentStorage()->isOnline();
+    }
 
-	/**
-	 * Format a message whenever the storage is offline.
-	 *
-	 * @return string
-	 */
-	protected function formatMessageForStorageOffline() {
+    /**
+     * Format a message whenever the storage is offline.
+     *
+     * @return string
+     */
+    protected function formatMessageForStorageOffline()
+    {
 
-		$storage = $this->getMediaModule()->getCurrentStorage();
+        $storage = $this->getMediaModule()->getCurrentStorage();
 
-		$result = <<< EOF
+        $result = <<< EOF
 			<div class="typo3-message message-warning">
 					<div class="message-header">
 						Storage is currently offline
@@ -202,75 +212,78 @@ EOF;
 			</div>
 EOF;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Check whether mount points privilege are ok.
-	 *
-	 * @return boolean
-	 */
-	protected function checkMountPoints() {
-		if (!$this->getBackendUser()->isAdmin()) {
+    /**
+     * Check whether mount points privilege are ok.
+     *
+     * @return boolean
+     */
+    protected function checkMountPoints()
+    {
+        if (!$this->getBackendUser()->isAdmin()) {
 
-			$fileMounts = $this->getBackendUser()->getFileMountRecords();
+            $fileMounts = $this->getBackendUser()->getFileMountRecords();
 
-			$fileMountIdentifiers = array();
-			foreach ($fileMounts as $fileMount) {
-				$fileMountIdentifiers[] = $fileMount['uid'];
-			}
+            $fileMountIdentifiers = array();
+            foreach ($fileMounts as $fileMount) {
+                $fileMountIdentifiers[] = $fileMount['uid'];
+            }
 
-			$storage = $this->getMediaModule()->getCurrentStorage();
-			$storageRecord = $storage->getStorageRecord();
-			$fieldNames = array(
-				'mount_point_file_type_1',
-				'mount_point_file_type_2',
-				'mount_point_file_type_3',
-				'mount_point_file_type_4',
-				'mount_point_file_type_5',
-			);
-			foreach ($fieldNames as $fileName) {
-				$fileMountIdentifier = (int)$storageRecord[$fileName];
-				if ($fileMountIdentifier > 0 && !in_array($fileMountIdentifier, $fileMountIdentifiers)) {
-					$this->notAllowedMountPoints[] = $this->fetchMountPoint($fileMountIdentifier);
-				} else {
-					# $fileMountIdentifier
-					$folder = $storage->getRootLevelFolder();
-				}
-			}
-		}
-		return empty($this->notAllowedMountPoints);
-	}
+            $storage = $this->getMediaModule()->getCurrentStorage();
+            $storageRecord = $storage->getStorageRecord();
+            $fieldNames = array(
+                'mount_point_file_type_1',
+                'mount_point_file_type_2',
+                'mount_point_file_type_3',
+                'mount_point_file_type_4',
+                'mount_point_file_type_5',
+            );
+            foreach ($fieldNames as $fileName) {
+                $fileMountIdentifier = (int)$storageRecord[$fileName];
+                if ($fileMountIdentifier > 0 && !in_array($fileMountIdentifier, $fileMountIdentifiers)) {
+                    $this->notAllowedMountPoints[] = $this->fetchMountPoint($fileMountIdentifier);
+                } else {
+                    # $fileMountIdentifier
+                    $folder = $storage->getRootLevelFolder();
+                }
+            }
+        }
+        return empty($this->notAllowedMountPoints);
+    }
 
-	/**
-	 * Return a mount point according to an file mount identifier.
-	 *
-	 * @param string $identifier
-	 * @return array
-	 */
-	protected function fetchMountPoint($identifier) {
-		return $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'sys_filemounts', 'uid = ' . $identifier);
-	}
+    /**
+     * Return a mount point according to an file mount identifier.
+     *
+     * @param string $identifier
+     * @return array
+     */
+    protected function fetchMountPoint($identifier)
+    {
+        return $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'sys_filemounts', 'uid = ' . $identifier);
+    }
 
-	/**
-	 * Format a message whenever mount points privilege are not OK.
-	 *
-	 * @return string
-	 */
-	protected function formatMessageForMountPoints() {
+    /**
+     * Format a message whenever mount points privilege are not OK.
+     *
+     * @return string
+     */
+    protected function formatMessageForMountPoints()
+    {
 
-		$storage = $this->getMediaModule()->getCurrentStorage();
-		$backendUser = $this->getBackendUser();
+        $storage = $this->getMediaModule()->getCurrentStorage();
+        $backendUser = $this->getBackendUser();
 
-		foreach ($this->notAllowedMountPoints as $notAllowedMountPoints) {
-			$list = sprintf('<li>"%s" with path %s</li>',
-				$notAllowedMountPoints['title'],
-				$notAllowedMountPoints['path']
-			);
+        foreach ($this->notAllowedMountPoints as $notAllowedMountPoints) {
+            $list = sprintf('<li>"%s" with path %s</li>',
+                $notAllowedMountPoints['title'],
+                $notAllowedMountPoints['path']
+            );
 
-		}
+        }
 
-		$result = <<< EOF
+        $result = <<< EOF
 			<div class="typo3-message message-warning">
 					<div class="message-header">
 						File mount are wrongly configured for user "{$backendUser->user['username']}".
@@ -285,37 +298,40 @@ EOF;
 			</div>
 EOF;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	protected function canBeInitializedSilently() {
-		$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS number_of_files', 'sys_file', '');
-		return (int)$record['number_of_files'];
+    /**
+     * @return boolean
+     */
+    protected function canBeInitializedSilently()
+    {
+        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS number_of_files', 'sys_file', '');
+        return (int)$record['number_of_files'];
 
-	}
+    }
 
-	/**
-	 * Check whether the column "total_of_references" has been already processed once.
-	 *
-	 * @return boolean
-	 */
-	protected function checkColumnNumberOfReferences() {
-		$file = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'sys_file', 'number_of_references > 0');
-		return !empty($file);
-	}
+    /**
+     * Check whether the column "total_of_references" has been already processed once.
+     *
+     * @return boolean
+     */
+    protected function checkColumnNumberOfReferences()
+    {
+        $file = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'sys_file', 'number_of_references > 0');
+        return !empty($file);
+    }
 
-	/**
-	 * Format a message if columns "total_of_references" looks wrong.
-	 *
-	 * @param int $numberOfFile
-	 * @return string
-	 */
-	protected function formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFile) {
+    /**
+     * Format a message if columns "total_of_references" looks wrong.
+     *
+     * @param int $numberOfFile
+     * @return string
+     */
+    protected function formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFile)
+    {
 
-		$result = <<< EOF
+        $result = <<< EOF
 			<div class="typo3-message message-ok">
 				<div class="message-header">
 						Initialized column "number_of_references" for ${numberOfFile} files
@@ -332,18 +348,19 @@ EOF;
 			</div>
 EOF;
 
-		return $result;
-	}
+        return $result;
+    }
 
 
-	/**
-	 * Format a message if columns "total_of_references" looks wrong.
-	 *
-	 * @return string
-	 */
-	protected function formatMessageForUpdateRequiredColumnNumberOfReferences() {
+    /**
+     * Format a message if columns "total_of_references" looks wrong.
+     *
+     * @return string
+     */
+    protected function formatMessageForUpdateRequiredColumnNumberOfReferences()
+    {
 
-		$result = <<< EOF
+        $result = <<< EOF
 			<div class="typo3-message message-warning">
 				<div class="message-header">
 						Column "number_of_references" requires to be initialized.
@@ -362,32 +379,35 @@ EOF;
 			</div>
 EOF;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Returns an instance of the current Backend User.
-	 *
-	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-	 */
-	protected function getBackendUser() {
-		return $GLOBALS['BE_USER'];
-	}
+    /**
+     * Returns an instance of the current Backend User.
+     *
+     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     */
+    protected function getBackendUser()
+    {
+        return $GLOBALS['BE_USER'];
+    }
 
-	/**
-	 * Return a pointer to the database.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+    /**
+     * Return a pointer to the database.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
 }

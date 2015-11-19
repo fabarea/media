@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for missing TCA configuration
  */
-class MissingTcaConfigurationException extends \Exception {
+class MissingTcaConfigurationException extends \Exception
+{
 
 }

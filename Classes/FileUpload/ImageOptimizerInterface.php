@@ -17,13 +17,14 @@ namespace Fab\Media\FileUpload;
 /**
  * A interface for optimizing a file upload.
  */
-interface ImageOptimizerInterface {
+interface ImageOptimizerInterface
+{
 
-	/**
-	 * Optimize the given uploaded image
-	 *
-	 * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
-	 * @return \Fab\Media\FileUpload\UploadedFileInterface
-	 */
-	public function optimize($uploadedFile);
+    /**
+     * Optimize the given uploaded image
+     *
+     * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
+     * @return \Fab\Media\FileUpload\UploadedFileInterface
+     */
+    public function optimize($uploadedFile);
 }

@@ -23,44 +23,47 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View which renders a "download" button to be placed in the grid.
  */
-class DownloadButton extends AbstractComponentView {
+class DownloadButton extends AbstractComponentView
+{
 
-	/**
-	 * Renders a "download" button to be placed in the grid.
-	 *
-	 * @param Content $object
-	 * @return string
-	 */
-	public function render(Content $object = NULL) {
+    /**
+     * Renders a "download" button to be placed in the grid.
+     *
+     * @param Content $object
+     * @return string
+     */
+    public function render(Content $object = NULL)
+    {
 
-		$button = $this->makeLinkButton()
-				->setHref($this->getDownloadUri($object))
-				->setDataAttributes([
-						'uid' => $object->getUid(),
-						'toggle' => 'tooltip',
-				])
-				->setClasses('btn-download')
-				->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:download'))
-				->setIcon($this->getIconFactory()->getIcon('actions-system-extension-download', Icon::SIZE_SMALL))
-				->render();
+        $button = $this->makeLinkButton()
+            ->setHref($this->getDownloadUri($object))
+            ->setDataAttributes([
+                'uid' => $object->getUid(),
+                'toggle' => 'tooltip',
+            ])
+            ->setClasses('btn-download')
+            ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:download'))
+            ->setIcon($this->getIconFactory()->getIcon('actions-system-extension-download', Icon::SIZE_SMALL))
+            ->render();
 
-		return $button;
-	}
+        return $button;
+    }
 
-	/**
-	 * @param Content $object
-	 * @return string
-	 */
-	protected function getDownloadUri(Content $object) {
-		$urlParameters = array(
-			MediaModule::getParameterPrefix() => array(
-				'controller' => 'Asset',
-				'action' => 'download',
-				'forceDownload' => TRUE,
-				'file' => $object->getUid(),
-			),
-		);
-		return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
-	}
+    /**
+     * @param Content $object
+     * @return string
+     */
+    protected function getDownloadUri(Content $object)
+    {
+        $urlParameters = array(
+            MediaModule::getParameterPrefix() => array(
+                'controller' => 'Asset',
+                'action' => 'download',
+                'forceDownload' => TRUE,
+                'file' => $object->getUid(),
+            ),
+        );
+        return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
 
 }

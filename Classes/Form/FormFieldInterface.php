@@ -17,16 +17,17 @@ namespace Fab\Media\Form;
 /**
  * A interface dealing with form
  */
-interface FormFieldInterface {
+interface FormFieldInterface
+{
 
-	/**
-	 * @return string
-	 */
-	public function render();
+    /**
+     * @return string
+     */
+    public function render();
 
-	/**
-	 * @param string $template
-	 * @return \Fab\Media\Form\FormFieldInterface
-	 */
-	public function setTemplate($template);
+    /**
+     * @param string $template
+     * @return \Fab\Media\Form\FormFieldInterface
+     */
+    public function setTemplate($template);
 }

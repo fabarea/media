@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for missing file
  */
-class MissingFileException extends \Exception {
+class MissingFileException extends \Exception
+{
 
 }

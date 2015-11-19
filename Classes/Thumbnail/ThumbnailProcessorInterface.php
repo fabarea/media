@@ -17,41 +17,42 @@ namespace Fab\Media\Thumbnail;
 /**
  * Tell how a thumbnail of a file can be rendered.
  */
-interface ThumbnailProcessorInterface {
+interface ThumbnailProcessorInterface
+{
 
-	/**
-	 * @param ThumbnailService $thumbnailService
-	 * @return $this
-	 */
-	public function setThumbnailService(ThumbnailService $thumbnailService);
+    /**
+     * @param ThumbnailService $thumbnailService
+     * @return $this
+     */
+    public function setThumbnailService(ThumbnailService $thumbnailService);
 
-	/**
-	 * Render a thumbnail.
-	 *
-	 * @return string
-	 */
-	public function create();
+    /**
+     * Render a thumbnail.
+     *
+     * @return string
+     */
+    public function create();
 
-	/**
-	 * Render the URI of the thumbnail.
-	 *
-	 * @return string
-	 */
-	public function renderUri();
+    /**
+     * Render the URI of the thumbnail.
+     *
+     * @return string
+     */
+    public function renderUri();
 
-	/**
-	 * Render the tag image which is the main one for a thumbnail.
-	 *
-	 * @param string $result
-	 * @return string
-	 */
-	public function renderTagImage($result);
+    /**
+     * Render the tag image which is the main one for a thumbnail.
+     *
+     * @param string $result
+     * @return string
+     */
+    public function renderTagImage($result);
 
-	/**
-	 * Render a wrapping anchor around the thumbnail.
-	 *
-	 * @param string $result
-	 * @return string
-	 */
-	public function renderTagAnchor($result);
+    /**
+     * Render a wrapping anchor around the thumbnail.
+     *
+     * @param string $result
+     * @return string
+     */
+    public function renderTagAnchor($result);
 }

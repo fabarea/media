@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for missing property
  */
-class EmptyPropertyException extends \Exception {
+class EmptyPropertyException extends \Exception
+{
 
 }

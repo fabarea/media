@@ -22,27 +22,30 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View helper which tell whether a file exists.
  */
-class ExistsViewHelper extends AbstractViewHelper {
+class ExistsViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns a property value of a file given by the context.
-	 *
-	 * @param File|Content|int $file
-	 * @return bool
-	 */
-	public function render($file) {
+    /**
+     * Returns a property value of a file given by the context.
+     *
+     * @param File|Content|int $file
+     * @return bool
+     */
+    public function render($file)
+    {
 
-		if (! $file instanceof File) {
-			$file = $this->getFileConverter()->convert($file);
-		}
+        if (!$file instanceof File) {
+            $file = $this->getFileConverter()->convert($file);
+        }
 
-		return $file->exists();
-	}
+        return $file->exists();
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 }

@@ -14,31 +14,36 @@ namespace Fab\Media\Utility;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\SingletonInterface;
+
 /**
  * A class to handle validation on the client side
  */
-class ClientValidation implements \TYPO3\CMS\Core\SingletonInterface {
+class ClientValidation implements SingletonInterface
+{
 
-	/**
-	 * Returns a class instance
-	 *
-	 * @return \Fab\Media\Utility\ClientValidation
-	 */
-	static public function getInstance() {
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Utility\ClientValidation');
-	}
+    /**
+     * Returns a class instance
+     *
+     * @return \Fab\Media\Utility\ClientValidation
+     */
+    static public function getInstance()
+    {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Utility\ClientValidation');
+    }
 
-	/**
-	 * Get the validation class name given a field.
-	 *
-	 * @param string $fieldName
-	 * @return string
-	 */
-	public function get($fieldName){
-		$result = '';
-		if (\Fab\Media\Utility\TcaField::getService()->isRequired($fieldName)) {
-			$result = ' validate[required]';
-		}
-		return $result;
-	}
+    /**
+     * Get the validation class name given a field.
+     *
+     * @param string $fieldName
+     * @return string
+     */
+    public function get($fieldName)
+    {
+        $result = '';
+        if (\Fab\Media\Utility\TcaField::getService()->isRequired($fieldName)) {
+            $result = ' validate[required]';
+        }
+        return $result;
+    }
 }

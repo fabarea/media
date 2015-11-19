@@ -23,274 +23,294 @@ use Fab\Media\Utility\Logger;
 /**
  * Thumbnail Service
  */
-class ThumbnailService {
+class ThumbnailService
+{
 
-	/**
-	 * @var array
-	 */
-	protected $allowedOutputTypes = array(
-		ThumbnailInterface::OUTPUT_IMAGE,
-		ThumbnailInterface::OUTPUT_IMAGE_WRAPPED,
-		ThumbnailInterface::OUTPUT_URI,
-	);
+    /**
+     * @var array
+     */
+    protected $allowedOutputTypes = array(
+        ThumbnailInterface::OUTPUT_IMAGE,
+        ThumbnailInterface::OUTPUT_IMAGE_WRAPPED,
+        ThumbnailInterface::OUTPUT_URI,
+    );
 
-	/**
-	 * Configure the output of the thumbnail service whether it is wrapped or not.
-	 * Default output is: ThumbnailInterface::OUTPUT_IMAGE
-	 *
-	 * @var string
-	 */
-	protected $outputType = ThumbnailInterface::OUTPUT_IMAGE;
+    /**
+     * Configure the output of the thumbnail service whether it is wrapped or not.
+     * Default output is: ThumbnailInterface::OUTPUT_IMAGE
+     *
+     * @var string
+     */
+    protected $outputType = ThumbnailInterface::OUTPUT_IMAGE;
 
-	/**
-	 * @var File
-	 */
-	protected $file;
+    /**
+     * @var File
+     */
+    protected $file;
 
-	/**
-	 * Define width, height and all sort of attributes to render a thumbnail.
-	 * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
-	 * @var array
-	 */
-	protected $configuration = array();
+    /**
+     * Define width, height and all sort of attributes to render a thumbnail.
+     * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
+     * @var array
+     */
+    protected $configuration = array();
 
-	/**
-	 * Define width, height and all sort of attributes to render the anchor file
-	 * which is wrapping the image
-	 *
-	 * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
-	 * @var array
-	 */
-	protected $configurationWrap = array();
+    /**
+     * Define width, height and all sort of attributes to render the anchor file
+     * which is wrapping the image
+     *
+     * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
+     * @var array
+     */
+    protected $configurationWrap = array();
 
-	/**
-	 * DOM attributes to add to the image preview.
-	 *
-	 * @var array
-	 */
-	protected $attributes = array(
-		'class' => 'thumbnail',
-	);
+    /**
+     * DOM attributes to add to the image preview.
+     *
+     * @var array
+     */
+    protected $attributes = array(
+        'class' => 'thumbnail',
+    );
 
-	/**
-	 * Define in which window will the thumbnail be opened.
-	 * Does only apply if the thumbnail is wrapped (with an anchor).
-	 *
-	 * @var string
-	 */
-	protected $target = ThumbnailInterface::TARGET_BLANK;
+    /**
+     * Define in which window will the thumbnail be opened.
+     * Does only apply if the thumbnail is wrapped (with an anchor).
+     *
+     * @var string
+     */
+    protected $target = ThumbnailInterface::TARGET_BLANK;
 
-	/**
-	 * URI of the wrapping anchor pointing to the file.
-	 * replacing the "?" <a href="?">...</a>
-	 * The URI is automatically computed if not set.
-	 * @var string
-	 */
-	protected $anchorUri;
+    /**
+     * URI of the wrapping anchor pointing to the file.
+     * replacing the "?" <a href="?">...</a>
+     * The URI is automatically computed if not set.
+     * @var string
+     */
+    protected $anchorUri;
 
-	/**
-	 * Whether a time stamp is appended to the image.
-	 * Appending the time stamp can prevent caching
-	 *
-	 * @var bool
-	 */
-	protected $appendTimeStamp = FALSE;
+    /**
+     * Whether a time stamp is appended to the image.
+     * Appending the time stamp can prevent caching
+     *
+     * @var bool
+     */
+    protected $appendTimeStamp = FALSE;
 
-	/**
-	 * Define the processing type for the thumbnail.
-	 * As instance for image the default is ProcessedFile::CONTEXT_IMAGECROPSCALEMASK.
-	 *
-	 * @var string
-	 */
-	protected $processingType;
+    /**
+     * Define the processing type for the thumbnail.
+     * As instance for image the default is ProcessedFile::CONTEXT_IMAGECROPSCALEMASK.
+     *
+     * @var string
+     */
+    protected $processingType;
 
-	/**
-	 * Constructor
-	 *
-	 * @param File $file
-	 */
-	public function __construct(File $file = NULL){
-		$this->file = $file;
-	}
+    /**
+     * Constructor
+     *
+     * @param File $file
+     */
+    public function __construct(File $file = NULL)
+    {
+        $this->file = $file;
+    }
 
-	/**
-	 * Render a thumbnail of a media
-	 *
-	 * @throws MissingTcaConfigurationException
-	 * @return string
-	 */
-	public function create() {
+    /**
+     * Render a thumbnail of a media
+     *
+     * @throws MissingTcaConfigurationException
+     * @return string
+     */
+    public function create()
+    {
 
-		if (empty($this->file)) {
-			throw new MissingTcaConfigurationException('Missing File object. Forgotten to set a file?', 1355933144);
-		}
+        if (empty($this->file)) {
+            throw new MissingTcaConfigurationException('Missing File object. Forgotten to set a file?', 1355933144);
+        }
 
-		// Default class name
-		$className = 'Fab\Media\Thumbnail\FallBackThumbnailProcessor';
-		if (File::FILETYPE_IMAGE == $this->file->getType()) {
-			$className = 'Fab\Media\Thumbnail\ImageThumbnailProcessor';
-		} elseif (File::FILETYPE_AUDIO == $this->file->getType()) {
-			$className = 'Fab\Media\Thumbnail\AudioThumbnailProcessor';
-		} elseif (File::FILETYPE_VIDEO == $this->file->getType()) {
-			$className = 'Fab\Media\Thumbnail\VideoThumbnailProcessor';
-		} elseif (File::FILETYPE_APPLICATION == $this->file->getType() || File::FILETYPE_TEXT == $this->file->getType()) {
-				$className = 'Fab\Media\Thumbnail\ApplicationThumbnailProcessor';
-		}
+        // Default class name
+        $className = 'Fab\Media\Thumbnail\FallBackThumbnailProcessor';
+        if (File::FILETYPE_IMAGE == $this->file->getType()) {
+            $className = 'Fab\Media\Thumbnail\ImageThumbnailProcessor';
+        } elseif (File::FILETYPE_AUDIO == $this->file->getType()) {
+            $className = 'Fab\Media\Thumbnail\AudioThumbnailProcessor';
+        } elseif (File::FILETYPE_VIDEO == $this->file->getType()) {
+            $className = 'Fab\Media\Thumbnail\VideoThumbnailProcessor';
+        } elseif (File::FILETYPE_APPLICATION == $this->file->getType() || File::FILETYPE_TEXT == $this->file->getType()) {
+            $className = 'Fab\Media\Thumbnail\ApplicationThumbnailProcessor';
+        }
 
-		/** @var $processorInstance \Fab\Media\Thumbnail\ThumbnailProcessorInterface */
-		$processorInstance = GeneralUtility::makeInstance($className);
+        /** @var $processorInstance \Fab\Media\Thumbnail\ThumbnailProcessorInterface */
+        $processorInstance = GeneralUtility::makeInstance($className);
 
-		$thumbnail = '';
-		if ($this->file->exists()) {
-			$thumbnail = $processorInstance->setThumbnailService($this)->create();
-		} else {
-			$logger = Logger::getInstance($this);
-			$logger->warning(sprintf('Resource not found for File uid "%s" at %s', $this->file->getUid(), $this->file->getIdentifier()));
-		}
+        $thumbnail = '';
+        if ($this->file->exists()) {
+            $thumbnail = $processorInstance->setThumbnailService($this)->create();
+        } else {
+            $logger = Logger::getInstance($this);
+            $logger->warning(sprintf('Resource not found for File uid "%s" at %s', $this->file->getUid(), $this->file->getIdentifier()));
+        }
 
-		return $thumbnail;
-	}
+        return $thumbnail;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getConfigurationWrap() {
-		return $this->configurationWrap;
-	}
+    /**
+     * @return array
+     */
+    public function getConfigurationWrap()
+    {
+        return $this->configurationWrap;
+    }
 
-	/**
-	 * @param array $configurationWrap
-	 * @return $this
-	 */
-	public function setConfigurationWrap($configurationWrap) {
-		$this->configurationWrap = $configurationWrap;
-		return $this;
-	}
+    /**
+     * @param array $configurationWrap
+     * @return $this
+     */
+    public function setConfigurationWrap($configurationWrap)
+    {
+        $this->configurationWrap = $configurationWrap;
+        return $this;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getFile() {
-		return $this->file;
-	}
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getConfiguration() {
-		return $this->configuration;
-	}
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
 
-	/**
-	 * @param array $configuration
-	 * @return $this
-	 */
-	public function setConfiguration($configuration) {
-		$this->configuration = $configuration;
-		return $this;
-	}
+    /**
+     * @param array $configuration
+     * @return $this
+     */
+    public function setConfiguration($configuration)
+    {
+        $this->configuration = $configuration;
+        return $this;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getAttributes() {
-		return $this->attributes;
-	}
+    /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
 
-	/**
-	 * @param array $attributes
-	 * @return $this
-	 */
-	public function setAttributes($attributes) {
-		$this->attributes = $attributes;
-		return $this;
-	}
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getOutputType() {
-		return $this->outputType;
-	}
+    /**
+     * @return string
+     */
+    public function getOutputType()
+    {
+        return $this->outputType;
+    }
 
-	/**
-	 * @throws InvalidKeyInArrayException
-	 * @param string $outputType
-	 * @return $this
-	 */
-	public function setOutputType($outputType) {
-		if (!in_array($outputType, $this->allowedOutputTypes)) {
-			throw new InvalidKeyInArrayException(
-				sprintf('Output type "%s" is not allowed', $outputType),
-				1373020076
-			);
-		}
-		$this->outputType = $outputType;
-		return $this;
-	}
+    /**
+     * @throws InvalidKeyInArrayException
+     * @param string $outputType
+     * @return $this
+     */
+    public function setOutputType($outputType)
+    {
+        if (!in_array($outputType, $this->allowedOutputTypes)) {
+            throw new InvalidKeyInArrayException(
+                sprintf('Output type "%s" is not allowed', $outputType),
+                1373020076
+            );
+        }
+        $this->outputType = $outputType;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTarget() {
-		return $this->target;
-	}
+    /**
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
 
-	/**
-	 * @param string $target
-	 * @return $this
-	 */
-	public function setTarget($target) {
-		$this->target = $target;
-		return $this;
-	}
+    /**
+     * @param string $target
+     * @return $this
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getAnchorUri() {
-		return $this->anchorUri;
-	}
+    /**
+     * @return string
+     */
+    public function getAnchorUri()
+    {
+        return $this->anchorUri;
+    }
 
-	/**
-	 * @param string $anchorUri
-	 * @return $this
-	 */
-	public function setAnchorUri($anchorUri) {
-		$this->anchorUri = $anchorUri;
-		return $this;
-	}
+    /**
+     * @param string $anchorUri
+     * @return $this
+     */
+    public function setAnchorUri($anchorUri)
+    {
+        $this->anchorUri = $anchorUri;
+        return $this;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function getAppendTimeStamp() {
-		return $this->appendTimeStamp;
-	}
+    /**
+     * @return boolean
+     */
+    public function getAppendTimeStamp()
+    {
+        return $this->appendTimeStamp;
+    }
 
-	/**
-	 * @param boolean $appendTimeStamp
-	 * @return $this
-	 */
-	public function setAppendTimeStamp($appendTimeStamp) {
-		$this->appendTimeStamp = (bool) $appendTimeStamp;
-		return $this;
-	}
+    /**
+     * @param boolean $appendTimeStamp
+     * @return $this
+     */
+    public function setAppendTimeStamp($appendTimeStamp)
+    {
+        $this->appendTimeStamp = (bool)$appendTimeStamp;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getProcessingType() {
-		$this->processingType;
-	}
+    /**
+     * @return string
+     */
+    public function getProcessingType()
+    {
+        $this->processingType;
+    }
 
-	/**
-	 * @param string $processingType
-	 * @return $this
-	 */
-	public function setProcessingType($processingType) {
-		$this->processingType = $processingType;
-		return $this;
-	}
+    /**
+     * @param string $processingType
+     * @return $this
+     */
+    public function setProcessingType($processingType)
+    {
+        $this->processingType = $processingType;
+        return $this;
+    }
 
 }

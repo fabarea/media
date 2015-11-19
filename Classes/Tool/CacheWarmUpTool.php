@@ -19,69 +19,76 @@ use Fab\Vidi\Tool\AbstractTool;
 /**
  * Cache warm up tool for the Media module.
  */
-class CacheWarmUpTool extends AbstractTool {
+class CacheWarmUpTool extends AbstractTool
+{
 
-	/**
-	 * Display the title of the tool on the welcome screen.
-	 *
-	 * @return string
-	 */
-	public function getTitle() {
-		return 'Cache warm up';
-	}
+    /**
+     * Display the title of the tool on the welcome screen.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return 'Cache warm up';
+    }
 
-	/**
-	 * Display the description of the tool in the welcome screen.
-	 *
-	 * @return string
-	 */
-	public function getDescription() {
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/Launcher.html';
-		$view = $this->initializeStandaloneView($templateNameAndPath);
-		$view->assign('sitePath', PATH_site);
-		return $view->render();
-	}
+    /**
+     * Display the description of the tool in the welcome screen.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/Launcher.html';
+        $view = $this->initializeStandaloneView($templateNameAndPath);
+        $view->assign('sitePath', PATH_site);
+        return $view->render();
+    }
 
-	/**
-	 * Do the job: warm up the cache.
-	 *
-	 * @param array $arguments
-	 * @return string
-	 */
-	public function work(array $arguments = array()) {
+    /**
+     * Do the job: warm up the cache.
+     *
+     * @param array $arguments
+     * @return string
+     */
+    public function work(array $arguments = array())
+    {
 
-		$templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/WorkResult.html';
-		$view = $this->initializeStandaloneView($templateNameAndPath);
+        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/CacheWarmUp/WorkResult.html';
+        $view = $this->initializeStandaloneView($templateNameAndPath);
 
-		$numberOfEntries = $this->getCacheService()->warmUp();
-		$view->assign('numberOfEntries', $numberOfEntries);
-		touch($this->getWarmUpSemaphorFile());
+        $numberOfEntries = $this->getCacheService()->warmUp();
+        $view->assign('numberOfEntries', $numberOfEntries);
+        touch($this->getWarmUpSemaphorFile());
 
-		return $view->render();
-	}
+        return $view->render();
+    }
 
-	/**
-	 * Tell whether the tools should be displayed according to the context.
-	 *
-	 * @return bool
-	 */
-	public function isShown() {
-		return $this->getBackendUser()->isAdmin();
-	}
+    /**
+     * Tell whether the tools should be displayed according to the context.
+     *
+     * @return bool
+     */
+    public function isShown()
+    {
+        return $this->getBackendUser()->isAdmin();
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getWarmUpSemaphorFile() {
-		return PATH_site . 'typo3temp/.media_cache_warmed_up';
-	}
+    /**
+     * @return string
+     */
+    protected function getWarmUpSemaphorFile()
+    {
+        return PATH_site . 'typo3temp/.media_cache_warmed_up';
+    }
 
-	/**
-	 * @return \Fab\Media\Cache\CacheService
-	 */
-	protected function getCacheService() {
-		return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
-	}
+    /**
+     * @return \Fab\Media\Cache\CacheService
+     */
+    protected function getCacheService()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
+    }
 
 }
 

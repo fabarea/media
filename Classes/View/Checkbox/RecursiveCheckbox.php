@@ -22,46 +22,50 @@ use Fab\Vidi\View\AbstractComponentView;
 /**
  * View which renders a checkbox for recursive file browsing.
  */
-class RecursiveCheckbox extends AbstractComponentView {
+class RecursiveCheckbox extends AbstractComponentView
+{
 
-	/**
-	 * @var \Fab\Vidi\Module\ModuleLoader
-	 * @inject
-	 */
-	protected $moduleLoader;
+    /**
+     * @var \Fab\Vidi\Module\ModuleLoader
+     * @inject
+     */
+    protected $moduleLoader;
 
-	/**
-	 * Renders a checkbox for recursive file browsing.
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Renders a checkbox for recursive file browsing.
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		$output = '';
-		if ($this->isDisplayed()) {
-			$output = $this->renderRecursiveCheckbox();
-		}
+        $output = '';
+        if ($this->isDisplayed()) {
+            $output = $this->renderRecursiveCheckbox();
+        }
 
-		return $output;
-	}
+        return $output;
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function isDisplayed() {
-		$isDisplayed = $this->getMediaModule()->hasFolderTree();
-		if ($this->getModuleLoader()->hasPlugin()) {
-			$isDisplayed = FALSE;
-		}
-		return $isDisplayed;
-	}
+    /**
+     * @return string
+     */
+    protected function isDisplayed()
+    {
+        $isDisplayed = $this->getMediaModule()->hasFolderTree();
+        if ($this->getModuleLoader()->hasPlugin()) {
+            $isDisplayed = FALSE;
+        }
+        return $isDisplayed;
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function renderRecursiveCheckbox() {
+    /**
+     * @return string
+     */
+    protected function renderRecursiveCheckbox()
+    {
 
-		$template = '<form action="mod.php" id="form-checkbox-hasRecursiveSelection" method="get">
+        $template = '<form action="mod.php" id="form-checkbox-hasRecursiveSelection" method="get">
 						<label>
 							<input type="checkbox"
 									name="%s[hasRecursiveSelection]"
@@ -71,17 +75,18 @@ class RecursiveCheckbox extends AbstractComponentView {
 						</label>
 					</form>';
 
-		return sprintf($template,
-			$this->moduleLoader->getParameterPrefix(),
-			LocalizationUtility::translate('browse_sub_folders', 'media')
-		);
-	}
+        return sprintf($template,
+            $this->moduleLoader->getParameterPrefix(),
+            LocalizationUtility::translate('browse_sub_folders', 'media')
+        );
+    }
 
-	/**
-	 * @return MediaModule
-	 */
-	protected function getMediaModule() {
-		return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
-	}
+    /**
+     * @return MediaModule
+     */
+    protected function getMediaModule()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+    }
 
 }

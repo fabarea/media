@@ -19,26 +19,28 @@ use Fab\Vidi\Grid\ColumnRendererAbstract;
 /**
  * Class rendering category list of an asset in the grid.
  */
-class CategoryRenderer extends ColumnRendererAbstract {
+class CategoryRenderer extends ColumnRendererAbstract
+{
 
-	/**
-	 * Renders category list of an asset in the grid.
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$result = '';
+    /**
+     * Renders category list of an asset in the grid.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $result = '';
 
-		$categories = $this->object['metadata']['categories'];
-		if (!empty($categories)) {
+        $categories = $this->object['metadata']['categories'];
+        if (!empty($categories)) {
 
-			/** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
-			foreach ($categories as $category) {
-				$result .= sprintf('<li>%s</li>', $category['title']);
-			}
-			$result = sprintf('<ul class="category-list">%s</ul>', $result);
-		}
-		return $result;
-	}
+            /** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
+            foreach ($categories as $category) {
+                $result .= sprintf('<li>%s</li>', $category['title']);
+            }
+            $result = sprintf('<ul class="category-list">%s</ul>', $result);
+        }
+        return $result;
+    }
 
 }

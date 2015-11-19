@@ -17,6 +17,7 @@ namespace Fab\Media\Exception;
 /**
  * Handle Exception for missing media object
  */
-class InvalidKeyInArrayException extends \Exception {
+class InvalidKeyInArrayException extends \Exception
+{
 
 }

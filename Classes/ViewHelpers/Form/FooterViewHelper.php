@@ -22,70 +22,74 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * View helper dealing with form footer.
  */
-class FooterViewHelper extends AbstractViewHelper {
+class FooterViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Render a form footer.
-	 * Example:
-	 * Created on 30-12-12 by John Updated on 22-05-12 by Jane
-	 *
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * Render a form footer.
+     * Example:
+     * Created on 30-12-12 by John Updated on 22-05-12 by Jane
+     *
+     * @return string
+     */
+    public function render()
+    {
 
-		/** @var File $file */
-		$file = $this->templateVariableContainer->get('file');
-		$template = '<span>%s %s %s</span> <span class="offset1">%s %s %s</span>';
+        /** @var File $file */
+        $file = $this->templateVariableContainer->get('file');
+        $template = '<span>%s %s %s</span> <span class="offset1">%s %s %s</span>';
 
-		/** @var $dateViewHelper \TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper */
-		$dateViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper');
+        /** @var $dateViewHelper \TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper */
+        $dateViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\ViewHelpers\Format\DateViewHelper');
 
-		$format = sprintf('%s @ %s',
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'],
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm']
-		);
+        $format = sprintf('%s @ %s',
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'],
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm']
+        );
 
-		$result = sprintf($template,
-			LocalizationUtility::translate('created_on', 'media'),
-			$file->getProperty('crdate') ? $dateViewHelper->render('@' . $file->getProperty('crdate'), $format) : '',
-			$this->getUserName($file->getProperty('cruser_id')),
-			LocalizationUtility::translate('updated_on', 'media'),
-			$file->getProperty('tstamp') ? $dateViewHelper->render('@' . $file->getProperty('tstamp'), $format) : '',
-			$this->getUserName($file->getProperty('upuser_id'))
-		);
+        $result = sprintf($template,
+            LocalizationUtility::translate('created_on', 'media'),
+            $file->getProperty('crdate') ? $dateViewHelper->render('@' . $file->getProperty('crdate'), $format) : '',
+            $this->getUserName($file->getProperty('cruser_id')),
+            LocalizationUtility::translate('updated_on', 'media'),
+            $file->getProperty('tstamp') ? $dateViewHelper->render('@' . $file->getProperty('tstamp'), $format) : '',
+            $this->getUserName($file->getProperty('upuser_id'))
+        );
 
-		return $result;
-	}
-
-
-	/**
-	 * Get the User name to be displayed
-	 *
-	 * @param int $userIdentifier
-	 * @return string
-	 */
-	public function getUserName($userIdentifier){
-
-		$username = '';
-
-		if ($userIdentifier > 0) {
-			$record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'uid = ' . $userIdentifier);
-			$username = sprintf('%s %s',
-				LocalizationUtility::translate('by', 'media'),
-				empty($record['realName']) ? $record['username'] : $record['realName']
-			);
-		}
-
-		return $username;
-	}
+        return $result;
+    }
 
 
-	/**
-	 * Returns a pointer to the database.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+    /**
+     * Get the User name to be displayed
+     *
+     * @param int $userIdentifier
+     * @return string
+     */
+    public function getUserName($userIdentifier)
+    {
+
+        $username = '';
+
+        if ($userIdentifier > 0) {
+            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'uid = ' . $userIdentifier);
+            $username = sprintf('%s %s',
+                LocalizationUtility::translate('by', 'media'),
+                empty($record['realName']) ? $record['username'] : $record['realName']
+            );
+        }
+
+        return $username;
+    }
+
+
+    /**
+     * Returns a pointer to the database.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 }

@@ -22,26 +22,29 @@ use Fab\Vidi\Domain\Model\Content;
 /**
  * View helper which returns the File Uri.
  */
-class UriViewHelper extends AbstractViewHelper {
+class UriViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Returns a property value of a file given by the context.
-	 *
-	 * @param File|Content|int $file
-	 * @param bool $relative
-	 * @return string
-	 */
-	public function render($file, $relative = FALSE) {
-		if (! $file instanceof File) {
-			$file = $this->getFileConverter()->convert($file);
-		}
-		return $file->getPublicUrl($relative);
-	}
+    /**
+     * Returns a property value of a file given by the context.
+     *
+     * @param File|Content|int $file
+     * @param bool $relative
+     * @return string
+     */
+    public function render($file, $relative = FALSE)
+    {
+        if (!$file instanceof File) {
+            $file = $this->getFileConverter()->convert($file);
+        }
+        return $file->getPublicUrl($relative);
+    }
 
-	/**
-	 * @return \Fab\Media\TypeConverter\ContentToFileConverter
-	 */
-	protected function getFileConverter() {
-		return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
-	}
+    /**
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     */
+    protected function getFileConverter()
+    {
+        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+    }
 }
