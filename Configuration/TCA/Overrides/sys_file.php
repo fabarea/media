@@ -53,7 +53,7 @@ $tca = [
 		],
 		'columns' => [
 			'__checkbox' => [
-				'renderer' => new Fab\Vidi\Grid\CheckBoxComponent(),
+				'renderer' => new Fab\Vidi\Grid\CheckBoxRenderer(),
 			],
 			'uid' => [
 				'visible' => FALSE,
@@ -64,20 +64,20 @@ $tca = [
 				'visible' => FALSE,
 			],
 			'fileinfo' => [
-				'renderer' => 'Fab\Media\Grid\PreviewRenderer',
+				'renderer' => Fab\Media\Grid\PreviewRenderer::class,
 				'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
 				'wrap' => '<div class="center preview">|</div>',
 				'width' => '150px',
 				'sortable' => FALSE,
 			],
 			'metadata.title' => [
-				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(['property' => 'title']),
+				'renderer' => new Fab\Media\Grid\MetadataRenderer(['property' => 'title']),
 				'width' => '400px',
 				'editable' => TRUE,
 				'sortable' => TRUE,
 			],
 			'metadata.description' => [
-				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(['property' => 'description']),
+				'renderer' => new Fab\Media\Grid\MetadataRenderer(['property' => 'description']),
 				'visible' => FALSE,
 				'sortable' => FALSE,
 			],
@@ -88,8 +88,8 @@ $tca = [
 			],
 			'metadata.categories' => [
 				'renderers' => [
-					new \Fab\Vidi\Grid\RelationEditComponent(),
-					new \Fab\Media\Grid\CategoryRendererComponent(),
+					new \Fab\Vidi\Grid\RelationEditRenderer(),
+					new \Fab\Media\Grid\CategoryRenderer(),
 				],
 				'editable' => TRUE,
 				'visible' => TRUE,
@@ -103,7 +103,7 @@ $tca = [
 			],
 			'metadata' => [
 				'label' => 'Metadata File Identifier',
-				'renderer' => new Fab\Media\Grid\MetadataRendererComponent(['property' => 'uid']),
+				'renderer' => new Fab\Media\Grid\MetadataRenderer(['property' => 'uid']),
 				'visible' => FALSE,
 				'sortable' => FALSE,
 			],
@@ -127,22 +127,22 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 		'grid' => array(
 			'columns' => array(
 				'metadata.keywords' => array(
-					'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'keywords')),
+					'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'keywords')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.keywords',
 					'visible' => FALSE,
 					'sortable' => FALSE,
 				),
 				'metadata.fe_groups' => array(
 					'renderers' => array(
-						new \Fab\Vidi\Grid\RelationEditComponent(),
-						new \Fab\Media\Grid\FrontendPermissionRendererComponent(),
+						new \Fab\Vidi\Grid\RelationEditRenderer(),
+						new \Fab\Media\Grid\FrontendPermissionRenderer(),
 					),
 					'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
 					'visible' => FALSE,
 					'sortable' => FALSE,
 				),
 				'metadata.status' => array(
-					'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'status')),
+					'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'status')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.status',
 					'visible' => FALSE,
 					'width' => '5%',
@@ -155,20 +155,20 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 				#	'width' => '3%',
 				#),
 				'metadata.creator_tool' => array(
-					'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'creator_tool')),
+					'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'creator_tool')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.creator_tool',
 					'visible' => FALSE,
 					'sortable' => FALSE,
 				),
 				'metadata.content_creation_date' => array(
-					'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'content_creation_date')),
+					'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'content_creation_date')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.content_creation_date',
 					'visible' => FALSE,
 					'format' => 'datetime',
 					'sortable' => FALSE,
 				),
 				'metadata.content_modification_date' => array(
-					'renderer' => new Fab\Media\Grid\MetadataRendererComponent(array('property' => 'content_modification_date')),
+					'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'content_modification_date')),
 					'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.content_modification_date',
 					'visible' => FALSE,
 					'format' => 'datetime',
@@ -182,7 +182,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
 
 // Control buttons such as edit, delete, etc... must be set at the end in any case.
 $tca['grid']['columns']['__buttons'] = array(
-	'renderer' => new Fab\Vidi\Grid\ButtonGroupComponent(),
+	'renderer' => new Fab\Vidi\Grid\ButtonGroupRenderer(),
 );
 
 \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file'], $tca);
