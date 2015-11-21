@@ -14,13 +14,11 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\Tca\Tca;
 
 /**
@@ -41,11 +39,11 @@ class UsageRenderer extends ColumnRendererAbstract
 
         $result = '';
 
-
         // Add number of references on the top!
         if ($this->object['number_of_references'] > 1) {
-            $result .= sprintf('<div><strong>%s (%s)</strong></div>',
-                LocalizationUtility::translate('references', 'media'),
+            $result .= sprintf(
+                '<div><strong>%s (%s)</strong></div>',
+                $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:references'),
                 $this->object['number_of_references']
             );
         }
@@ -56,8 +54,9 @@ class UsageRenderer extends ColumnRendererAbstract
         if (!empty($fileReferences)) {
 
             // Finalize file references assembling.
-            $result .= sprintf($this->getWrappingTemplate(),
-                LocalizationUtility::translate('file_reference', 'media'),
+            $result .= sprintf(
+                $this->getWrappingTemplate(),
+                $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:file_reference'),
                 $this->assembleOutput($fileReferences, array('referenceIdentifier' => 'uid_foreign', 'tableName' => 'tablenames'))
             );
         }
@@ -67,8 +66,9 @@ class UsageRenderer extends ColumnRendererAbstract
         if (!empty($linkSoftReferences)) {
 
             // Finalize link references assembling.
-            $result .= sprintf($this->getWrappingTemplate(),
-                LocalizationUtility::translate('link_references_in_rte', 'media'),
+            $result .= sprintf(
+                $this->getWrappingTemplate(),
+                $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:link_references_in_rte'),
                 $this->assembleOutput($linkSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
             );
         }
@@ -78,8 +78,9 @@ class UsageRenderer extends ColumnRendererAbstract
         if (!empty($imageSoftReferences)) {
 
             // Finalize image references assembling.
-            $result .= sprintf($this->getWrappingTemplate(),
-                LocalizationUtility::translate('image_references_in_rte', 'media'),
+            $result .= sprintf(
+                $this->getWrappingTemplate(),
+                $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:image_references_in_rte'),
                 $this->assembleOutput($imageSoftReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
             );
         }
@@ -106,11 +107,9 @@ class UsageRenderer extends ColumnRendererAbstract
                 ->render();
 
             $result .= sprintf(
-                '<li title="%s - %s">%s</li>',
-                $reference[$mapping['referenceIdentifier']],
-                $this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
-                $this->getEditUri($reference, $mapping),
+                '<li title="">%s %s</li>',
                 $button,
+                $this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
                 Tca::table($reference[$mapping['tableName']])->getTitle()
             );
         }
@@ -150,8 +149,14 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     protected function getModuleUrl()
     {
-        $moduleSignature = VidiModule::getSignature();
-        return BackendUtility::getModuleUrl($moduleSignature);
+
+        $additionalParameters = array();
+        if (GeneralUtility::_GP('id')) {
+            $additionalParameters = array(
+                'id' => urldecode(GeneralUtility::_GP('id')),
+            );
+        }
+        return BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $additionalParameters);
     }
 
     /**
@@ -199,7 +204,7 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     protected function getWrappingTemplate()
     {
-        return '<div style="text-decoration: underline; margin-top: 10px">%s</div><ul class="usage-list">%s</ul>';
+        return '<div style="text-decoration: underline; margin-top: 10px; margin-bottom: 10px">%s</div><ul class="usage-list">%s</ul>';
     }
 
     /**
