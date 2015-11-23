@@ -210,9 +210,6 @@
 				<source>Move the current file</source>
 			</trans-unit>
 
-			<trans-unit id="media_file_upload.uploadFile">
-				<source>Upload file</source>
-			</trans-unit>
 			<trans-unit id="media_file_upload.replaceFile">
 				<source>Replace file</source>
 			</trans-unit>

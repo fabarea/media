@@ -35,7 +35,7 @@
 			template: 'file-upload-template',
 			classes: {
 				success: 'alert alert-success',
-				fail: 'alert alert-error'
+				fail: 'alert alert-danger'
 			}
 		}).on('submit', function (event, id, fileName) {
 				var params = {};

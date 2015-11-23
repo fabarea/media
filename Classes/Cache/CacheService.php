@@ -107,14 +107,17 @@ class CacheService
         $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
         $tce->start(array(), array());
 
-        $pages = array_merge(
-            $this->findPagesWithFileReferences($file),
-            $this->findPagesWithSoftReferences($file)
-        );
+        #$pages = array_merge(
+        #    $this->findPagesWithFileReferences($file),
+        #    $this->findPagesWithSoftReferences($file)
+        #);
 
-        foreach (array_unique($pages) as $page) {
-            $tce->clear_cache('pages', $page);
-        }
+        // Previous code which does not work in TYPO3 CMS 7 LTS.
+        // It is adviced to use "registerPageCacheClearing" but how?
+        #foreach (array_unique($pages) as $page) {
+        #    $tce->clear_cache('pages', $page);
+        #}
+        $tce->clear_cacheCmd('pages');
     }
 
     /**

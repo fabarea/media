@@ -33,12 +33,12 @@
 				onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
 			},
 			showMessage: function(message) {
-				bootbox.alert(message);
+				alert(message);
 			},
 			template: 'file-upload-template',
 			classes: {
 				success: 'alert alert-success',
-				fail: 'alert alert-error'
+				fail: 'alert alert-danger'
 			}
 		}).on('submit', function(event, id, fileName) {
 			var params = {};

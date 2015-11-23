@@ -88,7 +88,7 @@
 
 		<f:if condition="{report.duplicateFiles}">
 			<f:then>
-				<div class="alert alert-error">
+				<div class="alert alert-danger">
 					<f:if condition="{report.numberOfDuplicateFiles} > 1">
 						<f:then>
 							<f:translate key="tool.duplicate_file.work_result.cases" extensionName="media" arguments="{0: '{report.numberOfDuplicateFiles}'}"/>

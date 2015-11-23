@@ -15,6 +15,7 @@ namespace Fab\Media\Backend;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -25,29 +26,23 @@ class TceForms
 {
 
     /**
-     * @var \TYPO3\CMS\Core\Page\PageRenderer
-     */
-    protected $pageRenderer;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
 
         // Load StyleSheets in the Page Renderer
-        $this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $cssFile = ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/fineuploader.tce.css';
-        $this->pageRenderer->addCssFile($cssFile);
+        $pageRenderer->addCssFile($cssFile);
 
         // language labels for JavaScript files
-        $this->pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
+        $pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 
         // js files to be loaded
-        $this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('lang') . 'Resources/Public/JavaScript/Typo3Lang.js');
-        $this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/Encoder.js');
-        $this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js');
-        $this->pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js');
+        $pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/Encoder.js');
+        $pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js');
+        $pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js');
     }
 
     /**
@@ -69,7 +64,7 @@ class TceForms
 
         /** @var $fileUpload \Fab\Media\Form\FileUploadTceForms */
         $fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUploadTceForms');
-        $fileUpload->setValue($fileMetadataRecord['file'])->setPrefix(MediaModule::getParameterPrefix());
+        $fileUpload->setValue($fileMetadataRecord['file'][0])->setPrefix(MediaModule::getParameterPrefix());
         return $fileUpload->render();
     }
 }

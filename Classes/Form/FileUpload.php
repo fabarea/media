@@ -86,8 +86,6 @@ EOF;
     public function render()
     {
 
-        return '';
-
         // Instantiate the file object for the whole class if possible.
         if ($this->getValue()) {
             $this->file = ResourceFactory::getInstance()->getFileObject($this->getValue());
@@ -110,9 +108,9 @@ EOF;
      */
     protected function getInlineStyle()
     {
-        $style = '';
+        $style = 'float: left';
         if ($this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
-            $style = 'padding-left: 20px';
+            $style .= '; padding-left: 3px';
         }
         return $style;
     }
