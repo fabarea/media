@@ -11,14 +11,14 @@
 $EM_CONF[$_EXTKEY] = array (
   'title' => 'Media management',
   'description' => 'Media management system for TYPO3 CMS.',
-  'category' => 'misc',
+  'category' => 'module',
   'author' => 'Fabien Udriot',
   'author_email' => 'fabien.udriot@typo3.org',
   'module' => '',
   'state' => 'beta',
   'uploadfolder' => '0',
   'clearCacheOnLoad' => 0,
-  'version' => '4.0.0-dev',
+  'version' => '4.0.0',
   'constraints' =>
   array (
     'depends' =>
