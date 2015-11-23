@@ -11,5 +11,10 @@
   "support": {
     "issues": "https://github.com/fabarea/media/issues"
   },
-  "version": "3.8.0-dev"
+  "autoload": {
+    "psr-4": {
+      "Fab\\Media\\": "Classes/"
+    }
+  },
+  "version": "4.0.0-dev"
 }
