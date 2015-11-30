@@ -49,6 +49,9 @@ class ThumbnailCommandController extends CommandController
 
             if ($storage->isOnline()) {
 
+                // For the CLI cause.
+                $storage->setEvaluatePermissions(FALSE);
+
                 $thumbnailGenerator = $this->getThumbnailGenerator();
                 $thumbnailGenerator
                     ->setStorage($storage)
