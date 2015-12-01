@@ -53,7 +53,7 @@ if (TYPO3_MODE == 'BE') {
     }
 
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'media',
+        'Fab.media',
         'user', // Make media module a submodule of 'user'
         'm1',
         'bottom', // Position

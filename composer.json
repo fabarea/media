@@ -1,20 +1,28 @@
 {
-  "name": "fab/media",
-  "type": "typo3-cms-extension",
-  "description": "Media management system for TYPO3 CMS.",
-  "homepage": "https://github.com/fabarea/media",
-  "license": ["GPL-2.0+"],
-  "keywords": [
-    "TYPO3 CMS",
-    "Media management"
-  ],
-  "support": {
-    "issues": "https://github.com/fabarea/media/issues"
-  },
-  "autoload": {
-    "psr-4": {
-      "Fab\\Media\\": "Classes/"
-    }
-  },
-  "version": "4.1.0-dev"
+	"name": "fab/media",
+	"type": "typo3-cms-extension",
+	"description": "Media management system for TYPO3 CMS.",
+	"homepage": "https://github.com/fabarea/media",
+	"license": [
+		"GPL-2.0+"
+	],
+	"keywords": [
+		"TYPO3 CMS",
+		"Media management"
+	],
+	"support": {
+		"issues": "https://github.com/fabarea/media/issues"
+	},
+	"autoload": {
+		"psr-4": {
+			"Fab\\Media\\": "Classes/"
+		}
+	},
+	"extra": {
+		"autoload-case-sensitivity": false,
+		"class-alias-maps": [
+			"Migrations/Code/ClassAliasMap.php"
+		]
+	},
+	"version": "4.1.0-dev"
 }
