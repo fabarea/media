@@ -84,6 +84,9 @@ class DuplicateFilesFinderTool extends AbstractTool
 
             $allowedStorages = array();
             foreach ($fileMounts as $fileMount) {
+                if ((bool)$fileMount['read_only']) {
+                    continue;
+                }
 
                 if (!isset($allowedStorages[$fileMount['base']])) {
                     $allowedStorages[$fileMount['base']] = array();
