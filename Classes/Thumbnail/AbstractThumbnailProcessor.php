@@ -15,7 +15,6 @@ namespace Fab\Media\Thumbnail;
  */
 
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Utility\ImagePresetUtility;
 use Fab\Media\Utility\Path;
@@ -23,7 +22,7 @@ use Fab\Media\Utility\Path;
 /**
  * Application Thumbnail Processor
  */
-abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface, SingletonInterface
+abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 {
 
     /**
