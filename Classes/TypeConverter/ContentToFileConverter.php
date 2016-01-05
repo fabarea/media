@@ -38,6 +38,7 @@ class ContentToFileConverter implements SingletonInterface
         if ($fileRepresentation instanceof Content) {
 
             $fileData = $fileRepresentation->toArray();
+            $fileData['modification_date'] = $fileData['tstamp'];
 
             if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
                 throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
