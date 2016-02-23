@@ -19,10 +19,12 @@
 		}
 	},
 	"extra": {
-		"autoload-case-sensitivity": false,
-		"class-alias-maps": [
-			"Migrations/Code/ClassAliasMap.php"
-		]
+		"typo3/class-alias-loader": {
+			"autoload-case-sensitivity": false,
+			"class-alias-maps": [
+				"Migrations/Code/ClassAliasMap.php"
+			]
+		}
 	},
 	"version": "4.1.0-dev"
 }
