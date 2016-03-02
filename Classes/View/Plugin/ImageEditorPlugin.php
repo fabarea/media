@@ -18,6 +18,8 @@ use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * View which renders content for image editor plugin.
@@ -36,9 +38,10 @@ class ImageEditorPlugin extends AbstractComponentView
         $result = '';
         if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
 
-            $result = sprintf('<script type="text/javascript" src="%s"></script>
-				<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
-                Path::getRelativePath('JavaScript/Media.Plugin.ImageEditor.js'),
+            // Load Require JS code
+            $this->loadRequireJsCode();
+
+            $result = sprintf('<a href="%s" id="btn-imageEditor-current" class="btn btn-imageEditor" style="display: none"></a>',
                 $this->getImageEditorUri()
             );
         };
@@ -57,5 +60,17 @@ class ImageEditorPlugin extends AbstractComponentView
             ),
         );
         return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
+    }
+
+    /**
+     * @return void
+     */
+    protected function loadRequireJsCode()
+    {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+        $configuration['paths']['Fab/Media'] = '../typo3conf/ext/media/Resources/Public/JavaScript';
+        $pageRenderer->addRequireJsConfiguration($configuration);
+        $pageRenderer->loadRequireJsModule('Fab/Media/PluginImageEditor');
     }
 }

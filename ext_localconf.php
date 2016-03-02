@@ -18,18 +18,20 @@ if (TYPO3_MODE == 'BE') {
     # Configuration for RTE
     // @bug it looks HtmlArea requires JS files to be in two locations to work for third-party plugins.
     // Still looking for a better solution.... For now I symlink files.
-    // ln -s /my/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/LinkCreator.js /my/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js
+    // ln -s `pwd`/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/LinkCreator.js `pwd`/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js
     if (is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js')) {
-        $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator'] = array();
-        $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['objectReference'] = \Fab\Media\Rtehtmlarea\Extension\LinkCreator::class;
-        $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['addIconsToSkin'] = 1;
-        $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['disableInFE'] = 1;
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator'] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['objectReference'] = \Fab\Media\Rtehtmlarea\Extension\LinkCreator::class;
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['addIconsToSkin'] = 1;
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['disableInFE'] = 1;
     }
 
-//    $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor'] = array();
-//    $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['objectReference'] = 'EXT:media/Resources/Private/HtmlArea/ImageEditor/class.tx_rtehtmlarea_imageeditor.php:&tx_rtehtmlarea_imageeditor';
-//    $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['addIconsToSkin'] = 1;
-//    $TYPO3_CONF_VARS['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['disableInFE'] = 1;
+    // ln -s `pwd`/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/ImageEditor.js `pwd`/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/ImageEditor.js
+    if (is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/ImageEditor.js')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor'] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['objectReference'] = \Fab\Media\Rtehtmlarea\Extension\ImageEditor::class;       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['addIconsToSkin'] = 1;
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['disableInFE'] = 1;
+    }
 
     // Setting up scripts that can be run from the cli_dispatch.phpsh script.
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'Fab\Media\Command\FileCacheCommandController';

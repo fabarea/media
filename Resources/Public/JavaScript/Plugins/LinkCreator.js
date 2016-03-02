@@ -69,18 +69,6 @@ define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
 			return true;
 		},
 
-		/*
-		 * Supported browsers
-		 */
-		browsers: [
-			'Firefox 1.5+',
-			'Google Chrome 1.0+',
-			'Internet Explorer 9.0+',
-			'Opera 9.62+',
-			'Safari 3.0.4+',
-			'SeaMonkey 1.0+'
-		],
-
 		/**
 		 * This function gets called when the button was pressed.
 		 *

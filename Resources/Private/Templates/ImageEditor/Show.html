@@ -11,63 +11,26 @@
 		<!-- identifier for the *top* part for identification in the global view -->
 		<div id="content-header">
 
-			<style type="text/css">
-				#slider {
-					float: left;
-					width: 300px;
-					margin: 4px 20px 0 0;
-				}
+			<div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
+				<div class="module-docheader-bar-column-left">
 
-				#echo {
-					text-align: left;
-					float: left;
-					width: 300px;
-				}
+				</div>
+				<div class="module-docheader-bar-column-right">
 
-				.ui-slider-handle {
-					outline: none;
-				}
-
-				.input-prepend {
-					display: inline;
-					margin-right: 10px;
-				}
-
-				.input-mini {
-					text-align: center;
-				}
-
-				.tool {
-					height: 40px;
-				}
-			</style>
-
-			<div class="container-fluid navbar-typo3-top">
-				<div>
-					<div class="row-fluid">
-						<div class="span6">
-						</div>
-						<div class="span6">
-						</div>
-					</div>
 				</div>
 			</div>
-			<div class="container-fluid navbar-typo3-bottom">
-				<div>
-					<div class="row-fluid">
-						<div class="span6">
+			<div class="module-docheader-bar module-docheader-bar-buttons t3js-module-docheader-bar t3js-module-docheader-bar-buttons">
+				<div class="module-docheader-bar-column-left">
 
-							<f:render partial="CloseButton"/>
+					<f:render partial="CloseButton"/>
 
-							<!-- update_image -->
-							<a href="#" class="btn-create-image" accesskey="s" title="{f:translate(key:'insert_image')}">
-								<v:sprite name="extensions-media-image-edit"/>
-							</a>
-						</div>
-						<div class="span6 toolbar-right">
+					<a href="#" class="btn btn-default btn-create-image" accesskey="s" title="{f:translate(key:'insert_image')}">
+						<v:sprite name="extensions-media-image-edit"/>
+					</a>
 
-						</div>
-					</div>
+				</div>
+				<div class="module-docheader-bar-column-right">
+
 				</div>
 			</div>
 
@@ -76,42 +39,46 @@
 
 		<!-- identifier for the *middle* part for identification in the global view -->
 		<div id="content-body">
-			<div class="container">
+			<div class="container" style="text-align: center">
 				<f:flashMessages/>
 
-				<ul class="nav nav-tabs">
-					<li class="active">
-						<a href="#" id="resized">
-							<f:translate key="resize"/>
-						</a>
-					</li>
-					<li>
-						<a href="#" id="crop">
-							<f:translate key="crop"/>
-						</a>
-					</li>
-					<li>
-						<a href="#" id="effects">
-							<f:translate key="effects"/>
-						</a>
-					</li>
-				</ul>
+				<!--<ul class="nav nav-tabs">-->
+					<!--<li class="active">-->
+						<!--<a href="#" id="resized">-->
+							<!--<f:translate key="resize"/>-->
+						<!--</a>-->
+					<!--</li>-->
+					<!--<li>-->
+						<!--<a href="#" id="crop">-->
+							<!--<f:translate key="crop"/>-->
+						<!--</a>-->
+					<!--</li>-->
+					<!--<li>-->
+						<!--<a href="#" id="effects">-->
+							<!--<f:translate key="effects"/>-->
+						<!--</a>-->
+					<!--</li>-->
+				<!--</ul>-->
 
-				<div class="tool">
-					<div id="slider" class="medium"></div>
-					<div id="echo" class="medium">
-						<div class="input-prepend">
-							<span class="add-on">w</span>
-							<input type="text" id="width" class="input-mini">
-						</div>
-						<div class="input-prepend">
-							<span class="add-on">h</span>
-							<input type="text" id="height" class="input-mini">
+				<form class="form-inline">
+					<div class="form-group">
+						<input id="slider" type="range" min="50" max="" />
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label for="width" class="input-group-addon">w</label>
+							<input type="text" id="width" class="form-control"/>
 						</div>
 					</div>
-				</div>
+					<div class="form-group">
+						<div class="input-group">
+							<label for="height" class="input-group-addon">h</label>
+							<input type="text" id="height" class="form-control"/>
+						</div>
+					</div>
+				</form>
 
-				<div class="container-imageEditor">
+				<div class="container-imageEditor" style="margin-top: 10px">
 
 					<f:form method="post" name="file"
 					        object="{file}" id="form-action-imageEditor">
@@ -123,7 +90,6 @@
 							                  attributes="{class: 'processed-file'}"/>
 						</div>
 						<div class="container-width"></div>
-
 
 						<f:form.hidden id="file-uid" property="uid" value="{m:file.property(name: 'uid')}"/>
 						<div style="visibility: hidden">
@@ -146,131 +112,174 @@
 				</div>
 			</div>
 
-
 			<script type="text/javascript">
 
-				$(function() {
+				(function($) {
+					$(function() {
 
-					var fileUid = "{m:file.property(name: 'uid')}" - 0; // cast value to int
-					var originalImageWidth = "{m:file.property(name: 'width')}" - 0;
-					var originalImageHeight = "{m:file.property(name: 'height')}" - 0;
-					var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}' - 0;
-					var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}' - 0;
-					var ratio = originalImageWidth / originalImageHeight;
-					var imageWidth, imageHeight, _imageWidth, _imageHeight;
-					var moduleUrl = '{moduleUrl -> f:format.raw()}';
 
-					// Compute appropriate width / height given an image can be smaller than "maximalImageWidth".
-					_imageWidth = originalImageWidth > maximalImageWidth ? maximalImageWidth : originalImageWidth;
-					_imageHeight = originalImageHeight > maximalImageHeight ? maximalImageHeight : originalImageHeight;
+						var fileUid = "{m:file.property(name: 'uid')}" - 0; // cast value to int
+						var originalImageWidth = "{m:file.property(name: 'width')}" - 0;
+						var originalImageHeight = "{m:file.property(name: 'height')}" - 0;
+						var maximalImageWidth = '{m:imageDimension(preset: "image_medium", dimension: "width")}' - 0;
+						var maximalImageHeight = '{m:imageDimension(preset: "image_medium", dimension: "height")}' - 0;
+						var ratio = originalImageWidth / originalImageHeight;
+						var imageWidth, imageHeight, _imageWidth, _imageHeight;
+						var moduleUrl = '{moduleUrl -> f:format.raw()}';
 
-					// true for landscape image.
-					if (originalImageWidth >= originalImageHeight) {
-						imageWidth = _imageWidth;
-						imageHeight = Math.ceil(_imageHeight / ratio);
-					} else {
-						imageWidth = Math.ceil(_imageWidth * ratio);
-						imageHeight = _imageHeight
-					}
+						// Compute appropriate width / height given an image can be smaller than "maximalImageWidth".
+						_imageWidth = originalImageWidth > maximalImageWidth ? maximalImageWidth : originalImageWidth;
+						_imageHeight = originalImageHeight > maximalImageHeight ? maximalImageHeight : originalImageHeight;
 
-					/**
-					 * @see https://github.com/logicmd/jquery-bootstrap-slider
-					 */
-					$('#slider').slider({
-						orientation: "horizontal",
-						range: "min",
-						min: 50,
-						max: imageWidth,
-						value: imageWidth,
-						slide: function(event, ui) {
-							var height;
-							$('#width').val(ui.value);
-							height = Math.ceil(ui.value / ratio);
-							$('#height').val(height);
-						},
-						change: function(event, ui) {
-							$('.processed-file').attr({
+						// true for landscape image.
+						if (originalImageWidth >= originalImageHeight) {
+							imageWidth = _imageWidth;
+							imageHeight = Math.ceil(_imageHeight / ratio);
+						} else {
+							imageWidth = Math.ceil(_imageWidth * ratio);
+							imageHeight = _imageHeight
+						}
+
+						$('#slider')
+								.attr('max', imageWidth)
+								.val(imageWidth)
+								.change(function() {
+
+									var height = Math.ceil(this.value / ratio);
+
+									// Set input control values.
+									$('#width').val(this.value);
+									$('#height').val(height);
+
+									// Set image size.
+									$('.processed-file').attr({
+										width: this.value,
+										height: height
+									})
+								});
+
+						/**
+						 * Make the height / width input box smarter by connecting them with the slider.
+						 */
+						$('#width')
+								.val(imageWidth)
+								.change(function() {
+
+									// Value can not be bigger than maximalImageWidth
+									if ($(this).val() > imageWidth) {
+										$(this).val(imageWidth);
+									}
+									var width = this.value;
+									var height = Math.ceil(width / ratio);
+
+									// Set input control values.
+									$('#slider').val(width);
+									$('#height').val(height);
+
+									// Set image size.
+									$('.processed-file').attr({
+										width: width,
+										height: height
+									})
+								})
+								.bind('keypress', function(e) {
+									if (e.keyCode == 13) {
+										$('#width').change();
+									}
+								});
+
+						$('#height')
+								.val(imageHeight)
+								.change(function() {
+									// Value can not be bigger than maximalImageWidth
+									if ($(this).val() > imageHeight) {
+										$(this).val(imageHeight);
+									}
+									var height = this.value;
+									var width = Math.ceil(height * ratio);
+
+									// Set input control values.
+									$('#slider').val(width);
+									$('#width').val(width);
+
+									// Set image size.
+									$('.processed-file').attr({
+										width: width,
+										height: height
+									})
+								})
+								.bind('keypress', function(e) {
+									if (e.keyCode == 13) {
+										$('#height').change();
+									}
+								});
+
+						/**
+						 * Handler when the "create image" button is clicked.
+						 */
+						$('.btn-create-image').click(function() {
+							var processingConfiguration;
+
+							processingConfiguration = {
 								width: $('#width').val(),
 								height: $('#height').val()
-							})
-						}
-					});
+							};
 
-					/**
-					 * Make the height / width input box smarter by connecting them with the slider.
-					 */
-					$('#width')
-							.val(imageWidth)
-							.change(function() {
-								// Value can not be bigger than maximalImageWidth
-								if ($(this).val() > imageWidth) {
-									$(this).val(imageWidth);
-								}
-								$('#slider').slider("value", $(this).val());
-								$('#height').val(Math.ceil($(this).val() / ratio));
-							})
-							.bind('keypress', function(e) {
-								if (e.keyCode == 13) {
-									$('#width').change();
+							var parameters = {};
+							parameters[Media.parameterPrefix + '[action]'] = 'create';
+							parameters[Media.parameterPrefix + '[controller]'] = 'ProcessedFile';
+							parameters[Media.parameterPrefix + '[file]'] = fileUid;
+							parameters[Media.parameterPrefix + '[processingConfiguration]'] = processingConfiguration;
+
+							// ajax call to create a new Processed File.
+							$.ajax({
+								type: 'POST',
+								url: moduleUrl,
+								data: parameters,
+								success: function(data) {
+
+									var params = {};
+									var hostAndProtocol = location.protocol + '//' + location.host + '/';
+									params.tag = '<img src="' + hostAndProtocol + data.publicUrl +
+											'" title="' + data.title +
+											'" alt="' + data.title +
+											'" height="' + data.height +
+											'" width="' + data.width +
+											'" data-htmlarea-file-uid="' + data.original +
+											'" data-htmlarea-file-table="sys_file" ';
+
+									if (window.opener) {
+										// Reset previous class names applied against the image tag.
+										if (window.opener.Media.ImageEditor.elementNode.className != null) {
+											params.tag += 'class="' + window.opener.Media.ImageEditor.elementNode.className + '" ';
+										}
+
+										// Reset previous style applied against the image tag.
+										if (window.opener.Media.ImageEditor.elementNode.style != null &&
+												window.opener.Media.ImageEditor.elementNode.style.cssText != null) {
+											params.tag += 'style="' + window.opener.Media.ImageEditor.elementNode.style.cssText + '" ';
+										}
+										params.tag += '/>';
+
+										// write the "img" tag in the RTE
+										window.opener.Media.ImageEditor.insertImage(params);
+										window.close();
+									}
 								}
 							});
-
-					$('#height')
-							.val(imageHeight)
-							.change(function() {
-								// Value can not be bigger than maximalImageWidth
-								if ($(this).val() > imageHeight) {
-									$(this).val(imageHeight);
-								}
-								var width;
-								width = Math.ceil($(this).val() * ratio);
-								$('#slider').slider("value", width);
-								$('#width').val(width);
-							})
-							.bind('keypress', function(e) {
-								if (e.keyCode == 13) {
-									$('#height').change();
-								}
-							});
-
-					/**
-					 * Handler when the "create image" button is clicked.
-					 */
-					$('.btn-create-image').click(function() {
-						var processingConfiguration;
-
-						processingConfiguration = {
-							width: $('#width').val(),
-							height: $('#height').val()
-						};
-
-						var parameters = {};
-						parameters[Media.parameterPrefix + '[action]'] = 'create';
-						parameters[Media.parameterPrefix + '[controller]'] = 'ProcessedFile';
-						parameters[Media.parameterPrefix + '[file]'] = fileUid;
-						parameters[Media.parameterPrefix + '[processingConfiguration]'] = processingConfiguration;
-
-						// ajax call to create a new Processed File.
-						$.ajax({
-							type: 'POST',
-							url: moduleUrl,
-							data: parameters,
-							success: function(data) {
-								Media.Rte.Popup.createImage(data);
-							}
 						});
-					});
 
-					/**
-					 * Prevent the form to be submitted as such.
-					 * Fire a click on ".btn-create-image".
-					 */
-					$('#form-action-imageEditor').submit(function(e) {
-						$('.btn-create-image').click();
-						e.preventDefault();
-					});
+						/**
+						 * Prevent the form to be submitted as such.
+						 * Fire a click on ".btn-create-image".
+						 */
+						$('#form-action-imageEditor').submit(function(e) {
+							$('.btn-create-image').click();
+							e.preventDefault();
+						});
 
-				});
+					});
+				})(jQuery);
 			</script>
 		</div>
 	</div>
