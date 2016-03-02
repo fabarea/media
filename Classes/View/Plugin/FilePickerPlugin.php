@@ -16,6 +16,8 @@ namespace Fab\Media\View\Plugin;
 
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * View which renders content for file picker plugin.
@@ -31,13 +33,22 @@ class FilePickerPlugin extends AbstractComponentView
     public function render()
     {
 
-        $result = '';
         if ($this->getModuleLoader()->hasPlugin('filePicker')) {
-
-            $result = sprintf('<script type="text/javascript" src="%s"></script>',
-                Path::getRelativePath('JavaScript/Media.Plugin.FilePicker.js')
-            );
+            $this->loadRequireJsCode();
         };
-        return $result;
+        return '';
     }
+
+    /**
+     * @return void
+     */
+    protected function loadRequireJsCode()
+    {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+        $configuration['paths']['Fab/Media'] = '../typo3conf/ext/media/Resources/Public/JavaScript';
+        $pageRenderer->addRequireJsConfiguration($configuration);
+        $pageRenderer->loadRequireJsModule('Fab/Media/PluginFilePicker');
+    }
+
 }

@@ -24,27 +24,27 @@ class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
 {
 
     /**
-     * JavaScript code used for input-field evaluation.
+     * JavaScript bottom code
      *
      * @param string $formname The identification of the form on the page.
-     * @param boolean $update Just extend/update existing settings, e.g. for AJAX call
      * @return string A section with JavaScript - if $update is FALSE, embedded in <script></script>
      */
-    public function JSbottom($formname = 'forms[0]', $update = FALSE)
+    protected function JSbottom($formname = 'forms[0]')
     {
 
-        $result = parent::JSbottom($formname, $update);
+        $out = parent::JSbottom($formname);
 
         $enableMediaFilePicker = (bool)$this->getBackendUser()->getTSConfigVal('options.vidi.enableMediaFilePicker');
-        if (!$update && $enableMediaFilePicker) {
-            /** @var $pageRenderer \TYPO3\CMS\Core\Page\PageRenderer */
-            $pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
+        if ($enableMediaFilePicker) {
 
-            // Override JS.
-            $pageRenderer->loadRequireJsModule('TYPO3/CMS/Media/FormEngine');
+            $pageRenderer = $this->getPageRenderer();
+            $pageRenderer->loadRequireJsModule('TYPO3/CMS/Media/MediaFormEngine', 'function(MediaFormEngine) {
+            MediaFormEngine.vidiModuleUrl = \'' . BackendUtility::getModuleUrl(VidiModule::getSignature()) . '\';
+            MediaFormEngine.vidiModulePrefix = \'' . VidiModule::getParameterPrefix() . '\';
+        }');
         }
 
-        return $result;
+        return $out;
     }
 
     /**

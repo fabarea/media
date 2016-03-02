@@ -45,8 +45,8 @@ if (TYPO3_MODE == 'BE') {
     if ($hasMediaFilePicker) {
 
         // Override classes for the Object Manager.
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Backend\Form\FormEngine'] = array(
-            'className' => 'Fab\Media\Override\Backend\Form\FormEngine'
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\Form\FormResultCompiler::class] = array(
+            'className' => \Fab\Media\Override\Backend\Form\FormResultCompiler::class
         );
     }
 }

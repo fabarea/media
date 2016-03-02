@@ -73,4 +73,5 @@ class ImageEditorPlugin extends AbstractComponentView
         $pageRenderer->addRequireJsConfiguration($configuration);
         $pageRenderer->loadRequireJsModule('Fab/Media/PluginImageEditor');
     }
+
 }
