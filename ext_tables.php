@@ -33,7 +33,7 @@ if (TYPO3_MODE == 'BE') {
         TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 
 			# Hide default File List
-			options.hideModules.file := addToList(list)
+			options.hideModules.file := addToList(FilelistList)
 		');
     }
 

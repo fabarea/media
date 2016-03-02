@@ -18,25 +18,10 @@ use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
- * 'TCEforms' - Class for creating the backend editing forms.
- *
- * @author Kasper Skårhøj <kasperYYYY@typo3.com>
- * @coauthor René Fritz <r.fritz@colorcube.de>
+ * Class FormResultCompiler
  */
-class FormEngine extends \TYPO3\CMS\Backend\Form\FormEngine
+class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
 {
-
-    public function JStop()
-    {
-        $result = parent::JStop();
-        $result .= '
-<script>
-	var vidiModuleUrl = \'' . BackendUtility::getModuleUrl(VidiModule::getSignature()) . '\';
-	var vidiModulePrefix = \'' . VidiModule::getParameterPrefix() . '\';
-</script>
-		';
-        return $result;
-    }
 
     /**
      * JavaScript code used for input-field evaluation.
