@@ -80,7 +80,6 @@ if (TYPO3_MODE == 'BE') {
         ->addJavaScriptFiles(
             array(
                 'EXT:media/Resources/Public/JavaScript/Initialize.js',
-                'EXT:media/Resources/Public/JavaScript/Media.js',
                 'EXT:media/Resources/Public/JavaScript/Media.EditStorage.js',
                 'EXT:media/Resources/Public/JavaScript/Media.BrowseRecursively.js',
                 'EXT:media/Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js',
@@ -183,7 +182,22 @@ if (TYPO3_MODE == 'BE') {
         TRUE
     );
 
+    // @bug Class property $relativePathToSkin does not look to be working anymore since TYPO3 7. Workaround: load CSS for the RTE as skin.
+    // Reference EXT:media/Classes/Rtehtmlarea/Extension/LinkCreator.php
+    if (is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js') ||
+        is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/ImageEditor.js')) {
+
+        // Register as a skin
+        $GLOBALS['TBE_STYLES']['skins']['media'] = array(
+            'name' => 'media',
+            'stylesheetDirectories' => array(
+                'css' => 'EXT:media/Resources/Public/HtmlArea/'
+            )
+        );
+    }
 }
+
+
 
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
     array(

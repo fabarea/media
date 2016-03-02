@@ -1,3 +1,6 @@
+// Namespace
+window.Media = window.Media || {};
+
 /**
  * Initialize Media module
  */

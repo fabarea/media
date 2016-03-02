@@ -18,6 +18,8 @@ use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * View which renders content for link creator plugin.
@@ -34,9 +36,11 @@ class LinkCreatorPlugin extends AbstractComponentView
     {
         $result = '';
         if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
-            $result = sprintf('<script type="text/javascript" src="%s"></script>
-			<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
-                Path::getRelativePath('JavaScript/Media.Plugin.LinkCreator.js'),
+
+            // Load Require JS code
+            $this->loadRequireJsCode();
+
+            $result = sprintf('<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
                 $this->getLinkCreatorUri()
             );
         };
@@ -56,4 +60,17 @@ class LinkCreatorPlugin extends AbstractComponentView
         );
         return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
     }
+
+    /**
+     * @return void
+     */
+    protected function loadRequireJsCode()
+    {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+        $configuration['paths']['Fab/Media'] = '../typo3conf/ext/media/Resources/Public/JavaScript';
+        $pageRenderer->addRequireJsConfiguration($configuration);
+        $pageRenderer->loadRequireJsModule('Fab/Media/PluginLinkCreator');
+    }
+
 }

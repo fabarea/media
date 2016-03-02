@@ -10,83 +10,75 @@
 
 		<!-- identifier for the *top* part for identification in the global view -->
 		<div id="content-header">
+			<div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
+				<div class="module-docheader-bar-column-left">
 
-			<div class="container-fluid navbar-typo3-top">
-				<div>
-					<div class="row-fluid">
-						<div class="span6">
-						</div>
-						<div class="span6">
-						</div>
-					</div>
+				</div>
+				<div class="module-docheader-bar-column-right">
+
 				</div>
 			</div>
-			<div class="container-fluid navbar-typo3-bottom">
-				<div>
-					<div class="row-fluid">
-						<div class="span6">
+			<div class="module-docheader-bar module-docheader-bar-buttons t3js-module-docheader-bar t3js-module-docheader-bar-buttons">
+				<div class="module-docheader-bar-column-left">
 
-							<f:render partial="CloseButton"/>
+					<f:render partial="CloseButton"/>
 
-							<a href="#" class="btn-create-link" accesskey="s" title="{f:translate(key:'create_link')}">
-								<v:sprite name="apps-pagetree-page-shortcut-external-root"/>
-							</a>
-						</div>
-						<div class="span6 toolbar-right">
+					<a href="#" class="btn btn-default btn-create-link" accesskey="s" title="{f:translate(key:'create_link')}">
+						<v:sprite name="apps-pagetree-page-shortcut-external-root"/>
+					</a>
 
-						</div>
-					</div>
+				</div>
+				<div class="module-docheader-bar-column-right">
+
 				</div>
 			</div>
-
 		</div>
 
 		<!-- identifier for the *middle* part for identification in the global view -->
 		<div id="content-body">
 			<div class="container">
-				<f:flashMessages/>
 
 				<f:form method="post" name="asset"
 				        object="{file}" arguments="{format: 'json'}" id="form-action-linkCreator">
 
-					<div class="control-group">
-						<m:thumbnail file="{file}" output="imageWrapped"/>
+					<div class="form-group">
+						<m:file.thumbnail file="{file}" output="imageWrapped"/>
 					</div>
 
-					<div class="control-group">
-						<label class="control-label" for="file-title">
+					<div class="form-group">
+						<label for="file-title">
 							<f:translate key="title"/>
 						</label>
 
 						<div class="controls">
 							<f:form.textfield property="title"
 							                  id="file-title"
-							                  class="span6"
+							                  class="form-control"
 							                  value="{m:file.property(name: 'title')}"/>
 						</div>
 					</div>
 
-					<div class="control-group">
-						<label class="control-label" for="file-target">
+					<div class="form-group">
+						<label for="file-target">
 							<f:translate key="open_file"/>
 						</label>
 
 						<div class="controls">
 							<f:form.select id="file-target"
 							               options="{_blank: 'in a new window', _self: 'in the same window'}"
-							               class="span6"/>
+							               class="form-control"/>
 						</div>
 					</div>
 
-					<div class="control-group">
-						<label class="control-label" for="file-class">
+					<div class="form-group">
+						<label for="file-class">
 							<f:translate key="class"/>
 						</label>
 
 						<div class="controls">
 							<f:form.select id="file-class"
 							               options="{null: '', external-link: 'external-link', download: 'download'}"
-							               class="span6"/>
+							               class="form-control"/>
 						</div>
 					</div>
 
