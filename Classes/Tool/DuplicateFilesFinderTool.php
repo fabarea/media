@@ -41,7 +41,7 @@ class DuplicateFilesFinderTool extends AbstractTool
      */
     public function getDescription()
     {
-        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateFilesFinder/Launcher.html';
+        $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateFilesFinder/Launcher.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
         $view->assign('isAdmin', $this->getBackendUser()->isAdmin());
         $view->assign('sitePath', PATH_site);
@@ -62,7 +62,7 @@ class DuplicateFilesFinderTool extends AbstractTool
             $this->deleteMissingFilesAction($arguments['files']);
         }
 
-        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateFilesFinder/WorkResult.html';
+        $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateFilesFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
         $duplicateFilesReports = array();

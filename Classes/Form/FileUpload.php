@@ -43,7 +43,7 @@ class FileUpload extends AbstractFormField
     /**
      * @var string
      */
-    protected $templateFile = 'Resources/Private/Backend/Standalone/FileUploadTemplate.html';
+    protected $templateFile = 'Resources/Private/Standalone/FileUploadTemplate.html';
 
     /**
      * @return \Fab\Media\Form\FileUpload
@@ -178,7 +178,7 @@ EOF;
         // Get the base prefix
         $basePrefix = $this->getBasePrefix($this->getPrefix());
 
-        $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUpload.js';
+        $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Standalone/FileUpload.js';
 
         return sprintf(file_get_contents($filePath),
             $basePrefix,

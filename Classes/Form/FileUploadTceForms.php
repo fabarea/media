@@ -29,7 +29,7 @@ class FileUploadTceForms extends FileUpload
     /**
      * @var string
      */
-    protected $templateFile = 'Resources/Private/Backend/Standalone/FileUploadTceFormsTemplate.html';
+    protected $templateFile = 'Resources/Private/Standalone/FileUploadTceFormsTemplate.html';
 
     /**
      * Fetch the JavaScript to be rendered and replace the markers with "live" variables.
@@ -41,7 +41,7 @@ class FileUploadTceForms extends FileUpload
 
         // Get the base prefix.
         $basePrefix = $this->getBasePrefix($this->getPrefix());
-        $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Backend/Standalone/FileUploadTceForms.js';
+        $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Standalone/FileUploadTceForms.js';
 
         return sprintf(file_get_contents($filePath),
             $basePrefix,

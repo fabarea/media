@@ -42,7 +42,7 @@ class MissingFilesFinderTool extends AbstractTool
      */
     public function getDescription()
     {
-        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/MissingFilesFinder/Launcher.html';
+        $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/MissingFilesFinder/Launcher.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
         $view->assign('sitePath', PATH_site);
         return $view->render();
@@ -62,7 +62,7 @@ class MissingFilesFinderTool extends AbstractTool
             $this->deleteMissingFilesAction($arguments['files']);
         }
 
-        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/MissingFilesFinder/WorkResult.html';
+        $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/MissingFilesFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
         $missingReports = array();

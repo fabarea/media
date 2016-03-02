@@ -41,7 +41,7 @@ class DuplicateRecordsFinderTool extends AbstractTool
      */
     public function getDescription()
     {
-        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateRecordsFinder/Launcher.html';
+        $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateRecordsFinder/Launcher.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
         $view->assign('sitePath', PATH_site);
         return $view->render();
@@ -56,7 +56,7 @@ class DuplicateRecordsFinderTool extends AbstractTool
     public function work(array $arguments = array())
     {
 
-        $templateNameAndPath = 'EXT:media/Resources/Private/Backend/Standalone/Tool/DuplicateRecordsFinder/WorkResult.html';
+        $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateRecordsFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
         $duplicateRecordsReports = array();
