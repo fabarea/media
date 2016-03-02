@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Media\Controller\Backend;
+namespace Fab\Media\Controller;
 
 /**
  * This file is part of the TYPO3 CMS project.

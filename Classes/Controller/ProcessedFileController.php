@@ -1,5 +1,5 @@
 <?php
-namespace Fab\Media\Controller\Backend;
+namespace Fab\Media\Controller;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -14,29 +14,22 @@ namespace Fab\Media\Controller\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Fab\Media\Module\MediaModule;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
- * Controller which handles actions related to Image Editor.
+ * Controller which handles actions related to Processed File.
  */
-class ImageEditorController extends ActionController
+class ProcessedFileController extends ActionController
 {
-
-    /**
-     * @var \TYPO3\CMS\Core\Page\PageRenderer
-     * @inject
-     */
-    protected $pageRenderer;
 
     /**
      * Initializes the controller before invoking an action method.
      */
     public function initializeAction()
     {
-        $this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
 
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
@@ -50,16 +43,27 @@ class ImageEditorController extends ActionController
     }
 
     /**
-     * Handle GUI for inserting an image in the RTE.
+     * Create a processed file according to some configuration.
      *
      * @param File $file
-     * @return void
+     * @param array $processingConfiguration
+     * @return string
      */
-    public function showAction(File $file)
+    public function createAction(File $file, array $processingConfiguration = array())
     {
-        $this->view->assign('file', $file);
-        $moduleSignature = MediaModule::getSignature();
-        $this->view->assign('moduleUrl', BackendUtility::getModuleUrl($moduleSignature));
+        $processedFile = $file->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingConfiguration);
+
+        $response = array(
+            'success' => TRUE,
+            'original' => $file->getUid(),
+            'title' => $file->getProperty('title') ? $file->getProperty('title') : $file->getName(),
+            'publicUrl' => $processedFile->getPublicUrl(),
+            'width' => $processedFile->getProperty('width'),
+            'height' => $processedFile->getProperty('height'),
+        );
+
+        header("Content-Type: text/json");
+        return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
     }
 
 }
