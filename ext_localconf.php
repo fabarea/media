@@ -18,7 +18,7 @@ if (TYPO3_MODE == 'BE') {
     # Configuration for RTE
     // @bug it looks HtmlArea requires JS files to be in two locations to work for third-party plugins.
     // Still looking for a better solution.... For now I symlink files.
-    // ln -s `pwd`/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/LinkCreator.js `pwd`/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js
+    // ln -s `pwd`/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/LinkCreator.js `pwd`/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins
     if (is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js')) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator'] = array();
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['objectReference'] = \Fab\Media\Rtehtmlarea\Extension\LinkCreator::class;
@@ -26,7 +26,7 @@ if (TYPO3_MODE == 'BE') {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['LinkCreator']['disableInFE'] = 1;
     }
 
-    // ln -s `pwd`/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/ImageEditor.js `pwd`/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/ImageEditor.js
+    // ln -s `pwd`/htdocs/typo3conf/ext/media/Resources/Public/JavaScript/Plugins/ImageEditor.js `pwd`/htdocs/typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins
     if (is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/ImageEditor.js')) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor'] = array();
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['objectReference'] = \Fab\Media\Rtehtmlarea\Extension\ImageEditor::class;       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['rtehtmlarea']['plugins']['ImageEditor']['addIconsToSkin'] = 1;

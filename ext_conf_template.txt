@@ -1,7 +1,7 @@
 # cat=basic//; type=string; label= Comma list of categories applied upon file upload: Apply default categories when a file is uploaded. There is not check whether the Category exists, make sure to enter valid uid.
 default_categories =
 
-# cat=basic//; type=boolean; label= Load RTE configuration: Media provides an integration with the RTE by adding additionnal buttons like a "link creator" and an "image editor". Activate this option if you would like to have the RTE configuration loaded. Notice, it will also override the order of button in the RTE. If you don't want this, add the "link creator" and "image editor" buttons in your own Page / User TSConfig. Refer to the documentation.
+# cat=basic//; type=boolean; label= Load RTE configuration: Media provides an integration with the RTE by adding additionnal buttons like a "link creator" and an "image editor". Activate this option if you would like to have the RTE configuration loaded. Notice, it will also override the order of button in the RTE. If you don't want this, add the "link creator" and "image editor" buttons in your own Page / User TSConfig. Refer to the documentation. ATTENTION! there is a bug (or I missed something) with TYPO3 7 LTS where the same JavaScript files must be placed in two locations, one in Media, one in the Core. Consider executing this command from your document root: cp typo3conf/ext/media/Resources/Public/JavaScript/Plugins/{LinkCreator.js,ImageEditor.js} typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins
 load_rte_configuration = 0
 
 # cat=basic//; type=boolean; label= Load the folder tree: If checked, Media will be loaded with the folder tree. Reload the Backend after enabling this option.
