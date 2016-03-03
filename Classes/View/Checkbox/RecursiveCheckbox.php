@@ -76,7 +76,7 @@ class RecursiveCheckbox extends AbstractComponentView
 
         return sprintf($template,
             $this->moduleLoader->getParameterPrefix(),
-            $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:browse_sub_folders')
+            $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:browse_subfolders')
         );
     }
 
