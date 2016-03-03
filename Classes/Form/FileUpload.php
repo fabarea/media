@@ -199,7 +199,7 @@ EOF;
      */
     protected function isDrivenByFolder()
     {
-        return $this->getMediaModule()->hasFolderTree() && !$this->getMediaModule()->hasMediaFilePicker();
+        return $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin();
     }
 
     /**

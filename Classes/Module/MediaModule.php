@@ -256,17 +256,6 @@ class MediaModule implements SingletonInterface
     }
 
     /**
-     * Tell whether the file picker will be used or not.
-     *
-     * @return bool
-     */
-    public function hasMediaFilePicker()
-    {
-        $configuration = $this->getModuleConfiguration();
-        return !(bool)$configuration['has_media_file_picker']['value'];
-    }
-
-    /**
      * Tell whether the sub-folders must be included when browsing.
      *
      * @return bool
@@ -277,7 +266,7 @@ class MediaModule implements SingletonInterface
         $parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
         $parameters = GeneralUtility::_GET($parameterPrefix);
 
-        $hasRecursiveSelection = FALSE;
+        $hasRecursiveSelection = true;
         if (isset($parameters['hasRecursiveSelection'])) {
             $hasRecursiveSelection = (bool)$parameters['hasRecursiveSelection'];
         }

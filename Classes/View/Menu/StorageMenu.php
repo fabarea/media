@@ -54,10 +54,7 @@ class StorageMenu extends AbstractComponentView
      */
     protected function isDisplayed()
     {
-        $isDisplayed = !$this->getMediaModule()->hasFolderTree() || $this->getMediaModule()->hasMediaFilePicker();
-        if ($this->getModuleLoader()->hasPlugin()) {
-            $isDisplayed = true;
-        }
+        $isDisplayed = !$this->getMediaModule()->hasFolderTree() || $this->getModuleLoader()->hasPlugin();
         return $isDisplayed;
     }
 
