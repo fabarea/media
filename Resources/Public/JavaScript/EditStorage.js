@@ -31,11 +31,9 @@ define([
 
 		var url = EditStorage.getEditStorageUrl(this.href);
 
-		console.log(url);
-
 		Vidi.modal = Modal.loadUrl(
-			TYPO3.l10n.localize('action.edit'),
-			-1,
+			TYPO3.l10n.localize('action.move'),
+			top.TYPO3.Severity.info,
 			[
 				{
 					text: TYPO3.l10n.localize('cancel'),
@@ -44,7 +42,7 @@ define([
 						Modal.dismiss();
 					}
 				}, {
-					text: TYPO3.l10n.localize('change_storage'),
+					text: TYPO3.l10n.localize('action.move'),
 					btnClass: 'btn btn-default btn-change-storage',
 					trigger: function() {
 						$('#form-change-storage', Vidi.modal).submit();
@@ -53,7 +51,6 @@ define([
 			],
 			url,
 			function() { // callback
-
 
 				// Update modal title
 				var numberOfObjects = $('#numberOfObjects', Vidi.modal).html();
@@ -64,8 +61,6 @@ define([
 				} else {
 					modalTitle += TYPO3.l10n.localize('record');
 				}
-				console.log(modalTitle);
-				//console.log(modalTitle);
 				$('.modal-title', Vidi.modal).html(modalTitle);
 
 				// bind submit handler to form.

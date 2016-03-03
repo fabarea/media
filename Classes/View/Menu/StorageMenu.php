@@ -43,9 +43,6 @@ class StorageMenu extends AbstractComponentView
         if ($this->isDisplayed()) {
             $this->loadRequireJsCode();
 
-            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            $pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
-
             $output = $this->renderStorageMenu();
         }
 
