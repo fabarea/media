@@ -16,7 +16,6 @@ namespace Fab\Media\View\Checkbox;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
 /**
@@ -77,7 +76,7 @@ class RecursiveCheckbox extends AbstractComponentView
 
         return sprintf($template,
             $this->moduleLoader->getParameterPrefix(),
-            LocalizationUtility::translate('browse_sub_folders', 'media')
+            $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:browse_sub_folders')
         );
     }
 

@@ -8,7 +8,6 @@ window.Media = window.Media || {};
 	$(function() {
 		"use strict";
 
-		Media.EditStorage.attachHandler();
 		Media.BrowseRecursively.attachHandler();
 	});
 })(jQuery);

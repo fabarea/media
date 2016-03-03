@@ -15,6 +15,7 @@ namespace Fab\Media\Controller;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
 use TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -39,12 +40,6 @@ class AssetController extends ActionController
 {
 
     /**
-     * @var \TYPO3\CMS\Core\Page\PageRenderer
-     * @inject
-     */
-    protected $pageRenderer;
-
-    /**
      * @var string
      */
     protected $dataType = 'sys_file';
@@ -54,7 +49,8 @@ class AssetController extends ActionController
      */
     public function initializeAction()
     {
-        $this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
 
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {

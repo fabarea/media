@@ -15,8 +15,8 @@ namespace Fab\Media\View\Menu;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
 /**
@@ -41,6 +41,11 @@ class StorageMenu extends AbstractComponentView
 
         $output = '';
         if ($this->isDisplayed()) {
+            $this->loadRequireJsCode();
+
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
+
             $output = $this->renderStorageMenu();
         }
 
@@ -52,9 +57,9 @@ class StorageMenu extends AbstractComponentView
      */
     protected function isDisplayed()
     {
-        $isDisplayed = !$this->getMediaModule()->hasFolderTree() && $this->getMediaModule()->hasMediaFilePicker();
+        $isDisplayed = !$this->getMediaModule()->hasFolderTree() || $this->getMediaModule()->hasMediaFilePicker();
         if ($this->getModuleLoader()->hasPlugin()) {
-            $isDisplayed = TRUE;
+            $isDisplayed = true;
         }
         return $isDisplayed;
     }
@@ -78,7 +83,9 @@ class StorageMenu extends AbstractComponentView
                 $storage->getUid(),
                 $selected,
                 $storage->getName(),
-                $storage->isOnline() ? '' : '(' . LocalizationUtility::translate('offline', 'media') . ')'
+                $storage->isOnline() ?
+                    '' :
+                    '(' . $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:offline') . ')'
             );
         }
 
@@ -93,7 +100,7 @@ class StorageMenu extends AbstractComponentView
 
         $template = '<form action="mod.php" id="form-menu-storage" method="get">
 						%s
-						<select name="%s[storage]" class="btn btn-min" id="menu-storage" onchange="$(\'#form-menu-storage\').submit()">%s</select>
+						<select name="%s[storage]" class="form-control" style="padding-right: 20px" id="menu-storage" onchange="$(\'#form-menu-storage\').submit()">%s</select>
 					</form>';
 
         return sprintf($template,
@@ -101,6 +108,18 @@ class StorageMenu extends AbstractComponentView
             $this->moduleLoader->getParameterPrefix(),
             $options
         );
+    }
+
+    /**
+     * @return void
+     */
+    protected function loadRequireJsCode()
+    {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+        $configuration['paths']['Fab/Media'] = '../typo3conf/ext/media/Resources/Public/JavaScript';
+        $pageRenderer->addRequireJsConfiguration($configuration);
+        $pageRenderer->loadRequireJsModule('Fab/Media/EditStorage');
     }
 
     /**

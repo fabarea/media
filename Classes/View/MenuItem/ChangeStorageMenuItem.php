@@ -36,13 +36,13 @@ class ChangeStorageMenuItem extends AbstractComponentView
         $output = '';
         if (!$this->getMediaModule()->hasFolderTree()) {
 
-            $button = $this->makeLinkButton()
-                ->setHref($this->getChangeStorageUri())
-                ->setClasses('change-storage')
-                ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:change_storage'))
-                ->setIcon($this->getIconFactory()->getIcon('extensions-media-storage-change', Icon::SIZE_SMALL))
-                ->render();
-            $output = '<li>' . $button . '</li>';
+
+            $output = sprintf('<li><a href="%s" class="change-storage" >%s %s</a>',
+                $this->getChangeStorageUri(),
+                $this->getIconFactory()->getIcon('extensions-media-storage-change', Icon::SIZE_SMALL),
+                $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:change_storage')
+            );
+
         }
         return $output;
     }
@@ -66,7 +66,7 @@ class ChangeStorageMenuItem extends AbstractComponentView
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
 }
