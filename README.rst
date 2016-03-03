@@ -197,7 +197,7 @@ We must provide "aliases" as workaround since Fluid would not parse the expressi
 		<li>..</li>
 	</f:for>
 
-TODO: long term the aim would be to save a selection in the BE and retrieve on the Frontend as well. However, this is not yet implemented. Looking for some opportunities... ;)
+Alternatively:
 
 ::
 
