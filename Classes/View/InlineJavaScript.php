@@ -35,6 +35,7 @@ class InlineJavaScript extends AbstractComponentView
         $output = "
 <script>
 
+window.Media = window.Media || {};
 Media.parameterPrefix = '${parameterPrefix}';
 
 </script>";

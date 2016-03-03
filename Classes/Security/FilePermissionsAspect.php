@@ -50,7 +50,7 @@ class FilePermissionsAspect
 
                     // Only add like condition if needed.
                     if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
-                        $matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = FALSE);
+                        $matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = false);
                     }
                 } else {
 

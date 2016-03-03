@@ -15,6 +15,7 @@ namespace Fab\Media\View\Checkbox;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
 
@@ -40,6 +41,7 @@ class RecursiveCheckbox extends AbstractComponentView
 
         $output = '';
         if ($this->isDisplayed()) {
+            $this->loadRequireJsCode();
             $output = $this->renderRecursiveCheckbox();
         }
 
@@ -68,6 +70,7 @@ class RecursiveCheckbox extends AbstractComponentView
 						<label>
 							<input type="checkbox"
 									name="%s[hasRecursiveSelection]"
+									checked="checked"
 									class="btn btn-min"
 									id="checkbox-hasRecursiveSelection"/>
 							<span style="position: relative; top: 3px">%s</span>
@@ -79,6 +82,19 @@ class RecursiveCheckbox extends AbstractComponentView
             $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:browse_subfolders')
         );
     }
+
+    /**
+     * @return void
+     */
+    protected function loadRequireJsCode()
+    {
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
+        $configuration['paths']['Fab/Media'] = '../typo3conf/ext/media/Resources/Public/JavaScript';
+        $pageRenderer->addRequireJsConfiguration($configuration);
+        $pageRenderer->loadRequireJsModule('Fab/Media/BrowseRecursively');
+    }
+
 
     /**
      * @return MediaModule

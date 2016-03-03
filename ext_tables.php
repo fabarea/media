@@ -79,8 +79,6 @@ if (TYPO3_MODE == 'BE') {
         ->setMainModule($defaultMainModule)
         ->addJavaScriptFiles(
             array(
-                'EXT:media/Resources/Public/JavaScript/Initialize.js',
-                'EXT:media/Resources/Public/JavaScript/Media.BrowseRecursively.js',
                 'EXT:media/Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js',
             )
         )
