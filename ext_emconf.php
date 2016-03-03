@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array (
   'category' => 'module',
   'author' => 'Fabien Udriot',
   'author_email' => 'fabien.udriot@typo3.org',
-  'state' => 'beta',
+  'state' => 'stable',
   'version' => '4.1.0-dev',
   'constraints' =>
   array (
