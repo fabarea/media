@@ -180,14 +180,26 @@ EOF;
 
         $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Standalone/FileUpload.js';
 
-        return sprintf(file_get_contents($filePath),
+        return sprintf(
+            file_get_contents($filePath),
             $basePrefix,
             $this->elementId,
             $this->getModuleUrl(),
             $this->getAllowedExtensions(),
             GeneralUtility::getMaxUploadFileSize() * 1024,
-            $this->getMediaModule()->getCurrentFolder()->getCombinedIdentifier()
+            $this->isDrivenByFolder() ?
+                $this->getMediaModule()->getCurrentFolder()->getCombinedIdentifier() :
+                $this->getMediaModule()->getCurrentStorage()->getUid() . ':/'
+
         );
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDrivenByFolder()
+    {
+        return $this->getMediaModule()->hasFolderTree() && !$this->getMediaModule()->hasMediaFilePicker();
     }
 
     /**
