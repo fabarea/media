@@ -14,6 +14,8 @@ namespace Fab\Media\ViewHelpers\File;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Fab\Media\Utility\ImagePresetUtility;
@@ -30,7 +32,7 @@ class ThumbnailViewHelper extends AbstractViewHelper
      */
     public function initializeArguments()
     {
-        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content', 'The source file', FALSE, NULL);
+        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content|int', 'The source file', FALSE, NULL);
         $this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
         $this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
         $this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');
@@ -56,6 +58,8 @@ class ThumbnailViewHelper extends AbstractViewHelper
 
         if ($file instanceof Content) {
             $file = $this->getFileConverter()->convert($file);
+        } elseif (!($file instanceof File)) {
+            $file = ResourceFactory::getInstance()->getFileObject((int)$file);
         }
 
         if ($preset) {
