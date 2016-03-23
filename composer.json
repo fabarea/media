@@ -21,6 +21,5 @@
 	"replace": {
 		"media": "self.version",
 		"typo3-ter/media": "self.version"
-	},
-	"version": "4.1.0-dev"
+	}
 }
