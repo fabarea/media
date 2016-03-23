@@ -92,12 +92,14 @@ class StorageMenu extends AbstractComponentView
             }
         }
 
-        $template = '<form action="mod.php" id="form-menu-storage" method="get">
+        $template = '<form action="%s" id="form-menu-storage" method="get">
 						%s
 						<select name="%s[storage]" class="form-control" style="padding-right: 20px" id="menu-storage" onchange="$(\'#form-menu-storage\').submit()">%s</select>
 					</form>';
 
-        return sprintf($template,
+        return sprintf(
+            $template,
+            $this->getModuleLoader()->getModuleUrl(),
             $inputs,
             $this->moduleLoader->getParameterPrefix(),
             $options
