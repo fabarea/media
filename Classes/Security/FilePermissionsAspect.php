@@ -50,11 +50,6 @@ class FilePermissionsAspect {
 					if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
 						$matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = FALSE);
 					}
-				} else {
-
-					// Browse only currently
-					$files = $this->getFileUids($folder);
-					$matcher->in('uid', $files);
 				}
 
 				$matcher->equals('storage', $folder->getStorage()->getUid());
