@@ -14,9 +14,11 @@ namespace Fab\Media\Index;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Resource\FileReferenceService;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class providing indexing service for Media/
@@ -40,11 +42,45 @@ class IndexAnalyser implements SingletonInterface {
 			// This task is very memory consuming on large data set e.g > 20'000 records.
 			// We must think of having a pagination if there is the need for such thing.
 			$file = ResourceFactory::getInstance()->getFileObject($row['uid'], $row);
-			if (!$file->exists()) {
+
+			if (!$storage->hasFile($row['uid'])) {
 				$missingFiles[] = $file;
 			}
 		}
 		return $missingFiles;
+	}
+
+
+	/**
+	 * Deletes all missing files for a given storage.
+	 *
+	 * @param ResourceStorage $storage
+	 * @return array
+	 */
+	public function deleteMissingFiles(ResourceStorage $storage) {
+		/** @var FileReferenceService $fileReferenceService */
+		$fileReferenceService = GeneralUtility::makeInstance(FileReferenceService::class);
+		$missingFiles = $this->searchForMissingFiles($storage);
+		$deletedFiles = array();
+
+		/** @var \TYPO3\CMS\Core\Resource\File $missingFile */
+		foreach ($missingFiles as $missingFile) {
+			try {
+				// if missingFile has no file references
+				if ($missingFile && count($fileReferenceService->findFileReferences($missingFile)) == 0) {
+					// The case is special as we have a missing file in the file system
+					// As a result, we can't use $fileObject->delete(); which will
+					// raise exception "Error while fetching permissions"
+					$this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $missingFile->getUid());
+					$deletedFiles[$missingFile->getUid()] = $missingFile->getIdentifier();
+				}
+			}
+			catch(\Exception $e) {
+				continue;
+			}
+		}
+		return $deletedFiles;
+		
 	}
 
 	/**
