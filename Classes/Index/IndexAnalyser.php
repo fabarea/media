@@ -43,7 +43,7 @@ class IndexAnalyser implements SingletonInterface {
 			// We must think of having a pagination if there is the need for such thing.
 			$file = ResourceFactory::getInstance()->getFileObject($row['uid'], $row);
 
-			if (!$storage->hasFile($row['uid'])) {
+			if (!$file->exists()) {
 				$missingFiles[] = $file;
 			}
 		}
