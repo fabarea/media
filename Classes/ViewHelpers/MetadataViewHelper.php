@@ -65,7 +65,7 @@ class MetadataViewHelper extends AbstractViewHelper
     protected function getDefaultTemplate(File $file)
     {
 
-        $template = '%size Ko';
+        $template = '%size KB';
 
         if ($file->getType() == File::FILETYPE_IMAGE) {
             $template = '%width x %height - ' . $template;

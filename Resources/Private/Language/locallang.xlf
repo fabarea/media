@@ -159,7 +159,7 @@
 				<source>Download</source>
 			</trans-unit>
 			<trans-unit id="max_upload_file">
-				<source>Max %s Mo</source>
+				<source>Max %s MB</source>
 			</trans-unit>
 			<trans-unit id="resize">
 				<source>Resize</source>
