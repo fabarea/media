@@ -38,16 +38,19 @@ class EditButton extends AbstractComponentView
         $file = $this->getFileConverter()->convert($object);
         $metadataProperties = $file->_getMetaData();
 
-        $button = $this->makeLinkButton()
-            ->setHref($this->getUri($file))
-            ->setDataAttributes([
-                'uid' => $metadataProperties['uid'],
-                'toggle' => 'tooltip',
-            ])
-            ->setClasses('btn-edit')
-            ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_metadata'))
-            ->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
-            ->render();
+        $button = '';
+        if ($file->checkActionPermission('write')) {
+            $button = $this->makeLinkButton()
+                ->setHref($this->getUri($file))
+                ->setDataAttributes([
+                    'uid' => $metadataProperties['uid'],
+                    'toggle' => 'tooltip',
+                ])
+                ->setClasses('btn-edit')
+                ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_metadata'))
+                ->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
+                ->render();
+        }
 
         return $button;
     }
