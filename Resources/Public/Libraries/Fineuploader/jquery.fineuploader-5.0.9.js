@@ -4417,6 +4417,14 @@ qq.UploadHandlerController = function(o, namespace) {
 
                 function(response, opt_xhr) {
                     log("Simple upload request failed for " + id);
+		    $.ajax({
+			url: TYPO3.settings.ajaxUrls['DocumentTemplate::getFlashMessages'],
+			cache: false,
+			success: function(data) {
+			    var messages = $('#typo3-messages');
+			    messages.replaceWith(data);
+			}
+		    });
 
                     var responseToReport = upload.normalizeResponse(response, false);
 
