@@ -37,12 +37,14 @@ class EditButton extends AbstractComponentView {
 		$file = $this->getFileConverter()->convert($object);
 		$metadataProperties = $file->_getMetaData();
 
-		return sprintf('<a href="%s" data-uid="%s" class="btn-edit" title="%s">%s</a>',
-			$this->getUri($file),
-			$metadataProperties['uid'],
-			LocalizationUtility::translate('edit_metadata', 'media'),
-			IconUtility::getSpriteIcon('actions-document-open')
-		);
+		if ($file->checkActionPermission('write')) {
+			return sprintf('<a href="%s" data-uid="%s" class="btn-edit" title="%s">%s</a>',
+				$this->getUri($file),
+				$metadataProperties['uid'],
+				LocalizationUtility::translate('edit_metadata', 'media'),
+				IconUtility::getSpriteIcon('actions-document-open')
+			);
+		}
 	}
 
 	/**
