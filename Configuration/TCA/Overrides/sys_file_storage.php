@@ -105,7 +105,9 @@ if (!$configuration['has_folder_tree']['value']) {
 					'wizards' => array(
 						'edit' => array(
 							'type' => 'popup',
-							'script' => 'wizard_edit.php',
+							'module' => array(
+								'name' => 'wizard_edit',
+							),
 							'icon' => 'edit2.gif',
 							'popup_onlyOpenIfSelected' => 1,
 							'notNewRecords' => 1,
@@ -126,7 +128,9 @@ if (!$configuration['has_folder_tree']['value']) {
 					'wizards' => array(
 						'edit' => array(
 							'type' => 'popup',
-							'script' => 'wizard_edit.php',
+							'module' => array(
+								'name' => 'wizard_edit',
+							),
 							'icon' => 'edit2.gif',
 							'popup_onlyOpenIfSelected' => 1,
 							'notNewRecords' => 1,
@@ -147,7 +151,9 @@ if (!$configuration['has_folder_tree']['value']) {
 					'wizards' => array(
 						'edit' => array(
 							'type' => 'popup',
-							'script' => 'wizard_edit.php',
+							'module' => array(
+								'name' => 'wizard_edit',
+							),
 							'icon' => 'edit2.gif',
 							'popup_onlyOpenIfSelected' => 1,
 							'notNewRecords' => 1,
@@ -168,7 +174,9 @@ if (!$configuration['has_folder_tree']['value']) {
 					'wizards' => array(
 						'edit' => array(
 							'type' => 'popup',
-							'script' => 'wizard_edit.php',
+							'module' => array(
+								'name' => 'wizard_edit',
+							),
 							'icon' => 'edit2.gif',
 							'popup_onlyOpenIfSelected' => 1,
 							'notNewRecords' => 1,
@@ -189,7 +197,9 @@ if (!$configuration['has_folder_tree']['value']) {
 					'wizards' => array(
 						'edit' => array(
 							'type' => 'popup',
-							'script' => 'wizard_edit.php',
+							'module' => array(
+								'name' => 'wizard_edit',
+							),
 							'icon' => 'edit2.gif',
 							'popup_onlyOpenIfSelected' => 1,
 							'notNewRecords' => 1,
