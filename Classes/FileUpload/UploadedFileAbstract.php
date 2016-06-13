@@ -80,11 +80,7 @@ abstract class UploadedFileAbstract implements UploadedFileInterface {
 	 * @return string
 	 */
 	public function getFileWithAbsolutePath() {
-		$fileIdentifier = GeneralUtility::_POST('qquuid');
-		if (!empty($fileIdentifier)) {
-			$fileIdentifier .= '-';
-		}
-		return $this->uploadFolder . DIRECTORY_SEPARATOR . $fileIdentifier . $this->name;
+		return $this->uploadFolder . DIRECTORY_SEPARATOR . $this->name;
 	}
 
 	/**
