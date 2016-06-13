@@ -48,7 +48,7 @@ define('TYPO3/CMS/Media/MediaFormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngi
 
 		} else {
 			// Default record picker as we know it...
-			url = FormEngine.backPath + 'browser.php?mode=' + mode + '&bparams=' + params;
+			url = FormEngine.backPath + MediaFormEngine.browserUrl + '&mode=' + mode + '&bparams=' + params;
 			FormEngine.openedPopupWindow = window.open(url, 'Typo3WinBrowser', 'height=650,width=' + (mode === 'db' ? 650 : 600) + ',status=0,menubar=0,resizable=1,scrollbars=1');
 			FormEngine.openedPopupWindow.focus();
 		}
