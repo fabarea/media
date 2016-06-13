@@ -16,6 +16,7 @@ namespace Fab\Media\Override\Backend\Form;
 
 use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class FormResultCompiler
@@ -41,6 +42,7 @@ class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
             $pageRenderer->loadRequireJsModule('TYPO3/CMS/Media/MediaFormEngine', 'function(MediaFormEngine) {
             MediaFormEngine.vidiModuleUrl = \'' . BackendUtility::getModuleUrl(VidiModule::getSignature()) . '\';
             MediaFormEngine.vidiModulePrefix = \'' . VidiModule::getParameterPrefix() . '\';
+            MediaFormEngine.browserUrl = ' . GeneralUtility::quoteJSvalue(BackendUtility::getModuleUrl('wizard_element_browser')) . ';
         }');
         }
 
