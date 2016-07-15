@@ -29,11 +29,12 @@ class PermissionUtility implements SingletonInterface
     /**
      * Returns a class instance.
      *
-     * @return \Fab\Media\Utility\PermissionUtility
+     * @return PermissionUtility
+     * @throws \InvalidArgumentException
      */
     static public function getInstance()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Utility\PermissionUtility');
+        return GeneralUtility::makeInstance(PermissionUtility::class);
     }
 
     /**
@@ -41,6 +42,7 @@ class PermissionUtility implements SingletonInterface
      *
      * @param null|int|ResourceStorage $storage
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function getAllowedExtensions($storage = NULL)
     {
@@ -76,6 +78,7 @@ class PermissionUtility implements SingletonInterface
      * Returns allowed extensions list.
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function getAllowedExtensionList()
     {
@@ -84,10 +87,11 @@ class PermissionUtility implements SingletonInterface
 
     /**
      * @return MediaModule
+     * @throws \InvalidArgumentException
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
 }
