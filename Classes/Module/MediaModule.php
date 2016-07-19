@@ -147,7 +147,7 @@ class MediaModule implements SingletonInterface {
 	 *
 	 * @return string
 	 */
-	public function getCombinedIdentifier() {
+	public static function getCombinedIdentifier() {
 
 		// Fetch possible combined identifier.
 		$combinedIdentifier = GeneralUtility::_GET('id');
@@ -158,7 +158,7 @@ class MediaModule implements SingletonInterface {
 			// Add a loop to decode maximum 999 time!
 			$semaphore = 0;
 			$semaphoreLimit = 999;
-			while (!$this->isWellDecoded($combinedIdentifier) && $semaphore < $semaphoreLimit) {
+			while (!self::isWellDecoded($combinedIdentifier) && $semaphore < $semaphoreLimit) {
 				$combinedIdentifier = urldecode($combinedIdentifier);
 				$semaphore++;
 			}
@@ -171,7 +171,7 @@ class MediaModule implements SingletonInterface {
 	 * @param $combinedIdentifier
 	 * @return bool
 	 */
-	protected function isWellDecoded($combinedIdentifier) {
+	protected static function isWellDecoded($combinedIdentifier) {
 		return preg_match('/.*:.*/', $combinedIdentifier);
 	}
 
@@ -196,7 +196,7 @@ class MediaModule implements SingletonInterface {
 	 */
 	public function getCurrentFolder() {
 
-		$combinedIdentifier = $this->getCombinedIdentifier();
+		$combinedIdentifier = self::getCombinedIdentifier();
 
 		if ($combinedIdentifier) {
 			$folder = $this->getFolderForCombinedIdentifier($combinedIdentifier);

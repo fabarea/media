@@ -30,10 +30,12 @@ class InlineJavaScript extends AbstractComponentView {
 	 */
 	public function render() {
 		$parameterPrefix = MediaModule::getParameterPrefix();
+                $id = MediaModule::getCombinedIdentifier();
 		$output = "
 <script>
 
 Media.parameterPrefix = '${parameterPrefix}';
+top.fsMod.recentIds['file'] = '${id}';
 
 </script>";
 
