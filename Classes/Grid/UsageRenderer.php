@@ -14,6 +14,7 @@ namespace Fab\Media\Grid;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -114,7 +115,7 @@ class UsageRenderer extends ColumnRendererAbstract {
 	 */
 	protected function getModuleUrl() {
 		$moduleSignature = VidiModule::getSignature();
-		return rawurlencode(BackendUtility::getModuleUrl($moduleSignature));
+		return rawurlencode(BackendUtility::getModuleUrl($moduleSignature) . '&id=' . MediaModule::getCombinedIdentifier());
 	}
 
 	/**
