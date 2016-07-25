@@ -14,8 +14,10 @@ namespace Fab\Media\Facet;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use Fab\Vidi\Domain\Repository\ContentRepositoryFactory;
 use Fab\Vidi\Facet\FacetInterface;
+use Fab\Vidi\Module\ModuleLoader;
 use Fab\Vidi\Persistence\Matcher;
 use Fab\Vidi\Signal\AfterFindContentObjectsSignalArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -252,21 +254,23 @@ class ActionPermissionFacet implements FacetInterface
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @return ContentToFileConverter
+     * @throws \InvalidArgumentException
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 
     /**
      * Get the Vidi Module Loader.
      *
-     * @return \Fab\Vidi\Module\ModuleLoader
+     * @return ModuleLoader
+     * @throws \InvalidArgumentException
      */
     protected function getModuleLoader()
     {
-        return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
+        return GeneralUtility::makeInstance(ModuleLoader::class);
     }
 
 }

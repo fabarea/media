@@ -101,8 +101,11 @@
 			<trans-unit id="by">
 				<source>by</source>
 			</trans-unit>
+			<trans-unit id="type">
+				<source>File type</source>
+			</trans-unit>
 			<trans-unit id="type_1">
-				<source>Text file</source>
+				<source>Text</source>
 			</trans-unit>
 			<trans-unit id="type_2">
 				<source>Image</source>

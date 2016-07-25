@@ -40,13 +40,29 @@ $tca = [
             'metadata.title',
             'metadata.categories',
             'name',
-            new \Fab\Vidi\Facet\StandardFacet('extension', 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'),
+            new \Fab\Vidi\Facet\StandardFacet(
+                'extension',
+                'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'
+            ),
             'metadata.description',
             'identifier',
             new \Fab\Vidi\Facet\StandardFacet(
                 'number_of_references',
                 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
-                ['0', '1', '2', '3', 'etc...'] // auto-suggestions
+                ['0', '1', '2', '3', 'etc...'], // auto-suggestions
+                true
+            ),
+            new \Fab\Vidi\Facet\StandardFacet(
+                'type',
+                'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type',
+                [
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_1',
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_2',
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_3',
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_4',
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_5',
+                ],
+                true
             ),
             new \Fab\Media\Facet\ActionPermissionFacet(),
             'uid',
