@@ -14,6 +14,7 @@ namespace Fab\Media\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Fab\Media\Property\TypeConverter\ConfigurationArrayConverter;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
@@ -23,6 +24,22 @@ use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
  */
 class ThumbnailCommandController extends CommandController
 {
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentTypeException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     */
+    protected function initializeCommandMethodArguments()
+    {
+        parent::initializeCommandMethodArguments();
+        if ($this->arguments->hasArgument('configuration')) {
+            $propertyMappingConfiguration = $this->arguments->getArgument('configuration')->getPropertyMappingConfiguration();
+            $propertyMappingConfiguration->setTypeConverter(
+                $this->objectManager->get(ConfigurationArrayConverter::class)
+            );
+        }
+    }
+
 
     /**
      * Generate a bunch of thumbnails in advance to speed up the output of the Media BE module.
