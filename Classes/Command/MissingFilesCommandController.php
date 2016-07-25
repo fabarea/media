@@ -27,12 +27,17 @@ class MissingFilesCommandController extends CommandController
     /**
      * @var array
      */
-    protected $message = array();
+    protected $message = [];
 
     /**
      * @var array
      */
-    protected $missingFiles = array();
+    protected $missingFiles = [];
+
+    /**
+     * @var array
+     */
+    protected $deletedFiles = [];
 
     /**
      * @var \TYPO3\CMS\Core\Mail\MailMessage
@@ -86,6 +91,49 @@ class MissingFilesCommandController extends CommandController
         $to = $this->getTo();
         if (!empty($to)) {
             $this->sendReport();
+        }
+    }
+
+    /**
+     * Delete the missing files which have no file references
+     *
+     * @return void
+     */
+    public function deleteCommand()
+    {
+
+        foreach ($this->getStorageRepository()->findAll() as $storage) {
+
+            // For the CLI cause.
+            $storage->setEvaluatePermissions(FALSE);
+
+            $this->printOut();
+            $this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
+            $this->printOut('--------------------------------------------');
+
+            if ($storage->isOnline()) {
+
+                $deletedFiles = $this->getIndexAnalyser()->deleteMissingFiles($storage);
+                if (empty($deletedFiles)) {
+                    $this->printOut();
+                    $this->printOut('No files deleted!');
+                } else {
+                    // Missing files...
+                    $this->printOut();
+                    $this->printOut('Deleted Files:');
+                    /** @var \TYPO3\CMS\Core\Resource\File $deletedFile */
+                    foreach ($deletedFiles as $deletedFileUid => $deletedFileIdentifier) {
+                        $message = sprintf('* Deleted file "%s" with identifier "%s".',
+                            $deletedFileUid,
+                            $deletedFileIdentifier
+                        );
+                        $this->printOut($message);
+                    }
+                }
+
+            } else {
+                $this->outputLine('Storage is offline!');
+            }
         }
     }
 
