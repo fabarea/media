@@ -114,6 +114,9 @@ class AssetController extends ActionController {
 
 		try {
 			$conflictMode = 'changeName';
+			if($this->getMediaModule()->replaceExistingFile()){
+				$conflictMode = 'replace';
+			}
 			$fileName = $uploadedFile->getName();
 			$file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 

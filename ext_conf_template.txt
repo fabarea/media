@@ -13,6 +13,10 @@ has_media_file_picker = 0
 # cat=basic//; type=boolean; label= Hide default file list : If checked, the default file list is hidden which allows to gain some room. Reload the Backend after enabling this option.
 hide_file_list = 0
 
+# cat=basic//; type=boolean; label= Replace existing files: If checked, a new file will not be renamed if it already exists but the existing file will be replaced.
+replace_existing_file = 0
+
+
 ###################### Image preset ######################
 
 # cat=image preset//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the Grid in the BE.

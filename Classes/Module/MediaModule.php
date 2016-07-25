@@ -252,6 +252,17 @@ class MediaModule implements SingletonInterface {
 		$configuration = $this->getModuleConfiguration();
 		return !(bool)$configuration['has_media_file_picker']['value'];
 	}
+	
+	
+	/**
+	* Tell whether the file will be replaced or renamed
+	*
+	* @return bool
+	*/
+	public function replaceExistingFile() {
+		$configuration = $this->getModuleConfiguration();
+		return (bool)$configuration['replace_existing_file']['value'];
+	}
 
 	/**
 	 * Tell whether the sub-folders must be included when browsing.
