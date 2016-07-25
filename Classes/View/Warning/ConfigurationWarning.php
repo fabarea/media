@@ -130,12 +130,6 @@ class ConfigurationWarning extends AbstractComponentView
 
         // Take the storage fields and check whether some data was initialized.
         $fields = array(
-            'mount_point_file_type_1',
-            'mount_point_file_type_2',
-            'mount_point_file_type_3',
-            'mount_point_file_type_4',
-            'mount_point_file_type_5',
-            'maximum_dimension_original_image',
             'extension_allowed_file_type_1',
             'extension_allowed_file_type_2',
             'extension_allowed_file_type_3',
