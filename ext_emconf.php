@@ -1,27 +1,30 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-  'title' => 'Media management',
-  'description' => 'Media management system for TYPO3 CMS.',
-  'category' => 'module',
-  'author' => 'Fabien Udriot',
-  'author_email' => 'fabien.udriot@typo3.org',
-  'state' => 'stable',
-  'version' => '4.2.0-dev',
-  'constraints' =>
-  [
-    'depends' =>
-    [
-      'typo3' => '7.6.0-7.99.99',
-      'vidi' => '2.2.0-2.99.99',
+    'title' => 'Media management',
+    'description' => 'Media management system for TYPO3 CMS.',
+    'category' => 'module',
+    'author' => 'Fabien Udriot',
+    'author_email' => 'fabien@ecodev.ch',
+    'state' => 'stable',
+    'version' => '4.2.0-dev',
+    'autoload' => [
+        'psr-4' => ['Fab\\Media\\' => 'Classes']
     ],
-    'conflicts' =>
-    [
-    ],
-    'suggests' =>
-    [
-      'metadata' => '',
-      'filemetadata' => '',
-    ],
-  ]
+    'constraints' =>
+        [
+            'depends' =>
+                [
+                    'typo3' => '7.6.0-7.99.99',
+                    'vidi' => '2.2.1-2.99.99',
+                ],
+            'conflicts' =>
+                [
+                ],
+            'suggests' =>
+                [
+                    'metadata' => '',
+                    'filemetadata' => '',
+                ],
+        ]
 ];
