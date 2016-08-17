@@ -422,14 +422,7 @@ through the Scheduler task. The metadata title is basically derived from the fil
 results as ``My report``. This should help your Editors coping with this metadata and save them some typing.
 Of course, the title will only be set, if no value exists beforehand.
 
-Migration
-=========
+Known issue
+===========
 
-Consideration for people migrating from CMS 6.1 to CMS 6.2.
-
-As of Media 3 the asset API part has been removed along with the Asset Repository.
-To give a short reason, it did not survive the table split between ``sys_file`` and ``sys_file_metadata``
-and if any re-implementation should be undertaken, it should be at the Core level.
-
-It means you should migrate the findBy* method to your own repository **or** you can also take advantage of Vidi which provides flexible
-Custom Repository. See chapter "Display list of files of category X" above.
+* The extension is not compatible with EXT:dbal
