@@ -49,8 +49,7 @@ $tca = [
             new \Fab\Vidi\Facet\StandardFacet(
                 'number_of_references',
                 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
-                ['0', '1', '2', '3', 'etc...'], // auto-suggestions
-                true
+                ['0', '1', '2', '3', 'etc...'] // auto-suggestions
             ),
             new \Fab\Vidi\Facet\StandardFacet(
                 'type',
@@ -61,8 +60,7 @@ $tca = [
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_3',
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_4',
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_5',
-                ],
-                true
+                ]
             ),
             new \Fab\Media\Facet\ActionPermissionFacet(),
             'uid',
