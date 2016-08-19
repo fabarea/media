@@ -29,6 +29,7 @@ class RecursiveCheckbox extends AbstractComponentView
      * Renders a checkbox for recursive file browsing.
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function render()
     {
@@ -44,6 +45,7 @@ class RecursiveCheckbox extends AbstractComponentView
 
     /**
      * @return string
+     * @throws \InvalidArgumentException
      */
     protected function isDisplayed()
     {
@@ -81,6 +83,7 @@ class RecursiveCheckbox extends AbstractComponentView
 
     /**
      * @return void
+     * @throws \InvalidArgumentException
      */
     protected function loadRequireJsCode()
     {
@@ -94,6 +97,7 @@ class RecursiveCheckbox extends AbstractComponentView
 
     /**
      * @return MediaModule
+     * @throws \InvalidArgumentException
      */
     protected function getMediaModule()
     {

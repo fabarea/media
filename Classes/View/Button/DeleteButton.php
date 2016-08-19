@@ -24,6 +24,8 @@ class DeleteButton extends AbstractComponentView
      *
      * @param \Fab\Vidi\Domain\Model\Content $object
      * @return string
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function render(Content $object = NULL)
     {
@@ -53,6 +55,7 @@ class DeleteButton extends AbstractComponentView
     /**
      * @param Content $object
      * @return string
+     * @throws \InvalidArgumentException
      */
     protected function getDeleteUri(Content $object)
     {
@@ -71,6 +74,7 @@ class DeleteButton extends AbstractComponentView
 
     /**
      * @return \Fab\Media\Resource\FileReferenceService
+     * @throws \InvalidArgumentException
      */
     protected function getFileReferenceService()
     {
@@ -79,6 +83,7 @@ class DeleteButton extends AbstractComponentView
 
     /**
      * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @throws \InvalidArgumentException
      */
     protected function getFileConverter()
     {

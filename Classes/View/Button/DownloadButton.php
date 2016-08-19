@@ -25,8 +25,9 @@ class DownloadButton extends AbstractComponentView
      *
      * @param Content $object
      * @return string
+     * @throws \InvalidArgumentException
      */
-    public function render(Content $object = NULL)
+    public function render(Content $object = null)
     {
 
         $button = $this->makeLinkButton()
@@ -49,14 +50,14 @@ class DownloadButton extends AbstractComponentView
      */
     protected function getDownloadUri(Content $object)
     {
-        $urlParameters = array(
-            MediaModule::getParameterPrefix() => array(
+        $urlParameters = [
+            MediaModule::getParameterPrefix() => [
                 'controller' => 'Asset',
                 'action' => 'download',
                 'forceDownload' => TRUE,
                 'file' => $object->getUid(),
-            ),
-        );
+            ],
+        ];
         return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
     }
 
