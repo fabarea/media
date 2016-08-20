@@ -3,9 +3,9 @@
 
 	<!-- additional parameters -->
 	<f:form.hidden name="dataType" value="{dataType}"/>
-	<input type="hidden" name="iSortCol_0" value="{v:gp(argument: 'iSortCol_0')}"/>
-	<input type="hidden" name="sSortDir_0" value="{v:gp(argument: 'sSortDir_0')}"/>
-	<input type="hidden" name="sSearch" value="{v:gp(argument: 'sSearch')}"/>
+	<input type="hidden" name="search[value]" value="{v:gp(argument: 'search|value')}"/>
+	<input type="hidden" name="order[0][column]" value="{v:gp(argument: 'order|0|column')}"/>
+	<input type="hidden" name="order[0][dir]" value="{v:gp(argument: 'order|0|dir')}"/>
 
 	<span id="numberOfObjects" style="display: none">{numberOfObjects}</span>
 

@@ -114,7 +114,6 @@ define([
 		getEditStorageUrl: function(url) {
 
 			var uri = new Uri(url);
-			var parametersToKeep = ['iSortCol_0', 'sSortDir_0'];
 
 			if (Vidi.Grid.hasSelectedRows()) {
 				// Case 1: mass editing for selected rows.
@@ -125,16 +124,18 @@ define([
 			} else {
 
 				// Case 2: mass editing for all rows.
-				parametersToKeep.push('sSearch');
-			}
+				var storedParameters = Vidi.Grid.getStoredParameters();
 
-			// Keep only certain parameters which make sense to transmit.
-			for (var index in Vidi.Grid.getStoredParameters()) {
-				var parameter = Vidi.Grid.getStoredParameters()[index];
+				if (typeof storedParameters === 'object') {
 
-				// Keep only certain parameters which make sense to transmit.
-				if ($.inArray(parameter.name, parametersToKeep) > -1) {
-					uri.addQueryParam(parameter.name, parameter.value);
+					if (storedParameters.search) {
+						uri.addQueryParam('search[value]', storedParameters.search.value);
+					}
+
+					if (storedParameters.order) {
+						uri.addQueryParam('order[0][column]', storedParameters.order[0].column);
+						uri.addQueryParam('order[0][dir]', storedParameters.order[0].dir);
+					}
 				}
 			}
 
