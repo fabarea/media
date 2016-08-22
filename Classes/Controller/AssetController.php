@@ -12,6 +12,7 @@ use Fab\Media\Cache\CacheService;
 use Fab\Media\FileUpload\UploadManager;
 use Fab\Media\Index\MediaIndexer;
 use Fab\Media\Module\MediaModule;
+use Fab\Media\TypeConverter\FileConverter;
 use Fab\Media\ViewHelpers\MetadataViewHelper;
 use Fab\Vidi\Service\ContentService;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -57,8 +58,8 @@ class AssetController extends ActionController
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
 
-            /** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
-            $typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
+            /** @var FileConverter $typeConverter */
+            $typeConverter = $this->objectManager->get(FileConverter::class);
 
             $propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
             $propertyMappingConfiguration->setTypeConverter($typeConverter);
