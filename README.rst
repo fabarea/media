@@ -421,8 +421,3 @@ As a basic metadata extractor service, Media will set a title when a file is upl
 through the Scheduler task. The metadata title is basically derived from the file name e.g. ``my_report.pdf`` will
 results as ``My report``. This should help your Editors coping with this metadata and save them some typing.
 Of course, the title will only be set, if no value exists beforehand.
-
-Known issue
-===========
-
-* The extension is not compatible with EXT:dbal
