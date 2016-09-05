@@ -184,11 +184,32 @@ class ThumbnailService
     }
 
     /**
-     * @param array $configuration
+     * @param array|ThumbnailConfiguration $configuration
      * @return $this
      */
     public function setConfiguration($configuration)
     {
+        if ($configuration instanceof ThumbnailConfiguration) {
+            $configurationObject = $configuration;
+            $configuration = [];
+
+            if ($configurationObject->getWidth() > 0) {
+                $configuration['width'] = $configurationObject->getWidth();
+            }
+
+            if ($configurationObject->getHeight() > 0) {
+                $configuration['height'] = $configurationObject->getHeight();
+            }
+
+            if ($configurationObject->getStyle()) {
+                $this->attributes['style'] = $configurationObject->getStyle();
+            }
+
+            if ($configurationObject->getClassName()) {
+                $this->attributes['class'] = $configurationObject->getClassName();
+            }
+        }
+
         $this->configuration = $configuration;
         return $this;
     }
