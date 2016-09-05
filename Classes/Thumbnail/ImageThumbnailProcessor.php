@@ -45,6 +45,7 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      * Render the URI of the thumbnail.
      *
      * @return string
+     * @throws \Fab\Media\Exception\EmptyValueException
      */
     public function renderUri()
     {
@@ -60,10 +61,10 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
 
         $configuration = $this->computeFinalImageDimension($configuration);
         $this->processedFile = $this->getFile()->process($this->getProcessingType(), $configuration);
-        $uri = $this->processedFile->getPublicUrl(TRUE);
+        $uri = $this->processedFile->getPublicUrl(true);
 
         // Update time stamp of processed image at this stage. This is needed for the browser to get new version of the thumbnail.
-        if ($this->processedFile->getProperty('originalfilesha1') != $this->getFile()->getProperty('sha1')) {
+        if ($this->processedFile->getProperty('originalfilesha1') !== $this->getFile()->getProperty('sha1')) {
             $this->processedFile->updateProperties(array('tstamp' => $this->getFile()->getProperty('tstamp')));
         }
 
@@ -81,7 +82,7 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
 
         // Variable $result corresponds to an URL in this case.
         // Analyse the URL and compute the adequate separator between arguments.
-        $parameterSeparator = strpos($result, '?') === FALSE ? '?' : '&';
+        $parameterSeparator = strpos($result, '?') === false ? '?' : '&';
 
         return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
             $result,
@@ -100,7 +101,7 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
     protected function getTitle()
     {
         $result = $this->getFile()->getProperty('title');
-        if (empty($result)) {
+        if (!$result) {
             $result = $this->getFile()->getName();
         }
         return htmlspecialchars($result);
@@ -135,7 +136,7 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
         }
 
         // Analyse the current $url and compute the adequate separator between arguments.
-        $url = $this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE);
+        $url = $this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(true);
         $parameterSeparator = strpos($url, '?') === false ? '?' : '&';
 
         return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
@@ -169,11 +170,11 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
     /**
      * Compute the width / height ratio of the image.
      *
-     * @return NULL|float
+     * @return null|float
      */
     protected function computeImageRatio()
     {
-        $ratio = NULL;
+        $ratio = null;
         if ($this->getFile()->getProperty('width') > 0 && $this->getFile()->getProperty('height') > 0) {
             $ratio = $this->getFile()->getProperty('width') / $this->getFile()->getProperty('height');
         }
@@ -185,9 +186,10 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function getProcessingType()
     {
-        if ($this->thumbnailService->getProcessingType() === NULL) {
+        if ($this->thumbnailService->getProcessingType() === null) {
             return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
         }
         return $this->thumbnailService->getProcessingType();
     }
+
 }

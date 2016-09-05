@@ -27,7 +27,7 @@ class Dimension
     protected $height = 0;
 
     /**
-     * Constructor
+     * @param string $dimension
      */
     public function __construct($dimension)
     {

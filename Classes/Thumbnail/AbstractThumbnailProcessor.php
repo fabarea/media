@@ -36,11 +36,11 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
      *
      * @var array
      */
-    protected $renderingSteps = array(
+    protected $renderingSteps = [
         ThumbnailInterface::OUTPUT_URI => 'renderUri',
         ThumbnailInterface::OUTPUT_IMAGE => 'renderTagImage',
         ThumbnailInterface::OUTPUT_IMAGE_WRAPPED => 'renderTagAnchor',
-    );
+    ];
 
     /**
      * @param ThumbnailService $thumbnailService
@@ -73,7 +73,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
     {
         $result = '';
         $attributes = $this->thumbnailService->getAttributes();
-        if (!empty($attributes)) {
+        if (is_array($attributes)) {
             foreach ($attributes as $attribute => $value) {
                 $result .= sprintf('%s="%s" ',
                     htmlspecialchars($attribute),
@@ -86,11 +86,13 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 
     /**
      * @return array
+     * @throws \Fab\Media\Exception\InvalidKeyInArrayException
+     * @throws \Fab\Media\Exception\EmptyValueException
      */
     protected function getConfiguration()
     {
         $configuration = $this->thumbnailService->getConfiguration();
-        if (empty($configuration)) {
+        if (!$configuration) {
             $dimension = ImagePresetUtility::getInstance()->preset('image_thumbnail');
             $configuration = array(
                 'width' => $dimension->getWidth(),
@@ -131,7 +133,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
     }
 
     /**
-     * Returns TRUE whether an thumbnail can be generated
+     * Returns true whether an thumbnail can be generated
      *
      * @param string $extension File extension
      * @return boolean
@@ -156,7 +158,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
      */
     protected function isFrontendMode()
     {
-        return TYPO3_MODE == 'FE';
+        return TYPO3_MODE === 'FE';
     }
 
     /**

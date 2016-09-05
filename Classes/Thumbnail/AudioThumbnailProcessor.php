@@ -9,8 +9,10 @@ namespace Fab\Media\Thumbnail;
  */
 
 use Fab\Media\Utility\Path;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
+ * Class AudioThumbnailProcessor
  */
 class AudioThumbnailProcessor extends AbstractThumbnailProcessor
 {
@@ -41,7 +43,7 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
     {
 
         $relativePath = sprintf('Icons/MimeType/%s.png', $this->getFile()->getProperty('extension'));
-        $fileNameAndPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:media/Resources/Public/' . $relativePath);
+        $fileNameAndPath = GeneralUtility::getFileAbsFileName('EXT:media/Resources/Public/' . $relativePath);
         if (!file_exists($fileNameAndPath)) {
             $relativePath = 'Icons/UnknownMimeType.png';
         }
@@ -61,9 +63,10 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
 
         // Variable $result corresponds to an URL in this case.
         // Analyse the URL and compute the adequate separator between arguments.
-        $parameterSeparator = strpos($result, '?') === FALSE ? '?' : '&';
+        $parameterSeparator = strpos($result, '?') === false ? '?' : '&';
 
-        return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
+        return sprintf(
+            '<img src="%s%s" title="%s" alt="%s" %s/>',
             $result,
             $this->thumbnailService->getAppendTimeStamp() ? $parameterSeparator . $this->getFile()->getProperty('tstamp') : '',
             $this->getTitle(),
@@ -80,7 +83,7 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
     protected function getTitle()
     {
         $result = $this->getFile()->getProperty('title');
-        if (empty($result)) {
+        if (!$result) {
             $result = $this->getFile()->getName();
         }
         return htmlspecialchars($result);
@@ -97,8 +100,9 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
 
         $file = $this->getFile();
 
-        return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
-            $this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(TRUE),
+        return sprintf(
+            '<a href="%s%s" target="%s" data-uid="%s">%s</a>',
+            $this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(true),
             $this->thumbnailService->getAppendTimeStamp() ? '?' . $file->getProperty('tstamp') : '',
             $this->thumbnailService->getTarget(),
             $file->getUid(),

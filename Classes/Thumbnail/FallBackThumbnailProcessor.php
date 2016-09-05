@@ -22,7 +22,8 @@ class FallBackThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function create()
     {
-        return sprintf('<img src="%s" hspace="2" class="" alt="" />',
+        return sprintf(
+            '<img src="%s" hspace="2" class="" alt="" />',
             Path::getRelativePath('Icons/UnknownMimeType.png')
         );
     }

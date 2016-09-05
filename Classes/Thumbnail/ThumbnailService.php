@@ -47,7 +47,7 @@ class ThumbnailService
      * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
      * @var array
      */
-    protected $configuration = array();
+    protected $configuration = [];
 
     /**
      * Define width, height and all sort of attributes to render the anchor file
@@ -56,16 +56,16 @@ class ThumbnailService
      * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
      * @var array
      */
-    protected $configurationWrap = array();
+    protected $configurationWrap = [];
 
     /**
      * DOM attributes to add to the image preview.
      *
      * @var array
      */
-    protected $attributes = array(
+    protected $attributes = [
         'class' => 'thumbnail',
-    );
+    ];
 
     /**
      * Define in which window will the thumbnail be opened.
@@ -89,7 +89,7 @@ class ThumbnailService
      *
      * @var bool
      */
-    protected $appendTimeStamp = FALSE;
+    protected $appendTimeStamp = false;
 
     /**
      * Define the processing type for the thumbnail.
@@ -104,7 +104,7 @@ class ThumbnailService
      *
      * @param File $file
      */
-    public function __construct(File $file = NULL)
+    public function __construct(File $file = null)
     {
         $this->file = $file;
     }
@@ -114,23 +114,24 @@ class ThumbnailService
      *
      * @throws MissingTcaConfigurationException
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function create()
     {
 
-        if (empty($this->file)) {
+        if (!$this->file) {
             throw new MissingTcaConfigurationException('Missing File object. Forgotten to set a file?', 1355933144);
         }
 
         // Default class name
         $className = 'Fab\Media\Thumbnail\FallBackThumbnailProcessor';
-        if (File::FILETYPE_IMAGE == $this->file->getType()) {
+        if (File::FILETYPE_IMAGE === $this->file->getType()) {
             $className = 'Fab\Media\Thumbnail\ImageThumbnailProcessor';
-        } elseif (File::FILETYPE_AUDIO == $this->file->getType()) {
+        } elseif (File::FILETYPE_AUDIO === $this->file->getType()) {
             $className = 'Fab\Media\Thumbnail\AudioThumbnailProcessor';
-        } elseif (File::FILETYPE_VIDEO == $this->file->getType()) {
+        } elseif (File::FILETYPE_VIDEO === $this->file->getType()) {
             $className = 'Fab\Media\Thumbnail\VideoThumbnailProcessor';
-        } elseif (File::FILETYPE_APPLICATION == $this->file->getType() || File::FILETYPE_TEXT == $this->file->getType()) {
+        } elseif (File::FILETYPE_APPLICATION === $this->file->getType() || File::FILETYPE_TEXT === $this->file->getType()) {
             $className = 'Fab\Media\Thumbnail\ApplicationThumbnailProcessor';
         }
 
