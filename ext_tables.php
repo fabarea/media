@@ -143,27 +143,24 @@ if (TYPO3_MODE === 'BE') {
 
     // Connect some signals with slots.
     $signalSlotDispatcher->connect(
-        '\Fab\Vidi\Controller\Backend\ContentController',
+        'Fab\Vidi\Controller\Backend\ContentController',
         'postProcessMatcherObject',
         \Fab\Media\Security\FilePermissionsAspect::class,
-        'addFilePermissionsForFileStorages',
-        true
+        'addFilePermissionsForFileStorages'
     );
 
     $signalSlotDispatcher->connect(
         \Fab\Vidi\Domain\Repository\ContentRepository::class,
         'postProcessConstraintsObject',
         \Fab\Media\Security\FilePermissionsAspect::class,
-        'addFilePermissionsForFileMounts',
-        true
+        'addFilePermissionsForFileMounts'
     );
 
     $signalSlotDispatcher->connect(
         \Fab\Vidi\Service\ContentService::class,
         'afterFindContentObjects',
         \Fab\Media\Facet\ActionPermissionFacet::class,
-        'modifyResultSet',
-        true
+        'modifyResultSet'
     );
 
     // @bug Class property $relativePathToSkin does not look to be working anymore since TYPO3 7. Workaround: load CSS for the RTE as skin.
