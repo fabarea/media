@@ -24,7 +24,7 @@ class SelectedFolderInfo extends AbstractComponentView
     /**
      * @var array
      */
-    public $notAllowedMountPoints = array();
+    public $notAllowedMountPoints = [];
 
     /**
      * Renders a button for uploading assets.

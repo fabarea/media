@@ -43,12 +43,12 @@ class ProcessedFileController extends ActionController
      * @param array $processingConfiguration
      * @return string
      */
-    public function createAction(File $file, array $processingConfiguration = array())
+    public function createAction(File $file, array $processingConfiguration = [])
     {
         $processedFile = $file->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, $processingConfiguration);
 
         $response = array(
-            'success' => TRUE,
+            'success' => true,
             'original' => $file->getUid(),
             'title' => $file->getProperty('title') ? $file->getProperty('title') : $file->getName(),
             'publicUrl' => $processedFile->getPublicUrl(),

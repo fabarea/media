@@ -51,7 +51,7 @@ class RecursiveCheckbox extends AbstractComponentView
     {
         $isDisplayed = $this->getMediaModule()->hasFolderTree();
         if ($this->getModuleLoader()->hasPlugin()) {
-            $isDisplayed = FALSE;
+            $isDisplayed = false;
         }
         return $isDisplayed;
     }

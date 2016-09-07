@@ -47,13 +47,13 @@ class DuplicateRecordsFinderTool extends AbstractTool
      * @param array $arguments
      * @return string
      */
-    public function work(array $arguments = array())
+    public function work(array $arguments = [])
     {
 
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateRecordsFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
-        $duplicateRecordsReports = array();
+        $duplicateRecordsReports = [];
         foreach ($this->getStorageRepository()->findAll() as $storage) {
 
             if ($storage->isOnline()) {

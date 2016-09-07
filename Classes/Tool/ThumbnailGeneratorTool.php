@@ -47,10 +47,10 @@ class ThumbnailGeneratorTool extends AbstractTool
      * @param array $arguments
      * @return string
      */
-    public function work(array $arguments = array())
+    public function work(array $arguments = [])
     {
 
-        $reports = array();
+        $reports = [];
 
         $limit = 500; // default value
         $newOffset = 0;
@@ -70,7 +70,7 @@ class ThumbnailGeneratorTool extends AbstractTool
                         ->setStorage($storage)
                         ->generate($limit, $offset);
 
-                    $formattedResultSet = array();
+                    $formattedResultSet = [];
                     $resultSet = $thumbnailGenerator->getResultSet();
                     $processedFileIdentifiers = $thumbnailGenerator->getNewProcessedFileIdentifiers();
 
@@ -85,7 +85,7 @@ class ThumbnailGeneratorTool extends AbstractTool
 
                     $reports[] = array(
                         'storage' => $storage,
-                        'isStorageOnline' => TRUE,
+                        'isStorageOnline' => true,
                         'resultSet' => $formattedResultSet,
                         'numberOfProcessedFiles' => $thumbnailGenerator->getNumberOfProcessedFiles(),
                         'numberOfTraversedFiles' => $thumbnailGenerator->getNumberOfTraversedFiles(),
@@ -95,7 +95,7 @@ class ThumbnailGeneratorTool extends AbstractTool
                 } else {
                     $reports[] = array(
                         'storage' => $storage,
-                        'isStorageOnline' => FALSE,
+                        'isStorageOnline' => false,
                     );
                 }
             }

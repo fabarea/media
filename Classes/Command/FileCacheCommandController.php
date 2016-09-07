@@ -50,14 +50,14 @@ class FileCacheCommandController extends CommandController
                 $this->outputLine('--------------------------------------------');
                 $this->outputLine();
 
-                #$storage->getProcessingFolder()->delete(TRUE); // will not work
+                #$storage->getProcessingFolder()->delete(true); // will not work
 
                 // Well... not really FAL friendly but straightforward for Local drivers.
                 $processedDirectoryPath = PATH_site . $storage->getProcessingFolder()->getPublicUrl();
                 $fileIterator = new FilesystemIterator($processedDirectoryPath, FilesystemIterator::SKIP_DOTS);
                 $numberOfProcessedFiles = iterator_count($fileIterator);
 
-                GeneralUtility::rmdir($processedDirectoryPath, TRUE);
+                GeneralUtility::rmdir($processedDirectoryPath, true);
                 GeneralUtility::mkdir($processedDirectoryPath); // recreate the directory.
 
                 $message = sprintf('Done! Removed %s processed file(s).', $numberOfProcessedFiles);

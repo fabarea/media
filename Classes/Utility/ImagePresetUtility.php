@@ -19,7 +19,7 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * @var array
      */
-    protected $store = array();
+    protected $store = [];
 
     /**
      * @var string

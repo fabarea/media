@@ -63,11 +63,11 @@ class MetadataRenderer extends ColumnRendererAbstract
      */
     protected function hasHtml($content)
     {
-        $result = FALSE;
+        $result = false;
 
         // We compare the length of the string with html tags and without html tags.
         if (strlen($content) != strlen(strip_tags($content))) {
-            $result = TRUE;
+            $result = true;
         }
         return $result;
     }
@@ -82,7 +82,7 @@ class MetadataRenderer extends ColumnRendererAbstract
     {
 
         // @todo implement me!
-        $result = TRUE;
+        $result = true;
         return $result;
     }
 

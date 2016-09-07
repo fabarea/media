@@ -37,7 +37,7 @@ class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract
      * Save the file to the specified path
      *
      * @throws EmptyPropertyException
-     * @return boolean TRUE on success
+     * @return boolean true on success
      */
     public function save()
     {
@@ -56,7 +56,7 @@ class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract
         fclose($input);
 
         if ($realSize != $this->getSize()) {
-            return FALSE;
+            return false;
         }
 
         $target = fopen($this->getFileWithAbsolutePath(), "w");
@@ -64,7 +64,7 @@ class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract
         stream_copy_to_stream($temp, $target);
         fclose($target);
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -95,7 +95,7 @@ class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract
     /**
      * Get MIME type of file.
      *
-     * @return string|boolean MIME type. eg, text/html, FALSE on error
+     * @return string|boolean MIME type. eg, text/html, false on error
      */
     public function getMimeType()
     {
@@ -106,6 +106,6 @@ class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract
         } elseif (function_exists('mime_content_type')) {
             return mime_content_type($this->getFileWithAbsolutePath());
         }
-        return FALSE;
+        return false;
     }
 }

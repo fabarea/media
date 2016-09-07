@@ -28,7 +28,7 @@ class StorageValidator extends AbstractValidator
     public function isValid($combinedIdentifier)
     {
 
-        $allowedStorageIdentifiers = array();
+        $allowedStorageIdentifiers = [];
         foreach ($this->getMediaModule()->getAllowedStorages() as $allowedStorage) {
             $allowedStorageIdentifiers[] = $allowedStorage->getUid();
         }

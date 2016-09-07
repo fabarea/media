@@ -26,12 +26,12 @@ class ThumbnailViewHelper extends AbstractViewHelper
      */
     public function initializeArguments()
     {
-        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content|int', 'The source file', FALSE, NULL);
-        $this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', FALSE, '');
-        $this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', FALSE, '');
-        $this->registerArgument('preset', 'string', 'Image dimension preset', FALSE, '');
-        $this->registerArgument('output', 'string', 'Can be: uri, image, imageWrapped', FALSE, 'image');
-        $this->registerArgument('configurationWrap', 'array', 'The configuration given to the wrap.', FALSE, '');
+        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\File|Fab\Vidi\Domain\Model\Content|int', 'The source file', false, null);
+        $this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', false, '');
+        $this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', false, '');
+        $this->registerArgument('preset', 'string', 'Image dimension preset', false, '');
+        $this->registerArgument('output', 'string', 'Can be: uri, image, imageWrapped', false, 'image');
+        $this->registerArgument('configurationWrap', 'array', 'The configuration given to the wrap.', false, '');
     }
 
     /**

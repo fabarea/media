@@ -22,7 +22,7 @@ class ConfigurationWarning extends AbstractComponentView
     /**
      * @var array
      */
-    protected $notAllowedMountPoints = array();
+    protected $notAllowedMountPoints = [];
 
     /**
      * Renders a button for uploading assets.
@@ -87,7 +87,7 @@ class ConfigurationWarning extends AbstractComponentView
             'extension_allowed_file_type_5',
         );
 
-        $values = array();
+        $values = [];
         foreach ($fields as $field) {
             $values[$field] = Tca::table($tableName)->field($field)->getDefaultValue();
         }
@@ -131,11 +131,11 @@ class ConfigurationWarning extends AbstractComponentView
             'extension_allowed_file_type_5',
         );
 
-        $result = TRUE;
+        $result = true;
         foreach ($fields as $fieldName) {
-            // TRUE means the storage has data and thus was configured / saved once.
+            // true means the storage has data and thus was configured / saved once.
             if (!empty($storageRecord[$fieldName])) {
-                $result = FALSE;
+                $result = false;
                 break;
             }
         }
@@ -214,7 +214,7 @@ EOF;
 
             $fileMounts = $this->getBackendUser()->getFileMountRecords();
 
-            $fileMountIdentifiers = array();
+            $fileMountIdentifiers = [];
             foreach ($fileMounts as $fileMount) {
                 $fileMountIdentifiers[] = $fileMount['uid'];
             }

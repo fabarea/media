@@ -53,14 +53,14 @@ abstract class AbstractFormField implements FormFieldInterface
      *
      * @var array
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * Attributes in sense of DOM attribute, e.g. class, style, etc...
      *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * @return string

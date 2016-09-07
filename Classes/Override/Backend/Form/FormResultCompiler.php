@@ -22,7 +22,7 @@ class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
      * JavaScript bottom code
      *
      * @param string $formname The identification of the form on the page.
-     * @return string A section with JavaScript - if $update is FALSE, embedded in <script></script>
+     * @return string A section with JavaScript - if $update is false, embedded in <script></script>
      */
     protected function JSbottom($formname = 'forms[0]')
     {

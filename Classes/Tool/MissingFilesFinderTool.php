@@ -48,7 +48,7 @@ class MissingFilesFinderTool extends AbstractTool
      * @param array $arguments
      * @return string
      */
-    public function work(array $arguments = array())
+    public function work(array $arguments = [])
     {
 
         // Possible clean up of missing files if the User has clicked so.
@@ -59,7 +59,7 @@ class MissingFilesFinderTool extends AbstractTool
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/MissingFilesFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
-        $missingReports = array();
+        $missingReports = [];
         foreach ($this->getStorageRepository()->findAll() as $storage) {
 
             if ($storage->isOnline()) {
@@ -87,7 +87,7 @@ class MissingFilesFinderTool extends AbstractTool
      * @param array $files
      * @return void
      */
-    protected function deleteMissingFilesAction(array $files = array())
+    protected function deleteMissingFilesAction(array $files = [])
     {
 
         foreach ($files as $fileUid) {

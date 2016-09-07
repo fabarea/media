@@ -25,7 +25,7 @@ class MediaIndexer
     /**
      * @var ResourceStorage
      */
-    protected $storage = NULL;
+    protected $storage = null;
 
     /**
      * @param ResourceStorage $storage
@@ -64,7 +64,7 @@ class MediaIndexer
         }
 
         ksort($newMetaData);
-        $metaData = array();
+        $metaData = [];
         foreach ($newMetaData as $data) {
             $metaData = array_merge($metaData, $data);
         }
@@ -83,7 +83,7 @@ class MediaIndexer
     {
 
         $categoryList = ConfigurationUtility::getInstance()->get('default_categories');
-        $categories = GeneralUtility::trimExplode(',', $categoryList, TRUE);
+        $categories = GeneralUtility::trimExplode(',', $categoryList, true);
 
         foreach ($categories as $category) {
             $values = array(

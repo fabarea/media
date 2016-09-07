@@ -49,7 +49,7 @@ class MissingFilesCommandController extends CommandController
         foreach ($this->getStorageRepository()->findAll() as $storage) {
 
             // For the CLI cause.
-            $storage->setEvaluatePermissions(FALSE);
+            $storage->setEvaluatePermissions(false);
 
             $this->printOut();
             $this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
@@ -99,7 +99,7 @@ class MissingFilesCommandController extends CommandController
         foreach ($this->getStorageRepository()->findAll() as $storage) {
 
             // For the CLI cause.
-            $storage->setEvaluatePermissions(FALSE);
+            $storage->setEvaluatePermissions(false);
 
             $this->printOut();
             $this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
@@ -188,7 +188,7 @@ class MissingFilesCommandController extends CommandController
     protected function getTo()
     {
 
-        $to = array();
+        $to = [];
 
         // @todo make me more flexible!
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
@@ -206,7 +206,7 @@ class MissingFilesCommandController extends CommandController
     protected function getFrom()
     {
 
-        $from = array();
+        $from = [];
 
         // @todo make me more flexible!
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {

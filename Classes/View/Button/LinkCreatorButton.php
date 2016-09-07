@@ -26,7 +26,7 @@ class LinkCreatorButton extends AbstractComponentView
      * @param Content $object
      * @return string
      */
-    public function render(Content $object = NULL)
+    public function render(Content $object = null)
     {
         $button = '';
         if ($this->getModuleLoader()->hasPlugin('linkCreator')) {

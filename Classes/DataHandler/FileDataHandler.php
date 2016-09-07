@@ -70,7 +70,7 @@ class FileDataHandler extends AbstractDataHandler
             // Move file
             $file->copyTo($targetFolder, $file->getName(), 'renameNewFile');
         }
-        return TRUE;
+        return true;
     }
 
     /**
@@ -111,7 +111,7 @@ class FileDataHandler extends AbstractDataHandler
                 }
             }
         }
-        return TRUE;
+        return true;
     }
 
     /**

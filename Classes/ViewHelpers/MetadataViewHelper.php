@@ -30,7 +30,7 @@ class MetadataViewHelper extends AbstractViewHelper
      * @param array $configuration
      * @return string
      */
-    public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = array())
+    public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = [])
     {
 
         if (empty($template)) {

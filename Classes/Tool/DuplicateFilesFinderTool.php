@@ -48,7 +48,7 @@ class DuplicateFilesFinderTool extends AbstractTool
      * @param array $arguments
      * @return string
      */
-    public function work(array $arguments = array())
+    public function work(array $arguments = [])
     {
 
         // Possible clean up of missing files if the User has clicked so.
@@ -59,7 +59,7 @@ class DuplicateFilesFinderTool extends AbstractTool
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateFilesFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
-        $duplicateFilesReports = array();
+        $duplicateFilesReports = [];
 
         if ($this->getBackendUser()->isAdmin()) {
             foreach ($this->getStorageRepository()->findAll() as $storage) {
@@ -76,14 +76,14 @@ class DuplicateFilesFinderTool extends AbstractTool
 
             $fileMounts = $this->getBackendUser()->getFileMountRecords();
 
-            $allowedStorages = array();
+            $allowedStorages = [];
             foreach ($fileMounts as $fileMount) {
                 if ((bool)$fileMount['read_only']) {
                     continue;
                 }
 
                 if (!isset($allowedStorages[$fileMount['base']])) {
-                    $allowedStorages[$fileMount['base']] = array();
+                    $allowedStorages[$fileMount['base']] = [];
                 }
                 if (!in_array($fileMount['base'], $allowedStorages)) {
                     $allowedStorages[$fileMount['base']][] = $fileMount['path'];
@@ -100,7 +100,7 @@ class DuplicateFilesFinderTool extends AbstractTool
                     // Filter duplicates files
                     foreach ($duplicateFiles as $key => $files) {
 
-                        $filteredFiles = array();
+                        $filteredFiles = [];
                         foreach ($files as $file) {
 
                             foreach ($allowedMountPoints as $allowedMountPoint) {
@@ -144,7 +144,7 @@ class DuplicateFilesFinderTool extends AbstractTool
      * @param array $files
      * @return void
      */
-    protected function deleteMissingFilesAction(array $files = array())
+    protected function deleteMissingFilesAction(array $files = [])
     {
 
         foreach ($files as $fileUid) {
@@ -200,7 +200,7 @@ class DuplicateFilesFinderTool extends AbstractTool
      */
     public function isShown()
     {
-        return TRUE;
+        return true;
     }
 
     /**

@@ -54,7 +54,7 @@ class ActionPermissionFacet implements FacetInterface
     /**
      * @var bool
      */
-    protected $canModifyMatcher = FALSE;
+    protected $canModifyMatcher = false;
 
     /**
      * Constructor of a Generic Facet in Vidi.
@@ -64,7 +64,7 @@ class ActionPermissionFacet implements FacetInterface
      * @param array $suggestions
      * @param string $fieldNameAndPath
      */
-    public function __construct($name = '', $label = '', array $suggestions = array(), $fieldNameAndPath = '')
+    public function __construct($name = '', $label = '', array $suggestions = [], $fieldNameAndPath = '')
     {
     }
 
@@ -89,7 +89,7 @@ class ActionPermissionFacet implements FacetInterface
      */
     public function getSuggestions()
     {
-        $suggestions = array();
+        $suggestions = [];
         foreach ($this->suggestions as $key => $label) {
             $suggestions[] = array($key => $this->getLanguageService()->sL($label));
         }
@@ -102,7 +102,7 @@ class ActionPermissionFacet implements FacetInterface
      */
     public function hasSuggestions()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -154,7 +154,7 @@ class ActionPermissionFacet implements FacetInterface
                     $order = $signalArguments->getOrder();
                     $objects = ContentRepositoryFactory::getInstance($this->dataType)->findBy($matcher, $order);
 
-                    $filteredObjects = array();
+                    $filteredObjects = [];
                     foreach ($objects as $object) {
 
                         $file = $this->getFileConverter()->convert($object->getUid());
@@ -172,7 +172,7 @@ class ActionPermissionFacet implements FacetInterface
 
                     // Count number of records
                     $signalArguments->setNumberOfObjects(count($filteredObjects));
-                    $signalArguments->setHasBeenProcessed(TRUE);
+                    $signalArguments->setHasBeenProcessed(true);
                 }
             }
         }
@@ -190,10 +190,10 @@ class ActionPermissionFacet implements FacetInterface
         $parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
         $parameters = GeneralUtility::_GP($parameterPrefix);
 
-        $queryParts = array();
+        $queryParts = [];
         if (!empty($parameters['searchTerm'])) {
             $query = rawurldecode($parameters['searchTerm']);
-            $queryParts = json_decode($query, TRUE);
+            $queryParts = json_decode($query, true);
         }
 
         return $queryParts;

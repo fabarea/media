@@ -38,7 +38,7 @@ class PermissionUtility implements SingletonInterface
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function getAllowedExtensions($storage = NULL)
+    public function getAllowedExtensions($storage = null)
     {
 
         $fieldNames = array(
@@ -58,9 +58,9 @@ class PermissionUtility implements SingletonInterface
         }
 
         $storageRecord = $storage->getStorageRecord();
-        $allowedExtensions = array();
+        $allowedExtensions = [];
         foreach ($fieldNames as $fieldName) {
-            $_allowedExtensions = GeneralUtility::trimExplode(',', $storageRecord[$fieldName], TRUE);
+            $_allowedExtensions = GeneralUtility::trimExplode(',', $storageRecord[$fieldName], true);
             $allowedExtensions = array_merge($allowedExtensions, $_allowedExtensions);
         }
 

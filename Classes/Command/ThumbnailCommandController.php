@@ -44,7 +44,7 @@ class ThumbnailCommandController extends CommandController
      * @param bool $verbose will output a detail result of the thumbnail generation.
      * @return void
      */
-    public function generateCommand($limit = 0, $offset = 0, $configuration = array(), $verbose = FALSE)
+    public function generateCommand($limit = 0, $offset = 0, $configuration = [], $verbose = false)
     {
 
         $this->checkEnvironment();
@@ -61,7 +61,7 @@ class ThumbnailCommandController extends CommandController
             if ($storage->isOnline()) {
 
                 // For the CLI cause.
-                $storage->setEvaluatePermissions(FALSE);
+                $storage->setEvaluatePermissions(false);
 
                 $thumbnailGenerator = $this->getThumbnailGenerator();
                 $thumbnailGenerator

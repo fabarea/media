@@ -23,7 +23,7 @@ class UploadManager
     const UPLOAD_FOLDER = 'typo3temp/pics';
 
     /**
-     * @var int|NULL|string
+     * @var int|null|string
      */
     protected $sizeLimit;
 
@@ -53,7 +53,7 @@ class UploadManager
      * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
      * @return UploadManager
      */
-    function __construct($storage = NULL)
+    function __construct($storage = null)
     {
 
         $this->initializeUploadFolder();
@@ -75,7 +75,7 @@ class UploadManager
     {
 
         /** @var $uploadedFile UploadedFileInterface */
-        $uploadedFile = FALSE;
+        $uploadedFile = false;
         if ($this->formUtility->isMultiparted()) {
 
             // Default case
@@ -207,7 +207,7 @@ class UploadManager
      *
      * @see \TYPO3\CMS\Core\Resource\ResourceStorage->checkFileExtensionPermission($fileName);
      * @param string $fileName Full filename
-     * @return boolean TRUE if extension/filename is allowed
+     * @return boolean true if extension/filename is allowed
      */
     public function checkFileExtensionPermission($fileName)
     {
@@ -220,27 +220,27 @@ class UploadManager
             $fileExtensionPermissions['deny'] = GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['deny']));
             $fileExtension = strtolower($fileInfo['fileext']);
             if ($fileExtension !== '') {
-                // If the extension is found amongst the allowed types, we return TRUE immediately
+                // If the extension is found amongst the allowed types, we return true immediately
                 if ($fileExtensionPermissions['allow'] === '*' || GeneralUtility::inList($fileExtensionPermissions['allow'], $fileExtension)) {
-                    return TRUE;
+                    return true;
                 }
-                // If the extension is found amongst the denied types, we return FALSE immediately
+                // If the extension is found amongst the denied types, we return false immediately
                 if ($fileExtensionPermissions['deny'] === '*' || GeneralUtility::inList($fileExtensionPermissions['deny'], $fileExtension)) {
-                    return FALSE;
+                    return false;
                 }
-                // If no match we return TRUE
-                return TRUE;
+                // If no match we return true
+                return true;
             } else {
                 if ($fileExtensionPermissions['allow'] === '*') {
-                    return TRUE;
+                    return true;
                 }
                 if ($fileExtensionPermissions['deny'] === '*') {
-                    return FALSE;
+                    return false;
                 }
-                return TRUE;
+                return true;
             }
         }
-        return FALSE;
+        return false;
     }
 
     /**
@@ -253,7 +253,7 @@ class UploadManager
      * @param string $extra
      * @return string
      */
-    public function sanitizeFileName($fileName, $slug = '-', $extra = NULL)
+    public function sanitizeFileName($fileName, $slug = '-', $extra = null)
     {
         return trim(preg_replace('~[^0-9a-z_' . preg_quote($extra, '~') . ']+~i', $slug, $this->unAccent($fileName)), $slug);
     }
@@ -307,7 +307,7 @@ class UploadManager
     }
 
     /**
-     * @return int|NULL|string
+     * @return int|null|string
      */
     public function getSizeLimit()
     {
@@ -315,7 +315,7 @@ class UploadManager
     }
 
     /**
-     * @param int|NULL|string $sizeLimit
+     * @param int|null|string $sizeLimit
      * @return $this
      */
     public function setSizeLimit($sizeLimit)

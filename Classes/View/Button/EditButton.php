@@ -27,7 +27,7 @@ class EditButton extends AbstractComponentView
      * @param Content $object
      * @return string
      */
-    public function render(Content $object = NULL)
+    public function render(Content $object = null)
     {
         $file = $this->getFileConverter()->convert($object);
         $metadataProperties = $file->_getMetaData();
@@ -74,7 +74,7 @@ class EditButton extends AbstractComponentView
     protected function getAdditionalParameters()
     {
 
-        $additionalParameters = array();
+        $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
             $additionalParameters = array(
                 'id' => urldecode(GeneralUtility::_GP('id')),

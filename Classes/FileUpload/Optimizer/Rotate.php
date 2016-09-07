@@ -52,7 +52,7 @@ class Rotate implements ImageOptimizerInterface
                 $imParams .= ' ' . $transformation;
             }
 
-            $tempFileInfo = $this->gifCreator->imageMagickConvert($uploadedFile->getFileWithAbsolutePath(), '', '', '', $imParams, '', array(), TRUE);
+            $tempFileInfo = $this->gifCreator->imageMagickConvert($uploadedFile->getFileWithAbsolutePath(), '', '', '', $imParams, '', [], true);
             if ($tempFileInfo) {
                 // Replace original file
                 @unlink($uploadedFile->getFileWithAbsolutePath());
@@ -86,7 +86,7 @@ class Rotate implements ImageOptimizerInterface
     }
 
     /**
-     * Returns TRUE if the given picture is rotated.
+     * Returns true if the given picture is rotated.
      *
      * @param integer $orientation EXIF orientation
      * @return integer
@@ -94,7 +94,7 @@ class Rotate implements ImageOptimizerInterface
      */
     protected function isRotated($orientation)
     {
-        $ret = FALSE;
+        $ret = false;
         switch ($orientation) {
             case 2: // horizontal flip
             case 3: // 180°
@@ -103,7 +103,7 @@ class Rotate implements ImageOptimizerInterface
             case 6: // 90° rotate right
             case 7: // horizontal flip + 90 rotate right
             case 8: // 90° rotate left
-                $ret = TRUE;
+                $ret = true;
                 break;
         }
         return $ret;

@@ -54,7 +54,7 @@ class DownloadButton extends AbstractComponentView
             MediaModule::getParameterPrefix() => [
                 'controller' => 'Asset',
                 'action' => 'download',
-                'forceDownload' => TRUE,
+                'forceDownload' => true,
                 'file' => $object->getUid(),
             ],
         ];

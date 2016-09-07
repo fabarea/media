@@ -52,7 +52,7 @@ class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
         if (preg_match('/^data:image\/(jpg|jpeg|png)/i', $encodedImage, $matches)) {
             $this->extension = $matches[1];
         } else {
-            return FALSE;
+            return false;
         }
 
         // Remove the mime-type header
@@ -62,7 +62,7 @@ class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
         $this->image = base64_decode($data, true);
 
         if (!$this->image) {
-            return FALSE;
+            return false;
         }
 
         $this->setName(uniqid() . '.' . $this->extension);
@@ -72,7 +72,7 @@ class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
      * Save the file to the specified path
      *
      * @throws \Fab\Media\Exception\EmptyPropertyException
-     * @return boolean TRUE on success
+     * @return boolean true on success
      */
     public function save()
     {
@@ -116,7 +116,7 @@ class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
     /**
      * Get MIME type of file.
      *
-     * @return string|boolean MIME type. eg, text/html, FALSE on error
+     * @return string|boolean MIME type. eg, text/html, false on error
      */
     public function getMimeType()
     {
@@ -127,6 +127,6 @@ class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
         } elseif (function_exists('mime_content_type')) {
             return mime_content_type($this->getFileWithAbsolutePath());
         }
-        return FALSE;
+        return false;
     }
 }

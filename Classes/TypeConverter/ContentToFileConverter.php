@@ -34,13 +34,13 @@ class ContentToFileConverter implements SingletonInterface
             $fileData = $fileRepresentation->toArray();
             $fileData['modification_date'] = $fileData['tstamp'];
 
-            if (!isset($fileData['storage']) && $fileData['storage'] === NULL) {
+            if (!isset($fileData['storage']) && $fileData['storage'] === null) {
                 throw new \RuntimeException('Storage identifier can not be null.', 1379946981);
             }
 
             $fileUid = $fileData['uid'];
         } else {
-            $fileData = array();
+            $fileData = [];
             $fileUid = (int)$fileRepresentation;
         }
         return ResourceFactory::getInstance()->getFileObject($fileUid, $fileData);

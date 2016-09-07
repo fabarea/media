@@ -23,14 +23,14 @@ class DataHandlerHook
      *
      * @var array
      */
-    protected $beforeDataHandlerProcessFileIdentifiers = array();
+    protected $beforeDataHandlerProcessFileIdentifiers = [];
 
     /**
      * Store indexed file after the Data Handler has done its job.
      *
      * @var array
      */
-    protected $afterDataHandlerProcessFileIdentifiers = array();
+    protected $afterDataHandlerProcessFileIdentifiers = [];
 
     /**
      * Internal key for the Cache Manager.
@@ -69,7 +69,7 @@ class DataHandlerHook
 
             // Make sure $index is an array.
             if (!is_array($indexes)) {
-                $indexes = array();
+                $indexes = [];
             }
 
             $fileIdentifiers = $this->lookForFiles($indexes);
@@ -102,7 +102,7 @@ class DataHandlerHook
 
             // Make sure $index is an array.
             if (!is_array($indexes)) {
-                $indexes = array();
+                $indexes = [];
             }
 
             $fileIdentifiers = $this->lookForFiles($indexes);
@@ -129,7 +129,7 @@ class DataHandlerHook
 
         $items = $this->getMemoryCache()->get($this->registerKey);
         if (!is_array($items)) {
-            $this->getMemoryCache()->set($this->registerKey, array());
+            $this->getMemoryCache()->set($this->registerKey, []);
         }
     }
 
@@ -138,7 +138,7 @@ class DataHandlerHook
      */
     protected function registerFilesToKeepTrack()
     {
-        $fileIdentifiers = array();
+        $fileIdentifiers = [];
         $elementsToBeDeleted = $this->getMemoryCache()->get('core-t3lib_TCEmain-elementsToBeDeleted');
         if (is_array($elementsToBeDeleted)) {
             foreach ($elementsToBeDeleted as $tableName => $element) {
@@ -146,7 +146,7 @@ class DataHandlerHook
                 if ($tableName === 'sys_file_reference') {
 
                     $fileReferenceIdentifier = key($element);
-                    if ($element[$fileReferenceIdentifier] === TRUE) {
+                    if ($element[$fileReferenceIdentifier] === true) {
                         $fileIdentifier = $this->findFileByFileReference($fileReferenceIdentifier);
                         $fileIdentifiers[] = $fileIdentifier;
                     }
@@ -211,7 +211,7 @@ class DataHandlerHook
     protected function lookForFiles(array $indexes)
     {
 
-        $fileIdentifiers = array();
+        $fileIdentifiers = [];
         if (isset($indexes['relations'])) {
 
             foreach ($indexes['relations'] as $index) {

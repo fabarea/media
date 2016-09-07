@@ -24,7 +24,7 @@ class ReportToViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $reportTo = 'NULL (Missing value in $GLOBALS[TYPO3_CONF_VARS][MAIL][defaultMailFromAddress])';
+        $reportTo = 'null (Missing value in $GLOBALS[TYPO3_CONF_VARS][MAIL][defaultMailFromAddress])';
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
             $reportTo = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'];
         }

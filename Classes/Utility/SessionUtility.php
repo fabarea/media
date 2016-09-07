@@ -36,7 +36,7 @@ class SessionUtility implements \TYPO3\CMS\Core\SingletonInterface
 
         // Initialize storage from the current
         if (!is_array($this->getBackendUser()->uc['moduleData'][$this->moduleKey])) {
-            $this->getBackendUser()->uc['moduleData'][$this->moduleKey] = array();
+            $this->getBackendUser()->uc['moduleData'][$this->moduleKey] = [];
             $this->getBackendUser()->writeUC();
         }
     }

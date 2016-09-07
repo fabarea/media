@@ -123,7 +123,7 @@ EOF;
             $thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $this->file);
             $thumbnail = $thumbnailService
                 ->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
-                ->setAppendTimeStamp(TRUE)
+                ->setAppendTimeStamp(true)
                 ->create();
         }
         return $thumbnail;

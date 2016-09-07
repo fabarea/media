@@ -66,7 +66,7 @@ class FilePermissionsAspect
                 if ($this->getModuleLoader()->hasPlugin() && !$this->getCurrentBackendUser()->isAdmin()) {
 
                     $fileMounts = $this->getCurrentBackendUser()->getFileMountRecords();
-                    $collectedFiles = array();
+                    $collectedFiles = [];
                     foreach ($fileMounts as $fileMount) {
 
                         $combinedIdentifier = $fileMount['base'] . ':' . $fileMount['path'];
@@ -90,16 +90,16 @@ class FilePermissionsAspect
     protected function isPermissionNecessary()
     {
 
-        $isNecessary = TRUE;
+        $isNecessary = true;
 
         $parameters = GeneralUtility::_GET(VidiModule::getParameterPrefix());
 
         if ($parameters['controller'] === 'Clipboard' && ($parameters['action'] === 'show' || $parameters['action'] === 'flush')) {
-            $isNecessary = FALSE;
+            $isNecessary = false;
         }
 
         if ($parameters['controller'] === 'Content' && ($parameters['action'] === 'copyClipboard' || $parameters['action'] === 'moveClipboard')) {
-            $isNecessary = FALSE;
+            $isNecessary = false;
         }
 
         return $isNecessary;
@@ -119,7 +119,7 @@ class FilePermissionsAspect
      */
     protected function getFileUids(Folder $folder)
     {
-        $files = array();
+        $files = [];
         foreach ($folder->getFiles() as $file) {
             $files[] = $file->getUid();
         }
@@ -130,7 +130,7 @@ class FilePermissionsAspect
      * Post-process the constraints object to respect the file mounts.
      *
      * @param Query $query
-     * @param ConstraintInterface|NULL $constraints
+     * @param ConstraintInterface|null $constraints
      * @return void
      */
     public function addFilePermissionsForFileMounts(Query $query, $constraints)
@@ -144,7 +144,7 @@ class FilePermissionsAspect
 
     /**
      * @param Query $query
-     * @param ConstraintInterface|NULL $constraints
+     * @param ConstraintInterface|null $constraints
      * @return array
      */
     protected function respectFileMounts(Query $query, $constraints)
@@ -170,7 +170,7 @@ class FilePermissionsAspect
             $clause
         );
 
-        $constraintsRespectingFileMounts = array();
+        $constraintsRespectingFileMounts = [];
         foreach ($fileMountRecords as $fileMountRecord) {
             if ($fileMountRecord['path']) {
                 $constraintsRespectingFileMounts[] = $query->like(

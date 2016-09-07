@@ -144,7 +144,7 @@ class UsageRenderer extends ColumnRendererAbstract
     protected function getModuleUrl()
     {
 
-        $additionalParameters = array();
+        $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
             $additionalParameters = array(
                 'id' => urldecode(GeneralUtility::_GP('id')),

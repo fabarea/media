@@ -44,7 +44,7 @@ class FileConverter extends AbstractTypeConverter
      * @return File
      * @api
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
 
         /** @var $file File */

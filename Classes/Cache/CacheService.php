@@ -72,7 +72,7 @@ class CacheService
         /** @var $processedFile \TYPO3\CMS\Core\Resource\ProcessedFile */
         foreach ($this->getProcessedFileRepository()->findAllByOriginalFile($file) as $processedFile) {
             if ($processedFile->exists()) {
-                $processedFile->delete(TRUE);
+                $processedFile->delete(true);
             }
             $this->getDatabaseConnection()->exec_DELETEquery('sys_file_processedfile', 'uid=' . (int)$processedFile->getUid());
         }
@@ -99,7 +99,7 @@ class CacheService
 
         /** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-        $tce->start(array(), array());
+        $tce->start([], []);
 
         #$pages = array_merge(
         #    $this->findPagesWithFileReferences($file),
@@ -131,7 +131,7 @@ class CacheService
         );
 
         // Compute result
-        $pages = array();
+        $pages = [];
         while ($affectedPage = $this->getDatabaseConnection()->sql_fetch_assoc($rows)) {
             $pages[] = $affectedPage['pid'];
         }
@@ -166,7 +166,7 @@ class CacheService
         );
 
         // Compute result
-        $pages = array();
+        $pages = [];
         while ($affectedPage = $this->getDatabaseConnection()->sql_fetch_assoc($rows)) {
             $pages[] = $affectedPage['pid'];
         }

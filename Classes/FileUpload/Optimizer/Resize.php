@@ -32,7 +32,7 @@ class Resize implements ImageOptimizerInterface
      * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
      * @return Resize
      */
-    public function __construct($storage = NULL)
+    public function __construct($storage = null)
     {
         $this->storage = $storage;
         $this->gifCreator = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
@@ -95,7 +95,7 @@ class Resize implements ImageOptimizerInterface
             'maxH' => $height,
         );
 
-        $tempFileInfo = $this->gifCreator->imageMagickConvert($fileNameAndPath, '', '', '', $imParams, '', $options, TRUE);
+        $tempFileInfo = $this->gifCreator->imageMagickConvert($fileNameAndPath, '', '', '', $imParams, '', $options, true);
         if ($tempFileInfo) {
 
             // Overwrite original file

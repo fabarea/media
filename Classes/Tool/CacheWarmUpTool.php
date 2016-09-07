@@ -45,7 +45,7 @@ class CacheWarmUpTool extends AbstractTool
      * @param array $arguments
      * @return string
      */
-    public function work(array $arguments = array())
+    public function work(array $arguments = [])
     {
 
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/CacheWarmUp/WorkResult.html';

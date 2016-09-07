@@ -26,14 +26,14 @@ class StorageViewHelper extends AbstractViewHelper
      * @param array $objects
      * @return string
      */
-    public function render($objects = array())
+    public function render($objects = [])
     {
 
         // Check if a storages is selected
         $currentStorage = $this->getMediaModule()->getCurrentStorage();
 
         $template = '<select name="%s[target]">%s</select>';
-        $options = array();
+        $options = [];
         foreach ($objects as $storage) {
 
             /** @var \TYPO3\CMS\Core\Resource\ResourceStorage $storage */

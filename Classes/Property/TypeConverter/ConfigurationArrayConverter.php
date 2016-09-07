@@ -55,11 +55,11 @@ class ConfigurationArrayConverter extends ArrayConverter
      * @return array
      * @api
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
         if (is_string($source)) {
             if ($source === '') {
-                $target = array();
+                $target = [];
             } else {
                 $target = $this->parseConfigurationOptions($source);
             }
@@ -81,8 +81,8 @@ class ConfigurationArrayConverter extends ArrayConverter
      */
     protected function parseConfigurationOptions($rawConfigurationOptions)
     {
-        $configurationOptions = array();
-        $parsedConfigurationOptions = array();
+        $configurationOptions = [];
+        $parsedConfigurationOptions = [];
         preg_match_all(self::PATTERN_MATCH_CONFIGURATIONOPTIONS, $rawConfigurationOptions, $configurationOptions, PREG_SET_ORDER);
         foreach ($configurationOptions as $configurationOption) {
             $parsedConfigurationOptions[trim($configurationOption['optionName'])] = trim($configurationOption['optionValue']);

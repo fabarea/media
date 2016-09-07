@@ -21,12 +21,12 @@ class DuplicateFilesCommandController extends CommandController
     /**
      * @var array
      */
-    protected $message = array();
+    protected $message = [];
 
     /**
      * @var array
      */
-    protected $duplicateFiles = array();
+    protected $duplicateFiles = [];
 
     /**
      * @var \TYPO3\CMS\Core\Mail\MailMessage
@@ -44,7 +44,7 @@ class DuplicateFilesCommandController extends CommandController
         foreach ($this->getStorageRepository()->findAll() as $storage) {
 
             // For the CLI cause.
-            $storage->setEvaluatePermissions(FALSE);
+            $storage->setEvaluatePermissions(false);
 
             $this->printOut();
             $this->printOut(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
@@ -66,7 +66,7 @@ class DuplicateFilesCommandController extends CommandController
                     foreach ($duplicateFiles as $identifier => $duplicate) {
 
                         // build temporary array
-                        $uids = array();
+                        $uids = [];
                         foreach ($duplicate as $value) {
                             $uids[] = $value['uid'];
                         }
@@ -147,7 +147,7 @@ class DuplicateFilesCommandController extends CommandController
     protected function getTo()
     {
 
-        $to = array();
+        $to = [];
 
         // @todo make me more flexible!
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {
@@ -165,7 +165,7 @@ class DuplicateFilesCommandController extends CommandController
     protected function getFrom()
     {
 
-        $from = array();
+        $from = [];
 
         // @todo make me more flexible!
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'])) {

@@ -27,7 +27,7 @@ class NewFolder extends AbstractComponentView
      * @param Content $object
      * @return string
      */
-    public function render(Content $object = NULL)
+    public function render(Content $object = null)
     {
         $output = '';
         if ($this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
@@ -48,7 +48,7 @@ class NewFolder extends AbstractComponentView
      */
     protected function getLabel()
     {
-        $label = $this->getLanguageService()->sL('LLL:EXT:lang/locallang_core.xlf:cm.new', TRUE);
+        $label = $this->getLanguageService()->sL('LLL:EXT:lang/locallang_core.xlf:cm.new', true);
         return $this->getLanguageService()->makeEntities($label);
     }
 
@@ -94,7 +94,7 @@ class NewFolder extends AbstractComponentView
     protected function getAdditionalParameters()
     {
 
-        $additionalParameters = array();
+        $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
             $additionalParameters = array(
                 'id' => urldecode(GeneralUtility::_GP('id')),

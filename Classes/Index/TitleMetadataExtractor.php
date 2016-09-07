@@ -28,7 +28,7 @@ class TitleMetadataExtractor implements ExtractorInterface
      */
     public function getFileTypeRestrictions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -43,7 +43,7 @@ class TitleMetadataExtractor implements ExtractorInterface
      */
     public function getDriverRestrictions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -78,7 +78,7 @@ class TitleMetadataExtractor implements ExtractorInterface
      */
     public function canProcess(File $file)
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -89,9 +89,9 @@ class TitleMetadataExtractor implements ExtractorInterface
      * @param array $previousExtractedData optional, contains the array of already extracted data
      * @return array
      */
-    public function extractMetaData(File $file, array $previousExtractedData = array())
+    public function extractMetaData(File $file, array $previousExtractedData = [])
     {
-        $metadata = array();
+        $metadata = [];
         $title = $file->getProperty('title');
         if (empty($title)) {
             $metadata = array('title' => $this->guessTitle($file->getName()));

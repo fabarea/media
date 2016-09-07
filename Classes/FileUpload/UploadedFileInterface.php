@@ -17,7 +17,7 @@ interface UploadedFileInterface
     /**
      * Save the file to the specified path.
      *
-     * @return boolean TRUE on success
+     * @return boolean true on success
      */
     public function save();
 

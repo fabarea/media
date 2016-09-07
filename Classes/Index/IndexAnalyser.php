@@ -32,7 +32,7 @@ class IndexAnalyser implements SingletonInterface
         $query = $this->getDatabaseConnection()->SELECTquery('*', 'sys_file', 'storage = ' . $storage->getUid());
         $resource = $this->getDatabaseConnection()->sql_query($query);
 
-        $missingFiles = array();
+        $missingFiles = [];
         while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
 
             // This task is very memory consuming on large data set e.g > 20'000 records.
@@ -57,7 +57,7 @@ class IndexAnalyser implements SingletonInterface
         /** @var FileReferenceService $fileReferenceService */
         $fileReferenceService = GeneralUtility::makeInstance(FileReferenceService::class);
         $missingFiles = $this->searchForMissingFiles($storage);
-        $deletedFiles = array();
+        $deletedFiles = [];
 
         /** @var \TYPO3\CMS\Core\Resource\File $missingFile */
         foreach ($missingFiles as $missingFile) {
@@ -89,7 +89,7 @@ class IndexAnalyser implements SingletonInterface
         // Detect duplicate records.
         $query = "SELECT identifier FROM sys_file WHERE storage = {$storage->getUid()} GROUP BY identifier, storage Having COUNT(*) > 1";
         $resource = $this->getDatabaseConnection()->sql_query($query);
-        $duplicates = array();
+        $duplicates = [];
         while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
             $clause = sprintf('identifier = "%s" AND storage = %s', $row['identifier'], $storage->getUid());
             $records = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file', $clause);
@@ -110,7 +110,7 @@ class IndexAnalyser implements SingletonInterface
         // Detect duplicate records.
         $query = "SELECT sha1 FROM sys_file WHERE storage = {$storage->getUid()} GROUP BY sha1, storage Having COUNT(*) > 1";
         $resource = $this->getDatabaseConnection()->sql_query($query);
-        $duplicates = array();
+        $duplicates = [];
         while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
             $clause = sprintf('sha1 = "%s" AND storage = %s', $row['sha1'], $storage->getUid());
             $records = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file', $clause);

@@ -31,15 +31,15 @@ class PreviewRenderer extends ColumnRendererAbstract
 
         $file = $this->getFileConverter()->convert($this->object);
 
-        $uri = FALSE;
-        $appendTime = TRUE;
+        $uri = false;
+        $appendTime = true;
 
         // Compute image-editor or link-creator URL.
         if ($this->getModuleLoader()->hasPlugin('imageEditor')) {
-            $appendTime = FALSE;
+            $appendTime = false;
             $uri = $this->getPluginUri('ImageEditor');
         } elseif ($this->getModuleLoader()->hasPlugin('linkCreator')) {
-            $appendTime = FALSE;
+            $appendTime = false;
             $uri = $this->getPluginUri('LinkCreator');
         }
 
@@ -48,7 +48,7 @@ class PreviewRenderer extends ColumnRendererAbstract
             ->setAppendTimeStamp($appendTime)
             ->setTarget(ThumbnailInterface::TARGET_BLANK)
             ->setAnchorUri($uri)
-            ->setAttributes(array())
+            ->setAttributes([])
             ->create();
 
         // Add file info

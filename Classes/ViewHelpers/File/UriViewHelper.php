@@ -26,7 +26,7 @@ class UriViewHelper extends AbstractViewHelper
      * @param bool $relative
      * @return string
      */
-    public function render($file, $relative = FALSE)
+    public function render($file, $relative = false)
     {
         if (!$file instanceof File) {
             $file = $this->getFileConverter()->convert($file);

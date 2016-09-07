@@ -27,7 +27,7 @@ class DeleteButton extends AbstractComponentView
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function render(Content $object = NULL)
+    public function render(Content $object = null)
     {
 
         $button = '';

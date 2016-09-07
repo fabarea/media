@@ -74,7 +74,7 @@ class AssetController extends ActionController
      * @return bool|string
      * @throws \RuntimeException
      */
-    public function downloadAction(File $file, $forceDownload = FALSE)
+    public function downloadAction(File $file, $forceDownload = false)
     {
 
         if ($file->exists() && $file->getStorage()->isWithinFileMountBoundaries($file->getParentFolder())) {
@@ -82,10 +82,10 @@ class AssetController extends ActionController
             // Emit signal before downloading the file.
             $this->emitBeforeDownloadSignal($file);
 
-            // Read the file and dump it with the flag "forceDownload" set to TRUE or FALSE.
+            // Read the file and dump it with the flag "forceDownload" set to true or false.
             $file->getStorage()->dumpFileContents($file, $forceDownload);
 
-            $result = TRUE;
+            $result = true;
         } else {
             $result = 'Access denied!';
         }
@@ -127,7 +127,7 @@ class AssetController extends ActionController
                 ->applyDefaultCategories($file);
 
             $response = array(
-                'success' => TRUE,
+                'success' => true,
                 'uid' => $file->getUid(),
                 'name' => $file->getName(),
                 'thumbnail' => $this->getThumbnailService($file)->create(),
@@ -184,7 +184,7 @@ class AssetController extends ActionController
             $this->getCacheService()->clearCache($file);
 
             $response = array(
-                'success' => TRUE,
+                'success' => true,
                 'uid' => $file->getUid(),
                 'name' => $file->getName(),
                 'thumbnail' => $this->getThumbnailService($file)->create(),
@@ -217,7 +217,7 @@ class AssetController extends ActionController
      * @param array $matches
      * @throws \Exception
      */
-    public function editStorageAction(array $matches = array())
+    public function editStorageAction(array $matches = [])
     {
 
         $this->view->assign('storages', $this->getMediaModule()->getAllowedStorages());
@@ -283,7 +283,7 @@ class AssetController extends ActionController
 
         /** @var $thumbnailService ThumbnailService */
         $thumbnailService = GeneralUtility::makeInstance(ThumbnailService::class, $file);
-        $thumbnailService->setAppendTimeStamp(TRUE)
+        $thumbnailService->setAppendTimeStamp(true)
             ->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED);
         return $thumbnailService;
     }
