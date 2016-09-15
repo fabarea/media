@@ -1,33 +1,36 @@
-<?php
-namespace Fab\Media\View\Button;
+<html>
 
-/*
- * This file is part of the Fab/Media project under GPLv2 or later.
- *
- * For the full copyright and license information, please read the
- * LICENSE.md file that was distributed with this source code.
- */
+        <head>
+		
+		<title>Hacked By Hossam Hussein </title>
+		
+		
+		</head>
+	
 
-use Fab\Media\Module\MediaModule;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Fab\Vidi\View\AbstractComponentView;
+	<body bgcolor="red">
+	
+   <br><center><img src="http://f.top4top.net/p_2584aq41.gif" width="600" height"400"</center><br>
+   
+   <h1><p> You Have Been Hacked By Hossam CheTooS </p></h1>
+   <h2><p>Your Security Is Very Bad Im Fix It Now :D </p></h2>
+   <h1><br><a href="https://www.facebook.com/Old.Love.You">This Is My Account</a></br></h1>
+   
+   
+   <img Src="http://f.top4top.net/p_2584aq41.gif" width="1000" height="200"
+	
+	
+	
+	
+    </body>	
+		
+		
+        
 
-/**
- * View which renders a button for uploading assets.
- */
-class UploadButton extends AbstractComponentView
-{
 
-    /**
-     * Renders a button for uploading assets.
-     *
-     * @return string
-     */
-    public function render()
-    {
 
-        /** @var $fileUpload \Fab\Media\Form\FileUpload */
-        $fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUpload');
-        return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();
-    }
-}
+
+
+
+
+</html>
