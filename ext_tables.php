@@ -143,7 +143,7 @@ if (TYPO3_MODE === 'BE') {
 
     // Connect some signals with slots.
     $signalSlotDispatcher->connect(
-        'Fab\Vidi\Controller\Backend\ContentController',
+        \Fab\Vidi\Controller\Backend\ContentController::class,
         'postProcessMatcherObject',
         \Fab\Media\Security\FilePermissionsAspect::class,
         'addFilePermissionsForFileStorages'
