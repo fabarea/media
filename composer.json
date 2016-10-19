@@ -13,6 +13,9 @@
 	"support": {
 		"issues": "https://github.com/fabarea/media/issues"
 	},
+	"require": {
+		"fab/vidi": ">=2.3.0"
+	},
 	"autoload": {
 		"psr-4": {
 			"Fab\\Media\\": "Classes/"
