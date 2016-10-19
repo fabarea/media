@@ -315,8 +315,9 @@ The module can be accessed by clicking on the top right icon
 of the main module. Notice, the same actions can also be performed by CLI and will send
 a email as report if anything is wrong.::
 
-	./typo3/cli_dispatch.phpsh extbase fileIndex:analyse
-
+	./typo3/cli_dispatch.phpsh extbase missingFiles:analyse
+	./typo3/cli_dispatch.phpsh extbase duplicateFiles:analyse
+	./typo3/cli_dispatch.phpsh extbase duplicateRecords:analyse
 
 Tip! Configure a Scheduler Task (under Extbase task) for regularly checking the index and detecting problem early enough.
 
