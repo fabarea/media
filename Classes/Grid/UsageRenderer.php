@@ -100,15 +100,34 @@ class UsageRenderer extends ColumnRendererAbstract
                 ->setIcon($this->getIconFactory()->getIcon('actions-document-open', Icon::SIZE_SMALL))
                 ->render();
 
+            $tableName = $reference[$mapping['tableName']];
+            $identifier = (int)$reference[$mapping['referenceIdentifier']];
+
             $result .= sprintf(
                 '<li title="">%s %s</li>',
                 $button,
-                $this->getRecordTitle($reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]),
-                Tca::table($reference[$mapping['tableName']])->getTitle()
+                $this->computeTitle($tableName, $identifier)
             );
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $tableName
+     * @param int $identifier
+     * @return string
+     */
+    protected function computeTitle($tableName, $identifier)
+    {
+        $title = '';
+        if (!empty($GLOBALS['TCA'][$tableName])) {
+            $title = $this->getRecordTitle($tableName, $identifier);
+            if (!$title) {
+                $title = Tca::table($tableName)->getTitle();
+            }
+        }
+        return $title;
     }
 
     /**
@@ -169,13 +188,17 @@ class UsageRenderer extends ColumnRendererAbstract
             $labelField = Tca::table($tableName)->getLabelField();
 
             // Get the title of the record.
+
+            /** @var array $record */
             $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
                 $labelField,
                 $tableName,
                 'uid = ' . $identifier
             );
 
-            $result = $record[$labelField];
+            if (!empty($record[$labelField])) {
+                $result = $record[$labelField];
+            }
         }
 
         return $result;
