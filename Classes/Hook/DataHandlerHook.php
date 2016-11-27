@@ -9,6 +9,7 @@ namespace Fab\Media\Hook;
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -111,13 +112,18 @@ class DataHandlerHook
 
         // After collecting files, update the column "number_of_references".
         foreach ($this->getFileToProcess() as $fileIdentifier) {
-            $file = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
-            $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
+            try {
+                $file = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
+                $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
 
-            $values = array(
-                'number_of_references' => $numberOfReferences
-            );
-            $this->getDatabaseConnection()->exec_UPDATEquery('sys_file', 'uid = ' . $file->getUid(), $values);
+                $values = array(
+                    'number_of_references' => $numberOfReferences
+                );
+                $this->getDatabaseConnection()->exec_UPDATEquery('sys_file', 'uid = ' . $file->getUid(), $values);
+            } catch (FileDoesNotExistException $fileDoesNotExistException) {
+                // Do nothing here. A file that does not exist needs no update.
+                // See https://github.com/fabarea/media/issues/159 for more information.
+            }
         }
     }
 
