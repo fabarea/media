@@ -16,6 +16,7 @@ use Fab\Media\TypeConverter\FileConverter;
 use Fab\Media\ViewHelpers\MetadataViewHelper;
 use Fab\Vidi\Service\ContentService;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
 use TYPO3\CMS\Core\Resource\Exception\IllegalFileExtensionException;
 use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException;
@@ -117,7 +118,7 @@ class AssetController extends ActionController
         }
 
         try {
-            $conflictMode = 'changeName';
+            $conflictMode = DuplicationBehavior::RENAME;
             $fileName = $uploadedFile->getName();
             $file = $targetFolder->addFile($uploadedFile->getFileWithAbsolutePath(), $fileName, $conflictMode);
 
