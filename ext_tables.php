@@ -179,13 +179,21 @@ if (TYPO3_MODE === 'BE') {
     }
 }
 
-
-\TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
-    [
-        'image-edit' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/image_edit.png',
-        'image-link' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/image_link.png',
-        'image-export' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/image_export.png',
-        'storage-change' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Icons/folder_go.png',
-    ],
-    'media'
-);
+// Add new sprite icon.
+$icons = [
+    'image-edit' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/image_edit.png',
+    'image-link' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/image_link.png',
+    'image-export' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/image_export.png',
+    'storage-change' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/folder_go.png',
+];
+/** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+foreach ($icons as $key => $icon) {
+    $iconRegistry->registerIcon('extensions-' . $_EXTKEY . '-' . $key,
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        [
+            'source' => $icon
+        ]
+    );
+}
+unset($iconRegistry);
