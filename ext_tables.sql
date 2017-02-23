@@ -7,7 +7,6 @@ CREATE TABLE sys_file_storage (
 	mount_point_file_type_3 int(11) unsigned DEFAULT '0' NOT NULL,
 	mount_point_file_type_4 int(11) unsigned DEFAULT '0' NOT NULL,
 	mount_point_file_type_5 int(11) unsigned DEFAULT '0' NOT NULL,
-	mount_point_file_type_5 int(11) unsigned DEFAULT '0' NOT NULL,
 
 	maximum_dimension_original_image varchar(24) DEFAULT '' NOT NULL,
 
