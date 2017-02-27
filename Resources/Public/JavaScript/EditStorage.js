@@ -32,17 +32,17 @@ define([
 		var url = EditStorage.getEditStorageUrl(this.href);
 
 		Vidi.modal = Modal.loadUrl(
-			TYPO3.l10n.localize('action.move'),
+			TYPO3.lang['action.move'],
 			top.TYPO3.Severity.info,
 			[
 				{
-					text: TYPO3.l10n.localize('cancel'),
+					text: TYPO3.lang['cancel'],
 					btnClass: 'btn btn-default',
 					trigger: function() {
 						Modal.dismiss();
 					}
 				}, {
-					text: TYPO3.l10n.localize('action.move'),
+					text: TYPO3.lang['action.move'],
 					btnClass: 'btn btn-default btn-change-storage',
 					trigger: function() {
 						$('#form-change-storage', Vidi.modal).submit();
@@ -57,9 +57,9 @@ define([
 
 				var modalTitle = $('.modal-title', Vidi.modal).html() + ' - ' + numberOfObjects + ' ';
 				if (numberOfObjects > 1) {
-					modalTitle += TYPO3.l10n.localize('records');
+					modalTitle += TYPO3.lang['records'];
 				} else {
-					modalTitle += TYPO3.l10n.localize('record');
+					modalTitle += TYPO3.lang['record'];
 				}
 				$('.modal-title', Vidi.modal).html(modalTitle);
 

@@ -19,9 +19,10 @@
  * About Plugin for TYPO3 htmlArea RTE
  */
 define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
+	'TYPO3/CMS/Rtehtmlarea/HTMLArea/UserAgent/UserAgent',
 	'TYPO3/CMS/Rtehtmlarea/HTMLArea/DOM/DOM',
 	'TYPO3/CMS/Rtehtmlarea/HTMLArea/Util/Util'
-], function(Plugin, Dom, Util) {
+], function(Plugin, UserAgent, Dom, Util) {
 
 	var LinkCreator = function(editor, pluginName) {
 		this.constructor.super.call(this, editor, pluginName);
@@ -200,11 +201,11 @@ define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
 				}
 				// Update link href
 				// In IE, setting href may update the content of the element. We don't want this feature.
-				if (Ext.isIE) {
+				if (UserAgent.isIE) {
 					var content = node.innerHTML;
 				}
-				node.href = Ext.isGecko ? encodeURI(theLink) : theLink;
-				if (Ext.isIE) {
+				node.href = UserAgent.isGecko ? encodeURI(theLink) : theLink;
+				if (UserAgent.isIE) {
 					node.innerHTML = content;
 				}
 				// Update link attributes
@@ -225,7 +226,7 @@ define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
 					range = this.editor.getBookMark().moveTo(bookMark);
 					this.editor.getSelection().selectRange(range);
 				}
-				if (Ext.isGecko) {
+				if (UserAgent.isGecko) {
 					this.editor.getSelection().execCommand('CreateLink', false, encodeURI(theLink));
 				} else {
 					this.editor.getSelection().execCommand('CreateLink', false, theLink);
@@ -236,7 +237,7 @@ define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
 				range = this.editor.getSelection().createRange();
 				if (node) {
 					// Export trailing br that IE may include in the link
-					if (Ext.isIE) {
+					if (UserAgent.isIE) {
 						if (node.lastChild && /^br$/i.test(node.lastChild.nodeName)) {
 							Dom.removeFromParent(node.lastChild);
 							node.parentNode.insertBefore(this.editor.document.createElement('br'), node.nextSibling);
@@ -322,7 +323,7 @@ define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
 							node.insertBefore(imageNode.cloneNode(false), node.firstChild);
 						}
 					}
-					if (Ext.isGecko) {
+					if (UserAgent.isGecko) {
 						node.href = decodeURI(node.href);
 					}
 					if (cur_target.trim()) node.target = cur_target.trim();
@@ -330,7 +331,7 @@ define(['TYPO3/CMS/Rtehtmlarea/HTMLArea/Plugin/Plugin',
 					if (cur_class.trim()) {
 						node.className = cur_class.trim();
 					} else {
-						if (!Ext.isOpera) {
+						if (!UserAgent.isOpera) {
 							node.removeAttribute('class');
 							if (HTMLArea.isIEBeforeIE9) {
 								node.removeAttribute('className');

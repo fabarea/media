@@ -2,7 +2,9 @@
 	<f:translate key="tool.duplicate_file.launcher.title" extensionName="media"/>
 </p>
 
-<v:button.toolWork tool="Fab\Media\Tool\DuplicateFilesFinderTool" label="Find duplicate files"/>
+<f:format.raw>
+	<v:button.toolWork tool="Fab\Media\Tool\DuplicateFilesFinderTool" label="Find duplicate files"/>
+</f:format.raw>
 
 <f:if condition="!{isAdmin}">
 	<p><f:translate key="tool.duplicate_file.launcher.cli" extensionName="media"/>:</p>

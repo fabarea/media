@@ -25,7 +25,9 @@
 					<f:render partial="CloseButton"/>
 
 					<a href="#" class="btn btn-default btn-create-image" accesskey="s" title="{f:translate(key:'insert_image')}">
-						<v:sprite name="extensions-media-image-edit"/>
+						<f:format.raw>
+							<v:sprite name="extensions-media-image-edit"/>
+						</f:format.raw>
 					</a>
 
 				</div>
@@ -85,9 +87,11 @@
 
 						<div class="container-height"></div>
 						<div class="control-group">
-							<m:file.thumbnail file="{file}"
-							                  preset="image_medium"
-							                  attributes="{class: 'processed-file'}"/>
+							<f:format.raw>
+								<m:file.thumbnail file="{file}"
+								                  preset="image_medium"
+								                  attributes="{class: 'processed-file'}"/>
+							</f:format.raw>
 						</div>
 						<div class="container-width"></div>
 
@@ -107,7 +111,9 @@
 			<div class="footer">
 				<div class="container">
 					<p class="footer-container pull-right">
-						<m:form.footer/>
+						<f:format.raw>
+							<m:form.footer/>
+						</f:format.raw>
 					</p>
 				</div>
 			</div>

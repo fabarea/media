@@ -17,20 +17,20 @@
 				sizeLimit: '%s' // bytes
 			},
 			text: {
-				failUpload: TYPO3.l10n.localize('media_file_upload.uploadFailed'),
-				formatProgress: "{percent}%% " + TYPO3.l10n.localize('media_file_upload.formatProgressOf') + " {total_size}",
-				waitingForResponse: TYPO3.l10n.localize('media_file_upload.waitingForResponse')
+				failUpload: TYPO3.lang['media_file_upload.uploadFailed'],
+				formatProgress: "{percent}%% " + TYPO3.lang['media_file_upload.formatProgressOf'] +" {total_size}",
+				waitingForResponse: TYPO3.lang['media_file_upload.waitingForResponse']
 			},
 			messages: {
-				tooManyFilesError: TYPO3.l10n.localize('media_file_upload.tooManyFilesError'),
-				typeError: TYPO3.l10n.localize('media_file_upload.typeError'),
-				sizeError: TYPO3.l10n.localize('media_file_upload.sizeError'),
-				minSizeError: TYPO3.l10n.localize('media_file_upload.minSizeError'),
-				emptyError: TYPO3.l10n.localize('media_file_upload.emptyError'),
-				noFilesError: TYPO3.l10n.localize('media_file_upload.noFilesError'),
-				tooManyItemsError: TYPO3.l10n.localize('media_file_upload.tooManyItemsError'),
-				retryFailTooManyItems: TYPO3.l10n.localize('media_file_upload.retryFailTooManyItems'),
-				onLeave: TYPO3.l10n.localize('media_file_upload.onLeave')
+				tooManyFilesError: TYPO3.lang['media_file_upload.tooManyFilesError'],
+				typeError: TYPO3.lang['media_file_upload.typeError'],
+				sizeError: TYPO3.lang['media_file_upload.sizeError'],
+				minSizeError: TYPO3.lang['media_file_upload.minSizeError'],
+				emptyError: TYPO3.lang['media_file_upload.emptyError'],
+				noFilesError: TYPO3.lang['media_file_upload.noFilesError'],
+				tooManyItemsError: TYPO3.lang['media_file_upload.tooManyItemsError'],
+				retryFailTooManyItems: TYPO3.lang['media_file_upload.retryFailTooManyItems'],
+				onLeave: TYPO3.lang['media_file_upload.onLeave']
 			},
 			template: 'file-upload-template',
 			classes: {

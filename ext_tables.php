@@ -65,7 +65,7 @@ if (TYPO3_MODE === 'BE') {
         ],
         [
             'access' => 'user,group',
-            'icon' => 'EXT:media/ext_icon.gif',
+            'icon' => 'EXT:media/ext_icon.svg',
             'labels' => 'LLL:EXT:media/Resources/Private/Language/locallang_module.xlf',
         ]
     );
@@ -77,7 +77,7 @@ if (TYPO3_MODE === 'BE') {
         \Fab\Vidi\Module\ModuleLoader::class,
         'sys_file'
     );
-    $moduleLoader->setIcon('EXT:media/ext_icon.gif')
+    $moduleLoader->setIcon('EXT:media/ext_icon.svg')
         ->setModuleLanguageFile($moduleFileLanguage)
         ->setMainModule($defaultMainModule)
         ->addJavaScriptFiles([

@@ -9,6 +9,7 @@ namespace Fab\Media\DataHandler;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\DataHandler\AbstractDataHandler;
@@ -36,7 +37,7 @@ class FileDataHandler extends AbstractDataHandler
      * Process File with action "remove".
      *
      * @param Content $content
-     * @return bool
+     * @return bool|void
      */
     public function processRemove(Content $content)
     {
@@ -68,7 +69,7 @@ class FileDataHandler extends AbstractDataHandler
             $targetFolder = $this->getMediaModule()->getCurrentFolder();
 
             // Move file
-            $file->copyTo($targetFolder, $file->getName(), 'renameNewFile');
+            $file->copyTo($targetFolder, $file->getName(), DuplicationBehavior::RENAME);
         }
         return true;
     }
@@ -91,7 +92,7 @@ class FileDataHandler extends AbstractDataHandler
             if ($targetFolder->getIdentifier() !== $file->getParentFolder()->getIdentifier()) {
 
                 // Move file
-                $file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
+                $file->moveTo($targetFolder, $file->getName(), DuplicationBehavior::RENAME);
             }
         } else {
 
@@ -105,7 +106,7 @@ class FileDataHandler extends AbstractDataHandler
 
                 try {
                     // Move file
-                    $file->moveTo($targetFolder, $file->getName(), 'renameNewFile');
+                    $file->moveTo($targetFolder, $file->getName(), DuplicationBehavior::RENAME);
                 } catch (\Exception $e) {
                     $this->errorMessages = $e->getMessage();
                 }

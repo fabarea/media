@@ -23,7 +23,9 @@
 					<f:render partial="CloseButton"/>
 
 					<a href="#" class="btn btn-default btn-create-link" accesskey="s" title="{f:translate(key:'create_link')}">
-						<v:sprite name="apps-pagetree-page-shortcut-external-root"/>
+						<f:format.raw>
+							<v:sprite name="apps-pagetree-page-shortcut-external-root"/>
+						</f:format.raw>
 					</a>
 
 				</div>
@@ -41,7 +43,9 @@
 				        object="{file}" arguments="{format: 'json'}" id="form-action-linkCreator">
 
 					<div class="form-group">
-						<m:file.thumbnail file="{file}" output="imageWrapped"/>
+						<f:format.raw>
+							<m:file.thumbnail file="{file}" output="imageWrapped"/>
+						</f:format.raw>
 					</div>
 
 					<div class="form-group">
@@ -97,7 +101,9 @@
 			<div class="footer">
 				<div class="container">
 					<p class="footer-container pull-right">
-						<m:form.footer/>
+						<f:format.raw>
+							<m:form.footer/>
+						</f:format.raw>
 					</p>
 				</div>
 			</div>
