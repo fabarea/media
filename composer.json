@@ -13,9 +13,6 @@
 	"support": {
 		"issues": "https://github.com/fabarea/media/issues"
 	},
-	"require": {
-		"fab/vidi": "dev-compatibility8"
-	},
 	"autoload": {
 		"psr-4": {
 			"Fab\\Media\\": "Classes/"
