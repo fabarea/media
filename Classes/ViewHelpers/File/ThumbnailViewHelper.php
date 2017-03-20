@@ -27,7 +27,7 @@ class ThumbnailViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         $this->registerArgument('file', 'mixed', 'The source file', false, null);
-        $this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', false, '');
+        $this->registerArgument('configuration', 'array', 'Configuration to be given for the thumbnail processing.', false, []);
         $this->registerArgument('attributes', 'array', 'DOM attributes to add to the thumbnail image', false, '');
         $this->registerArgument('preset', 'string', 'Image dimension preset', false, '');
         $this->registerArgument('output', 'string', 'Can be: uri, image, imageWrapped', false, 'image');
