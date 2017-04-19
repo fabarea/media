@@ -12,6 +12,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * Hook Functions for the 'DataHandler'.
@@ -60,6 +61,9 @@ class DataHandlerHook
         foreach ($caller->datamap as $tableName => $configuration) {
 
             $id = key($configuration);
+            if (!MathUtility::canBeInterpretedAsInteger($id)) {
+                continue;
+            }
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
             $refIndexObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Database\\ReferenceIndex');
