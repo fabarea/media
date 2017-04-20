@@ -46,6 +46,9 @@ class ThumbnailViewHelper extends AbstractViewHelper
         $file = $this->arguments['file'];
         $preset = $this->arguments['preset'];
         $configuration = $this->arguments['configuration'];
+        if (!is_array($configuration)) {
+            $configuration = array();
+        }
         $configurationWrap = $this->arguments['configurationWrap'];
         $attributes = $this->arguments['attributes'];
         $output = $this->arguments['output'];
@@ -55,13 +58,11 @@ class ThumbnailViewHelper extends AbstractViewHelper
         } elseif (!($file instanceof File)) {
             $file = ResourceFactory::getInstance()->getFileObject((int)$file);
         }
-
         if ($preset) {
             $imageDimension = ImagePresetUtility::getInstance()->preset($preset);
             $configuration['width'] = $imageDimension->getWidth();
             $configuration['height'] = $imageDimension->getHeight();
         }
-
         /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
         $thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
         $thumbnail = $thumbnailService->setConfiguration($configuration)
