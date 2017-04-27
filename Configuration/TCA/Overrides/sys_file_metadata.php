@@ -14,7 +14,6 @@ $tca = [
     ],
     'columns' => [
         'fileinfo' => [
-            'l10n_mode' => 'exclude',
             'config' => [
                 'type' => 'user',
                 'userFunc' => 'EXT:media/Classes/Backend/TceForms.php:Fab\Media\Backend\TceForms->renderFileUpload',
