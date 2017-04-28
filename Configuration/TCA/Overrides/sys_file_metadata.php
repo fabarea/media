@@ -20,7 +20,7 @@ $tca = [
             ],
         ],
         'related_files' => [
-            'l10n_mode' => 'exclude',
+            'displayCond' => 'FIELD:sys_language_uid:<=:0',
             'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_metadata.relations',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'related_files',
