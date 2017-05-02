@@ -112,6 +112,7 @@ if (TYPO3_MODE === 'BE') {
             \Fab\Media\View\Button\FilePickerButton::class,
             \Fab\Media\View\Button\EditButton::class,
             \Fab\Media\View\Button\DownloadButton::class,
+            \Fab\Media\View\Button\HideButton::class,
             \Fab\Media\View\Button\DeleteButton::class,
         ])
         ->setMenuMassActionComponents([
@@ -127,6 +128,9 @@ if (TYPO3_MODE === 'BE') {
             \Fab\Vidi\View\MenuItem\MassDeleteMenuItem::class,
         ])
         ->register();
+
+        // update width of button column to fit new hide button
+    $GLOBALS['TCA']['sys_file']['grid']['columns']['__buttons']['width'] = '120px';
 
     /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
     $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
