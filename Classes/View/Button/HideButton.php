@@ -22,7 +22,7 @@ class HideButton extends AbstractComponentView
     /**
      * Renders a "hide" button to be placed in the grid.
      *
-     * @param \Fab\Vidi\Domain\Model\Content $object
+     * @param Content $object
      * @return string
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
