@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Vidi\Domain\Model\Content;
+use Fab\Media\Module\VidiModule;
 
 /**
  * View which renders a "edit" button to be placed in the grid.
@@ -73,13 +74,19 @@ class EditButton extends AbstractComponentView
      */
     protected function getAdditionalParameters()
     {
-
         $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
-            $additionalParameters = array(
-                'id' => urldecode(GeneralUtility::_GP('id')),
-            );
+            $additionalParameters['id'] = urldecode(GeneralUtility::_GP('id'));
         }
+
+        $vidiParameters = GeneralUtility::_GP(VidiModule::PARAMETER_PREFIX);
+        if (is_array($vidiParameters)) {
+            $whitelistedParameters = array_intersect_key($vidiParameters, ['plugins' => true, 'matches' => true]);
+            if (count($whitelistedParameters) === 2) {
+                $additionalParameters[VidiModule::PARAMETER_PREFIX] = $whitelistedParameters;
+            }
+        }
+
         return $additionalParameters;
     }
 
