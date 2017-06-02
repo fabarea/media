@@ -15,7 +15,7 @@ define('TYPO3/CMS/Media/MediaFormEngine', ['jquery', 'TYPO3/CMS/Backend/FormEngi
 	// main options
 	var FormEngine = {
 		formName: TYPO3.settings.FormEngine.formName
-		,backPath: TYPO3.settings.FormEngine.backPath
+		,backPath: TYPO3.settings.FormEngine.backPath || ''
 		,openedPopupWindow: null
 		,legacyFieldChangedCb: function() { !$.isFunction(TYPO3.settings.FormEngine.legacyFieldChangedCb) || TYPO3.settings.FormEngine.legacyFieldChangedCb(); }
 	};
