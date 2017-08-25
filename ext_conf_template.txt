@@ -13,6 +13,9 @@ has_media_file_picker = 0
 # cat=basic//; type=boolean; label= Hide default file list : If checked, the default file list is hidden from the Backend as everything is handled by the Media module. Reload the Backend after enabling this option.
 hide_file_list = 0
 
+# cat=basic//; type=boolean; label= Display hide button : If checked, the a hide button is added to media module, that shows/hides sys_metadata entry of current item (only if filemetadata is loaded
+show_hide_button_in_media = 0
+
 ###################### Image preset ######################
 
 # cat=image preset//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the Grid in the BE.

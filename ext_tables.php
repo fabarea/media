@@ -72,6 +72,26 @@ if (TYPO3_MODE === 'BE') {
 
     $defaultMainModule = (bool)$configuration['has_folder_tree']['value'] ? 'file' : 'content';
 
+    $configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['media']);
+
+    $buttonArray = [
+        \Fab\Media\View\Button\LinkCreatorButton::class,
+        \Fab\Media\View\Button\ImageEditorButton::class,
+        \Fab\Media\View\Button\FilePickerButton::class,
+        \Fab\Media\View\Button\EditButton::class,
+        \Fab\Media\View\Button\DownloadButton::class,
+        \Fab\Media\View\Button\DeleteButton::class
+    ];
+
+    if ($configuration['show_hide_button_in_media'] == 1
+        && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
+    ) {
+        $buttonArray[] = \Fab\Media\View\Button\HideButton::class;
+
+            // update width of button column to fit new hide button
+        $GLOBALS['TCA']['sys_file']['grid']['columns']['__buttons']['width'] = '120px';
+    }
+
     /** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
     $moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \Fab\Vidi\Module\ModuleLoader::class,
@@ -106,14 +126,7 @@ if (TYPO3_MODE === 'BE') {
             \Fab\Media\View\Plugin\ImageEditorPlugin::class,
             \Fab\Media\View\Plugin\FilePickerPlugin::class,
         ])
-        ->setGridButtonsComponents([
-            \Fab\Media\View\Button\LinkCreatorButton::class,
-            \Fab\Media\View\Button\ImageEditorButton::class,
-            \Fab\Media\View\Button\FilePickerButton::class,
-            \Fab\Media\View\Button\EditButton::class,
-            \Fab\Media\View\Button\DownloadButton::class,
-            \Fab\Media\View\Button\DeleteButton::class,
-        ])
+        ->setGridButtonsComponents($buttonArray)
         ->setMenuMassActionComponents([
             \Fab\Vidi\View\MenuItem\ExportXlsMenuItem::class,
             \Fab\Vidi\View\MenuItem\ExportXmlMenuItem::class,
