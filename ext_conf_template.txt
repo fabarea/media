@@ -13,6 +13,9 @@ has_media_file_picker = 0
 # cat=basic//; type=boolean; label= Hide default file list : If checked, the default file list is hidden from the Backend as everything is handled by the Media module. Reload the Backend after enabling this option.
 hide_file_list = 0
 
+# cat=basic//; type=boolean; label= Disable title metadata extractor : If checked, no title will be set when a file is uploaded or indexed through the scheduler task. Disable this extractor if you want to use the original title of YouTube or Vimeo videos.
+disable_title_metadata_extractor = 0
+
 ###################### Image preset ######################
 
 # cat=image preset//2; type=string; label= Maximum size of thumbnail image: Define the max width and height of a thumbnail. This setting is currently used for thumbnails in the Grid in the BE.
