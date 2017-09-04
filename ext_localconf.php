@@ -3,8 +3,14 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-// Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
-\TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('Fab\Media\Index\TitleMetadataExtractor');
+$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['media']);
+
+$disableTitleMetadataExtractor = isset($configuration['disable_title_metadata_extractor']) ? $configuration['disable_title_metadata_extractor'] : FALSE;
+if (!$disableTitleMetadataExtractor) {
+
+    // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
+    \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('Fab\Media\Index\TitleMetadataExtractor');
+}
 
 // Hook for traditional file upload, trigger metadata indexing as well.
 // Could be done at the Core level in the future...
@@ -40,7 +46,6 @@ if (TYPO3_MODE === 'BE') {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\DuplicateRecordsCommandController::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\ThumbnailCommandController::class;
 
-    $configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['media']);
     $hasMediaFilePicker = isset($configuration['has_media_file_picker']) ? $configuration['has_media_file_picker'] : FALSE;
     if ($hasMediaFilePicker) {
 
