@@ -67,7 +67,7 @@ $tca = [
         ],
         'columns' => [
             '__checkbox' => [
-                'renderer' => new Fab\Vidi\Grid\CheckBoxRenderer(),
+                'renderer' => \Fab\Vidi\Grid\CheckBoxRenderer::class,
             ],
             'uid' => [
                 'visible' => false,
@@ -85,13 +85,19 @@ $tca = [
                 'sortable' => false,
             ],
             'metadata.title' => [
-                'renderer' => new Fab\Media\Grid\MetadataRenderer(['property' => 'title']),
+                'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                'rendererConfiguration' => [
+                    'property' => 'title',
+                ],
                 'width' => '400px',
                 'editable' => true,
                 'sortable' => true,
             ],
             'metadata.description' => [
-                'renderer' => new Fab\Media\Grid\MetadataRenderer(['property' => 'description']),
+                'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                'rendererConfiguration' => [
+                    'property' => 'description',
+                ],
                 'visible' => false,
                 'sortable' => false,
             ],
@@ -102,8 +108,8 @@ $tca = [
             ],
             'metadata.categories' => [
                 'renderers' => [
-                    new \Fab\Vidi\Grid\RelationEditRenderer(),
-                    new \Fab\Media\Grid\CategoryRenderer(),
+                    \Fab\Vidi\Grid\RelationEditRenderer::class,
+                    \Fab\Media\Grid\CategoryRenderer::class,
                 ],
                 'editable' => true,
                 'visible' => true,
@@ -117,7 +123,10 @@ $tca = [
             ],
             'metadata' => [
                 'label' => 'Metadata File Identifier',
-                'renderer' => new Fab\Media\Grid\MetadataRenderer(['property' => 'uid']),
+                'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                'rendererConfiguration' => [
+                    'property' => 'uid',
+                ],
                 'visible' => false,
                 'sortable' => false,
             ],
@@ -134,69 +143,84 @@ $tca = [
 // Add more info to the Grid if EXT:filemetadata is loaded. Notice that the extension is not required but suggested.
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')) {
 
-    $additionalTca = array(
-        'ctrl' => array(
+    $additionalTca = [
+        'ctrl' => [
             'searchFields' => $tca['ctrl']['searchFields'] . ', metadata.keywords',
-        ),
-        'grid' => array(
-            'columns' => array(
-                'metadata.keywords' => array(
-                    'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'keywords')),
+        ],
+        'grid' => [
+            'columns' => [
+                'metadata.keywords' => [
+                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'configuration' => [
+                        'property' => 'keywords',
+                    ],
                     'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.keywords',
                     'visible' => false,
                     'sortable' => false,
-                ),
-                'metadata.fe_groups' => array(
-                    'renderers' => array(
-                        new \Fab\Vidi\Grid\RelationEditRenderer(),
-                        new \Fab\Media\Grid\FrontendPermissionRenderer(),
-                    ),
+                ],
+                'metadata.fe_groups' => [
+                    'renderers' => [
+                        \Fab\Vidi\Grid\RelationEditRenderer::class,
+                        \Fab\Media\Grid\FrontendPermissionRenderer::class,
+                    ],
                     'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
                     'visible' => false,
                     'sortable' => false,
-                ),
-                'metadata.status' => array(
-                    'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'status')),
+                ],
+                'metadata.status' => [
+                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'rendererConfiguration' => [
+                        'property' => 'status',
+                    ],
                     'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.status',
                     'visible' => false,
                     'width' => '5%',
                     'sortable' => false,
-                ),
+                ],
                 # un-comment me to see the "visible" flag in the grid.
                 #'visible' => array(
                 #	'renderer' => 'Fab\Media\Grid\VisibilityRenderer', @todo will not work out of the box after 6.2 migration
                 #	'label' => 'LLL:EXT:vidi/Resources/Private/Language/locallang.xlf:visibility_abbreviation',
                 #	'width' => '3%',
                 #),
-                'metadata.creator_tool' => array(
-                    'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'creator_tool')),
+                'metadata.creator_tool' => [
+                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'rendererConfiguration' => [
+                        'property' => 'creator_tool',
+                    ],
                     'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.creator_tool',
                     'visible' => false,
                     'sortable' => false,
-                ),
-                'metadata.content_creation_date' => array(
-                    'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'content_creation_date')),
+                ],
+                'metadata.content_creation_date' => [
+                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'rendererConfiguration' => [
+                        'property' => 'content_creation_date',
+                    ],
                     'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.content_creation_date',
                     'visible' => false,
                     'format' => 'datetime',
                     'sortable' => false,
-                ),
-                'metadata.content_modification_date' => array(
-                    'renderer' => new Fab\Media\Grid\MetadataRenderer(array('property' => 'content_modification_date')),
+                ],
+                'metadata.content_modification_date' => [
+                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'rendererConfiguration' => [
+                        'property' => 'content_modification_date',
+                    ],
                     'label' => 'LLL:EXT:filemetadata/Resources/Private/Language/locallang_tca.xlf:sys_file_metadata.content_modification_date',
                     'visible' => false,
                     'format' => 'datetime',
                     'sortable' => false,
-                ),
-            )
-        )
-    );
+                ],
+            ]
+        ]
+    ];
     \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($tca, $additionalTca);
 }
 
 // Control buttons such as edit, delete, etc... must be set at the end in any case.
-$tca['grid']['columns']['__buttons'] = array(
-    'renderer' => new Fab\Vidi\Grid\ButtonGroupRenderer(),
-);
+$tca['grid']['columns']['__buttons'] = [
+    'renderer' => \Fab\Vidi\Grid\ButtonGroupRenderer::class,
+];
 
 \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file'], $tca);
