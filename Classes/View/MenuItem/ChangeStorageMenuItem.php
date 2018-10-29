@@ -56,7 +56,7 @@ class ChangeStorageMenuItem extends AbstractComponentView
     }
 
     /**
-     * @return MediaModule
+     * @return object|MediaModule
      */
     protected function getMediaModule()
     {
