@@ -40,29 +40,30 @@ $tca = [
             'metadata.title',
             'metadata.categories',
             'name',
-            new \Fab\Vidi\Facet\StandardFacet(
-                'extension',
-                'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'
-            ),
+            \Fab\Vidi\Facet\StandardFacet::class => [
+                'name' => 'extension',
+                'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'
+            ],
             'metadata.description',
             'identifier',
-            new \Fab\Vidi\Facet\StandardFacet(
-                'number_of_references',
-                'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
-                ['0', '1', '2', '3', 'etc...'] // auto-suggestions
-            ),
-            new \Fab\Vidi\Facet\StandardFacet(
-                'type',
-                'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type',
-                [
+            \Fab\Vidi\Facet\StandardFacet::class => [
+                'name' => 'number_of_references',
+                'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
+                'suggestions' => ['0', '1', '2', '3', 'etc...'] // auto-suggestions
+            ],
+
+            \Fab\Vidi\Facet\StandardFacet::class => [
+                'name' => 'type',
+                'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type',
+                'suggestions' => [
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_1',
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_2',
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_3',
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_4',
                     \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_5',
                 ]
-            ),
-            new \Fab\Media\Facet\ActionPermissionFacet(),
+            ],
+            \Fab\Media\Facet\ActionPermissionFacet::class => [],
             'uid',
         ],
         'columns' => [
