@@ -8,7 +8,7 @@ namespace Fab\Media\Cache;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

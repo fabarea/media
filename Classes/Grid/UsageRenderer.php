@@ -10,7 +10,7 @@ namespace Fab\Media\Grid;
 
 use Fab\Vidi\Grid\ColumnRendererAbstract;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tca\Tca;

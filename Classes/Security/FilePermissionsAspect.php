@@ -12,7 +12,7 @@ use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Module\ModuleLoader;
 use Fab\Vidi\Persistence\ConstraintContainer;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -9,7 +9,7 @@ namespace Fab\Media\Override\Backend\Form;
  */
 
 use Fab\Media\Module\VidiModule;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**

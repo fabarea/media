@@ -7,7 +7,7 @@ namespace Fab\Media\Hook;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -67,7 +67,7 @@ class DataHandlerHook
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
             $refIndexObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ReferenceIndex::class);
-            if (BackendUtility::isTableWorkspaceEnabled($tableName)) {
+            if (\TYPO3\CMS\Backend\Utility\BackendUtility::isTableWorkspaceEnabled($tableName)) {
                 $refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
             }
             $indexes = $refIndexObj->updateRefIndexTable($tableName, $id);
@@ -100,7 +100,7 @@ class DataHandlerHook
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
             $refIndexObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ReferenceIndex::class);
-            if (BackendUtility::isTableWorkspaceEnabled($tableName)) {
+            if (\TYPO3\CMS\Backend\Utility\BackendUtility::isTableWorkspaceEnabled($tableName)) {
                 $refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
             }
             $indexes = $refIndexObj->updateRefIndexTable($tableName, $id);

@@ -9,7 +9,7 @@ namespace Fab\Media\View\Plugin;
  */
 
 use Fab\Media\Module\MediaModule;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
 use TYPO3\CMS\Core\Page\PageRenderer;

@@ -9,7 +9,7 @@ namespace Fab\Media\ViewHelpers\Uri;
  */
 
 use Fab\Media\Module\VidiModule;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**

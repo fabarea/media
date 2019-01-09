@@ -10,7 +10,7 @@ namespace Fab\Media\Grid;
 
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Thumbnail\ThumbnailInterface;

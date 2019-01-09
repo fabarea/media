@@ -9,7 +9,7 @@ namespace Fab\Media\Form;
  */
 
 use Fab\Media\Module\MediaModule;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
