@@ -29,11 +29,11 @@ class ImagePresetUtility implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns a class instance
      *
-     * @return \Fab\Media\Utility\ImagePresetUtility
+     * @return \Fab\Media\Utility\ImagePresetUtility|object
      */
     static public function getInstance()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Utility\ImagePresetUtility');
+        return GeneralUtility::makeInstance(\Fab\Media\Utility\ImagePresetUtility::class);
     }
 
     /**

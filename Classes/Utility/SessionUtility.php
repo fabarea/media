@@ -24,11 +24,11 @@ class SessionUtility implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns a class instance.
      *
-     * @return \Fab\Media\Utility\SessionUtility
+     * @return \Fab\Media\Utility\SessionUtility|object
      */
     static public function getInstance()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Utility\SessionUtility');
+        return GeneralUtility::makeInstance(\Fab\Media\Utility\SessionUtility::class);
     }
 
     public function __construct()

@@ -27,7 +27,7 @@ class UploadButton extends AbstractComponentView
     {
 
         /** @var $fileUpload \Fab\Media\Form\FileUpload */
-        $fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUpload');
+        $fileUpload = GeneralUtility::makeInstance(\Fab\Media\Form\FileUpload::class);
         return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();
     }
 }

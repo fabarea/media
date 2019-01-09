@@ -36,10 +36,10 @@ class ExistsViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
     }
 }

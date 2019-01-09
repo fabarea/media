@@ -79,15 +79,15 @@ class UploadManager
         if ($this->formUtility->isMultiparted()) {
 
             // Default case
-            $uploadedFile = GeneralUtility::makeInstance('Fab\Media\FileUpload\MultipartedFile');
+            $uploadedFile = GeneralUtility::makeInstance(\Fab\Media\FileUpload\MultipartedFile::class);
         } elseif ($this->formUtility->isOctetStreamed()) {
 
             // Fine Upload plugin would use it if forceEncoded = false and paramsInBody = false
-            $uploadedFile = GeneralUtility::makeInstance('Fab\Media\FileUpload\StreamedFile');
+            $uploadedFile = GeneralUtility::makeInstance(\Fab\Media\FileUpload\StreamedFile::class);
         } elseif ($this->formUtility->isUrlEncoded()) {
 
             // Used for image resizing in BE
-            $uploadedFile = GeneralUtility::makeInstance('Fab\Media\FileUpload\Base64File');
+            $uploadedFile = GeneralUtility::makeInstance(\Fab\Media\FileUpload\Base64File::class);
         }
 
         if (!$uploadedFile) {

@@ -56,7 +56,7 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected function getObjectManager()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
     }
 
     /**

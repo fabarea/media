@@ -79,25 +79,25 @@ class FileCacheCommandController extends CommandController
     }
 
     /**
-     * @return \Fab\Media\Cache\CacheService
+     * @return \Fab\Media\Cache\CacheService|object
      */
     protected function getCacheService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
+        return GeneralUtility::makeInstance(\Fab\Media\Cache\CacheService::class);
     }
 
     /**
-     * @return StorageRepository
+     * @return StorageRepository|object
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
     }
 
     /**
      * Returns a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

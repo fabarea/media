@@ -77,11 +77,11 @@ class CacheWarmUpTool extends AbstractTool
     }
 
     /**
-     * @return \Fab\Media\Cache\CacheService
+     * @return \Fab\Media\Cache\CacheService|object
      */
     protected function getCacheService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
+        return GeneralUtility::makeInstance(\Fab\Media\Cache\CacheService::class);
     }
 
 }

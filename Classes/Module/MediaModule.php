@@ -96,7 +96,7 @@ class MediaModule implements SingletonInterface
                     // Fallback approach: take the first storage as the current.
                     if (!$currentStorage) {
                         /** @var $storageRepository StorageRepository */
-                        $storageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+                        $storageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
 
                         $storages = $storageRepository->findAll();
                         $currentStorage = current($storages);
@@ -335,7 +335,7 @@ class MediaModule implements SingletonInterface
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection|object
+     * @return \Fab\Vidi\Database\DatabaseConnection|object
      */
     protected function getDatabaseConnection()
     {
@@ -355,11 +355,11 @@ class MediaModule implements SingletonInterface
     /**
      * Return the module loader.
      *
-     * @return \Fab\Vidi\Module\ModuleLoader
+     * @return \Fab\Vidi\Module\ModuleLoader|object
      */
     protected function getModuleLoader()
     {
-        return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
+        return GeneralUtility::makeInstance(\Fab\Vidi\Module\ModuleLoader::class);
     }
 
 }

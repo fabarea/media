@@ -73,21 +73,21 @@ class DeleteButton extends AbstractComponentView
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService
+     * @return \Fab\Media\Resource\FileReferenceService|object
      * @throws \InvalidArgumentException
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
      * @throws \InvalidArgumentException
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
     }
 
 }

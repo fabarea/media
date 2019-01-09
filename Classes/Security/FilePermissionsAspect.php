@@ -213,7 +213,7 @@ class FilePermissionsAspect
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -221,7 +221,7 @@ class FilePermissionsAspect
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      * @throws \InvalidArgumentException
      */
     protected function getMediaModule()

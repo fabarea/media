@@ -104,11 +104,11 @@ class NewFolder extends AbstractComponentView
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
     }
 
     /**

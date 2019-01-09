@@ -60,19 +60,19 @@ class PreviewRenderer extends ColumnRendererAbstract
 
     /**
      * @param File $file
-     * @return \Fab\Media\Thumbnail\ThumbnailService
+     * @return \Fab\Media\Thumbnail\ThumbnailService|object
      */
     protected function getThumbnailService(File $file)
     {
-        return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
+        return GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService::class, $file);
     }
 
     /**
-     * @return \Fab\Media\ViewHelpers\MetadataViewHelper
+     * @return \Fab\Media\ViewHelpers\MetadataViewHelper|object
      */
     protected function getMetadataViewHelper()
     {
-        return GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
+        return GeneralUtility::makeInstance(\Fab\Media\ViewHelpers\MetadataViewHelper::class);
     }
 
     /**
@@ -92,11 +92,11 @@ class PreviewRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
     }
 
 }

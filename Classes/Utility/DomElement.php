@@ -19,11 +19,11 @@ class DomElement implements SingletonInterface
     /**
      * Returns a class instance
      *
-     * @return \Fab\Media\Utility\DomElement
+     * @return \Fab\Media\Utility\DomElement|object
      */
     static public function getInstance()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Utility\DomElement');
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Media\Utility\DomElement::class);
     }
 
     /**

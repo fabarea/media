@@ -66,7 +66,7 @@ class DataHandlerHook
             }
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
-            $refIndexObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Database\\ReferenceIndex');
+            $refIndexObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ReferenceIndex::class);
             if (BackendUtility::isTableWorkspaceEnabled($tableName)) {
                 $refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
             }
@@ -99,7 +99,7 @@ class DataHandlerHook
             $id = key($configuration);
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
-            $refIndexObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Database\\ReferenceIndex');
+            $refIndexObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ReferenceIndex::class);
             if (BackendUtility::isTableWorkspaceEnabled($tableName)) {
                 $refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
             }
@@ -291,11 +291,11 @@ class DataHandlerHook
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService
+     * @return \Fab\Media\Resource\FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
     }
 
     /**
@@ -311,17 +311,17 @@ class DataHandlerHook
     /**
      * Create and returns an instance of the CacheManager
      *
-     * @return \TYPO3\CMS\Core\Cache\CacheManager
+     * @return \TYPO3\CMS\Core\Cache\CacheManager|object
      */
     protected function getCacheManager()
     {
-        return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class);
     }
 
     /**
      * Wrapper around the global database connection object.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

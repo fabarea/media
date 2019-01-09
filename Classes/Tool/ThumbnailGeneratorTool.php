@@ -113,19 +113,19 @@ class ThumbnailGeneratorTool extends AbstractTool
     }
 
     /**
-     * @return \Fab\Media\Thumbnail\ThumbnailGenerator
+     * @return \Fab\Media\Thumbnail\ThumbnailGenerator|object
      */
     protected function getThumbnailGenerator()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailGenerator');
+        return GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailGenerator::class);
     }
 
     /**
-     * @return StorageRepository
+     * @return StorageRepository|object
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
     }
 
     /**
@@ -141,7 +141,7 @@ class ThumbnailGeneratorTool extends AbstractTool
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

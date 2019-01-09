@@ -25,7 +25,7 @@ class Logger implements SingletonInterface
     static public function getInstance($instance)
     {
         /** @var $loggerManager \TYPO3\CMS\Core\Log\LogManager */
-        $loggerManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager');
+        $loggerManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class);
 
         /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         return $loggerManager->getLogger(get_class($instance));

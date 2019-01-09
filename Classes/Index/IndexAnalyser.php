@@ -122,7 +122,7 @@ class IndexAnalyser implements SingletonInterface
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

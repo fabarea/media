@@ -30,7 +30,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 	}
 
 }

@@ -344,7 +344,7 @@ class AssetController extends ActionController
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      * @throws \InvalidArgumentException
      */
     protected function getMediaModule()

@@ -19,11 +19,11 @@ class ClientValidation implements SingletonInterface
     /**
      * Returns a class instance
      *
-     * @return \Fab\Media\Utility\ClientValidation
+     * @return \Fab\Media\Utility\ClientValidation|object
      */
     static public function getInstance()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Utility\ClientValidation');
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Media\Utility\ClientValidation::class);
     }
 
     /**

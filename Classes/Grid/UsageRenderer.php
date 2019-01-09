@@ -207,7 +207,7 @@ class UsageRenderer extends ColumnRendererAbstract
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -225,18 +225,18 @@ class UsageRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService
+     * @return \Fab\Media\Resource\FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
     }
 }

@@ -214,7 +214,7 @@ The same can be achieved in a programming way::
 
 	// Initialize a Matcher object.
 	/** @var \Fab\Vidi\Persistence\Matcher $matcher */
-	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Vidi\Persistence\Matcher');
+	$matcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Vidi\Persistence\Matcher::class);
 
 	// Add some criteria.
 	$matcher->equals('storage', '1');
@@ -284,7 +284,7 @@ Besides the View Helper, a thumbnail can be generated in a programming way. The 
 For more insight, refer to the class itself. Here we go::
 
 	/** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
-	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
+	$thumbnailService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService', $fil::class);
 	$thumbnail = $thumbnailService
 		->setConfiguration($configuration)
 		->setOutputType(\Fab\Media\Thumbnail\ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
@@ -344,7 +344,7 @@ On the server side, there is an API which transparently handles whether the file
 		# Check out for more insight EXT:media/Classes/Controller/AssetController.php @ uploadAction
 
 		/** @var $uploadManager \Fab\Media\FileUpload\UploadManager */
-		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Fab\Media\FileUpload\UploadManager');
+		$uploadManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Media\FileUpload\UploadManager::class);
 		try {
 			/** @var $uploadedFileObject \Fab\Media\FileUpload\UploadedFileInterface */
 			$uploadedFileObject = $uploadManager->handleUpload();

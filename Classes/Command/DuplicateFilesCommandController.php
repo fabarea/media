@@ -179,7 +179,7 @@ class DuplicateFilesCommandController extends CommandController
     /**
      * Returns a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -187,20 +187,20 @@ class DuplicateFilesCommandController extends CommandController
     }
 
     /**
-     * @return StorageRepository
+     * @return StorageRepository|object
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Mail\MailMessage
+     * @return \TYPO3\CMS\Core\Mail\MailMessage|object
      */
     public function getMailMessage()
     {
         if (is_null($this->mailMessage)) {
-            $this->mailMessage = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
+            $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
         }
         return $this->mailMessage;
     }
@@ -208,11 +208,11 @@ class DuplicateFilesCommandController extends CommandController
     /**
      * Return a pointer to the database.
      *
-     * @return \Fab\Media\Index\IndexAnalyser
+     * @return \Fab\Media\Index\IndexAnalyser|object
      */
     protected function getIndexAnalyser()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Index\IndexAnalyser');
+        return GeneralUtility::makeInstance(\Fab\Media\Index\IndexAnalyser::class);
     }
 
 }

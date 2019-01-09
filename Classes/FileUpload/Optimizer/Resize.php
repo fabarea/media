@@ -35,7 +35,7 @@ class Resize implements ImageOptimizerInterface
     public function __construct($storage = null)
     {
         $this->storage = $storage;
-        $this->gifCreator = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
+        $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
         $this->gifCreator->init();
         $this->gifCreator->absPrefix = PATH_site;
     }
@@ -66,7 +66,7 @@ class Resize implements ImageOptimizerInterface
         if (strlen($storageRecord['maximum_dimension_original_image']) > 0) {
 
             /** @var \Fab\Media\Dimension $imageDimension */
-            $imageDimension = GeneralUtility::makeInstance('Fab\Media\Dimension', $storageRecord['maximum_dimension_original_image']);
+            $imageDimension = GeneralUtility::makeInstance(\Fab\Media\Dimension::class, $storageRecord['maximum_dimension_original_image']);
             if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
 
                 // resize taking the width as reference
@@ -125,11 +125,11 @@ class Resize implements ImageOptimizerInterface
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
     }
 
 }

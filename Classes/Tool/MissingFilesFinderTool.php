@@ -110,19 +110,19 @@ class MissingFilesFinderTool extends AbstractTool
     /**
      * Return a pointer to the database.
      *
-     * @return \Fab\Media\Index\IndexAnalyser
+     * @return \Fab\Media\Index\IndexAnalyser|object
      */
     protected function getIndexAnalyser()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Index\IndexAnalyser');
+        return GeneralUtility::makeInstance(\Fab\Media\Index\IndexAnalyser::class);
     }
 
     /**
-     * @return StorageRepository
+     * @return StorageRepository|object
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
     }
 
     /**
@@ -138,7 +138,7 @@ class MissingFilesFinderTool extends AbstractTool
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

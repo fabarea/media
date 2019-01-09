@@ -65,11 +65,11 @@ class ConfigurationWarning extends AbstractComponentView
     }
 
     /**
-     * @return \Fab\Media\Cache\CacheService
+     * @return \Fab\Media\Cache\CacheService|object
      */
     protected function getCacheService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Cache\CacheService');
+        return GeneralUtility::makeInstance(\Fab\Media\Cache\CacheService::class);
     }
 
     /**
@@ -386,7 +386,7 @@ EOF;
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -394,11 +394,11 @@ EOF;
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
     }
 
 }

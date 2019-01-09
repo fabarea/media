@@ -120,7 +120,7 @@ EOF;
         if ($this->file) {
 
             /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
-            $thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $this->file);
+            $thumbnailService = GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService::class, $this->file);
             $thumbnail = $thumbnailService
                 ->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
                 ->setAppendTimeStamp(true)
@@ -150,7 +150,7 @@ EOF;
      */
     protected function getStandaloneView()
     {
-        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
         $view = $objectManager->get('TYPO3\CMS\Fluid\View\StandaloneView');
@@ -251,21 +251,21 @@ EOF;
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
     /**
      * Get the Vidi Module Loader.
      *
-     * @return \Fab\Vidi\Module\ModuleLoader
+     * @return \Fab\Vidi\Module\ModuleLoader|object
      */
     protected function getModuleLoader()
     {
-        return GeneralUtility::makeInstance('Fab\Vidi\Module\ModuleLoader');
+        return GeneralUtility::makeInstance(\Fab\Vidi\Module\ModuleLoader::class);
     }
 
 }

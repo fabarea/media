@@ -116,11 +116,11 @@ class FileDataHandler extends AbstractDataHandler
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService
+     * @return \Fab\Media\Resource\FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
     }
 
     /**
@@ -137,11 +137,11 @@ class FileDataHandler extends AbstractDataHandler
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
     }
 
 }

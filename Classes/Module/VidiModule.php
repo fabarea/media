@@ -39,10 +39,10 @@ class VidiModule
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      */
     static protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
     }
 }

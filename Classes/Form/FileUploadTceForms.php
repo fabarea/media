@@ -74,7 +74,7 @@ class FileUploadTceForms extends FileUpload
     protected function getFileInfo()
     {
         /** @var \Fab\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
-        $metadataViewHelper = GeneralUtility::makeInstance('Fab\Media\ViewHelpers\MetadataViewHelper');
+        $metadataViewHelper = GeneralUtility::makeInstance(\Fab\Media\ViewHelpers\MetadataViewHelper::class);
 
         return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
             $metadataViewHelper->render($this->file)

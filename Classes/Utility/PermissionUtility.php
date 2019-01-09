@@ -80,7 +80,7 @@ class PermissionUtility implements SingletonInterface
     }
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      * @throws \InvalidArgumentException
      */
     protected function getMediaModule()

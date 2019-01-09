@@ -64,7 +64,7 @@ class ThumbnailViewHelper extends AbstractViewHelper
             $configuration['height'] = $imageDimension->getHeight();
         }
         /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
-        $thumbnailService = GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailService', $file);
+        $thumbnailService = GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService::class, $file);
         $thumbnail = $thumbnailService->setConfiguration($configuration)
             ->setConfigurationWrap($configurationWrap)
             ->setAttributes($attributes)
@@ -75,11 +75,11 @@ class ThumbnailViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter
+     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance('Fab\Media\TypeConverter\ContentToFileConverter');
+        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
     }
 
 }

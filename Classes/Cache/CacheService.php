@@ -81,11 +81,11 @@ class CacheService
     /**
      * Return a processed file repository
      *
-     * @return \TYPO3\CMS\Core\Resource\ProcessedFileRepository
+     * @return \TYPO3\CMS\Core\Resource\ProcessedFileRepository|object
      */
     protected function getProcessedFileRepository()
     {
-        return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ProcessedFileRepository::class);
     }
 
     /**
@@ -98,7 +98,7 @@ class CacheService
     {
 
         /** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
-        $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+        $tce = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
         $tce->start([], []);
 
         #$pages = array_merge(
@@ -215,7 +215,7 @@ class CacheService
     /**
      * Returns a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -223,10 +223,10 @@ class CacheService
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService
+     * @return \Fab\Media\Resource\FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
     }
 }

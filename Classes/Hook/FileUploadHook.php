@@ -48,11 +48,11 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface
      * Get the instance of the Indexer service to update the metadata of the file.
      *
      * @param ResourceStorage $storage
-     * @return \Fab\Media\Index\MediaIndexer
+     * @return \Fab\Media\Index\MediaIndexer|object
      */
     protected function getMediaIndexer($storage)
     {
-        return GeneralUtility::makeInstance('Fab\Media\Index\MediaIndexer', $storage);
+        return GeneralUtility::makeInstance(\Fab\Media\Index\MediaIndexer::class, $storage);
     }
 
 }

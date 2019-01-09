@@ -170,27 +170,27 @@ class DuplicateFilesFinderTool extends AbstractTool
     /**
      * Return a pointer to the database.
      *
-     * @return \Fab\Media\Index\IndexAnalyser
+     * @return \Fab\Media\Index\IndexAnalyser|object
      */
     protected function getIndexAnalyser()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Index\IndexAnalyser');
+        return GeneralUtility::makeInstance(\Fab\Media\Index\IndexAnalyser::class);
     }
 
     /**
-     * @return \Fab\Media\Thumbnail\ThumbnailGenerator
+     * @return \Fab\Media\Thumbnail\ThumbnailGenerator|object
      */
     protected function getThumbnailGenerator()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Thumbnail\ThumbnailGenerator');
+        return GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailGenerator::class);
     }
 
     /**
-     * @return StorageRepository
+     * @return StorageRepository|object
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\StorageRepository');
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
     }
 
     /**
@@ -204,17 +204,17 @@ class DuplicateFilesFinderTool extends AbstractTool
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService
+     * @return \Fab\Media\Resource\FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Resource\FileReferenceService');
+        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
     }
 
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

@@ -148,7 +148,7 @@ class MediaIndexer
     /**
      * Returns a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \Fab\Vidi\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
@@ -156,11 +156,11 @@ class MediaIndexer
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Resource\Index\Indexer
+     * @return \TYPO3\CMS\Core\Resource\Index\Indexer|object
      */
     protected function getCoreIndexer()
     {
-        return GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\Index\Indexer', $this->storage);
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\Index\Indexer::class, $this->storage);
     }
 
 }

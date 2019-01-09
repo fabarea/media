@@ -96,12 +96,12 @@ class RecursiveCheckbox extends AbstractComponentView
 
 
     /**
-     * @return MediaModule
+     * @return MediaModule|object
      * @throws \InvalidArgumentException
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Module\MediaModule');
+        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
     }
 
 }

@@ -57,7 +57,7 @@ class TceForms
         }
 
         /** @var $fileUpload \Fab\Media\Form\FileUploadTceForms */
-        $fileUpload = GeneralUtility::makeInstance('Fab\Media\Form\FileUploadTceForms');
+        $fileUpload = GeneralUtility::makeInstance(\Fab\Media\Form\FileUploadTceForms::class);
         $fileUpload->setValue($fileMetadataRecord['file'][0])->setPrefix(MediaModule::getParameterPrefix());
         return $fileUpload->render();
     }
