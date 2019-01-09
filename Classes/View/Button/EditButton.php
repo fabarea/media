@@ -63,7 +63,7 @@ class EditButton extends AbstractComponentView
             'record_edit',
             array(
                 $parameterName => 'edit',
-                'returnUrl' => BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $this->getAdditionalParameters())
+                'returnUrl' => BackendUtility::getModuleUrl(GeneralUtility::_GP('route'), $this->getAdditionalParameters())
             )
         );
         return $uri;

@@ -169,7 +169,7 @@ class UsageRenderer extends ColumnRendererAbstract
                 'id' => urldecode(GeneralUtility::_GP('id')),
             );
         }
-        return BackendUtility::getModuleUrl(GeneralUtility::_GP('M'), $additionalParameters);
+        return BackendUtility::getModuleUrl(GeneralUtility::_GP('route'), $additionalParameters);
     }
 
     /**
