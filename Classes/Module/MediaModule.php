@@ -10,6 +10,7 @@ namespace Fab\Media\Module;
 
 use Fab\Media\FileUpload\UploadedFileInterface;
 use Fab\Media\Utility\SessionUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -246,7 +247,7 @@ class MediaModule implements SingletonInterface
     public function hasFolderTree()
     {
         $configuration = $this->getModuleConfiguration();
-        return (bool)$configuration['has_folder_tree']['value'];
+        return (bool)$configuration['has_folder_tree'];
     }
 
     /**
@@ -328,19 +329,13 @@ class MediaModule implements SingletonInterface
      */
     protected function getModuleConfiguration()
     {
-
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
-        /** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-        $configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-        return $configurationUtility->getCurrentConfiguration('media');
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('media');
     }
 
     /**
      * Return a pointer to the database.
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection|object
      */
     protected function getDatabaseConnection()
     {

@@ -1,13 +1,9 @@
 <?php
 if (!defined('TYPO3_MODE')) die ('Access denied.');
 
-
-/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
-/** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-$configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-$configuration = $configurationUtility->getCurrentConfiguration('media');
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+)->get('media');
 
 $tca = [
     'types' => [
@@ -77,7 +73,7 @@ $tca = [
 ];
 
 $tcaForHiddenFolderTree = [];
-if (!$configuration['has_folder_tree']['value']) {
+if (!$configuration['has_folder_tree']) {
     $tcaForHiddenFolderTree = [
 
         'types' => [

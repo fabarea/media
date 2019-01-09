@@ -6,12 +6,9 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE === 'BE') {
 
-    /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-    $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-
-    /** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-    $configurationUtility = $objectManager->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-    $configuration = $configurationUtility->getCurrentConfiguration('media');
+    $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    )->get('media');
 
     // Default User TSConfig to be added in any case.
     TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
@@ -25,7 +22,7 @@ if (TYPO3_MODE === 'BE') {
 	');
 
     $moduleFileLanguage = 'LLL:EXT:media/Resources/Private/Language/locallang.xlf';
-    if ($configuration['hide_file_list']['value'] == 1) {
+    if ($configuration['hide_file_list'] == 1) {
 
         $moduleFileLanguage = 'LLL:EXT:media/Resources/Private/Language/locallang_filelist.xlf';
 
@@ -38,7 +35,7 @@ if (TYPO3_MODE === 'BE') {
     }
 
     // Possibly load additional User TSConfig.
-    if ((int)$configuration['load_rte_configuration']['value'] === 1) {
+    if ((int)$configuration['load_rte_configuration'] === 1) {
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 			RTE.default.showButtons := addToList(linkcreator,imageeditor)
@@ -70,7 +67,7 @@ if (TYPO3_MODE === 'BE') {
         ]
     );
 
-    $defaultMainModule = (bool)$configuration['has_folder_tree']['value'] ? 'file' : 'content';
+    $defaultMainModule = (bool)$configuration['has_folder_tree'] ? 'file' : 'content';
 
     /** @var \Fab\Vidi\Module\ModuleLoader $moduleLoader */
     $moduleLoader = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(

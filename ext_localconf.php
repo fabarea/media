@@ -3,7 +3,9 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['media']);
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+)->get('media');
 
 $disableTitleMetadataExtractor = isset($configuration['disable_title_metadata_extractor']) ? $configuration['disable_title_metadata_extractor'] : FALSE;
 if (!$disableTitleMetadataExtractor) {

@@ -8,6 +8,7 @@ namespace Fab\Media\Utility;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -30,33 +31,28 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns a class instance.
      *
-     * @return \Fab\Media\Utility\ConfigurationUtility
+     * @return \Fab\Media\Utility\ConfigurationUtility|object
      */
     static public function getInstance()
     {
-        return GeneralUtility::makeInstance('Fab\Media\Utility\ConfigurationUtility');
+        return GeneralUtility::makeInstance(\Fab\Media\Utility\ConfigurationUtility::class);
     }
 
     /**
      * Constructor
-     *
-     * @return \Fab\Media\Utility\ConfigurationUtility
      */
     public function __construct()
     {
-
-        /** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-        $configurationUtility = $this->getObjectManager()->get('TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility');
-        $configuration = $configurationUtility->getCurrentConfiguration($this->extensionKey);
+        $configuration = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('media');
 
         // Fill up configuration array with relevant values.
-        foreach ($configuration as $key => $data) {
-            $this->configuration[$key] = $data['value'];
+        foreach ($configuration as $key => $value) {
+            $this->configuration[$key] = $value;
         }
     }
 
     /**
-     * @return ObjectManager
+     * @return ObjectManager|object
      */
     protected function getObjectManager()
     {
