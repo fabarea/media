@@ -33,21 +33,6 @@ call_user_func(function () {
 		');
         }
 
-        // Possibly load additional User TSConfig.
-        if ((int)$configuration['load_rte_configuration'] === 1) {
-
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-			RTE.default.showButtons := addToList(linkcreator,imageeditor)
-
-			// Toolbar order
-			// Must be completely reset
-			RTE.default.toolbarOrder = formatblock, blockstyle, textstyle, linebreak, bold, italic, underline, strikethrough, bar, textcolor, bgcolor, bar, orderedlist, unorderedlist, bar, left, center, right, justifyfull, copy, cut, paste, bar, undo, redo, bar, findreplace, removeformat, bar, link, unlink, linkcreator, bar, imageeditor, bar, table, bar, line, bar, insertparagraphbefore, insertparagraphafter, bar, chMode, showhelp, about, linebreak, tableproperties, rowproperties, rowinsertabove, rowinsertunder, rowdelete, rowsplit, columninsertbefore, columninsertafter, columndelete, columnsplit, cellproperties, cellinsertbefore, cellinsertafter, celldelete, cellsplit, cellmerge
-
-			RTE.default.RTEHeightOverride = 700
-			RTE.default.RTEWidthOverride = 700
-		');
-        }
-
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
             'Fab.media',
             'user', // Make media module a submodule of 'user'
@@ -158,21 +143,6 @@ call_user_func(function () {
             \Fab\Media\Facet\ActionPermissionFacet::class,
             'modifyResultSet'
         );
-
-        // @bug Class property $relativePathToSkin does not look to be working anymore since TYPO3 7. Workaround: load CSS for the RTE as skin.
-        // Reference EXT:media/Classes/Rtehtmlarea/Extension/LinkCreator.php
-        if (is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/LinkCreator.js') ||
-            is_file(PATH_site . 'typo3/sysext/rtehtmlarea/Resources/Public/JavaScript/Plugins/ImageEditor.js')
-        ) {
-
-            // Register as a skin
-            $GLOBALS['TBE_STYLES']['skins']['media'] = [
-                'name' => 'media',
-                'stylesheetDirectories' => [
-                    'css' => 'EXT:media/Resources/Public/HtmlArea/'
-                ]
-            ];
-        }
     }
 
     // Add new sprite icon.

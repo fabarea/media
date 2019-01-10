@@ -386,34 +386,6 @@ On the long term it should be considered to be used a secure local driver, howev
 
 .. _naw_securedl: http://typo3.org/extensions/repository/view/naw_securedl
 
-RTE integration
-===============
-
-The extension ships two buttons that can be added at the RTE level for (1) linking a file and (2) inserting an image as part of the content.
-The button name references are ``linkcreator`` and ``imageeditor`` respectively which can be added by TypoScript in Page / User TSConfig::
-
-
-	# Snippet to be copied / pasted in Page TSConfig
-	# Module List > Right click on a page > tab "Resources" > field "Page TSConfig"
-	RTE {
-
-		// Default RTE configuration for all tables
-		default {
-
-			// Buttons to show
-			showButtons := addToList(linkcreator,imageeditor)
-
-			// Toolbar order
-			toolbarOrder = bar, linkcreator, bar, imageeditor, ...
-		}
-	}
-	# key where to define the visible buttons in the RTE
-	toolbarOrder = bar, linkcreator, bar, imageeditor, ...
-
-Refer to the `documentation`_ of extension HtmlArea for more details.
-
-.. _documentation: http://docs.typo3.org/typo3cms/extensions/rtehtmlarea/Configuration/PageTsconfig/interfaceConfiguration/Index.html
-
 
 Basic Metadata Extractor
 ========================

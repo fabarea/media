@@ -106,7 +106,6 @@ class FileReferenceService
      */
     public function countSoftImageReferences($file)
     {
-
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Count the file references of the file in the RTE.

@@ -42,7 +42,6 @@ class UsageRenderer extends ColumnRendererAbstract
             );
         }
 
-
         // Render File usage
         $fileReferences = $this->getFileReferenceService()->findFileReferences($file);
         if (!empty($fileReferences)) {
