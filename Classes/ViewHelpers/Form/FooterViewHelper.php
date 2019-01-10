@@ -12,7 +12,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper dealing with form footer.

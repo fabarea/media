@@ -10,7 +10,7 @@ namespace Fab\Media\ViewHelpers\File;
 
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Fab\Vidi\Domain\Model\Content;
 
 /**
@@ -20,14 +20,25 @@ class UriViewHelper extends AbstractViewHelper
 {
 
     /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('file', 'mixed', '', true);
+        $this->registerArgument('relative', 'bool', '', false, false);
+    }
+
+    /**
      * Returns a property value of a file given by the context.
      *
-     * @param File|Content|int $file
-     * @param bool $relative
      * @return string
      */
-    public function render($file, $relative = false)
+    public function render()
     {
+        /** @var File|Content|int $file $file */
+        $file = $this->arguments['file'];
+        $relative = $this->arguments['relative'];
+
         if (!$file instanceof File) {
             $file = $this->getFileConverter()->convert($file);
         }

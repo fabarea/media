@@ -11,7 +11,7 @@ namespace Fab\Media\ViewHelpers\Form\Select;
 use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper dealing with the storage menu
@@ -21,13 +21,21 @@ class StorageViewHelper extends AbstractViewHelper
 {
 
     /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('objects', 'array', '', false, []);
+    }
+
+    /**
      * Render a file upload field
      *
-     * @param array $objects
      * @return string
      */
-    public function render($objects = [])
+    public function render()
     {
+        $objects = $this->arguments['objects'];
 
         // Check if a storages is selected
         $currentStorage = $this->getMediaModule()->getCurrentStorage();

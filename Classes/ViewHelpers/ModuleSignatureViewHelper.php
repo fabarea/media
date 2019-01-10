@@ -9,7 +9,7 @@ namespace Fab\Media\ViewHelpers;
  */
 
 use Fab\Media\Module\VidiModule;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which outputs the BE module signature.

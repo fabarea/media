@@ -9,7 +9,7 @@ namespace Fab\Media\ViewHelpers\File;
  */
 
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which returns property value of a file given by the context.
@@ -18,13 +18,21 @@ class PropertyViewHelper extends AbstractViewHelper
 {
 
     /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('name', 'string', '', true);
+    }
+
+    /**
      * Returns a property value of a file given by the context.
      *
-     * @param string $name
      * @return string
      */
-    public function render($name)
+    public function render()
     {
+        $name = $this->arguments['name'];
 
         /** @var File $file */
         $file = $this->templateVariableContainer->get('file');

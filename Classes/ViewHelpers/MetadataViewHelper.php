@@ -9,7 +9,7 @@ namespace Fab\Media\ViewHelpers;
  */
 
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which can output metadata of a file.

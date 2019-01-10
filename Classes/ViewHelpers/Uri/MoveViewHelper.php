@@ -10,7 +10,7 @@ namespace Fab\Media\ViewHelpers\Uri;
 
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Utility\BackendUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper which renders a move storage URI.

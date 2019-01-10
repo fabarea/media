@@ -11,7 +11,7 @@ namespace Fab\Media\ViewHelpers\File;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Fab\Media\Utility\ImagePresetUtility;
 use Fab\Vidi\Domain\Model\Content;
 

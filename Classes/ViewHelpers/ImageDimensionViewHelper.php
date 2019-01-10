@@ -8,7 +8,7 @@ namespace Fab\Media\ViewHelpers;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Fab\Media\Utility\ImagePresetUtility;
 
 /**
@@ -18,16 +18,26 @@ class ImageDimensionViewHelper extends AbstractViewHelper
 {
 
     /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('preset', 'string', '', true);
+        $this->registerArgument('dimension', 'string', '', false, 'width');
+    }
+
+    /**
      * Returns preset values related to an image dimension
      *
-     * @param string $preset
-     * @param string $dimension
      * @return int
      */
-    public function render($preset, $dimension = 'width')
+    public function render()
     {
+        $preset = $this->arguments['preset'];
+        $dimension = $this->arguments['dimension'];
+
         $imageDimension = ImagePresetUtility::getInstance()->preset($preset);
-        if ($dimension == 'width') {
+        if ($dimension === 'width') {
             $result = $imageDimension->getWidth();
         } else {
             $result = $imageDimension->getHeight();
