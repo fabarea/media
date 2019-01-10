@@ -29,79 +29,77 @@ define([
 	$('.change-storage').click(function(e) {
 		e.preventDefault();
 
-		var url = EditStorage.getEditStorageUrl(this.href);
+        Vidi.modal = Modal.advanced({
+            type: Modal.types.ajax,
+            title: TYPO3.lang['action.move'],
+            severity: top.TYPO3.Severity.info,
+            buttons: [
+                {
+                    text: TYPO3.lang['cancel'],
+                    btnClass: 'btn btn-default',
+                    trigger: function() {
+                        Modal.dismiss();
+                    }
+                }, {
+                    text: TYPO3.lang['action.move'],
+                    btnClass: 'btn btn-default btn-change-storage',
+                    trigger: function() {
+                        $('#form-change-storage', Vidi.modal).submit();
+                    }
+                }
+            ],
+            content: EditStorage.getEditStorageUrl(this.href),
+            ajaxCallback: function() { // callback
 
-		Vidi.modal = Modal.loadUrl(
-			TYPO3.lang['action.move'],
-			top.TYPO3.Severity.info,
-			[
-				{
-					text: TYPO3.lang['cancel'],
-					btnClass: 'btn btn-default',
-					trigger: function() {
-						Modal.dismiss();
-					}
-				}, {
-					text: TYPO3.lang['action.move'],
-					btnClass: 'btn btn-default btn-change-storage',
-					trigger: function() {
-						$('#form-change-storage', Vidi.modal).submit();
-					}
-				}
-			],
-			url,
-			function() { // callback
+                // Update modal title
+                var numberOfObjects = $('#numberOfObjects', Vidi.modal).html();
 
-				// Update modal title
-				var numberOfObjects = $('#numberOfObjects', Vidi.modal).html();
+                var modalTitle = $('.modal-title', Vidi.modal).html() + ' - ' + numberOfObjects + ' ';
+                if (numberOfObjects > 1) {
+                    modalTitle += TYPO3.lang['records'];
+                } else {
+                    modalTitle += TYPO3.lang['record'];
+                }
+                $('.modal-title', Vidi.modal).html(modalTitle);
 
-				var modalTitle = $('.modal-title', Vidi.modal).html() + ' - ' + numberOfObjects + ' ';
-				if (numberOfObjects > 1) {
-					modalTitle += TYPO3.lang['records'];
-				} else {
-					modalTitle += TYPO3.lang['record'];
-				}
-				$('.modal-title', Vidi.modal).html(modalTitle);
+                // bind submit handler to form.
+                $('#form-change-storage', Vidi.modal).on('submit', function(e) {
 
-				// bind submit handler to form.
-				$('#form-change-storage', Vidi.modal).on('submit', function(e) {
+                    // Prevent native submit
+                    e.preventDefault();
 
-					// Prevent native submit
-					e.preventDefault();
+                    $.ajax({
+                        url: $('#form-change-storage', Vidi.modal).attr('action'),
+                        data: $('#form-change-storage', Vidi.modal).serialize(),
+                        beforeSend: function(arr, $form, options) {
 
-					$.ajax({
-						url: $('#form-change-storage', Vidi.modal).attr('action'),
-						data: $('#form-change-storage', Vidi.modal).serialize(),
-						beforeSend: function(arr, $form, options) {
+                            // Only submit if button is not disabled
+                            if ($('.btn-change-storage', Vidi.modal).hasClass('disabled')) {
+                                return false;
+                            }
 
-							// Only submit if button is not disabled
-							if ($('.btn-change-storage', Vidi.modal).hasClass('disabled')) {
-								return false;
-							}
+                            // Else submit form
+                            $('.btn-change-storage', Vidi.modal).addClass('disabled');
+                        },
+                        /**
+                         * On success call back
+                         *
+                         * @param response
+                         */
+                        success: function(response) {
 
-							// Else submit form
-							$('.btn-change-storage', Vidi.modal).addClass('disabled');
-						},
-						/**
-						 * On success call back
-						 *
-						 * @param response
-						 */
-						success: function(response) {
+                            // Hide the modal window
+                            Modal.dismiss();
 
-							// Hide the modal window
-							Modal.dismiss();
+                            Vidi.Response.processResponse(response, 'update');
+                        }
+                    });
 
-							Vidi.Response.processResponse(response, 'update');
-						}
-					});
+                });
+            }
 
-				});
-			}
-		);
-
+        });
 	});
-
 
 	var EditStorage = {
 		/**
@@ -139,7 +137,7 @@ define([
 				}
 			}
 
-			return uri.toString();
+			return decodeURIComponent(uri.toString());
 		},
 
 		/**
