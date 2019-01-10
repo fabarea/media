@@ -9,6 +9,7 @@ namespace Fab\Media\Backend;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -16,41 +17,29 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Custom fields for Media
  */
-class TceForms
+class TceForms extends AbstractFormElement
 {
 
     /**
-     * Constructor
+     * @return array
      */
-    public function __construct()
+    public function render()
     {
-
         // Load StyleSheets in the Page Renderer
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $cssFile = ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/StyleSheets/fineuploader.tce.css';
+        $cssFile = ExtensionManagementUtility::extPath('media') . 'Resources/Public/StyleSheets/fineuploader.tce.css';
         $pageRenderer->addCssFile($cssFile);
 
         // language labels for JavaScript files
         $pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 
         // js files to be loaded
-        $pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/Encoder.js');
-        $pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/JavaScript/JQuery/jquery.fineuploader.compatibility.js');
-        $pageRenderer->addJsFile(ExtensionManagementUtility::extRelPath('media') . 'Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js');
-    }
+        $pageRenderer->addJsFile(ExtensionManagementUtility::extPath('media') . 'Resources/Public/JavaScript/Encoder.js');
+        $pageRenderer->addJsFile(ExtensionManagementUtility::extPath('media') . 'Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js');
 
-    /**
-     * This method renders the user friendly upload widget.
-     *
-     * @param array $propertyArray : information related to the field
-     * @param Object $tceForms : reference to calling TCEforms object
-     * @throws \Exception
-     * @return string
-     */
-    public function renderFileUpload($propertyArray, $tceForms)
-    {
+        $result = $this->initializeResultArray();
 
-        $fileMetadataRecord = $propertyArray['row'];
+        $fileMetadataRecord = $this->data['databaseRow'];
 
         if ($fileMetadataRecord['file'] <= 0) {
             throw new \Exception('I could not find a valid file identifier', 1392926871);
@@ -59,6 +48,8 @@ class TceForms
         /** @var $fileUpload \Fab\Media\Form\FileUploadTceForms */
         $fileUpload = GeneralUtility::makeInstance(\Fab\Media\Form\FileUploadTceForms::class);
         $fileUpload->setValue($fileMetadataRecord['file'][0])->setPrefix(MediaModule::getParameterPrefix());
-        return $fileUpload->render();
+        $result['html'] = $fileUpload->render();
+        return $result;
     }
+
 }

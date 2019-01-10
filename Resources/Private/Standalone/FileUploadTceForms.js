@@ -69,4 +69,4 @@
 				}
 			});
 	});
-})(TYPO3.jQuery);
+})(jQuery);
