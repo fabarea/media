@@ -317,7 +317,6 @@ class AssetController extends ActionController
      * @return void
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
-     * @signal
      */
     protected function emitBeforeDownloadSignal(File $file)
     {
