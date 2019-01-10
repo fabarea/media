@@ -155,7 +155,7 @@ call_user_func(function () {
     /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
     foreach ($icons as $key => $icon) {
-        $iconRegistry->registerIcon('extensions-' . $_EXTKEY . '-' . $key,
+        $iconRegistry->registerIcon('extensions-media-' . $key,
             \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
             [
                 'source' => $icon
