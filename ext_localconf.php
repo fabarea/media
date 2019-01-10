@@ -29,13 +29,6 @@ call_user_func(function () {
         // Special process to fill column "usage" which indicates the total number of file reference including soft references.
         $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'Fab\Media\Hook\DataHandlerHook';
 
-        // Setting up scripts that can be run from the cli_dispatch.phpsh script.
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\FileCacheCommandController::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\MissingFilesCommandController::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\DuplicateFilesCommandController::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\DuplicateRecordsCommandController::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = \Fab\Media\Command\ThumbnailCommandController::class;
-
         $hasMediaFilePicker = isset($configuration['has_media_file_picker']) ? $configuration['has_media_file_picker'] : FALSE;
         if ($hasMediaFilePicker) {
 

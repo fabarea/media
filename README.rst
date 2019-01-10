@@ -305,30 +305,6 @@ module. Those tools are visible for Admin only::
 
 	\Fab\Vidi\Tool\ToolRegistry::getInstance()->register('sys_file', 'Fab\Media\Tool\MissingFilesFinderTool');
 
-Analyse File index
-------------------
-
-Admin Users have access to a BE module allowing to analyse the index of files.
-The tool will search for missing files as well as duplicate entries in the database.
-
-The module can be accessed by clicking on the top right icon
-of the main module. Notice, the same actions can also be performed by CLI and will send
-a email as report if anything is wrong.::
-
-	./typo3/cli_dispatch.phpsh extbase missingFiles:analyse
-	./typo3/cli_dispatch.phpsh extbase duplicateFiles:analyse
-	./typo3/cli_dispatch.phpsh extbase duplicateRecords:analyse
-
-Tip! Configure a Scheduler Task (under Extbase task) for regularly checking the index and detecting problem early enough.
-
-Generate thumbnails
--------------------
-
-Generate a bunch of thumbnails in advance to speed up the output of the Media BE module.
-This process can take a lot of time. Prefer to run the CLI command::
-
-	./typo3/cli_dispatch.phpsh extbase thumbnail:generate
-
 
 File Upload API
 ===============
