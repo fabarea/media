@@ -19,7 +19,6 @@
 		}
 	},
 	"replace": {
-		"media": "self.version",
 		"typo3-ter/media": "self.version"
 	}
 }
