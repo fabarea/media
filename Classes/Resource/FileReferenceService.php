@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Resource;
 
 /*
@@ -8,14 +9,17 @@ namespace Fab\Media\Resource;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * File Reference Service.
  */
 class FileReferenceService
 {
-
     /**
      * Return all references found in sys_file_reference.
      *
@@ -28,10 +32,11 @@ class FileReferenceService
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Get the file references of the file.
-        return $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
+        return $this->getDataService()->getRecords(
             'sys_file_reference',
-            'deleted = 0 AND uid_local = ' . $fileIdentifier
+            [
+                'uid_local' => $fileIdentifier,
+            ]
         );
     }
 
@@ -47,12 +52,14 @@ class FileReferenceService
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Get the file references of the file in the RTE.
-        $softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'recuid, tablename',
+        $softReferences = $this->getDataService()->getRecords(
             'sys_refindex',
-            'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
+            [
+                'softref_key' => 'rtehtmlarea_images',
+                'ref_table' => 'sys_file',
+                'ref_uid' => $fileIdentifier,
+            ]
         );
-
         return $softReferences;
     }
 
@@ -68,12 +75,14 @@ class FileReferenceService
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Get the link references of the file.
-        $softReferences = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'recuid, tablename',
+        $softReferences = $this->getDataService()->getRecords(
             'sys_refindex',
-            'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
+            [
+                'softref_key' => 'typolink_tag',
+                'ref_table' => 'sys_file',
+                'ref_uid' => $fileIdentifier,
+            ]
         );
-
         return $softReferences;
     }
 
@@ -85,17 +94,15 @@ class FileReferenceService
      */
     public function countFileReferences($file)
     {
-
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
-        // Count the file references of the file.
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-            'count(*) AS count',
+        return $this->getDataService()
+            ->count(
             'sys_file_reference',
-            'deleted = 0 AND uid_local = ' . $fileIdentifier
+            [
+                'uid_local' => $fileIdentifier
+            ]
         );
-
-        return (int)$record['count'];
     }
 
     /**
@@ -108,14 +115,15 @@ class FileReferenceService
     {
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
-        // Count the file references of the file in the RTE.
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-            'count(*) AS count',
-            'sys_refindex',
-            'deleted = 0 AND softref_key = "rtehtmlarea_images" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
-        );
-
-        return (int)$record['count'];
+        return $this->getDataService()
+            ->count(
+                'sys_refindex',
+                [
+                    'softref_key' => 'rtehtmlarea_images',
+                    'ref_table' => 'sys_file',
+                    'ref_uid' => $fileIdentifier
+                ]
+            );
     }
 
     /**
@@ -126,17 +134,17 @@ class FileReferenceService
      */
     public function countSoftLinkReferences($file)
     {
-
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
-        // Count the link references of the file.
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-            'count(*) AS count',
-            'sys_refindex',
-            'deleted = 0 AND softref_key = "typolink_tag" AND ref_table = "sys_file" AND ref_uid = ' . $fileIdentifier
-        );
-
-        return (int)$record['count'];
+        return $this->getDataService()
+            ->count(
+                'sys_refindex',
+                [
+                    'softref_key' => 'typolink_tag',
+                    'ref_table' => 'sys_file',
+                    'ref_uid' => $fileIdentifier
+                ]
+            );
     }
 
     /**
@@ -155,13 +163,21 @@ class FileReferenceService
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @param string $tableName
+     * @return object|QueryBuilder
      */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder($tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
+    /**
+     * @return object|DataService
+     */
+    protected function getDataService(): DataService
+    {
+        return GeneralUtility::makeInstance(DataService::class);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -8,6 +9,7 @@ namespace Fab\Media\Thumbnail;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
@@ -82,21 +84,21 @@ class ThumbnailGenerator
     {
 
         // Compute a possible limit and offset for the query.
-        $limitAndOffset = '';
-        if ($limit > 0 || $offset > 0) {
-            $limitAndOffset = $limit . ' OFFSET ' . $offset;
-        }
+        //$limitAndOffset = '';
+        //if ($limit > 0 || $offset > 0) {
+        //    $limitAndOffset = $limit . ' OFFSET ' . $offset;
+        //}
 
-        // Retrieve file records.
-        $clause = 'storage > 0';
-        if ($this->storage) {
-            $clause = 'storage = ' . $this->storage->getUid();
-        }
+        $rows = $this->getDataService()
+            ->getRecords(
+                'sys_file',
+                [
+                    'storage' => $this->storage->getUid()
+                ] // todo add limit and offset
+            );
 
-        $query = $this->getDatabaseConnection()->SELECTquery('*', 'sys_file', $clause, '', '', $limitAndOffset);
-        $resource = $this->getDatabaseConnection()->sql_query($query);
+        foreach ($rows as $row) {
 
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
 
             $file = ResourceFactory::getInstance()->getFileObject($row['uid'], $row);
 
@@ -113,10 +115,10 @@ class ThumbnailGenerator
                     'thumbnailUri' => strpos($thumbnailUri, '_processed_') > 0 ? $thumbnailUri : '', // only returns the thumbnail uri if a processed file has been created.
                 );
 
-                if ($this->isNewProcessedFile()) {
-                    $this->incrementNumberOfProcessedFiles();
-                    $this->newProcessedFileIdentifiers[$file->getUid()] = $this->lastInsertedProcessedFile;
-                }
+                //if ($this->isNewProcessedFile()) { // todo restore me
+                //    $this->incrementNumberOfProcessedFiles();
+                //   $this->newProcessedFileIdentifiers[$file->getUid()] = $this->lastInsertedProcessedFile;
+                //}
 
                 $this->incrementNumberOfTraversedFiles();
             } else {
@@ -161,12 +163,13 @@ class ThumbnailGenerator
      */
     public function getTotalNumberOfFiles()
     {
-        $clause = 'storage > 0';
-        if ($this->storage) {
-            $clause = 'storage = ' . $this->storage->getUid();
-        }
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS totalNumberOfFiles', 'sys_file', $clause);
-        return (int)$record['totalNumberOfFiles'];
+        return $this->getDataService()
+            ->count(
+                'sys_file',
+                [
+                    'storage' => $this->storage->getUid()
+                ]
+            );
     }
 
     /**
@@ -225,8 +228,7 @@ class ThumbnailGenerator
 
     /**
      * @param File $file
-     * @return ThumbnailService
-     * @throws \InvalidArgumentException
+     * @return object|ThumbnailService
      */
     protected function getThumbnailService(File $file)
     {
@@ -258,13 +260,10 @@ class ThumbnailGenerator
     }
 
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
-
 }

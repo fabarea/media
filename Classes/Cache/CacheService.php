@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Cache;
 
 /*
@@ -8,7 +9,10 @@ namespace Fab\Media\Cache;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
 use Fab\Vidi\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -25,12 +29,17 @@ class CacheService
      */
     public function warmUp()
     {
-
-        $query = $this->getDatabaseConnection()->SELECTquery('*', 'sys_file', 'storage > 0');
-        $resource = $this->getDatabaseConnection()->sql_query($query);
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getQueryBuilder('sys_file');
+        $rows = $queryBuilder
+            ->select('*')
+            ->from('sys_file')
+            ->where('storage > 0')
+            ->execute()
+            ->fetchAll();
 
         $counter = 0;
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
+        foreach ($rows as $row) {
 
             $fileIdentifier = $row['uid'];
             $totalNumberOfReferences = $this->getFileReferenceService()->countTotalReferences($fileIdentifier);
@@ -39,7 +48,13 @@ class CacheService
                 'number_of_references' => $totalNumberOfReferences
             );
 
-            $this->getDatabaseConnection()->exec_UPDATEquery('sys_file', 'uid = ' . $fileIdentifier, $values);
+            $this->getDataService()->update(
+                'sys_file',
+                $values,
+                [
+                    'uid' => $fileIdentifier
+                ]
+            );
             $counter++;
         }
 
@@ -74,7 +89,13 @@ class CacheService
             if ($processedFile->exists()) {
                 $processedFile->delete(true);
             }
-            $this->getDatabaseConnection()->exec_DELETEquery('sys_file_processedfile', 'uid=' . (int)$processedFile->getUid());
+
+            $this->getDataService()->delete(
+                'sys_file_processedfile',
+                [
+                    'uid' => (int)$processedFile->getUid()
+                ]
+            );
         }
     }
 
@@ -123,17 +144,22 @@ class CacheService
     protected function findPagesWithFileReferences($file)
     {
 
-        // Get the file references of the file
-        $rows = $this->getDatabaseConnection()->exec_SELECTquery(
-            'DISTINCT pid',
-            'sys_file_reference',
-            'deleted = 0 AND pid > 0 AND uid_local = ' . $file->getUid()
-        );
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getQueryBuilder('sys_file_reference');
+        $rows = $queryBuilder
+            ->select('pid')
+            ->from('sys_file_reference')
+            ->groupBy('pid') // no support for distinct
+            ->andWhere(
+                'pid > 0',
+                'uid_local = ' . $file->getUid()
+            )
+            ->execute()
+            ->fetchAll();
 
-        // Compute result
-        $pages = [];
-        while ($affectedPage = $this->getDatabaseConnection()->sql_fetch_assoc($rows)) {
-            $pages[] = $affectedPage['pid'];
+        foreach ($rows as $row) {
+            $pages[] = $row['pid'];
+
         }
 
         return $pages;
@@ -148,6 +174,7 @@ class CacheService
     protected function findPagesWithSoftReferences(File $file)
     {
 
+        // todo here...
         $subClauseParts = array(
             'deleted = 0',
             '(softref_key = "rtehtmlarea_images" OR softref_key = "typolink_tag")',
@@ -213,13 +240,22 @@ class CacheService
     }
 
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @param string $tableName
+     * @return object|QueryBuilder
      */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder($tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
+    }
+
+    /**
+     * @return object|DataService
+     */
+    protected function getDataService(): DataService
+    {
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
     /**

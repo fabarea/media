@@ -9,6 +9,7 @@ namespace Fab\Media\Grid;
  */
 
 use Fab\Vidi\Grid\ColumnRendererAbstract;
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -28,7 +29,6 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     public function render()
     {
-
         $file = $this->getFileConverter()->convert($this->object);
 
         $result = '';
@@ -130,7 +130,7 @@ class UsageRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @return LinkButton
+     * @return object|LinkButton
      */
     protected function makeLinkButton()
     {
@@ -187,13 +187,8 @@ class UsageRenderer extends ColumnRendererAbstract
             $labelField = Tca::table($tableName)->getLabelField();
 
             // Get the title of the record.
-
-            /** @var array $record */
-            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-                $labelField,
-                $tableName,
-                'uid = ' . $identifier
-            );
+            $record = $this->getDataService()
+                ->getRecord($tableName, ['uid' => $identifier,]);
 
             if (!empty($record[$labelField])) {
                 $result = $record[$labelField];
@@ -204,13 +199,11 @@ class UsageRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
     /**

@@ -12,6 +12,7 @@ use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Module\ModuleLoader;
 use Fab\Vidi\Persistence\ConstraintContainer;
+use Fab\Vidi\Service\DataService;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -156,28 +157,19 @@ class FilePermissionsAspect
      */
     protected function respectFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer)
     {
-
         $tableName = 'sys_filemounts';
 
         // Get the file mount identifiers for the current Backend User.
         $fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
         $fileMountUids = implode(',', array_filter($fileMounts));
 
-        // Compute the clause.
-        $clause = sprintf('uid IN (%s) %s %s',
-            $fileMountUids,
-            BackendUtility::BEenableFields($tableName),
-            BackendUtility::deleteClause($tableName)
-        );
-
         // Fetch the records.
-        /** @var array $fileMountRecords */
-        $fileMountRecords = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'path',
+        $fileMountRecords = $this->getDataService()->getRecords(
             $tableName,
-            $clause
+            [
+                'uid' => $fileMountUids
+            ]
         );
-
         $constraintsRespectingFileMounts = [];
         foreach ((array)$fileMountRecords as $fileMountRecord) {
             if ($fileMountRecord['path']) {
@@ -213,11 +205,11 @@ class FilePermissionsAspect
     }
 
     /**
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
     /**
@@ -232,8 +224,7 @@ class FilePermissionsAspect
     /**
      * Get the Vidi Module Loader.
      *
-     * @return ModuleLoader
-     * @throws \InvalidArgumentException
+     * @return object|ModuleLoader
      */
     protected function getModuleLoader()
     {

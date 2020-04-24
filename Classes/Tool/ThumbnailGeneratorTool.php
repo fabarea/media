@@ -138,15 +138,5 @@ class ThumbnailGeneratorTool extends AbstractTool
         return $this->getBackendUser()->isAdmin();
     }
 
-    /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
-
 }
 

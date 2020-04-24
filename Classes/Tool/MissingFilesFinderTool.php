@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Tool;
 
 /*
@@ -8,6 +9,7 @@ namespace Fab\Media\Tool;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -99,7 +101,7 @@ class MissingFilesFinderTool extends AbstractTool
                     // The case is special as we have a missing file in the file system
                     // As a result, we can't use $fileObject->delete(); which will
                     // raise exception "Error while fetching permissions"
-                    $this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $file->getUid());
+                    $this->getDataService()->delete('sys_file', ['uid' => $file->getUid()]);
                 }
             } catch (\Exception $e) {
                 continue;
@@ -136,13 +138,11 @@ class MissingFilesFinderTool extends AbstractTool
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
 }

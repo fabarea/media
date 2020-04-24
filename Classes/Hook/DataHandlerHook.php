@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Hook;
 
 /*
@@ -7,6 +8,8 @@ namespace Fab\Media\Hook;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+
+use Fab\Vidi\Service\DataService;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
@@ -123,7 +126,7 @@ class DataHandlerHook
                 $values = array(
                     'number_of_references' => $numberOfReferences
                 );
-                $this->getDatabaseConnection()->exec_UPDATEquery('sys_file', 'uid = ' . $file->getUid(), $values);
+                $this->getDataService()->update('sys_file', $values, ['uid' => $file->getUid()]);
             } catch (FileDoesNotExistException $fileDoesNotExistException) {
                 // Do nothing here. A file that does not exist needs no update.
                 // See https://github.com/fabarea/media/issues/159 for more information.
@@ -271,16 +274,17 @@ class DataHandlerHook
      * Retrieve the File identifier.
      *
      * @param $fileReferenceIdentifier
-     * @throws \Exception
      * @return int
+     * @throws \Exception
      */
     protected function findFileByFileReference($fileReferenceIdentifier)
     {
-        $tableName = 'sys_file_reference';
-        $clause = 'uid = ' . $fileReferenceIdentifier;
-        #$clause .= BackendUtility::BEenableFields($tableName); // was removed following https://forge.typo3.org/issues/62370
-        $clause .= BackendUtility::deleteClause($tableName);
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'sys_file_reference', $clause);
+        $record = $this->getDataService()->getRecord(
+            'sys_file_reference',
+            [
+                'uid' => $fileReferenceIdentifier
+            ]
+        );
 
         if (empty($record)) {
             throw new \Exception('There is something broken with the File References. Consider updating the Reference Index.', 1408619796);
@@ -319,12 +323,11 @@ class DataHandlerHook
     }
 
     /**
-     * Wrapper around the global database connection object.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
+
 }

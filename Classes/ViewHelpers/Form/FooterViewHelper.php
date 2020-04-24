@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers\Form;
 
 /*
@@ -8,6 +9,8 @@ namespace Fab\Media\ViewHelpers\Form;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -70,7 +73,13 @@ class FooterViewHelper extends AbstractViewHelper
         $username = '';
 
         if ($userIdentifier > 0) {
-            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'uid = ' . $userIdentifier);
+            $record = $this->getDataService()
+                ->getRecord(
+                    'be_users',
+                    [
+                        'uid' => $userIdentifier
+                    ]
+                );
             $username = sprintf('%s %s',
                 LocalizationUtility::translate('by', 'media'),
                 empty($record['realName']) ? $record['username'] : $record['realName']
@@ -80,17 +89,13 @@ class FooterViewHelper extends AbstractViewHelper
         return $username;
     }
 
-
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
-
 
     /**
      * @param array $arguments

@@ -7,7 +7,8 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-use TYPO3\CMS\Core\Resource\ResourceFactory;
+
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tool\AbstractTool;
@@ -97,16 +98,6 @@ class DuplicateRecordsFinderTool extends AbstractTool
     public function isShown()
     {
         return $this->getBackendUser()->isAdmin();
-    }
-
-    /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
 }

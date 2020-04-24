@@ -9,6 +9,8 @@ namespace Fab\Media\Index;
  */
 
 use Fab\Media\Resource\FileReferenceService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -120,12 +122,13 @@ class IndexAnalyser implements SingletonInterface
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @param string $tableName
+     * @return object|QueryBuilder
      */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder($tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 }

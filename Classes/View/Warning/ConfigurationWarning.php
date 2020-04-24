@@ -9,6 +9,8 @@ namespace Fab\Media\View\Warning;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tca\Tca;
 use Fab\Vidi\View\AbstractComponentView;
@@ -149,17 +151,14 @@ class ConfigurationWarning extends AbstractComponentView
      */
     protected function formatMessageForStorageConfigured()
     {
-
-        // TODO: after dropping typo3 7.6 support, remove class: typo3-message message-warning message-header message-body
-
         $storage = $this->getMediaModule()->getCurrentStorage();
 
         $result = <<< EOF
-			<div class="typo3-message message-information alert alert-info">
-				<div class="message-header alert-title">
+			<div class="alert alert-info">
+				<div class="alert-title">
 						Storage has been configured.
 				</div>
-				<div class="message-body alert-message">
+				<div class="alert-message">
 					The storage "{$storage->getName()}" was not configured for Media. Some default values have automatically been added.
 					To see those values, open the storage record "{$storage->getName()}" ({$storage->getUid()})
 					and check under tab "Upload Settings" or "Default mount points".
@@ -187,16 +186,14 @@ EOF;
      */
     protected function formatMessageForStorageOffline()
     {
-        // TODO: after dropping typo3 7.6 support, remove class: typo3-message message-warning message-header message-body
-
         $storage = $this->getMediaModule()->getCurrentStorage();
 
         $result = <<< EOF
-			<div class="typo3-message message-warning alert alert-warning">
-					<div class="message-header alert-title">
+			<div class="alert alert-warning">
+					<div class="alert-title">
 						Storage is currently offline
 				</div>
-					<div class="message-body alert-message">
+					<div class="alert-message">
 						The storage "{$storage->getName()}" looks currently to be off-line. Contact an administrator if you think this is an error.
 					</div>
 				</div>
@@ -252,7 +249,14 @@ EOF;
      */
     protected function fetchMountPoint($identifier)
     {
-        return $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'sys_filemounts', 'uid = ' . $identifier);
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getQueryBuilder('sys_filemounts');
+        return $queryBuilder
+            ->select('*')
+            ->from('sys_filemounts')
+            ->where('uid = ' . $identifier)
+            ->execute()
+            ->fetch();
     }
 
     /**
@@ -275,11 +279,11 @@ EOF;
         }
 
         $result = <<< EOF
-			<div class="typo3-message message-warning alert alert-warning">
-					<div class="message-header alert-title">
+			<div class="alert alert-warning">
+					<div class="alert-title">
 						File mount are wrongly configured for user "{$backendUser->user['username']}".
 				</div>
-					<div class="message-body alert-message">
+					<div class="alert-message">
 						User "{$backendUser->user['username']}" has no access to the following mount point configured in storage "{$storage->getName()}":
 						<ul>
 						{$list}
@@ -297,8 +301,14 @@ EOF;
      */
     protected function canBeInitializedSilently()
     {
-        $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS number_of_files', 'sys_file', '');
-        return (int)$record['number_of_files'];
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getQueryBuilder('sys_file');
+        $count = $queryBuilder
+            ->count('*')
+            ->from('sys_file')
+            ->execute()
+            ->fetchColumn(0);
+        return (int)$count;
 
     }
 
@@ -309,7 +319,15 @@ EOF;
      */
     protected function checkColumnNumberOfReferences()
     {
-        $file = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('uid', 'sys_file', 'number_of_references > 0');
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getQueryBuilder('sys_file');
+        $file = $queryBuilder
+            ->select('*')
+            ->from('sys_file')
+            ->where('number_of_references > 0')
+            ->execute()
+            ->fetch();
+
         return !empty($file);
     }
 
@@ -323,11 +341,11 @@ EOF;
     {
 
         $result = <<< EOF
-			<div class="typo3-message message-ok alert alert-success">
-				<div class="message-header alert-title">
+			<div class="alert alert-success">
+				<div class="alert-title">
 						Initialized column "number_of_references" for ${numberOfFile} files
 				</div>
-				<div class="message-body alert-message">
+				<div class="alert-message">
 					The column "sys_file.number_of_references" is used as a caching column for storing the total number of usage of a file.
 					It is required when searching files by "usage" in the visual search bar. For example searching for files with 0 usage,
 					corresponds to file that are not used on the Frontend,
@@ -352,11 +370,11 @@ EOF;
     {
 
         $result = <<< EOF
-			<div class="typo3-message message-warning alert alert-warning">
-				<div class="message-header alert-title">
+			<div class="alert alert-warning">
+				<div class="alert-title">
 						Column "number_of_references" requires to be initialized.
 				</div>
-				<div class="message-body alert-message">
+				<div class="alert-message">
 				    This action can not be done automatically as there are more than 2000 files. <br/>
 
 					The column "number_of_references" in "sys_file" is used as a caching column for storing the total number of usage of a file.
@@ -384,13 +402,14 @@ EOF;
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @param string $tableName
+     * @return object|QueryBuilder
      */
-    protected function getDatabaseConnection()
+    protected function getQueryBuilder($tableName): QueryBuilder
     {
-        return $GLOBALS['TYPO3_DB'];
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
     /**

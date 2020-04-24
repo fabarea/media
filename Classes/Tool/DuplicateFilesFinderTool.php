@@ -7,6 +7,8 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -159,7 +161,7 @@ class DuplicateFilesFinderTool extends AbstractTool
                         $file->delete();
                     }
                 } else {
-                    $this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $file->getUid());
+                    $this->getDataService()->delete('sys_file', ['uid' => $file->getUid()]);
                 }
             } catch (\Exception $e) {
                 continue;
@@ -212,13 +214,11 @@ class DuplicateFilesFinderTool extends AbstractTool
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
 }

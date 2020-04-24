@@ -177,16 +177,6 @@ class DuplicateRecordsCommandController extends CommandController
     }
 
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
-
-    /**
      * @return StorageRepository|object
      */
     protected function getStorageRepository()

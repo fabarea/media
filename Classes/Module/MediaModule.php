@@ -10,6 +10,7 @@ namespace Fab\Media\Module;
 
 use Fab\Media\FileUpload\UploadedFileInterface;
 use Fab\Media\Utility\SessionUtility;
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Folder;
@@ -288,7 +289,8 @@ class MediaModule implements SingletonInterface
         if ($mountPointIdentifier > 0) {
 
             // We don't have a Mount Point repository in FAL, so query the database directly.
-            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
+            $record = $this->getDataService()->getRecord('sys_filemounts', ['uid' => $mountPointIdentifier]);
+
             if (!empty($record['path'])) {
                 $folder = $storage->getFolder($record['path']);
             }
@@ -316,7 +318,7 @@ class MediaModule implements SingletonInterface
         if ($mountPointIdentifier > 0) {
 
             // We don't have a Mount Point repository in FAL, so query the database directly.
-            $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('path', 'sys_filemounts', 'deleted = 0 AND uid = ' . $mountPointIdentifier);
+            $record = $this->getDataService()->getRecord('sys_filemounts', ['uid' => $mountPointIdentifier]);
             if (!empty($record['path'])) {
                 $folder = $storage->getFolder($record['path']);
             }
@@ -333,13 +335,11 @@ class MediaModule implements SingletonInterface
     }
 
     /**
-     * Return a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection|object
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
     /**

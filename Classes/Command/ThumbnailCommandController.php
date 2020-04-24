@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Command;
 
 /*
@@ -9,6 +10,7 @@ namespace Fab\Media\Command;
  */
 
 use Fab\Media\Property\TypeConverter\ConfigurationArrayConverter;
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
@@ -108,13 +110,20 @@ class ThumbnailCommandController extends CommandController
      */
     protected function checkEnvironment()
     {
-        $user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_lowlevel" AND password != ""');
+        $user = $this->getDataService()->getRecord(
+            'be_users', [
+            'username' => '_cli_lowlevel'
+        ]);
 
         if (empty($user)) {
             $this->outputLine('Missing User "_cli_lowlevel" and / or its password.');
             $this->sendAndExit(1);
         }
-        $user = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'be_users', 'username = "_cli_scheduler" AND password != ""');
+
+        $user = $this->getDataService()->getRecord(
+            'be_users', [
+            'username' => '_cli_scheduler'
+        ]);
 
         if (empty($user)) {
             $this->outputLine('Missing User "_cli_scheduler" and / or its password.');
@@ -123,13 +132,11 @@ class ThumbnailCommandController extends CommandController
     }
 
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
     /**

@@ -205,7 +205,6 @@ class MissingFilesCommandController extends CommandController
      */
     protected function getFrom()
     {
-
         $from = [];
 
         // @todo make me more flexible!
@@ -215,16 +214,6 @@ class MissingFilesCommandController extends CommandController
             $from[$emailAddress] = $name;
         }
         return $from;
-    }
-
-    /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
     /**

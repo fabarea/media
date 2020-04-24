@@ -8,7 +8,11 @@ namespace Fab\Media\Command;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
 use FilesystemIterator;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\ProcessedFileRepository;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -63,19 +67,27 @@ class FileCacheCommandController extends CommandController
                 $message = sprintf('Done! Removed %s processed file(s).', $numberOfProcessedFiles);
                 $this->outputLine($message);
 
-                // Remove the record as well.
-                $record = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('count(*) AS numberOfProcessedFiles', 'sys_file_processedfile', 'storage = ' . $storage->getUid());
-                $this->getDatabaseConnection()->exec_DELETEquery('sys_file_processedfile', 'storage = ' . $storage->getUid());
+                $count = $this->getDataService()
+                    ->count(
+                        'sys_file_processedfile',
+                        [
+                            'storage' => $storage->getUid()
+                        ]
+                    );
 
-                $message = sprintf('Done! Removed %s records from "sys_file_processedfile".', $record['numberOfProcessedFiles']);
+                // Remove the record as well.
+                $this->getDataService()->delete('sys_file_processedfile', ['storage' => $storage->getUid()]);
+
+                $message = sprintf('Done! Removed %s records from "sys_file_processedfile".', $count);
                 $this->outputLine($message);
             }
 
         }
 
         // Remove possible remaining "sys_file_processedfile"
-        $query = 'TRUNCATE sys_file_processedfile';
-        $this->getDatabaseConnection()->sql_query($query);
+        $this
+            ->getConnection('sys_file_processedfile')
+            ->query('TRUNCATE sys_file_processedfile');
     }
 
     /**
@@ -95,12 +107,22 @@ class FileCacheCommandController extends CommandController
     }
 
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
+
+    /**
+     * @param string $tableName
+     * @return object|Connection
+     */
+    protected function getConnection($tableName): Connection
+    {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        return $connectionPool->getConnectionForTable($tableName);
+    }
+
 }

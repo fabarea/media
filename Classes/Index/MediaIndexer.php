@@ -8,6 +8,7 @@ namespace Fab\Media\Index;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
 use TYPO3\CMS\Core\Resource\Index\FileIndexRepository;
@@ -92,7 +93,7 @@ class MediaIndexer
                 'tablenames' => 'sys_file_metadata',
                 'fieldname' => 'categories',
             );
-            $this->getDatabaseConnection()->exec_INSERTquery('sys_category_record_mm', $values);
+            $this->getDataService()->insert('sys_category_record_mm', $values);
         }
 
         $metaData['categories'] = count($categories);
@@ -146,13 +147,11 @@ class MediaIndexer
     }
 
     /**
-     * Returns a pointer to the database.
-     *
-     * @return \Fab\Vidi\Database\DatabaseConnection
+     * @return object|DataService
      */
-    protected function getDatabaseConnection()
+    protected function getDataService(): DataService
     {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DataService::class);
     }
 
     /**
