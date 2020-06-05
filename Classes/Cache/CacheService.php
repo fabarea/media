@@ -171,35 +171,33 @@ class CacheService
      * @param File $file
      * @return array
      */
-    protected function findPagesWithSoftReferences(File $file)
-    {
-
-        // todo here...
-        $subClauseParts = array(
-            'deleted = 0',
-            '(softref_key = "rtehtmlarea_images" OR softref_key = "typolink_tag")',
-            'ref_table = "sys_file"',
-            'tablename = "tt_content"',
-            'ref_uid = ' . $file->getUid(),
-        );
-
-        $rows = $this->getDatabaseConnection()->exec_SELECTquery(
-            'DISTINCT pid',
-            'tt_content',
-            sprintf('uid IN (SELECT recuid FROM sys_refindex WHERE %s) %s',
-                implode(' AND ', $subClauseParts),
-                $this->getWhereClauseForEnabledFields('tt_content')
-            )
-        );
-
-        // Compute result
-        $pages = [];
-        while ($affectedPage = $this->getDatabaseConnection()->sql_fetch_assoc($rows)) {
-            $pages[] = $affectedPage['pid'];
-        }
-
-        return $pages;
-    }
+    #protected function findPagesWithSoftReferences(File $file)
+    #{
+    #    $subClauseParts = array(
+    #        'deleted = 0',
+    #        '(softref_key = "rtehtmlarea_images" OR softref_key = "typolink_tag")',
+    #        'ref_table = "sys_file"',
+    #        'tablename = "tt_content"',
+    #        'ref_uid = ' . $file->getUid(),
+    #    );
+    #
+    #    $rows = $this->getDatabaseConnection()->exec_SELECTquery(
+    #        'DISTINCT pid',
+    #        'tt_content',
+    #        sprintf('uid IN (SELECT recuid FROM sys_refindex WHERE %s) %s',
+    #            implode(' AND ', $subClauseParts),
+    #            $this->getWhereClauseForEnabledFields('tt_content')
+    #        )
+    #    );
+    #
+    #    // Compute result
+    #    $pages = [];
+    #    while ($affectedPage = $this->getDatabaseConnection()->sql_fetch_assoc($rows)) {
+    #        $pages[] = $affectedPage['pid'];
+    #    }
+    #
+    #    return $pages;
+    #}
 
     /**
      * Get the WHERE clause for the enabled fields given a $tableName.
