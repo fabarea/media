@@ -18,6 +18,10 @@
 			"Fab\\Media\\": "Classes/"
 		}
 	},
+	"require": {
+		"typo3/cms-core": "^9.5",
+		"fab/vidi": "^4.0"
+	},
 	"replace": {
 		"typo3-ter/media": "self.version"
 	}
