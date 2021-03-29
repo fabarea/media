@@ -20,5 +20,10 @@
 	},
 	"replace": {
 		"typo3-ter/media": "self.version"
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "media"
+		}
 	}
 }
