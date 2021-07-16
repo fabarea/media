@@ -1,6 +1,8 @@
 <?php
 namespace Fab\Media\Utility;
 
+use TYPO3\CMS\Core\Core\Environment;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -34,7 +36,7 @@ class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$actual = \Fab\Media\Utility\Path::resolvePath($resourceName);
 
 		$this->assertTrue(strpos($actual, $expected) > 0);
-		$this->assertEquals(0, strpos(PATH_site, $expected));
+		$this->assertEquals(0, strpos(Environment::getPublicPath() . '/', $expected));
 	}
 
 	/**
@@ -47,7 +49,7 @@ class PathTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 		$actual = \Fab\Media\Utility\Path::getRelativePath($resourceName);
 
 		$this->assertTrue(strpos($actual, $expected) > 0);
-		$this->assertFalse(strpos(PATH_site, $expected));
+		$this->assertFalse(strpos(Environment::getPublicPath() . '/', $expected));
 	}
 
 	/**

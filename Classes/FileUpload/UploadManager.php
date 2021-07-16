@@ -8,6 +8,7 @@ namespace Fab\Media\FileUpload;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Exception\FailedFileUploadException;
 use Fab\Media\Utility\PermissionUtility;
@@ -293,7 +294,7 @@ class UploadManager
      */
     protected function initializeUploadFolder()
     {
-        $this->uploadFolder = PATH_site . self::UPLOAD_FOLDER;
+        $this->uploadFolder = Environment::getPublicPath() . '/' . self::UPLOAD_FOLDER;
 
         // Initialize the upload folder for file transfer and create it if not yet existing
         if (!file_exists($this->uploadFolder)) {

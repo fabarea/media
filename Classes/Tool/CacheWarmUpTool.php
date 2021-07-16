@@ -7,6 +7,8 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tool\AbstractTool;
 
@@ -35,7 +37,7 @@ class CacheWarmUpTool extends AbstractTool
     {
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/CacheWarmUp/Launcher.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
-        $view->assign('sitePath', PATH_site);
+        $view->assign('sitePath', Environment::getPublicPath() . '/');
         return $view->render();
     }
 
@@ -73,7 +75,7 @@ class CacheWarmUpTool extends AbstractTool
      */
     protected function getWarmUpSemaphorFile()
     {
-        return PATH_site . 'typo3temp/.media_cache_warmed_up';
+        return Environment::getPublicPath() . '/typo3temp/.media_cache_warmed_up';
     }
 
     /**

@@ -10,6 +10,7 @@ namespace Fab\Media\Command;
 
 use Fab\Vidi\Service\DataService;
 use FilesystemIterator;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -57,7 +58,7 @@ class FileCacheCommandController extends CommandController
                 #$storage->getProcessingFolder()->delete(true); // will not work
 
                 // Well... not really FAL friendly but straightforward for Local drivers.
-                $processedDirectoryPath = PATH_site . $storage->getProcessingFolder()->getPublicUrl();
+                $processedDirectoryPath = Environment::getPublicPath() . '/' . $storage->getProcessingFolder()->getPublicUrl();
                 $fileIterator = new FilesystemIterator($processedDirectoryPath, FilesystemIterator::SKIP_DOTS);
                 $numberOfProcessedFiles = iterator_count($fileIterator);
 

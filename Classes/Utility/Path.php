@@ -8,6 +8,7 @@ namespace Fab\Media\Utility;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -32,11 +33,11 @@ class Path
     {
 
         // If file is not found, resolve the path
-        if (!is_file(PATH_site . $resource)) {
-            $resource = substr(self::resolvePath($resource), strlen(PATH_site));
+        if (!is_file(Environment::getPublicPath() . '/' . $resource)) {
+            $resource = substr(self::resolvePath($resource), strlen(Environment::getPublicPath() . '/'));
         }
 
-        return PathUtility::getRelativePathTo(PathUtility::dirname(PATH_site . $resource)) . PathUtility::basename($resource);
+        return PathUtility::getRelativePathTo(PathUtility::dirname(Environment::getPublicPath() . '/' . $resource)) . PathUtility::basename($resource);
     }
 
     /**
@@ -48,7 +49,7 @@ class Path
     static public function resolvePath($resource)
     {
         $resource = self::canonicalPath($resource);
-        if (!is_file(PATH_site . $resource)) {
+        if (!is_file(Environment::getPublicPath() . '/' . $resource)) {
             $resource = 'EXT:' . GeneralUtility::camelCaseToLowerCaseUnderscored(self::$extensionName) . '/Resources/Public/' . $resource;
         }
         return GeneralUtility::getFileAbsFileName($resource);

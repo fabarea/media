@@ -8,6 +8,7 @@ namespace Fab\Media\FileUpload;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Exception\MissingFileException;
@@ -87,7 +88,7 @@ abstract class UploadedFileAbstract implements UploadedFileInterface
      */
     public function getPublicUrl()
     {
-        $fileNameAndPath = str_replace(PATH_site, '', $this->getFileWithAbsolutePath());
+        $fileNameAndPath = str_replace(Environment::getPublicPath() . '/', '', $this->getFileWithAbsolutePath());
         return '/' . ltrim($fileNameAndPath, '/');
     }
 

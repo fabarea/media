@@ -9,6 +9,7 @@ namespace Fab\Media\FileUpload\Optimizer;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\FileUpload\ImageOptimizerInterface;
 
@@ -37,7 +38,7 @@ class Resize implements ImageOptimizerInterface
         $this->storage = $storage;
         $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
         $this->gifCreator->init();
-        $this->gifCreator->absPrefix = PATH_site;
+        $this->gifCreator->absPrefix = Environment::getPublicPath() . '/';
     }
 
     /**

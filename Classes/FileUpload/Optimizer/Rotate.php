@@ -9,6 +9,7 @@ namespace Fab\Media\FileUpload\Optimizer;
  */
 
 use Fab\Media\FileUpload\ImageOptimizerInterface;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -29,7 +30,7 @@ class Rotate implements ImageOptimizerInterface
     {
         $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
         $this->gifCreator->init();
-        $this->gifCreator->absPrefix = PATH_site;
+        $this->gifCreator->absPrefix = Environment::getPublicPath() . '/';
     }
 
     /**

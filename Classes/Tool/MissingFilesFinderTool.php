@@ -10,6 +10,7 @@ namespace Fab\Media\Tool;
  */
 
 use Fab\Vidi\Service\DataService;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,7 +41,7 @@ class MissingFilesFinderTool extends AbstractTool
     {
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/MissingFilesFinder/Launcher.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
-        $view->assign('sitePath', PATH_site);
+        $view->assign('sitePath', Environment::getPublicPath() . '/');
         return $view->render();
     }
 

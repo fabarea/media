@@ -9,6 +9,7 @@ namespace Fab\Media\View\Warning;
  */
 
 use Fab\Media\Module\MediaModule;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -114,7 +115,7 @@ class ConfigurationWarning extends AbstractComponentView
      */
     protected function getWarmUpSemaphoreFile()
     {
-        return PATH_site . 'typo3temp/.media_cache_warmed_up';
+        return Environment::getPublicPath() . '/typo3temp/.media_cache_warmed_up';
     }
 
     /**
