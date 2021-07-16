@@ -20,12 +20,6 @@ class RecursiveCheckbox extends AbstractComponentView
 {
 
     /**
-     * @var \Fab\Vidi\Module\ModuleLoader
-     * @inject
-     */
-    protected $moduleLoader;
-
-    /**
      * Renders a checkbox for recursive file browsing.
      *
      * @return string
@@ -76,7 +70,7 @@ class RecursiveCheckbox extends AbstractComponentView
         return sprintf(
             $template,
             $this->getModuleLoader()->getModuleUrl(),
-            $this->moduleLoader->getParameterPrefix(),
+            $this->getModuleLoader()->getParameterPrefix(),
             $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:browse_subfolders')
         );
     }

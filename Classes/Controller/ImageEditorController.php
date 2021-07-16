@@ -10,7 +10,9 @@ namespace Fab\Media\Controller;
 
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -20,17 +22,13 @@ class ImageEditorController extends ActionController
 {
 
     /**
-     * @var \TYPO3\CMS\Core\Page\PageRenderer
-     * @inject
-     */
-    protected $pageRenderer;
-
-    /**
      * Initializes the controller before invoking an action method.
      */
     public function initializeAction()
     {
-        $this->pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->addInlineLanguageLabelFile('EXT:media/Resources/Private/Language/locallang.xlf');
 
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {

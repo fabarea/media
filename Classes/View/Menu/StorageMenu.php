@@ -20,12 +20,6 @@ class StorageMenu extends AbstractComponentView
 {
 
     /**
-     * @var \Fab\Vidi\Module\ModuleLoader
-     * @inject
-     */
-    protected $moduleLoader;
-
-    /**
      * Renders a dropdown menu for storage.
      *
      * @return string
@@ -81,7 +75,7 @@ class StorageMenu extends AbstractComponentView
         $inputs = '';
         foreach ($parameters as $parameter => $value) {
             list($parameter, $value) = $this->computeParameterAndValue($parameter, $value);
-            if ($parameter !== $this->moduleLoader->getParameterPrefix() . '[storage]') {
+            if ($parameter !== $this->getModuleLoader()->getParameterPrefix() . '[storage]') {
                 $inputs .= sprintf('<input type="hidden" name="%s" value="%s" />', $parameter, $value);
             }
         }
@@ -95,7 +89,7 @@ class StorageMenu extends AbstractComponentView
             $template,
             $this->getModuleLoader()->getModuleUrl(),
             $inputs,
-            $this->moduleLoader->getParameterPrefix(),
+            $this->getModuleLoader()->getParameterPrefix(),
             $options
         );
     }
