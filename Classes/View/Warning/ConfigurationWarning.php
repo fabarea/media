@@ -74,9 +74,6 @@ class ConfigurationWarning extends AbstractComponentView
         return GeneralUtility::makeInstance(\Fab\Media\Cache\CacheService::class);
     }
 
-    /**
-     * @return boolean
-     */
     protected function configureStorage()
     {
         $tableName = 'sys_file_storage';
@@ -94,8 +91,14 @@ class ConfigurationWarning extends AbstractComponentView
             $values[$field] = Tca::table($tableName)->field($field)->getDefaultValue();
         }
 
+        /** @var ConnectionPool $connectionPool */
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class);
         $storage = $this->getMediaModule()->getCurrentStorage();
-        $this->getDatabaseConnection()->exec_UPDATEquery($tableName, 'uid = ' . $storage->getUid(), $values);
+        $connection->update(
+            $tableName,
+            $values,
+            [ 'uid' => $storage->getUid() ]
+        );
     }
 
     /**

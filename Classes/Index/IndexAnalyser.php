@@ -31,11 +31,18 @@ class IndexAnalyser implements SingletonInterface
     public function searchForMissingFiles(ResourceStorage $storage)
     {
 
-        $query = $this->getDatabaseConnection()->SELECTquery('*', 'sys_file', 'storage = ' . $storage->getUid());
-        $resource = $this->getDatabaseConnection()->sql_query($query);
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
 
         $missingFiles = [];
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
+        $statement = $queryBuilder
+            ->select('*')
+            ->from('sys_file')
+            ->where(
+                $queryBuilder->expr()->eq('storage', $storage->getUid())
+            )->execute();
+        while ($row = $statement->fetchAssociative()) {
 
             // This task is very memory consuming on large data set e.g > 20'000 records.
             // We must think of having a pagination if there is the need for such thing.
@@ -61,6 +68,9 @@ class IndexAnalyser implements SingletonInterface
         $missingFiles = $this->searchForMissingFiles($storage);
         $deletedFiles = [];
 
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
         /** @var \TYPO3\CMS\Core\Resource\File $missingFile */
         foreach ($missingFiles as $missingFile) {
             try {
@@ -69,7 +79,11 @@ class IndexAnalyser implements SingletonInterface
                     // The case is special as we have a missing file in the file system
                     // As a result, we can't use $fileObject->delete(); which will
                     // raise exception "Error while fetching permissions"
-                    $this->getDatabaseConnection()->exec_DELETEquery('sys_file', 'uid = ' . $missingFile->getUid());
+                    $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
+                    $queryBuilder->delete('sys_file')
+                        ->where($queryBuilder->expr()->eq('uid', $missingFile->getUid()))
+                        ->execute();
+
                     $deletedFiles[$missingFile->getUid()] = $missingFile->getIdentifier();
                 }
             } catch (\Exception $e) {
@@ -87,14 +101,35 @@ class IndexAnalyser implements SingletonInterface
      */
     public function searchForDuplicateIdentifiers(ResourceStorage $storage)
     {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
+
+        $statement = $queryBuilder
+            ->select('*')
+            ->from('sys_file')
+            ->where(
+                $queryBuilder->expr()->eq('storage', $storage->getUid())
+            )
+            ->groupby('identifier')
+            ->having('count(*) > 1')
+            ->execute();
 
         // Detect duplicate records.
-        $query = "SELECT identifier FROM sys_file WHERE storage = {$storage->getUid()} GROUP BY identifier, storage Having COUNT(*) > 1";
-        $resource = $this->getDatabaseConnection()->sql_query($query);
         $duplicates = [];
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
-            $clause = sprintf('identifier = "%s" AND storage = %s', $row['identifier'], $storage->getUid());
-            $records = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file', $clause);
+        while ($row = $statement->fetchAssociative()) {
+
+            $records = $queryBuilder
+                ->select('*')
+                ->from('sys_file')
+                ->where(
+                    $queryBuilder->expr()->eq('storage', $storage->getUid())
+                )
+                ->andWhere(
+                    $queryBuilder->expr()->eq('identifier', $queryBuilder->createNamedParameter($row['identifier']))
+                )
+                ->execute();
+            $records = $records->fetchAllAssociative();
             $duplicates[$row['identifier']] = $records;
         }
         return $duplicates;
@@ -108,14 +143,35 @@ class IndexAnalyser implements SingletonInterface
      */
     public function searchForDuplicateSha1(ResourceStorage $storage)
     {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
+
+        $statement = $queryBuilder
+            ->select('*')
+            ->from('sys_file')
+            ->where(
+                $queryBuilder->expr()->eq('storage', $storage->getUid())
+            )
+            ->groupby('sha1')
+            ->having('count(*) > 1')
+            ->execute();
 
         // Detect duplicate records.
-        $query = "SELECT sha1 FROM sys_file WHERE storage = {$storage->getUid()} GROUP BY sha1, storage Having COUNT(*) > 1";
-        $resource = $this->getDatabaseConnection()->sql_query($query);
         $duplicates = [];
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($resource)) {
-            $clause = sprintf('sha1 = "%s" AND storage = %s', $row['sha1'], $storage->getUid());
-            $records = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'sys_file', $clause);
+        while ($row = $statement->fetchAssociative()) {
+
+            $records = $queryBuilder
+                ->select('*')
+                ->from('sys_file')
+                ->where(
+                    $queryBuilder->expr()->eq('storage', $storage->getUid())
+                )
+                ->andWhere(
+                    $queryBuilder->expr()->eq('identifier', $queryBuilder->createNamedParameter($row['sha1']))
+                )
+                ->execute();
+            $records = $records->fetchAllAssociative();
             $duplicates[$row['sha1']] = $records;
         }
         return $duplicates;
