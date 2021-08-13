@@ -58,9 +58,20 @@ class MediaIndexer
         $newMetaData = array(
             0 => $file->_getMetaData()
         );
-        foreach ($extractionServices as $service) {
-            if ($service->canProcess($file)) {
-                $newMetaData[$service->getPriority()] = $service->extractMetaData($file, $newMetaData);
+
+        foreach ($extractionServices as $services) {
+            if (is_array($services)) {
+                foreach ($services as $service) {
+                    if ($service->canProcess($file)) {
+                        $newMetaData[$service->getPriority()] = $service->extractMetaData($file, $newMetaData);
+                    }
+                }
+            } else {
+                $service = $services;
+                // We could optimise here for not repeating this bit
+                if ($service->canProcess($file)) {
+                    $newMetaData[$service->getPriority()] = $service->extractMetaData($file, $newMetaData);
+                }
             }
         }
 
@@ -69,7 +80,7 @@ class MediaIndexer
         foreach ($newMetaData as $data) {
             $metaData = array_merge($metaData, $data);
         }
-        $file->_updateMetaDataProperties($metaData);
+        $file->updateProperties($metaData);
         $this->getMetaDataRepository()->update($file->getUid(), $metaData);
         $this->getFileIndexRepository()->updateIndexingTime($file->getUid());
 
@@ -97,7 +108,7 @@ class MediaIndexer
         }
 
         $metaData['categories'] = count($categories);
-        $file->_updateMetaDataProperties($metaData);
+        $file->updateProperties($metaData);
         $this->getMetaDataRepository()->update($file->getUid(), $metaData);
         $this->getFileIndexRepository()->updateIndexingTime($file->getUid());
         return $this;

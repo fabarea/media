@@ -34,6 +34,7 @@ class TceForms extends AbstractFormElement
         $pageRenderer->addInlineLanguageLabelFile(ExtensionManagementUtility::extPath('media') . 'Resources/Private/Language/locallang.xlf', 'media_file_upload');
 
         // js files to be loaded
+        $pageRenderer->addJsFile(ExtensionManagementUtility::extPath('core') . 'Resources/Public/JavaScript/Contrib/jquery/jquery.min.js');
         $pageRenderer->addJsFile(ExtensionManagementUtility::extPath('media') . 'Resources/Public/JavaScript/Encoder.js');
         $pageRenderer->addJsFile(ExtensionManagementUtility::extPath('media') . 'Resources/Public/Libraries/Fineuploader/jquery.fineuploader-5.0.9.min.js');
 

@@ -30,14 +30,12 @@ class Resize implements ImageOptimizerInterface
     protected $storage;
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
-     * @return Resize
+     * Constructor
      */
     public function __construct($storage = null)
     {
         $this->storage = $storage;
         $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
-        $this->gifCreator->init();
         $this->gifCreator->absPrefix = Environment::getPublicPath() . '/';
     }
 

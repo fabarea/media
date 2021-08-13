@@ -24,12 +24,11 @@ class Rotate implements ImageOptimizerInterface
     protected $gifCreator;
 
     /**
-     * @return \Fab\Media\FileUpload\Optimizer\Rotate
+     * Constructor
      */
     public function __construct()
     {
         $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
-        $this->gifCreator->init();
         $this->gifCreator->absPrefix = Environment::getPublicPath() . '/';
     }
 

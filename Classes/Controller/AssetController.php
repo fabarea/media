@@ -34,6 +34,7 @@ use Fab\Media\Thumbnail\ThumbnailService;
 use Fab\Vidi\Persistence\MatcherObjectFactory;
 use Fab\Vidi\Tca\Tca;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  * Controller which handles actions related to Asset.
@@ -98,7 +99,7 @@ class AssetController extends ActionController
      * Handle file upload for a new file.
      *
      * @param string $combinedIdentifier
-     * @validate $combinedIdentifier \Fab\Media\Domain\Validator\StorageValidator
+     * @Extbase\Validate("\Fab\Media\Domain\Validator\StorageValidator", param="combinedIdentifier")
      * @return string
      */
     public function createAction($combinedIdentifier)

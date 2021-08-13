@@ -17,7 +17,7 @@ call_user_func(function () {
     if (!$disableTitleMetadataExtractor) {
 
         // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
-        \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService('Fab\Media\Index\TitleMetadataExtractor');
+        \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService(\Fab\Media\Index\TitleMetadataExtractor::class );
     }
 
     // Hook for traditional file upload, trigger metadata indexing as well.
