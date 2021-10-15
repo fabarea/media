@@ -49,11 +49,17 @@ class FileCacheCommandController extends CommandController
                 $this->outputLine(sprintf('%s (%s)', $storage->getName(), $storage->getUid()));
                 $this->outputLine('--------------------------------------------');
                 $this->outputLine();
+                
+                $processingFolderPublicUrl = $storage->getProcessingFolder()->getPublicUrl();
+                if (!$processingFolderPublicUrl) {
+                    $this->outputLine('Skipped because storage is not publicly available.');
+                    continue;
+                }
 
                 #$storage->getProcessingFolder()->delete(true); // will not work
 
                 // Well... not really FAL friendly but straightforward for Local drivers.
-                $processedDirectoryPath = PATH_site . $storage->getProcessingFolder()->getPublicUrl();
+                $processedDirectoryPath = PATH_site . $processingFolderPublicUrl;
                 $fileIterator = new FilesystemIterator($processedDirectoryPath, FilesystemIterator::SKIP_DOTS);
                 $numberOfProcessedFiles = iterator_count($fileIterator);
 
