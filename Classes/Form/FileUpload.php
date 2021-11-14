@@ -82,7 +82,7 @@ EOF;
 
         // Instantiate the file object for the whole class if possible.
         if ($this->getValue()) {
-            $this->file = ResourceFactory::getInstance()->getFileObject($this->getValue());
+            $this->file = $this->getResourceFactory()->getFileObject($this->getValue());
         }
 
         $result = sprintf(
@@ -266,6 +266,11 @@ EOF;
     protected function getModuleLoader()
     {
         return GeneralUtility::makeInstance(\Fab\Vidi\Module\ModuleLoader::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

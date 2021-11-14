@@ -100,7 +100,7 @@ class ThumbnailGenerator
         foreach ($rows as $row) {
 
 
-            $file = ResourceFactory::getInstance()->getFileObject($row['uid'], $row);
+            $file = $this->getResourceFactory()->getFileObject($row['uid'], $row);
 
             if ($file->exists()) {
 
@@ -126,20 +126,6 @@ class ThumbnailGenerator
             }
         }
 
-    }
-
-    /**
-     * @return int
-     */
-    protected function isNewProcessedFile()
-    {
-        $isNewProcessedFile = false;
-        $lastInsertedId = $this->getDatabaseConnection()->sql_insert_id();
-        if ($lastInsertedId > 0 && $lastInsertedId !== $this->lastInsertedProcessedFile) {
-            $this->lastInsertedProcessedFile = $lastInsertedId;
-            $isNewProcessedFile = true;
-        }
-        return $isNewProcessedFile;
     }
 
     /**
@@ -265,5 +251,10 @@ class ThumbnailGenerator
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 }

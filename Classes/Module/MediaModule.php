@@ -85,13 +85,13 @@ class MediaModule implements SingletonInterface
             $storageIdentifier = $this->getStorageIdentifierFromSessionOrArguments();
 
             if ($storageIdentifier > 0) {
-                $currentStorage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
+                $currentStorage = $this->getResourceFactory()->getStorageObject($storageIdentifier);
             } else {
 
                 // We differentiate the cases whether the User is admin or not.
                 if ($this->getBackendUser()->isAdmin()) {
 
-                    $currentStorage = ResourceFactory::getInstance()->getDefaultStorage();
+                    $currentStorage = $this->getResourceFactory()->getDefaultStorage();
 
                     // Not default storage has been flagged in "sys_file_storage".
                     // Fallback approach: take the first storage as the current.
@@ -105,7 +105,7 @@ class MediaModule implements SingletonInterface
                 } else {
                     $fileMounts = $this->getBackendUser()->getFileMountRecords();
                     $firstFileMount = current($fileMounts);
-                    $currentStorage = ResourceFactory::getInstance()->getStorageObject($firstFileMount['base']);
+                    $currentStorage = $this->getResourceFactory()->getStorageObject($firstFileMount['base']);
                 }
             }
 
@@ -221,19 +221,19 @@ class MediaModule implements SingletonInterface
     {
 
         // Code taken from FileListController.php
-        $storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+        $storage = $this->getResourceFactory()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
         $identifier = substr($combinedIdentifier, strpos($combinedIdentifier, ':') + 1);
         if (!$storage->hasFolder($identifier)) {
             $identifier = $storage->getFolderIdentifierFromFileIdentifier($identifier);
         }
 
         // Retrieve the folder object.
-        $folder = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($storage->getUid() . ':' . $identifier);
+        $folder = $this->getResourceFactory()->getFolderObjectFromCombinedIdentifier($storage->getUid() . ':' . $identifier);
 
         // Disallow the rendering of the processing folder (e.g. could be called manually)
         // and all folders without any defined storage
         if ($folder && ($folder->getStorage()->getUid() == 0 || trim($folder->getStorage()->getProcessingFolder()->getIdentifier(), '/') === trim($folder->getIdentifier(), '/'))) {
-            $storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+            $storage = $this->getResourceFactory()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
             $folder = $storage->getRootLevelFolder();
         }
 
@@ -353,13 +353,16 @@ class MediaModule implements SingletonInterface
     }
 
     /**
-     * Return the module loader.
-     *
      * @return \Fab\Vidi\Module\ModuleLoader|object
      */
     protected function getModuleLoader()
     {
         return GeneralUtility::makeInstance(\Fab\Vidi\Module\ModuleLoader::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

@@ -73,7 +73,7 @@ class FilePermissionsAspect
                     foreach ($fileMounts as $fileMount) {
 
                         $combinedIdentifier = $fileMount['base'] . ':' . $fileMount['path'];
-                        $folder = ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($combinedIdentifier);
+                        $folder = $this->getResourceFactory()->getFolderObjectFromCombinedIdentifier($combinedIdentifier);
 
                         $files = $this->getFileUids($folder);
                         $collectedFiles = array_merge($collectedFiles, $files);
@@ -229,5 +229,10 @@ class FilePermissionsAspect
     protected function getModuleLoader()
     {
         return GeneralUtility::makeInstance(ModuleLoader::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 }

@@ -10,6 +10,7 @@ namespace Fab\Media\TypeConverter;
 
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
 
@@ -48,7 +49,7 @@ class FileConverter extends AbstractTypeConverter
     {
 
         /** @var $file File */
-        $file = ResourceFactory::getInstance()->getFileObject((int)$source);
+        $file = $this->getResourceFactory()->getFileObject((int)$source);
 
         if (!$file) {
             $message = sprintf('File with identifier "%s" could not be found.', $file);
@@ -57,5 +58,10 @@ class FileConverter extends AbstractTypeConverter
 
         $file->getType(); // force to internally know its mime-type.
         return $file;
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 }

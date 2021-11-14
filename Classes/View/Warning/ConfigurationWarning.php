@@ -93,9 +93,9 @@ class ConfigurationWarning extends AbstractComponentView
         }
 
         /** @var ConnectionPool $connectionPool */
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class);
         $storage = $this->getMediaModule()->getCurrentStorage();
-        $connection->update(
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class);
+        $connection->getConnectionForTable($tableName)->update(
             $tableName,
             $values,
             [ 'uid' => $storage->getUid() ]

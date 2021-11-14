@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3') or die();
 
 call_user_func(function () {
 
@@ -17,25 +17,23 @@ call_user_func(function () {
     if (!$disableTitleMetadataExtractor) {
 
         // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
-        \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService(\Fab\Media\Index\TitleMetadataExtractor::class );
+        \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService(\Fab\Media\Index\TitleMetadataExtractor::class);
     }
 
     // Hook for traditional file upload, trigger metadata indexing as well.
     // Could be done at the Core level in the future...
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_extfilefunc.php']['processData'][] = 'Fab\Media\Hook\FileUploadHook';
 
-    if (TYPO3_MODE === 'BE') {
 
-        // Special process to fill column "usage" which indicates the total number of file reference including soft references.
-        $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'Fab\Media\Hook\DataHandlerHook';
+    // Special process to fill column "usage" which indicates the total number of file reference including soft references.
+    $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'Fab\Media\Hook\DataHandlerHook';
 
-        $hasMediaFilePicker = isset($configuration['has_media_file_picker']) ? $configuration['has_media_file_picker'] : FALSE;
-        if ($hasMediaFilePicker) {
+    $hasMediaFilePicker = isset($configuration['has_media_file_picker']) ? $configuration['has_media_file_picker'] : FALSE;
+    if ($hasMediaFilePicker) {
 
-            // Override classes for the Object Manager.
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\Form\FormResultCompiler::class] = array(
-                'className' => \Fab\Media\Override\Backend\Form\FormResultCompiler::class
-            );
-        }
+        // Override classes for the Object Manager.
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\Form\FormResultCompiler::class] = array(
+            'className' => \Fab\Media\Override\Backend\Form\FormResultCompiler::class
+        );
     }
 });

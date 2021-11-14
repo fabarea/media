@@ -13,6 +13,7 @@ use Fab\Vidi\Service\DataService;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -224,7 +225,7 @@ class CacheService
      */
     protected function isFrontendMode()
     {
-        return TYPO3_MODE == 'FE';
+        return ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
     }
 
     /**

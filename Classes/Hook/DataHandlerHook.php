@@ -120,7 +120,7 @@ class DataHandlerHook
         // After collecting files, update the column "number_of_references".
         foreach ($this->getFileToProcess() as $fileIdentifier) {
             try {
-                $file = ResourceFactory::getInstance()->getFileObject($fileIdentifier);
+                $file = $this->getResourceFactory()->getFileObject($fileIdentifier);
                 $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
 
                 $values = array(
@@ -328,6 +328,11 @@ class DataHandlerHook
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

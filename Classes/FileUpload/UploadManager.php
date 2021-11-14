@@ -9,6 +9,7 @@ namespace Fab\Media\FileUpload;
  */
 
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Exception\FailedFileUploadException;
 use Fab\Media\Utility\PermissionUtility;
@@ -212,7 +213,7 @@ class UploadManager
      */
     public function checkFileExtensionPermission($fileName)
     {
-        $isAllowed = GeneralUtility::verifyFilenameAgainstDenyPattern($fileName);
+        $isAllowed = GeneralUtility::makeInstance(FileNameValidator::class)->isValid($fileName);
         if ($isAllowed) {
             $fileInfo = GeneralUtility::split_fileref($fileName);
             // Set up the permissions for the file extension

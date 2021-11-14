@@ -41,7 +41,7 @@ class FileDataHandler extends AbstractDataHandler
      */
     public function processRemove(Content $content)
     {
-        $file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+        $file = $this->getResourceFactory()->getFileObject($content->getUid());
 
         $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
         if ($numberOfReferences === 0) {
@@ -62,7 +62,7 @@ class FileDataHandler extends AbstractDataHandler
      */
     public function processCopy(Content $content, $target)
     {
-        $file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+        $file = $this->getResourceFactory()->getFileObject($content->getUid());
 
         if ($this->getMediaModule()->hasFolderTree()) {
 
@@ -84,7 +84,7 @@ class FileDataHandler extends AbstractDataHandler
      */
     public function processMove(Content $content, $target)
     {
-        $file = ResourceFactory::getInstance()->getFileObject($content->getUid());
+        $file = $this->getResourceFactory()->getFileObject($content->getUid());
 
         if ($this->getMediaModule()->hasFolderTree()) {
 
@@ -99,7 +99,7 @@ class FileDataHandler extends AbstractDataHandler
             // Only process if the storage is different.
             if ((int)$file->getStorage()->getUid() !== (int)$target) {
 
-                $targetStorage = ResourceFactory::getInstance()->getStorageObject((int)$target);
+                $targetStorage = $this->getResourceFactory()->getStorageObject((int)$target);
 
                 // Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
                 $targetFolder = $this->getMediaModule()->getDefaultFolderInStorage($targetStorage, $file);
@@ -142,6 +142,11 @@ class FileDataHandler extends AbstractDataHandler
     protected function getMediaModule()
     {
         return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

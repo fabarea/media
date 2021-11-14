@@ -51,7 +51,7 @@ class PermissionUtility implements SingletonInterface
 
         if (!is_null($storage)) {
             if (!$storage instanceof ResourceStorage) {
-                $storage = ResourceFactory::getInstance()->getStorageObject((int)$storage);
+                $storage = $this->getResourceFactory()->getStorageObject((int)$storage);
             }
         } else {
             $storage = $this->getMediaModule()->getCurrentStorage();
@@ -86,6 +86,11 @@ class PermissionUtility implements SingletonInterface
     protected function getMediaModule()
     {
         return GeneralUtility::makeInstance(MediaModule::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

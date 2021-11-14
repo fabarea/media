@@ -12,6 +12,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\SingletonInterface;
 use Fab\Vidi\Domain\Model\Content;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Convert a Content Object to File
@@ -43,6 +44,11 @@ class ContentToFileConverter implements SingletonInterface
             $fileData = [];
             $fileUid = (int)$fileRepresentation;
         }
-        return ResourceFactory::getInstance()->getFileObject($fileUid, $fileData);
+        return $this->getResourceFactory()->getFileObject($fileUid, $fileData);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 }

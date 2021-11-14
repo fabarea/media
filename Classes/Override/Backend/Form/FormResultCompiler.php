@@ -24,12 +24,12 @@ class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
      * @param string $formname The identification of the form on the page.
      * @return string A section with JavaScript - if $update is false, embedded in <script></script>
      */
-    protected function JSbottom($formname = 'forms[0]')
+    protected function JSbottom()
     {
+        $out = parent::JSbottom();
 
-        $out = parent::JSbottom($formname);
-
-        $enableMediaFilePicker = (bool)$this->getBackendUser()->getTSConfigVal('options.vidi.enableMediaFilePicker');
+        $tsConfig = $this->getBackendUser()->getTSConfig();
+        $enableMediaFilePicker = (bool)$tsConfig['options.vidi.enableMediaFilePicker'];
         if ($enableMediaFilePicker) {
 
             $pageRenderer = $this->getPageRenderer();

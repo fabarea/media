@@ -12,6 +12,7 @@ use Fab\Vidi\View\AbstractComponentView;
 use Fab\Media\Utility\Path;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * View which renders content for file picker plugin.
@@ -40,7 +41,9 @@ class FilePickerPlugin extends AbstractComponentView
     {
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
-        $configuration['paths']['Fab/Media'] = '../typo3conf/ext/media/Resources/Public/JavaScript';
+        $publicResourcesPath = PathUtility::getPublicResourceWebPath('EXT:media/Resources/Public/');
+        $configuration['paths']['Fab/Media'] = $publicResourcesPath . 'JavaScript';
+
         $pageRenderer->addRequireJsConfiguration($configuration);
         $pageRenderer->loadRequireJsModule('Fab/Media/PluginFilePicker');
     }

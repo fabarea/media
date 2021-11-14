@@ -36,7 +36,7 @@ class MetadataRenderer extends ColumnRendererAbstract
         $propertyName = $this->gridRendererConfiguration['property'];
 
         if ($propertyName === 'uid') {
-            $metadata = $file->_getMetaData();
+            $metadata = $file->getMetaData();
             $result = $metadata['uid']; // make an exception here to retrieve the uid of the metadata.
         } else {
             $result = $file->getProperty($propertyName);

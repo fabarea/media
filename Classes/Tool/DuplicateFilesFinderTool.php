@@ -94,7 +94,7 @@ class DuplicateFilesFinderTool extends AbstractTool
             }
 
             foreach ($allowedStorages as $storageIdentifier => $allowedMountPoints) {
-                $storage = ResourceFactory::getInstance()->getStorageObject($storageIdentifier);
+                $storage = $this->getResourceFactory()->getStorageObject($storageIdentifier);
 
                 if ($storage->isOnline()) {
 
@@ -154,7 +154,7 @@ class DuplicateFilesFinderTool extends AbstractTool
 
             /** @var \TYPO3\CMS\Core\Resource\File $file */
             try {
-                $file = ResourceFactory::getInstance()->getFileObject($fileUid);
+                $file = $this->getResourceFactory()->getFileObject($fileUid);
                 if ($file->exists()) {
 
                     $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
@@ -220,6 +220,11 @@ class DuplicateFilesFinderTool extends AbstractTool
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

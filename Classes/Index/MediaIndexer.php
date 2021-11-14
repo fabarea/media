@@ -52,11 +52,10 @@ class MediaIndexer
      */
     public function extractMetadata(File $file)
     {
-
         $extractionServices = $this->getExtractorRegistry()->getExtractorsWithDriverSupport($this->storage->getDriverType());
 
         $newMetaData = array(
-            0 => $file->_getMetaData()
+            0 => $file->getMetaData()->get()
         );
 
         foreach ($extractionServices as $services) {
@@ -122,7 +121,7 @@ class MediaIndexer
      */
     protected function getFileMetadataIdentifier(File $file)
     {
-        $metadataProperties = $file->_getMetaData();
+        $metadataProperties = $file->getMetaData()->get();
         return isset($metadataProperties['_ORIG_uid']) ? (int)$metadataProperties['_ORIG_uid'] : (int)$metadataProperties['uid'];
     }
 

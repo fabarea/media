@@ -31,7 +31,7 @@ class EditButton extends AbstractComponentView
     public function render(Content $object = null)
     {
         $file = $this->getFileConverter()->convert($object);
-        $metadataProperties = $file->_getMetaData();
+        $metadataProperties = $file->getMetaData()->get();
 
         $button = '';
         if ($file->checkActionPermission('write')) {
@@ -56,7 +56,7 @@ class EditButton extends AbstractComponentView
      */
     protected function getUri(File $file)
     {
-        $metadataProperties = $file->_getMetaData();
+        $metadataProperties = $file->getMetaData()->get();
 
         $parameterName = sprintf('edit[sys_file_metadata][%s]', $metadataProperties['uid']);
         $uri = BackendUtility::getModuleUrl(

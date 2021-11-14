@@ -114,7 +114,7 @@ class AssetController extends ActionController
         if ($this->getMediaModule()->hasFolderTree()) {
             $targetFolder = $this->getMediaModule()->getFolderForCombinedIdentifier($combinedIdentifier);
         } else {
-            $storage = ResourceFactory::getInstance()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
+            $storage = $this->getResourceFactory()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
             $targetFolder = $this->getMediaModule()->getTargetFolderForUploadedFile($uploadedFile, $storage);
         }
 
@@ -350,6 +350,11 @@ class AssetController extends ActionController
     protected function getMediaModule()
     {
         return GeneralUtility::makeInstance(MediaModule::class);
+    }
+
+    protected function getResourceFactory(): ResourceFactory
+    {
+        return GeneralUtility::makeInstance(ResourceFactory::class);
     }
 
 }

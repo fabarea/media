@@ -7,7 +7,7 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Fabien Udriot',
     'author_email' => 'fabien@ecodev.ch',
     'state' => 'stable',
-    'version' => '6.0.0-dev',
+    'version' => '7.0.0-dev',
     'autoload' => [
         'psr-4' => ['Fab\\Media\\' => 'Classes']
     ],
@@ -15,8 +15,8 @@ $EM_CONF[$_EXTKEY] = [
         [
             'depends' =>
                 [
-                    'typo3' => '10.4.0-10.4.99',
-                    'vidi' => '4.0.0-0.0.0',
+                    'typo3' => '10.5.0-10.5.99',
+                    'vidi' => '6.0.0-0.0.0',
                 ],
             'conflicts' =>
                 [
