@@ -10,7 +10,6 @@ namespace Fab\Media\Utility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * A class for handling configuration of the extension
@@ -49,14 +48,6 @@ class ConfigurationUtility implements SingletonInterface
         foreach ($configuration as $key => $value) {
             $this->configuration[$key] = $value;
         }
-    }
-
-    /**
-     * @return ObjectManager|object
-     */
-    protected function getObjectManager()
-    {
-        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 
     /**

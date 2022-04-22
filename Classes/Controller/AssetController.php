@@ -7,6 +7,7 @@ namespace Fab\Media\Controller;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+use Psr\Http\Message\ResponseInterface;
 use Fab\Media\Exception\StorageNotOnlineException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use Fab\Media\Exception\InvalidKeyInArrayException;
@@ -65,7 +66,7 @@ class AssetController extends ActionController
         if ($this->arguments->hasArgument('file')) {
 
             /** @var FileConverter $typeConverter */
-            $typeConverter = $this->objectManager->get(FileConverter::class);
+            $typeConverter = GeneralUtility::makeInstance(FileConverter::class);
 
             $propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();
             $propertyMappingConfiguration->setTypeConverter($typeConverter);
@@ -80,7 +81,7 @@ class AssetController extends ActionController
      * @return bool|string
      * @throws \RuntimeException
      */
-    public function downloadAction(File $file, $forceDownload = false)
+    public function downloadAction(File $file, $forceDownload = false): ResponseInterface
     {
 
         if ($file->exists() && $file->getStorage()->isWithinFileMountBoundaries($file->getParentFolder())) {
@@ -89,14 +90,14 @@ class AssetController extends ActionController
             $this->emitBeforeDownloadSignal($file);
 
             // Read the file and dump it with the flag "forceDownload" set to true or false.
-            $file->getStorage()->dumpFileContents($file, $forceDownload);
+            $file->getStorage()->streamFile($file, $forceDownload);
 
             $result = true;
         } else {
             $result = 'Access denied!';
         }
 
-        return $result;
+        return $this->htmlResponse($result);
     }
 
     /**
@@ -106,12 +107,12 @@ class AssetController extends ActionController
      * @Extbase\Validate("\Fab\Media\Domain\Validator\StorageValidator", param="combinedIdentifier")
      * @return string
      */
-    public function createAction($combinedIdentifier)
+    public function createAction($combinedIdentifier): ResponseInterface
     {
         /** @var UploadedFileInterface $uploadedFile */
         $uploadedFile = $this->handleUpload();
         if (!is_object($uploadedFile)) {
-            return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
+            return $this->htmlResponse(htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES));
         }
 
         // Get the target folder.
@@ -156,7 +157,7 @@ class AssetController extends ActionController
 
         // to pass data through iframe you will need to encode all html tags
         header("Content-Type: text/plain");
-        return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
+        return $this->htmlResponse(htmlspecialchars(json_encode($response), ENT_NOQUOTES));
     }
 
     /**
@@ -167,11 +168,11 @@ class AssetController extends ActionController
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function updateAction(File $file)
+    public function updateAction(File $file): ResponseInterface
     {
         $uploadedFile = $this->handleUpload();
         if (!is_object($uploadedFile)) {
-            return htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES);
+            return $this->htmlResponse(htmlspecialchars(json_encode($uploadedFile), ENT_NOQUOTES));
         }
 
         /** @var $file File */
@@ -214,7 +215,7 @@ class AssetController extends ActionController
 
         // to pass data through iframe you will need to encode all html tags
         header("Content-Type: text/plain");
-        return htmlspecialchars(json_encode($response), ENT_NOQUOTES);
+        return $this->htmlResponse(htmlspecialchars(json_encode($response), ENT_NOQUOTES));
     }
 
     /**
@@ -223,7 +224,7 @@ class AssetController extends ActionController
      * @param array $matches
      * @throws \Exception
      */
-    public function editStorageAction(array $matches = [])
+    public function editStorageAction(array $matches = []): ResponseInterface
     {
 
         $this->view->assign('storages', $this->getMediaModule()->getAllowedStorages());
@@ -245,6 +246,7 @@ class AssetController extends ActionController
         $this->view->assign('fieldNameAndPath', $fieldName);
         $this->view->assign('numberOfObjects', $contentService->getNumberOfObjects());
         $this->view->assign('editWholeSelection', empty($matches['uid'])); // necessary??
+        return $this->htmlResponse();
     }
 
     /**
@@ -335,7 +337,7 @@ class AssetController extends ActionController
      */
     protected function getSignalSlotDispatcher()
     {
-        return $this->objectManager->get(Dispatcher::class);
+        return GeneralUtility::makeInstance(Dispatcher::class);
     }
 
     /**

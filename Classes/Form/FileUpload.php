@@ -11,7 +11,6 @@ use TYPO3\CMS\Core\Resource\File;
 use Fab\Media\Exception\EmptyPropertyException;
 use Fab\Media\Thumbnail\ThumbnailService;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use Fab\Vidi\Module\ModuleLoader;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
@@ -155,10 +154,8 @@ EOF;
      */
     protected function getStandaloneView()
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
         /** @var StandaloneView $view */
-        $view = $objectManager->get('TYPO3\CMS\Fluid\View\StandaloneView');
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
 
         $templatePathAndFilename = ExtensionManagementUtility::extPath('media') . $this->templateFile;
         $view->setTemplatePathAndFilename($templatePathAndFilename);
