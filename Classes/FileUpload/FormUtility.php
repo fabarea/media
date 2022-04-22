@@ -7,7 +7,7 @@ namespace Fab\Media\FileUpload;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -23,7 +23,7 @@ class FormUtility implements SingletonInterface
      */
     static public function getInstance()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Media\FileUpload\FormUtility::class);
+        return GeneralUtility::makeInstance(\Fab\Media\FileUpload\FormUtility::class);
     }
 
     /**

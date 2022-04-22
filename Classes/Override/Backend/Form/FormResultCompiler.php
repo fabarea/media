@@ -7,7 +7,7 @@ namespace Fab\Media\Override\Backend\Form;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -46,7 +46,7 @@ class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
     /**
      * Returns an instance of the current Backend User.
      *
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     * @return BackendUserAuthentication
      */
     protected function getBackendUser()
     {

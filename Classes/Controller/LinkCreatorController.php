@@ -7,7 +7,7 @@ namespace Fab\Media\Controller;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\TypeConverter\FileConverter;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -26,7 +26,7 @@ class LinkCreatorController extends ActionController
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
 
-            /** @var \Fab\Media\TypeConverter\FileConverter $typeConverter */
+            /** @var FileConverter $typeConverter */
             $typeConverter = $this->objectManager->get('Fab\Media\TypeConverter\FileConverter');
 
             $propertyMappingConfiguration = $this->arguments->getArgument('file')->getPropertyMappingConfiguration();

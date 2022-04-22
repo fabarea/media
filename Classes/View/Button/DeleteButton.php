@@ -7,7 +7,8 @@ namespace Fab\Media\View\Button;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Resource\FileReferenceService;
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
@@ -22,7 +23,7 @@ class DeleteButton extends AbstractComponentView
     /**
      * Renders a "delete" button to be placed in the grid.
      *
-     * @param \Fab\Vidi\Domain\Model\Content $object
+     * @param Content $object
      * @return string
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
@@ -44,7 +45,7 @@ class DeleteButton extends AbstractComponentView
                     'label' => $file->getProperty('title'),
                 ])
                 ->setClasses('btn-delete')
-                ->setTitle($this->getLanguageService()->sL('LLL:EXT:lang/locallang_mod_web_list.xlf:delete'))
+                ->setTitle($this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_mod_web_list.xlf:delete'))
                 ->setIcon($this->getIconFactory()->getIcon('actions-edit-delete', Icon::SIZE_SMALL))
                 ->render();
         }
@@ -73,21 +74,21 @@ class DeleteButton extends AbstractComponentView
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService|object
+     * @return FileReferenceService|object
      * @throws \InvalidArgumentException
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
+        return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
+     * @return ContentToFileConverter|object
      * @throws \InvalidArgumentException
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 
 }

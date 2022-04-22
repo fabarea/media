@@ -13,7 +13,7 @@ namespace Fab\Media\Utility;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Tests\Functional\AbstractFunctionalTestCase;
 
 require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
@@ -25,17 +25,17 @@ require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 class ImagePresetUtilityTest extends AbstractFunctionalTestCase {
 
 	/**
-	 * @var \Fab\Media\Utility\ImagePresetUtility
+	 * @var ImagePresetUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
 		parent::setUp();
-		$this->fixture = new \Fab\Media\Utility\ImagePresetUtility();
+		$this->fixture = new ImagePresetUtility();
 	}
 
 	public function tearDown() {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::purgeInstances();
+		GeneralUtility::purgeInstances();
 		unset($this->fixture);
 	}
 
@@ -53,7 +53,7 @@ class ImagePresetUtilityTest extends AbstractFunctionalTestCase {
 	public function methodPresetReturnInstanceOfImagePresetUtility() {
 		$actual = 'image_thumbnail';
 		$object = $this->fixture->preset($actual);
-		$this->assertTrue($object instanceof \Fab\Media\Utility\ImagePresetUtility);
+		$this->assertTrue($object instanceof ImagePresetUtility);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class ImagePresetUtilityTest extends AbstractFunctionalTestCase {
 	 * @dataProvider presetProvider
 	 */
 	public function testProperty($preset, $setting, $width, $height) {
-		\Fab\Media\Utility\ConfigurationUtility::getInstance()->set($preset, $setting);
+		ConfigurationUtility::getInstance()->set($preset, $setting);
 		$this->assertSame($width, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($height, $this->fixture->preset($preset)->getHeight());
 	}
@@ -117,7 +117,7 @@ class ImagePresetUtilityTest extends AbstractFunctionalTestCase {
 	 */
 	public function setOriginalImageAsPresetWithValue0AndCheckWidthEquals0() {
 		$actual = 'image_large';
-		\Fab\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', 0);
+		ConfigurationUtility::getInstance()->set('image_large', 0);
 		$this->assertSame(0, $this->fixture->preset($actual)->getWidth());
 	}
 
@@ -128,7 +128,7 @@ class ImagePresetUtilityTest extends AbstractFunctionalTestCase {
 		$preset = 'image_large';
 		$actualWidth = rand(10, 100);
 		$actualHeight = rand(10, 100);
-		\Fab\Media\Utility\ConfigurationUtility::getInstance()->set('image_large', $actualWidth . 'x' . $actualHeight);
+		ConfigurationUtility::getInstance()->set('image_large', $actualWidth . 'x' . $actualHeight);
 		$this->assertSame($actualWidth, $this->fixture->preset($preset)->getWidth());
 		$this->assertSame($actualHeight, $this->fixture->preset($preset)->getHeight());
 	}

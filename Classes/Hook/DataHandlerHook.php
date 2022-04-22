@@ -8,7 +8,10 @@ namespace Fab\Media\Hook;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Database\ReferenceIndex;
+use Fab\Media\Resource\FileReferenceService;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use Fab\Vidi\Service\DataService;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -49,7 +52,7 @@ class DataHandlerHook
      *
      * Feed variable $this->beforeDataHandlerProcessFileIdentifiers
      *
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $caller TCEMain Object
+     * @param DataHandler $caller TCEMain Object
      * @return void
      */
     public function processDatamap_beforeStart(DataHandler $caller)
@@ -69,7 +72,7 @@ class DataHandlerHook
             }
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
-            $refIndexObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ReferenceIndex::class);
+            $refIndexObj = GeneralUtility::makeInstance(ReferenceIndex::class);
             if (\TYPO3\CMS\Backend\Utility\BackendUtility::isTableWorkspaceEnabled($tableName)) {
                 $refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
             }
@@ -80,8 +83,12 @@ class DataHandlerHook
                 $indexes = [];
             }
 
-            $fileIdentifiers = $this->lookForFiles($indexes);
-            $this->addBeforeDataHandlerProcessFileIdentifiers($fileIdentifiers);
+            try {
+                $fileIdentifiers = $this->lookForFiles($indexes);
+                $this->addBeforeDataHandlerProcessFileIdentifiers($fileIdentifiers);
+            } catch (\Exception $e){
+                // do nothing
+            }
         }
     }
 
@@ -90,7 +97,7 @@ class DataHandlerHook
      *
      * Process field "number_of_references" which may require updates.
      *
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $caller TCEMain Object
+     * @param DataHandler $caller TCEMain Object
      * @return void
      */
     public function processDatamap_afterAllOperations(DataHandler $caller)
@@ -102,7 +109,7 @@ class DataHandlerHook
             $id = key($configuration);
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
-            $refIndexObj = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ReferenceIndex::class);
+            $refIndexObj = GeneralUtility::makeInstance(ReferenceIndex::class);
             if (\TYPO3\CMS\Backend\Utility\BackendUtility::isTableWorkspaceEnabled($tableName)) {
                 $refIndexObj->setWorkspaceId($caller->BE_USER->workspace);
             }
@@ -295,17 +302,17 @@ class DataHandlerHook
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService|object
+     * @return FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
+        return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 
     /**
      * Gets an instance of the memory cache.
      *
-     * @return \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend
+     * @return VariableFrontend
      */
     protected function getMemoryCache()
     {
@@ -315,11 +322,11 @@ class DataHandlerHook
     /**
      * Create and returns an instance of the CacheManager
      *
-     * @return \TYPO3\CMS\Core\Cache\CacheManager|object
+     * @return CacheManager|object
      */
     protected function getCacheManager()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class);
+        return GeneralUtility::makeInstance(CacheManager::class);
     }
 
     /**

@@ -24,13 +24,13 @@ require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 class ConfigurationUtilityTest extends AbstractFunctionalTestCase {
 
 	/**
-	 * @var \Fab\Media\Utility\ConfigurationUtility
+	 * @var ConfigurationUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
 		parent::setUp();
-		$this->fixture = new \Fab\Media\Utility\ConfigurationUtility();
+		$this->fixture = new ConfigurationUtility();
 	}
 
 	public function tearDown() {

@@ -7,7 +7,7 @@ namespace Fab\Media\Index;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\Index\Indexer;
 use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
@@ -37,7 +37,7 @@ class MediaIndexer
     }
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @param File $file
      * @return $this
      */
     public function updateIndex(File $file)
@@ -47,7 +47,7 @@ class MediaIndexer
     }
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @param File $file
      * @return $this
      */
     public function extractMetadata(File $file)
@@ -87,7 +87,7 @@ class MediaIndexer
     }
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @param File $file
      * @return $this
      */
     public function applyDefaultCategories(File $file)
@@ -116,7 +116,7 @@ class MediaIndexer
     /**
      * Retrieve the file metadata uid which is different from the file uid.
      *
-     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @param File $file
      * @return int
      */
     protected function getFileMetadataIdentifier(File $file)
@@ -165,11 +165,11 @@ class MediaIndexer
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Resource\Index\Indexer|object
+     * @return Indexer|object
      */
     protected function getCoreIndexer()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\Index\Indexer::class, $this->storage);
+        return GeneralUtility::makeInstance(Indexer::class, $this->storage);
     }
 
 }

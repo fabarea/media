@@ -7,7 +7,10 @@ namespace Fab\Media\FileUpload\Optimizer;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Frontend\Imaging\GifBuilder;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use Fab\Media\FileUpload\UploadedFileInterface;
+use Fab\Media\Dimension;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -20,12 +23,12 @@ class Resize implements ImageOptimizerInterface
 {
 
     /**
-     * @var \TYPO3\CMS\Frontend\Imaging\GifBuilder
+     * @var GifBuilder
      */
     protected $gifCreator;
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\ResourceStorage
+     * @var ResourceStorage
      */
     protected $storage;
 
@@ -35,15 +38,15 @@ class Resize implements ImageOptimizerInterface
     public function __construct($storage = null)
     {
         $this->storage = $storage;
-        $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
+        $this->gifCreator = GeneralUtility::makeInstance(GifBuilder::class);
         $this->gifCreator->absPrefix = Environment::getPublicPath() . '/';
     }
 
     /**
      * Optimize the given uploaded image.
      *
-     * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
-     * @return \Fab\Media\FileUpload\UploadedFileInterface
+     * @param UploadedFileInterface $uploadedFile
+     * @return UploadedFileInterface
      */
     public function optimize($uploadedFile)
     {
@@ -64,8 +67,8 @@ class Resize implements ImageOptimizerInterface
 
         if (strlen($storageRecord['maximum_dimension_original_image']) > 0) {
 
-            /** @var \Fab\Media\Dimension $imageDimension */
-            $imageDimension = GeneralUtility::makeInstance(\Fab\Media\Dimension::class, $storageRecord['maximum_dimension_original_image']);
+            /** @var Dimension $imageDimension */
+            $imageDimension = GeneralUtility::makeInstance(Dimension::class, $storageRecord['maximum_dimension_original_image']);
             if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
 
                 // resize taking the width as reference
@@ -128,7 +131,7 @@ class Resize implements ImageOptimizerInterface
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
 }

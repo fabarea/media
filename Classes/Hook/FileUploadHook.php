@@ -7,7 +7,8 @@ namespace Fab\Media\Hook;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\File;
+use Fab\Media\Index\MediaIndexer;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\File\ExtendedFileUtility;
 use TYPO3\CMS\Core\Utility\File\ExtendedFileUtilityProcessDataHookInterface;
@@ -29,7 +30,7 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface
     public function processData_postProcessAction($action, array $cmdArr, array $result, ExtendedFileUtility $pObj)
     {
         if ($action === 'upload') {
-            /** @var \TYPO3\CMS\Core\Resource\File[] $files */
+            /** @var File[] $files */
             $files = array_pop($result);
             if (!is_array($files)) {
                 return;
@@ -48,11 +49,11 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface
      * Get the instance of the Indexer service to update the metadata of the file.
      *
      * @param ResourceStorage $storage
-     * @return \Fab\Media\Index\MediaIndexer|object
+     * @return MediaIndexer|object
      */
     protected function getMediaIndexer($storage)
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Index\MediaIndexer::class, $storage);
+        return GeneralUtility::makeInstance(MediaIndexer::class, $storage);
     }
 
 }

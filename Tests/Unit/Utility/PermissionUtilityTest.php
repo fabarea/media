@@ -1,6 +1,7 @@
 <?php
 namespace Fab\Media\Utility;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,19 +14,18 @@ namespace Fab\Media\Utility;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Test case for class \Fab\Media\Utility\PermissionUtility.
  */
-class PermissionUtilityTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class PermissionUtilityTest extends UnitTestCase {
 
 	/**
-	 * @var \Fab\Media\Utility\PermissionUtility
+	 * @var PermissionUtility
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \Fab\Media\Utility\PermissionUtility();
+		$this->fixture = new PermissionUtility();
 	}
 
 	public function tearDown() {

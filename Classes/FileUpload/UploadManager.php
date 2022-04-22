@@ -7,7 +7,8 @@ namespace Fab\Media\FileUpload;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,7 +41,7 @@ class UploadManager
     protected $formUtility;
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\ResourceStorage
+     * @var ResourceStorage
      */
     protected $storage;
 
@@ -52,7 +53,7 @@ class UploadManager
     protected $inputName = 'qqfile';
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+     * @param ResourceStorage $storage
      * @return UploadManager
      */
     function __construct($storage = null)
@@ -81,15 +82,15 @@ class UploadManager
         if ($this->formUtility->isMultiparted()) {
 
             // Default case
-            $uploadedFile = GeneralUtility::makeInstance(\Fab\Media\FileUpload\MultipartedFile::class);
+            $uploadedFile = GeneralUtility::makeInstance(MultipartedFile::class);
         } elseif ($this->formUtility->isOctetStreamed()) {
 
             // Fine Upload plugin would use it if forceEncoded = false and paramsInBody = false
-            $uploadedFile = GeneralUtility::makeInstance(\Fab\Media\FileUpload\StreamedFile::class);
+            $uploadedFile = GeneralUtility::makeInstance(StreamedFile::class);
         } elseif ($this->formUtility->isUrlEncoded()) {
 
             // Used for image resizing in BE
-            $uploadedFile = GeneralUtility::makeInstance(\Fab\Media\FileUpload\Base64File::class);
+            $uploadedFile = GeneralUtility::makeInstance(Base64File::class);
         }
 
         if (!$uploadedFile) {
@@ -111,7 +112,7 @@ class UploadManager
         }
 
         // Optimize file if the uploaded file is an image.
-        if ($uploadedFile->getType() == \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE) {
+        if ($uploadedFile->getType() == File::FILETYPE_IMAGE) {
             $uploadedFile = ImageOptimizer::getInstance($this->storage)->optimize($uploadedFile);
         }
         return $uploadedFile;
@@ -363,7 +364,7 @@ class UploadManager
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Resource\ResourceStorage
+     * @return ResourceStorage
      */
     public function getStorage()
     {
@@ -371,7 +372,7 @@ class UploadManager
     }
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+     * @param ResourceStorage $storage
      * @return $this
      */
     public function setStorage($storage)

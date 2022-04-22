@@ -132,7 +132,7 @@ class StorageMenu extends AbstractComponentView
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
 }

@@ -7,7 +7,9 @@ namespace Fab\Media\Grid;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Thumbnail\ThumbnailService;
+use Fab\Media\ViewHelpers\MetadataViewHelper;
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
 use Fab\Vidi\Utility\BackendUtility;
@@ -60,19 +62,19 @@ class PreviewRenderer extends ColumnRendererAbstract
 
     /**
      * @param File $file
-     * @return \Fab\Media\Thumbnail\ThumbnailService|object
+     * @return ThumbnailService|object
      */
     protected function getThumbnailService(File $file)
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService::class, $file);
+        return GeneralUtility::makeInstance(ThumbnailService::class, $file);
     }
 
     /**
-     * @return \Fab\Media\ViewHelpers\MetadataViewHelper|object
+     * @return MetadataViewHelper|object
      */
     protected function getMetadataViewHelper()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\ViewHelpers\MetadataViewHelper::class);
+        return GeneralUtility::makeInstance(MetadataViewHelper::class);
     }
 
     /**
@@ -92,11 +94,11 @@ class PreviewRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
+     * @return ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 
 }

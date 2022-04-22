@@ -7,7 +7,8 @@ namespace Fab\Media\Module;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use Fab\Vidi\Module\ModuleLoader;
 use Fab\Media\FileUpload\UploadedFileInterface;
 use Fab\Media\Utility\SessionUtility;
 use Fab\Vidi\Service\DataService;
@@ -97,7 +98,7 @@ class MediaModule implements SingletonInterface
                     // Fallback approach: take the first storage as the current.
                     if (!$currentStorage) {
                         /** @var $storageRepository StorageRepository */
-                        $storageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+                        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
 
                         $storages = $storageRepository->findAll();
                         $currentStorage = current($storages);
@@ -275,7 +276,7 @@ class MediaModule implements SingletonInterface
      *
      * @param UploadedFileInterface $uploadedFile
      * @param ResourceStorage $storage
-     * @return \TYPO3\CMS\Core\Resource\Folder
+     * @return Folder
      */
     public function getTargetFolderForUploadedFile(UploadedFileInterface $uploadedFile, ResourceStorage $storage)
     {
@@ -303,7 +304,7 @@ class MediaModule implements SingletonInterface
      *
      * @param ResourceStorage $storage
      * @param File $file
-     * @return \TYPO3\CMS\Core\Resource\Folder
+     * @return Folder
      */
     public function getDefaultFolderInStorage(ResourceStorage $storage, File $file)
     {
@@ -345,7 +346,7 @@ class MediaModule implements SingletonInterface
     /**
      * Returns an instance of the current Backend User.
      *
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     * @return BackendUserAuthentication
      */
     protected function getBackendUser()
     {
@@ -353,11 +354,11 @@ class MediaModule implements SingletonInterface
     }
 
     /**
-     * @return \Fab\Vidi\Module\ModuleLoader|object
+     * @return ModuleLoader|object
      */
     protected function getModuleLoader()
     {
-        return GeneralUtility::makeInstance(\Fab\Vidi\Module\ModuleLoader::class);
+        return GeneralUtility::makeInstance(ModuleLoader::class);
     }
 
     protected function getResourceFactory(): ResourceFactory

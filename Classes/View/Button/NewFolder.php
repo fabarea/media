@@ -48,7 +48,7 @@ class NewFolder extends AbstractComponentView
      */
     protected function getLabel()
     {
-        return $this->getLanguageService()->sL('LLL:EXT:lang/locallang_core.xlf:cm.new');
+        return $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:cm.new');
     }
 
     /**
@@ -107,7 +107,7 @@ class NewFolder extends AbstractComponentView
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
     /**

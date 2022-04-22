@@ -7,7 +7,7 @@ namespace Fab\Media\FileUpload;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -23,7 +23,7 @@ class ImageOptimizer implements SingletonInterface
     protected $optimizers = [];
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\ResourceStorage
+     * @var ResourceStorage
      */
     protected $storage;
 
@@ -32,7 +32,7 @@ class ImageOptimizer implements SingletonInterface
      *
      * @return ImageOptimizer
      * @throws \InvalidArgumentException
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+     * @param ResourceStorage $storage
      */
     static public function getInstance($storage = null)
     {
@@ -43,7 +43,7 @@ class ImageOptimizer implements SingletonInterface
      * Constructor
      *
      * @return ImageOptimizer
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+     * @param ResourceStorage $storage
      */
     public function __construct($storage = null)
     {

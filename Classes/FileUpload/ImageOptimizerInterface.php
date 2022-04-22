@@ -17,8 +17,8 @@ interface ImageOptimizerInterface
     /**
      * Optimize the given uploaded image
      *
-     * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
-     * @return \Fab\Media\FileUpload\UploadedFileInterface
+     * @param UploadedFileInterface $uploadedFile
+     * @return UploadedFileInterface
      */
     public function optimize($uploadedFile);
 }

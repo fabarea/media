@@ -1,6 +1,7 @@
 <?php
 namespace Fab\Media\Utility;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,19 +14,18 @@ namespace Fab\Media\Utility;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Test case for class \Fab\Media\Utility\DomElement.
  */
-class DomElementTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class DomElementTest extends UnitTestCase {
 
 	/**
-	 * @var \Fab\Media\Utility\DomElement
+	 * @var DomElement
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new \Fab\Media\Utility\DomElement();
+		$this->fixture = new DomElement();
 	}
 
 	public function tearDown() {

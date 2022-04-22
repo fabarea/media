@@ -7,7 +7,10 @@ namespace Fab\Media\Thumbnail;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\ProcessedFile;
+use Fab\Media\Exception\InvalidKeyInArrayException;
+use Fab\Media\Exception\EmptyValueException;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -28,7 +31,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
     /**
      * Store a Processed File along the processing.
      *
-     * @var \TYPO3\CMS\Core\Resource\ProcessedFile
+     * @var ProcessedFile
      */
     protected $processedFile;
 
@@ -87,8 +90,8 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 
     /**
      * @return array
-     * @throws \Fab\Media\Exception\InvalidKeyInArrayException
-     * @throws \Fab\Media\Exception\EmptyValueException
+     * @throws InvalidKeyInArrayException
+     * @throws EmptyValueException
      */
     protected function getConfiguration()
     {
@@ -165,7 +168,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
     /**
      * Returns an instance of the Frontend object.
      *
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     * @return TypoScriptFrontendController
      */
     protected function getFrontendObject()
     {

@@ -7,7 +7,7 @@ namespace Fab\Media\View\Button;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Form\FileUpload;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
@@ -27,7 +27,7 @@ class UploadButton extends AbstractComponentView
     {
 
         /** @var $fileUpload \Fab\Media\Form\FileUpload */
-        $fileUpload = GeneralUtility::makeInstance(\Fab\Media\Form\FileUpload::class);
+        $fileUpload = GeneralUtility::makeInstance(FileUpload::class);
         return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();
     }
 }

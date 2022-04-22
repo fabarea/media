@@ -7,13 +7,14 @@ namespace Fab\Media\Utility;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A class for handling the User Session
  */
-class SessionUtility implements \TYPO3\CMS\Core\SingletonInterface
+class SessionUtility implements SingletonInterface
 {
 
     /**
@@ -68,7 +69,7 @@ class SessionUtility implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns an instance of the current Backend User.
      *
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     * @return BackendUserAuthentication
      */
     protected function getBackendUser()
     {

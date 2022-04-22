@@ -7,7 +7,7 @@ namespace Fab\Media\Thumbnail;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Exception\EmptyValueException;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 
 /**
@@ -45,7 +45,7 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      * Render the URI of the thumbnail.
      *
      * @return string
-     * @throws \Fab\Media\Exception\EmptyValueException
+     * @throws EmptyValueException
      */
     public function renderUri()
     {

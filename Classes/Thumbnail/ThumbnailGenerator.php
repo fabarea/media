@@ -8,7 +8,9 @@ namespace Fab\Media\Thumbnail;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
+use Fab\Media\Exception\InvalidKeyInArrayException;
+use Fab\Media\Exception\MissingTcaConfigurationException;
 use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -75,10 +77,10 @@ class ThumbnailGenerator
      * @param int $limit
      * @param int $offset
      * @return void
-     * @throws \TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException
+     * @throws FileDoesNotExistException
      * @throws \InvalidArgumentException
-     * @throws \Fab\Media\Exception\InvalidKeyInArrayException
-     * @throws \Fab\Media\Exception\MissingTcaConfigurationException
+     * @throws InvalidKeyInArrayException
+     * @throws MissingTcaConfigurationException
      */
     public function generate($limit = 0, $offset = 0)
     {
@@ -183,7 +185,7 @@ class ThumbnailGenerator
     }
 
     /**
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+     * @param ResourceStorage $storage
      * @return $this
      */
     public function setStorage($storage)
@@ -193,7 +195,7 @@ class ThumbnailGenerator
     }
 
     /**
-     * @param \Fab\Vidi\Domain\Model\Selection $selection
+     * @param Selection $selection
      * @return $this
      */
     public function setSelection($selection)

@@ -7,7 +7,8 @@ namespace Fab\Media\View\Warning;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Cache\CacheService;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -68,11 +69,11 @@ class ConfigurationWarning extends AbstractComponentView
     }
 
     /**
-     * @return \Fab\Media\Cache\CacheService|object
+     * @return CacheService|object
      */
     protected function getCacheService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Cache\CacheService::class);
+        return GeneralUtility::makeInstance(CacheService::class);
     }
 
     protected function configureStorage()
@@ -398,7 +399,7 @@ EOF;
     /**
      * Returns an instance of the current Backend User.
      *
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     * @return BackendUserAuthentication
      */
     protected function getBackendUser()
     {
@@ -421,7 +422,7 @@ EOF;
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
 }

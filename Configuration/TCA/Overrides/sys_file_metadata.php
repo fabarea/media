@@ -1,10 +1,12 @@
 <?php
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 if (!defined('TYPO3')) die ('Access denied.');
 
 // We only want to have file relations if extension File advanced metadata is loaded.
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')) {
+if (ExtensionManagementUtility::isLoaded('filemetadata')) {
     $configuration = '--div--;LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:tab.relations, related_files';
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_file_metadata', $configuration);
+    ExtensionManagementUtility::addToAllTCAtypes('sys_file_metadata', $configuration);
 }
 
 $tca = [
@@ -22,7 +24,7 @@ $tca = [
         'related_files' => [
             'displayCond' => 'FIELD:sys_language_uid:<=:0',
             'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_metadata.relations',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'related_files',
                 [],
                 ''
@@ -30,4 +32,4 @@ $tca = [
         ],
     ],
 ];
-\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_metadata'], $tca);
+ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_metadata'], $tca);

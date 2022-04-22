@@ -39,7 +39,7 @@ class ConfigurationArrayConverter extends ArrayConverter
      * @param string $targetType
      * @return boolean
      */
-    public function canConvertFrom($source, $targetType)
+    public function canConvertFrom($source, string $targetType): bool
     {
         return is_string($source) || is_array($source);
     }

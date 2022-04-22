@@ -24,7 +24,7 @@ require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 class FileUploadTest extends AbstractFunctionalTestCase {
 
 	/**
-	 * @var \Fab\Media\Form\FileUpload
+	 * @var FileUpload
 	 */
 	private $fixture;
 

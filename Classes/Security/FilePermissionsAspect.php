@@ -7,7 +7,8 @@ namespace Fab\Media\Security;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Extbase\Persistence\Generic\Exception\InvalidNumberOfConstraintsException;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Module\ModuleLoader;
@@ -136,7 +137,7 @@ class FilePermissionsAspect
      * @param ConstraintInterface|null $constraints
      * @param ConstraintContainer $constraintContainer
      * @throws \InvalidArgumentException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\InvalidNumberOfConstraintsException
+     * @throws InvalidNumberOfConstraintsException
      */
     public function addFilePermissionsForFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer)
     {
@@ -153,7 +154,7 @@ class FilePermissionsAspect
      * @param ConstraintContainer $constraintContainer
      * @return array
      * @throws \InvalidArgumentException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\InvalidNumberOfConstraintsException
+     * @throws InvalidNumberOfConstraintsException
      */
     protected function respectFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer)
     {
@@ -197,7 +198,7 @@ class FilePermissionsAspect
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     * @return BackendUserAuthentication
      */
     protected function getCurrentBackendUser()
     {

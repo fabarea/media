@@ -1,4 +1,5 @@
 <?php
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 if (!defined('TYPO3')) die ('Access denied.');
 
 $tca = [
@@ -10,4 +11,4 @@ $tca = [
 // Disable the File Upload in IRRE since it can not be configured the target storage.
 $GLOBALS['TCA']['sys_file_reference']['columns']['uid_local']['config']['appearance']['fileUploadAllowed'] = false;
 
-\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_reference'], $tca);
+ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_reference'], $tca);

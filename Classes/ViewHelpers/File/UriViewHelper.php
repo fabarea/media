@@ -7,7 +7,7 @@ namespace Fab\Media\ViewHelpers\File;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -46,10 +46,10 @@ class UriViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
+     * @return ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 }

@@ -7,7 +7,7 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Cache\CacheService;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tool\AbstractTool;
@@ -79,11 +79,11 @@ class CacheWarmUpTool extends AbstractTool
     }
 
     /**
-     * @return \Fab\Media\Cache\CacheService|object
+     * @return CacheService|object
      */
     protected function getCacheService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Cache\CacheService::class);
+        return GeneralUtility::makeInstance(CacheService::class);
     }
 
 }

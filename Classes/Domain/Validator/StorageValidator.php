@@ -45,7 +45,7 @@ class StorageValidator extends AbstractValidator
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
     protected function getResourceFactory(): ResourceFactory

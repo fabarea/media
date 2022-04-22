@@ -1,5 +1,6 @@
 <?php
 
+use Behat\Behat\Context\Step\When;
 use Behat\Behat\Context\ClosuredContextInterface,
 	Behat\Behat\Context\TranslatedContextInterface,
 	Behat\Behat\Context\BehatContext,
@@ -48,8 +49,8 @@ class FeatureContext extends MinkContext
 		$this->loginUrl = 'http://media.fab/';
 		return array(
 			new Behat\Behat\Context\Step\Given(sprintf('I am on "%s"', $this->loginUrl)),
-			new Behat\Behat\Context\Step\When(sprintf('I fill in "Password" with "%s"', $password)),
-			new Behat\Behat\Context\Step\When('I press "Identification"'),
+			new When(sprintf('I fill in "Password" with "%s"', $password)),
+			new When('I press "Identification"'),
 		);
 	}
 }

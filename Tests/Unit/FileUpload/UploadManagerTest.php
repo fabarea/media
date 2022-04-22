@@ -1,6 +1,7 @@
 <?php
 namespace Fab\Media\FileUpload;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,14 +14,13 @@ namespace Fab\Media\FileUpload;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Test case for class \Fab\Media\FileUpload\UploadManager.
  */
-class UploadManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class UploadManagerTest extends UnitTestCase {
 
 	/**
-	 * @var \Fab\Media\FileUpload\UploadManager
+	 * @var UploadManager
 	 */
 	private $fixture;
 
@@ -35,7 +35,7 @@ class UploadManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	private $fakePrefix = '';
 
 	public function setUp() {
-		$this->fixture = new \Fab\Media\FileUpload\UploadManager();
+		$this->fixture = new UploadManager();
 		$this->fakeName = uniqid('name');
 		$this->fakePrefix= uniqid('prefix');
 	}

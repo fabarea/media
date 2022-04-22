@@ -7,7 +7,7 @@ namespace Fab\Media\Index;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\File;
 use Fab\Media\Resource\FileReferenceService;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -71,7 +71,7 @@ class IndexAnalyser implements SingletonInterface
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 
-        /** @var \TYPO3\CMS\Core\Resource\File $missingFile */
+        /** @var File $missingFile */
         foreach ($missingFiles as $missingFile) {
             try {
                 // if missingFile has no file references
@@ -138,7 +138,7 @@ class IndexAnalyser implements SingletonInterface
     /**
      * Return duplicates file records
      *
-     * @param \TYPO3\CMS\Core\Resource\ResourceStorage $storage
+     * @param ResourceStorage $storage
      * @return array
      */
     public function searchForDuplicateSha1(ResourceStorage $storage)

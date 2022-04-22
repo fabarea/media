@@ -7,7 +7,8 @@ namespace Fab\Media\Grid;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Resource\FileReferenceService;
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
 use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
@@ -217,18 +218,18 @@ class UsageRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService|object
+     * @return FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
+        return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
+     * @return ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 }

@@ -11,7 +11,6 @@ namespace Fab\Media\ViewHelpers\Form;
 
 use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -101,7 +100,7 @@ class FooterViewHelper extends AbstractViewHelper
      * @param array $arguments
      * @param int|string $date
      * @return string
-     * @throws Exception
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      */
     public function formatDate(array $arguments, $date)
     {
@@ -130,7 +129,7 @@ class FooterViewHelper extends AbstractViewHelper
                 $date = new \DateTime('@' . $dateTimestamp);
                 $date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
             } catch (\Exception $exception) {
-                throw new Exception('"' . $date . '" could not be parsed by \DateTime constructor: ' . $exception->getMessage(), 1241722579);
+                throw new \TYPO3Fluid\Fluid\Core\ViewHelper\Exception('"' . $date . '" could not be parsed by \DateTime constructor: ' . $exception->getMessage(), 1241722579);
             }
         }
 

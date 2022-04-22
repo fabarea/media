@@ -8,7 +8,8 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\File;
+use Fab\Media\Index\IndexAnalyser;
 use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -95,7 +96,7 @@ class MissingFilesFinderTool extends AbstractTool
 
         foreach ($files as $fileUid) {
 
-            /** @var \TYPO3\CMS\Core\Resource\File $file */
+            /** @var File $file */
             try {
                 $file = $this->getResourceFactory()->getFileObject($fileUid);
                 if ($file) {
@@ -113,11 +114,11 @@ class MissingFilesFinderTool extends AbstractTool
     /**
      * Return a pointer to the database.
      *
-     * @return \Fab\Media\Index\IndexAnalyser|object
+     * @return IndexAnalyser|object
      */
     protected function getIndexAnalyser()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Index\IndexAnalyser::class);
+        return GeneralUtility::makeInstance(IndexAnalyser::class);
     }
 
     /**
@@ -125,7 +126,7 @@ class MissingFilesFinderTool extends AbstractTool
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+        return GeneralUtility::makeInstance(StorageRepository::class);
     }
 
     /**

@@ -7,7 +7,10 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\File;
+use Fab\Media\Index\IndexAnalyser;
+use Fab\Media\Thumbnail\ThumbnailGenerator;
+use Fab\Media\Resource\FileReferenceService;
 use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -152,7 +155,7 @@ class DuplicateFilesFinderTool extends AbstractTool
 
         foreach ($files as $fileUid) {
 
-            /** @var \TYPO3\CMS\Core\Resource\File $file */
+            /** @var File $file */
             try {
                 $file = $this->getResourceFactory()->getFileObject($fileUid);
                 if ($file->exists()) {
@@ -173,19 +176,19 @@ class DuplicateFilesFinderTool extends AbstractTool
     /**
      * Return a pointer to the database.
      *
-     * @return \Fab\Media\Index\IndexAnalyser|object
+     * @return IndexAnalyser|object
      */
     protected function getIndexAnalyser()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Index\IndexAnalyser::class);
+        return GeneralUtility::makeInstance(IndexAnalyser::class);
     }
 
     /**
-     * @return \Fab\Media\Thumbnail\ThumbnailGenerator|object
+     * @return ThumbnailGenerator|object
      */
     protected function getThumbnailGenerator()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailGenerator::class);
+        return GeneralUtility::makeInstance(ThumbnailGenerator::class);
     }
 
     /**
@@ -193,7 +196,7 @@ class DuplicateFilesFinderTool extends AbstractTool
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+        return GeneralUtility::makeInstance(StorageRepository::class);
     }
 
     /**
@@ -207,11 +210,11 @@ class DuplicateFilesFinderTool extends AbstractTool
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService|object
+     * @return FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
+        return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 
     /**

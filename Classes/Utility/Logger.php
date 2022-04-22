@@ -7,7 +7,8 @@ namespace Fab\Media\Utility;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -25,7 +26,7 @@ class Logger implements SingletonInterface
     static public function getInstance($instance)
     {
         /** @var $loggerManager \TYPO3\CMS\Core\Log\LogManager */
-        $loggerManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class);
+        $loggerManager = GeneralUtility::makeInstance(LogManager::class);
 
         /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         return $loggerManager->getLogger(get_class($instance));

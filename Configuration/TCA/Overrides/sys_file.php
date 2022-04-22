@@ -1,4 +1,16 @@
 <?php
+use Fab\Vidi\Facet\StandardFacet;
+use TYPO3\CMS\Core\Resource\File;
+use Fab\Media\Facet\ActionPermissionFacet;
+use Fab\Vidi\Grid\CheckBoxRenderer;
+use Fab\Media\Grid\PreviewRenderer;
+use Fab\Media\Grid\MetadataRenderer;
+use Fab\Vidi\Grid\RelationEditRenderer;
+use Fab\Media\Grid\CategoryRenderer;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use Fab\Media\Grid\FrontendPermissionRenderer;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use Fab\Vidi\Grid\ButtonGroupRenderer;
 if (!defined('TYPO3')) die ('Access denied.');
 
 $tca = [
@@ -40,35 +52,35 @@ $tca = [
             'metadata.title',
             'metadata.categories',
             'name',
-            \Fab\Vidi\Facet\StandardFacet::class => [
+            StandardFacet::class => [
                 'name' => 'extension',
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:sys_file.extension'
             ],
             'metadata.description',
             'identifier',
-            \Fab\Vidi\Facet\StandardFacet::class => [
+            StandardFacet::class => [
                 'name' => 'number_of_references',
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
                 'suggestions' => ['0', '1', '2', '3', 'etc...'] // auto-suggestions
             ],
 
-            \Fab\Vidi\Facet\StandardFacet::class => [
+            StandardFacet::class => [
                 'name' => 'type',
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type',
                 'suggestions' => [
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_1',
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_2',
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_3',
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_4',
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_5',
+                    File::FILETYPE_TEXT => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_1',
+                    File::FILETYPE_IMAGE => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_2',
+                    File::FILETYPE_AUDIO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_3',
+                    File::FILETYPE_VIDEO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_4',
+                    File::FILETYPE_APPLICATION => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_5',
                 ]
             ],
-            \Fab\Media\Facet\ActionPermissionFacet::class => [],
+            ActionPermissionFacet::class => [],
             'uid',
         ],
         'columns' => [
             '__checkbox' => [
-                'renderer' => \Fab\Vidi\Grid\CheckBoxRenderer::class,
+                'renderer' => CheckBoxRenderer::class,
             ],
             'uid' => [
                 'visible' => false,
@@ -79,14 +91,14 @@ $tca = [
                 'visible' => false,
             ],
             'fileinfo' => [
-                'renderer' => Fab\Media\Grid\PreviewRenderer::class,
+                'renderer' => PreviewRenderer::class,
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:preview',
                 'wrap' => '<div class="center preview">|</div>',
                 'width' => '150px',
                 'sortable' => false,
             ],
             'metadata.title' => [
-                'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                'renderer' => MetadataRenderer::class,
                 'rendererConfiguration' => [
                     'property' => 'title',
                 ],
@@ -95,7 +107,7 @@ $tca = [
                 'sortable' => true,
             ],
             'metadata.description' => [
-                'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                'renderer' => MetadataRenderer::class,
                 'rendererConfiguration' => [
                     'property' => 'description',
                 ],
@@ -109,8 +121,8 @@ $tca = [
             ],
             'metadata.categories' => [
                 'renderers' => [
-                    \Fab\Vidi\Grid\RelationEditRenderer::class,
-                    \Fab\Media\Grid\CategoryRenderer::class,
+                    RelationEditRenderer::class,
+                    CategoryRenderer::class,
                 ],
                 'editable' => true,
                 'visible' => true,
@@ -124,7 +136,7 @@ $tca = [
             ],
             'metadata' => [
                 'label' => 'Metadata File Identifier',
-                'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                'renderer' => MetadataRenderer::class,
                 'rendererConfiguration' => [
                     'property' => 'uid',
                 ],
@@ -142,7 +154,7 @@ $tca = [
 ];
 
 // Add more info to the Grid if EXT:filemetadata is loaded. Notice that the extension is not required but suggested.
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')) {
+if (ExtensionManagementUtility::isLoaded('filemetadata')) {
 
     $additionalTca = [
         'ctrl' => [
@@ -151,7 +163,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
         'grid' => [
             'columns' => [
                 'metadata.keywords' => [
-                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'renderer' => MetadataRenderer::class,
                     'configuration' => [
                         'property' => 'keywords',
                     ],
@@ -161,15 +173,15 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
                 ],
                 'metadata.fe_groups' => [
                     'renderers' => [
-                        \Fab\Vidi\Grid\RelationEditRenderer::class,
-                        \Fab\Media\Grid\FrontendPermissionRenderer::class,
+                        RelationEditRenderer::class,
+                        FrontendPermissionRenderer::class,
                     ],
                     'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permissions_fe_groups',
                     'visible' => false,
                     'sortable' => false,
                 ],
                 'metadata.status' => [
-                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'renderer' => MetadataRenderer::class,
                     'rendererConfiguration' => [
                         'property' => 'status',
                     ],
@@ -185,7 +197,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
                 #	'width' => '3%',
                 #),
                 'metadata.creator_tool' => [
-                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'renderer' => MetadataRenderer::class,
                     'rendererConfiguration' => [
                         'property' => 'creator_tool',
                     ],
@@ -194,7 +206,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
                     'sortable' => false,
                 ],
                 'metadata.content_creation_date' => [
-                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'renderer' => MetadataRenderer::class,
                     'rendererConfiguration' => [
                         'property' => 'content_creation_date',
                     ],
@@ -204,7 +216,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
                     'sortable' => false,
                 ],
                 'metadata.content_modification_date' => [
-                    'renderer' => \Fab\Media\Grid\MetadataRenderer::class,
+                    'renderer' => MetadataRenderer::class,
                     'rendererConfiguration' => [
                         'property' => 'content_modification_date',
                     ],
@@ -216,12 +228,12 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filemetadata')
             ]
         ]
     ];
-    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($tca, $additionalTca);
+    ArrayUtility::mergeRecursiveWithOverrule($tca, $additionalTca);
 }
 
 // Control buttons such as edit, delete, etc... must be set at the end in any case.
 $tca['grid']['columns']['__buttons'] = [
-    'renderer' => \Fab\Vidi\Grid\ButtonGroupRenderer::class,
+    'renderer' => ButtonGroupRenderer::class,
 ];
 
-\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file'], $tca);
+ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file'], $tca);

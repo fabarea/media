@@ -7,7 +7,7 @@ namespace Fab\Media\ViewHelpers\Form\Select;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -44,7 +44,7 @@ class StorageViewHelper extends AbstractViewHelper
         $options = [];
         foreach ($objects as $storage) {
 
-            /** @var \TYPO3\CMS\Core\Resource\ResourceStorage $storage */
+            /** @var ResourceStorage $storage */
             $options[] = sprintf('<option value="%s" %s>%s %s</option>',
                 $storage->getUid(),
                 is_object($currentStorage) && $currentStorage->getUid() == $storage->getUid() ? 'selected="selected"' : '',
@@ -63,7 +63,7 @@ class StorageViewHelper extends AbstractViewHelper
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
 }

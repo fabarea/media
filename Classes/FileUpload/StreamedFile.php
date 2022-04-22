@@ -15,7 +15,7 @@ use Fab\Media\Exception\EmptyPropertyException;
  *
  * @see original implementation: https://github.com/valums/file-uploader/blob/master/server/php.php
  */
-class StreamedFile extends \Fab\Media\FileUpload\UploadedFileAbstract
+class StreamedFile extends UploadedFileAbstract
 {
 
     /**

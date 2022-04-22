@@ -7,7 +7,7 @@ namespace Fab\Media\Tool;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Thumbnail\ThumbnailGenerator;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
@@ -115,11 +115,11 @@ class ThumbnailGeneratorTool extends AbstractTool
     }
 
     /**
-     * @return \Fab\Media\Thumbnail\ThumbnailGenerator|object
+     * @return ThumbnailGenerator|object
      */
     protected function getThumbnailGenerator()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailGenerator::class);
+        return GeneralUtility::makeInstance(ThumbnailGenerator::class);
     }
 
     /**
@@ -127,7 +127,7 @@ class ThumbnailGeneratorTool extends AbstractTool
      */
     protected function getStorageRepository()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+        return GeneralUtility::makeInstance(StorageRepository::class);
     }
 
     /**

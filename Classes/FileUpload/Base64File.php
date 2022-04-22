@@ -7,13 +7,13 @@ namespace Fab\Media\FileUpload;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Exception\EmptyPropertyException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Handle a posted file encoded in base 64.
  */
-class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
+class Base64File extends UploadedFileAbstract
 {
 
     /**
@@ -71,18 +71,18 @@ class Base64File extends \Fab\Media\FileUpload\UploadedFileAbstract
     /**
      * Save the file to the specified path
      *
-     * @throws \Fab\Media\Exception\EmptyPropertyException
+     * @throws EmptyPropertyException
      * @return boolean true on success
      */
     public function save()
     {
 
         if (is_null($this->uploadFolder)) {
-            throw new \Fab\Media\Exception\EmptyPropertyException('Upload folder is not defined', 1362587741);
+            throw new EmptyPropertyException('Upload folder is not defined', 1362587741);
         }
 
         if (is_null($this->name)) {
-            throw new \Fab\Media\Exception\EmptyPropertyException('File name is not defined', 1362587742);
+            throw new EmptyPropertyException('File name is not defined', 1362587742);
         }
 
         return file_put_contents($this->getFileWithAbsolutePath(), $this->image) > 0;

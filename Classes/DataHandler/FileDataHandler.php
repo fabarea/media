@@ -7,7 +7,7 @@ namespace Fab\Media\DataHandler;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Resource\FileReferenceService;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -116,11 +116,11 @@ class FileDataHandler extends AbstractDataHandler
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService|object
+     * @return FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
+        return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 
     /**
@@ -141,7 +141,7 @@ class FileDataHandler extends AbstractDataHandler
      */
     protected function getMediaModule()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Module\MediaModule::class);
+        return GeneralUtility::makeInstance(MediaModule::class);
     }
 
     protected function getResourceFactory(): ResourceFactory

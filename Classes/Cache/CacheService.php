@@ -8,7 +8,9 @@ namespace Fab\Media\Cache;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\ProcessedFileRepository;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use Fab\Media\Resource\FileReferenceService;
 use Fab\Vidi\Service\DataService;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -103,11 +105,11 @@ class CacheService
     /**
      * Return a processed file repository
      *
-     * @return \TYPO3\CMS\Core\Resource\ProcessedFileRepository|object
+     * @return ProcessedFileRepository|object
      */
     protected function getProcessedFileRepository()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ProcessedFileRepository::class);
+        return GeneralUtility::makeInstance(ProcessedFileRepository::class);
     }
 
     /**
@@ -120,7 +122,7 @@ class CacheService
     {
 
         /** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
-        $tce = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+        $tce = GeneralUtility::makeInstance(DataHandler::class);
         $tce->start([], []);
 
         #$pages = array_merge(
@@ -258,10 +260,10 @@ class CacheService
     }
 
     /**
-     * @return \Fab\Media\Resource\FileReferenceService|object
+     * @return FileReferenceService|object
      */
     protected function getFileReferenceService()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\Resource\FileReferenceService::class);
+        return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 }

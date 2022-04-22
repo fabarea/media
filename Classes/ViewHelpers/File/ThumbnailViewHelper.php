@@ -7,7 +7,8 @@ namespace Fab\Media\ViewHelpers\File;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Thumbnail\ThumbnailService;
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -64,7 +65,7 @@ class ThumbnailViewHelper extends AbstractViewHelper
             $configuration['height'] = $imageDimension->getHeight();
         }
         /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
-        $thumbnailService = GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService::class, $file);
+        $thumbnailService = GeneralUtility::makeInstance(ThumbnailService::class, $file);
         $thumbnail = $thumbnailService->setConfiguration($configuration)
             ->setConfigurationWrap($configurationWrap)
             ->setAttributes($attributes)
@@ -75,11 +76,11 @@ class ThumbnailViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
+     * @return ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 
     protected function getResourceFactory(): ResourceFactory

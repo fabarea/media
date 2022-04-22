@@ -1,1 +1,1 @@
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:media/Configuration/TypoScript/setup.ts">
+@import 'EXT:media/Configuration/TypoScript/setup.ts'

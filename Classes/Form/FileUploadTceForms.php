@@ -7,7 +7,7 @@ namespace Fab\Media\Form;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\ViewHelpers\MetadataViewHelper;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -73,8 +73,8 @@ class FileUploadTceForms extends FileUpload
      */
     protected function getFileInfo()
     {
-        /** @var \Fab\Media\ViewHelpers\MetadataViewHelper $metadataViewHelper */
-        $metadataViewHelper = GeneralUtility::makeInstance(\Fab\Media\ViewHelpers\MetadataViewHelper::class);
+        /** @var MetadataViewHelper $metadataViewHelper */
+        $metadataViewHelper = GeneralUtility::makeInstance(MetadataViewHelper::class);
 
         return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
             $metadataViewHelper->render($this->file)

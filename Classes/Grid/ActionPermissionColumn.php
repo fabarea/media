@@ -7,7 +7,7 @@ namespace Fab\Media\Grid;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\TypeConverter\ContentToFileConverter;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -40,11 +40,11 @@ class ActionPermissionColumn extends ColumnRendererAbstract
     }
 
     /**
-     * @return \Fab\Media\TypeConverter\ContentToFileConverter|object
+     * @return ContentToFileConverter|object
      */
     protected function getFileConverter()
     {
-        return GeneralUtility::makeInstance(\Fab\Media\TypeConverter\ContentToFileConverter::class);
+        return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 
 }

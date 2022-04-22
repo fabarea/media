@@ -7,7 +7,7 @@ namespace Fab\Media\Utility;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -23,7 +23,7 @@ class ClientValidation implements SingletonInterface
      */
     static public function getInstance()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Fab\Media\Utility\ClientValidation::class);
+        return GeneralUtility::makeInstance(\Fab\Media\Utility\ClientValidation::class);
     }
 
     /**
@@ -35,7 +35,7 @@ class ClientValidation implements SingletonInterface
     public function get($fieldName)
     {
         $result = '';
-        if (\Fab\Media\Utility\TcaField::getService()->isRequired($fieldName)) {
+        if (TcaField::getService()->isRequired($fieldName)) {
             $result = ' validate[required]';
         }
         return $result;

@@ -7,7 +7,7 @@ namespace Fab\Media\Utility;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -15,7 +15,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 /**
  * A class for handling configuration of the extension
  */
-class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface
+class ConfigurationUtility implements SingletonInterface
 {
 
     /**
@@ -56,7 +56,7 @@ class ConfigurationUtility implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected function getObjectManager()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 
     /**

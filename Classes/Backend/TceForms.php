@@ -7,7 +7,7 @@ namespace Fab\Media\Backend;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Form\FileUploadTceForms;
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -47,7 +47,7 @@ class TceForms extends AbstractFormElement
         }
 
         /** @var $fileUpload \Fab\Media\Form\FileUploadTceForms */
-        $fileUpload = GeneralUtility::makeInstance(\Fab\Media\Form\FileUploadTceForms::class);
+        $fileUpload = GeneralUtility::makeInstance(FileUploadTceForms::class);
         $fileUpload->setValue($fileMetadataRecord['file'][0])->setPrefix(MediaModule::getParameterPrefix());
         $result['html'] = $fileUpload->render();
         return $result;

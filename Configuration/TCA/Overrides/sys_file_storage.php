@@ -1,8 +1,11 @@
 <?php
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 if (!defined('TYPO3')) die ('Access denied.');
 
-$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+$configuration = GeneralUtility::makeInstance(
+    ExtensionConfiguration::class
 )->get('media');
 
 $tca = [
@@ -209,7 +212,7 @@ if (!$configuration['has_folder_tree']) {
 }
 
 // Merge first two possible TCA whether the folder tree is displayed or not.
-\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($tca, $tcaForHiddenFolderTree);
+ArrayUtility::mergeRecursiveWithOverrule($tca, $tcaForHiddenFolderTree);
 
 // Final merge into "sys_file_storage".
-\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_storage'], $tca);
+ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['sys_file_storage'], $tca);

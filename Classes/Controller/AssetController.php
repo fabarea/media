@@ -7,7 +7,11 @@ namespace Fab\Media\Controller;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use Fab\Media\Exception\StorageNotOnlineException;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use Fab\Media\Exception\InvalidKeyInArrayException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException;
+use TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException;
 use Fab\Media\Cache\CacheService;
 use Fab\Media\FileUpload\UploadManager;
 use Fab\Media\Index\MediaIndexer;
@@ -48,9 +52,9 @@ class AssetController extends ActionController
     protected $dataType = 'sys_file';
 
     /**
-     * @throws \Fab\Media\Exception\StorageNotOnlineException
+     * @throws StorageNotOnlineException
      * @throws \InvalidArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws NoSuchArgumentException
      */
     public function initializeAction()
     {
@@ -246,7 +250,7 @@ class AssetController extends ActionController
     /**
      * Handle file upload.
      *
-     * @return \Fab\Media\FileUpload\UploadedFileInterface|array
+     * @return UploadedFileInterface|array
      * @throws \InvalidArgumentException
      */
     protected function handleUpload()
@@ -277,7 +281,7 @@ class AssetController extends ActionController
     /**
      * @param File $file
      * @return ThumbnailService
-     * @throws \Fab\Media\Exception\InvalidKeyInArrayException
+     * @throws InvalidKeyInArrayException
      * @throws \InvalidArgumentException
      */
     protected function getThumbnailService(File $file)
@@ -316,8 +320,8 @@ class AssetController extends ActionController
      *
      * @param File $file
      * @return void
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws InvalidSlotReturnException
+     * @throws InvalidSlotException
      */
     protected function emitBeforeDownloadSignal(File $file)
     {

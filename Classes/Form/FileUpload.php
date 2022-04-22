@@ -7,7 +7,12 @@ namespace Fab\Media\Form;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Resource\File;
+use Fab\Media\Exception\EmptyPropertyException;
+use Fab\Media\Thumbnail\ThumbnailService;
+use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Fab\Vidi\Module\ModuleLoader;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -30,7 +35,7 @@ class FileUpload extends AbstractFormField
     protected $elementId;
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\File
+     * @var File
      */
     protected $file;
 
@@ -74,7 +79,7 @@ EOF;
     /**
      * Render a file upload field.
      *
-     * @throws \Fab\Media\Exception\EmptyPropertyException
+     * @throws EmptyPropertyException
      * @return string
      */
     public function render()
@@ -120,7 +125,7 @@ EOF;
         if ($this->file) {
 
             /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
-            $thumbnailService = GeneralUtility::makeInstance(\Fab\Media\Thumbnail\ThumbnailService::class, $this->file);
+            $thumbnailService = GeneralUtility::makeInstance(ThumbnailService::class, $this->file);
             $thumbnail = $thumbnailService
                 ->setOutputType(ThumbnailInterface::OUTPUT_IMAGE_WRAPPED)
                 ->setAppendTimeStamp(true)
@@ -146,13 +151,13 @@ EOF;
     }
 
     /**
-     * @return \TYPO3\CMS\Fluid\View\StandaloneView
+     * @return StandaloneView
      */
     protected function getStandaloneView()
     {
-        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        /** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
+        /** @var StandaloneView $view */
         $view = $objectManager->get('TYPO3\CMS\Fluid\View\StandaloneView');
 
         $templatePathAndFilename = ExtensionManagementUtility::extPath('media') . $this->templateFile;
@@ -261,11 +266,11 @@ EOF;
     /**
      * Get the Vidi Module Loader.
      *
-     * @return \Fab\Vidi\Module\ModuleLoader|object
+     * @return ModuleLoader|object
      */
     protected function getModuleLoader()
     {
-        return GeneralUtility::makeInstance(\Fab\Vidi\Module\ModuleLoader::class);
+        return GeneralUtility::makeInstance(ModuleLoader::class);
     }
 
     protected function getResourceFactory(): ResourceFactory

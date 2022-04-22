@@ -7,7 +7,8 @@ namespace Fab\Media\FileUpload\Optimizer;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Frontend\Imaging\GifBuilder;
+use Fab\Media\FileUpload\UploadedFileInterface;
 use Fab\Media\FileUpload\ImageOptimizerInterface;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -19,7 +20,7 @@ class Rotate implements ImageOptimizerInterface
 {
 
     /**
-     * @var \TYPO3\CMS\Frontend\Imaging\GifBuilder
+     * @var GifBuilder
      */
     protected $gifCreator;
 
@@ -28,15 +29,15 @@ class Rotate implements ImageOptimizerInterface
      */
     public function __construct()
     {
-        $this->gifCreator = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Imaging\GifBuilder::class);
+        $this->gifCreator = GeneralUtility::makeInstance(GifBuilder::class);
         $this->gifCreator->absPrefix = Environment::getPublicPath() . '/';
     }
 
     /**
      * Optimize the given uploaded image
      *
-     * @param \Fab\Media\FileUpload\UploadedFileInterface $uploadedFile
-     * @return \Fab\Media\FileUpload\UploadedFileInterface
+     * @param UploadedFileInterface $uploadedFile
+     * @return UploadedFileInterface
      */
     public function optimize($uploadedFile)
     {
@@ -77,7 +78,7 @@ class Rotate implements ImageOptimizerInterface
     {
         $extension = strtolower(substr($filename, strrpos($filename, '.') + 1));
         $orientation = 1; // Fallback to "straight"
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('jpg,jpeg,tif,tiff', $extension) && function_exists('exif_read_data')) {
+        if (GeneralUtility::inList('jpg,jpeg,tif,tiff', $extension) && function_exists('exif_read_data')) {
             try {
                 $exif = exif_read_data($filename);
                 if ($exif) {
