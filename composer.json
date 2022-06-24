@@ -4,7 +4,7 @@
 	"description": "Media management system for TYPO3 CMS.",
 	"homepage": "https://github.com/fabarea/media",
 	"license": [
-		"GPL-2.0+"
+		"GPL-2.0-or-later"
 	],
 	"keywords": [
 		"TYPO3 CMS",
@@ -22,5 +22,9 @@
 		"typo3/cms": {
 			"extension-key": "media"
 		}
+	},
+	"require": {
+		"typo3/cms-core": "^11",
+		"fab/vidi": "^5"
 	}
 }
