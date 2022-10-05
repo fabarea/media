@@ -8,7 +8,7 @@ namespace Fab\Media\Facet;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Localization\LanguageService;
 use Fab\Media\TypeConverter\ContentToFileConverter;
 use Fab\Vidi\Domain\Repository\ContentRepositoryFactory;
 use Fab\Vidi\Facet\FacetInterface;
@@ -234,7 +234,7 @@ class ActionPermissionFacet implements FacetInterface
     }
 
     /**
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return LanguageService
      */
     protected function getLanguageService()
     {

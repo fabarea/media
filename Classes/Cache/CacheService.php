@@ -8,7 +8,7 @@ namespace Fab\Media\Cache;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Resource\ProcessedFileRepository;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Fab\Media\Resource\FileReferenceService;
@@ -223,7 +223,7 @@ class CacheService
     /**
      * Returns an instance of the page repository.
      *
-     * @return \TYPO3\CMS\Frontend\Page\PageRepository
+     * @return PageRepository
      */
     protected function getPageRepository()
     {

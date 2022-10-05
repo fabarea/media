@@ -132,7 +132,7 @@ class MediaIndexer
      */
     protected function getFileIndexRepository()
     {
-        return FileIndexRepository::getInstance();
+        return GeneralUtility::makeInstance(FileIndexRepository::class);
     }
 
     /**
@@ -142,7 +142,7 @@ class MediaIndexer
      */
     protected function getMetaDataRepository()
     {
-        return MetaDataRepository::getInstance();
+        return GeneralUtility::makeInstance(MetaDataRepository::class);
     }
 
     /**
@@ -152,7 +152,7 @@ class MediaIndexer
      */
     protected function getExtractorRegistry()
     {
-        return ExtractorRegistry::getInstance();
+        return GeneralUtility::makeInstance(ExtractorRegistry::class);
     }
 
     /**

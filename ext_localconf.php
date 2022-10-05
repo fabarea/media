@@ -1,22 +1,28 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use Fab\Media\Backend\TceForms;
+use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
+use Fab\Media\Index\TitleMetadataExtractor;
+use TYPO3\CMS\Backend\Form\FormResultCompiler;
 defined('TYPO3') or die();
 
 call_user_func(function () {
-    $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    $configuration = GeneralUtility::makeInstance(
+        ExtensionConfiguration::class
     )->get('media');
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1547054767] = [
         'nodeName' => 'findUploader',
         'priority' => 40,
-        'class' => \Fab\Media\Backend\TceForms::class,
+        'class' => TceForms::class,
     ];
 
     $disableTitleMetadataExtractor = isset($configuration['disable_title_metadata_extractor']) ? $configuration['disable_title_metadata_extractor'] : false;
     if (!$disableTitleMetadataExtractor) {
         // Register basic metadata extractor. Will feed the file with a "title" when indexing, e.g. upload, through scheduler
-        \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService(\Fab\Media\Index\TitleMetadataExtractor::class);
+        GeneralUtility::makeInstance(ExtractorRegistry::class)->registerExtractionService(TitleMetadataExtractor::class);
     }
 
     // Hook for traditional file upload, trigger metadata indexing as well.
@@ -30,7 +36,7 @@ call_user_func(function () {
     $hasMediaFilePicker = isset($configuration['has_media_file_picker']) ? $configuration['has_media_file_picker'] : false;
     if ($hasMediaFilePicker) {
         // Override classes for the Object Manager.
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\Form\FormResultCompiler::class] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][FormResultCompiler::class] = array(
             'className' => \Fab\Media\Override\Backend\Form\FormResultCompiler::class
         );
     }

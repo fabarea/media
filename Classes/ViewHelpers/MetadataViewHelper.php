@@ -24,18 +24,17 @@ class MetadataViewHelper extends AbstractViewHelper
     /**
      * Returns metadata according to a template.
      *
-     * @param File $file
-     * @param string $template
-     * @param array $metadataProperties
-     * @param array $configuration
      * @return string
      */
-    public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = [])
+    public function render()
     {
+        $file = $this->arguments['file'];
+        $template = $this->arguments['template'];
+        $metadataProperties = $this->arguments['metadataProperties'];
+        $configuration = $this->arguments['configuration'];
         if (empty($template)) {
             $template = $this->getDefaultTemplate($file);
         }
-
         $result = $template;
         foreach ($metadataProperties as $metadataProperty) {
             $value = $file->getProperty($metadataProperty);
@@ -45,7 +44,6 @@ class MetadataViewHelper extends AbstractViewHelper
             }
             $result = str_replace('%' . $metadataProperty, $value, $result);
         }
-
         return $result;
     }
 
@@ -64,5 +62,14 @@ class MetadataViewHelper extends AbstractViewHelper
         }
 
         return $template;
+    }
+
+    public function initializeArguments(): void
+    {
+        parent::initializeArguments();
+        $this->registerArgument('file', File::class, '', true);
+        $this->registerArgument('template', 'string', '', false, '');
+        $this->registerArgument('metadataProperties', 'array', '', false, ['size', 'width', 'height']);
+        $this->registerArgument('configuration', 'array', '', false, []);
     }
 }

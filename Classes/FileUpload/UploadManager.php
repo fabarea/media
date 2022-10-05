@@ -8,6 +8,7 @@ namespace Fab\Media\FileUpload;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Core\Environment;
@@ -216,8 +217,8 @@ class UploadManager
             $fileInfo = GeneralUtility::split_fileref($fileName);
             // Set up the permissions for the file extension
             $fileExtensionPermissions = $GLOBALS['TYPO3_CONF_VARS']['BE']['fileExtensions']['webspace'];
-            $fileExtensionPermissions['allow'] = GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['allow']));
-            $fileExtensionPermissions['deny'] = GeneralUtility::uniqueList(strtolower($fileExtensionPermissions['deny']));
+            $fileExtensionPermissions['allow'] = StringUtility::uniqueList(strtolower($fileExtensionPermissions['allow']));
+            $fileExtensionPermissions['deny'] = StringUtility::uniqueList(strtolower($fileExtensionPermissions['deny']));
             $fileExtension = strtolower($fileInfo['fileext']);
             if ($fileExtension !== '') {
                 // If the extension is found amongst the allowed types, we return true immediately
