@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers\File;
 
 /*
@@ -21,7 +22,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class ThumbnailViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */
@@ -43,7 +43,6 @@ class ThumbnailViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-
         $file = $this->arguments['file'];
         $preset = $this->arguments['preset'];
         $configuration = $this->arguments['configuration'];
@@ -87,5 +86,4 @@ class ThumbnailViewHelper extends AbstractViewHelper
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

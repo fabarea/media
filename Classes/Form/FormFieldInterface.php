@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Form;
 
 /*
@@ -13,7 +14,6 @@ namespace Fab\Media\Form;
  */
 interface FormFieldInterface
 {
-
     /**
      * @return string
      */

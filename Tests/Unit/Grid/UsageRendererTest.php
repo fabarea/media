@@ -1,7 +1,9 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -17,25 +19,28 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * Test case for class \Fab\Media\Grid\UsageRenderer.
  */
-class UsageRendererTest extends UnitTestCase {
+class UsageRendererTest extends UnitTestCase
+{
+    /**
+     * @var UsageRenderer
+     */
+    private $fixture;
 
-	/**
-	 * @var UsageRenderer
-	 */
-	private $fixture;
+    public function setUp()
+    {
+        $this->fixture = new UsageRenderer();
+    }
 
-	public function setUp() {
-		$this->fixture = new UsageRenderer();
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
-
-	/**
-	 * @test
-	 */
-	public function fixtureIsOfTypeGridRendererUsageRenderer() {
-		$this->assertInstanceOf('Fab\Media\Grid\UsageRenderer', $this->fixture);
-	}
+    /**
+     * @test
+     */
+    public function fixtureIsOfTypeGridRendererUsageRenderer()
+    {
+        $this->assertInstanceOf('Fab\Media\Grid\UsageRenderer', $this->fixture);
+    }
 }

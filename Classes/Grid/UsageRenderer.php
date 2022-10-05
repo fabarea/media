@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 /*
@@ -22,7 +23,6 @@ use Fab\Vidi\Tca\Tca;
  */
 class UsageRenderer extends ColumnRendererAbstract
 {
-
     /**
      * Render usage of an asset in the grid.
      *
@@ -46,7 +46,6 @@ class UsageRenderer extends ColumnRendererAbstract
         // Render File usage
         $fileReferences = $this->getFileReferenceService()->findFileReferences($file);
         if (!empty($fileReferences)) {
-
             // Finalize file references assembling.
             $result .= sprintf(
                 $this->getWrappingTemplate(),
@@ -58,7 +57,6 @@ class UsageRenderer extends ColumnRendererAbstract
         // Render link usage in RTE
         $linkSoftReferences = $this->getFileReferenceService()->findSoftLinkReferences($file);
         if (!empty($linkSoftReferences)) {
-
             // Finalize link references assembling.
             $result .= sprintf(
                 $this->getWrappingTemplate(),
@@ -70,7 +68,6 @@ class UsageRenderer extends ColumnRendererAbstract
         // Render image usage in RTE
         $imageSoftReferences = $this->getFileReferenceService()->findSoftImageReferences($file);
         if (!empty($imageSoftReferences)) {
-
             // Finalize image references assembling.
             $result .= sprintf(
                 $this->getWrappingTemplate(),
@@ -91,7 +88,6 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     protected function assembleOutput(array $references, array $mapping)
     {
-
         $result = '';
         foreach ($references as $reference) {
             $button = $this->makeLinkButton()
@@ -145,7 +141,6 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     protected function getEditUri(array $reference, array $mapping)
     {
-
         $parameterName = sprintf('edit[%s][%s]', $reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]);
         $uri = BackendUtility::getModuleUrl(
             'record_edit',
@@ -162,7 +157,6 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     protected function getModuleUrl()
     {
-
         $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
             $additionalParameters = array(
@@ -181,10 +175,8 @@ class UsageRenderer extends ColumnRendererAbstract
      */
     protected function getRecordTitle($tableName, $identifier)
     {
-
         $result = '';
         if ($tableName && (int)$identifier > 0) {
-
             $labelField = Tca::table($tableName)->getLabelField();
 
             // Get the title of the record.

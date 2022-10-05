@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -14,30 +15,28 @@ namespace Fab\Media\Thumbnail;
  */
 interface ThumbnailInterface
 {
-
     /**
      * The thumbnail of the asset (default value).
      */
-    const OUTPUT_IMAGE = 'image';
+    public const OUTPUT_IMAGE = 'image';
 
     /**
      * The thumbnail will be wrapped with an anchor.
      */
-    const OUTPUT_IMAGE_WRAPPED = 'imageWrapped';
+    public const OUTPUT_IMAGE_WRAPPED = 'imageWrapped';
 
     /**
      * Output the URI of the thumbnail.
      */
-    const OUTPUT_URI = 'uri';
+    public const OUTPUT_URI = 'uri';
 
     /**
      * Open thumbnail in a new window.
      */
-    const TARGET_BLANK = '_blank';
+    public const TARGET_BLANK = '_blank';
 
     /**
      * Open thumbnail in the same window.
      */
-    const TARGET_SELF = '_self';
-
+    public const TARGET_SELF = '_self';
 }

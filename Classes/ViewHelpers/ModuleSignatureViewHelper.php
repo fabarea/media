@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ModuleSignatureViewHelper extends AbstractViewHelper
 {
-
     /**
      * Returns the BE module signature.
      *

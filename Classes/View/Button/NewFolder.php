@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -20,7 +21,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class NewFolder extends AbstractComponentView
 {
-
     /**
      * Renders a button to create a new folder.
      *
@@ -31,7 +31,6 @@ class NewFolder extends AbstractComponentView
     {
         $output = '';
         if ($this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
-
             $button = $this->makeLinkButton()
                 ->setHref($this->getNewFolderUri())
                 ->setTitle($this->getLabel())
@@ -92,7 +91,6 @@ class NewFolder extends AbstractComponentView
      */
     protected function getAdditionalParameters()
     {
-
         $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
             $additionalParameters = [
@@ -117,5 +115,4 @@ class NewFolder extends AbstractComponentView
     {
         return $GLOBALS['LANG'];
     }
-
 }

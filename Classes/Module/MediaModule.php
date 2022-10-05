@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Module;
 
 /*
@@ -26,16 +27,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class MediaModule implements SingletonInterface
 {
+    /**
+     * @var string
+     */
+    public const SIGNATURE = 'user_MediaM1';
 
     /**
      * @var string
      */
-    const SIGNATURE = 'user_MediaM1';
-
-    /**
-     * @var string
-     */
-    const PARAMETER_PREFIX = 'tx_media_user_mediam1';
+    public const PARAMETER_PREFIX = 'tx_media_user_mediam1';
 
     /**
      * @var ResourceStorage
@@ -45,7 +45,7 @@ class MediaModule implements SingletonInterface
     /**
      * @return string
      */
-    static public function getSignature()
+    public static function getSignature()
     {
         return self::SIGNATURE;
     }
@@ -53,7 +53,7 @@ class MediaModule implements SingletonInterface
     /**
      * @return string
      */
-    static public function getParameterPrefix()
+    public static function getParameterPrefix()
     {
         return self::PARAMETER_PREFIX;
     }
@@ -66,7 +66,6 @@ class MediaModule implements SingletonInterface
      */
     public function getAllowedStorages()
     {
-
         $storages = $this->getBackendUser()->getFileStorages();
         if (empty($storages)) {
             throw new \RuntimeException('No storage is accessible for the current BE User. Forgotten to define a mount point for this BE User?', 1380801970);
@@ -82,16 +81,13 @@ class MediaModule implements SingletonInterface
     public function getCurrentStorage()
     {
         if (is_null($this->currentStorage)) {
-
             $storageIdentifier = $this->getStorageIdentifierFromSessionOrArguments();
 
             if ($storageIdentifier > 0) {
                 $currentStorage = $this->getResourceFactory()->getStorageObject($storageIdentifier);
             } else {
-
                 // We differentiate the cases whether the User is admin or not.
                 if ($this->getBackendUser()->isAdmin()) {
-
                     $currentStorage = $this->getResourceFactory()->getDefaultStorage();
 
                     // Not default storage has been flagged in "sys_file_storage".
@@ -122,7 +118,6 @@ class MediaModule implements SingletonInterface
      */
     protected function getStorageIdentifierFromSessionOrArguments()
     {
-
         // Default value
         $storageIdentifier = 0;
 
@@ -152,12 +147,10 @@ class MediaModule implements SingletonInterface
      */
     public function getCombinedIdentifier()
     {
-
         // Fetch possible combined identifier.
         $combinedIdentifier = GeneralUtility::_GET('id');
 
         if ($combinedIdentifier) {
-
             // Fix a bug at the Core level: the "id" parameter is encoded again when translating file.
             // Add a loop to decode maximum 999 time!
             $semaphore = 0;
@@ -185,7 +178,6 @@ class MediaModule implements SingletonInterface
      */
     public function getFirstAvailableFolder()
     {
-
         // Take the first object of the first storage.
         $storages = $this->getBackendUser()->getFileStorages();
         $storage = reset($storages);
@@ -202,7 +194,6 @@ class MediaModule implements SingletonInterface
      */
     public function getCurrentFolder()
     {
-
         $combinedIdentifier = $this->getCombinedIdentifier();
 
         if ($combinedIdentifier) {
@@ -220,7 +211,6 @@ class MediaModule implements SingletonInterface
      */
     public function getFolderForCombinedIdentifier($combinedIdentifier)
     {
-
         // Code taken from FileListController.php
         $storage = $this->getResourceFactory()->getStorageObjectFromCombinedIdentifier($combinedIdentifier);
         $identifier = substr($combinedIdentifier, strpos($combinedIdentifier, ':') + 1);
@@ -259,7 +249,6 @@ class MediaModule implements SingletonInterface
      */
     public function hasRecursiveSelection()
     {
-
         $parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
         $parameters = GeneralUtility::_GET($parameterPrefix);
 
@@ -280,7 +269,6 @@ class MediaModule implements SingletonInterface
      */
     public function getTargetFolderForUploadedFile(UploadedFileInterface $uploadedFile, ResourceStorage $storage)
     {
-
         // default is the root level
         $folder = $storage->getRootLevelFolder(); // get the root folder by default
 
@@ -288,7 +276,6 @@ class MediaModule implements SingletonInterface
         $storageRecord = $storage->getStorageRecord();
         $mountPointIdentifier = $storageRecord['mount_point_file_type_' . $uploadedFile->getType()];
         if ($mountPointIdentifier > 0) {
-
             // We don't have a Mount Point repository in FAL, so query the database directly.
             $record = $this->getDataService()->getRecord('sys_filemounts', ['uid' => $mountPointIdentifier]);
 
@@ -308,7 +295,6 @@ class MediaModule implements SingletonInterface
      */
     public function getDefaultFolderInStorage(ResourceStorage $storage, File $file)
     {
-
         // default is the root level
         $folder = $storage->getRootLevelFolder();
 
@@ -317,7 +303,6 @@ class MediaModule implements SingletonInterface
         $mountPointIdentifier = $storageRecord['mount_point_file_type_' . $file->getType()];
 
         if ($mountPointIdentifier > 0) {
-
             // We don't have a Mount Point repository in FAL, so query the database directly.
             $record = $this->getDataService()->getRecord('sys_filemounts', ['uid' => $mountPointIdentifier]);
             if (!empty($record['path'])) {
@@ -365,5 +350,4 @@ class MediaModule implements SingletonInterface
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

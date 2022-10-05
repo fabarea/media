@@ -1,8 +1,12 @@
 <?php
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-if (!defined('TYPO3')) die ('Access denied.');
+
+if (!defined('TYPO3')) {
+    die('Access denied.');
+}
 
 $configuration = GeneralUtility::makeInstance(
     ExtensionConfiguration::class

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -14,7 +15,6 @@ namespace Fab\Media\Thumbnail;
  */
 class ThumbnailConfiguration
 {
-
     /**
      * @var int
      */
@@ -106,5 +106,4 @@ class ThumbnailConfiguration
         $this->className = $className;
         return $this;
     }
-
 }

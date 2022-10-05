@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\MenuItem;
 
 /*
@@ -19,7 +20,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class ChangeStorageMenuItem extends AbstractComponentView
 {
-
     /**
      * Renders a "change storage" menu item to be placed in the grid menu of Media.
      *
@@ -29,14 +29,12 @@ class ChangeStorageMenuItem extends AbstractComponentView
     {
         $output = '';
         if (!$this->getMediaModule()->hasFolderTree()) {
-
-
-            $output = sprintf('<li><a href="%s" class="change-storage" >%s %s</a>',
+            $output = sprintf(
+                '<li><a href="%s" class="change-storage" >%s %s</a>',
                 $this->getChangeStorageUri(),
                 $this->getIconFactory()->getIcon('extensions-media-storage-change', Icon::SIZE_SMALL),
                 $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:change_storage')
             );
-
         }
         return $output;
     }
@@ -62,5 +60,4 @@ class ChangeStorageMenuItem extends AbstractComponentView
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

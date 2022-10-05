@@ -21,7 +21,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class FooterViewHelper extends AbstractViewHelper
 {
-
     /**
      * Render a form footer.
      * Example:
@@ -31,12 +30,12 @@ class FooterViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-
         /** @var File $file */
         $file = $this->templateVariableContainer->get('file');
         $template = '<span>%s %s %s</span> <span style="padding-left: 50px">%s %s %s</span>';
 
-        $format = sprintf('%s @ %s',
+        $format = sprintf(
+            '%s @ %s',
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'],
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm']
         );
@@ -47,7 +46,8 @@ class FooterViewHelper extends AbstractViewHelper
             'base' => null
         );
 
-        $result = sprintf($template,
+        $result = sprintf(
+            $template,
             LocalizationUtility::translate('created_on', 'media'),
             $file->getProperty('crdate') ? $this->formatDate($arguments, $file->getProperty('crdate')) : '',
             $this->getUserName($file->getProperty('cruser_id')),
@@ -68,7 +68,6 @@ class FooterViewHelper extends AbstractViewHelper
      */
     public function getUserName($userIdentifier)
     {
-
         $username = '';
 
         if ($userIdentifier > 0) {
@@ -79,7 +78,8 @@ class FooterViewHelper extends AbstractViewHelper
                         'uid' => $userIdentifier
                     ]
                 );
-            $username = sprintf('%s %s',
+            $username = sprintf(
+                '%s %s',
                 LocalizationUtility::translate('by', 'media'),
                 empty($record['realName']) ? $record['username'] : $record['realName']
             );

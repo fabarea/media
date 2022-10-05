@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 /*
@@ -18,7 +19,6 @@ use Fab\Vidi\Tca\Tca;
  */
 class MetadataRenderer extends ColumnRendererAbstract
 {
-
     /**
      * Renders a configurable metadata property of a file in the Grid.
      *
@@ -27,7 +27,6 @@ class MetadataRenderer extends ColumnRendererAbstract
      */
     public function render()
     {
-
         if (empty($this->gridRendererConfiguration['property'])) {
             throw new \Exception('Missing property value for Grid Renderer Metadata', 1390391042);
         }
@@ -80,7 +79,6 @@ class MetadataRenderer extends ColumnRendererAbstract
      */
     protected function isClean($content)
     {
-
         // @todo implement me!
         $result = true;
         return $result;

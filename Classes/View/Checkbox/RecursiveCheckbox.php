@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Checkbox;
 
 /*
@@ -18,7 +19,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class RecursiveCheckbox extends AbstractComponentView
 {
-
     /**
      * Renders a checkbox for recursive file browsing.
      *
@@ -27,7 +27,6 @@ class RecursiveCheckbox extends AbstractComponentView
      */
     public function render()
     {
-
         $output = '';
         if ($this->isDisplayed()) {
             $this->loadRequireJsCode();
@@ -55,7 +54,6 @@ class RecursiveCheckbox extends AbstractComponentView
      */
     protected function renderRecursiveCheckbox()
     {
-
         $template = '<form action="%s" id="form-checkbox-hasRecursiveSelection" method="get">
 						<label>
 							<input type="checkbox"
@@ -97,5 +95,4 @@ class RecursiveCheckbox extends AbstractComponentView
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

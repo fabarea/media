@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Controller;
 
 /*
@@ -46,7 +47,6 @@ use TYPO3\CMS\Extbase\Annotation as Extbase;
  */
 class AssetController extends ActionController
 {
-
     /**
      * @var string
      */
@@ -64,7 +64,6 @@ class AssetController extends ActionController
 
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
-
             /** @var FileConverter $typeConverter */
             $typeConverter = GeneralUtility::makeInstance(FileConverter::class);
 
@@ -83,9 +82,7 @@ class AssetController extends ActionController
      */
     public function downloadAction(File $file, $forceDownload = false): ResponseInterface
     {
-
         if ($file->exists() && $file->getStorage()->isWithinFileMountBoundaries($file->getParentFolder())) {
-
             // Emit signal before downloading the file.
             $this->emitBeforeDownloadSignal($file);
 
@@ -226,7 +223,6 @@ class AssetController extends ActionController
      */
     public function editStorageAction(array $matches = []): ResponseInterface
     {
-
         $this->view->assign('storages', $this->getMediaModule()->getAllowedStorages());
         $this->view->assign('storageTitle', Tca::table('sys_file_storage')->getTitle());
 
@@ -257,7 +253,6 @@ class AssetController extends ActionController
      */
     protected function handleUpload()
     {
-
         /** @var $uploadManager UploadManager */
         $uploadManager = GeneralUtility::makeInstance(UploadManager::class);
 
@@ -288,7 +283,6 @@ class AssetController extends ActionController
      */
     protected function getThumbnailService(File $file)
     {
-
         /** @var $thumbnailService ThumbnailService */
         $thumbnailService = GeneralUtility::makeInstance(ThumbnailService::class, $file);
         $thumbnailService->setAppendTimeStamp(true)
@@ -362,5 +356,4 @@ class AssetController extends ActionController
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

@@ -1,7 +1,9 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -17,25 +19,28 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * Test case for class \Fab\Media\Grid\CategoryRenderer.
  */
-class CategoryRendererTest extends UnitTestCase {
+class CategoryRendererTest extends UnitTestCase
+{
+    /**
+     * @var CategoryRenderer
+     */
+    private $fixture;
 
-	/**
-	 * @var CategoryRenderer
-	 */
-	private $fixture;
+    public function setUp()
+    {
+        $this->fixture = new CategoryRenderer();
+    }
 
-	public function setUp() {
-		$this->fixture = new CategoryRenderer();
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
-
-	/**
-	 * @test
-	 */
-	public function fixtureIsOfTypeGridRendererCategoryRenderer() {
-		$this->assertInstanceOf('Fab\Media\Grid\CategoryRenderer', $this->fixture);
-	}
+    /**
+     * @test
+     */
+    public function fixtureIsOfTypeGridRendererCategoryRenderer()
+    {
+        $this->assertInstanceOf('Fab\Media\Grid\CategoryRenderer', $this->fixture);
+    }
 }

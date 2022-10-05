@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers\Form\Select;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class StorageViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */
@@ -43,16 +43,17 @@ class StorageViewHelper extends AbstractViewHelper
         $template = '<select name="%s[target]">%s</select>';
         $options = [];
         foreach ($objects as $storage) {
-
             /** @var ResourceStorage $storage */
-            $options[] = sprintf('<option value="%s" %s>%s %s</option>',
+            $options[] = sprintf(
+                '<option value="%s" %s>%s %s</option>',
                 $storage->getUid(),
                 is_object($currentStorage) && $currentStorage->getUid() == $storage->getUid() ? 'selected="selected"' : '',
                 $storage->getName(),
                 !$storage->isOnline() ? '(offline)' : ''
             );
         }
-        return sprintf($template,
+        return sprintf(
+            $template,
             VidiModule::getParameterPrefix(),
             implode("\n", $options)
         );
@@ -65,5 +66,4 @@ class StorageViewHelper extends AbstractViewHelper
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

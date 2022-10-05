@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 /*
@@ -15,7 +16,6 @@ use Fab\Vidi\Grid\ColumnRendererAbstract;
  */
 class FrontendPermissionRenderer extends ColumnRendererAbstract
 {
-
     /**
      * Render permission in the grid.
      *
@@ -27,7 +27,6 @@ class FrontendPermissionRenderer extends ColumnRendererAbstract
 
         $frontendUserGroups = $this->object['metadata']['fe_groups'];
         if (!empty($frontendUserGroups)) {
-
             /** @var $frontendUserGroup \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup */
             foreach ($frontendUserGroups as $frontendUserGroup) {
                 $result .= sprintf('<li style="list-style: disc">%s</li>', $frontendUserGroup['title']);

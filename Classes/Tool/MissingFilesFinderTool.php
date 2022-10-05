@@ -22,7 +22,6 @@ use Fab\Vidi\Tool\AbstractTool;
  */
 class MissingFilesFinderTool extends AbstractTool
 {
-
     /**
      * Display the title of the tool on the welcome screen.
      *
@@ -54,7 +53,6 @@ class MissingFilesFinderTool extends AbstractTool
      */
     public function work(array $arguments = [])
     {
-
         // Possible clean up of missing files if the User has clicked so.
         if (!empty($arguments['deleteMissingFiles'])) {
             $this->deleteMissingFilesAction($arguments['files']);
@@ -65,7 +63,6 @@ class MissingFilesFinderTool extends AbstractTool
 
         $missingReports = [];
         foreach ($this->getStorageRepository()->findAll() as $storage) {
-
             if ($storage->isOnline()) {
                 $missingFiles = $this->getIndexAnalyser()->searchForMissingFiles($storage);
 
@@ -93,9 +90,7 @@ class MissingFilesFinderTool extends AbstractTool
      */
     protected function deleteMissingFilesAction(array $files = [])
     {
-
         foreach ($files as $fileUid) {
-
             /** @var File $file */
             try {
                 $file = $this->getResourceFactory()->getFileObject($fileUid);
@@ -151,6 +146,4 @@ class MissingFilesFinderTool extends AbstractTool
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }
-

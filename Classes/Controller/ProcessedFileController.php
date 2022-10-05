@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Controller;
 
 /*
@@ -11,7 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 use Fab\Media\TypeConverter\FileConverter;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -20,16 +20,13 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class ProcessedFileController extends ActionController
 {
-
     /**
      * Initializes the controller before invoking an action method.
      */
     public function initializeAction()
     {
-
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
-
             /** @var FileConverter $typeConverter */
             $typeConverter = GeneralUtility::makeInstance(FileConverter::class);
 
@@ -61,5 +58,4 @@ class ProcessedFileController extends ActionController
         header("Content-Type: text/json");
         return $this->htmlResponse(htmlspecialchars(json_encode($response), ENT_NOQUOTES));
     }
-
 }

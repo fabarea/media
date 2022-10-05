@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers;
 
 /*
@@ -20,7 +21,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class MetadataViewHelper extends AbstractViewHelper
 {
-
     /**
      * Returns metadata according to a template.
      *
@@ -32,7 +32,6 @@ class MetadataViewHelper extends AbstractViewHelper
      */
     public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = [])
     {
-
         if (empty($template)) {
             $template = $this->getDefaultTemplate($file);
         }
@@ -58,7 +57,6 @@ class MetadataViewHelper extends AbstractViewHelper
      */
     protected function getDefaultTemplate(File $file)
     {
-
         $template = '%size KB';
 
         if ($file->getType() == File::FILETYPE_IMAGE) {

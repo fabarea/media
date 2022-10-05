@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers;
 
 /*
@@ -15,7 +16,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ReportToViewHelper extends AbstractViewHelper
 {
-
     /**
      * Returns the people who will receive a report.
      *

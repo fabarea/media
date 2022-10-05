@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Command;
 
 /*
@@ -40,5 +41,4 @@ class FileCacheWarmUpCommand extends Command
     {
         return GeneralUtility::makeInstance(CacheService::class);
     }
-
 }

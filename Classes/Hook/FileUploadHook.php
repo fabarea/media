@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Hook;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface
 {
-
     /**
      * @param string $action The action
      * @param array $cmdArr The parameter sent to the action handler
@@ -55,5 +55,4 @@ class FileUploadHook implements ExtendedFileUtilityProcessDataHookInterface
     {
         return GeneralUtility::makeInstance(MediaIndexer::class, $storage);
     }
-
 }

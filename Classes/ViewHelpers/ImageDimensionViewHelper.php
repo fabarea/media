@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers;
 
 /*
@@ -16,7 +17,6 @@ use Fab\Media\Utility\ImagePresetUtility;
  */
 class ImageDimensionViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */

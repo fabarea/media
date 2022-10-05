@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Index;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3\CMS\Core\Resource\Index\ExtractorInterface;
  */
 class TitleMetadataExtractor implements ExtractorInterface
 {
-
     /**
      * Returns an array of supported file types;
      * An empty array indicates all filetypes

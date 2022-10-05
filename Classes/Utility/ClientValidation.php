@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -15,13 +16,12 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class ClientValidation implements SingletonInterface
 {
-
     /**
      * Returns a class instance
      *
      * @return \Fab\Media\Utility\ClientValidation|object
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(\Fab\Media\Utility\ClientValidation::class);
     }

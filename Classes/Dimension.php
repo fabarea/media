@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media;
 
 /*
@@ -15,7 +16,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Dimension
 {
-
     /**
      * @var int
      */

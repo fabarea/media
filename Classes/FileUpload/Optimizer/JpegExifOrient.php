@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload\Optimizer;
 
 /*
@@ -44,7 +45,6 @@ namespace Fab\Media\FileUpload\Optimizer;
  */
 class JpegExifOrient
 {
-
     /**
      * Sets the Exif Orientation for a given JPG file.
      *
@@ -63,7 +63,9 @@ class JpegExifOrient
         }
 
         // Read file head, check for JPEG SOI + JFIF/Exif APP1
-        for ($i = 0; $i < 4; $i++) $exif_data[$i] = self::read_1_byte($fh);
+        for ($i = 0; $i < 4; $i++) {
+            $exif_data[$i] = self::read_1_byte($fh);
+        }
         if ($exif_data[0] !== 0xFF ||
             $exif_data[1] !== 0xD8
         ) {
@@ -81,7 +83,9 @@ class JpegExifOrient
             }
             $length -= 8;
             // Read JFIF head, check for "JFIF"
-            for ($i = 0; $i < 5; $i++) $exif_data[$i] = self::read_1_byte($fh);
+            for ($i = 0; $i < 5; $i++) {
+                $exif_data[$i] = self::read_1_byte($fh);
+            }
             if ($exif_data[0] !== 0x4A ||
                 $exif_data[1] !== 0x46 ||
                 $exif_data[2] !== 0x49 ||
@@ -91,7 +95,9 @@ class JpegExifOrient
                 return;
             }
             // Read JFIF body
-            for ($i = 0; $i < $length; $i++) $exif_data[$i] = self::read_1_byte($fh);
+            for ($i = 0; $i < $length; $i++) {
+                $exif_data[$i] = self::read_1_byte($fh);
+            }
 
             if (self::read_1_byte($fh) !== 0) {
                 // Seems there is a 0 byte to separate segments...
@@ -117,7 +123,9 @@ class JpegExifOrient
         }
         $length -= 8;
         // Read Exif head, check for "Exif"
-        for ($i = 0; $i < 6; $i++) $exif_data[$i] = self::read_1_byte($fh);
+        for ($i = 0; $i < 6; $i++) {
+            $exif_data[$i] = self::read_1_byte($fh);
+        }
         if ($exif_data[0] !== 0x45 ||
             $exif_data[1] !== 0x78 ||
             $exif_data[2] !== 0x69 ||
@@ -128,7 +136,9 @@ class JpegExifOrient
             return;
         }
         // Read Exif body
-        for ($i = 0; $i < $length; $i++) $exif_data[$i] = self::read_1_byte($fh);
+        for ($i = 0; $i < $length; $i++) {
+            $exif_data[$i] = self::read_1_byte($fh);
+        }
 
         if ($length < 12) {    // Length of an IFD entry
             return;
@@ -145,29 +155,47 @@ class JpegExifOrient
 
         // Check Tag mark
         if ($is_motorola) {
-            if ($exif_data[2] !== 0) return;
-            if ($exif_data[3] !== 0x2A) return;
+            if ($exif_data[2] !== 0) {
+                return;
+            }
+            if ($exif_data[3] !== 0x2A) {
+                return;
+            }
         } else {
-            if ($exif_data[3] !== 0) return;
-            if ($exif_data[2] !== 0x2A) return;
+            if ($exif_data[3] !== 0) {
+                return;
+            }
+            if ($exif_data[2] !== 0x2A) {
+                return;
+            }
         }
 
         // Get first IFD offset (offset to IFD0)
         if ($is_motorola) {
-            if ($exif_data[4] !== 0) return;
-            if ($exif_data[5] !== 0) return;
+            if ($exif_data[4] !== 0) {
+                return;
+            }
+            if ($exif_data[5] !== 0) {
+                return;
+            }
             $offset = $exif_data[6];
             $offset <<= 8;
             $offset += $exif_data[7];
         } else {
-            if ($exif_data[7] !== 0) return;
-            if ($exif_data[6] !== 0) return;
+            if ($exif_data[7] !== 0) {
+                return;
+            }
+            if ($exif_data[6] !== 0) {
+                return;
+            }
             $offset = $exif_data[5];
             $offset <<= 8;
             $offset += $exif_data[4];
         }
         // Check end of data segment
-        if ($offset > $length - 2) return;
+        if ($offset > $length - 2) {
+            return;
+        }
 
         // Get the number of directory entries contained in this IFD
         if ($is_motorola) {
@@ -179,13 +207,17 @@ class JpegExifOrient
             $number_of_tags <<= 8;
             $number_of_tags += $exif_data[$offset];
         }
-        if ($number_of_tags === 0) return;
+        if ($number_of_tags === 0) {
+            return;
+        }
         $offset += 2;
 
         // Search for Orientation Tag in IFD0
         while (true) {
             // Check end of data segment
-            if ($offset > $length - 12) return;
+            if ($offset > $length - 12) {
+                return;
+            }
             // Get Tag number
             if ($is_motorola) {
                 $tagnum = $exif_data[$offset];
@@ -197,8 +229,12 @@ class JpegExifOrient
                 $tagnum += $exif_data[$offset];
             }
             // Found Orientation Tag
-            if ($tagnum === 0x0112) break;
-            if (--$number_of_tags === 0) return;
+            if ($tagnum === 0x0112) {
+                break;
+            }
+            if (--$number_of_tags === 0) {
+                return;
+            }
             $offset += 12;
         }
 
@@ -271,5 +307,4 @@ class JpegExifOrient
         }
         return (ord($c1) << 8) + (ord($c2));
     }
-
 }

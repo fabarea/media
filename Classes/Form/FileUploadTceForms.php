@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Form;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FileUploadTceForms extends FileUpload
 {
-
     /**
      * @var string
      */
@@ -32,12 +32,12 @@ class FileUploadTceForms extends FileUpload
      */
     protected function getJavaScript()
     {
-
         // Get the base prefix.
         $basePrefix = $this->getBasePrefix($this->getPrefix());
         $filePath = ExtensionManagementUtility::extPath('media') . 'Resources/Private/Standalone/FileUploadTceForms.js';
 
-        return sprintf(file_get_contents($filePath),
+        return sprintf(
+            file_get_contents($filePath),
             $basePrefix,
             $this->elementId,
             $this->getModuleUrl(),
@@ -76,7 +76,8 @@ class FileUploadTceForms extends FileUpload
         /** @var MetadataViewHelper $metadataViewHelper */
         $metadataViewHelper = GeneralUtility::makeInstance(MetadataViewHelper::class);
 
-        return sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
+        return sprintf(
+            '<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
             $metadataViewHelper->render($this->file)
         );
     }

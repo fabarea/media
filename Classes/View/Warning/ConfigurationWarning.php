@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Warning;
 
 /*
@@ -22,7 +23,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class ConfigurationWarning extends AbstractComponentView
 {
-
     /**
      * @var array
      */
@@ -35,7 +35,6 @@ class ConfigurationWarning extends AbstractComponentView
      */
     public function render()
     {
-
         $result = '';
 
         // Check whether storage is configured or not.
@@ -216,7 +215,6 @@ EOF;
     protected function checkMountPoints()
     {
         if (!$this->getBackendUser()->isAdmin()) {
-
             $fileMounts = $this->getBackendUser()->getFileMountRecords();
 
             $fileMountIdentifiers = [];
@@ -271,16 +269,15 @@ EOF;
      */
     protected function formatMessageForMountPoints()
     {
-
         $storage = $this->getMediaModule()->getCurrentStorage();
         $backendUser = $this->getBackendUser();
 
         foreach ($this->notAllowedMountPoints as $notAllowedMountPoints) {
-            $list = sprintf('<li>"%s" with path %s</li>',
+            $list = sprintf(
+                '<li>"%s" with path %s</li>',
                 $notAllowedMountPoints['title'],
                 $notAllowedMountPoints['path']
             );
-
         }
 
         $result = <<< EOF
@@ -314,7 +311,6 @@ EOF;
             ->execute()
             ->fetchColumn(0);
         return (int)$count;
-
     }
 
     /**
@@ -344,7 +340,6 @@ EOF;
      */
     protected function formatMessageForSilentlyUpdatedColumnNumberOfReferences($numberOfFile)
     {
-
         $result = <<< EOF
 			<div class="alert alert-success">
 				<div class="alert-title">
@@ -373,7 +368,6 @@ EOF;
      */
     protected function formatMessageForUpdateRequiredColumnNumberOfReferences()
     {
-
         $result = <<< EOF
 			<div class="alert alert-warning">
 				<div class="alert-title">
@@ -424,5 +418,4 @@ EOF;
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

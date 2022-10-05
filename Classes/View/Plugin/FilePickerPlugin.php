@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Plugin;
 
 /*
@@ -9,7 +10,6 @@ namespace Fab\Media\View\Plugin;
  */
 
 use Fab\Vidi\View\AbstractComponentView;
-use Fab\Media\Utility\Path;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  */
 class FilePickerPlugin extends AbstractComponentView
 {
-
     /**
      * Renders a hidden link for file picker.
      *
@@ -27,7 +26,6 @@ class FilePickerPlugin extends AbstractComponentView
      */
     public function render()
     {
-
         if ($this->getModuleLoader()->hasPlugin('filePicker')) {
             $this->loadRequireJsCode();
         };
@@ -47,5 +45,4 @@ class FilePickerPlugin extends AbstractComponentView
         $pageRenderer->addRequireJsConfiguration($configuration);
         $pageRenderer->loadRequireJsModule('Fab/Media/PluginFilePicker');
     }
-
 }

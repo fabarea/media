@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -15,13 +16,12 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class DomElement implements SingletonInterface
 {
-
     /**
      * Returns a class instance
      *
      * @return \Fab\Media\Utility\DomElement|object
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(\Fab\Media\Utility\DomElement::class);
     }
@@ -34,7 +34,6 @@ class DomElement implements SingletonInterface
      */
     public function formatId($input)
     {
-
         // remove the capital letter from the id
         $segments = preg_split('/(?=[A-Z])/', $input);
         $segments = array_map('strtolower', $segments);
@@ -54,7 +53,6 @@ class DomElement implements SingletonInterface
      */
     protected function sanitizeId($input)
     {
-
         // remove the track of possible namespace
         $searches[] = ' ';
         $searches[] = '_';
@@ -68,5 +66,4 @@ class DomElement implements SingletonInterface
         $replaces[] = '';
         return str_replace($searches, $replaces, strtolower($input));
     }
-
 }

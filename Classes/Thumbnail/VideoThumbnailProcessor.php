@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class VideoThumbnailProcessor extends AbstractThumbnailProcessor
 {
-
     /**
      * Render a thumbnail of a resource of type video.
      *
@@ -41,7 +41,6 @@ class VideoThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function renderUri()
     {
-
         $relativePath = sprintf('Icons/MimeType/%s.png', $this->getFile()->getProperty('extension'));
         $fileNameAndPath = GeneralUtility::getFileAbsFileName('EXT:media/Resources/Public/' . $relativePath);
         if (!file_exists($fileNameAndPath)) {
@@ -60,7 +59,6 @@ class VideoThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function renderTagImage($result)
     {
-
         // Variable $result corresponds to an URL in this case.
         // Analyse the URL and compute the adequate separator between arguments.
         $parameterSeparator = strpos($result, '?') === false ? '?' : '&';
@@ -97,7 +95,6 @@ class VideoThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function renderTagAnchor($result)
     {
-
         $file = $this->getFile();
 
         return sprintf(

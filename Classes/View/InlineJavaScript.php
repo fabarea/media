@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View;
 
 /*
@@ -16,8 +17,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class InlineJavaScript extends AbstractComponentView
 {
-
-
     /**
      * Renders a button for uploading assets.
      *
@@ -36,6 +35,4 @@ Media.parameterPrefix = '${parameterPrefix}';
 
         return $output;
     }
-
-
 }

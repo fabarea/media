@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Tool;
 
 /*
@@ -9,7 +10,6 @@ namespace Fab\Media\Tool;
  */
 use Fab\Media\Thumbnail\ThumbnailGenerator;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Tool\AbstractTool;
@@ -19,7 +19,6 @@ use Fab\Vidi\Tool\AbstractTool;
  */
 class ThumbnailGeneratorTool extends AbstractTool
 {
-
     /**
      * Display the title of the tool on the welcome screen.
      *
@@ -51,7 +50,6 @@ class ThumbnailGeneratorTool extends AbstractTool
      */
     public function work(array $arguments = [])
     {
-
         $reports = [];
 
         $limit = 500; // default value
@@ -59,14 +57,11 @@ class ThumbnailGeneratorTool extends AbstractTool
 
         // Possible clean up of missing files if the User has clicked so.
         if (isset($arguments['limit']) && isset($arguments['offset'])) {
-
             $limit = (int)$arguments['limit'];
             $offset = (int)$arguments['offset'];
 
             foreach ($this->getStorageRepository()->findAll() as $storage) {
-
                 if ($storage->isOnline()) {
-
                     $thumbnailGenerator = $this->getThumbnailGenerator();
                     $thumbnailGenerator
                         ->setStorage($storage)
@@ -78,7 +73,8 @@ class ThumbnailGeneratorTool extends AbstractTool
 
                     foreach ($processedFileIdentifiers as $fileIdentifier => $processedFileIdentifier) {
                         $result = $resultSet[$fileIdentifier];
-                        $formattedResultSet[] = sprintf('* File "%s": %s %s',
+                        $formattedResultSet[] = sprintf(
+                            '* File "%s": %s %s',
                             $result['fileUid'],
                             $result['fileIdentifier'],
                             empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
@@ -139,6 +135,4 @@ class ThumbnailGeneratorTool extends AbstractTool
     {
         return $this->getBackendUser()->isAdmin();
     }
-
 }
-

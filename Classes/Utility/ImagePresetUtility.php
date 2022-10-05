@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -17,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ImagePresetUtility implements SingletonInterface
 {
-
     /**
      * @var array
      */
@@ -33,7 +33,7 @@ class ImagePresetUtility implements SingletonInterface
      *
      * @return \Fab\Media\Utility\ImagePresetUtility|object
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(\Fab\Media\Utility\ImagePresetUtility::class);
     }

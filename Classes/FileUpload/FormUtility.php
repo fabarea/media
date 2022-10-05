@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -15,13 +16,12 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class FormUtility implements SingletonInterface
 {
-
     /**
      * Returns a class instance.
      *
      * @return \Fab\Media\FileUpload\FormUtility|object
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(\Fab\Media\FileUpload\FormUtility::class);
     }
@@ -65,5 +65,4 @@ class FormUtility implements SingletonInterface
     {
         return strpos(strtolower($GLOBALS['_SERVER']['CONTENT_TYPE']), 'application/octet-stream') === 0;
     }
-
 }

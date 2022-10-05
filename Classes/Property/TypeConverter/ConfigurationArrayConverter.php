@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Property\TypeConverter;
 
 /*
@@ -16,12 +17,11 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\ArrayConverter;
  */
 class ConfigurationArrayConverter extends ArrayConverter
 {
-
     /**
      * Match configuration options (to parse actual options)
      * @var string
      */
-    const PATTERN_MATCH_CONFIGURATIONOPTIONS = '/
+    public const PATTERN_MATCH_CONFIGURATIONOPTIONS = '/
 			\s*
 			(?P<optionName>[a-z0-9]+)
 			\s*=\s*

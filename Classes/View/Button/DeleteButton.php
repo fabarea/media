@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -19,7 +20,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class DeleteButton extends AbstractComponentView
 {
-
     /**
      * Renders a "delete" button to be placed in the grid.
      *
@@ -30,13 +30,11 @@ class DeleteButton extends AbstractComponentView
      */
     public function render(Content $object = null)
     {
-
         $button = '';
         $file = $this->getFileConverter()->convert($object);
 
         // Only display the delete icon if the file has no reference.
         if ($this->getFileReferenceService()->countTotalReferences($object->getUid()) === 0 && $file->checkActionPermission('write')) {
-
             $button = $this->makeLinkButton()
                 ->setHref($this->getDeleteUri($object))
                 ->setDataAttributes([
@@ -90,5 +88,4 @@ class DeleteButton extends AbstractComponentView
     {
         return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
-
 }

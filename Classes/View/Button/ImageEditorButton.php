@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -19,7 +20,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class ImageEditorButton extends AbstractComponentView
 {
-
     /**
      * Renders a "image-editor" button to be placed in the grid.
      *

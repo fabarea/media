@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload\Optimizer;
 
 /*
@@ -18,7 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Rotate implements ImageOptimizerInterface
 {
-
     /**
      * @var GifBuilder
      */
@@ -41,7 +41,6 @@ class Rotate implements ImageOptimizerInterface
      */
     public function optimize($uploadedFile)
     {
-
         $orientation = $this->getOrientation($uploadedFile->getFileWithAbsolutePath());
         $isRotated = $this->isRotated($orientation);
 
@@ -84,7 +83,8 @@ class Rotate implements ImageOptimizerInterface
                 if ($exif) {
                     $orientation = $exif['Orientation'];
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
         return $orientation;
     }
@@ -167,5 +167,4 @@ class Rotate implements ImageOptimizerInterface
     {
         JpegExifOrient::setOrientation($filename, 1);
     }
-
 }

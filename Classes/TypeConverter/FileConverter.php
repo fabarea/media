@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\TypeConverter;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
  */
 class FileConverter extends AbstractTypeConverter
 {
-
     /**
      * @var array<string>
      */
@@ -47,7 +47,6 @@ class FileConverter extends AbstractTypeConverter
      */
     public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
-
         /** @var $file File */
         $file = $this->getResourceFactory()->getFileObject((int)$source);
 

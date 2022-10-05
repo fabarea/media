@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Menu;
 
 /*
@@ -18,7 +19,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class StorageMenu extends AbstractComponentView
 {
-
     /**
      * Renders a dropdown menu for storage.
      *
@@ -26,7 +26,6 @@ class StorageMenu extends AbstractComponentView
      */
     public function render()
     {
-
         $output = '';
         if ($this->isDisplayed()) {
             $this->loadRequireJsCode();
@@ -51,7 +50,6 @@ class StorageMenu extends AbstractComponentView
      */
     protected function renderStorageMenu()
     {
-
         $currentStorage = $this->getMediaModule()->getCurrentStorage();
 
         /** @var $storage \TYPO3\CMS\Core\Resource\ResourceStorage */
@@ -61,7 +59,8 @@ class StorageMenu extends AbstractComponentView
             if ($currentStorage->getUid() == $storage->getUid()) {
                 $selected = 'selected';
             }
-            $options .= sprintf('<option value="%s" %s>%s %s</option>',
+            $options .= sprintf(
+                '<option value="%s" %s>%s %s</option>',
                 $storage->getUid(),
                 $selected,
                 $storage->getName(),
@@ -115,7 +114,6 @@ class StorageMenu extends AbstractComponentView
      */
     protected function computeParameterAndValue($parameter, $value)
     {
-
         if (is_string($value)) {
             $result = array($parameter, $value);
         } else {
@@ -134,5 +132,4 @@ class StorageMenu extends AbstractComponentView
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

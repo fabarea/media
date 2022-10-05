@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Form;
 
 /*
@@ -17,7 +18,6 @@ use Fab\Media\Utility\DomElement;
  */
 abstract class AbstractFormField implements FormFieldInterface
 {
-
     /**
      * @var string
      */
@@ -85,7 +85,8 @@ abstract class AbstractFormField implements FormFieldInterface
                 $this->label = LocalizationUtility::translate($this->label, '');
             }
 
-            $result = sprintf($template,
+            $result = sprintf(
+                $template,
                 $this->getId(),
                 $this->label
             );
@@ -103,7 +104,8 @@ abstract class AbstractFormField implements FormFieldInterface
         $result = '';
         if (!empty($this->attributes)) {
             foreach ($this->attributes as $attribute => $value) {
-                $result .= sprintf('%s="%s" ',
+                $result .= sprintf(
+                    '%s="%s" ',
                     htmlspecialchars($attribute),
                     htmlspecialchars($value)
                 );
@@ -280,5 +282,4 @@ abstract class AbstractFormField implements FormFieldInterface
         $this->attributes = $attributes;
         return $this;
     }
-
 }

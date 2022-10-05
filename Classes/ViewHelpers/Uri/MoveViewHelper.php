@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers\Uri;
 
 /*
@@ -17,7 +18,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class MoveViewHelper extends AbstractViewHelper
 {
-
     /**
      * Render a move storage URI.
      *
@@ -25,7 +25,6 @@ class MoveViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-
         $urlParameters = array(
             VidiModule::getParameterPrefix() => array(
                 'controller' => 'Content',
@@ -48,5 +47,4 @@ class MoveViewHelper extends AbstractViewHelper
 
         return $moduleUrl;
     }
-
 }

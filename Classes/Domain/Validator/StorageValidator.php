@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Domain\Validator;
 
 /*
@@ -18,7 +19,6 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
  */
 class StorageValidator extends AbstractValidator
 {
-
     /**
      * Check if $storageIdentifier is allowed. If it is not valid, throw an exception.
      *
@@ -27,7 +27,6 @@ class StorageValidator extends AbstractValidator
      */
     public function isValid($combinedIdentifier)
     {
-
         $allowedStorageIdentifiers = [];
         foreach ($this->getMediaModule()->getAllowedStorages() as $allowedStorage) {
             $allowedStorageIdentifiers[] = $allowedStorage->getUid();

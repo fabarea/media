@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ImageOptimizer implements SingletonInterface
 {
-
     /**
      * @var array
      */
@@ -34,7 +34,7 @@ class ImageOptimizer implements SingletonInterface
      * @throws \InvalidArgumentException
      * @param ResourceStorage $storage
      */
-    static public function getInstance($storage = null)
+    public static function getInstance($storage = null)
     {
         return GeneralUtility::makeInstance(self::class, $storage);
     }
@@ -86,9 +86,7 @@ class ImageOptimizer implements SingletonInterface
      */
     public function optimize(UploadedFileInterface $uploadedFile)
     {
-
         foreach ($this->optimizers as $optimizer) {
-
             /** @var $optimizer \Fab\Media\FileUpload\ImageOptimizerInterface */
             $optimizer = GeneralUtility::makeInstance($optimizer, $this->storage);
             $uploadedFile = $optimizer->optimize($uploadedFile);

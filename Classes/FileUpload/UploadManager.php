@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -22,8 +23,7 @@ use Fab\Media\Utility\PermissionUtility;
  */
 class UploadManager
 {
-
-    const UPLOAD_FOLDER = 'typo3temp/pics';
+    public const UPLOAD_FOLDER = 'typo3temp/pics';
 
     /**
      * @var int|null|string
@@ -56,9 +56,8 @@ class UploadManager
      * @param ResourceStorage $storage
      * @return UploadManager
      */
-    function __construct($storage = null)
+    public function __construct($storage = null)
     {
-
         $this->initializeUploadFolder();
 
         // max file size in bytes
@@ -76,19 +75,15 @@ class UploadManager
      */
     public function handleUpload()
     {
-
         /** @var $uploadedFile UploadedFileInterface */
         $uploadedFile = false;
         if ($this->formUtility->isMultiparted()) {
-
             // Default case
             $uploadedFile = GeneralUtility::makeInstance(MultipartedFile::class);
         } elseif ($this->formUtility->isOctetStreamed()) {
-
             // Fine Upload plugin would use it if forceEncoded = false and paramsInBody = false
             $uploadedFile = GeneralUtility::makeInstance(StreamedFile::class);
         } elseif ($this->formUtility->isUrlEncoded()) {
-
             // Used for image resizing in BE
             $uploadedFile = GeneralUtility::makeInstance(Base64File::class);
         }
@@ -149,8 +144,10 @@ class UploadManager
         switch ($last) {
             case 'g':
                 $val *= 1024;
+                // no break
             case 'm':
                 $val *= 1024;
+                // no break
             case 'k':
                 $val *= 1024;
         }
@@ -380,5 +377,4 @@ class UploadManager
         $this->storage = $storage;
         return $this;
     }
-
 }

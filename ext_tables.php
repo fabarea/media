@@ -51,8 +51,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 defined('TYPO3') or die();
 
 call_user_func(function () {
-
-
     $configuration = GeneralUtility::makeInstance(
         ExtensionConfiguration::class
     )->get('media');
@@ -70,7 +68,6 @@ call_user_func(function () {
 
     $moduleFileLanguage = 'LLL:EXT:media/Resources/Private/Language/locallang.xlf';
     if ($configuration['hide_file_list'] == 1) {
-
         $moduleFileLanguage = 'LLL:EXT:media/Resources/Private/Language/locallang_filelist.xlf';
 
         // Default User TSConfig to be added in any case.
@@ -116,7 +113,8 @@ call_user_func(function () {
             'EXT:media/Resources/Public/StyleSheets/media.css',
             'EXT:media/Resources/Public/StyleSheets/fineuploader.css',
         ])
-        ->setDocHeaderTopLeftComponents([
+        ->setDocHeaderTopLeftComponents(
+            [
                 StorageMenu::class,
                 RecursiveCheckbox::class,]
         )
@@ -200,7 +198,8 @@ call_user_func(function () {
     /** @var IconRegistry $iconRegistry */
     $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
     foreach ($icons as $key => $icon) {
-        $iconRegistry->registerIcon('extensions-media-' . $key,
+        $iconRegistry->registerIcon(
+            'extensions-media-' . $key,
             BitmapIconProvider::class,
             [
                 'source' => $icon
@@ -208,6 +207,4 @@ call_user_func(function () {
         );
     }
     unset($iconRegistry);
-
 });
-

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -20,59 +21,65 @@ use TYPO3\CMS\Core\Core\Environment;
 /**
  * Test case for class \Fab\Media\Utility\Path.
  */
-class PathTest extends UnitTestCase {
+class PathTest extends UnitTestCase
+{
+    public function setUp()
+    {
+    }
 
-	public function setUp() {
-	}
+    public function tearDown()
+    {
+    }
 
-	public function tearDown() {
-	}
+    /**
+     * @test
+     */
+    public function canResolvesAPath()
+    {
+        $resourceName = uniqid('resource');
+        $expected = 'media/Resources/Public/' . $resourceName;
+        $actual = Path::resolvePath($resourceName);
 
-	/**
-	 * @test
-	 */
-	public function canResolvesAPath() {
-		$resourceName = uniqid('resource');
-		$expected = 'media/Resources/Public/' . $resourceName;
-		$actual = Path::resolvePath($resourceName);
+        $this->assertTrue(strpos($actual, $expected) > 0);
+        $this->assertEquals(0, strpos(Environment::getPublicPath() . '/', $expected));
+    }
 
-		$this->assertTrue(strpos($actual, $expected) > 0);
-		$this->assertEquals(0, strpos(Environment::getPublicPath() . '/', $expected));
-	}
+    /**
+     * @test
+     */
+    public function canReturnsAPublicPath()
+    {
+        $resourceName = uniqid('resource');
+        $expected = 'media/Resources/Public/' . $resourceName;
+        $actual = Path::getRelativePath($resourceName);
 
-	/**
-	 * @test
-	 */
-	public function canReturnsAPublicPath() {
+        $this->assertTrue(strpos($actual, $expected) > 0);
+        $this->assertFalse(strpos(Environment::getPublicPath() . '/', $expected));
+    }
 
-		$resourceName = uniqid('resource');
-		$expected = 'media/Resources/Public/' . $resourceName;
-		$actual = Path::getRelativePath($resourceName);
+    /**
+     * @test
+     */
+    public function methodExistsReturnTrueForFileExistingInExtensionMedia()
+    {
+        $this->assertTrue(Path::exists('Icons/MissingMimeTypeIcon.png'));
+    }
 
-		$this->assertTrue(strpos($actual, $expected) > 0);
-		$this->assertFalse(strpos(Environment::getPublicPath() . '/', $expected));
-	}
+    /**
+     * @test
+     */
+    public function methodNotExistsReturnFalseForFileExistingInExtensionMedia()
+    {
+        $this->assertFalse(Path::notExists('Icons/MissingMimeTypeIcon.png'));
+    }
 
-	/**
-	 * @test
-	 */
-	public function methodExistsReturnTrueForFileExistingInExtensionMedia() {
-		$this->assertTrue(Path::exists('Icons/MissingMimeTypeIcon.png'));
-	}
-
-	/**
-	 * @test
-	 */
-	public function methodNotExistsReturnFalseForFileExistingInExtensionMedia() {
-		$this->assertFalse(Path::notExists('Icons/MissingMimeTypeIcon.png'));
-	}
-
-	/**
-	 * @test
-	 */
-	public function returnsCanonicalPathForPathContainingRelativeSegment() {
-		$actual = '../bar/../../foo.png';
-		$expected = 'bar/foo.png';
-		$this->assertSame($expected, Path::canonicalPath($actual));
-	}
+    /**
+     * @test
+     */
+    public function returnsCanonicalPathForPathContainingRelativeSegment()
+    {
+        $actual = '../bar/../../foo.png';
+        $expected = 'bar/foo.png';
+        $this->assertSame($expected, Path::canonicalPath($actual));
+    }
 }
