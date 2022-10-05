@@ -7,9 +7,10 @@ namespace Fab\Media\Thumbnail;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use Fab\Media\Exception\InvalidKeyInArrayException;
-use Fab\Media\Exception\EmptyValueException;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\File;
@@ -37,20 +38,14 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 
     /**
      * Define what are the rendering steps for a thumbnail.
-     *
-     * @var array
      */
-    protected $renderingSteps = [
+    protected array $renderingSteps = [
         ThumbnailInterface::OUTPUT_URI => 'renderUri',
         ThumbnailInterface::OUTPUT_IMAGE => 'renderTagImage',
         ThumbnailInterface::OUTPUT_IMAGE_WRAPPED => 'renderTagAnchor',
     ];
 
-    /**
-     * @param ThumbnailService $thumbnailService
-     * @return $this
-     */
-    public function setThumbnailService(ThumbnailService $thumbnailService)
+    public function setThumbnailService(ThumbnailService $thumbnailService): AbstractThumbnailProcessor
     {
         $this->thumbnailService = $thumbnailService;
         return $this;
@@ -58,10 +53,8 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 
     /**
      * Return what needs to be rendered
-     *
-     * @return array
      */
-    protected function getRenderingSteps()
+    protected function getRenderingSteps(): array
     {
         $position = array_search($this->thumbnailService->getOutputType(), array_keys($this->renderingSteps));
         return array_slice($this->renderingSteps, 0, $position + 1);
@@ -70,10 +63,8 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 
     /**
      * Render additional attribute for this DOM element.
-     *
-     * @return string
      */
-    protected function renderAttributes()
+    protected function renderAttributes(): string
     {
         $result = '';
         $attributes = $this->thumbnailService->getAttributes();
@@ -88,12 +79,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
         return $result;
     }
 
-    /**
-     * @return array
-     * @throws InvalidKeyInArrayException
-     * @throws EmptyValueException
-     */
-    protected function getConfiguration()
+    protected function getConfiguration(): array
     {
         $configuration = $this->thumbnailService->getConfiguration();
         if (!$configuration) {
@@ -110,9 +96,8 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
      * Returns a path to an icon given an extension.
      *
      * @param string $extension File extension
-     * @return string
      */
-    protected function getIcon($extension)
+    protected function getIcon($extension): string
     {
         $resource = Path::getRelativePath(sprintf('Icons/MimeType/%s.png', $extension));
 
@@ -126,9 +111,8 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 
     /**
      * @param string $uri
-     * @return string
      */
-    public function prefixUri($uri)
+    public function prefixUri($uri): string
     {
         if ($this->isFrontendMode() && $this->getFrontendObject()->absRefPrefix) {
             $uri = $this->getFrontendObject()->absRefPrefix . $uri;
@@ -142,7 +126,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
      * @param string $extension File extension
      * @return boolean
      */
-    protected function isThumbnailPossible($extension)
+    protected function isThumbnailPossible($extension): bool
     {
         return GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($extension));
     }
@@ -150,7 +134,7 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
     /**
      * @return File
      */
-    protected function getFile()
+    protected function getFile(): File
     {
         return $this->thumbnailService->getFile();
     }
@@ -160,17 +144,12 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
      *
      * @return bool
      */
-    protected function isFrontendMode()
+    protected function isFrontendMode(): bool
     {
-        return ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
+        return !Environment::isCli() && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
     }
 
-    /**
-     * Returns an instance of the Frontend object.
-     *
-     * @return TypoScriptFrontendController
-     */
-    protected function getFrontendObject()
+    protected function getFrontendObject(): TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];
     }

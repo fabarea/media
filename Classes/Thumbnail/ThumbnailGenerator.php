@@ -8,10 +8,9 @@ namespace Fab\Media\Thumbnail;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
-use Fab\Media\Exception\InvalidKeyInArrayException;
-use Fab\Media\Exception\MissingTcaConfigurationException;
+
 use Fab\Vidi\Service\DataService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
@@ -23,80 +22,42 @@ use Fab\Vidi\Domain\Model\Selection;
  */
 class ThumbnailGenerator
 {
+    protected int $numberOfTraversedFiles = 0;
 
-    /**
-     * @var int
-     */
-    protected $numberOfTraversedFiles = 0;
+    protected int $numberOfProcessedFiles = 0;
 
-    /**
-     * @var int
-     */
-    protected $numberOfProcessedFiles = 0;
+    protected int $numberOfMissingFiles = 0;
 
-    /**
-     * @var int
-     */
-    protected $numberOfMissingFiles = 0;
+    protected array $configuration = [];
 
-    /**
-     * @var array
-     */
-    protected $configuration = [];
+    protected ?ResourceStorage $storage = null;
 
-    /**
-     * @var ResourceStorage
-     */
-    protected $storage = null;
+    protected ?Selection $selection = null;
 
-    /**
-     * @var Selection
-     */
-    protected $selection = null;
+    protected array $resultSet = [];
 
-    /**
-     * @var array
-     */
-    protected $resultSet = [];
+    protected array $newProcessedFileIdentifiers = [];
 
-    /**
-     * @var array
-     */
-    protected $newProcessedFileIdentifiers = [];
+    protected int $lastInsertedProcessedFile = 0;
 
-    /**
-     * Internal variable
-     *
-     * @var int
-     */
-    protected $lastInsertedProcessedFile = 0;
+    protected int $limit = 0;
 
-    /**
-     * Generate
-     *
-     * @param int $limit
-     * @param int $offset
-     * @return void
-     * @throws FileDoesNotExistException
-     * @throws \InvalidArgumentException
-     * @throws InvalidKeyInArrayException
-     * @throws MissingTcaConfigurationException
-     */
-    public function generate($limit = 0, $offset = 0)
+    protected int $offset = 0;
+
+    public function generate(int $limit = 0, int $offset = 0): void
     {
+        $this->limit = $limit;
+        $this->offset = $offset;
 
         // Compute a possible limit and offset for the query.
-        //$limitAndOffset = '';
-        //if ($limit > 0 || $offset > 0) {
-        //    $limitAndOffset = $limit . ' OFFSET ' . $offset;
-        //}
-
         $rows = $this->getDataService()
             ->getRecords(
                 'sys_file',
                 [
                     'storage' => $this->storage->getUid()
-                ] // todo add limit and offset
+                ],
+                $limit,
+                $offset
             );
 
         foreach ($rows as $row) {
@@ -111,52 +72,61 @@ class ThumbnailGenerator
                     ->setConfiguration($this->configuration)
                     ->create();
 
-                $this->resultSet[$file->getUid()] = array(
+                $this->resultSet[$file->getUid()] = [
                     'fileUid' => $file->getUid(),
                     'fileIdentifier' => $file->getIdentifier(),
                     'thumbnailUri' => strpos($thumbnailUri, '_processed_') > 0 ? $thumbnailUri : '', // only returns the thumbnail uri if a processed file has been created.
-                );
+                ];
 
-                //if ($this->isNewProcessedFile()) { // todo restore me
-                //    $this->incrementNumberOfProcessedFiles();
-                //   $this->newProcessedFileIdentifiers[$file->getUid()] = $this->lastInsertedProcessedFile;
-                //}
+                if ($this->isNewProcessedFile()) {
+                    $this->incrementNumberOfProcessedFiles();
+                    $this->newProcessedFileIdentifiers[$file->getUid()] = $this->lastInsertedProcessedFile;
+                }
 
                 $this->incrementNumberOfTraversedFiles();
             } else {
                 $this->incrementNumberOfMissingFiles();
             }
         }
-
     }
 
-    /**
-     * @return int
-     */
-    public function getNumberOfTraversedFiles()
+    protected function isNewProcessedFile(): bool
+    {
+        $isNewProcessedFile = false;
+
+        $tableName = 'sys_file_processedfile';
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $databaseConnection = $connectionPool->getConnectionForTable($tableName);
+        $lastInsertedId = (int)$databaseConnection->lastInsertId($tableName);
+
+        if ($lastInsertedId > 0 && $lastInsertedId !== $this->lastInsertedProcessedFile) {
+            $this->lastInsertedProcessedFile = $lastInsertedId;
+            $isNewProcessedFile = true;
+        }
+        return $isNewProcessedFile;
+    }
+
+    public function getNumberOfTraversedFiles(): int
     {
         return $this->numberOfTraversedFiles;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumberOfProcessedFiles()
+    public function getNumberOfProcessedFiles(): int
     {
         return $this->numberOfProcessedFiles;
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalNumberOfFiles()
+    public function getTotalNumberOfFiles(): int
     {
+
         return $this->getDataService()
             ->count(
                 'sys_file',
                 [
                     'storage' => $this->storage->getUid()
-                ]
+                ],
+                $this->limit,
+                $this->offset
             );
     }
 
@@ -184,11 +154,7 @@ class ThumbnailGenerator
         return $this->numberOfMissingFiles;
     }
 
-    /**
-     * @param ResourceStorage $storage
-     * @return $this
-     */
-    public function setStorage($storage)
+    public function setStorage(ResourceStorage $storage): ThumbnailGenerator
     {
         $this->storage = $storage;
         return $this;
@@ -196,60 +162,39 @@ class ThumbnailGenerator
 
     /**
      * @param Selection $selection
-     * @return $this
      */
-    public function setSelection($selection)
+    public function setSelection($selection): ThumbnailGenerator
     {
         $this->selection = $selection;
         return $this;
     }
 
-    /**
-     * @param array $configuration
-     * @return $this
-     */
-    public function setConfiguration($configuration)
+    public function setConfiguration(array $configuration): ThumbnailGenerator
     {
         $this->configuration = $configuration;
         return $this;
     }
 
-    /**
-     * @param File $file
-     * @return object|ThumbnailService
-     */
-    protected function getThumbnailService(File $file)
+    protected function getThumbnailService(File $file): ThumbnailService
     {
         return GeneralUtility::makeInstance(ThumbnailService::class, $file);
     }
 
-    /**
-     * @return void
-     */
     protected function incrementNumberOfTraversedFiles()
     {
         $this->numberOfTraversedFiles++;
     }
 
-    /**
-     * @return void
-     */
     protected function incrementNumberOfMissingFiles()
     {
         $this->numberOfMissingFiles++;
     }
 
-    /**
-     * @return void
-     */
     protected function incrementNumberOfProcessedFiles()
     {
         $this->numberOfProcessedFiles++;
     }
 
-    /**
-     * @return object|DataService
-     */
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);

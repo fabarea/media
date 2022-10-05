@@ -21,9 +21,8 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
     /**
      * Render a thumbnail of a resource of type application.
      *
-     * @return string
      */
-    public function create()
+    public function create(): string
     {
 
         $steps = $this->getRenderingSteps();
@@ -39,9 +38,8 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
     /**
      * Render the URI of the thumbnail.
      *
-     * @return string
      */
-    public function renderUri()
+    public function renderUri(): string
     {
         if ($this->isThumbnailPossible($this->getFile()->getExtension())) {
             $this->processedFile = $this->getFile()->process($this->getProcessingType(), $this->getConfiguration());
@@ -61,9 +59,8 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
      * Render the tag image which is the main one for a thumbnail.
      *
      * @param string $result
-     * @return string
      */
-    public function renderTagImage($result)
+    public function renderTagImage($result): string
     {
 
         // Variable $result corresponds to an URL in this case.
@@ -96,10 +93,8 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Compute and return the title of the file.
-     *
-     * @return string
      */
-    protected function getTitle()
+    protected function getTitle(): string
     {
         $result = $this->getFile()->getProperty('title');
         if (empty($result)) {
@@ -112,9 +107,8 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
      * Render a wrapping anchor around the thumbnail.
      *
      * @param string $result
-     * @return string
      */
-    public function renderTagAnchor($result)
+    public function renderTagAnchor($result): string
     {
         $uri = $this->thumbnailService->getAnchorUri();
         if (!$uri) {
@@ -129,27 +123,21 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function getUri()
+    protected function getUri(): string
     {
-        $urlParameters = array(
+        $urlParameters = [
             MediaModule::getParameterPrefix() => [
                 'controller' => 'Asset',
                 'action' => 'download',
                 'file' => $this->getFile()->getUid(),
             ],
-        );
+        ];
         return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
     }
 
-    /**
-     * @return string
-     */
-    public function getProcessingType()
+    public function getProcessingType(): string
     {
-        if ($this->thumbnailService->getProcessingType() === null) {
+        if (!$this->thumbnailService->getProcessingType()) {
             return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
         }
         return $this->thumbnailService->getProcessingType();

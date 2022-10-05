@@ -23,6 +23,9 @@
 			"extension-key": "media"
 		}
 	},
+	"require-dev": {
+		"laravel/pint": "^1.2"
+	},
 	"require": {
 		"typo3/cms-core": "^11",
 		"fab/vidi": "^5"

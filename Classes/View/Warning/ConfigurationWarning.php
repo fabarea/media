@@ -261,7 +261,7 @@ EOF;
             ->from('sys_filemounts')
             ->where('uid = ' . $identifier)
             ->execute()
-            ->fetch();
+            ->fetchAssociative();
     }
 
     /**
@@ -331,7 +331,7 @@ EOF;
             ->from('sys_file')
             ->where('number_of_references > 0')
             ->execute()
-            ->fetch();
+            ->fetchAssociative();
 
         return !empty($file);
     }
