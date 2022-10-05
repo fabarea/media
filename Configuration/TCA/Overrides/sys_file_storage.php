@@ -100,7 +100,6 @@ if (!$configuration['has_folder_tree']) {
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.mount_point_file_type_1',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'sys_filemounts',
                     'size' => 1,
                     'minitems' => 0,
@@ -123,7 +122,6 @@ if (!$configuration['has_folder_tree']) {
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.mount_point_file_type_2',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'sys_filemounts',
                     'size' => 1,
                     'minitems' => 0,
@@ -146,7 +144,6 @@ if (!$configuration['has_folder_tree']) {
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.mount_point_file_type_3',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'sys_filemounts',
                     'size' => 1,
                     'minitems' => 0,
@@ -169,7 +166,6 @@ if (!$configuration['has_folder_tree']) {
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.mount_point_file_type_4',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'sys_filemounts',
                     'size' => 1,
                     'minitems' => 0,
@@ -192,7 +188,6 @@ if (!$configuration['has_folder_tree']) {
                 'label' => 'LLL:EXT:media/Resources/Private/Language/locallang_db.xlf:sys_file_storage.mount_point_file_type_5',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'sys_filemounts',
                     'size' => 1,
                     'minitems' => 0,

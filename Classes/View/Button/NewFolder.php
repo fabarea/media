@@ -8,7 +8,7 @@ namespace Fab\Media\View\Button;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
+use TYPO3\CMS\Core\Localization\LanguageService;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -47,7 +47,7 @@ class NewFolder extends AbstractComponentView
      */
     protected function getLabel()
     {
-        return $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:cm.new');
+        return $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:cm.new');
     }
 
     /**
@@ -109,7 +109,7 @@ class NewFolder extends AbstractComponentView
     }
 
     /**
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return LanguageService
      */
     protected function getLanguageService()
     {

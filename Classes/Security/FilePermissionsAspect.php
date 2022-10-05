@@ -176,10 +176,7 @@ class FilePermissionsAspect
         $logicalOrForRespectingFileMounts = $query->logicalOr($constraintsRespectingFileMounts);
 
         if ($constraints) {
-            $constraints = $query->logicalAnd(
-                $constraints,
-                $logicalOrForRespectingFileMounts
-            );
+            $constraints = $query->logicalAnd([$constraints, $logicalOrForRespectingFileMounts]);
         } else {
             $constraints = $logicalOrForRespectingFileMounts;
         }
