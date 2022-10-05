@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 /*
@@ -15,7 +16,6 @@ use Fab\Vidi\Grid\ColumnRendererAbstract;
  */
 class CategoryRenderer extends ColumnRendererAbstract
 {
-
     /**
      * Renders category list of an asset in the grid.
      *
@@ -27,7 +27,6 @@ class CategoryRenderer extends ColumnRendererAbstract
 
         $categories = $this->object['metadata']['categories'];
         if (!empty($categories)) {
-
             /** @var $category \TYPO3\CMS\Extbase\Domain\Model\Category */
             foreach ($categories as $category) {
                 $result .= sprintf('<li>%s</li>', $category['title']);
@@ -36,5 +35,4 @@ class CategoryRenderer extends ColumnRendererAbstract
         }
         return $result;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Module;
 
 /*
@@ -15,17 +16,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class VidiModule
 {
+    public const SIGNATURE = 'file_VidiSysFileM1';
+    public const PARAMETER_PREFIX = 'tx_vidi_file_vidisysfilem1';
 
-    const SIGNATURE = 'file_VidiSysFileM1';
-    const PARAMETER_PREFIX = 'tx_vidi_file_vidisysfilem1';
-
-    const SIGNATURE_FOLDER_TREE_OMITTED = 'content_VidiSysFileM1';
-    const PARAMETER_PREFIX_FOLDER_TREE_OMITTED = 'tx_vidi_content_vidisysfilem1';
+    public const SIGNATURE_FOLDER_TREE_OMITTED = 'content_VidiSysFileM1';
+    public const PARAMETER_PREFIX_FOLDER_TREE_OMITTED = 'tx_vidi_content_vidisysfilem1';
 
     /**
      * @return string
      */
-    static public function getSignature()
+    public static function getSignature()
     {
         return self::getMediaModule()->hasFolderTree() ? self::SIGNATURE : self::SIGNATURE_FOLDER_TREE_OMITTED;
     }
@@ -33,7 +33,7 @@ class VidiModule
     /**
      * @return string
      */
-    static public function getParameterPrefix()
+    public static function getParameterPrefix()
     {
         return self::getMediaModule()->hasFolderTree() ? self::PARAMETER_PREFIX : self::PARAMETER_PREFIX_FOLDER_TREE_OMITTED;
     }
@@ -41,7 +41,7 @@ class VidiModule
     /**
      * @return MediaModule|object
      */
-    static protected function getMediaModule()
+    protected static function getMediaModule()
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }

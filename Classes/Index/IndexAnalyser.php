@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Index;
 
 /*
@@ -21,7 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class IndexAnalyser implements SingletonInterface
 {
-
     /**
      * Return missing file for a given storage.
      *
@@ -30,7 +30,6 @@ class IndexAnalyser implements SingletonInterface
      */
     public function searchForMissingFiles(ResourceStorage $storage)
     {
-
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
@@ -43,7 +42,6 @@ class IndexAnalyser implements SingletonInterface
                 $queryBuilder->expr()->eq('storage', $storage->getUid())
             )->execute();
         while ($row = $statement->fetchAssociative()) {
-
             // This task is very memory consuming on large data set e.g > 20'000 records.
             // We must think of having a pagination if there is the need for such thing.
             $file = $this->getResourceFactory()->getFileObject($row['uid'], $row);
@@ -118,7 +116,6 @@ class IndexAnalyser implements SingletonInterface
         // Detect duplicate records.
         $duplicates = [];
         while ($row = $statement->fetchAssociative()) {
-
             $records = $queryBuilder
                 ->select('*')
                 ->from('sys_file')
@@ -160,7 +157,6 @@ class IndexAnalyser implements SingletonInterface
         // Detect duplicate records.
         $duplicates = [];
         while ($row = $statement->fetchAssociative()) {
-
             $records = $queryBuilder
                 ->select('*')
                 ->from('sys_file')

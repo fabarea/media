@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Controller;
 
 /*
@@ -18,16 +19,13 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class LinkCreatorController extends ActionController
 {
-
     /**
      * Initializes the controller before invoking an action method.
      */
     public function initializeAction()
     {
-
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
-
             /** @var FileConverter $typeConverter */
             $typeConverter = GeneralUtility::makeInstance(FileConverter::class);
 
@@ -47,5 +45,4 @@ class LinkCreatorController extends ActionController
         $this->view->assign('file', $file);
         return $this->htmlResponse();
     }
-
 }

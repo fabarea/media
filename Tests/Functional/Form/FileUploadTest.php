@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Form;
 
 /**
@@ -21,71 +22,77 @@ require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 /**
  * Test case for class \Fab\Media\Form\FileUpload.
  */
-class FileUploadTest extends AbstractFunctionalTestCase {
+class FileUploadTest extends AbstractFunctionalTestCase
+{
+    /**
+     * @var FileUpload
+     */
+    private $fixture;
 
-	/**
-	 * @var FileUpload
-	 */
-	private $fixture;
+    /**
+     * @var string
+     */
+    private $fakeName = '';
 
-	/**
-	 * @var string
-	 */
-	private $fakeName = '';
+    /**
+     * @var string
+     */
+    private $fakePrefix = '';
 
-	/**
-	 * @var string
-	 */
-	private $fakePrefix = '';
-
-	public function setUp() {
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
         $this->fixture = $this->getMock('Fab\Media\Form\FileUpload', array('addLanguage'));
-		$this->fakeName = uniqid('name');
-		$this->fakePrefix= uniqid('prefix');
-	}
+        $this->fakeName = uniqid('name');
+        $this->fakePrefix= uniqid('prefix');
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getJavaScriptMethodReturnNotEmptyContent() {
-		$method = new \ReflectionMethod(
-			'Fab\Media\Form\FileUpload', 'getJavaScript'
-		);
+    /**
+     * @test
+     */
+    public function getJavaScriptMethodReturnNotEmptyContent()
+    {
+        $method = new \ReflectionMethod(
+            'Fab\Media\Form\FileUpload',
+            'getJavaScript'
+        );
 
-		$method->setAccessible(TRUE);
-		#$actual = $method->invoke($this->fixture);
-		$this->markTestIncomplete('Fix test by mocking storage');
-		#$this->assertNotEmpty($actual);
-	}
+        $method->setAccessible(true);
+        #$actual = $method->invoke($this->fixture);
+        $this->markTestIncomplete('Fix test by mocking storage');
+        #$this->assertNotEmpty($actual);
+    }
 
-	/**
-	 * @test
-	 */
-	public function renderFileUploadIsNotEmptyByDefault() {
-		$this->markTestIncomplete('Fix test by mocking storage');
-		#$this->assertNotEmpty($this->fixture->render());
-	}
+    /**
+     * @test
+     */
+    public function renderFileUploadIsNotEmptyByDefault()
+    {
+        $this->markTestIncomplete('Fix test by mocking storage');
+        #$this->assertNotEmpty($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function getBasePrefixStripsTheSquareBraquets() {
-		$method = new \ReflectionMethod(
-			'Fab\Media\Form\FileUpload', 'getBasePrefix'
-		);
+    /**
+     * @test
+     */
+    public function getBasePrefixStripsTheSquareBraquets()
+    {
+        $method = new \ReflectionMethod(
+            'Fab\Media\Form\FileUpload',
+            'getBasePrefix'
+        );
 
-		$method->setAccessible(TRUE);
+        $method->setAccessible(true);
 
-		$basePart = uniqid();
-		$fakePrefix = $basePart . '[foo]';
-		$actual = $method->invokeArgs($this->fixture, array($fakePrefix));
-		$this->assertSame($basePart, $actual);
-	}
-
+        $basePart = uniqid();
+        $fakePrefix = $basePart . '[foo]';
+        $actual = $method->invokeArgs($this->fixture, array($fakePrefix));
+        $this->assertSame($basePart, $actual);
+    }
 }

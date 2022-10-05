@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\DataHandler;
 
 /*
@@ -20,7 +21,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class FileDataHandler extends AbstractDataHandler
 {
-
     /**
      * Process File with action "update".
      *
@@ -65,7 +65,6 @@ class FileDataHandler extends AbstractDataHandler
         $file = $this->getResourceFactory()->getFileObject($content->getUid());
 
         if ($this->getMediaModule()->hasFolderTree()) {
-
             $targetFolder = $this->getMediaModule()->getCurrentFolder();
 
             // Move file
@@ -87,18 +86,14 @@ class FileDataHandler extends AbstractDataHandler
         $file = $this->getResourceFactory()->getFileObject($content->getUid());
 
         if ($this->getMediaModule()->hasFolderTree()) {
-
             $targetFolder = $this->getMediaModule()->getCurrentFolder();
             if ($targetFolder->getIdentifier() !== $file->getParentFolder()->getIdentifier()) {
-
                 // Move file
                 $file->moveTo($targetFolder, $file->getName(), DuplicationBehavior::RENAME);
             }
         } else {
-
             // Only process if the storage is different.
             if ((int)$file->getStorage()->getUid() !== (int)$target) {
-
                 $targetStorage = $this->getResourceFactory()->getStorageObject((int)$target);
 
                 // Retrieve target directory in the new storage. The folder will only be returned if the User has the correct permission.
@@ -148,5 +143,4 @@ class FileDataHandler extends AbstractDataHandler
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -13,7 +14,6 @@ namespace Fab\Media\FileUpload;
  */
 interface UploadedFileInterface
 {
-
     /**
      * Save the file to the specified path.
      *

@@ -1,7 +1,9 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -17,40 +19,44 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * Test case for class \Fab\Media\Utility\DomElement.
  */
-class DomElementTest extends UnitTestCase {
+class DomElementTest extends UnitTestCase
+{
+    /**
+     * @var DomElement
+     */
+    private $fixture;
 
-	/**
-	 * @var DomElement
-	 */
-	private $fixture;
+    public function setUp()
+    {
+        $this->fixture = new DomElement();
+    }
 
-	public function setUp() {
-		$this->fixture = new DomElement();
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    /**
+     * @test
+     * @dataProvider nameProvider
+     */
+    public function givenNameCanBeConvertedToAnExpectedId($input, $expectedId)
+    {
+        $this->assertEquals($expectedId, $this->fixture->formatId($input));
+    }
 
-	/**
-	 * @test
-	 * @dataProvider nameProvider
-	 */
-	public function givenNameCanBeConvertedToAnExpectedId($input, $expectedId) {
-		$this->assertEquals($expectedId, $this->fixture->formatId($input));
-	}
-
-	/**
-	 * Provider
-	 */
-	public function nameProvider() {
-		return array(
-			array('foobar', 'foobar'),
-			array('foo-bar', 'foo-bar'),
-			array('foo_bar', 'foo-bar'),
-			array('FooBarBaz', 'foo-bar-baz'),
-			array('Foo Bar', 'foo-bar'),
-			array('foo[bar]', 'foo-bar'),
-		);
-	}
+    /**
+     * Provider
+     */
+    public function nameProvider()
+    {
+        return array(
+            array('foobar', 'foobar'),
+            array('foo-bar', 'foo-bar'),
+            array('foo_bar', 'foo-bar'),
+            array('FooBarBaz', 'foo-bar-baz'),
+            array('Foo Bar', 'foo-bar'),
+            array('foo[bar]', 'foo-bar'),
+        );
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Plugin;
 
 /*
@@ -11,7 +12,6 @@ namespace Fab\Media\View\Plugin;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
 use Fab\Vidi\View\AbstractComponentView;
-use Fab\Media\Utility\Path;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  */
 class LinkCreatorPlugin extends AbstractComponentView
 {
-
     /**
      * Renders a hidden link for link creator.
      *
@@ -31,11 +30,11 @@ class LinkCreatorPlugin extends AbstractComponentView
     {
         $result = '';
         if ($this->getModuleLoader()->hasPlugin('linkCreator')) {
-
             // Load Require JS code
             $this->loadRequireJsCode();
 
-            $result = sprintf('<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
+            $result = sprintf(
+                '<a href="%s" id="btn-linkCreator-current" class="btn btn-linkCreator" style="display: none"></a>',
                 $this->getLinkCreatorUri()
             );
         };
@@ -69,5 +68,4 @@ class LinkCreatorPlugin extends AbstractComponentView
         $pageRenderer->addRequireJsConfiguration($configuration);
         $pageRenderer->loadRequireJsModule('Fab/Media/PluginLinkCreator');
     }
-
 }

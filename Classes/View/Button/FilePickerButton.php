@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -19,7 +20,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class FilePickerButton extends AbstractComponentView
 {
-
     /**
      * Renders a "file-picker" button to be placed in the grid.
      *
@@ -40,7 +40,6 @@ class FilePickerButton extends AbstractComponentView
                 ->setTitle($this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:edit_image'))
                 ->setIcon($this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL))
                 ->render();
-
         }
         return $button;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -21,7 +22,6 @@ use Fab\Media\Module\VidiModule;
  */
 class EditButton extends AbstractComponentView
 {
-
     /**
      * Renders a "edit" button to be placed in the grid.
      *
@@ -97,5 +97,4 @@ class EditButton extends AbstractComponentView
     {
         return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
-
 }

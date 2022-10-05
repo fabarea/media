@@ -61,12 +61,9 @@ class ThumbnailGenerator
             );
 
         foreach ($rows as $row) {
-
-
             $file = $this->getResourceFactory()->getFileObject($row['uid'], $row);
 
             if ($file->exists()) {
-
                 $thumbnailUri = $this->getThumbnailService($file)
                     ->setOutputType(ThumbnailInterface::OUTPUT_URI)
                     ->setConfiguration($this->configuration)
@@ -118,7 +115,6 @@ class ThumbnailGenerator
 
     public function getTotalNumberOfFiles(): int
     {
-
         return $this->getDataService()
             ->count(
                 'sys_file',

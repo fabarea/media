@@ -13,7 +13,6 @@ use Fab\Media\Resource\FileReferenceService;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use Fab\Vidi\Service\DataService;
-use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -25,7 +24,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  */
 class DataHandlerHook
 {
-
     /**
      * Store indexed file before the Data Handler start "working".
      *
@@ -57,7 +55,6 @@ class DataHandlerHook
      */
     public function processDatamap_beforeStart(DataHandler $caller)
     {
-
         // Use a register to keep track of files.
         // It is required according to TCEMain behaviour which register "elements to be deleted".
         // Those element must not be forgotten.
@@ -65,7 +62,6 @@ class DataHandlerHook
         $this->registerFilesToKeepTrack();
 
         foreach ($caller->datamap as $tableName => $configuration) {
-
             $id = key($configuration);
             if (!MathUtility::canBeInterpretedAsInteger($id)) {
                 continue;
@@ -86,7 +82,7 @@ class DataHandlerHook
             try {
                 $fileIdentifiers = $this->lookForFiles($indexes);
                 $this->addBeforeDataHandlerProcessFileIdentifiers($fileIdentifiers);
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 // do nothing
             }
         }
@@ -102,10 +98,8 @@ class DataHandlerHook
      */
     public function processDatamap_afterAllOperations(DataHandler $caller)
     {
-
         // First collect files which have been involved.
         foreach ($caller->datamap as $tableName => $configuration) {
-
             $id = key($configuration);
 
             /** @var $refIndexObj \TYPO3\CMS\Core\Database\ReferenceIndex */
@@ -146,7 +140,6 @@ class DataHandlerHook
      */
     protected function initializeFileRegister()
     {
-
         $items = $this->getMemoryCache()->get($this->registerKey);
         if (!is_array($items)) {
             $this->getMemoryCache()->set($this->registerKey, []);
@@ -162,9 +155,7 @@ class DataHandlerHook
         $elementsToBeDeleted = $this->getMemoryCache()->get('core-t3lib_TCEmain-elementsToBeDeleted');
         if (is_array($elementsToBeDeleted)) {
             foreach ($elementsToBeDeleted as $tableName => $element) {
-
                 if ($tableName === 'sys_file_reference') {
-
                     $fileReferenceIdentifier = key($element);
                     if ($element[$fileReferenceIdentifier] === true) {
                         $fileIdentifier = $this->findFileByFileReference($fileReferenceIdentifier);
@@ -230,10 +221,8 @@ class DataHandlerHook
      */
     protected function lookForFiles(array $indexes)
     {
-
         $fileIdentifiers = [];
         if (isset($indexes['relations'])) {
-
             foreach ($indexes['relations'] as $index) {
                 if (is_array($index)) {
                     if ($this->isSoftReferenceImage($index)) {
@@ -341,5 +330,4 @@ class DataHandlerHook
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Override\Backend\Form;
 
 /*
@@ -17,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
 {
-
     /**
      * JavaScript bottom code
      *
@@ -31,7 +31,6 @@ class FormResultCompiler extends \TYPO3\CMS\Backend\Form\FormResultCompiler
         $tsConfig = $this->getBackendUser()->getTSConfig();
         $enableMediaFilePicker = (bool)$tsConfig['options.vidi.enableMediaFilePicker'];
         if ($enableMediaFilePicker) {
-
             $pageRenderer = $this->getPageRenderer();
             $pageRenderer->loadRequireJsModule('TYPO3/CMS/Media/MediaFormEngine', 'function(MediaFormEngine) {
             MediaFormEngine.vidiModuleUrl = \'' . BackendUtility::getModuleUrl(VidiModule::getSignature()) . '\';

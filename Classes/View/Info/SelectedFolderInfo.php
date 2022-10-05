@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Info;
 
 /*
@@ -10,7 +11,6 @@ namespace Fab\Media\View\Info;
 
 use Fab\Media\Module\MediaModule;
 use TYPO3\CMS\Core\Resource\Folder;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\Utility\ListUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\View\AbstractComponentView;
@@ -20,7 +20,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class SelectedFolderInfo extends AbstractComponentView
 {
-
     /**
      * @var array
      */
@@ -33,10 +32,8 @@ class SelectedFolderInfo extends AbstractComponentView
      */
     public function render()
     {
-
         $result = '';
         if ($this->getMediaModule()->hasFolderTree()) {
-
             $folder = $this->getMediaModule()->getCurrentFolder();
             $result = sprintf('<h1>%s</h1>', $this->getFolderName($folder));
         }
@@ -75,5 +72,4 @@ class SelectedFolderInfo extends AbstractComponentView
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

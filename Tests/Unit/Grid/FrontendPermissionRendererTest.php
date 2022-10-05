@@ -1,7 +1,9 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -17,25 +19,28 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * Test case for class \Fab\Media\Grid\Permission.
  */
-class FrontendPermissionRendererTest extends UnitTestCase {
+class FrontendPermissionRendererTest extends UnitTestCase
+{
+    /**
+     * @var FrontendPermissionRenderer
+     */
+    private $fixture;
 
-	/**
-	 * @var FrontendPermissionRenderer
-	 */
-	private $fixture;
+    public function setUp()
+    {
+        $this->fixture = new FrontendPermissionRenderer();
+    }
 
-	public function setUp() {
-		$this->fixture = new FrontendPermissionRenderer();
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
-
-	/**
-	 * @test
-	 */
-	public function fixtureIsOfTypeGridRendererFrontendPermissionRenderer() {
-		$this->assertInstanceOf('Fab\Media\Grid\FrontendPermissionRenderer', $this->fixture);
-	}
+    /**
+     * @test
+     */
+    public function fixtureIsOfTypeGridRendererFrontendPermissionRenderer()
+    {
+        $this->assertInstanceOf('Fab\Media\Grid\FrontendPermissionRenderer', $this->fixture);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -17,14 +18,12 @@ use TYPO3\CMS\Core\Resource\ProcessedFile;
  */
 class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
 {
-
     /**
      * Render a thumbnail of a resource of type application.
      *
      */
     public function create(): string
     {
-
         $steps = $this->getRenderingSteps();
 
         $result = '';
@@ -62,7 +61,6 @@ class ApplicationThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function renderTagImage($result): string
     {
-
         // Variable $result corresponds to an URL in this case.
         // Analyse the URL and compute the adequate separator between arguments.
         $parameterSeparator = strpos($result, '?') === false ? '?' : '&';

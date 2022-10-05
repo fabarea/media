@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -17,7 +18,6 @@ use Fab\Vidi\View\AbstractComponentView;
  */
 class UploadButton extends AbstractComponentView
 {
-
     /**
      * Renders a button for uploading assets.
      *
@@ -25,7 +25,6 @@ class UploadButton extends AbstractComponentView
      */
     public function render()
     {
-
         /** @var $fileUpload \Fab\Media\Form\FileUpload */
         $fileUpload = GeneralUtility::makeInstance(FileUpload::class);
         return $fileUpload->setPrefix(MediaModule::getParameterPrefix())->render();

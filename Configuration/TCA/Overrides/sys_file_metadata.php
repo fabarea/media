@@ -1,7 +1,11 @@
 <?php
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-if (!defined('TYPO3')) die ('Access denied.');
+
+if (!defined('TYPO3')) {
+    die('Access denied.');
+}
 
 // We only want to have file relations if extension File advanced metadata is loaded.
 if (ExtensionManagementUtility::isLoaded('filemetadata')) {

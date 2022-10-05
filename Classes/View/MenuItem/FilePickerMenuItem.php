@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\MenuItem;
 
 /*
@@ -18,7 +19,6 @@ use TYPO3\CMS\Core\Imaging\Icon;
  */
 class FilePickerMenuItem extends AbstractComponentView
 {
-
     /**
      * Renders a "file picker" menu item to be placed in the grid menu of Media.
      *
@@ -28,7 +28,8 @@ class FilePickerMenuItem extends AbstractComponentView
     {
         $result = '';
         if ($this->getModuleLoader()->hasPlugin('filePicker')) {
-            $result = sprintf('<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
+            $result = sprintf(
+                '<li><a href="%s" class="mass-file-picker" data-argument="assets">%s Insert files</a>',
                 $this->getMassDeleteUri(),
                 $this->getIconFactory()->getIcon('extensions-media-image-export', Icon::SIZE_SMALL)
             );
@@ -52,5 +53,4 @@ class FilePickerMenuItem extends AbstractComponentView
         );
         return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
     }
-
 }

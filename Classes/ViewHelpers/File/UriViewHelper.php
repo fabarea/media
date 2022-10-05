@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers\File;
 
 /*
@@ -18,7 +19,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class UriViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */

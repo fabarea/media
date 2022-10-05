@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -15,7 +16,6 @@ namespace Fab\Media\FileUpload;
  */
 class MultipartedFile extends UploadedFileAbstract
 {
-
     /**
      * @var string
      */

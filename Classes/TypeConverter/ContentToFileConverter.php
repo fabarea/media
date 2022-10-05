@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\TypeConverter;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ContentToFileConverter implements SingletonInterface
 {
-
     /**
      * Convert a file representation to File Resource.
      *
@@ -29,9 +29,7 @@ class ContentToFileConverter implements SingletonInterface
      */
     public function convert($fileRepresentation)
     {
-
         if ($fileRepresentation instanceof Content) {
-
             $fileData = $fileRepresentation->toArray();
             $fileData['modification_date'] = $fileData['tstamp'];
 

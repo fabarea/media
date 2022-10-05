@@ -1,4 +1,5 @@
 <?php
+
 use Fab\Vidi\Facet\StandardFacet;
 use TYPO3\CMS\Core\Resource\File;
 use Fab\Media\Facet\ActionPermissionFacet;
@@ -11,7 +12,10 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use Fab\Media\Grid\FrontendPermissionRenderer;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use Fab\Vidi\Grid\ButtonGroupRenderer;
-if (!defined('TYPO3')) die ('Access denied.');
+
+if (!defined('TYPO3')) {
+    die('Access denied.');
+}
 
 $tca = [
     'ctrl' => [
@@ -155,7 +159,6 @@ $tca = [
 
 // Add more info to the Grid if EXT:filemetadata is loaded. Notice that the extension is not required but suggested.
 if (ExtensionManagementUtility::isLoaded('filemetadata')) {
-
     $additionalTca = [
         'ctrl' => [
             'searchFields' => $tca['ctrl']['searchFields'] . ', metadata.keywords',

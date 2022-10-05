@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Exception;
 
 /*
@@ -13,5 +14,4 @@ namespace Fab\Media\Exception;
  */
 class NotExistingClassException extends \Exception
 {
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -16,14 +17,13 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class Logger implements SingletonInterface
 {
-
     /**
      * Returns a logger class instance.
      *
      * @param mixed $instance
      * @return \TYPO3\CMS\Core\Log\Logger
      */
-    static public function getInstance($instance)
+    public static function getInstance($instance)
     {
         /** @var $loggerManager \TYPO3\CMS\Core\Log\LogManager */
         $loggerManager = GeneralUtility::makeInstance(LogManager::class);

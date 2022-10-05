@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload\Optimizer;
 
 /*
@@ -21,7 +22,6 @@ use Fab\Media\FileUpload\ImageOptimizerInterface;
  */
 class Resize implements ImageOptimizerInterface
 {
-
     /**
      * @var GifBuilder
      */
@@ -50,7 +50,6 @@ class Resize implements ImageOptimizerInterface
      */
     public function optimize($uploadedFile)
     {
-
         $imageInfo = getimagesize($uploadedFile->getFileWithAbsolutePath());
 
         $currentWidth = $imageInfo[0];
@@ -66,11 +65,9 @@ class Resize implements ImageOptimizerInterface
         }
 
         if (strlen($storageRecord['maximum_dimension_original_image']) > 0) {
-
             /** @var Dimension $imageDimension */
             $imageDimension = GeneralUtility::makeInstance(Dimension::class, $storageRecord['maximum_dimension_original_image']);
             if ($currentWidth > $imageDimension->getWidth() || $currentHeight > $imageDimension->getHeight()) {
-
                 // resize taking the width as reference
                 $this->resize($uploadedFile->getFileWithAbsolutePath(), $imageDimension->getWidth(), $imageDimension->getHeight());
             }
@@ -89,7 +86,6 @@ class Resize implements ImageOptimizerInterface
      */
     public function resize($fileNameAndPath, $width = 0, $height = 0)
     {
-
         // Skip profile of the image
         $imParams = '###SkipStripProfile###';
         $options = array(
@@ -99,7 +95,6 @@ class Resize implements ImageOptimizerInterface
 
         $tempFileInfo = $this->gifCreator->imageMagickConvert($fileNameAndPath, '', '', '', $imParams, '', $options, true);
         if ($tempFileInfo) {
-
             // Overwrite original file
             @unlink($fileNameAndPath);
             @rename($tempFileInfo[3], $fileNameAndPath);
@@ -133,5 +128,4 @@ class Resize implements ImageOptimizerInterface
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
-
 }

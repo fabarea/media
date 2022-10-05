@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Form;
 
 /*
@@ -27,7 +28,6 @@ use Fab\Media\Utility\PermissionUtility;
  */
 class FileUpload extends AbstractFormField
 {
-
     /**
      * @var string
      */
@@ -83,7 +83,6 @@ EOF;
      */
     public function render()
     {
-
         // Instantiate the file object for the whole class if possible.
         if ($this->getValue()) {
             $this->file = $this->getResourceFactory()->getFileObject($this->getValue());
@@ -122,7 +121,6 @@ EOF;
     {
         $thumbnail = '';
         if ($this->file) {
-
             /** @var $thumbnailService \Fab\Media\Thumbnail\ThumbnailService */
             $thumbnailService = GeneralUtility::makeInstance(ThumbnailService::class, $this->file);
             $thumbnail = $thumbnailService
@@ -170,7 +168,6 @@ EOF;
      */
     protected function getJavaScript()
     {
-
         // Get the base prefix
         $basePrefix = $this->getBasePrefix($this->getPrefix());
 
@@ -186,7 +183,6 @@ EOF;
             $this->isDrivenByFolder() ?
                 $this->getMediaModule()->getCurrentFolder()->getCombinedIdentifier() :
                 $this->getMediaModule()->getCurrentStorage()->getUid() . ':/'
-
         );
     }
 
@@ -274,5 +270,4 @@ EOF;
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

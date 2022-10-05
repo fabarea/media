@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -262,5 +263,4 @@ class ThumbnailService
         $this->processingType = $processingType;
         return $this;
     }
-
 }

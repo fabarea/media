@@ -1,6 +1,10 @@
 <?php
+
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-if (!defined('TYPO3')) die ('Access denied.');
+
+if (!defined('TYPO3')) {
+    die('Access denied.');
+}
 
 $tca = [
     'ctrl' => [

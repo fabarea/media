@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ConfigurationUtility implements SingletonInterface
 {
-
     /**
      * @var string
      */
@@ -32,7 +32,7 @@ class ConfigurationUtility implements SingletonInterface
      *
      * @return \Fab\Media\Utility\ConfigurationUtility|object
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(\Fab\Media\Utility\ConfigurationUtility::class);
     }

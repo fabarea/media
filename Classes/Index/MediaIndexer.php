@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Index;
 
 /*
@@ -22,7 +23,6 @@ use Fab\Media\Utility\ConfigurationUtility;
  */
 class MediaIndexer
 {
-
     /**
      * @var ResourceStorage
      */
@@ -92,7 +92,6 @@ class MediaIndexer
      */
     public function applyDefaultCategories(File $file)
     {
-
         $categoryList = ConfigurationUtility::getInstance()->get('default_categories');
         $categories = GeneralUtility::trimExplode(',', $categoryList, true);
 
@@ -171,5 +170,4 @@ class MediaIndexer
     {
         return GeneralUtility::makeInstance(Indexer::class, $this->storage);
     }
-
 }

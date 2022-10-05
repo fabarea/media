@@ -4,3 +4,4 @@
 node_modules/*
 Resources/Public/WebComponents/*
 /nbproject/
+/vendor/

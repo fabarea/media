@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -14,7 +15,6 @@ use TYPO3\CMS\Core\Resource\ProcessedFile;
  */
 class ImageThumbnailProcessor extends AbstractThumbnailProcessor
 {
-
     protected array $defaultConfigurationWrap = [
         'width' => 0,
         'height' => 0,
@@ -40,7 +40,6 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function renderUri(): string
     {
-
         // Makes sure the width and the height of the thumbnail is not bigger than the actual file
         $configuration = $this->getConfiguration();
         if (!empty($configuration['width']) && $configuration['width'] > $this->getFile()->getProperty('width')) {
@@ -69,12 +68,12 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      */
     public function renderTagImage($result): string
     {
-
         // Variable $result corresponds to an URL in this case.
         // Analyse the URL and compute the adequate separator between arguments.
         $parameterSeparator = strpos($result, '?') === false ? '?' : '&';
 
-        return sprintf('<img src="%s%s" title="%s" alt="%s" %s/>',
+        return sprintf(
+            '<img src="%s%s" title="%s" alt="%s" %s/>',
             $result,
             $this->thumbnailService->getAppendTimeStamp() ? $parameterSeparator . $this->processedFile->getProperty('tstamp') : '',
             $this->getTitle(),
@@ -125,7 +124,8 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
         $url = $this->thumbnailService->getAnchorUri() ? $this->thumbnailService->getAnchorUri() : $file->getPublicUrl(true);
         $parameterSeparator = strpos($url, '?') === false ? '?' : '&';
 
-        return sprintf('<a href="%s%s" target="%s" data-uid="%s">%s</a>',
+        return sprintf(
+            '<a href="%s%s" target="%s" data-uid="%s">%s</a>',
             $url,
             $this->thumbnailService->getAppendTimeStamp() && !$this->thumbnailService->getAnchorUri() ? $parameterSeparator . $file->getProperty('tstamp') : '',
             $this->thumbnailService->getTarget(),
@@ -176,5 +176,4 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
         }
         return $this->thumbnailService->getProcessingType();
     }
-
 }

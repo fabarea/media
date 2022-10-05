@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Tool;
 
 /*
@@ -17,7 +18,6 @@ use Fab\Vidi\Tool\AbstractTool;
  */
 class CacheWarmUpTool extends AbstractTool
 {
-
     /**
      * Display the title of the tool on the welcome screen.
      *
@@ -49,7 +49,6 @@ class CacheWarmUpTool extends AbstractTool
      */
     public function work(array $arguments = [])
     {
-
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/CacheWarmUp/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
@@ -85,6 +84,4 @@ class CacheWarmUpTool extends AbstractTool
     {
         return GeneralUtility::makeInstance(CacheService::class);
     }
-
 }
-

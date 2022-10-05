@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ActionPermissionColumn extends ColumnRendererAbstract
 {
-
     /**
      * Renders a configurable metadata property of a file in the Grid.
      *
@@ -25,7 +25,6 @@ class ActionPermissionColumn extends ColumnRendererAbstract
      */
     public function render()
     {
-
         $file = $this->getFileConverter()->convert($this->object);
         $permission = '';
 
@@ -46,5 +45,4 @@ class ActionPermissionColumn extends ColumnRendererAbstract
     {
         return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
-
 }

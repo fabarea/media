@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Grid;
 
 /*
@@ -22,7 +23,6 @@ use Fab\Media\Thumbnail\ThumbnailInterface;
  */
 class PreviewRenderer extends ColumnRendererAbstract
 {
-
     /**
      * Render a preview of a file in the Grid.
      *
@@ -30,7 +30,6 @@ class PreviewRenderer extends ColumnRendererAbstract
      */
     public function render()
     {
-
         $file = $this->getFileConverter()->convert($this->object);
 
         $uri = false;
@@ -54,7 +53,8 @@ class PreviewRenderer extends ColumnRendererAbstract
             ->create();
 
         // Add file info
-        $result .= sprintf('<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
+        $result .= sprintf(
+            '<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
             $this->getMetadataViewHelper()->render($file)
         );
         return $result;
@@ -100,5 +100,4 @@ class PreviewRenderer extends ColumnRendererAbstract
     {
         return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
-
 }

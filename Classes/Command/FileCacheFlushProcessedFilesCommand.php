@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Command;
 
 /*
@@ -24,7 +25,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FileCacheFlushProcessedFilesCommand extends Command
 {
-
     protected SymfonyStyle $io;
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -37,12 +37,9 @@ class FileCacheFlushProcessedFilesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
         foreach ($this->getStorageRepository()->findAll() as $storage) {
-
             // This only works for local driver
             if ($storage->getDriverType() === 'Local' && $storage->isOnline()) {
-
                 $processedDirectoryPath = Environment::getPublicPath() . $this->getProcessingFolderPath($storage);
                 $this->io->info(sprintf('Removing files from %s for storage "%s" (%s)', $processedDirectoryPath, $storage->getName(), $storage->getUid()));
 
@@ -54,7 +51,6 @@ class FileCacheFlushProcessedFilesCommand extends Command
                 $message = sprintf('Done! Removed all processed files from storage %s.', $storage->getUid());
                 $this->io->info($message);
             }
-
         }
 
         return 0;
@@ -94,5 +90,4 @@ class FileCacheFlushProcessedFilesCommand extends Command
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         return $connectionPool->getConnectionForTable($tableName);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Controller;
 
 /*
@@ -21,7 +22,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class ImageEditorController extends ActionController
 {
-
     /**
      * Initializes the controller before invoking an action method.
      */
@@ -33,7 +33,6 @@ class ImageEditorController extends ActionController
 
         // Configure property mapping to retrieve the file object.
         if ($this->arguments->hasArgument('file')) {
-
             /** @var FileConverter $typeConverter */
             $typeConverter = GeneralUtility::makeInstance(FileConverter::class);
 
@@ -55,5 +54,4 @@ class ImageEditorController extends ActionController
         $this->view->assign('moduleUrl', BackendUtility::getModuleUrl($moduleSignature));
         return $this->htmlResponse();
     }
-
 }

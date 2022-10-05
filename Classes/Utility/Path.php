@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -17,11 +18,10 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  */
 class Path
 {
-
     /**
      * @var string
      */
-    static protected $extensionName = 'media';
+    protected static $extensionName = 'media';
 
     /**
      * Return a public path pointing to a resource.
@@ -29,9 +29,8 @@ class Path
      * @param string $resource
      * @return string
      */
-    static public function getRelativePath($resource)
+    public static function getRelativePath($resource)
     {
-
         // If file is not found, resolve the path
         if (!is_file(Environment::getPublicPath() . '/' . $resource)) {
             $resource = substr(self::resolvePath($resource), strlen(Environment::getPublicPath() . '/'));
@@ -46,7 +45,7 @@ class Path
      * @param string $resource
      * @return string
      */
-    static public function resolvePath($resource)
+    public static function resolvePath($resource)
     {
         $resource = self::canonicalPath($resource);
         if (!is_file(Environment::getPublicPath() . '/' . $resource)) {
@@ -61,7 +60,7 @@ class Path
      * @param string $resource
      * @return string
      */
-    static public function exists($resource)
+    public static function exists($resource)
     {
         return is_file(self::resolvePath($resource));
     }
@@ -72,7 +71,7 @@ class Path
      * @param string $resource
      * @return string
      */
-    static public function notExists($resource)
+    public static function notExists($resource)
     {
         return !self::exists($resource);
     }
@@ -83,7 +82,7 @@ class Path
      * @param $resource
      * @return string
      */
-    static public function canonicalPath($resource)
+    public static function canonicalPath($resource)
     {
         $segments = explode('/', $resource);
         $keys = array_keys($segments, '..');

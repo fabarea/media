@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ThumbnailCommand extends Command
 {
-
     protected SymfonyStyle $io;
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -66,11 +65,9 @@ class ThumbnailCommand extends Command
         $verbose = $input->getOption('verbose');
 
         foreach ($this->getStorageRepository()->findAll() as $storage) {
-
             $this->io->info(sprintf('Processing files from storage %s (%s)', $storage->getName(), $storage->getUid()));
 
             if ($storage->isOnline()) {
-
                 // For the CLI cause.
                 $storage->setEvaluatePermissions(false);
 
@@ -83,7 +80,8 @@ class ThumbnailCommand extends Command
                 if ($verbose) {
                     $resultSet = $thumbnailGenerator->getResultSet();
                     foreach ($resultSet as $result) {
-                        $message = sprintf('* File "%s": %s %s',
+                        $message = sprintf(
+                            '* File "%s": %s %s',
                             $result['fileUid'],
                             $result['fileIdentifier'],
                             empty($result['thumbnailUri']) ? '' : ' -> ' . $result['thumbnailUri']
@@ -92,7 +90,8 @@ class ThumbnailCommand extends Command
                     }
                 }
 
-                $message = sprintf('Done! New generated %s thumbnail(s) from %s traversed file(s) of a total of %s files.',
+                $message = sprintf(
+                    'Done! New generated %s thumbnail(s) from %s traversed file(s) of a total of %s files.',
                     $thumbnailGenerator->getNumberOfProcessedFiles(),
                     $thumbnailGenerator->getNumberOfTraversedFiles(),
                     $thumbnailGenerator->getTotalNumberOfFiles()
@@ -101,8 +100,8 @@ class ThumbnailCommand extends Command
 
                 // Add warning message if missing files were found along the way.
                 if ($thumbnailGenerator->getNumberOfMissingFiles() > 0) {
-
-                    $message = sprintf('ATTENTION! %s missing file(s) detected.',
+                    $message = sprintf(
+                        'ATTENTION! %s missing file(s) detected.',
                         $thumbnailGenerator->getNumberOfMissingFiles()
                     );
                     $this->io->warning($message);

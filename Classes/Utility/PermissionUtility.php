@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -19,14 +20,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class PermissionUtility implements SingletonInterface
 {
-
     /**
      * Returns a class instance.
      *
      * @return PermissionUtility
      * @throws \InvalidArgumentException
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(PermissionUtility::class);
     }
@@ -40,7 +40,6 @@ class PermissionUtility implements SingletonInterface
      */
     public function getAllowedExtensions($storage = null)
     {
-
         $fieldNames = array(
             'extension_allowed_file_type_1',
             'extension_allowed_file_type_2',
@@ -92,5 +91,4 @@ class PermissionUtility implements SingletonInterface
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }

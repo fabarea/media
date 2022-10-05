@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -14,7 +15,6 @@ use Fab\Media\Utility\Path;
  */
 class FallBackThumbnailProcessor extends AbstractThumbnailProcessor
 {
-
     /**
      * Render a fallback thumbnail if no type was found for the given resource.
      */

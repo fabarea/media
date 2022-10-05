@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Tool;
 
 /*
@@ -23,7 +24,6 @@ use Fab\Vidi\Tool\AbstractTool;
  */
 class DuplicateFilesFinderTool extends AbstractTool
 {
-
     /**
      * Display the title of the tool on the welcome screen.
      *
@@ -56,7 +56,6 @@ class DuplicateFilesFinderTool extends AbstractTool
      */
     public function work(array $arguments = [])
     {
-
         // Possible clean up of missing files if the User has clicked so.
         if (!empty($arguments['deleteDuplicateFiles'])) {
             $this->deleteMissingFilesAction($arguments['files']);
@@ -79,7 +78,6 @@ class DuplicateFilesFinderTool extends AbstractTool
                 }
             }
         } else {
-
             $fileMounts = $this->getBackendUser()->getFileMountRecords();
 
             $allowedStorages = [];
@@ -100,17 +98,13 @@ class DuplicateFilesFinderTool extends AbstractTool
                 $storage = $this->getResourceFactory()->getStorageObject($storageIdentifier);
 
                 if ($storage->isOnline()) {
-
                     $duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateSha1($storage);
 
                     // Filter duplicates files
                     foreach ($duplicateFiles as $key => $files) {
-
                         $filteredFiles = [];
                         foreach ($files as $file) {
-
                             foreach ($allowedMountPoints as $allowedMountPoint) {
-
                                 $pattern = '%^' . $allowedMountPoint . '%isU';
                                 if (preg_match($pattern, $file['identifier'])) {
                                     $filteredFiles[] = $file;
@@ -131,7 +125,6 @@ class DuplicateFilesFinderTool extends AbstractTool
                         'duplicateFiles' => $duplicateFiles,
                         'numberOfDuplicateFiles' => count($duplicateFiles),
                     );
-
                 }
             }
         }
@@ -152,14 +145,11 @@ class DuplicateFilesFinderTool extends AbstractTool
      */
     protected function deleteMissingFilesAction(array $files = [])
     {
-
         foreach ($files as $fileUid) {
-
             /** @var File $file */
             try {
                 $file = $this->getResourceFactory()->getFileObject($fileUid);
                 if ($file->exists()) {
-
                     $numberOfReferences = $this->getFileReferenceService()->countTotalReferences($file);
                     if ($numberOfReferences === 0) {
                         $file->delete();
@@ -229,6 +219,4 @@ class DuplicateFilesFinderTool extends AbstractTool
     {
         return GeneralUtility::makeInstance(ResourceFactory::class);
     }
-
 }
-

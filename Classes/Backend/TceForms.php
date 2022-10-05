@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Backend;
 
 /*
@@ -19,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class TceForms extends AbstractFormElement
 {
-
     /**
      * @return array
      */
@@ -52,5 +52,4 @@ class TceForms extends AbstractFormElement
         $result['html'] = $fileUpload->render();
         return $result;
     }
-
 }

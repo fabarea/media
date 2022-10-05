@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -19,7 +20,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class LinkCreatorButton extends AbstractComponentView
 {
-
     /**
      * Renders a "link-creator" button to be placed in the grid.
      *

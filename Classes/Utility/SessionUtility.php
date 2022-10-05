@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class SessionUtility implements SingletonInterface
 {
-
     /**
      * @var string
      */
@@ -27,14 +27,13 @@ class SessionUtility implements SingletonInterface
      *
      * @return \Fab\Media\Utility\SessionUtility|object
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         return GeneralUtility::makeInstance(\Fab\Media\Utility\SessionUtility::class);
     }
 
     public function __construct()
     {
-
         // Initialize storage from the current
         if (!is_array($this->getBackendUser()->uc['moduleData'][$this->moduleKey])) {
             $this->getBackendUser()->uc['moduleData'][$this->moduleKey] = [];

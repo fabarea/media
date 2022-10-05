@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -9,7 +10,6 @@ namespace Fab\Media\Thumbnail;
  */
 
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Http\ApplicationType;
@@ -23,7 +23,6 @@ use Fab\Media\Utility\Path;
  */
 abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
 {
-
     /**
      * @var ThumbnailService
      */
@@ -70,7 +69,8 @@ abstract class AbstractThumbnailProcessor implements ThumbnailProcessorInterface
         $attributes = $this->thumbnailService->getAttributes();
         if (is_array($attributes)) {
             foreach ($attributes as $attribute => $value) {
-                $result .= sprintf('%s="%s" ',
+                $result .= sprintf(
+                    '%s="%s" ',
                     htmlspecialchars($attribute),
                     htmlspecialchars($value)
                 );

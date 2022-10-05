@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\View\Button;
 
 /*
@@ -19,7 +20,6 @@ use Fab\Vidi\Domain\Model\Content;
  */
 class DownloadButton extends AbstractComponentView
 {
-
     /**
      * Renders a "download" button to be placed in the grid.
      *
@@ -29,7 +29,6 @@ class DownloadButton extends AbstractComponentView
      */
     public function render(Content $object = null)
     {
-
         $button = $this->makeLinkButton()
             ->setHref($this->getDownloadUri($object))
             ->setDataAttributes([
@@ -60,5 +59,4 @@ class DownloadButton extends AbstractComponentView
         ];
         return BackendUtility::getModuleUrl(MediaModule::getSignature(), $urlParameters);
     }
-
 }

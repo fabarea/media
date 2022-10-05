@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Thumbnail;
 
 /*
@@ -13,7 +14,6 @@ namespace Fab\Media\Thumbnail;
  */
 interface ThumbnailProcessorInterface
 {
-
     /**
      * @param ThumbnailService $thumbnailService
      * @return $this

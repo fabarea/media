@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\ViewHelpers\File;
 
 /*
@@ -16,7 +17,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class PropertyViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return void
      */

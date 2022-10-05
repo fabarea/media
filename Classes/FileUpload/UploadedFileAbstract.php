@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -10,7 +11,6 @@ namespace Fab\Media\FileUpload;
 
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Media\Exception\MissingFileException;
 
 /**
@@ -18,7 +18,6 @@ use Fab\Media\Exception\MissingFileException;
  */
 abstract class UploadedFileAbstract implements UploadedFileInterface
 {
-
     /**
      * @var string
      */
@@ -156,5 +155,4 @@ abstract class UploadedFileAbstract implements UploadedFileInterface
             throw new MissingFileException($message, 1361786958);
         }
     }
-
 }

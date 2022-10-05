@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Utility;
 
 /**
@@ -21,65 +22,71 @@ require_once dirname(dirname(__FILE__)) . '/AbstractFunctionalTestCase.php';
 /**
  * Test case for class \Fab\Media\Utility\Configuration.
  */
-class ConfigurationUtilityTest extends AbstractFunctionalTestCase {
+class ConfigurationUtilityTest extends AbstractFunctionalTestCase
+{
+    /**
+     * @var ConfigurationUtility
+     */
+    private $fixture;
 
-	/**
-	 * @var ConfigurationUtility
-	 */
-	private $fixture;
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = new ConfigurationUtility();
+    }
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = new ConfigurationUtility();
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    /**
+     * @test
+     */
+    public function getConfigurationReturnNotEmptyArrayByDefault()
+    {
+        $actual = $this->fixture->getConfiguration();
+        $this->assertTrue(is_array($actual));
+        $this->assertNotEmpty($actual);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getConfigurationReturnNotEmptyArrayByDefault() {
-		$actual = $this->fixture->getConfiguration();
-		$this->assertTrue(is_array($actual));
-		$this->assertNotEmpty($actual);
-	}
+    /**
+     * @test
+     */
+    public function thumbnailSizeSettingReturnsNotEmpty()
+    {
+        $actual = $this->fixture->get('image_thumbnail');
+        $this->assertTrue($actual > 1);
+    }
 
-	/**
-	 * @test
-	 */
-	public function thumbnailSizeSettingReturnsNotEmpty() {
-		$actual = $this->fixture->get('image_thumbnail');
-		$this->assertTrue($actual > 1);
-	}
+    /**
+     * @test
+     */
+    public function getFooValueReturnsEmpty()
+    {
+        $expected = '';
+        $actual = $this->fixture->get(uniqid('foo'));
+        $this->assertEquals($expected, $actual);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getFooValueReturnsEmpty() {
-		$expected = '';
-		$actual = $this->fixture->get(uniqid('foo'));
-		$this->assertEquals($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function configurationArrayNotEmptyAfterGetARandomValue()
+    {
+        $this->fixture->get(uniqid('foo'));
 
-	/**
-	 * @test
-	 */
-	public function configurationArrayNotEmptyAfterGetARandomValue() {
-		$this->fixture->get(uniqid('foo'));
+        $actual = $this->fixture->getConfiguration();
+        $this->assertTrue(count($actual) > 0);
+    }
 
-		$actual = $this->fixture->getConfiguration();
-		$this->assertTrue(count($actual) > 0);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setConfigurationValueAndCheckReturnedValueIsCorresponding() {
-		$expected = 'bar';
-		$this->fixture->set('foo', $expected);
-		$this->assertSame($expected, $this->fixture->get('foo'));
-	}
-
+    /**
+     * @test
+     */
+    public function setConfigurationValueAndCheckReturnedValueIsCorresponding()
+    {
+        $expected = 'bar';
+        $this->fixture->set('foo', $expected);
+        $this->assertSame($expected, $this->fixture->get('foo'));
+    }
 }

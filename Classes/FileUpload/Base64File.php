@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -15,7 +16,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Base64File extends UploadedFileAbstract
 {
-
     /**
      * @var string
      */
@@ -46,7 +46,6 @@ class Base64File extends UploadedFileAbstract
      */
     public function __construct()
     {
-
         // Processes the encoded image data and returns the decoded image
         $encodedImage = GeneralUtility::_POST($this->inputName);
         if (preg_match('/^data:image\/(jpg|jpeg|png)/i', $encodedImage, $matches)) {
@@ -76,7 +75,6 @@ class Base64File extends UploadedFileAbstract
      */
     public function save()
     {
-
         if (is_null($this->uploadFolder)) {
             throw new EmptyPropertyException('Upload folder is not defined', 1362587741);
         }

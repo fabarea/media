@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\FileUpload;
 
 /*
@@ -17,7 +18,6 @@ use Fab\Media\Exception\EmptyPropertyException;
  */
 class StreamedFile extends UploadedFileAbstract
 {
-
     /**
      * @var string
      */
@@ -41,7 +41,6 @@ class StreamedFile extends UploadedFileAbstract
      */
     public function save()
     {
-
         if (is_null($this->uploadFolder)) {
             throw new EmptyPropertyException('Upload folder is not defined', 1361787579);
         }

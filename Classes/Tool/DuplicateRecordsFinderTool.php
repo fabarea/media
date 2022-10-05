@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Tool;
 
 /*
@@ -8,7 +9,6 @@ namespace Fab\Media\Tool;
  * LICENSE.md file that was distributed with this source code.
  */
 use Fab\Media\Index\IndexAnalyser;
-use Fab\Vidi\Service\DataService;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -19,7 +19,6 @@ use Fab\Vidi\Tool\AbstractTool;
  */
 class DuplicateRecordsFinderTool extends AbstractTool
 {
-
     /**
      * Display the title of the tool on the welcome screen.
      *
@@ -51,13 +50,11 @@ class DuplicateRecordsFinderTool extends AbstractTool
      */
     public function work(array $arguments = [])
     {
-
         $templateNameAndPath = 'EXT:media/Resources/Private/Standalone/Tool/DuplicateRecordsFinder/WorkResult.html';
         $view = $this->initializeStandaloneView($templateNameAndPath);
 
         $duplicateRecordsReports = [];
         foreach ($this->getStorageRepository()->findAll() as $storage) {
-
             if ($storage->isOnline()) {
                 $duplicateFiles = $this->getIndexAnalyser()->searchForDuplicateIdentifiers($storage);
                 $duplicateRecordsReports[] = array(
@@ -100,6 +97,4 @@ class DuplicateRecordsFinderTool extends AbstractTool
     {
         return $this->getBackendUser()->isAdmin();
     }
-
 }
-

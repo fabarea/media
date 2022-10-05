@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Facet;
 
 /*
@@ -22,7 +23,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ActionPermissionFacet implements FacetInterface
 {
-
     /**
      * @var string
      */
@@ -139,16 +139,13 @@ class ActionPermissionFacet implements FacetInterface
      */
     public function modifyResultSet(AfterFindContentObjectsSignalArguments $signalArguments)
     {
-
         if ($signalArguments->getDataType() === 'sys_file') {
-
             $queryParts = $this->getQueryParts();
 
             if (!empty($queryParts)) {
                 $permission = $this->getPermissionValue($queryParts);
 
                 if ($permission) {
-
                     // We are force to query the content repository again here without limit
                     $matcher = $signalArguments->getMatcher();
                     $order = $signalArguments->getOrder();
@@ -156,7 +153,6 @@ class ActionPermissionFacet implements FacetInterface
 
                     $filteredObjects = [];
                     foreach ($objects as $object) {
-
                         $file = $this->getFileConverter()->convert($object->getUid());
                         if ($permission === 'read' && !$file->checkActionPermission('write')) {
                             $filteredObjects[] = $object;
@@ -185,7 +181,6 @@ class ActionPermissionFacet implements FacetInterface
      */
     protected function getQueryParts()
     {
-
         // Transmit recursive selection parameter.
         $parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
         $parameters = GeneralUtility::_GP($parameterPrefix);
@@ -217,7 +212,6 @@ class ActionPermissionFacet implements FacetInterface
             $facetName = key($queryPart);
             $value = $queryPart[$facetName];
             if ($facetName === $this->name) {
-
                 if ($value === 'r' || $value === $labelReadOnly) {
                     $permission = 'read';
                 } elseif ($value === 'w' || $value === $labelWrite) {
@@ -234,7 +228,7 @@ class ActionPermissionFacet implements FacetInterface
      * @param array $states
      * @return $this
      */
-    static public function __set_state($states)
+    public static function __set_state($states)
     {
         return new ActionPermissionFacet($states['name'], $states['label'], $states['suggestions'], $states['fieldNameAndPath']);
     }
@@ -266,5 +260,4 @@ class ActionPermissionFacet implements FacetInterface
     {
         return GeneralUtility::makeInstance(ModuleLoader::class);
     }
-
 }

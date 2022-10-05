@@ -28,7 +28,6 @@ class FileReferenceService
      */
     public function findFileReferences($file)
     {
-
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Get the file references of the file.
@@ -48,7 +47,6 @@ class FileReferenceService
      */
     public function findSoftImageReferences($file)
     {
-
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Get the file references of the file in the RTE.
@@ -71,7 +69,6 @@ class FileReferenceService
      */
     public function findSoftLinkReferences($file)
     {
-
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
         // Get the link references of the file.
@@ -98,11 +95,11 @@ class FileReferenceService
 
         return $this->getDataService()
             ->count(
-            'sys_file_reference',
-            [
-                'uid_local' => $fileIdentifier
-            ]
-        );
+                'sys_file_reference',
+                [
+                    'uid_local' => $fileIdentifier
+                ]
+            );
     }
 
     /**

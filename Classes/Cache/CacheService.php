@@ -25,7 +25,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheService
 {
-
     /**
      * Traverse all files and initialize cache values.
      */
@@ -42,7 +41,6 @@ class CacheService
 
         $counter = 0;
         foreach ($rows as $row) {
-
             $fileIdentifier = $row['uid'];
             $totalNumberOfReferences = $this->getFileReferenceService()->countTotalReferences($fileIdentifier);
 
@@ -70,7 +68,6 @@ class CacheService
      */
     public function clearCache(File $file)
     {
-
         $this->clearCachePages($file);
         $this->flushProcessedFiles($file);
     }
@@ -83,7 +80,6 @@ class CacheService
      */
     protected function flushProcessedFiles(File $file)
     {
-
         /** @var $processedFile \TYPO3\CMS\Core\Resource\ProcessedFile */
         foreach ($this->getProcessedFileRepository()->findAllByOriginalFile($file) as $processedFile) {
             if ($processedFile->exists()) {
@@ -117,7 +113,6 @@ class CacheService
      */
     protected function clearCachePages($file)
     {
-
         /** @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tce = GeneralUtility::makeInstance(DataHandler::class);
         $tce->start([], []);
@@ -143,7 +138,6 @@ class CacheService
      */
     protected function findPagesWithFileReferences($file)
     {
-
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder('sys_file_reference');
         $rows = $queryBuilder

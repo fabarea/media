@@ -1,4 +1,5 @@
 <?php
+
 namespace Fab\Media\Security;
 
 /*
@@ -14,7 +15,6 @@ use Fab\Media\Module\VidiModule;
 use Fab\Vidi\Module\ModuleLoader;
 use Fab\Vidi\Persistence\ConstraintContainer;
 use Fab\Vidi\Service\DataService;
-use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,7 +27,6 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
  */
 class FilePermissionsAspect
 {
-
     /**
      * Post-process the matcher object to respect the file storages.
      *
@@ -39,19 +38,15 @@ class FilePermissionsAspect
     public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType)
     {
         if ($dataType === 'sys_file' && $this->isPermissionNecessary()) {
-
             if ($this->isFolderConsidered()) {
-
                 $folder = $this->getMediaModule()->getCurrentFolder();
 
                 if ($this->getMediaModule()->hasRecursiveSelection()) {
-
                     // Only add like condition if needed.
                     if ($folder->getStorage()->getRootLevelFolder() !== $folder) {
                         $matcher->like('identifier', $folder->getIdentifier() . '%', $automaticallyAddWildCard = false);
                     }
                 } else {
-
                     // Browse only currently
                     $files = $this->getFileUids($folder);
                     $matcher->in('uid', $files);
@@ -68,11 +63,9 @@ class FilePermissionsAspect
                 }
 
                 if ($this->getModuleLoader()->hasPlugin() && !$this->getCurrentBackendUser()->isAdmin()) {
-
                     $fileMounts = $this->getCurrentBackendUser()->getFileMountRecords();
                     $collectedFiles = [];
                     foreach ($fileMounts as $fileMount) {
-
                         $combinedIdentifier = $fileMount['base'] . ':' . $fileMount['path'];
                         $folder = $this->getResourceFactory()->getFolderObjectFromCombinedIdentifier($combinedIdentifier);
 
@@ -93,7 +86,6 @@ class FilePermissionsAspect
      */
     protected function isPermissionNecessary()
     {
-
         $isNecessary = true;
 
         $parameters = GeneralUtility::_GET(VidiModule::getParameterPrefix());
