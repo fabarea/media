@@ -19,35 +19,26 @@ use Fab\Media\Utility\Logger;
  */
 class ThumbnailService
 {
-
-    /**
-     * @var array
-     */
-    protected $allowedOutputTypes = array(
+    protected array $allowedOutputTypes = [
         ThumbnailInterface::OUTPUT_IMAGE,
         ThumbnailInterface::OUTPUT_IMAGE_WRAPPED,
         ThumbnailInterface::OUTPUT_URI,
-    );
+    ];
 
     /**
      * Configure the output of the thumbnail service whether it is wrapped or not.
      * Default output is: ThumbnailInterface::OUTPUT_IMAGE
-     *
-     * @var string
      */
-    protected $outputType = ThumbnailInterface::OUTPUT_IMAGE;
+    protected string $outputType = ThumbnailInterface::OUTPUT_IMAGE;
 
-    /**
-     * @var File
-     */
-    protected $file;
+    protected ?File $file = null;
 
     /**
      * Define width, height and all sort of attributes to render a thumbnail.
      * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
      * @var array
      */
-    protected $configuration = [];
+    protected array $configuration = [];
 
     /**
      * Define width, height and all sort of attributes to render the anchor file
@@ -56,54 +47,42 @@ class ThumbnailService
      * @see TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::Image
      * @var array
      */
-    protected $configurationWrap = [];
+    protected array $configurationWrap = [];
 
     /**
      * DOM attributes to add to the image preview.
      *
      * @var array
      */
-    protected $attributes = [
+    protected array $attributes = [
         'class' => 'thumbnail',
     ];
 
     /**
      * Define in which window will the thumbnail be opened.
      * Does only apply if the thumbnail is wrapped (with an anchor).
-     *
-     * @var string
      */
-    protected $target = ThumbnailInterface::TARGET_BLANK;
+    protected string $target = ThumbnailInterface::TARGET_BLANK;
 
     /**
      * URI of the wrapping anchor pointing to the file.
      * replacing the "?" <a href="?">...</a>
      * The URI is automatically computed if not set.
-     * @var string
      */
-    protected $anchorUri;
+    protected string $anchorUri = '';
 
     /**
      * Whether a time stamp is appended to the image.
      * Appending the time stamp can prevent caching
-     *
-     * @var bool
      */
-    protected $appendTimeStamp = false;
+    protected bool $appendTimeStamp = false;
 
     /**
      * Define the processing type for the thumbnail.
      * As instance for image the default is ProcessedFile::CONTEXT_IMAGECROPSCALEMASK.
-     *
-     * @var string
      */
-    protected $processingType;
+    protected string $processingType = '';
 
-    /**
-     * Constructor
-     *
-     * @param File $file
-     */
     public function __construct(File $file = null)
     {
         $this->file = $file;
@@ -111,28 +90,23 @@ class ThumbnailService
 
     /**
      * Render a thumbnail of a media
-     *
-     * @throws MissingTcaConfigurationException
-     * @return string
-     * @throws \InvalidArgumentException
      */
-    public function create()
+    public function create(): string
     {
-
         if (!$this->file) {
             throw new MissingTcaConfigurationException('Missing File object. Forgotten to set a file?', 1355933144);
         }
 
         // Default class name
-        $className = 'Fab\Media\Thumbnail\FallBackThumbnailProcessor';
+        $className = FallBackThumbnailProcessor::class;
         if (File::FILETYPE_IMAGE === $this->file->getType()) {
-            $className = 'Fab\Media\Thumbnail\ImageThumbnailProcessor';
+            $className = ImageThumbnailProcessor::class;
         } elseif (File::FILETYPE_AUDIO === $this->file->getType()) {
-            $className = 'Fab\Media\Thumbnail\AudioThumbnailProcessor';
+            $className = AudioThumbnailProcessor::class;
         } elseif (File::FILETYPE_VIDEO === $this->file->getType()) {
-            $className = 'Fab\Media\Thumbnail\VideoThumbnailProcessor';
+            $className = VideoThumbnailProcessor::class;
         } elseif (File::FILETYPE_APPLICATION === $this->file->getType() || File::FILETYPE_TEXT === $this->file->getType()) {
-            $className = 'Fab\Media\Thumbnail\ApplicationThumbnailProcessor';
+            $className = ApplicationThumbnailProcessor::class;
         }
 
         /** @var $processorInstance \Fab\Media\Thumbnail\ThumbnailProcessorInterface */
@@ -152,7 +126,7 @@ class ThumbnailService
     /**
      * @return array
      */
-    public function getConfigurationWrap()
+    public function getConfigurationWrap(): array
     {
         return $this->configurationWrap;
     }
@@ -161,7 +135,7 @@ class ThumbnailService
      * @param array $configurationWrap
      * @return $this
      */
-    public function setConfigurationWrap($configurationWrap)
+    public function setConfigurationWrap($configurationWrap): ThumbnailService
     {
         $this->configurationWrap = $configurationWrap;
         return $this;
@@ -178,7 +152,7 @@ class ThumbnailService
     /**
      * @return array
      */
-    public function getConfiguration()
+    public function getConfiguration(): array
     {
         return $this->configuration;
     }
@@ -187,7 +161,7 @@ class ThumbnailService
      * @param array|ThumbnailConfiguration $configuration
      * @return $this
      */
-    public function setConfiguration($configuration)
+    public function setConfiguration($configuration): ThumbnailService
     {
         if ($configuration instanceof ThumbnailConfiguration) {
             $configurationObject = $configuration;
@@ -214,38 +188,23 @@ class ThumbnailService
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
 
-    /**
-     * @param array $attributes
-     * @return $this
-     */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes): ThumbnailService
     {
         $this->attributes = $attributes;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputType()
+    public function getOutputType(): string
     {
         return $this->outputType;
     }
 
-    /**
-     * @throws InvalidKeyInArrayException
-     * @param string $outputType
-     * @return $this
-     */
-    public function setOutputType($outputType)
+    public function setOutputType(string $outputType): ThumbnailService
     {
         if (!in_array($outputType, $this->allowedOutputTypes)) {
             throw new InvalidKeyInArrayException(
@@ -257,73 +216,48 @@ class ThumbnailService
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTarget()
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    /**
-     * @param string $target
-     * @return $this
-     */
-    public function setTarget($target)
+    public function setTarget(string $target): ThumbnailService
     {
         $this->target = $target;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAnchorUri()
+    public function getAnchorUri(): string
     {
         return $this->anchorUri;
     }
 
-    /**
-     * @param string $anchorUri
-     * @return $this
-     */
-    public function setAnchorUri($anchorUri)
+    public function setAnchorUri(string $anchorUri): ThumbnailService
     {
         $this->anchorUri = $anchorUri;
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getAppendTimeStamp()
+    public function getAppendTimeStamp(): bool
     {
         return $this->appendTimeStamp;
     }
 
     /**
      * @param boolean $appendTimeStamp
-     * @return $this
      */
-    public function setAppendTimeStamp($appendTimeStamp)
+    public function setAppendTimeStamp($appendTimeStamp): ThumbnailService
     {
         $this->appendTimeStamp = (bool)$appendTimeStamp;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProcessingType()
+    public function getProcessingType(): string
     {
-        $this->processingType;
+        return $this->processingType;
     }
 
-    /**
-     * @param string $processingType
-     * @return $this
-     */
-    public function setProcessingType($processingType)
+    public function setProcessingType(string $processingType): ThumbnailService
     {
         $this->processingType = $processingType;
         return $this;

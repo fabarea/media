@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Fab\Media\:
+    resource: '../Classes/*'
+
+  Fab\Media\Command\ThumbnailCommand:
+    tags:
+      - name: 'console.command'
+        command: 'media:generate'
+        description: 'Generate a bunch of thumbnails in advance to speed up the output of the Media BE module.'
+
+  Fab\Media\Command\FileCacheFlushProcessedFilesCommand:
+    tags:
+      - name: 'console.command'
+        command: 'media:flushProcessedFiles'
+        description: 'Flush all processed files in CLI mode.'
+
+  Fab\Media\Command\FileCacheWarmUpCommand:
+    tags:
+      - name: 'console.command'
+        command: 'media:warmUp'
+        description: 'Warm up the cache. Update some caching columns such as "number_of_references" to speed up the search.'

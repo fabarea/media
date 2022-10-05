@@ -17,10 +17,8 @@ class FallBackThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Render a fallback thumbnail if no type was found for the given resource.
-     *
-     * @return string
      */
-    public function create()
+    public function create(): string
     {
         return sprintf(
             '<img src="%s" hspace="2" class="" alt="" />',
@@ -30,33 +28,27 @@ class FallBackThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Render the URI of the thumbnail.
-     *
-     * @return string
      */
-    public function renderUri()
+    public function renderUri(): string
     {
-        // Nothing to implement.
+        return '';
     }
 
     /**
      * Render the tag image which is the main one for a thumbnail.
      *
-     * @param string $result
-     * @return string
      */
-    public function renderTagImage($result)
+    public function renderTagImage($result): string
     {
-        // Nothing to implement.
+        return '';
     }
 
     /**
      * Render a wrapping anchor around the thumbnail.
      *
-     * @param string $result
-     * @return string
      */
-    public function renderTagAnchor($result)
+    public function renderTagAnchor($result): string
     {
-        // Nothing to implement.
+        return '';
     }
 }

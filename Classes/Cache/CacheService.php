@@ -8,6 +8,7 @@ namespace Fab\Media\Cache;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
+
 use TYPO3\CMS\Core\Resource\ProcessedFileRepository;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Fab\Media\Resource\FileReferenceService;
@@ -27,10 +28,8 @@ class CacheService
 
     /**
      * Traverse all files and initialize cache values.
-     *
-     * @return int
      */
-    public function warmUp()
+    public function warmUp(): int
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->getQueryBuilder('sys_file');
@@ -39,7 +38,7 @@ class CacheService
             ->from('sys_file')
             ->where('storage > 0')
             ->execute()
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         $counter = 0;
         foreach ($rows as $row) {
@@ -47,13 +46,11 @@ class CacheService
             $fileIdentifier = $row['uid'];
             $totalNumberOfReferences = $this->getFileReferenceService()->countTotalReferences($fileIdentifier);
 
-            $values = array(
-                'number_of_references' => $totalNumberOfReferences
-            );
-
             $this->getDataService()->update(
                 'sys_file',
-                $values,
+                [
+                    'number_of_references' => $totalNumberOfReferences
+                ],
                 [
                     'uid' => $fileIdentifier
                 ]
@@ -158,11 +155,10 @@ class CacheService
                 'uid_local = ' . $file->getUid()
             )
             ->execute()
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         foreach ($rows as $row) {
             $pages[] = $row['pid'];
-
         }
 
         return $pages;

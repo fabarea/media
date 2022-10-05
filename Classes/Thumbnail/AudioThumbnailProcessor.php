@@ -19,10 +19,8 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Render a thumbnail of a resource of type audio.
-     *
-     * @return string
      */
-    public function create()
+    public function create(): string
     {
         $steps = $this->getRenderingSteps();
 
@@ -36,10 +34,8 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Render the URI of the thumbnail.
-     *
-     * @return string
      */
-    public function renderUri()
+    public function renderUri(): string
     {
 
         $relativePath = sprintf('Icons/MimeType/%s.png', $this->getFile()->getProperty('extension'));
@@ -56,9 +52,8 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
      * Render the tag image which is the main one for a thumbnail.
      *
      * @param string $result
-     * @return string
      */
-    public function renderTagImage($result)
+    public function renderTagImage($result): string
     {
 
         // Variable $result corresponds to an URL in this case.
@@ -77,10 +72,8 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Compute and return the title of the file.
-     *
-     * @return string
      */
-    protected function getTitle()
+    protected function getTitle(): string
     {
         $result = $this->getFile()->getProperty('title');
         if (!$result) {
@@ -93,11 +86,9 @@ class AudioThumbnailProcessor extends AbstractThumbnailProcessor
      * Render a wrapping anchor around the thumbnail.
      *
      * @param string $result
-     * @return string
      */
-    public function renderTagAnchor($result)
+    public function renderTagAnchor($result): string
     {
-
         $file = $this->getFile();
 
         return sprintf(

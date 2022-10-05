@@ -7,7 +7,6 @@ namespace Fab\Media\Thumbnail;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-use Fab\Media\Exception\EmptyValueException;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 
 /**
@@ -16,20 +15,15 @@ use TYPO3\CMS\Core\Resource\ProcessedFile;
 class ImageThumbnailProcessor extends AbstractThumbnailProcessor
 {
 
-    /**
-     * @var array
-     */
-    protected $defaultConfigurationWrap = array(
+    protected array $defaultConfigurationWrap = [
         'width' => 0,
         'height' => 0,
-    );
+    ];
 
     /**
      * Render a thumbnail of a resource of type image.
-     *
-     * @return string
      */
-    public function create()
+    public function create(): string
     {
         $steps = $this->getRenderingSteps();
 
@@ -43,11 +37,8 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Render the URI of the thumbnail.
-     *
-     * @return string
-     * @throws EmptyValueException
      */
-    public function renderUri()
+    public function renderUri(): string
     {
 
         // Makes sure the width and the height of the thumbnail is not bigger than the actual file
@@ -75,9 +66,8 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      * Render the tag image which is the main one for a thumbnail.
      *
      * @param string $result
-     * @return string
      */
-    public function renderTagImage($result)
+    public function renderTagImage($result): string
     {
 
         // Variable $result corresponds to an URL in this case.
@@ -95,10 +85,8 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
 
     /**
      * Compute and return the title of the file.
-     *
-     * @return string
      */
-    protected function getTitle()
+    protected function getTitle(): string
     {
         $result = $this->getFile()->getProperty('title');
         if (!$result) {
@@ -111,11 +99,9 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      * Render a wrapping anchor around the thumbnail.
      *
      * @param string $result
-     * @return string
      */
-    public function renderTagAnchor($result)
+    public function renderTagAnchor($result): string
     {
-
         $file = $this->getFile();
 
         // Perhaps the wrapping file must be processed
@@ -153,9 +139,8 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
      * Keep ratio of width / height for the image.
      *
      * @param array $configuration
-     * @return array
      */
-    protected function computeFinalImageDimension(array $configuration)
+    protected function computeFinalImageDimension(array $configuration): array
     {
         $ratio = $this->computeImageRatio();
 
@@ -184,9 +169,9 @@ class ImageThumbnailProcessor extends AbstractThumbnailProcessor
     /**
      * @return string
      */
-    public function getProcessingType()
+    public function getProcessingType(): string
     {
-        if ($this->thumbnailService->getProcessingType() === null) {
+        if (!$this->thumbnailService->getProcessingType()) {
             return ProcessedFile::CONTEXT_IMAGECROPSCALEMASK;
         }
         return $this->thumbnailService->getProcessingType();
