@@ -1,3 +1,10 @@
+## 6.0.3 (2022-10-06)
+
+[BUGFIX] Move metadata view helper to view
+[TASK] Rector v11
+[TASK] PSR-12 code formatting
+[BUGFIX] Introduce again command to generate thumbnail and flush cache files (#209)
+
 ## 6.0.2 (2022-06-24)
 
 [TASK] Update composer dependency
