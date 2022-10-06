@@ -10,7 +10,7 @@ services:
   Fab\Media\Command\ThumbnailCommand:
     tags:
       - name: 'console.command'
-        command: 'media:generate'
+        command: 'media:generateThumbnails'
         description: 'Generate a bunch of thumbnails in advance to speed up the output of the Media BE module.'
 
   Fab\Media\Command\FileCacheFlushProcessedFilesCommand:
