@@ -14,10 +14,7 @@ namespace Fab\Media\Form;
  */
 interface FormFieldInterface
 {
-    /**
-     * @return string
-     */
-    public function render();
+    public function render(): string;
 
     /**
      * @param string $template

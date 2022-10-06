@@ -9,7 +9,7 @@ namespace Fab\Media\Grid;
  * LICENSE.md file that was distributed with this source code.
  */
 use Fab\Media\Thumbnail\ThumbnailService;
-use Fab\Media\ViewHelpers\MetadataViewHelper;
+use Fab\Media\View\MetadataView;
 use Fab\Media\TypeConverter\ContentToFileConverter;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Grid\ColumnRendererAbstract;
@@ -55,7 +55,7 @@ class PreviewRenderer extends ColumnRendererAbstract
         // Add file info
         $result .= sprintf(
             '<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
-            $this->getMetadataViewHelper()->render($file)
+            $this->getMetadataView()->render($file)
         );
         return $result;
     }
@@ -70,11 +70,11 @@ class PreviewRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @return MetadataViewHelper|object
+     * @return MetadataView|object
      */
-    protected function getMetadataViewHelper()
+    protected function getMetadataView()
     {
-        return GeneralUtility::makeInstance(MetadataViewHelper::class);
+        return GeneralUtility::makeInstance(MetadataView::class);
     }
 
     /**

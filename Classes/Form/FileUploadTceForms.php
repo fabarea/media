@@ -8,7 +8,7 @@ namespace Fab\Media\Form;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-use Fab\Media\ViewHelpers\MetadataViewHelper;
+use Fab\Media\View\MetadataView;
 use Fab\Media\Module\MediaModule;
 use Fab\Vidi\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -23,14 +23,12 @@ class FileUploadTceForms extends FileUpload
     /**
      * @var string
      */
-    protected $templateFile = 'Resources/Private/Standalone/FileUploadTceFormsTemplate.html';
+    protected string $templateFile = 'Resources/Private/Standalone/FileUploadTceFormsTemplate.html';
 
     /**
      * Fetch the JavaScript to be rendered and replace the markers with "live" variables.
-     *
-     * @return string
      */
-    protected function getJavaScript()
+    protected function getJavaScript(): string
     {
         // Get the base prefix.
         $basePrefix = $this->getBasePrefix($this->getPrefix());
@@ -47,10 +45,7 @@ class FileUploadTceForms extends FileUpload
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function getModuleUrl()
+    protected function getModuleUrl(): string
     {
         $moduleSignature = MediaModule::getSignature();
         return BackendUtility::getModuleUrl($moduleSignature);
@@ -58,27 +53,23 @@ class FileUploadTceForms extends FileUpload
 
     /**
      * Get allowed extension.
-     *
-     * @return string
      */
-    protected function getAllowedExtension()
+    protected function getAllowedExtension(): string
     {
         return $this->file->getExtension();
     }
 
     /**
      * Returns additional file info.
-     *
-     * @return string
      */
-    protected function getFileInfo()
+    protected function getFileInfo(): string
     {
-        /** @var MetadataViewHelper $metadataViewHelper */
-        $metadataViewHelper = GeneralUtility::makeInstance(MetadataViewHelper::class);
+        /** @var MetadataView $metadataView */
+        $metadataView = GeneralUtility::makeInstance(MetadataView::class);
 
         return sprintf(
             '<div class="container-fileInfo" style="font-size: 7pt; color: #777;">%s</div>',
-            $metadataViewHelper->render($this->file)
+            $metadataView->render($this->file)
         );
     }
 }

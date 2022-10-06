@@ -1,6 +1,6 @@
 <?php
 
-namespace Fab\Media\ViewHelpers;
+namespace Fab\Media\View;
 
 /*
  * This file is part of the Fab/Media project under GPLv2 or later.
@@ -19,19 +19,13 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * $template = '%width x %height';
  * $fileProperties = array('width', 'height');
  */
-class MetadataViewHelper extends AbstractViewHelper
+class MetadataView extends AbstractViewHelper
 {
     /**
      * Returns metadata according to a template.
-     *
-     * @return string
      */
-    public function render()
+    public function render(File $file, $template = '', array $metadataProperties = array('size', 'width', 'height'), $configuration = []): string
     {
-        $file = $this->arguments['file'];
-        $template = $this->arguments['template'];
-        $metadataProperties = $this->arguments['metadataProperties'];
-        $configuration = $this->arguments['configuration'];
         if (empty($template)) {
             $template = $this->getDefaultTemplate($file);
         }

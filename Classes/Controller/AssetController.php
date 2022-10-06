@@ -19,7 +19,7 @@ use Fab\Media\FileUpload\UploadManager;
 use Fab\Media\Index\MediaIndexer;
 use Fab\Media\Module\MediaModule;
 use Fab\Media\TypeConverter\FileConverter;
-use Fab\Media\ViewHelpers\MetadataViewHelper;
+use Fab\Media\View\MetadataView;
 use Fab\Vidi\Service\ContentService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\DuplicationBehavior;
@@ -192,7 +192,7 @@ class AssetController extends ActionController
                 'uid' => $file->getUid(),
                 'name' => $file->getName(),
                 'thumbnail' => $this->getThumbnailService($file)->create(),
-                'fileInfo' => $this->getMetadataViewHelper()->render($file),
+                'fileInfo' => $this->getMetadataView()->render($file),
             );
         } catch (UploadException $e) {
             $response = array('error' => 'The upload has failed, no uploaded file found!');
@@ -267,12 +267,12 @@ class AssetController extends ActionController
     }
 
     /**
-     * @return MetadataViewHelper
+     * @return MetadataView
      * @throws \InvalidArgumentException
      */
-    protected function getMetadataViewHelper()
+    protected function getMetadataView()
     {
-        return GeneralUtility::makeInstance(MetadataViewHelper::class);
+        return GeneralUtility::makeInstance(MetadataView::class);
     }
 
     /**

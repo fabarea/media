@@ -38,14 +38,8 @@ class FileUpload extends AbstractFormField
      */
     protected $file;
 
-    /**
-     * @var string
-     */
-    protected $templateFile = 'Resources/Private/Standalone/FileUploadTemplate.html';
+    protected string $templateFile = 'Resources/Private/Standalone/FileUploadTemplate.html';
 
-    /**
-     * @return \Fab\Media\Form\FileUpload
-     */
     public function __construct()
     {
         $this->addLanguage();
@@ -79,9 +73,8 @@ EOF;
      * Render a file upload field.
      *
      * @throws EmptyPropertyException
-     * @return string
      */
-    public function render()
+    public function render(): string
     {
         // Instantiate the file object for the whole class if possible.
         if ($this->getValue()) {
@@ -100,10 +93,7 @@ EOF;
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    protected function getInlineStyle()
+    protected function getInlineStyle(): string
     {
         $style = 'float: left';
         if ($this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin()) {
@@ -114,10 +104,8 @@ EOF;
 
     /**
      * Get the javascript from a file and replace the markers with live variables.
-     *
-     * @return string
      */
-    protected function getThumbnail()
+    protected function getThumbnail(): string
     {
         $thumbnail = '';
         if ($this->file) {
@@ -133,10 +121,8 @@ EOF;
 
     /**
      * Get the javascript from a file and replace the markers with live variables.
-     *
-     * @return string
      */
-    protected function getJavaScriptTemplate()
+    protected function getJavaScriptTemplate(): string
     {
         $view = $this->getStandaloneView();
         $view->assignMultiple(
@@ -163,10 +149,8 @@ EOF;
 
     /**
      * Get the javascript from a file and replace the markers with live variables.
-     *
-     * @return string
      */
-    protected function getJavaScript()
+    protected function getJavaScript(): string
     {
         // Get the base prefix
         $basePrefix = $this->getBasePrefix($this->getPrefix());
@@ -195,9 +179,8 @@ EOF;
     }
 
     /**
-     * @return string
      */
-    protected function getModuleUrl()
+    protected function getModuleUrl(): string
     {
         $moduleSignature = MediaModule::getSignature();
         return BackendUtility::getModuleUrl($moduleSignature);
@@ -206,9 +189,8 @@ EOF;
     /**
      * Returns the max upload file size in Mo.
      *
-     * @return string
      */
-    protected function getMaximumUploadLabel()
+    protected function getMaximumUploadLabel(): string
     {
         $result = round(GeneralUtility::getMaxUploadFileSize() / 1024, 2);
         $label = LocalizationUtility::translate('max_upload_file', 'media');
@@ -219,9 +201,8 @@ EOF;
     /**
      * Get allowed extension.
      *
-     * @return string
      */
-    protected function getAllowedExtensions()
+    protected function getAllowedExtensions(): string
     {
         return implode("','", PermissionUtility::getInstance()->getAllowedExtensions());
     }
@@ -230,9 +211,8 @@ EOF;
      * Compute the base prefix by removing the square brackets.
      *
      * @param string $prefix
-     * @return string
      */
-    protected function getBasePrefix($prefix)
+    protected function getBasePrefix($prefix): string
     {
         $parts = explode('[', $prefix);
         return empty($parts) ? '' : $parts[0];
@@ -241,9 +221,8 @@ EOF;
     /**
      * Returns additional file info.
      *
-     * @return string
      */
-    protected function getFileInfo()
+    protected function getFileInfo(): string
     {
         return ''; // empty return here but check out Tceforms/FileUpload
     }

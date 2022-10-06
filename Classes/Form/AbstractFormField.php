@@ -65,7 +65,7 @@ abstract class AbstractFormField implements FormFieldInterface
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->template;
     }
