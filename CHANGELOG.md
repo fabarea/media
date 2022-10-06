@@ -1,3 +1,7 @@
+## 6.0.4 (2022-10-06)
+
+[TASK] Rename command media:generate to media:generateThumbnails
+
 ## 6.0.3 (2022-10-06)
 
 [BUGFIX] Move metadata view helper to view
