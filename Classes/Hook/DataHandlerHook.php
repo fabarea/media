@@ -9,6 +9,7 @@ namespace Fab\Media\Hook;
  * LICENSE.md file that was distributed with this source code.
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\ReferenceIndex;
 use Fab\Media\Resource\FileReferenceService;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
@@ -280,6 +281,9 @@ class DataHandlerHook
             'sys_file_reference',
             [
                 'uid' => $fileReferenceIdentifier
+            ],
+            [
+                DeletedRestriction::class
             ]
         );
 
