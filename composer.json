@@ -28,6 +28,6 @@
 	},
 	"require": {
 		"typo3/cms-core": "^11",
-		"fab/vidi": "~5.1"
+		"fab/vidi": "~5.2"
 	}
 }

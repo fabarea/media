@@ -1,3 +1,7 @@
+## 6.1.0 (2022-11-02)
+
+[FIX] Change query restrictions in data handler hook
+
 ## 6.0.4 (2022-10-06)
 
 [TASK] Rename command media:generate to media:generateThumbnails
