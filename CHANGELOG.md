@@ -1,3 +1,7 @@
+## 6.1.1 (2022-11-09)
+
+[BUGFIX] Media facets
+
 ## 6.1.0 (2022-11-02)
 
 [FIX] Change query restrictions in data handler hook
