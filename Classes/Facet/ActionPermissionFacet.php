@@ -17,26 +17,22 @@ use Fab\Vidi\Persistence\Matcher;
 use Fab\Vidi\Signal\AfterFindContentObjectsSignalArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class for configuring a custom Facet item.
- * Beware this is a resource consuming facet as we have to interrogate the file system for every file.
- */
 class ActionPermissionFacet implements FacetInterface
 {
     /**
      * @var string
      */
-    protected $name = '__action_permission';
+    protected string $name = '__action_permission';
 
     /**
      * @var string
      */
-    protected $label = 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permission';
+    protected string $label = 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:permission';
 
     /**
      * @var array
      */
-    protected $suggestions = array(
+    protected array $suggestions = array(
         'r' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:facet.read_only',
         'w' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:facet.write',
     );
@@ -44,50 +40,24 @@ class ActionPermissionFacet implements FacetInterface
     /**
      * @var string
      */
-    protected $fieldNameAndPath = '';
-
-    /**
-     * @var string
-     */
-    protected $dataType;
+    protected string $dataType = 'sys_file';
 
     /**
      * @var bool
      */
-    protected $canModifyMatcher = false;
+    protected bool $canModifyMatcher = false;
 
-    /**
-     * Constructor of a Generic Facet in Vidi.
-     *
-     * @param string $name
-     * @param string $label
-     * @param array $suggestions
-     * @param string $fieldNameAndPath
-     */
-    public function __construct($name = '', $label = '', array $suggestions = [], $fieldNameAndPath = '')
-    {
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->getLanguageService()->sL($this->label);
     }
 
-    /**
-     * @return array
-     */
-    public function getSuggestions()
+    public function getSuggestions(): array
     {
         $suggestions = [];
         foreach ($this->suggestions as $key => $label) {
@@ -97,10 +67,7 @@ class ActionPermissionFacet implements FacetInterface
         return $suggestions;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasSuggestions()
+    public function hasSuggestions(): bool
     {
         return true;
     }
@@ -109,35 +76,23 @@ class ActionPermissionFacet implements FacetInterface
      * @param string $dataType
      * @return $this
      */
-    public function setDataType($dataType)
+    public function setDataType($dataType): ActionPermissionFacet
     {
         $this->dataType = $dataType;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function canModifyMatcher()
+    public function canModifyMatcher(): bool
     {
         return $this->canModifyMatcher;
     }
 
-    /**
-     * @param Matcher $matcher
-     * @param $value
-     * @return Matcher
-     */
-    public function modifyMatcher(Matcher $matcher, $value)
+    public function modifyMatcher(Matcher $matcher, $value): Matcher
     {
         return $matcher;
     }
 
-    /**
-     * @param AfterFindContentObjectsSignalArguments $signalArguments
-     * @return array
-     */
-    public function modifyResultSet(AfterFindContentObjectsSignalArguments $signalArguments)
+    public function modifyResultSet(AfterFindContentObjectsSignalArguments $signalArguments): array
     {
         if ($signalArguments->getDataType() === 'sys_file') {
             $queryParts = $this->getQueryParts();
@@ -176,10 +131,7 @@ class ActionPermissionFacet implements FacetInterface
         return array($signalArguments);
     }
 
-    /**
-     * @return array
-     */
-    protected function getQueryParts()
+    protected function getQueryParts(): array
     {
         // Transmit recursive selection parameter.
         $parameterPrefix = $this->getModuleLoader()->getParameterPrefix();
@@ -196,11 +148,8 @@ class ActionPermissionFacet implements FacetInterface
 
     /**
      * Retrieve the search permission value.
-     *
-     * @param array $queryParts
-     * @return string
      */
-    protected function getPermissionValue(array $queryParts)
+    protected function getPermissionValue(array $queryParts): string
     {
         $permission = '';
 
@@ -230,33 +179,20 @@ class ActionPermissionFacet implements FacetInterface
      */
     public static function __set_state($states)
     {
-        return new ActionPermissionFacet($states['name'], $states['label'], $states['suggestions'], $states['fieldNameAndPath']);
+        return new ActionPermissionFacet();
     }
 
-    /**
-     * @return LanguageService
-     */
-    protected function getLanguageService()
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
     }
 
-    /**
-     * @return ContentToFileConverter
-     * @throws \InvalidArgumentException
-     */
-    protected function getFileConverter()
+    protected function getFileConverter(): ContentToFileConverter
     {
         return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
 
-    /**
-     * Get the Vidi Module Loader.
-     *
-     * @return ModuleLoader
-     * @throws \InvalidArgumentException
-     */
-    protected function getModuleLoader()
+    protected function getModuleLoader(): ModuleLoader
     {
         return GeneralUtility::makeInstance(ModuleLoader::class);
     }

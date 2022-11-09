@@ -1,17 +1,18 @@
 <?php
 
-use Fab\Vidi\Facet\StandardFacet;
-use TYPO3\CMS\Core\Resource\File;
 use Fab\Media\Facet\ActionPermissionFacet;
-use Fab\Vidi\Grid\CheckBoxRenderer;
-use Fab\Media\Grid\PreviewRenderer;
-use Fab\Media\Grid\MetadataRenderer;
-use Fab\Vidi\Grid\RelationEditRenderer;
+use Fab\Media\Facet\NumberOfReferencesFacet;
+use Fab\Media\Facet\TypeFacet;
 use Fab\Media\Grid\CategoryRenderer;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use Fab\Media\Grid\FrontendPermissionRenderer;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
+use Fab\Media\Grid\MetadataRenderer;
+use Fab\Media\Grid\PreviewRenderer;
+use Fab\Vidi\Facet\StandardFacet;
 use Fab\Vidi\Grid\ButtonGroupRenderer;
+use Fab\Vidi\Grid\CheckBoxRenderer;
+use Fab\Vidi\Grid\RelationEditRenderer;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 if (!defined('TYPO3')) {
     die('Access denied.');
@@ -62,23 +63,8 @@ $tca = [
             ],
             'metadata.description',
             'identifier',
-            StandardFacet::class => [
-                'name' => 'number_of_references',
-                'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:usage',
-                'suggestions' => ['0', '1', '2', '3', 'etc...'] // auto-suggestions
-            ],
-
-            StandardFacet::class => [
-                'name' => 'type',
-                'label' => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type',
-                'suggestions' => [
-                    File::FILETYPE_TEXT => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_1',
-                    File::FILETYPE_IMAGE => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_2',
-                    File::FILETYPE_AUDIO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_3',
-                    File::FILETYPE_VIDEO => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_4',
-                    File::FILETYPE_APPLICATION => 'LLL:EXT:media/Resources/Private/Language/locallang.xlf:type_5',
-                ]
-            ],
+            NumberOfReferencesFacet::class => [],
+            TypeFacet::class => [],
             ActionPermissionFacet::class => [],
             'uid',
         ],
