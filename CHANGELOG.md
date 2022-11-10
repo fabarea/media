@@ -1,3 +1,7 @@
+## 6.1.2 (2022-11-10)
+
+[TASK] Remove default_sortby override
+
 ## 6.1.1 (2022-11-09)
 
 [BUGFIX] Media facets
