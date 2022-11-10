@@ -20,7 +20,6 @@ if (!defined('TYPO3')) {
 
 $tca = [
     'ctrl' => [
-        'default_sortby' => 'uid DESC',
         // Beware that "metadata.categories" is quite expansive performance wise.
         'searchFields' => 'uid, extension, name, metadata.title, metadata.description, metadata.categories',
     ],
