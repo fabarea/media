@@ -150,19 +150,8 @@ class FilePermissionsAspect
      */
     protected function respectFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer)
     {
-        $tableName = 'sys_filemounts';
-
         // Get the file mount identifiers for the current Backend User.
-        $fileMounts = GeneralUtility::trimExplode(',', $this->getCurrentBackendUser()->dataLists['filemount_list']);
-        $fileMountUids = implode(',', array_filter($fileMounts));
-
-        // Fetch the records.
-        $fileMountRecords = $this->getDataService()->getRecords(
-            $tableName,
-            [
-                'uid' => $fileMountUids
-            ]
-        );
+        $fileMountRecords = $this->getCurrentBackendUser()->getFileMountRecords();
         $constraintsRespectingFileMounts = [];
         foreach ((array)$fileMountRecords as $fileMountRecord) {
             if ($fileMountRecord['path']) {
