@@ -29,13 +29,8 @@ class FilePermissionsAspect
 {
     /**
      * Post-process the matcher object to respect the file storages.
-     *
-     * @param Matcher $matcher
-     * @param string $dataType
-     * @return void
-     * @throws \InvalidArgumentException
      */
-    public function addFilePermissionsForFileStorages(Matcher $matcher, $dataType)
+    public function addFilePermissionsForFileStorages(Matcher $matcher, string $dataType): void
     {
         if ($dataType === 'sys_file' && $this->isPermissionNecessary()) {
             if ($this->isFolderConsidered()) {
@@ -81,10 +76,7 @@ class FilePermissionsAspect
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function isPermissionNecessary()
+    protected function isPermissionNecessary(): bool
     {
         $isNecessary = true;
 
@@ -101,19 +93,12 @@ class FilePermissionsAspect
         return $isNecessary;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isFolderConsidered()
+    protected function isFolderConsidered(): bool
     {
         return $this->getMediaModule()->hasFolderTree() && !$this->getModuleLoader()->hasPlugin();
     }
 
-    /**
-     * @param Folder $folder
-     * @return array
-     */
-    protected function getFileUids(Folder $folder)
+    protected function getFileUids(Folder $folder): array
     {
         $files = [];
         foreach ($folder->getFiles() as $file) {
@@ -125,13 +110,9 @@ class FilePermissionsAspect
     /**
      * Post-process the constraints object to respect the file mounts.
      *
-     * @param Query $query
      * @param ConstraintInterface|null $constraints
-     * @param ConstraintContainer $constraintContainer
-     * @throws \InvalidArgumentException
-     * @throws InvalidNumberOfConstraintsException
      */
-    public function addFilePermissionsForFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer)
+    public function addFilePermissionsForFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer): void
     {
         if ($query->getType() === 'sys_file') {
             if (!$this->getCurrentBackendUser()->isAdmin()) {
@@ -141,14 +122,9 @@ class FilePermissionsAspect
     }
 
     /**
-     * @param Query $query
      * @param ConstraintInterface|null $constraints
-     * @param ConstraintContainer $constraintContainer
-     * @return array
-     * @throws \InvalidArgumentException
-     * @throws InvalidNumberOfConstraintsException
      */
-    protected function respectFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer)
+    protected function respectFileMounts(Query $query, $constraints, ConstraintContainer $constraintContainer): array
     {
         // Get the file mount identifiers for the current Backend User.
         $fileMountRecords = $this->getCurrentBackendUser()->getFileMountRecords();
@@ -175,37 +151,22 @@ class FilePermissionsAspect
         return [$query, $constraints, $constraintContainer];
     }
 
-    /**
-     * @return BackendUserAuthentication
-     */
-    protected function getCurrentBackendUser()
+    protected function getCurrentBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
 
-    /**
-     * @return object|DataService
-     */
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);
     }
 
-    /**
-     * @return MediaModule|object
-     * @throws \InvalidArgumentException
-     */
-    protected function getMediaModule()
+    protected function getMediaModule(): MediaModule
     {
         return GeneralUtility::makeInstance(MediaModule::class);
     }
 
-    /**
-     * Get the Vidi Module Loader.
-     *
-     * @return object|ModuleLoader
-     */
-    protected function getModuleLoader()
+    protected function getModuleLoader(): ModuleLoader
     {
         return GeneralUtility::makeInstance(ModuleLoader::class);
     }
