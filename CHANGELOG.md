@@ -1,3 +1,8 @@
+## 6.1.3 (2022-11-17)
+
+[TASK] Improve php return types
+[BUGFIX] Correctly set mount points path permission for non-admin user
+
 ## 6.1.2 (2022-11-10)
 
 [TASK] Remove default_sortby override
