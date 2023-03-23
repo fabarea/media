@@ -63,6 +63,20 @@ A bunch of tools for the admin related to files: find duplicate files, thumbnail
 
 .. image:: https://raw.github.com/fabarea/media/master/Documentation/Intro-08.png
 
+Compatibility and Maintenance
+=============================
+
+This package is currently maintained for the following versions:
+
+| TYPO3 Version         | Package Version | Branch  | Maintained    |
+|-----------------------|-----------------|---------|---------------|
+| TYPO3 11.5.x          | 6.x             | master  | Yes           |
+| TYPO3 11.5.x          | 5.x             | -       | Yes           |
+| TYPO3 10.4.x          | 4.x             | -       | No            |
+| TYPO3 6.2.x           | 3.x             | -       | No            |
+| TYPO3 6.1.x           | 2.x             | -       | No            |
+| TYPO3 6.1.x           | 1.x             | -       | No            |
+
 
 Project info and releases
 =========================
