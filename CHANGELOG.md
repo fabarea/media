@@ -1,3 +1,8 @@
+## 6.1.4 (2023-03-23)
+
+[DOCS] Update README
+[TASK] Update vidi dependencies in composer.json
+
 ## 6.1.3 (2022-11-17)
 
 [TASK] Improve php return types
