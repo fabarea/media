@@ -10,6 +10,7 @@ namespace Fab\Media\Resource;
  */
 
 use Fab\Vidi\Service\DataService;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\File;
@@ -24,9 +25,8 @@ class FileReferenceService
      * Return all references found in sys_file_reference.
      *
      * @param File|int $file
-     * @return array
      */
-    public function findFileReferences($file)
+    public function findFileReferences($file): array
     {
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
@@ -43,9 +43,8 @@ class FileReferenceService
      * Return soft image references.
      *
      * @param File|int $file
-     * @return array
      */
-    public function findSoftImageReferences($file)
+    public function findSoftImageReferences($file): array
     {
         $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
@@ -61,11 +60,66 @@ class FileReferenceService
         return $softReferences;
     }
 
+    protected function findFileIndexReferences(File $file): array
+    {
+        $queryBuilder = $this->getQueryBuilder('sys_refindex');
+        return $queryBuilder
+            ->select('*')
+            ->from('sys_refindex')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'ref_table',
+                    $queryBuilder->createNamedParameter('sys_file')
+                ),
+                $queryBuilder->expr()->eq(
+                    'ref_uid',
+                    $queryBuilder->createNamedParameter($file->getUid(), Connection::PARAM_INT)
+                ),
+                $queryBuilder->expr()->neq(
+                    'tablename',
+                    $queryBuilder->createNamedParameter('sys_file_metadata')
+                )
+            )
+            ->executeQuery()
+            ->fetchAllAssociative();
+    }
+
+    public function findContentIndexReferences(File $file): array
+    {
+        $queryBuilder = $this->getQueryBuilder('sys_refindex');
+        $relatedIndexReferences = [];
+        foreach ($this->findFileIndexReferences($file) as $fileIndexReference) {
+            $relatedIndexReference = $queryBuilder
+                ->select('*')
+                ->from('sys_refindex')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'ref_table',
+                        $queryBuilder->createNamedParameter('sys_file_reference')
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'ref_uid',
+                        $queryBuilder->createNamedParameter($fileIndexReference['recuid'], Connection::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->neq(
+                        'tablename',
+                        $queryBuilder->createNamedParameter('sys_file_metadata')
+                    )
+                )
+                ->executeQuery()
+                ->fetchAssociative();
+
+            if ($relatedIndexReference) {
+                $relatedIndexReferences[] = $relatedIndexReference;
+            }
+        }
+        return $relatedIndexReferences;
+    }
+
     /**
      * Return link image references.
      *
      * @param File|int $file
-     * @return array
      */
     public function findSoftLinkReferences($file)
     {
@@ -84,95 +138,100 @@ class FileReferenceService
     }
 
     /**
-     * Count all references found in sys_file_reference.
-     *
      * @param File|int $file
-     * @return int
      */
-    public function countFileReferences($file)
+    public function countTotalReferences($file): int
     {
-        $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
 
+        $fileUid = $file instanceof File
+            ? $file->getUid()
+            : $file;
+
+        $numberOfReferences = $this->countFileReferences($fileUid);
+        $numberOfReferences += $this->countSoftImageReferences($fileUid);
+        $numberOfReferences += $this->countSoftLinkReferences($fileUid);
+        $numberOfReferences += $this->countFileIndexReferences($fileUid);
+
+        return $numberOfReferences;
+    }
+
+    /**
+     * Count all references found in sys_file_reference.
+     */
+    protected function countFileReferences(int $fileUid): int
+    {
         return $this->getDataService()
             ->count(
                 'sys_file_reference',
                 [
-                    'uid_local' => $fileIdentifier
+                    'uid_local' => $fileUid
                 ]
             );
     }
 
     /**
      * Count soft image references.
-     *
-     * @param File|int $file
-     * @return int
      */
-    public function countSoftImageReferences($file)
+    protected function countSoftImageReferences(int $fileUid): int
     {
-        $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
-
         return $this->getDataService()
             ->count(
                 'sys_refindex',
                 [
                     'softref_key' => 'rtehtmlarea_images',
                     'ref_table' => 'sys_file',
-                    'ref_uid' => $fileIdentifier
+                    'ref_uid' => $fileUid
                 ]
             );
     }
 
     /**
      * Count link image references.
-     *
-     * @param File|int $file
-     * @return int
      */
-    public function countSoftLinkReferences($file)
+    protected function countSoftLinkReferences(int $fileUid): int
     {
-        $fileIdentifier = $file instanceof File ? $file->getUid() : (int)$file;
-
         return $this->getDataService()
             ->count(
                 'sys_refindex',
                 [
                     'softref_key' => 'typolink_tag',
                     'ref_table' => 'sys_file',
-                    'ref_uid' => $fileIdentifier
+                    'ref_uid' => $fileUid
                 ]
             );
     }
 
-    /**
-     * Count total reference.
-     *
-     * @param File|int $file
-     * @return int
-     */
-    public function countTotalReferences($file)
+    protected function countFileIndexReferences(int $fileUid): int
     {
-        $numberOfReferences = $this->countFileReferences($file);
-        $numberOfReferences += $this->countSoftImageReferences($file);
-        $numberOfReferences += $this->countSoftLinkReferences($file);
-
-        return $numberOfReferences;
+        $queryBuilder = $this->getQueryBuilder('sys_refindex');
+        return (int)$queryBuilder
+            ->count('*')
+            ->from('sys_refindex')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'ref_table',
+                    $queryBuilder->createNamedParameter('sys_file')
+                ),
+                $queryBuilder->expr()->eq(
+                    'ref_uid',
+                    $queryBuilder->createNamedParameter($fileUid, Connection::PARAM_INT)
+                ),
+                $queryBuilder->expr()->neq(
+                    'tablename',
+                    $queryBuilder->createNamedParameter('sys_file_metadata')
+                )
+            )
+            ->executeQuery()
+            ->fetchOne();
     }
 
-    /**
-     * @param string $tableName
-     * @return object|QueryBuilder
-     */
-    protected function getQueryBuilder($tableName): QueryBuilder
+    protected function getQueryBuilder(string $tableName): QueryBuilder
     {
         /** @var ConnectionPool $connectionPool */
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         return $connectionPool->getQueryBuilderForTable($tableName);
     }
 
-    /**
-     * @return object|DataService
-     */
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);

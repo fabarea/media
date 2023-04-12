@@ -37,6 +37,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 255,
                 'readOnly' => true,
+                'eval' => 'int',
             ],
         ],
     ],

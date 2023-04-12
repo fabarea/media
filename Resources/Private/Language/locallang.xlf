@@ -188,6 +188,9 @@
 			<trans-unit id="image_references_in_rte">
 				<source>Image in RTE</source>
 			</trans-unit>
+			<trans-unit id="content_reference">
+				<source>Content reference</source>
+			</trans-unit>
 			<trans-unit id="search">
 				<source>Search...</source>
 			</trans-unit>

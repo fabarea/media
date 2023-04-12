@@ -28,7 +28,7 @@ class UsageRenderer extends ColumnRendererAbstract
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $file = $this->getFileConverter()->convert($this->object);
 
@@ -76,17 +76,24 @@ class UsageRenderer extends ColumnRendererAbstract
             );
         }
 
+        // Render related index references
+        $contentIndexReferences = $this->getFileReferenceService()->findContentIndexReferences($file);
+        if (!empty($contentIndexReferences)) {
+            // Finalize image references assembling.
+            $result .= sprintf(
+                $this->getWrappingTemplate(),
+                $this->getLanguageService()->sL('LLL:EXT:media/Resources/Private/Language/locallang.xlf:content_reference'),
+                $this->assembleOutput($contentIndexReferences, array('referenceIdentifier' => 'recuid', 'tableName' => 'tablename'))
+            );
+        }
+
         return $result;
     }
 
     /**
      * Assemble output reference.
-     *
-     * @param array $references
-     * @param array $mapping
-     * @return string
      */
-    protected function assembleOutput(array $references, array $mapping)
+    protected function assembleOutput(array $references, array $mapping): string
     {
         $result = '';
         foreach ($references as $reference) {
@@ -110,11 +117,9 @@ class UsageRenderer extends ColumnRendererAbstract
     }
 
     /**
-     * @param string $tableName
      * @param int $identifier
-     * @return string
      */
-    protected function computeTitle($tableName, $identifier)
+    protected function computeTitle(string $tableName, $identifier): string
     {
         $title = '';
         if (!empty($GLOBALS['TCA'][$tableName])) {
@@ -126,20 +131,12 @@ class UsageRenderer extends ColumnRendererAbstract
         return $title;
     }
 
-    /**
-     * @return object|LinkButton
-     */
-    protected function makeLinkButton()
+    protected function makeLinkButton(): LinkButton
     {
         return GeneralUtility::makeInstance(LinkButton::class);
     }
 
-    /**
-     * @param array $reference
-     * @param array $mapping
-     * @return string
-     */
-    protected function getEditUri(array $reference, array $mapping)
+    protected function getEditUri(array $reference, array $mapping): string
     {
         $parameterName = sprintf('edit[%s][%s]', $reference[$mapping['tableName']], $reference[$mapping['referenceIdentifier']]);
         $uri = BackendUtility::getModuleUrl(
@@ -152,10 +149,7 @@ class UsageRenderer extends ColumnRendererAbstract
         return $uri;
     }
 
-    /**
-     * @return string
-     */
-    protected function getModuleUrl()
+    protected function getModuleUrl(): string
     {
         $additionalParameters = [];
         if (GeneralUtility::_GP('id')) {
@@ -169,11 +163,9 @@ class UsageRenderer extends ColumnRendererAbstract
     /**
      * Return the title given a table name and an identifier.
      *
-     * @param string $tableName
      * @param string $identifier
-     * @return string
      */
-    protected function getRecordTitle($tableName, $identifier)
+    protected function getRecordTitle(string $tableName, $identifier): string
     {
         $result = '';
         if ($tableName && (int)$identifier > 0) {
@@ -191,9 +183,6 @@ class UsageRenderer extends ColumnRendererAbstract
         return $result;
     }
 
-    /**
-     * @return object|DataService
-     */
     protected function getDataService(): DataService
     {
         return GeneralUtility::makeInstance(DataService::class);
@@ -201,26 +190,18 @@ class UsageRenderer extends ColumnRendererAbstract
 
     /**
      * Return the wrapping HTML template.
-     *
-     * @return string
      */
-    protected function getWrappingTemplate()
+    protected function getWrappingTemplate(): string
     {
         return '<div style="text-decoration: underline; margin-top: 10px; margin-bottom: 10px">%s</div><ul class="usage-list">%s</ul>';
     }
 
-    /**
-     * @return FileReferenceService|object
-     */
-    protected function getFileReferenceService()
+    protected function getFileReferenceService(): FileReferenceService
     {
         return GeneralUtility::makeInstance(FileReferenceService::class);
     }
 
-    /**
-     * @return ContentToFileConverter|object
-     */
-    protected function getFileConverter()
+    protected function getFileConverter(): ContentToFileConverter
     {
         return GeneralUtility::makeInstance(ContentToFileConverter::class);
     }
