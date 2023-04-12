@@ -1,3 +1,9 @@
+## 6.1.5 (2023-04-12)
+
+[TASK] Remove unused code and dependencies from ext_emconf.php
+[TASK] CGL
+[ENHANCE] File references count and display
+
 ## 6.1.4 (2023-03-23)
 
 [DOCS] Update README
