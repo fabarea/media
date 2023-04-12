@@ -8,7 +8,6 @@ namespace Fab\Media\Security;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-use TYPO3\CMS\Extbase\Persistence\Generic\Exception\InvalidNumberOfConstraintsException;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use Fab\Media\Module\MediaModule;
 use Fab\Media\Module\VidiModule;

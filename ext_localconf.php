@@ -6,6 +6,7 @@ use Fab\Media\Backend\TceForms;
 use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
 use Fab\Media\Index\TitleMetadataExtractor;
 use TYPO3\CMS\Backend\Form\FormResultCompiler;
+
 defined('TYPO3') or die();
 
 call_user_func(function () {

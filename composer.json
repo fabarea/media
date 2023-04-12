@@ -23,11 +23,17 @@
 			"extension-key": "media"
 		}
 	},
-	"require-dev": {
-		"laravel/pint": "^1.2"
+	"suggest": {
+		"laravel/pint": "^1.8"
 	},
 	"require": {
 		"typo3/cms-core": "^11",
 		"fab/vidi": "~5.2 || ^6"
+	},
+	"config": {
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true
+		}
 	}
 }
