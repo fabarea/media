@@ -103,6 +103,10 @@ class FilePermissionsAspect
         foreach ($folder->getFiles() as $file) {
             $files[] = $file->getUid();
         }
+        /** @var Folder $subfolder */
+        foreach ($folder->getSubfolders() as $subfolder) {
+            $files = array_merge($files, $this->getFileUids($subfolder));
+        }
         return $files;
     }
 
